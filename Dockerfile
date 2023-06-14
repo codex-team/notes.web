@@ -15,15 +15,3 @@ RUN npm run build
 
 FROM nginx:bullseye AS runner
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-# FROM node:18-alpine AS runner
-# WORKDIR /usr/app
-
-# COPY --from=builder /app/dist ./dist
-# # COPY package.json ./
-# # RUN npm install
-
-# USER node
-# ENV NODE_ENV="production"
-# CMD ["npm", "run", "preview"]
-# # CMD ["vite", "preview"]
