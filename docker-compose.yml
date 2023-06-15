@@ -1,0 +1,9 @@
+version: "3.2"
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "127.0.0.1:3000:80"
+    restart: unless-stopped
