@@ -1,0 +1,18 @@
+# Ignore everything
+*
+
+# Allow files and directories
+!src
+!.eslintrc
+!.nvmrc
+!app-config.yaml
+!package.json
+!package-lock.json
+!tsconfig.json
+!index.html
+!vite.config.ts
+
+# Ignore unnecessary files inside allowed directories
+**/*~
+**/*.log
+**/.DS_Store
