@@ -1,6 +1,12 @@
+<script setup lang="ts">
+import AppLayout from "./application/layouts/AppLayout.vue"
+</script>
+
 <template>
   <div id="app">
-    Hello World!
+     <AppLayout>
+        Hello World!
+     </AppLayout>
   </div>
 </template>
 
