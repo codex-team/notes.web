@@ -1,5 +1,5 @@
 {
-  "app": {
-    "title": "Hello, world!"
+  "home": {
+    "title": "Test I18n"
   }
 }
