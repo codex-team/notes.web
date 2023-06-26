@@ -1,12 +1,23 @@
 <script setup lang="ts">
-import AppLayout from "./presentation/pages/AppLayout.vue"
+import { provide, shallowRef } from "vue"
+import router from "./application/router";
+import { layouts } from "./presentation/layouts";
+
+const layout = shallowRef("div");
+
+router.afterEach((to) => {
+  layout.value = layouts[to.meta.layout] || "div";
+});
+
+provide("app:layout", layout);
+
 </script>
 
 <template>
   <div id="app">
-     <AppLayout>
-        Hello World!
-     </AppLayout>
+    <component :is="layout || 'div'">
+      <router-view />
+    </component>
   </div>
 </template>
 

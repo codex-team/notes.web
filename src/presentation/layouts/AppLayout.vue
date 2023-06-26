@@ -1,11 +1,10 @@
 <template>
-  <div class="center-container">
+  <div :is="layout" class="center-container">
     <slot />
   </div>
 </template>
 
 <script>
-
 export default {
   name: "AppLayout",
 }
