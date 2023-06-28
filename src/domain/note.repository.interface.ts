@@ -5,11 +5,11 @@ import Note from './entities/Note';
  */
 export default interface NoteRepository {
 
-    /**
-     * Returns a Note by id
-     *
-     * @param id - Note id
-     * @returns Note | null - Note instance
-     */
-    getNoteById(id: number): Promise<Note | undefined>;
+  /**
+   * Returns a Note by id
+   *
+   * @param id - Note id
+   * @returns Note | null - Note instance
+   */
+  getNoteById(id: number): Promise<Note | null>;
 }

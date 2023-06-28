@@ -5,10 +5,10 @@ import { Repositories } from '../infrastructure';
  * Services
  */
 interface Services {
-    /**
-     * Note service
-     */
-    noteService: NoteService;
+  /**
+   * Note service
+   */
+  noteService: NoteService;
 }
 
 /**

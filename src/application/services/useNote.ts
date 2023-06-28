@@ -3,27 +3,27 @@ import Note from '../../domain/entities/Note';
 import NoteService from '../../domain/note.service';
 
 /**
- * Note hook interface
+ * Note hook state
  */
 interface UseNoteComposableState {
-    /**
-     * Note ref
-     */
-    note: Ref<Note | null>;
+  /**
+   * Note ref
+   */
+  note: Ref<Note | null>;
 
-    /**
-     * Get note
-     *
-     * @param id
-     */
-    getNote: (id: number) => Promise<void>;
+  /**
+   * Get note
+   *
+   * @param id
+   */
+  getNote: (id: number) => Promise<void>;
 }
 
 /**
  * useNote hook
  *
  * @param noteService - Note service instance
- * @returns { NoteHook } - Note hook
+ * @returns { UseNoteComposableState } - Note hook state
  */
 function useNote(noteService: NoteService): UseNoteComposableState {
   /**
@@ -44,6 +44,6 @@ function useNote(noteService: NoteService): UseNoteComposableState {
     note,
     getNote,
   };
-};
+}
 
 export default useNote;

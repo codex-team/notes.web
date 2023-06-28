@@ -10,33 +10,18 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import NoteService from "../../domain/note.service";
 import useNote from "../../application/services/useNote";
 
-export default {
-  name: 'Note',
-  props: {
-    noteService: {
-      type: NoteService,
-      required: true,
-    },
-    id: {
-      type: Number,
-      required: true,
-    },
-  },
-  setup(props) {
-    const { note, getNote } = useNote(props.noteService);
+const props = defineProps({
+  noteService: NoteService,
+  id: Number,
+});
 
-    getNote(props.id);
+const { note, getNote } = useNote(props.noteService);
 
-    return {
-      note,
-      getNote,
-    }
-  }
-}
+getNote(props.id);
 </script>
 
 <style scoped>

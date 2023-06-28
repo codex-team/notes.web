@@ -2,20 +2,20 @@
  * Note data interface
  */
 interface NoteData {
-    /**
-     * Note id
-     */
-    id: number;
+  /**
+   * Note id
+   */
+  id: number;
 
-    /**
-     * Note title
-     */
-    title: string;
+  /**
+   * Note title
+   */
+  title: string;
 
-    /**
-     * Note content
-     */
-    content: string;
+  /**
+   * Note content
+   */
+  content: string;
 }
 
 /**

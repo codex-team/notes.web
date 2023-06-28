@@ -24,16 +24,16 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Get note by id
    *
    * @param id - Note id
-   * @returns { Note | undefined } - Note instance
+   * @returns { Note | null } - Note instance
    */
-  public async getNoteById(id: number): Promise<Note | undefined> {
+  public async getNoteById(id: number): Promise<Note | null> {
     const noteData = await this.noteStorage.getNoteById(id);
 
     /**
      * If note data exists
      */
     if (!noteData) {
-      return;
+      return null;
     }
 
     return new Note(noteData.title, noteData.content, noteData.id);

@@ -5,10 +5,11 @@ import NoteStorage from './storage/note';
  * Repositories
  */
 export interface Repositories {
-    /**
-     * Note repository
-     */
-    noteRepository: NoteRepository;
+  /**
+   * Note repository
+   *
+   */
+  noteRepository: NoteRepository;
 }
 
 /**
