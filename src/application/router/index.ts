@@ -1,10 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import routes from './routes';
+import { createRouter, createWebHistory, Router } from 'vue-router';
+import createRoutes from './routes';
+import NoteService from '../../domain/note.service';
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
+/**
+ * Init router
+ *
+ * @param noteService - Note service instance
+ * @returns { Router } - Router
+ */
+export default function (noteService: NoteService): Router {
+  const routes = createRoutes(noteService);
 
-export default router;
-
+  return createRouter({
+    history: createWebHistory(),
+    routes,
+  });
+}

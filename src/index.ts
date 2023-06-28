@@ -1,7 +1,25 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import i18n from './application/i18n';
-import router from './application/router/index';
+import createRouter from './application/router/index';
+import { init as initRepository } from './infrastructure';
+import { init as initDomain } from './domain';
+
+/**
+ * Init repository
+ */
+const repositories = initRepository();
+
+/**
+ * Init domain
+ */
+const services = initDomain(repositories);
+
+/**
+ * Init router
+ */
+const router = createRouter(services.noteService);
+
 
 const app = createApp(App);
 
