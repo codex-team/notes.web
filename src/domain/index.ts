@@ -12,7 +12,7 @@ interface Services {
 }
 
 /**
- * Init services
+ * Init domains
  *
  * @param repositories - Repositories
  * @returns { Services } - domain services
