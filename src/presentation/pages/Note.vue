@@ -17,9 +17,9 @@ const props = defineProps({
   id: Number,
 });
 
-const { note, getNote } = useNote();
+const { note, load } = useNote();
 
-getNote(props.id);
+load(props.id);
 </script>
 
 <style scoped>

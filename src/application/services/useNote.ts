@@ -12,11 +12,11 @@ interface UseNoteComposableState {
   note: Ref<Note | null>;
 
   /**
-   * Get note
+   * Load note
    *
    * @param id
    */
-  getNote: (id: number) => Promise<void>;
+  load: (id: number) => Promise<void>;
 }
 
 /**
@@ -35,13 +35,13 @@ function useNote(): UseNoteComposableState {
    *
    * @param id - Note id
    */
-  const getNote = async (id: number): Promise<void> => {
+  const load = async (id: number): Promise<void> => {
     note.value = await noteService.getNoteById(id);
   };
 
   return {
     note,
-    getNote,
+    load,
   };
 }
 

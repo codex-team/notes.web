@@ -1,22 +1,4 @@
-/**
- * Note data interface
- */
-interface NoteData {
-  /**
-   * Note id
-   */
-  id: number;
-
-  /**
-   * Note title
-   */
-  title: string;
-
-  /**
-   * Note content
-   */
-  content: string;
-}
+import Note from '../../domain/entities/Note';
 
 /**
  * Note storage
@@ -33,9 +15,9 @@ export default class NoteStorage {
    * Get note by id
    *
    * @param id - Note id
-   * @returns { NoteData | undefined } - Note data
+   * @returns { Note | undefined } - Note data
    */
-  public async getNoteById(id: number): Promise<NoteData | undefined> {
+  public async getNoteById(id: number): Promise<Note | undefined> {
     return {
       id: id,
       title: 'title' + id,
