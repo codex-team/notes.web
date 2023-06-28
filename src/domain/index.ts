@@ -1,29 +1,17 @@
 import NoteService from './note.service';
-import { Repositories } from '../infrastructure';
+import { init as initRepositories } from '../infrastructure';
 
 /**
- * Services
+ * Init repositories
  */
-interface Services {
-  /**
-   * Note service
-   */
-  noteService: NoteService;
-}
+const repositories = initRepositories();
 
 /**
- * Init domains
- *
- * @param repositories - Repositories
- * @returns { Services } - domain services
+ * Init services
  */
-export function init(repositories: Repositories): Services {
-  /**
-   * Init services
-   */
-  const noteService = new NoteService(repositories.noteRepository);
+const noteService = new NoteService(repositories.noteRepository);
 
-  return {
-    noteService: noteService,
-  };
-}
+export {
+  noteService
+};
+

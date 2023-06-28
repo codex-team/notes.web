@@ -1,6 +1,6 @@
 import { Ref, ref } from 'vue';
 import Note from '../../domain/entities/Note';
-import NoteService from '../../domain/note.service';
+import { noteService } from '../../domain';
 
 /**
  * Note hook state
@@ -22,10 +22,9 @@ interface UseNoteComposableState {
 /**
  * useNote hook
  *
- * @param noteService - Note service instance
  * @returns { UseNoteComposableState } - Note hook state
  */
-function useNote(noteService: NoteService): UseNoteComposableState {
+function useNote(): UseNoteComposableState {
   /**
    * Note ref
    */
