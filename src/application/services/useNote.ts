@@ -25,7 +25,7 @@ interface NoteHook {
  * @param noteService - Note service instance
  * @returns { NoteHook } - Note hook
  */
-const useNote = (noteService: NoteService): NoteHook => {
+function useNote(noteService: NoteService): UseNoteComposableState {
   /**
    * Note ref
    */
