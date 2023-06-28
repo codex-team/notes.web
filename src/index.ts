@@ -8,7 +8,7 @@ import { init as initDomain } from './domain';
 /**
  * Init repository
  */
-const repositories = initRepository();
+const repositories = initRepositories();
 
 /**
  * Init domain
