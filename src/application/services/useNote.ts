@@ -5,7 +5,7 @@ import NoteService from '../../domain/note.service';
 /**
  * Note hook interface
  */
-interface NoteHook {
+interface UseNoteComposableState {
     /**
      * Note ref
      */
