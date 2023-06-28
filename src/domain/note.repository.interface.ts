@@ -6,7 +6,7 @@ import Note from './entities/Note';
 export default interface NoteRepository {
 
     /**
-     * Get note by id
+     * Returns a Note by id
      *
      * @param id - Note id
      * @returns Note | null - Note instance
