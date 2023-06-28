@@ -36,6 +36,10 @@ export default class NoteRepository implements NoteRepositoryInterface {
       return null;
     }
 
-    return new Note(noteData.title, noteData.content, noteData.id);
+    return {
+      id: noteData.id,
+      title: noteData.title,
+      content: noteData.content,
+    };
   }
 }

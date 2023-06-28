@@ -26,6 +26,6 @@ export default class NoteService {
    * @returns { Note | null } - Note data
    */
   public async getNoteById(id: number): Promise<Note | null> {
-    return  await this.noteRepository.getNoteById(id);
+    return await this.noteRepository.getNoteById(id);
   }
 }
