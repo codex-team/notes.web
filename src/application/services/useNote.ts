@@ -24,7 +24,7 @@ interface UseNoteComposableState {
  *
  * @returns { UseNoteComposableState } - Note hook state
  */
-function useNote(): UseNoteComposableState {
+export default function (): UseNoteComposableState {
   /**
    * Note ref
    */
@@ -45,4 +45,3 @@ function useNote(): UseNoteComposableState {
   };
 }
 
-export default useNote;

@@ -30,7 +30,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
     const noteData = await this.noteStorage.getNoteById(id);
 
     /**
-     * If note data exists
+     * If note data not exists
      */
     if (!noteData) {
       return null;
