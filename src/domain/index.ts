@@ -4,7 +4,7 @@ import { init as initRepositories } from '../infrastructure';
 /**
  * Init repositories
  */
-const repositories = initRepositories();
+const repositories = initRepositories('http://localhost:3000');
 
 /**
  * Init services

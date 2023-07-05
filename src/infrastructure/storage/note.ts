@@ -15,13 +15,11 @@ export default class NoteStorage {
    * Get note by id
    *
    * @param id - Note id
-   * @returns { Note | undefined } - Note data
+   * @returns { Note | null } - Note data
    */
-  public async getNoteById(id: number): Promise<Note | undefined> {
-    return {
-      id: id,
-      title: 'title' + id,
-      content: 'content' + id,
-    };
+  public async getNoteById(id: number): Promise<Note | null> {
+    console.log('Get note by id', id);
+
+    return null;
   }
 }
