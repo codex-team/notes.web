@@ -1,11 +1,11 @@
 /**
  * Fetch transport to make HTTP requests
  */
-export default class Fetch {
+export default class FetchTransport {
   /**
    * API url
    */
-  private readonly url: string;
+  private readonly baseUrl: string;
 
   /**
    * Fetch constructor

@@ -1,7 +1,7 @@
 import NoteRepositoryInterface from '../domain/note.repository.interface';
 import Note from '../domain/entities/Note';
 import NoteStorage from './storage/note';
-import Transport from './transport';
+import type Transport from './transport';
 
 /**
  * Get note response
