@@ -1,27 +1,12 @@
 import NoteRepositoryInterface from '../domain/note.repository.interface';
 import Note from '../domain/entities/Note';
 import NoteStorage from './storage/note';
-import type Transport from './transport';
+import NotesApiTransport from './transport/notes-api';
 
 /**
- * Get note response
+ * Get note response payload
  */
-interface GetNoteResponse {
-  /**
-   * Note id
-   */
-  id: number;
-
-  /**
-   * Note title
-   */
-  title: string;
-
-  /**
-   * Note content
-   */
-  content: string;
-}
+type GetNoteResponsePayload = Note;
 
 /**
  * Note repository
@@ -30,7 +15,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
   /**
    * Transport instance
    */
-  private readonly transport: Transport;
+  private readonly notesApiTransport: NotesApiTransport;
 
   /**
    * Note storage
@@ -41,11 +26,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Note repository constructor
    *
    * @param noteStorage - note storage instance
-   * @param transport - transport instance
+   * @param notesApiTransport - notes api transport instance
    */
-  constructor(noteStorage: NoteStorage, transport: Transport) {
+  constructor(noteStorage: NoteStorage, notesApiTransport: NotesApiTransport) {
     this.noteStorage = noteStorage;
-    this.transport = transport;
+    this.notesApiTransport = notesApiTransport;
   }
 
   /**
@@ -61,22 +46,24 @@ export default class NoteRepository implements NoteRepositoryInterface {
      * If note data in storage exists
      */
     if (noteData) {
-      return {
-        id: noteData.id,
-        title: noteData.title,
-        content: noteData.content,
-      };
+      return noteData;
     }
 
     /**
      * Get note data from API
      */
-    const noteResponse = await this.transport.get<GetNoteResponse>('/note/' + id);
+    const note = await this.notesApiTransport.get<GetNoteResponsePayload>('/note/' + id);
 
-    return {
-      id: noteResponse.id,
-      title: noteResponse.title,
-      content: noteResponse.content,
-    };
+    /**
+     * If note data in API payload exists
+     */
+    if (note) {
+      /**
+       * Insert note to storage
+       */
+      await this.noteStorage.insertNote(note);
+    }
+
+    return note;
   }
 }

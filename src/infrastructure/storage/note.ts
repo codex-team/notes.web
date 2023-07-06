@@ -22,4 +22,15 @@ export default class NoteStorage {
 
     return null;
   }
+
+  /**
+   * Insert note
+   *
+   * @param note - note to insert
+   */
+  public async insertNote(note: Note): Promise<void> {
+    console.log('Insert note', note);
+
+    return;
+  }
 }

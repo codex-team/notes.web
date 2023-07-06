@@ -1,6 +1,6 @@
 import NoteRepository from './note.repository';
 import NoteStorage from './storage/note';
-import Transport from './transport';
+import NotesApiTransport from './transport/notes-api';
 
 /**
  * Repositories
@@ -28,12 +28,12 @@ export function init(noteApiUrl: string): Repositories {
   /**
    * Init transport
    */
-  const transport = new Transport(noteApiUrl);
+  const notesApiTransport = new NotesApiTransport(noteApiUrl);
 
   /**
    * Init repositories
    */
-  const noteRepository = new NoteRepository(noteStorage, transport);
+  const noteRepository = new NoteRepository(noteStorage, notesApiTransport);
 
   return {
     noteRepository: noteRepository,

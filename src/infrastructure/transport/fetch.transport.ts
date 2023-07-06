@@ -3,28 +3,23 @@
  */
 export default class FetchTransport {
   /**
-   * API url
-   */
-  private readonly baseUrl: string;
-
-  /**
    * Fetch constructor
    *
-   * @param url - API url
+   * @param baseUrl - Base URL
    */
-  constructor(url: string) {
-    this.url = url;
+  constructor(private readonly baseUrl: string) {
   }
 
   /**
    * Make GET request
    *
+   * @template Response - Response data type
    * @param endpoint - API endpoint
    * @returns { Promise<Response> } - Response data
    */
   public async get<Response>(endpoint: string): Promise<Response> {
     // eslint-disable-next-line no-undef
-    const response = await fetch(this.url + endpoint, {
+    const response = await fetch(this.baseUrl + endpoint, {
       method: 'GET',
     });
 
