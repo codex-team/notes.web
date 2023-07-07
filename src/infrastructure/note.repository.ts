@@ -30,7 +30,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    */
   constructor(noteStorage: NoteStorage, notesApiTransport: NotesApiTransport) {
     this.noteStorage = noteStorage;
-    this.notesApiTransport = notesApiTransport;
+    this.transport = notesApiTransport;
   }
 
   /**
