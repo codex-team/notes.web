@@ -25,9 +25,9 @@ export default class NotesApiTransport extends Transport {
     const response = await super.get<ApiResponse<Payload>>(endpoint);
 
     /**
-     * If error in response
+     * If data is not present in response
      */
-    if (response.status) {
+    if (!response.data) {
       /**
        * TODO: Handle error
        */
@@ -35,6 +35,6 @@ export default class NotesApiTransport extends Transport {
       return null;
     }
 
-    return response.data as Payload;
+    return response.data;
   }
 }
