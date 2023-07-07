@@ -20,9 +20,9 @@ interface ApiErrorResponse {
   message: string;
 
   /**
-   * Error message code
+   * Status code
    */
-  code: number;
+  status: number;
 }
 
 /**

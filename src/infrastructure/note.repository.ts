@@ -2,11 +2,7 @@ import NoteRepositoryInterface from '../domain/note.repository.interface';
 import Note from '../domain/entities/Note';
 import NoteStorage from './storage/note';
 import type NotesApiTransport from './transport/notes-api';
-
-/**
- * Get note response payload
- */
-type GetNoteResponsePayload = Note;
+import type { GetNoteResponsePayload } from './transport/notes-api/types/GetNoteRespnsePayload';
 
 /**
  * Note repository
@@ -15,7 +11,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
   /**
    * Transport instance
    */
-  private readonly notesApiTransport: NotesApiTransport;
+  private readonly transport: NotesApiTransport;
 
   /**
    * Note storage
@@ -52,7 +48,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
     /**
      * Get note data from API
      */
-    const note = await this.notesApiTransport.get<GetNoteResponsePayload>('/note/' + id);
+    const note = await this.transport.get<GetNoteResponsePayload>('/note/' + id);
 
     /**
      * If note data in API payload exists

@@ -1,5 +1,5 @@
 import Transport from '../index';
-import ApiResponse from '../types/ApiResponse';
+import ApiResponse from './types/ApiResponse';
 
 /**
  * Notes api transport
@@ -27,7 +27,7 @@ export default class NotesApiTransport extends Transport {
     /**
      * If error in response
      */
-    if (response.code) {
+    if (response.status) {
       /**
        * TODO: Handle error
        */
