@@ -1,4 +1,4 @@
-import Note from './entities/Note';
+import Note from '@/domain/entities/Note';
 
 /**
  * Note repository interface
