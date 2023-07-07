@@ -2,7 +2,7 @@ import NoteRepositoryInterface from '../domain/note.repository.interface';
 import Note from '../domain/entities/Note';
 import NoteStorage from './storage/note';
 import type NotesApiTransport from './transport/notes-api';
-import type { GetNoteResponsePayload } from './transport/notes-api/types/GetNoteRespnsePayload';
+import type { GetNoteResponsePayload } from './transport/notes-api/types/GetNoteResponsePayload';
 
 /**
  * Note repository
