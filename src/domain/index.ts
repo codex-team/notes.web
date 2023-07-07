@@ -1,5 +1,5 @@
-import NoteService from './note.service';
-import { init as initRepositories } from '../infrastructure';
+import NoteService from '@domain/note.service';
+import { init as initRepositories } from '@infrastructure/index';
 
 /**
  * Init repositories

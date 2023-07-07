@@ -1,6 +1,6 @@
-import NoteRepositoryInterface from '../domain/note.repository.interface';
-import Note from '../domain/entities/Note';
-import NoteStorage from './storage/note';
+import NoteRepositoryInterface from '@domain/note.repository.interface';
+import Note from '@domain/entities/Note';
+import NoteStorage from '@infrastructure/storage/note';
 
 /**
  * Note repository
