@@ -1,6 +1,6 @@
 import { Ref, ref } from 'vue';
-import Note from '@domain/entities/Note';
-import { noteService } from '@domain/index';
+import Note from '@/domain/entities/Note';
+import { noteService } from '@/domain/index';
 
 /**
  * Note hook state

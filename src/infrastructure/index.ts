@@ -1,5 +1,5 @@
-import NoteRepository from '@infrastructure/note.repository';
-import NoteStorage from '@infrastructure/storage/note';
+import NoteRepository from '@/infrastructure/note.repository';
+import NoteStorage from '@/infrastructure/storage/note';
 
 /**
  * Repositories

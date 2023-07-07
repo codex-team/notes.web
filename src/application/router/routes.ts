@@ -1,5 +1,5 @@
-import Home from '@presentation/pages/Home.vue';
-import Note from '@presentation/pages/Note.vue';
+import Home from '@/presentation/pages/Home.vue';
+import Note from '@/presentation/pages/Note.vue';
 
 const routes = [
   {

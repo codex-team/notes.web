@@ -14,10 +14,10 @@
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@infrastructure/*": ["infrastructure/*"],
-      "@presentation/*": ["presentation/*"],
-      "@domain/*": ["domain/*"],
-      "@application/*": ["application/*"]
+      "@/infrastructure/*": ["infrastructure/*"],
+      "@/presentation/*": ["presentation/*"],
+      "@/domain/*": ["domain/*"],
+      "@/application/*": ["application/*"]
     }
   },
   "include": ["src", "vite.config.ts"],
