@@ -11,8 +11,8 @@ export default {
 </script>
 
 <style scoped>
-    .center-container {
-        display: flex;
-        justify-content: center;
-    }
+  .center-container {
+      display: flex;
+      justify-content: center;
+  }
 </style>
