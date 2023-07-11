@@ -27,7 +27,7 @@ export default class NotesApiTransport extends Transport {
     /**
      * If data is not present in response
      */
-    if (!response.data) {
+    if (!('data' in response)) {
       /**
        * TODO: Handle error
        */
