@@ -15,9 +15,13 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "@/infrastructure/*": ["infrastructure/*"],
+      "@/infrastructure": ["infrastructure"],
       "@/presentation/*": ["presentation/*"],
+      "@/presentation": ["presentation"],
       "@/domain/*": ["domain/*"],
-      "@/application/*": ["application/*"]
+      "@/domain": ["domain"],
+      "@/application/*": ["application/*"],
+      "@/application": ["application"],
     }
   },
   "include": ["src", "vite.config.ts"],
