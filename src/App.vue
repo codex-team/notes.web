@@ -8,7 +8,7 @@
 import { useColorMode } from '@vueuse/core'
 
 const mode = useColorMode({
-  emitAuto: true
+  initialValue: "dark"
 })
 
 export default {
@@ -18,7 +18,6 @@ export default {
 
 <style scoped>
   @import "./presentation/styles/colors.pcss";
-  @import "./presentation/styles/global.pcss";
 
   #app {
     background-color: var(--background);
