@@ -1,11 +1,18 @@
 import NoteRepositoryInterface from '../domain/note.repository.interface';
 import Note from '../domain/entities/Note';
 import NoteStorage from './storage/note';
+import type NotesApiTransport from './transport/notes-api';
+import type { GetNoteResponsePayload } from './transport/notes-api/types/GetNoteResponsePayload';
 
 /**
  * Note repository
  */
 export default class NoteRepository implements NoteRepositoryInterface {
+  /**
+   * Transport instance
+   */
+  private readonly transport: NotesApiTransport;
+
   /**
    * Note storage
    */
@@ -15,9 +22,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Note repository constructor
    *
    * @param noteStorage - note storage instance
+   * @param notesApiTransport - notes api transport instance
    */
-  constructor(noteStorage: NoteStorage) {
+  constructor(noteStorage: NoteStorage, notesApiTransport: NotesApiTransport) {
     this.noteStorage = noteStorage;
+    this.transport = notesApiTransport;
   }
 
   /**
@@ -30,16 +39,27 @@ export default class NoteRepository implements NoteRepositoryInterface {
     const noteData = await this.noteStorage.getNoteById(id);
 
     /**
-     * If note data not exists
+     * If note data in storage exists
      */
-    if (!noteData) {
-      return null;
+    if (noteData) {
+      return noteData;
     }
 
-    return {
-      id: noteData.id,
-      title: noteData.title,
-      content: noteData.content,
-    };
+    /**
+     * Get note data from API
+     */
+    const note = await this.transport.get<GetNoteResponsePayload>('/note/' + id);
+
+    /**
+     * If note data in API payload exists
+     */
+    if (note) {
+      /**
+       * Insert note to storage
+       */
+      await this.noteStorage.insertNote(note);
+    }
+
+    return note;
   }
 }
