@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <HeaderLayout />
+    <HeaderComponent />
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-import HeaderLayout from "./presentation/layout/HeaderLayout.vue";
+import HeaderComponent from './presentation/components/HeaderComponent.vue';
 export default {
   name: "App",
-  components: {HeaderLayout},
+  components: {HeaderComponent},
 }
 </script>
 
@@ -17,6 +17,7 @@ export default {
   * {
     box-sizing: border-box;
   }
+
   body {
     margin: 0;
     padding: 0;

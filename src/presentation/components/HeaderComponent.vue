@@ -5,7 +5,7 @@
 
 <script lang="ts">
 export default {
-  name: "HeaderLayout"
+  name: "HeaderComponent"
 }
 </script>
 
