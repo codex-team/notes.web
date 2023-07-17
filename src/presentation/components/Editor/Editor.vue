@@ -2,7 +2,7 @@
   <div id="editor"></div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Editor from '@editorjs/editorjs';
 
 /**
@@ -26,42 +26,34 @@ import Embed from '@editorjs/embed';
 import InlineCode from '@editorjs/inline-code';
 import Marker from '@editorjs/marker';
 
-export default {
-  mounted() {
-    const editor = new Editor({
-      /**
-       * Id of Element that should contain the Editor
-       */
-      holder: 'editor',
-
-      /**
-       * Block Tools
-       */
-      tools: {
-        header: Header,
-        image: Image,
-        code: CodeTool,
-        list: List,
-        delimiter: Delimiter,
-        table: Table,
-        warning: Warning,
-        checklist: Checklist,
-        linkTool: LinkTool,
-        raw: RawTool,
-        embed: Embed,
-
-        /**
-         * Inline Tools
-         */
-        inlineCode: InlineCode,
-        marker: Marker,
-      },
-    });
+const editor = new Editor({
+  /**
+   * Id of Element that should contain the Editor
+   */
+  holder: 'editor',
+  /**
+   * Block Tools
+   */
+  tools: {
+    header: Header,
+    image: Image,
+    code: CodeTool,
+    list: List,
+    delimiter: Delimiter,
+    table: Table,
+    warning: Warning,
+    checklist: Checklist,
+    linkTool: LinkTool,
+    raw: RawTool,
+    embed: Embed,
+    /**
+     * Inline Tools
+     */
+    inlineCode: InlineCode,
+    marker: Marker,
   },
-  name: 'editor',
-};
+});
 </script>
 
 <style scoped>
-
 </style>
