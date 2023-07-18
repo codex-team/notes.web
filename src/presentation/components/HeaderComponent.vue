@@ -8,7 +8,7 @@
 
 <style scoped>
   .header {
-    height: var(--header-height);
+    height: var(--layout-header-height);
     padding: var(--spacing-ms) var(--spacing-l);
     background-color: var(--bg-color-header);
     display: flex;
