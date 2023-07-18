@@ -5,12 +5,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import HeaderComponent from './presentation/components/HeaderComponent.vue';
-export default {
-  name: "App",
-  components: {HeaderComponent},
-}
+<script lang="ts" setup>
+import Header from './presentation/components/HeaderComponent.vue';
 </script>
 
 <style>
