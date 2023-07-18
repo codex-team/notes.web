@@ -7,9 +7,7 @@
 <script lang="ts">
 import { useColorMode } from '@vueuse/core'
 
-const mode = useColorMode({
-  initialValue: "dark"
-})
+const mode = useColorMode()
 
 export default {
   name: "App",
@@ -17,8 +15,6 @@ export default {
 </script>
 
 <style scoped>
-  @import "./presentation/styles/colors.pcss";
-
   #app {
     background-color: var(--background);
   }
