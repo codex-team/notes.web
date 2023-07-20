@@ -1,53 +1,32 @@
 <template>
   <div class="header">
     <div class="header__tabs">
-      <Tab v-for="tab in tabs" :title="tab.title" :path="tab.path" :icon="tab.icon" :isDefault="tab.isDefault" :isActive="tab.isActive" :onClose="tab.onClose" :key="tab.path"/>
+      <Tab
+        v-for="tab in tabs"
+        :key="tab.path"
+        :title="tab.title"
+        :path="tab.path"
+        :icon="tab.icon"
+        :is-default="tab.isDefault"
+        :is-active="tab.isActive"
+        :on-close="tab.onClose"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Tab from './ui/Tab.vue';
+import { IconPicture } from '@codexteam/icons';
 
-/**
- * Header component props
- */
-const props = defineProps<{
-  /**
-   * Header tabs
-   */
-  tabs: {
-    /**
-     * Tab title
-     */
-    title: string;
-
-    /**
-     * Link path
-     */
-    path: string;
-
-    /**
-     * Tab icon
-     */
-    icon?: string;
-
-    /**
-     * Is tab default, in other words, can't be closed
-     */
-    isDefault?: boolean;
-
-    /**
-     * Is tab active
-     */
-    isActive?: boolean;
-
-    /**
-     * On close callback
-     */
-    onClose?: () => void;
-  }[];
-}>();
+const tabs = [
+  {
+    title: 'Home',
+    path: '/',
+    icon: IconPicture,
+    isActive: true,
+  },
+];
 </script>
 
 <style scoped lang="postcss">

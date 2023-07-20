@@ -5,6 +5,7 @@ import router from './application/router/index';
 import './presentation/styles/colors.pcss';
 import 'normalize.css';
 import './presentation/styles/sizes.pcss';
+import './presentation/styles/typography.pcss';
 const app = createApp(App);
 
 app.use(router);

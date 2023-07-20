@@ -1,20 +1,30 @@
 <template>
-  <router-link :to="path" class="tab" :class="{'tab--active': isActive}">
-    <div class="tab__icon" v-if="icon" v-html="icon"/>
-    <div class="tab__title">
+  <router-link
+    :to="path"
+    class="tab"
+    :class="{'tab--active': isActive}"
+  >
+    <div
+      v-if="icon"
+      class="tab__icon"
+      v-html="icon"
+    />
+    <div class="tab__title small">
       {{ title }}
     </div>
-    <div class="tab__close" v-if="isActive && !isDefault" v-html="IconCross" @click="onClose"/>
+    <div
+      v-if="isActive && !isDefault"
+      class="tab__close"
+      @click="onClose"
+      v-html="IconCross"
+    />
   </router-link>
 </template>
 
 <script setup lang="ts">
 import { IconCross } from '@codexteam/icons';
 
-/**
- * Tab component props
- */
-const props = defineProps<{
+interface TabProps {
   /**
    * Tab title
    */
@@ -44,31 +54,36 @@ const props = defineProps<{
    * On close callback
    */
   onClose?: () => void;
-}>();
+}
+
+/**
+ * Tab component props
+ */
+defineProps<TabProps>();
 </script>
 
 <style scoped lang="postcss">
 .tab {
   text-decoration: none;
-  height: var(--header-tab-height);
-  max-width: var(--header-tab-max-width);
+  max-width: var(--layout-header-tab-max-width);
   background: var(--bg-color-tab);
   border-radius: var(--radius-m);
   padding: var(--spacing-xxs) var(--spacing-ms);
-  color: var(--text-color-header);
+  color: var(--color-text-main);
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: var(--spacing-very-x);
   cursor: pointer;
   user-select: none;
   line-clamp: 1;
 
   &--active {
-    color: var(--text-color-header-active);
+    color: var(--color-text-heading);
   }
 
   &__title {
+    font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
     line-clamp: 1;
@@ -78,20 +93,14 @@ const props = defineProps<{
   &__close {
     height: var(--size-icon);
     width: var(--size-icon);
-    align-items: center;
-    display: flex;
-    justify-content: center;
     flex-shrink: 0;
-    color: var(--text-color-header);
+    color: var(--color-text-main);
     opacity: 30%;
   }
 
   &__icon {
     height: var(--size-icon);
     width: var(--size-icon);
-    align-items: center;
-    display: flex;
-    justify-content: center;
     flex-shrink: 0;
   }
 }
