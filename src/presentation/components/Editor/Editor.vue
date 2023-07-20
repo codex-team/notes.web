@@ -3,7 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import Editor from '@editorjs/editorjs';
+import { onMounted} from 'vue';
+import Editor, { OutputData } from '@editorjs/editorjs';
 
 /**
  * Block Tools for the Editor
@@ -26,32 +27,44 @@ import Embed from '@editorjs/embed';
 import InlineCode from '@editorjs/inline-code';
 import Marker from '@editorjs/marker';
 
-const editor = new Editor({
-  /**
-   * Id of Element that should contain the Editor
-   */
-  holder: 'editor',
-  /**
-   * Block Tools
-   */
-  tools: {
-    header: Header,
-    image: Image,
-    code: CodeTool,
-    list: List,
-    delimiter: Delimiter,
-    table: Table,
-    warning: Warning,
-    checklist: Checklist,
-    linkTool: LinkTool,
-    raw: RawTool,
-    embed: Embed,
+/**
+ * Define the props for thecomponent
+ */
+const props = defineProps<{
+  data: OutputData,
+}>()
+
+onMounted(() => {
+  new Editor({
     /**
-     * Inline Tools
+     * id of Element that should contain the Editor
      */
-    inlineCode: InlineCode,
-    marker: Marker,
-  },
+    holder: 'editor',
+
+    /**
+     * Block Tools
+     */
+    tools: {
+      header: Header,
+      image: Image,
+      code: CodeTool,
+      list: List,
+      delimiter: Delimiter,
+      table: Table,
+      warning: Warning,
+      checklist: Checklist,
+      linkTool: LinkTool,
+      raw: RawTool,
+      embed: Embed,
+
+      /**
+       * Inline Tools
+       */
+      inlineCode: InlineCode,
+      marker: Marker,
+    },
+    data: props.data,
+  });
 });
 </script>
 
