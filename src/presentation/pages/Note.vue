@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-import useNote from '../../application/services/useNote';
-import Editor from '../components/Editor/Editor.vue';
+import Editor from '@/presentation/components/Editor/Editor.vue';
+import useNote from "@/application/services/useNote";
 
 const props = defineProps({
   id: Number,
