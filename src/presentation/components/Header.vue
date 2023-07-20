@@ -7,7 +7,7 @@
         :title="tab.title"
         :path="tab.path"
         :icon="tab.icon"
-        :is-default="tab.isDefault"
+        :is-pinned="tab.isPinned"
         :is-active="tab.isActive"
         :on-close="tab.onClose"
       />
@@ -18,13 +18,17 @@
 <script lang="ts" setup>
 import Tab from './ui/Tab.vue';
 import { IconPicture } from '@codexteam/icons';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const tabs = [
   {
-    title: 'Home',
+    title: t('home.title'),
     path: '/',
     icon: IconPicture,
     isActive: true,
+    isPinned: true,
   },
 ];
 </script>

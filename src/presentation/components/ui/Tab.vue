@@ -13,7 +13,7 @@
       {{ title }}
     </div>
     <div
-      v-if="isActive && !isDefault"
+      v-if="isActive && !isPinned"
       class="tab__close"
       @click="onClose"
       v-html="IconCross"
@@ -46,9 +46,9 @@ interface TabProps {
   path: string;
 
   /**
-   * Is tab default, in other words, can't be closed
+   * Is tab pinned, in other words, can't be closed
    */
-  isDefault?: boolean;
+  isPinned?: boolean;
 
   /**
    * On close callback
