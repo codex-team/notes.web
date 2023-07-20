@@ -12,5 +12,6 @@ import Header from './presentation/components/Header.vue';
 <style>
   * {
     box-sizing: border-box;
+    font-family: 'Source Sans Pro', sans-serif;
   }
 </style>
