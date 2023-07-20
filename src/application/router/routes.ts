@@ -9,7 +9,9 @@ const routes = [
   {
     path: '/note/:id',
     component: Note,
-    props: true,
+    props: route => ({
+      id: Number(route.params.id),
+    }),
   },
 ];
 
