@@ -1,5 +1,5 @@
-import NoteRepository from './note.repository.interface';
-import Note from './entities/Note';
+import NoteRepository from '@/domain/note.repository.interface';
+import Note from '@/domain/entities/Note';
 
 /**
  * Note Service

@@ -1,8 +1,8 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import i18n from './application/i18n';
-import router from './application/router/index';
-import './presentation/styles/index.pcss';
+import i18n from '@/application/i18n';
+import router from '@/application/router/index';
+import '@/presentation/styles/index.pcss';
 
 const app = createApp(App);
 

@@ -1,6 +1,6 @@
-import NoteRepository from './note.repository';
-import NoteStorage from './storage/note';
-import NotesApiTransport from './transport/notes-api';
+import NoteRepository from '@/infrastructure/note.repository';
+import NoteStorage from '@/infrastructure/storage/note';
+import NotesApiTransport from '@/infrastructure/transport/notes-api';
 
 /**
  * Repositories
