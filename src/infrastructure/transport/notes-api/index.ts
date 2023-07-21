@@ -1,5 +1,5 @@
-import Transport from '../index';
-import ApiResponse from './types/ApiResponse';
+import Transport from '@/infrastructure/transport';
+import ApiResponse from '@/infrastructure/transport/notes-api/types/ApiResponse';
 
 /**
  * Notes api transport

@@ -1,4 +1,4 @@
-import Note from '../../../../domain/entities/Note';
+import Note from '@/domain/entities/Note';
 
 /**
  * Get note response payload

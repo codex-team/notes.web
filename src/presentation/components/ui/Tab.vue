@@ -66,7 +66,7 @@ defineProps<TabProps>();
 .tab {
   text-decoration: none;
   max-width: var(--layout-header-tab-max-width);
-  background: var(--bg-color-tab);
+  background: var(--color-bg);
   border-radius: var(--radius-m);
   padding: var(--spacing-xxs) var(--spacing-ms);
   color: var(--color-text-main);

@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import Tab from './ui/Tab.vue';
+import Tab from '@/presentation/components/ui/Tab.vue';
 import { IconPicture } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
 
@@ -27,17 +27,14 @@ const tabs = [
     title: t('home.title'),
     path: '/',
     icon: IconPicture,
-    isActive: true,
-    isPinned: true,
   },
 ];
 </script>
 
 <style scoped lang="postcss">
 .header {
-  height: var(--layout-header-height);
   padding: var(--spacing-ms) var(--spacing-l);
-  background-color: var(--bg-color-header);
+  background-color: var(--color-bg-header);
   display: flex;
   align-items: center;
   width: 100%;
