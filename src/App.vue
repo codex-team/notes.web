@@ -15,12 +15,12 @@ export default {
 </script>
 
 <style scoped>
-  * {
-    box-sizing: border-box;
+  html,
+  body {
+    height: 100%;
   }
 
   #app {
-    background-color: var(--background);
     min-height: 100%;
     background: var(--color-bg);
     color: var(--color-text-main);
