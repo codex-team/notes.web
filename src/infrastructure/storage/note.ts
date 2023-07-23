@@ -1,4 +1,4 @@
-import Note from '../../domain/entities/Note';
+import Note from '@/domain/entities/Note';
 
 /**
  * Note storage
@@ -15,13 +15,22 @@ export default class NoteStorage {
    * Get note by id
    *
    * @param id - Note id
-   * @returns { Note | undefined } - Note data
+   * @returns { Note | null } - Note data
    */
-  public async getNoteById(id: number): Promise<Note | undefined> {
-    return {
-      id: id,
-      title: 'title' + id,
-      content: 'content' + id,
-    };
+  public async getNoteById(id: number): Promise<Note | null> {
+    console.log('Get note by id', id);
+
+    return null;
+  }
+
+  /**
+   * Insert note
+   *
+   * @param note - note to insert
+   */
+  public async insertNote(note: Note): Promise<void> {
+    console.log('Insert note', note);
+
+    return;
   }
 }

@@ -1,4 +1,12 @@
-<script setup lang="ts">
+<template>
+  <Header />
+  <component :is="layout || 'div'">
+    <router-view />
+  </component>
+</template>
+
+<script lang="ts" setup>
+import Header from '@/presentation/components/Header.vue';
 import { provide, shallowRef } from "vue"
 import router from "./application/router";
 import { layouts } from "./presentation/layouts";
@@ -10,23 +18,18 @@ router.afterEach((to) => {
 });
 
 provide("app:layout", layout);
-
 </script>
 
-<template>
-  <div id="app">
-    <component :is="layout || 'div'">
-      <router-view />
-    </component>
-  </div>
-</template>
-
-<script lang="ts">
-export default {
-  name: "App",
+<style lang="postcss">
+html,
+body {
+  height: 100%;
 }
-</script>
 
-<style scoped>
-
+#app {
+  min-height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text-main);
+  word-break: break-word;
+}
 </style>

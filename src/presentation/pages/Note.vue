@@ -1,23 +1,28 @@
 <template>
-  <div>
-    Note id {{ note.id }}
+  <div v-if="note">
+    <div>
+      Note id {{ note.id }}
+    </div>
+    <div>
+      Note title: {{ note.title }}
+    </div>
+    <div>
+      Note content: {{ note.content }}
+    </div>
   </div>
-  <div>
-    Note title: {{ note.title }}
-  </div>
-  <div>
-    Note content: {{ note.content }}
+  <div v-else>
+    Note not found
   </div>
 </template>
 
 <script lang="ts" setup>
-import useNote from "../../application/services/useNote";
+import useNote from "@/application/services/useNote";
 
 const props = defineProps({
   id: Number,
 });
 
-const { note, load } = useNote();
+const {note, load} = useNote();
 
 load(props.id);
 </script>
