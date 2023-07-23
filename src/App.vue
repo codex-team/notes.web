@@ -1,23 +1,14 @@
 <template>
   <Header />
-  <component :is="layout || 'div'">
+  <Layout>
     <router-view />
-  </component>
+  </Layout>
 </template>
 
 <script lang="ts" setup>
 import Header from '@/presentation/components/Header.vue';
-import { provide, shallowRef } from "vue"
-import router from "./application/router";
-import { layouts } from "./presentation/layouts";
-
-const layout = shallowRef("div");
-
-router.afterEach((to) => {
-  layout.value = layouts[to.meta.layout] || "div";
-});
-
-provide("app:layout", layout);
+import useLayout from '@/application/services/useLayout';
+import Layout from "@/presentation/layouts/Layout.vue"
 </script>
 
 <style lang="postcss">

@@ -4,15 +4,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: "AppLayout",
+  name: "DefaultLayout",
 }
 </script>
 
 <style scoped>
   .center-container {
-      display: flex;
-      justify-content: center;
+    display: flex;
+    justify-content: center;
   }
 </style>
