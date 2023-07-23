@@ -19,14 +19,16 @@
 import Tab from '@/presentation/components/ui/Tab.vue';
 import { IconPicture } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
+import TabProps from '@/presentation/components/ui/TabProps';
 
 const { t } = useI18n();
 
-const tabs = [
+const tabs: TabProps[] = [
   {
     title: t('home.title'),
     path: '/',
     icon: IconPicture,
+    isActive: true,
   },
 ];
 </script>
