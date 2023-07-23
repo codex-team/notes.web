@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import useNote from "../../application/services/useNote";
+import useNote from "@/application/services/useNote";
 
 const props = defineProps({
   id: Number,
