@@ -23,7 +23,38 @@
 
 <script setup lang="ts">
 import { IconCross } from '@codexteam/icons';
-import TabProps from '@/presentation/components/ui/TabProps';
+
+interface TabProps {
+  /**
+   * Tab title
+   */
+  title: string;
+
+  /**
+   * Tab icon
+   */
+  icon?: string;
+
+  /**
+   * Is tab active
+   */
+  isActive?: boolean;
+
+  /**
+   * Link path
+   */
+  path: string;
+
+  /**
+   * Is tab pinned, in other words, can't be closed
+   */
+  isPinned?: boolean;
+
+  /**
+   * On close callback
+   */
+  onClose?: () => void;
+}
 
 /**
  * Tab component props

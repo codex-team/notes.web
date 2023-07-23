@@ -19,11 +19,10 @@
 import Tab from '@/presentation/components/ui/Tab.vue';
 import { IconPicture } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
-import TabProps from '@/presentation/components/ui/TabProps';
 
 const { t } = useI18n();
 
-const tabs: TabProps[] = [
+const tabs = [
   {
     title: t('home.title'),
     path: '/',
