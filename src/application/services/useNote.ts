@@ -17,6 +17,11 @@ interface UseNoteComposableState {
    * @param id
    */
   load: (id: number) => Promise<void>;
+
+  /**
+   * Is loading
+   */
+  isLoading: Ref<boolean>;
 }
 
 /**
@@ -31,17 +36,25 @@ export default function (): UseNoteComposableState {
   const note = ref<Note | null>(null);
 
   /**
+   * Is loading
+   */
+  const isLoading = ref<boolean>(false);
+
+  /**
    * Get note
    *
    * @param id - Note id
    */
   const load = async (id: number): Promise<void> => {
+    isLoading.value = true;
     note.value = await noteService.getNoteById(id);
+    isLoading.value = false;
   };
 
   return {
     note,
     load,
+    isLoading,
   };
 }
 
