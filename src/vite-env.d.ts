@@ -3,7 +3,9 @@ declare module '*.vue'
 
 declare module 'vue-router' {
     interface RouteMeta {
-      // add Layout like component wrapper
+      /**
+       * Layout like component wrapper
+       */
       layout?: string
     }
   }

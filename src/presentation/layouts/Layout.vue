@@ -1,12 +1,11 @@
 <template>
-  <component :is="layout || DefaultLayout">
+  <component :is="layout">
     <slot />
   </component>
 </template>
 
 <script lang="ts" setup>
 import { provide } from "vue";
-import DefaultLayout from "./DefaultLayout.vue";
 import useLayout from '@/application/services/useLayout';
 
 const layout = useLayout();

@@ -4,9 +4,6 @@ import Note from '@/presentation/pages/Note.vue';
 const routes = [
   {
     path: '/',
-    meta: {
-      layout: 'DefaultLayout',
-    },
     component: Home,
   },
   {
