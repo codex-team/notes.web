@@ -1,3 +1,5 @@
+import { OutputData } from '@editorjs/editorjs';
+
 /**
  * Note entity
  */
@@ -15,5 +17,5 @@ export default interface Note {
   /**
    * Note content
    */
-  content: string;
+  content: OutputData;
 }

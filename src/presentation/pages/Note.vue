@@ -1,14 +1,9 @@
 <template>
   <div v-if="note">
-    <div>
-      Note id {{ note.id }}
-    </div>
-    <div>
-      Note title: {{ note.title }}
-    </div>
-    <div>
-      Note content: {{ note.content }}
-    </div>
+    <Editor :data="note.content" />
+  </div>
+  <div v-else-if="isLoading">
+    Loading...
   </div>
   <div v-else>
     Note not found
@@ -16,13 +11,14 @@
 </template>
 
 <script lang="ts" setup>
+import Editor from '@/presentation/components/Editor/Editor.vue';
 import useNote from "@/application/services/useNote";
 
 const props = defineProps({
   id: Number,
 });
 
-const {note, load} = useNote();
+const {note, load, isLoading} = useNote();
 
 load(props.id);
 </script>
