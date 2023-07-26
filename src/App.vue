@@ -1,10 +1,13 @@
 <template>
   <Header />
-  <router-view></router-view>
+  <Layout>
+    <router-view />
+  </Layout>
 </template>
 
 <script lang="ts" setup>
 import Header from '@/presentation/components/Header.vue';
+import Layout from "@/presentation/layouts/Layout.vue"
 </script>
 
 <style lang="postcss">
