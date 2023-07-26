@@ -14,7 +14,7 @@ const layouts = {
 export default function (): ShallowRef<string> {
   const layout = shallowRef('div');
 
-  router.afterEach((to) => {
+  router.beforeEach((to) => {
     layout.value = layouts[to.meta.layout] || Default;
   });
 
