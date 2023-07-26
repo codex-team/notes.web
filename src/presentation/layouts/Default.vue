@@ -1,5 +1,5 @@
 <template>
-  <div :is="layout" class="center-container">
+  <div class="center-container">
     <slot />
   </div>
 </template>
