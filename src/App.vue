@@ -7,7 +7,6 @@
 
 <script lang="ts" setup>
 import Header from '@/presentation/components/Header.vue';
-import useLayout from '@/application/services/useLayout';
 import Layout from "@/presentation/layouts/Layout.vue"
 </script>
 
