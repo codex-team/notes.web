@@ -3,6 +3,7 @@
 
 # Allow files and directories
 !src
+!.env
 !.eslintrc
 !.nvmrc
 !app-config.yaml
