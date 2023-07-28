@@ -47,10 +47,11 @@ jobs:
         env:
           BASE_IMAGE_NAME: ${{ github.repository }}
         run: |
+          echo "VITE_API_URL=" > .env
           if [[ $GITHUB_REF == refs/tags/v* ]]; then
-            echo "${NOTES_API_URL_PRODUCTION}" > .env
+            echo "$NOTES_API_URL_PRODUCTION" >> .env
           else
-            echo "${NOTES_API_URL_STAGE}" > .env
+            echo "$NOTES_API_URL_STAGE" >> .env
           fi
 
       - name: Login to GitHub Container Registry
