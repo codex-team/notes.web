@@ -4,6 +4,7 @@
     class="tab"
     :class="{'tab--active': isActive}"
   >
+    <!-- eslint-disable vue/no-v-html -->
     <div
       v-if="icon"
       class="tab__icon"
