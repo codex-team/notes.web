@@ -17,6 +17,7 @@ useColorMode();
 html,
 body {
   height: 100%;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 #app {
