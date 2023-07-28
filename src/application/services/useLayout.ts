@@ -1,4 +1,4 @@
-import { shallowRef, ShallowRef } from 'vue';
+import { shallowRef, type ShallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import Default from '@/presentation/layouts/Default.vue';
 
