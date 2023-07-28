@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { useColorMode } from '@vueuse/core';
 import Header from '@/presentation/components/Header.vue';
-import Layout from "@/presentation/layouts/Layout.vue";
+import Layout from '@/presentation/layouts/Layout.vue';
 
 useColorMode();
 </script>
@@ -17,6 +17,7 @@ useColorMode();
 html,
 body {
   height: 100%;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 #app {
