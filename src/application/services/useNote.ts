@@ -1,5 +1,5 @@
-import { Ref, ref } from 'vue';
-import Note from '@/domain/entities/Note';
+import { ref, type Ref } from 'vue';
+import type Note from '@/domain/entities/Note';
 import { noteService } from '@/domain';
 
 /**
