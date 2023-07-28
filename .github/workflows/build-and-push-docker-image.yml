@@ -47,7 +47,7 @@ jobs:
         env:
           BASE_IMAGE_NAME: ${{ github.repository }}
         run: |
-          echo "VITE_API_URL=" > .env
+          echo -n "VITE_API_URL=" > .env
           if [[ $GITHUB_REF == refs/tags/v* ]]; then
             echo "$NOTES_API_URL_PRODUCTION" >> .env
           else
