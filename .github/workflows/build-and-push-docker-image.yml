@@ -53,10 +53,7 @@ jobs:
           else
             echo "$NOTES_API_URL_STAGE" >> .env
           fi
-
-      - name: Get version
-        id: vars
-        run: echo ::set-output name=version::$(cat .env)
+          cat .env >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
