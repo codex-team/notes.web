@@ -19,7 +19,6 @@ export default class NotesApiTransport extends Transport {
    *
    * @template Payload - response payload type
    * @param endpoint - API endpoint
-   * @returns { Promise<Payload | null> } - response payload
    */
   public async get<Payload>(endpoint: string): Promise<Payload | null> {
     const response = await super.get<ApiResponse<Payload>>(endpoint);

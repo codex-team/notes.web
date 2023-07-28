@@ -12,13 +12,16 @@
 
 <script lang="ts" setup>
 import Editor from '@/presentation/components/Editor/Editor.vue';
-import useNote from "@/application/services/useNote";
+import useNote from '@/application/services/useNote';
 
 const props = defineProps({
-  id: Number,
+  id: {
+    type: Number,
+    required: true,
+  },
 });
 
-const {note, load, isLoading} = useNote();
+const { note, load, isLoading } = useNote();
 
 load(props.id);
 </script>

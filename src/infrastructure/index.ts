@@ -17,7 +17,6 @@ export interface Repositories {
  * Init repositories
  *
  * @param noteApiUrl - Note API url
- * @returns { Repositories } - Repositories
  */
 export function init(noteApiUrl: string): Repositories {
   /**

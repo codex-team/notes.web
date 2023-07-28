@@ -1,0 +1,228 @@
+{
+  "plugins": [
+    "boundaries"
+  ],
+  "settings": {
+    "boundaries/elements": [
+      /**
+       * Pure business logic
+       */
+      {
+        "type": "Domain Service",
+        "pattern": "src/domain/*.service.ts",
+        "mode": "file"
+      },
+      {
+        "type": "Domain Entry",
+        "pattern": "src/domain/index.ts",
+        "mode": "file"
+      },
+      {
+        "type": "Entity",
+        "pattern": "src/domain/entities/**",
+        "mode": "file"
+      },
+      {
+        "type": "Repository Interface",
+        "pattern": "src/domain/*.repository.interface.ts",
+        "mode": "file"
+      },
+
+      /**
+       * Infrastructure-specific layer
+       */
+      {
+        "type": "Infrastructure Entry",
+        "pattern": "src/infrastructure/index.ts",
+        "mode": "file"
+      },
+      {
+        "type": "Repository",
+        "pattern": "src/infrastructure/*.repository.ts",
+        "mode": "file"
+      },
+      {
+        "type": "Storage",
+        "pattern": "src/infrastructure/storage/*.ts",
+        "mode": "file"
+      },
+      {
+        "type": "Transport",
+        "pattern": "src/infrastructure/transport/**",
+        "mode": "file"
+      },
+      {
+        "type": "Utils",
+        "pattern": "src/infrastructure/utils/**",
+        "mode": "file"
+      },
+
+      /**
+       * Presentation layer
+       */
+      {
+        "type": "Application Service",
+        "pattern": "src/application/services/**",
+        "mode": "file"
+      },
+      {
+        "type": "Router",
+        "pattern": "src/application/router/**",
+        "mode": "file"
+      },
+      {
+        "type": "Page",
+        "pattern": "src/presentation/pages/**",
+        "mode": "file"
+      },
+      {
+        "type": "Component",
+        "pattern": "src/presentation/components/**",
+        "mode": "file"
+      },
+      {
+        "type": "Layout",
+        "pattern": "src/presentation/layouts/**",
+        "mode": "file"
+      },
+      {
+        "type": "Component Type",
+        "pattern": "src/presentation/components/**/types/*",
+        "mode": "full"
+      }
+    ],
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
+  "rules": {
+    "boundaries/no-unknown": [2],
+    "boundaries/element-types": [
+      2,
+      {
+        "default": "disallow",
+        "message": "${file.type} should not depend on the ${dependency.type}",
+        "rules": [
+          /**
+           * Pure business logic
+           */
+          {
+            "from": "Domain Entry",
+            "allow": [
+              "Domain Service",
+              "Infrastructure Entry",
+              "Repository Interface",
+              "Utils"
+            ]
+          },
+          {
+            "from": "Domain Service",
+            "allow": [
+              "Entity",
+              "Repository Interface",
+              "Utils"
+            ]
+          },
+          {
+            "from": "Entity",
+            "allow": [
+              "Entity"
+            ]
+          },
+          {
+            "from": "Repository Interface",
+            "allow": [
+              "Entity"
+            ]
+          },
+
+          /**
+           * Infrastructure-specific layer
+           */
+          {
+            "from": "Infrastructure Entry",
+            "allow": [
+              "Repository",
+              "Storage",
+              "Transport"
+            ]
+          },
+          {
+            "from": "Repository",
+            "allow": [
+              "Repository Interface",
+              "Storage",
+              "Transport",
+              "Entity",
+              "Utils"
+            ]
+          },
+          {
+            "from": "Storage",
+            "allow": [
+              "Entity",
+              "Utils"
+            ]
+          },
+          {
+            "from": "Transport",
+            "allow": [
+              "Entity",
+              "Utils"
+            ]
+          },
+          {
+            "from": "Utils",
+            "allow": [
+              "Entity",
+              "Utils"
+            ]
+          },
+
+          /**
+           * Presentation layer
+           */
+          {
+            "from": "Application Service",
+            "allow": [
+              "Domain Entry",
+              "Application Service",
+              "Entity",
+              "Utils",
+              "Component Type",
+              "Layout"
+            ]
+          },
+          {
+            "from": ["Page", "Component", "Layout"],
+            "allow": [
+              "Component",
+              "Application Service",
+              "Entity",
+              "Utils",
+              "Component Type"
+            ]
+          },
+          {
+            "from": "Component Type",
+            "allow": [
+              "Component Type",
+              "Entity",
+              "Utils"
+            ]
+          },
+          {
+            "from": "Router",
+            "allow": [
+              "Page",
+              "Entity",
+              "Utils"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
