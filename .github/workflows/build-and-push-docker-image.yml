@@ -47,13 +47,12 @@ jobs:
         env:
           BASE_IMAGE_NAME: ${{ github.repository }}
         run: |
-          echo -n "VITE_API_URL=" > .env
           if [[ $GITHUB_REF == refs/tags/v* ]]; then
-            echo "$NOTES_API_URL_PRODUCTION" >> .env
+            echo "VITE_API_URL=$NOTES_API_URL_PRODUCTION" >> $GITHUB_ENV
           else
-            echo "$NOTES_API_URL_STAGE" >> .env
+            echo "VITE_API_URL=$NOTES_API_URL_STAGE" >> $GITHUB_ENV
           fi
-          cat .env >> $GITHUB_OUTPUT
+          echo "$GITHUB_CONTEXT"
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
