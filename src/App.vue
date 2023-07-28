@@ -17,7 +17,6 @@ useColorMode();
 html,
 body {
   height: 100%;
-  font-family: 'Source Sans Pro', sans-serif;
 }
 
 #app {
@@ -25,5 +24,8 @@ body {
   background: var(--color-bg);
   color: var(--color-text-main);
   word-break: break-word;
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 </style>
