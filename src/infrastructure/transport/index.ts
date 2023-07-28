@@ -1,3 +1,3 @@
-import Fetch from './fetch.transport';
+import Fetch from '@/infrastructure/transport/fetch.transport';
 
 export default Fetch;
