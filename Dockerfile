@@ -12,4 +12,5 @@ COPY --from=deps /app/node_modules ./node_modules
 RUN npm run build
 
 FROM nginx:bullseye AS runner
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
