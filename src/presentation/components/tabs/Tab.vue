@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { IconCross } from '@codexteam/icons';
-import TabProps from '@/presentation/components/ui/TabProps';
+import TabProps from '@/presentation/components/tabs/TabProps';
 /**
  * Tab component props
  */

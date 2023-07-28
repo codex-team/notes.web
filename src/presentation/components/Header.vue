@@ -16,10 +16,10 @@
 </template>
 
 <script lang="ts" setup>
-import Tab from '@/presentation/components/ui/Tab.vue';
+import Tab from '@/presentation/components/tabs/Tab.vue';
 import { IconPicture } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
-import TabProps from '@/presentation/components/ui/TabProps';
+import TabProps from '@/presentation/components/tabs/TabProps';
 
 const { t } = useI18n();
 
