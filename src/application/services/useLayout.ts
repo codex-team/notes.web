@@ -1,5 +1,5 @@
 import { shallowRef, ShallowRef } from 'vue';
-import router from '@/application/router';
+import { useRouter } from 'vue-router';
 import Default from '@/presentation/layouts/Default.vue';
 
 const layouts = {
@@ -13,6 +13,8 @@ const layouts = {
  */
 export default function (): ShallowRef<string> {
   const layout = shallowRef('div');
+  const router = useRouter();
+
 
   router.beforeEach((to) => {
     layout.value = layouts[to.meta.layout] || Default;

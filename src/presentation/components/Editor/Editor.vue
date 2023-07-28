@@ -1,9 +1,9 @@
 <template>
-  <div id="editor"></div>
+  <div id="editor" />
 </template>
 
 <script setup lang="ts">
-import { onMounted} from 'vue';
+import { onMounted } from 'vue';
 import Editor, { OutputData } from '@editorjs/editorjs';
 
 /**
@@ -32,7 +32,7 @@ import Marker from '@editorjs/marker';
  */
 const props = defineProps<{
   data: OutputData,
-}>()
+}>();
 
 onMounted(() => {
   new Editor({
