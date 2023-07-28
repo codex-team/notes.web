@@ -43,6 +43,16 @@ jobs:
             echo "image_name=${REGISTRY}/${BASE_IMAGE_NAME}-stage" >> $GITHUB_OUTPUT
           fi
 
+      - name: Create .env settings
+        env:
+          BASE_IMAGE_NAME: ${{ github.repository }}
+        run: |
+          if [[ $GITHUB_REF == refs/tags/v* ]]; then
+            echo "VITE_API_URL=${{ vars.NOTES_API_URL_PRODUCTION }}" > .env
+          else
+            echo "VITE_API_URL=${{ vars.NOTES_API_URL_STAGE }}" > .env
+          fi
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -56,7 +66,7 @@ jobs:
         with:
           images: ${{ steps.base_image_name.outputs.image_name }}
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest
             type=raw,value={{branch}}-{{sha}}-{{date 'X'}},enable=${{ startsWith(github.ref, 'refs/heads') }}
             type=semver,pattern={{version}},prefix=v
             type=semver,pattern={{major}}.{{minor}},prefix=v

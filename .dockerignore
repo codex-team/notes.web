@@ -3,6 +3,8 @@
 
 # Allow files and directories
 !src
+!nginx
+!.env
 !.eslintrc
 !.nvmrc
 !app-config.yaml
