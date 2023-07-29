@@ -62,4 +62,38 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
     return note;
   }
+
+  /**
+   * Get note by hostname
+   *
+   * @param hostname - Custom hostname linked with one Note
+   * @returns { Note | null } - Note instance
+   */
+  public async getNoteByHostname(hostname: string): Promise<Note | null> {
+    const noteData = await this.noteStorage.getNoteByHostname(hostname);
+
+    /**
+     * If note data in storage exists
+     */
+    if (noteData) {
+      return noteData;
+    }
+
+    /**
+     * Get note data from API
+     */
+    const note = await this.transport.post<GetNoteResponsePayload>('/note/resolve-hostname', { 'hostname':hostname });
+
+    /**
+     * If note data in API payload exists
+     */
+    if (note) {
+      /**
+       * Insert note to storage
+       */
+      await this.noteStorage.insertNote(note);
+    }
+
+    return note;
+  }
 }

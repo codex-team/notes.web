@@ -12,4 +12,12 @@ export default interface NoteRepository {
    * @returns Note | null - Note instance
    */
   getNoteById(id: number): Promise<Note | null>;
+
+  /**
+   * Returns a Note by hostname
+   *
+   * @param hostname - Custom hostname
+   * @returns Note | null - Note instance
+   */
+  getNoteByHostname(hostname: string): Promise<Note | null>;
 }
