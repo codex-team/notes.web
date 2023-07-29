@@ -13,8 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IconPicture } from '@codexteam/icons';
-import { IconPlus } from '@codexteam/icons';
+import { IconPicture, IconPlus, IconMenu } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
 import type Tab from '@/presentation/components/tabs/types/Tab';
 import Tabs from '@/presentation/components/tabs/Tabs.vue';
@@ -26,15 +25,43 @@ const { t } = useI18n();
 const { currentRoute } = useRouter();
 
 const tabs = computed<Tab[]>(() => {
-  return [
+  const availableTabs = [
     {
       title: t('home.title'),
       path: '/',
       icon: IconPicture,
       isActive: currentRoute.value.name === 'home',
-      isPinned: true,
+      isPinned: true
     },
   ];
+
+  /**
+   * Show inactive settings tab when we are on note view
+   */
+  if ( currentRoute.value.name === 'note_view') {
+    availableTabs.push({
+      title: t('home.settings'),
+      path: currentRoute.value.path + '/settings',
+      icon: IconMenu,
+      isActive: false,
+      isPinned: true
+    })
+  }
+
+  /**
+   * Show active settings tab when we are on settings itself
+   */
+  if ( currentRoute.value.name === 'settings') {
+    availableTabs.push({
+      title: t('home.settings'),
+      path: currentRoute.value.path,
+      icon: IconMenu,
+      isActive: true,
+      isPinned: true
+    })
+  }
+
+  return availableTabs;
 });
 </script>
 

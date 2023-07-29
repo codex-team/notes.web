@@ -28,6 +28,11 @@ export default interface Tab {
   isPinned?: boolean;
 
   /**
+   * Is tab hidden, in other words, ignored during visualization
+   */
+  isHidden?: boolean;
+
+  /**
    * On close callback
    */
   onClose?: () => void;

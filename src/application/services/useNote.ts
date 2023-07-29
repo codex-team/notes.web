@@ -1,5 +1,6 @@
 import { ref, type Ref } from 'vue';
 import type Note from '@/domain/entities/Note';
+import type NotesSettings from '@/domain/entities/NotesSettings';
 import { noteService } from '@/domain';
 
 /**
@@ -12,11 +13,23 @@ interface UseNoteComposableState {
   note: Ref<Note | null>;
 
   /**
+   * NoteSettings ref
+   */
+  noteSettings: Ref<NotesSettings | null>;
+
+  /**
    * Load note
    *
    * @param id
    */
   load: (id: number) => Promise<void>;
+
+  /**
+   * Load note settings
+   *
+   * @param id
+   */
+  loadSettings: (id: number) => Promise<void>;
 
   /**
    * Load note by custom hostname
@@ -41,6 +54,11 @@ export default function (): UseNoteComposableState {
   const note = ref<Note | null>(null);
 
   /**
+   * NoteSettings ref
+   */
+  const noteSettings = ref<NotesSettings | null>(null);
+
+  /**
    * Is loading
    */
   const isLoading = ref<boolean>(false);
@@ -57,6 +75,17 @@ export default function (): UseNoteComposableState {
   };
 
   /**
+   * Get note settings
+   *
+   * @param id - Note id
+   */
+  const loadSettings = async (id: number): Promise<void> => {
+    isLoading.value = true;
+    noteSettings.value = await noteService.getNotesSettingsById(id);
+    isLoading.value = false;
+  };
+
+  /**
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
@@ -67,8 +96,10 @@ export default function (): UseNoteComposableState {
 
   return {
     note,
+    noteSettings,
     load,
     resolveHostname,
+    loadSettings,
     isLoading,
   };
 }
