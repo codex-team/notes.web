@@ -4,7 +4,6 @@
     :value="value"
     class="text__edit"
   >
-    <!-- eslint-disable vue/no-v-html -->
     <div
       v-if="title"
       class="field__text"
@@ -61,14 +60,13 @@ const props = defineProps<{
   user-select: none;
 
   input {
-    border: 1px #fff solid;
+    border: var(--spacing-very-x) var(--color-white) solid;
     background: var(--color-bg);
     color: var(--color-text-contrast);
-    height: 28px;
-    padding-left: 10px;
+    height: var(--size-icon);
+    padding-left: var(--spacing-ms);
     text-decoration: none;
-    background-repeat: repeat-x;
-    border-radius: 5px;
+    border-radius: var(--spacing-xxs);
   }
 }
 
