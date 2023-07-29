@@ -24,6 +24,18 @@ export default class NoteStorage {
   }
 
   /**
+   * Get note by hostname
+   *
+   * @param hostname - Custom hostname
+   * @returns { Note | null } - Note data
+   */
+  public async getNoteByHostname(hostname: string): Promise<Note | null> {
+    console.log('Get note by hostname', hostname);
+
+    return null;
+  }
+
+  /**
    * Insert note
    *
    * @param note - note to insert
