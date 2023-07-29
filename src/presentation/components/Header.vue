@@ -1,8 +1,6 @@
 <template>
   <div class="header">
-    <div class="header__tabs">
-      <Tabs :tabs="tabs" />
-    </div>
+    <Tabs :tabs="tabs" />
   </div>
 </template>
 
@@ -21,6 +19,7 @@ const tabs: Tab[] = [
     path: '/',
     icon: IconPicture,
     isActive: true,
+    isPinned: true,
   },
 ];
 </script>
@@ -32,10 +31,6 @@ const tabs: Tab[] = [
   display: flex;
   align-items: center;
   width: 100%;
-
-  &__tabs {
-    display: flex;
-    gap: var(--spacing-ms);
-  }
+  max-width: 100%;
 }
 </style>

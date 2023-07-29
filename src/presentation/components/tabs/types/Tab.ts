@@ -8,6 +8,11 @@ export default interface Tab {
   title: string;
 
   /**
+   * Link path
+   */
+  path: string;
+
+  /**
    * Tab icon
    */
   icon?: string;
@@ -16,11 +21,6 @@ export default interface Tab {
    * Is tab active
    */
   isActive?: boolean;
-
-  /**
-   * Link path
-   */
-  path: string;
 
   /**
    * Is tab pinned, in other words, can't be closed

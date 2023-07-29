@@ -1,22 +1,22 @@
 <template>
   <router-link
-    :to="tab.path"
+    :to="path"
     class="tab"
-    :class="{'tab--active': tab.isActive}"
+    :class="{'tab--active': isActive}"
   >
     <!-- eslint-disable vue/no-v-html -->
     <div
-      v-if="tab.icon"
+      v-if="icon"
       class="tab__icon"
-      v-html="tab.icon"
+      v-html="icon"
     />
-    <div class="tab__title small">
-      {{ tab.title }}
+    <div class="tab__title">
+      {{ title }}
     </div>
     <div
-      v-if="tab.isActive && tab.isPinned"
+      v-if="isActive && !isPinned"
       class="tab__close"
-      @click="tab.onClose"
+      @click="onClose"
       v-html="IconCross"
     />
   </router-link>
@@ -29,12 +29,7 @@ import type Tab from './types/Tab';
 /**
  * Tab component props
  */
-defineProps<{
-  /**
-   * Properties of a tab
-   */
-  tab: Tab
-}>();
+defineProps<Tab>();
 </script>
 
 <style scoped lang="postcss">
@@ -43,8 +38,8 @@ defineProps<{
 .tab {
   @apply --text-small;
 
-  text-decoration: none;
-  max-width: var(--layout-header-tab-max-width);
+  /* text-decoration: none; */
+  /* max-width: var(--layout-header-tab-max-width); */
   background: var(--color-bg);
   border-radius: var(--radius-m);
   padding: var(--spacing-xxs) var(--spacing-ms);
@@ -66,6 +61,7 @@ defineProps<{
     text-overflow: ellipsis;
     line-clamp: 1;
     white-space: nowrap;
+    max-width: var(--layout-tab-max-width);
   }
 
   &__close {

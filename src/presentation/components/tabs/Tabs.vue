@@ -1,8 +1,8 @@
 <template>
   <div class="tabs">
     <Tab
-      v-for="tab in tabs"
-      :key="tab.path"
+      v-for="(tab, index) in tabs"
+      :key="index"
       v-bind="tab"
     />
   </div>
@@ -12,10 +12,19 @@
 import Tab from './Tab.vue';
 import type TabProps from './types/Tab';
 
-const tabs = defineProps<{
+defineProps<{
   /**
    * Tabs list
    */
   tabs: TabProps[];
 }>();
 </script>
+
+<style lang="postcss">
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(2px, auto));
+  gap: var(--spacing-ms);
+  max-width: 100%;
+}
+</style>
