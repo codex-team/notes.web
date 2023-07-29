@@ -1,20 +1,25 @@
 <template>
   <h1>Note settings</h1>
-  <TextEdit
+  <div v-if="noteSettings">
+    <TextEdit
       :name="'customHostname'"
       :title="'Custom Hostname'"
+      :value=noteSettings.customHostname
       :placeholder="'example: landing.codex.so'"
-    />
-  <div class="control__button">
-    <Button
-    class="header__plus"
-    text="Save"
-    type="primary"
-    :icon="IconSave"
-    @click.passive="onClick"
-  />
+    /> 
+    <div class="control__button">
+        <Button
+          class="header__plus"
+          text="Save"
+          type="primary"
+          :icon="IconSave"
+          @click.passive="onClick"
+        />
+    </div>
   </div>
-  
+  <div v-else-if="isLoading">
+    Loading...
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -22,7 +27,6 @@ import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
 import useNote from '@/application/services/useNote';
-const { loadSettings } = useNote();
 
 const props = defineProps<{
   /**
@@ -30,6 +34,10 @@ const props = defineProps<{
    */
   id: number | null;
 }>();
+
+const { loadSettings, noteSettings, isLoading } = useNote();
+
+loadSettings(props.id);
 
 const emit = defineEmits<{
   click: [event: MouseEvent],
@@ -42,9 +50,9 @@ const emit = defineEmits<{
  */
 function onClick(event: MouseEvent) {
   emit('click', event);
-  loadSettings(props.id);
-  console.log("11");
+  console.log("TODO: implement noteSettings update");
 }
+
 </script>
 
 <style scoped>

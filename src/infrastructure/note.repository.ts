@@ -128,5 +128,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
        */
       await this.noteStorage.updateNotesSettings(notesSettings);
     }
+
+    return notesSettings;
   }
 }

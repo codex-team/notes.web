@@ -1,6 +1,7 @@
 <template>
   <div
     :title="title"
+    :value="value"
     class="text__edit"
   >
     <!-- eslint-disable vue/no-v-html -->
@@ -10,19 +11,22 @@
     >
       {{ title }}
     </div>
-    <input type="text" :name=name :placeholder=placeholder>
+    <input type="text" :name="name" :value="props.value" :placeholder="placeholder">
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
 const props = defineProps<{
   /**
    * Title of the field
    */
   title: string;
+
+  /**
+   * Value of the field
+   */
+   value: string;
 
   /**
    * Variable Name
@@ -34,6 +38,7 @@ const props = defineProps<{
    */
    placeholder?: string;
 }>();
+
 </script>
 
 <style lang="postcss">
