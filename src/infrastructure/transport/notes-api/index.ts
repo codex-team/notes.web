@@ -37,7 +37,7 @@ export default class NotesApiTransport extends AuthtorizableTransport {
      */
     if (!('data' in response)) {
       /**
-       * TODO: Handle error
+       * TODO: Handle error, refresh tokens
        */
 
       return null;
