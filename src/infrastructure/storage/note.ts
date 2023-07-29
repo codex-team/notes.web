@@ -1,5 +1,5 @@
 import type Note from '@/domain/entities/Note';
-import NotesSettings from '@/domain/entities/NotesSettings';
+import type NotesSettings from '@/domain/entities/NotesSettings';
 
 /**
  * Note storage

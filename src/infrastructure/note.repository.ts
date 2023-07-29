@@ -99,10 +99,10 @@ export default class NoteRepository implements NoteRepositoryInterface {
   }
 
   /**
-   * Get NotesSettings by hostname
+   * Get NotesSettings by note ID
    *
-   * @param hostname - Custom hostname
-   * @returns NotesSettings | null - NotesSettings instance
+   * @param id - Note ID
+   * @returns { NotesSettings | null } - NotesSettings instance
    */
   public async getNotesSettingsById(id: number): Promise<NotesSettings | null> {
     const notesSettingsData = await this.noteStorage.getNotesSettingsById(id);

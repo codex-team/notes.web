@@ -4,17 +4,17 @@
     <TextEdit
       :name="'customHostname'"
       :title="'Custom Hostname'"
-      :value=noteSettings.customHostname
+      :value="noteSettings.customHostname"
       :placeholder="'example: landing.codex.so'"
-    /> 
+    />
     <div class="control__button">
-        <Button
-          class="header__plus"
-          text="Save"
-          type="primary"
-          :icon="IconSave"
-          @click.passive="onClick"
-        />
+      <Button
+        class="header__plus"
+        text="Save"
+        type="primary"
+        :icon="IconSave"
+        @click.passive="onClick"
+      />
     </div>
   </div>
   <div v-else-if="isLoading">
@@ -50,7 +50,7 @@ const emit = defineEmits<{
  */
 function onClick(event: MouseEvent) {
   emit('click', event);
-  console.log("TODO: implement noteSettings update");
+  console.log('TODO: implement noteSettings update');
 }
 
 </script>

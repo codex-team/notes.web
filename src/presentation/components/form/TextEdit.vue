@@ -11,7 +11,12 @@
     >
       {{ title }}
     </div>
-    <input type="text" :name="name" :value="props.value" :placeholder="placeholder">
+    <input
+      type="text"
+      :name="name"
+      :value="props.value"
+      :placeholder="placeholder"
+    >
     <slot />
   </div>
 </template>
@@ -34,8 +39,8 @@ const props = defineProps<{
   name: string;
 
    /**
-   * Placeholder value
-   */
+    * Placeholder value
+    */
    placeholder?: string;
 }>();
 

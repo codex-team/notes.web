@@ -31,7 +31,7 @@ const tabs = computed<Tab[]>(() => {
       path: '/',
       icon: IconPicture,
       isActive: currentRoute.value.name === 'home',
-      isPinned: true
+      isPinned: true,
     },
   ];
 
@@ -44,8 +44,8 @@ const tabs = computed<Tab[]>(() => {
       path: currentRoute.value.path + '/settings',
       icon: IconMenu,
       isActive: false,
-      isPinned: true
-    })
+      isPinned: true,
+    });
   }
 
   /**
@@ -57,8 +57,8 @@ const tabs = computed<Tab[]>(() => {
       path: currentRoute.value.path,
       icon: IconMenu,
       isActive: true,
-      isPinned: true
-    })
+      isPinned: true,
+    });
   }
 
   return availableTabs;
