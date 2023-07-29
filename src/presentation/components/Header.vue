@@ -1,34 +1,25 @@
 <template>
   <div class="header">
-    <div class="header__tabs">
-      <Tab
-        v-for="tab in tabs"
-        :key="tab.path"
-        :title="tab.title"
-        :path="tab.path"
-        :icon="tab.icon"
-        :is-pinned="tab.isPinned"
-        :is-active="tab.isActive"
-        :on-close="tab.onClose"
-      />
-    </div>
+    <Tabs :tabs="tabs" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import Tab from '@/presentation/components/tabs/Tab.vue';
+
 import { IconPicture } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
-import TabProps from '@/presentation/components/tabs/TabProps';
+import type Tab from './tabs/types/Tab';
+import Tabs from './tabs/Tabs.vue';
 
 const { t } = useI18n();
 
-const tabs: TabProps[] = [
+const tabs: Tab[] = [
   {
     title: t('home.title'),
     path: '/',
     icon: IconPicture,
     isActive: true,
+    isPinned: true,
   },
 ];
 </script>
@@ -40,10 +31,6 @@ const tabs: TabProps[] = [
   display: flex;
   align-items: center;
   width: 100%;
-
-  &__tabs {
-    display: flex;
-    gap: var(--spacing-ms);
-  }
+  max-width: 100%;
 }
 </style>

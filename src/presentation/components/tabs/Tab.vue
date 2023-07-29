@@ -10,7 +10,7 @@
       class="tab__icon"
       v-html="icon"
     />
-    <div class="tab__title small">
+    <div class="tab__title">
       {{ title }}
     </div>
     <div
@@ -24,11 +24,12 @@
 
 <script setup lang="ts">
 import { IconCross } from '@codexteam/icons';
-import TabProps from '@/presentation/components/tabs/TabProps';
+import type Tab from './types/Tab';
+
 /**
  * Tab component props
  */
-defineProps<TabProps>();
+defineProps<Tab>();
 </script>
 
 <style scoped lang="postcss">
@@ -37,8 +38,6 @@ defineProps<TabProps>();
 .tab {
   @apply --text-small;
 
-  text-decoration: none;
-  max-width: var(--layout-header-tab-max-width);
   background: var(--color-bg);
   border-radius: var(--radius-m);
   padding: var(--spacing-xxs) var(--spacing-ms);
@@ -60,6 +59,7 @@ defineProps<TabProps>();
     text-overflow: ellipsis;
     line-clamp: 1;
     white-space: nowrap;
+    max-width: var(--layout-tab-max-width);
   }
 
   &__close {
@@ -78,3 +78,4 @@ defineProps<TabProps>();
   }
 }
 </style>
+./types/Tab
