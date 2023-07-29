@@ -1,10 +1,5 @@
 <template>
   <Header />
-  <a
-    :href="loginUrl"
-  >
-    Login
-  </a>
   <Layout>
     <router-view />
   </Layout>
@@ -16,14 +11,13 @@ import Header from '@/presentation/components/header/Header.vue';
 import Layout from '@/presentation/layouts/Layout.vue';
 
 useColorMode();
-
-const loginUrl = import.meta.env.VITE_GOOGLE_OAUTH_URL as string;
 </script>
 
 <style lang="postcss">
 html,
 body {
   height: 100%;
+  font-size: 16px;
 }
 
 #app {
