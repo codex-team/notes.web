@@ -19,6 +19,11 @@ interface UseNoteComposableState {
   load: (id: number) => Promise<void>;
 
   /**
+   * Load note by custom hostname
+   */
+  resolveHostname: () => Promise<void>;
+
+  /**
    * Is loading
    */
   isLoading: Ref<boolean>;
@@ -51,9 +56,19 @@ export default function (): UseNoteComposableState {
     isLoading.value = false;
   };
 
+  /**
+   * Get note by custom hostname
+   */
+  const resolveHostname = async (): Promise<void> => {
+    isLoading.value = true;
+    note.value = await noteService.getNoteByHostname(location.hostname);
+    isLoading.value = false;
+  };
+
   return {
     note,
     load,
+    resolveHostname,
     isLoading,
   };
 }
