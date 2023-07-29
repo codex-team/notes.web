@@ -1,10 +1,16 @@
 import type ApiResponse from '@/infrastructure/transport/notes-api/types/ApiResponse';
 import AuthtorizableTransport from '@/infrastructure/transport/authtorizable.transport';
+import type Cookies from '@/infrastructure/transport/cookie';
 
 /**
  * Notes api transport
  */
 export default class NotesApiTransport extends AuthtorizableTransport {
+  /**
+   * Cookies manager with authorization data
+   */
+  private readonly cookies: Cookies;
+
   /**
    * Constructor for notes api transport
    *
@@ -21,6 +27,9 @@ export default class NotesApiTransport extends AuthtorizableTransport {
    * @param endpoint - API endpoint
    */
   public async get<Payload>(endpoint: string): Promise<Payload | null> {
+    if (!this.accessToken) {
+      this.accessToken = this.cookies.get('accessToken');
+    }
     const response = await super.get<ApiResponse<Payload>>(endpoint);
 
     /**

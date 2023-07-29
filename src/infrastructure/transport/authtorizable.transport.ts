@@ -1,15 +1,7 @@
 import Transport from '@/infrastructure/transport';
-import jwtDecode from 'jwt-decode';
 
 /**
- * Access token payload, which contains expiration time
- */
-interface AccessTokenPayload {
-  exp: number;
-}
-
-/**
- *
+ * Transport with authorization, requires access token
  */
 export default class AuthtorizableTransport extends Transport {
   /**
@@ -27,24 +19,21 @@ export default class AuthtorizableTransport extends Transport {
   }
 
   /**
+   * Get access token
+   *
+   * @returns { string | null } - Access token
+   */
+  public get accessToken(): string | null {
+    return this._accessToken;
+  }
+
+  /**
    * Set access token
    *
    * @param accessToken - token to set
    */
   public set accessToken(accessToken: string) {
     this._accessToken = accessToken;
-  }
-
-  /**
-   * Get decoded access token
-   */
-  public isAccessTokenTokenValid(): boolean {
-    if (!this._accessToken) {
-      return false;
-    }
-    const { exp } = jwtDecode<AccessTokenPayload>(this._accessToken);
-
-    return exp >= Date.now();
   }
 
   /**

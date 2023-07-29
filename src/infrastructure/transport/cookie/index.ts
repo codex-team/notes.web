@@ -3,7 +3,7 @@ import { getCookie, setCookie } from 'typescript-cookie';
 /**
  * Cookie storage implementation to manage cookies
  */
-export default class CookieStorage {
+export default class Cookies {
   /**
    * Empty constructor for cookie storage
    */

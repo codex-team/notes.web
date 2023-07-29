@@ -1,11 +1,16 @@
 /**
  * Props for Tab component
  */
-export default interface TabProps {
+export default interface Tab {
   /**
    * Tab title
    */
   title: string;
+
+  /**
+   * Link path
+   */
+  path: string;
 
   /**
    * Tab icon
@@ -16,11 +21,6 @@ export default interface TabProps {
    * Is tab active
    */
   isActive?: boolean;
-
-  /**
-   * Link path
-   */
-  path: string;
 
   /**
    * Is tab pinned, in other words, can't be closed
