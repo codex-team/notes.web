@@ -25,9 +25,6 @@ import { computed } from 'vue';
 const { t } = useI18n();
 const { currentRoute } = useRouter();
 
-console.log('currentRoute.value', currentRoute.value);
-
-
 const tabs = computed<Tab[]>(() => {
   return [
     {
