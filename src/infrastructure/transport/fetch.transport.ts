@@ -15,12 +15,14 @@ export default class FetchTransport {
    *
    * @template Response - Response data type
    * @param endpoint - API endpoint
+   * @param headers - Request headers
    * @returns { Promise<Response> } - Response data
    */
-  public async get<Response>(endpoint: string): Promise<Response> {
+  public async get<Response>(endpoint: string, headers?: Record<string, string>): Promise<Response> {
     // eslint-disable-next-line no-undef
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'GET',
+      headers,
     });
 
     return await response.json();

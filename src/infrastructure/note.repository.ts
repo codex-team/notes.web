@@ -3,6 +3,7 @@ import type Note from '@/domain/entities/Note';
 import type NoteStorage from '@/infrastructure/storage/note';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
+import type CookieStorage from '@/infrastructure/storage/cookie';
 
 /**
  * Note repository
@@ -14,6 +15,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
   private readonly transport: NotesApiTransport;
 
   /**
+   * Cookie storage manager
+   */
+  private readonly cookieStorage: CookieStorage;
+
+  /**
    * Note storage
    */
   private noteStorage: NoteStorage;
@@ -23,8 +29,10 @@ export default class NoteRepository implements NoteRepositoryInterface {
    *
    * @param noteStorage - note storage instance
    * @param notesApiTransport - notes api transport instance
+   * @param cookieStorage - cookie storage instance
    */
-  constructor(noteStorage: NoteStorage, notesApiTransport: NotesApiTransport) {
+  constructor(noteStorage: NoteStorage, notesApiTransport: NotesApiTransport, cookieStorage: CookieStorage) {
+    this.cookieStorage = cookieStorage;
     this.noteStorage = noteStorage;
     this.transport = notesApiTransport;
   }

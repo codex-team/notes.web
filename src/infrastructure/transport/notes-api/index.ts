@@ -1,10 +1,10 @@
-import Transport from '@/infrastructure/transport';
 import type ApiResponse from '@/infrastructure/transport/notes-api/types/ApiResponse';
+import AuthtorizableTransport from '@/infrastructure/transport/authtorizable.transport';
 
 /**
  * Notes api transport
  */
-export default class NotesApiTransport extends Transport {
+export default class NotesApiTransport extends AuthtorizableTransport {
   /**
    * Constructor for notes api transport
    *
