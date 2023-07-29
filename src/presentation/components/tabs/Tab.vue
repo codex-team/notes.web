@@ -32,7 +32,11 @@ defineProps<TabProps>();
 </script>
 
 <style scoped lang="postcss">
+@import '@/presentation/styles/typography.pcss';
+
 .tab {
+  @apply --text-small;
+
   text-decoration: none;
   max-width: var(--layout-header-tab-max-width);
   background: var(--color-bg);
@@ -45,7 +49,6 @@ defineProps<TabProps>();
   gap: var(--spacing-very-x);
   cursor: pointer;
   user-select: none;
-  line-clamp: 1;
 
   &--active {
     color: var(--color-text-heading);
@@ -62,6 +65,7 @@ defineProps<TabProps>();
   &__close {
     height: var(--size-icon);
     width: var(--size-icon);
+    margin-right: -7px;
     flex-shrink: 0;
     color: var(--color-text-main);
     opacity: 30%;
