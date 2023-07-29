@@ -7,11 +7,12 @@ const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
 
 const routes = [
   {
+    name: 'home',
     path: '/',
     component: Home,
     beforeEnter: () => {
       // Custom hostname should return page instead of homepage
-      if (location.hostname != websiteHostname) {
+      if (!import.meta.env.DEV && location.hostname != websiteHostname) {
         return '/view/#/'; // TODO: modify component template instead of redirect
       }
 
@@ -24,6 +25,13 @@ const routes = [
     props: route => ({
       id: Number(route.params.id),
     }),
+  },
+  {
+    path: '/new',
+    component: Note,
+    props: {
+      id: null,
+    },
   },
   {
     path: '/view/',
