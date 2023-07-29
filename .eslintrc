@@ -13,6 +13,7 @@
     "vue/multi-word-component-names": "off",
     "jsdoc/check-tag-names": ["error", {
       "definedTags": ["template"]
-    }]
+    }],
+    "jsdoc/require-param-type": "off",
   }
 }

@@ -9,7 +9,8 @@
 
 <style scoped>
   .center-container {
-    display: flex;
-    justify-content: center;
+    width: 100%;
+    max-width: var(--layout-content-width);
+    margin: 0 auto;
   }
 </style>

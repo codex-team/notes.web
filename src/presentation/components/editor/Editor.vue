@@ -28,10 +28,10 @@ import InlineCode from '@editorjs/inline-code';
 import Marker from '@editorjs/marker';
 
 /**
- * Define the props for thecomponent
+ * Define the props for the component
  */
 const props = defineProps<{
-  data: OutputData,
+  data?: OutputData,
 }>();
 
 onMounted(() => {
@@ -45,7 +45,12 @@ onMounted(() => {
      * Block Tools
      */
     tools: {
-      header: Header,
+      header: {
+        class: Header,
+        config: {
+          placeholder: 'Title...',
+        },
+      },
       image: Image,
       code: CodeTool,
       list: List,
