@@ -9,23 +9,18 @@
       type="transparent"
       :icon="IconPlus"
     />
-
-    <Button
-      class="header__login"
-      :link="loginUrl"
-      :text="t('auth.login')"
-      :icon="IconUser"
-    />
+    <LoginButton />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { IconPicture } from '@codexteam/icons';
-import { IconPlus, IconUser } from '@codexteam/icons';
+import { IconPlus } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
 import type Tab from '@/presentation/components/tabs/types/Tab';
 import Tabs from '@/presentation/components/tabs/Tabs.vue';
 import Button from '@/presentation/components/button/Button.vue';
+import LoginButton from './HeaderLoginButton.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 
@@ -43,11 +38,6 @@ const tabs = computed<Tab[]>(() => {
     },
   ];
 });
-
-/**
- * Google OAuth URL
- */
-const loginUrl = import.meta.env.VITE_GOOGLE_OAUTH_URL as string;
 </script>
 
 <style scoped lang="postcss">
