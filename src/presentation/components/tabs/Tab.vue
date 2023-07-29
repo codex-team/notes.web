@@ -1,22 +1,22 @@
 <template>
   <router-link
-    :to="path"
+    :to="tab.path"
     class="tab"
-    :class="{'tab--active': isActive}"
+    :class="{'tab--active': tab.isActive}"
   >
     <!-- eslint-disable vue/no-v-html -->
     <div
-      v-if="icon"
+      v-if="tab.icon"
       class="tab__icon"
-      v-html="icon"
+      v-html="tab.icon"
     />
     <div class="tab__title small">
-      {{ title }}
+      {{ tab.title }}
     </div>
     <div
-      v-if="isActive && !isPinned"
+      v-if="tab.isActive && tab.isPinned"
       class="tab__close"
-      @click="onClose"
+      @click="tab.onClose"
       v-html="IconCross"
     />
   </router-link>
@@ -24,11 +24,17 @@
 
 <script setup lang="ts">
 import { IconCross } from '@codexteam/icons';
-import TabProps from '@/presentation/components/tabs/TabProps';
+import type Tab from './types/Tab';
+
 /**
  * Tab component props
  */
-defineProps<TabProps>();
+defineProps<{
+  /**
+   * Properties of a tab
+   */
+  tab: Tab
+}>();
 </script>
 
 <style scoped lang="postcss">
@@ -78,3 +84,4 @@ defineProps<TabProps>();
   }
 }
 </style>
+./types/Tab

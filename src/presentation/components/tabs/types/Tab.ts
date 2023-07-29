@@ -1,7 +1,7 @@
 /**
  * Props for Tab component
  */
-export default interface TabProps {
+export default interface Tab {
   /**
    * Tab title
    */
