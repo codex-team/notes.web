@@ -13,11 +13,12 @@
 </template>
 
 <script setup lang="ts">
-  import Editor from '@/presentation/components/editor/Editor.vue';
-  import useNote from '@/application/services/useNote';
+import Editor from '@/presentation/components/editor/Editor.vue';
+import useNote from '@/application/services/useNote';
 
-  const { note, resolveHostname, isLoading } = useNote();
-  resolveHostname();
+const { note, resolveHostname, isLoading } = useNote();
+
+resolveHostname();
 </script>
 
 <style lang="postcss" scoped>

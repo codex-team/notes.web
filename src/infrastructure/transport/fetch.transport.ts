@@ -33,6 +33,7 @@ export default class FetchTransport {
    *
    * @template Response - Response data type
    * @param endpoint - API endpoint
+   * @param payload - JSON POST data body
    * @returns { Promise<Response> } - Response data
    */
   public async post<Response>(endpoint: string, payload: JSONValue): Promise<Response> {
@@ -41,9 +42,10 @@ export default class FetchTransport {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
     return await response.json();
