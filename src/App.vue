@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 import { useColorMode } from '@vueuse/core';
-import Header from '@/presentation/components/Header.vue';
+import Header from '@/presentation/components/header/Header.vue';
 import Layout from '@/presentation/layouts/Layout.vue';
 
 useColorMode();

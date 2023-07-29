@@ -3,6 +3,7 @@ import Note from '@/presentation/pages/Note.vue';
 
 const routes = [
   {
+    name: 'home',
     path: '/',
     component: Home,
   },
@@ -13,6 +14,13 @@ const routes = [
       id: Number(route.params.id),
     }),
   },
+  {
+    path: '/new',
+    component: Note,
+    props: {
+      id: null,
+    },
+  }
 ];
 
 export default routes;
