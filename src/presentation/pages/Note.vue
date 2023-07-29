@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import Editor from '@/presentation/components/Editor/Editor.vue';
+import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
 
 const props = defineProps({
