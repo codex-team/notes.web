@@ -38,8 +38,6 @@ defineProps<Tab>();
 .tab {
   @apply --text-small;
 
-  /* text-decoration: none; */
-  /* max-width: var(--layout-header-tab-max-width); */
   background: var(--color-bg);
   border-radius: var(--radius-m);
   padding: var(--spacing-xxs) var(--spacing-ms);
