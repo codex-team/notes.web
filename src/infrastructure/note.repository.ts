@@ -82,7 +82,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
     /**
      * Get note data from API
      */
-    const note = await this.transport.post<GetNoteResponsePayload>('/note/resolve-hostname', { 'hostname':hostname });
+    const note = await this.transport.get<GetNoteResponsePayload>('/note/resolve-hostname/' + encodeURIComponent(hostname));
 
     /**
      * If note data in API payload exists
