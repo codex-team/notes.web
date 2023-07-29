@@ -12,7 +12,7 @@ const routes = [
     component: Home,
     beforeEnter: () => {
       // Custom hostname should return page instead of homepage
-      if (location.hostname != websiteHostname) {
+      if (!import.meta.env.DEV && location.hostname != websiteHostname) {
         return '/view/#/'; // TODO: modify component template instead of redirect
       }
 
