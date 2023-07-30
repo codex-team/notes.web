@@ -36,6 +36,8 @@ export default class UserRepository implements UserRepositoryInterface {
 
   /**
    * Removes session by refresh token
+   *
+   * @param refreshToken - token used to remove session
    */
   public async removeSession(): Promise<void> {
     const refreshToken = this.authStorage.getRefreshToken();

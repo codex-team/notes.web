@@ -9,12 +9,12 @@ interface UsePostMessageComposableState {
   /**
    * Adds listener if it doesn't exist and saves a callback
    */
-  on: (name: string, callback: Callback) => void;
+  on: (callback: Callback) => number;
 
   /**
-   * Removes callback by name
+   * Removes callback by id
    */
-  off: (name: string) => void;
+  off: (callbackId: number) => void;
 }
 
 export const usePostMessage = createSharedComposable((): UsePostMessageComposableState => {
@@ -26,16 +26,16 @@ export const usePostMessage = createSharedComposable((): UsePostMessageComposabl
   /**
    * Callbacks subscribed on postMessage events
    */
-  const callbacks = new Map<string, Callback>();
+  const callbacks = new Map<number, Callback>();
 
   /**
    * Creates listeners, binds it to the post message and remember it
    */
   function addListener(): void {
     listener = (event: MessageEvent) => {
-      const callback = callbacks.get(event.data.name);
-
-      callback(event);
+      callbacks.forEach((callback) => {
+        callback(event);
+      });
     };
 
     /**
@@ -60,24 +60,27 @@ export const usePostMessage = createSharedComposable((): UsePostMessageComposabl
   /**
    * Adds listener if it doesn't exist and saves a callback
    *
-   * @param name - Name of the event
    * @param callback - Callback to be called when a message is received
    */
-  function on(name: string, callback: Callback): void {
+  function on(callback: Callback): number {
     if (listener === null) {
       addListener();
     }
 
-    callbacks.set(name, callback);
+    const callbackId = new Date().getTime();
+
+    callbacks.set(callbackId, callback);
+
+    return callbackId;
   }
 
   /**
    * Removes callback by id
    *
-   * @param name - name of the event to be removed
+   * @param callbackId - id of callback to be removed
    */
-  function off(name: string): void {
-    callbacks.delete(name);
+  function off(callbackId: number): void {
+    callbacks.delete(callbackId);
 
     if (callbacks.size === 0) {
       removeListener();
