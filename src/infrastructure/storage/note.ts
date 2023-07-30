@@ -50,11 +50,11 @@ export default class NoteStorage {
   /**
    * Get notesSettings by id
    *
-   * @param id - Note id
+   * @param publicId - Note publicId
    * @returns { NotesSettings | null } - Note data
    */
-  public async getNotesSettingsById(id: number): Promise<NotesSettings | null> {
-    console.log('Get notesSettings by id', id);
+  public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
+    console.log('Get notesSettings by publicId', publicId);
 
     return null;
   }

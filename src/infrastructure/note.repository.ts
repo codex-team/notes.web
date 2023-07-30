@@ -33,11 +33,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
   /**
    * Get note by id
    *
-   * @param id - Note id
+   * @param publicId - Note publicId
    * @returns { Note | null } - Note instance
    */
-  public async getNoteById(id: string): Promise<Note | null> {
-    const noteData = await this.noteStorage.getNoteById(id);
+  public async getNoteById(publicId: string): Promise<Note | null> {
+    const noteData = await this.noteStorage.getNoteById(publicId);
 
     /**
      * If note data in storage exists
@@ -49,7 +49,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
     /**
      * Get note data from API
      */
-    const note = await this.transport.get<GetNoteResponsePayload>('/note/' + id);
+    const note = await this.transport.get<GetNoteResponsePayload>('/note/' + publicId);
 
     /**
      * If note data in API payload exists
@@ -101,11 +101,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
   /**
    * Get NotesSettings by note ID
    *
-   * @param id - Note ID
+   * @param publicId - Note publicId
    * @returns { NotesSettings | null } - NotesSettings instance
    */
-  public async getNotesSettingsById(id: number): Promise<NotesSettings | null> {
-    const notesSettingsData = await this.noteStorage.getNotesSettingsById(id);
+  public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
+    const notesSettingsData = await this.noteStorage.getNotesSettingsById(publicId);
 
     /**
      * If notesSettings data in storage exists
@@ -117,7 +117,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
     /**
      * Get notesSettingsData data from API
      */
-    const notesSettings = await this.transport.get<GetNotesSettingsResponsePayload>('/note/' + id + '/settings');
+    const notesSettings = await this.transport.get<GetNotesSettingsResponsePayload>('/note/' + publicId + '/settings');
 
     /**
      * If note data in API payload exists

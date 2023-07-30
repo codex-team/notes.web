@@ -20,14 +20,14 @@ interface UseNoteComposableState {
   /**
    * Load note
    *
-   * @param id
+   * @param publicId - note publicId
    */
   load: (publicId: string) => Promise<void>;
 
   /**
    * Load note settings
    *
-   * @param id
+   * @param publicId - note publicId
    */
   loadSettings: (publicId: string) => Promise<void>;
 
@@ -66,22 +66,22 @@ export default function (): UseNoteComposableState {
   /**
    * Get note
    *
-   * @param id - Note id
+   * @param publicId - Note publicId
    */
-  const load = async (id: number): Promise<void> => {
+  const load = async (publicId: string): Promise<void> => {
     isLoading.value = true;
-    note.value = await noteService.getNoteById(id);
+    note.value = await noteService.getNoteById(publicId);
     isLoading.value = false;
   };
 
   /**
    * Get note settings
    *
-   * @param id - Note id
+   * @param publicId - Note publicId
    */
-  const loadSettings = async (id: number): Promise<void> => {
+  const loadSettings = async (publicId: string): Promise<void> => {
     isLoading.value = true;
-    noteSettings.value = await noteService.getNotesSettingsById(id);
+    noteSettings.value = await noteService.getNotesSettingsById(publicId);
     isLoading.value = false;
   };
 
