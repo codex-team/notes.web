@@ -36,6 +36,7 @@ export default class UserService {
     /**
      * @todo load user data
      */
+    alert('User authorized');
   }
 
   /**

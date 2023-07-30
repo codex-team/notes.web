@@ -1,4 +1,5 @@
 import { usePostMessage } from './usePostMessage';
+import { userService } from '@/domain';
 
 interface UseOAuthComposableState {
   /**
@@ -49,6 +50,10 @@ export default function useOAuth(): UseOAuthComposableState {
 
     callbackId = on((event) => {
       console.log('post message!', event);
+
+      if ('accessToken' in event.data && 'refreshToken' in event.data) {
+        userService.acceptSession(event.data.accessToken, event.data.refreshToken);
+      }
     });
   }
 
