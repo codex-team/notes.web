@@ -95,11 +95,11 @@ export default function (): UseNoteComposableState {
   /**
    * Update settings
    *
-   * @param publicId - Note publicId
+   * @param newSettings - Note new settings
    */
-  const updateSettings = async (noteSettings: NotesSettings): Promise<void> => {
+  const updateSettings = async (newSettings: NotesSettings): Promise<void> => {
     isLoading.value = true;
-    await noteService.updateNoteSettings(noteSettings);
+    await noteService.updateNoteSettings(newSettings);
     isLoading.value = false;
   };
 

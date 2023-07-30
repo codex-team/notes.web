@@ -37,5 +37,5 @@ export default interface NoteRepositoryInterface {
    * @returns NotesSettings | null - NotesSettings instance
    */
   updateNotesSettings(newSettings: NotesSettings): Promise<NotesSettings | null>;
-  
+
 }

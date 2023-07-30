@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
@@ -58,8 +58,7 @@ const emit = defineEmits<{
  */
 function onClick(event: MouseEvent) {
   emit('click', event);
-  console.log(noteSettings.value);
-  // updateSettings(noteSettings.value);
+  updateSettings(noteSettings.value);
 }
 
 </script>

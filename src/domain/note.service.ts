@@ -59,5 +59,4 @@ export default class NoteService {
   public async updateNoteSettings(newSettings: NotesSettings ): Promise<NotesSettings | null> {
     return await this.noteRepository.updateNotesSettings(newSettings);
   }
-  
 }
