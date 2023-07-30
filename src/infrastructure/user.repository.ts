@@ -32,6 +32,10 @@ export default class UserRepository implements UserRepositoryInterface {
     });
 
     console.log('restoreSession response', response);
+
+    /**
+     * @todo save new tokens, reauthorize transport
+     */
   }
 
   /**
