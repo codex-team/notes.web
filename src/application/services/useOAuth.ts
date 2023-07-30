@@ -53,6 +53,8 @@ export default function useOAuth(): UseOAuthComposableState {
 
       if ('accessToken' in event.data && 'refreshToken' in event.data) {
         userService.acceptSession(event.data.accessToken, event.data.refreshToken);
+
+        off(callbackId as number);
       }
     });
   }
