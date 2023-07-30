@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: NoteX openapi
+  description: Fastify REST API
+  version: 0.1.0
+components:
+  schemas: {}
+paths:
+  "/note/{id}":
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /note/:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  "/note/resolve-hostname/{hostname}":
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /oauth/google/callback:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /auth/:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /auth/logout:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /user/myself:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /ai/complete:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /oauth/google/login:
+    get:
+      tags: []
+      responses:
+        "200":
+          description: Default Response
+servers:
+  - url: http://localhost

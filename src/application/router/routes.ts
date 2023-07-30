@@ -2,6 +2,7 @@ import Home from '@/presentation/pages/Home.vue';
 import Note from '@/presentation/pages/Note.vue';
 import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
+import Marketplace from '@/presentation/pages/Marketplace.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -27,6 +28,11 @@ const routes = [
     props: route => ({
       id: Number(route.params.id),
     }),
+  },
+  {
+    name: 'editorTools_view',
+    path: '/marketplace',
+    component: Marketplace,
   },
   {
     name: 'new',

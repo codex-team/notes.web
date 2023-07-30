@@ -8,7 +8,8 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.vue",
-    "lint:fix": "yarn lint --fix"
+    "lint:fix": "yarn lint --fix",
+    "sync:api": "npx openapi-codegen gen notex"
   },
   "dependencies": {
     "@codexteam/icons": "^0.3.0",
@@ -26,6 +27,8 @@
     "@editorjs/raw": "^2.4.0",
     "@editorjs/table": "^2.2.2",
     "@editorjs/warning": "^1.3.0",
+    "@openapi-codegen/cli": "^2.0.0",
+    "@openapi-codegen/typescript": "^7.0.0",
     "@vueuse/core": "^10.2.1",
     "eslint": "^8.42.0",
     "eslint-config-codex": "^1.8.1",
