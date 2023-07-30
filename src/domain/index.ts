@@ -1,5 +1,6 @@
 import NoteService from '@/domain/note.service';
 import AuthService from '@/domain/auth.service';
+import UserService from '@/domain/user.service';
 import { init as initRepositories } from '@/infrastructure';
 import EventBus from './event-bus';
 
@@ -23,9 +24,11 @@ const repositories = initRepositories(apiUrl, eventBus);
  */
 const noteService = new NoteService(repositories.note);
 const authService = new AuthService(eventBus, repositories.auth);
+const userService = new UserService(eventBus, repositories.user);
 
 export {
   noteService,
-  authService
+  authService,
+  userService
 };
 

@@ -36,31 +36,17 @@ export default function useOAuth(): UseOAuthComposableState {
     const left = (window.screen.width - popupWidth) / 2;
     const top = (window.screen.height - popupHeight) / 2;
 
-    const win = window.open(
+    window.open(
       loginUrl,
       'oauth',
       `popup=true, width=600, height=400, left=${left}, top=${top}`
     );
 
-    /**
-     * @todo test in safari
-     */
-    win.addEventListener('beforeunload', (e) => {
-      /**
-       * Chrome doesn't fire beforeunload without this
-       *
-       * @see https://stackoverflow.com/a/37948250
-       */
-      e.returnValue = 'CodeX was here';
-
-      if (callbackId !== null) {
-        off(callbackId);
-      }
-    });
+    if (callbackId !== null) {
+      off(callbackId);
+    }
 
     callbackId = on((event) => {
-      console.log('post message!', event);
-
       if ('accessToken' in event.data && 'refreshToken' in event.data) {
         authService.acceptSession(event.data.accessToken, event.data.refreshToken);
 

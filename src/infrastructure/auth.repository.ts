@@ -12,7 +12,7 @@ export default class AuthRepository implements AuthRepositoryInterface {
   private readonly transport: NotesApiTransport;
 
   /**
-   * Note repository constructor
+   * Repository constructor
    *
    * @param authStorage - stores refresh token
    * @param notesApiTransport - notes api transport instance

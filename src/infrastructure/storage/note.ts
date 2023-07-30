@@ -6,13 +6,6 @@ import type NotesSettings from '@/domain/entities/NotesSettings';
  */
 export default class NoteStorage {
   /**
-   * Note storage constructor
-   */
-  constructor() {
-    console.log('Created note storage');
-  }
-
-  /**
    * Get note by id
    *
    * @param publicId - Note publicId

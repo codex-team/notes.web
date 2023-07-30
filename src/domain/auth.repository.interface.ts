@@ -1,5 +1,5 @@
 /**
- * Auth repository interface provided by domain
+ * Repository interface describes the methods that required by domain for its business logic implementation
  */
 export default interface AuthRepositoryInterface {
   /**
