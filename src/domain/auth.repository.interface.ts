@@ -1,7 +1,7 @@
 /**
- * User repository interface provided by domain
+ * Auth repository interface provided by domain
  */
-export default interface UserRepositoryInterface {
+export default interface AuthRepositoryInterface {
   /**
    * Get new session by refresh token
    *

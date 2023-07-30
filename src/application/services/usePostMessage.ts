@@ -81,6 +81,10 @@ export const usePostMessage = createSharedComposable((): UsePostMessageComposabl
    */
   function off(callbackId: number): void {
     callbacks.delete(callbackId);
+    console.log('callback deleted', callbackId);
+    console.log('callbacks', callbacks);
+
+
 
     if (callbacks.size === 0) {
       removeListener();

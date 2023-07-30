@@ -1,24 +1,24 @@
-import type UserRepository from '@/domain/user.repository.interface';
+import type AuthRepository from '@/domain/auth.repository.interface';
 import type EventBus from '@/domain/event-bus';
-import UserAuthorizedEvent from './event-bus/events/UserAuthorized';
+import AuthCompletedEvent from './event-bus/events/AuthCompleted';
 
 /**
- * Business logic for User
+ * Business logic for Authentication
  */
-export default class UserService {
+export default class AuthService {
   /**
-   * Facade for accessing user data
+   * Facade for accessing auth data
    */
-  private readonly repository: UserRepository;
+  private readonly repository: AuthRepository;
 
   /**
    * Note Service constructor
    *
    * @param eventBus - Common domain event bus
-   * @param userRepository - User repository instance
+   * @param authRepository - Auth repository instance
    */
-  constructor(private readonly eventBus: EventBus, userRepository: UserRepository) {
-    this.repository = userRepository;
+  constructor(private readonly eventBus: EventBus, authRepository: AuthRepository) {
+    this.repository = authRepository;
   }
 
   /**
@@ -28,7 +28,7 @@ export default class UserService {
    * @param refreshToken - token got from backend. Used to refresh access token
    */
   public async acceptSession(accessToken: string, refreshToken: string): Promise<void> {
-    this.eventBus.dispatchEvent(new UserAuthorizedEvent({
+    this.eventBus.dispatchEvent(new AuthCompletedEvent({
       accessToken,
       refreshToken,
     }));

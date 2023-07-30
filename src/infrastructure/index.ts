@@ -1,11 +1,11 @@
 import NoteRepository from '@/infrastructure/note.repository';
 import NoteStorage from '@/infrastructure/storage/note';
 import NotesApiTransport from '@/infrastructure/transport/notes-api';
-import UserRepository from '@/infrastructure/user.repository';
+import AuthRepository from '@/infrastructure/auth.repository';
 import AuthStorage from '@/infrastructure/storage/auth';
 import type EventBus from '@/domain/event-bus';
-import type UserAuthorizedEvent from '@/domain/event-bus/events/UserAuthorized';
-import { USER_AUTHORIZED_EVENT_NAME } from '@/domain/event-bus/events/UserAuthorized';
+import type AuthCompletedEvent from '@/domain/event-bus/events/AuthCompleted';
+import { AUTH_COMPLETED_EVENT_NAME } from '@/domain/event-bus/events/AuthCompleted';
 
 /**
  * Repositories
@@ -17,9 +17,9 @@ export interface Repositories {
   note: NoteRepository;
 
   /**
-   * Working with User data
+   * Working with Auth data
    */
-  user: UserRepository;
+  auth: AuthRepository;
 }
 
 /**
@@ -43,7 +43,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   /**
    * When we got authorized
    */
-  eventBus.addEventListener(USER_AUTHORIZED_EVENT_NAME, (event: UserAuthorizedEvent) => {
+  eventBus.addEventListener(AUTH_COMPLETED_EVENT_NAME, (event: AuthCompletedEvent) => {
     /**
      * Authorize API transport
      */
@@ -59,10 +59,10 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
    * Init repositories
    */
   const noteRepository = new NoteRepository(noteStorage, notesApiTransport);
-  const userRepository = new UserRepository(authStorage, notesApiTransport);
+  const authRepository = new AuthRepository(authStorage, notesApiTransport);
 
   return {
     note: noteRepository,
-    user: userRepository,
+    auth: authRepository,
   };
 }
