@@ -62,6 +62,27 @@ export default class FetchTransport {
   }
 
   /**
+   * Make PATCH request to update some resource
+   *
+   * @template Response - Response data type
+   * @param endpoint - API endpoint
+   * @param payload - JSON POST data body
+   */
+  public async patch<Response>(endpoint: string, payload?: JSONValue): Promise<Response> {
+    const response = await fetch(this.baseUrl + endpoint, {
+      method: 'PATCH',
+      headers: Object.assign(this.headers, {
+        'Accept': 'application/json',
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Content-Type': 'application/json',
+      }),
+      body: payload ? JSON.stringify(payload): undefined,
+    });
+
+    return await response.json();
+  }
+
+  /**
    * Make DELETE request to remove some resource
    *
    * @template Response - Response data type

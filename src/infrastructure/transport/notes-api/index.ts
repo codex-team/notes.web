@@ -55,6 +55,24 @@ export default class NotesApiTransport extends AuthorizableTransport {
   }
 
   /**
+   * Make PATCH request to the NoteX API
+   *
+   * @param endpoint - API endpoint
+   * @param data - data to be sent with request body
+   */
+  public async patch<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
+    const response = await super.patch<ApiResponse<Payload>>(endpoint, data);
+
+    if ('status' in response) {
+      console.log('Notes API Error:', response.message || response.status);
+
+      throw new Error(response.status.toString());
+    }
+
+    return response.data;
+  }
+
+  /**
    * Make DELETE request to the NoteX API
    *
    * @param endpoint - API endpoint
