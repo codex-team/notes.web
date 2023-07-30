@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div
     v-if="isDisplayed"
     class="suggest ce-paragraph"
@@ -12,7 +13,6 @@ import useSuggestions from '@/application/services/useSuggestions';
 
 const { isDisplayed, text, styles } = useSuggestions();
 
-
 </script>
 
 <style lang="postcss">
@@ -22,5 +22,9 @@ const { isDisplayed, text, styles } = useSuggestions();
   top: var(--top);
   font-style: italic;
   opacity: 0.7;
+
+  width: 100%;
+  max-width: var(--layout-content-width);
+  margin: 0 auto;
 }
 </style>

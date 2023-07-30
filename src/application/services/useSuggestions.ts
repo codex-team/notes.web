@@ -53,7 +53,7 @@ export default createSharedComposable(function (): {
     const { x, y } = getLineStartCoordinates();
 
     styles['--left'] = x + 'px';
-    styles['--top'] = y + 'px';
+    styles['--top'] = y - 2 + 'px'; // @todo figure out why we need to subtract 2
   }
 
   /**

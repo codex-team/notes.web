@@ -1,11 +1,14 @@
 <template>
-  <div id="editor" />
+  <div
+    id="editor"
+    ref="holder"
+  />
 
   <Suggest />
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import Editor, { OutputData } from '@editorjs/editorjs';
 import useSuggestions from '@/application/services/useSuggestions';
 import { useDebounceFn } from '@vueuse/core';
@@ -40,11 +43,14 @@ const props = defineProps<{
   data?: OutputData,
 }>();
 
-const { show: showSuggest } = useSuggestions();
+const { show: showSuggest, hide: hideSuggest } = useSuggestions();
+
+/**
+ * Editor container element
+ */
+const holder = ref<HTMLElement | null>(null);
 
 onMounted(() => {
-  const holder = document.getElementById('editor');
-
   new Editor({
     /**
      * id of Element that should contain the Editor
@@ -79,12 +85,31 @@ onMounted(() => {
       marker: Marker,
     },
     data: props.data,
-    onChange: useDebounceFn(async () => {
-      const content = holder.innerText;
+    onChange: useDebounceFn(onChange, 1000),
 
-      await showSuggest(content);
-    }, 1000),
   });
+
+  holder.value.addEventListener('keydown', onEditorKeydown);
+});
+
+/**
+ * Handles editor input
+ */
+function onEditorKeydown(): void {
+  hideSuggest();
+}
+
+/**
+ * Handles editor change event
+ */
+async function onChange(): Promise<void> {
+  const content = holder.value.innerText;
+
+  await showSuggest(content);
+}
+
+onUnmounted(() => {
+  holder.value?.removeEventListener('keydown', onEditorKeydown);
 });
 
 </script>
