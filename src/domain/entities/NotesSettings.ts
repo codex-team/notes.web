@@ -11,4 +11,9 @@ export default interface NotesSettings {
    * Custom hostname
    */
   customHostname: string;
+
+  /**
+   * Public ID
+   */
+  publicId: string;
 }

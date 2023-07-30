@@ -131,4 +131,29 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
     return notesSettings;
   }
+
+  /**
+   * Update NotesSettings
+   *
+   * @param notesSettings - Note settings
+   * @returns { NotesSettings | null } - NotesSettings instance
+   */
+  public async updateNotesSettings(notesSettings: NotesSettings): Promise<NotesSettings | null> {
+    /**
+     * Patch notesSettings over API
+     */
+    const resultSettings = await this.transport.post<GetNotesSettingsResponsePayload>('/note/' + notesSettings.publicId + '/settings', notesSettings);
+
+    /**
+     * If note data in API payload exists
+     */
+    if (resultSettings) {
+      /**
+       * Insert note to storage
+       */
+      await this.noteStorage.updateNotesSettings(resultSettings);
+    }
+
+    return notesSettings;
+  }
 }

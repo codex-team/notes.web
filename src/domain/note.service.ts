@@ -49,4 +49,15 @@ export default class NoteService {
   public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
     return await this.noteRepository.getNotesSettingsById(publicId);
   }
+
+  /**
+   * Update notesSettings
+   *
+   * @param newSettings - Note settings
+   * @returns { NotesSettings | null } - Note data
+   */
+  public async updateNoteSettings(newSettings: NotesSettings ): Promise<NotesSettings | null> {
+    return await this.noteRepository.updateNotesSettings(newSettings);
+  }
+  
 }

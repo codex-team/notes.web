@@ -29,4 +29,13 @@ export default interface NoteRepositoryInterface {
    * @returns NotesSettings | null - NotesSettings instance
    */
   getNotesSettingsById(publicId: string): Promise<NotesSettings | null>;
+
+  /**
+   * Updates NotesSettings
+   *
+   * @param publicId - note publicId
+   * @returns NotesSettings | null - NotesSettings instance
+   */
+  updateNotesSettings(newSettings: NotesSettings): Promise<NotesSettings | null>;
+  
 }

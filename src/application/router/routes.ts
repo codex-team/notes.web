@@ -45,7 +45,7 @@ const routes = [
     path: '/note/:id/settings',
     component: Settings,
     props: route => ({
-      id: String(route.params.id),
+      publicId: route.params.id,
     }),
   },
 ];

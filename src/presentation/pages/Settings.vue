@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onMounted } from 'vue';
 import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
@@ -35,22 +36,30 @@ const props = defineProps<{
    publicId: string | null;
 }>();
 
-const { loadSettings, noteSettings, isLoading } = useNote();
+onMounted(() => {
+  /**
+   * If we have id, load note settings
+   */
+  if (props.publicId !== null) {
+    loadSettings(props.publicId);
+  }
+});
 
-loadSettings(props.publicId);
+const { loadSettings, noteSettings, updateSettings, isLoading } = useNote();
 
 const emit = defineEmits<{
   click: [event: MouseEvent],
 }>();
 
 /**
- * Button click handler
+ * Save button click handler
  *
  * @param event - click event
  */
 function onClick(event: MouseEvent) {
   emit('click', event);
-  console.log('TODO: implement noteSettings update');
+  console.log(noteSettings.value);
+  // updateSettings(noteSettings.value);
 }
 
 </script>

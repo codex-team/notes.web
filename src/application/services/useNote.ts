@@ -32,6 +32,13 @@ interface UseNoteComposableState {
   loadSettings: (publicId: string) => Promise<void>;
 
   /**
+   * Update note settings
+   *
+   * @param noteSettings - note settings
+   */
+  updateSettings: (noteSettings: NotesSettings) => Promise<void>
+
+  /**
    * Load note by custom hostname
    */
   resolveHostname: () => Promise<void>;
@@ -86,6 +93,17 @@ export default function (): UseNoteComposableState {
   };
 
   /**
+   * Update settings
+   *
+   * @param publicId - Note publicId
+   */
+  const updateSettings = async (noteSettings: NotesSettings): Promise<void> => {
+    isLoading.value = true;
+    await noteService.updateNoteSettings(noteSettings);
+    isLoading.value = false;
+  };
+
+  /**
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
@@ -100,6 +118,7 @@ export default function (): UseNoteComposableState {
     load,
     resolveHostname,
     loadSettings,
+    updateSettings,
     isLoading,
   };
 }
