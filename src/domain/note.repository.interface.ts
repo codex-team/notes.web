@@ -4,7 +4,7 @@ import type NotesSettings from '@/domain/entities/NotesSettings';
 /**
  * Note repository interface
  */
-export default interface NoteRepository {
+export default interface NoteRepositoryInterface {
 
   /**
    * Returns a Note by id

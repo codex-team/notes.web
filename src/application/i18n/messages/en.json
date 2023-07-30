@@ -1,4 +1,7 @@
 {
+  "auth": {
+    "login": "Login"
+  },
   "home": {
     "title": "Home",
     "settings": "Settings"

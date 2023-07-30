@@ -1,7 +1,9 @@
 <template>
   <component
     :is="component"
+    ref="button"
     :to="link"
+    :href="link"
     class="button"
     :class="{
       'button--only-icon': isOnlyIcon,
@@ -28,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = withDefaults(defineProps<{
   /**
@@ -63,10 +65,25 @@ const props = withDefaults(defineProps<{
 const isOnlyIcon = computed(() => !props.text && props.icon);
 
 /**
+ * Reference to button element
+ */
+const button = ref(null);
+
+/**
  * If we have link prop, we should use router-link component,
  * otherwise we should will use div
  */
-const component = computed(() => props.link ? 'router-link' : 'div');
+const component = computed(() => {
+  if (props.link) {
+    if (props.link.startsWith('http')) {
+      return 'a';
+    } else {
+      return 'router-link';
+    }
+  }
+
+  return 'div';
+});
 
 const emit = defineEmits<{
   click: [event: MouseEvent],
@@ -115,6 +132,12 @@ function onClick(event: MouseEvent) {
     &:hover {
       background: var(--color-bg);
     }
+  }
+
+  &__text {
+    line-height: var(--size-icon);
+    font-weight: 600;
+    white-space: nowrap;
   }
 
   &__icon {

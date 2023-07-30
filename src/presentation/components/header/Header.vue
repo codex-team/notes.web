@@ -9,6 +9,7 @@
       type="transparent"
       :icon="IconPlus"
     />
+    <LoginButton />
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import { useI18n } from 'vue-i18n';
 import type Tab from '@/presentation/components/tabs/types/Tab';
 import Tabs from '@/presentation/components/tabs/Tabs.vue';
 import Button from '@/presentation/components/button/Button.vue';
+import LoginButton from './HeaderLoginButton.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 
@@ -76,6 +78,10 @@ const tabs = computed<Tab[]>(() => {
 
   &__plus {
     margin-left: var(--spacing-ms);
+  }
+
+  &__login {
+    margin-left: auto;
   }
 }
 </style>
