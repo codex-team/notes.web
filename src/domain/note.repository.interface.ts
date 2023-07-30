@@ -3,7 +3,7 @@ import type Note from '@/domain/entities/Note';
 /**
  * Note repository interface
  */
-export default interface NoteRepository {
+export default interface NoteRepositoryInterface {
 
   /**
    * Returns a Note by id

@@ -1,4 +1,5 @@
 import NoteService from '@/domain/note.service';
+import UserService from '@/domain/user.service';
 import { init as initRepositories } from '@/infrastructure';
 
 /**
@@ -14,9 +15,11 @@ const repositories = initRepositories(apiUrl);
 /**
  * Init services
  */
-const noteService = new NoteService(repositories.noteRepository);
+const noteService = new NoteService(repositories.note);
+const userService = new UserService(repositories.user);
 
 export {
-  noteService
+  noteService,
+  userServices,
 };
 

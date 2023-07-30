@@ -1,9 +1,15 @@
-import type JSONValue from '@/infrastructure/transport/notes-api/types/JSONValue';
+import type JSONValue from '@/infrastructure/transport/types/JSONValue';
 
 /**
  * Fetch transport to make HTTP requests
  */
 export default class FetchTransport {
+  /**
+   * Common headers for all requests
+   * For example, may contain authorization
+   */
+  protected readonly headers = new Headers();
+
   /**
    * Fetch constructor
    *
@@ -13,41 +19,64 @@ export default class FetchTransport {
   }
 
   /**
-   * Make GET request
+   * Gets specific resource
    *
    * @template Response - Response data type
    * @param endpoint - API endpoint
-   * @param headers - Request headers
-   * @returns { Promise<Response> } - Response data
+   * @param data - data to be sent url encoded
    */
-  public async get<Response>(endpoint: string, headers?: Record<string, string>): Promise<Response> {
-    // eslint-disable-next-line no-undef
-    const response = await fetch(this.baseUrl + endpoint, {
+  public async get<Response>(endpoint: string, data?: JSONValue): Promise<Response> {
+    const resourceUrl = new URL(this.baseUrl + endpoint);
+
+    if (data !== undefined) {
+      resourceUrl.search = new URLSearchParams(data as Record<string, string>).toString();
+    }
+
+    const response = await fetch(resourceUrl.toString(), {
       method: 'GET',
-      headers,
+      headers: this.headers,
     });
 
     return await response.json();
   }
 
   /**
-   * Make POST request
+   * Make POST request to update some resource
    *
    * @template Response - Response data type
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
-   * @returns { Promise<Response> } - Response data
    */
-  public async post<Response>(endpoint: string, payload: JSONValue): Promise<Response> {
-    // eslint-disable-next-line no-undef
+  public async post<Response>(endpoint: string, payload?: JSONValue): Promise<Response> {
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'POST',
-      headers: {
+      headers: Object.assign(this.headers, {
         'Accept': 'application/json',
         // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
+      }),
+      body: payload ? JSON.stringify(payload): undefined,
+    });
+
+    return await response.json();
+  }
+
+  /**
+   * Make DELETE request to remove some resource
+   *
+   * @template Response - Response data type
+   * @param endpoint - API endpoint
+   * @param payload - JSON POST data body
+   */
+  public async delete<Response>(endpoint: string, payload?: JSONValue): Promise<Response> {
+    const response = await fetch(this.baseUrl + endpoint, {
+      method: 'DELETE',
+      headers: Object.assign(this.headers, {
+        'Accept': 'application/json',
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Content-Type': 'application/json',
+      }),
+      body: payload ? JSON.stringify(payload) : undefined,
     });
 
     return await response.json();
