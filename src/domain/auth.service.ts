@@ -12,7 +12,7 @@ export default class AuthService {
   private readonly repository: AuthRepository;
 
   /**
-   * Note Service constructor
+   * Service constructor
    *
    * @param eventBus - Common domain event bus
    * @param authRepository - Auth repository instance
@@ -32,11 +32,6 @@ export default class AuthService {
       accessToken,
       refreshToken,
     }));
-
-    /**
-     * @todo load user data
-     */
-    alert('User authorized');
   }
 
   /**

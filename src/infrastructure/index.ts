@@ -3,6 +3,8 @@ import NoteStorage from '@/infrastructure/storage/note';
 import NotesApiTransport from '@/infrastructure/transport/notes-api';
 import AuthRepository from '@/infrastructure/auth.repository';
 import AuthStorage from '@/infrastructure/storage/auth';
+import UserRepository from '@/infrastructure/user.repository';
+import UserStorage from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
 import type AuthCompletedEvent from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_COMPLETED_EVENT_NAME } from '@/domain/event-bus/events/AuthCompleted';
@@ -20,6 +22,11 @@ export interface Repositories {
    * Working with Auth data
    */
   auth: AuthRepository;
+
+  /**
+   * Working with User data
+   */
+  user: UserRepository;
 }
 
 /**
@@ -34,6 +41,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
    */
   const noteStorage = new NoteStorage();
   const authStorage = new AuthStorage();
+  const userStorage = new UserStorage();
 
   /**
    * Init transport
@@ -60,9 +68,11 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
    */
   const noteRepository = new NoteRepository(noteStorage, notesApiTransport);
   const authRepository = new AuthRepository(authStorage, notesApiTransport);
+  const userRepository = new UserRepository(userStorage, notesApiTransport);
 
   return {
     note: noteRepository,
     auth: authRepository,
+    user: userRepository,
   };
 }

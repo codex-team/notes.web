@@ -2,7 +2,7 @@ import type Note from '@/domain/entities/Note';
 import type NotesSettings from '@/domain/entities/NotesSettings';
 
 /**
- * Note repository interface
+ * Repository interface describes the methods that required by domain for its business logic implementation
  */
 export default interface NoteRepositoryInterface {
 
