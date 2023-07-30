@@ -1,5 +1,5 @@
 import { usePostMessage } from './usePostMessage';
-import { userService } from '@/domain';
+import { authService } from '@/domain';
 
 interface UseOAuthComposableState {
   /**
@@ -42,17 +42,26 @@ export default function useOAuth(): UseOAuthComposableState {
       `popup=true, width=600, height=400, left=${left}, top=${top}`
     );
 
-    win.addEventListener('onbeforeunload', () => {
+    /**
+     * @todo test in safari
+     */
+    win.addEventListener('beforeunload', (e) => {
+      /**
+       * Chrome doesn't fire beforeunload without this
+       * @see https://stackoverflow.com/a/37948250
+       */
+      e.returnValue = 'CodeX was here';
+
       if (callbackId !== null) {
         off(callbackId);
       }
     });
-
+    
     callbackId = on((event) => {
       console.log('post message!', event);
 
       if ('accessToken' in event.data && 'refreshToken' in event.data) {
-        userService.acceptSession(event.data.accessToken, event.data.refreshToken);
+        authService.acceptSession(event.data.accessToken, event.data.refreshToken);
 
         off(callbackId as number);
       }

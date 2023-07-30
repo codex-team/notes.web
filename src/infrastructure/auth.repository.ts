@@ -1,11 +1,11 @@
-import type UserRepositoryInterface from '@/domain/user.repository.interface';
+import type AuthRepositoryInterface from '@/domain/auth.repository.interface';
 import type NotesApiTransport from './transport/notes-api';
 import type AuthStorage from './storage/auth';
 
 /**
- * Facade for the user data
+ * Facade for the auth data
  */
-export default class UserRepository implements UserRepositoryInterface {
+export default class AuthRepository implements AuthRepositoryInterface {
   /**
    * Transport instance
    */
