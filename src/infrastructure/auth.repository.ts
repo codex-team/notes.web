@@ -1,6 +1,7 @@
 import type AuthRepositoryInterface from '@/domain/auth.repository.interface';
 import type NotesApiTransport from './transport/notes-api';
 import type AuthStorage from './storage/auth';
+import type AuthSession from '@/domain/entities/AuthSession';
 
 /**
  * Facade for the auth data
@@ -22,20 +23,19 @@ export default class AuthRepository implements AuthRepositoryInterface {
   }
 
   /**
-   * Get new session by refresh token
-   *
-   * @param refreshToken - token used to get new token pair
+   * Specify whether we have auth session (refresh token)
    */
-  public async restoreSession(refreshToken: string): Promise<void> {
-    const response = this.transport.post('/auth', {
-      token: refreshToken,
+  public hasSession(): boolean {
+    return this.authStorage.getRefreshToken() !== null;
+  }
+
+  /**
+   * Get new session by refresh token
+   */
+  public async restoreSession(): Promise<AuthSession> {
+    return this.transport.post<AuthSession>('/auth', {
+      token: this.authStorage.getRefreshToken(),
     });
-
-    console.log('restoreSession response', response);
-
-    /**
-     * @todo save new tokens, reauthorize transport
-     */
   }
 
   /**

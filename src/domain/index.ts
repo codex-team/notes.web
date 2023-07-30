@@ -26,6 +26,14 @@ const noteService = new NoteService(repositories.note);
 const authService = new AuthService(eventBus, repositories.auth);
 const userService = new UserService(eventBus, repositories.user);
 
+/**
+ * App State — is a read-only combination of app Stores.
+ * Allows to subscribe to store data changes
+ */
+export const AppStateController = {
+  user: (callback) => repositories.user.onStoreChange(callback),
+};
+
 export {
   noteService,
   authService,

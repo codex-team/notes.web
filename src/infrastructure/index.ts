@@ -4,7 +4,7 @@ import NotesApiTransport from '@/infrastructure/transport/notes-api';
 import AuthRepository from '@/infrastructure/auth.repository';
 import AuthStorage from '@/infrastructure/storage/auth';
 import UserRepository from '@/infrastructure/user.repository';
-import UserStorage from '@/infrastructure/storage/user';
+import { UserStore } from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
 import type AuthCompletedEvent from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_COMPLETED_EVENT_NAME } from '@/domain/event-bus/events/AuthCompleted';
@@ -41,7 +41,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
    */
   const noteStorage = new NoteStorage();
   const authStorage = new AuthStorage();
-  const userStorage = new UserStorage();
+  const userStorage = new UserStore();
 
   /**
    * Init transport

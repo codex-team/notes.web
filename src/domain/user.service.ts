@@ -1,6 +1,7 @@
 import type UserRepository from '@/domain/user.repository.interface';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME } from './event-bus/events/AuthCompleted';
+import type { User } from './entities/User';
 
 /**
  * Business logic for User
@@ -24,7 +25,14 @@ export default class UserService {
      * When we got authorized
      */
     eventBus.addEventListener(AUTH_COMPLETED_EVENT_NAME, () => {
-      this.repository.loadUser();
+      void this.repository.loadUser();
     });
+  }
+
+  /**
+   * Returns reactive user data
+   */
+  public getUser(): User | null {
+    return this.repository.getUser();
   }
 }
