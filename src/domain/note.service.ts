@@ -38,4 +38,13 @@ export default class NoteService {
   public async getNoteByHostname(hostname: string): Promise<Note | null> {
     return await this.noteRepository.getNoteByHostname(hostname);
   }
+
+  /**
+   * Loads note completion suggested by AI based on note content
+   *
+   * @param content - note content
+   */
+  public async fetchSuggestions(content: string): Promise<string> {
+    return await this.noteRepository.fetchSuggestions(content);
+  }
 }

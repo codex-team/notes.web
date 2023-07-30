@@ -1,10 +1,16 @@
 <template>
   <div id="editor" />
+
+  <Suggest />
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import Editor, { OutputData } from '@editorjs/editorjs';
+import useSuggestions from '@/application/services/useSuggestions';
+import { useDebounceFn } from '@vueuse/core';
+import Suggest from './Suggest.vue';
+
 
 /**
  * Block Tools for the Editor
@@ -34,7 +40,11 @@ const props = defineProps<{
   data?: OutputData,
 }>();
 
+const { show: showSuggest } = useSuggestions();
+
 onMounted(() => {
+  const holder = document.getElementById('editor');
+
   new Editor({
     /**
      * id of Element that should contain the Editor
@@ -69,9 +79,16 @@ onMounted(() => {
       marker: Marker,
     },
     data: props.data,
+    onChange: useDebounceFn(async () => {
+      const content = holder.innerText;
+
+      await showSuggest(content);
+    }, 1000),
   });
 });
+
 </script>
 
-<style scoped>
+<style lang="postcss">
+
 </style>

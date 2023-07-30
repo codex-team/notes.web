@@ -96,4 +96,15 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
     return note;
   }
+
+  /**
+   * Loads note completion suggested by AI based on note content
+   *
+   * @param content - note content
+   */
+  public async fetchSuggestions(content: string): Promise<string> {
+    const response = await this.transport.post<string>('/ai/complete', { content });
+
+    return response;
+  }
 }

@@ -20,4 +20,11 @@ export default interface NoteRepository {
    * @returns Note | null - Note instance
    */
   getNoteByHostname(hostname: string): Promise<Note | null>;
+
+  /**
+   * Loads note completion suggested by AI based on note content
+   *
+   * @param content - note content
+   */
+  fetchSuggestions(content: string): Promise<string>
 }
