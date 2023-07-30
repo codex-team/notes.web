@@ -1,4 +1,6 @@
 import { usePostMessage } from './usePostMessage';
+import { userService } from '@/domain';
+
 
 interface UseOAuthComposableState {
   /**
@@ -15,11 +17,6 @@ export default function useOAuth(): UseOAuthComposableState {
    * Google OAuth URL
    */
   const loginUrl = import.meta.env.VITE_GOOGLE_OAUTH_URL as string;
-
-  /**
-   * Id of the postMessage callback
-   */
-  let callbackId: number | null = null;
 
   const { on, off } = usePostMessage();
 
@@ -41,14 +38,20 @@ export default function useOAuth(): UseOAuthComposableState {
       `popup=true, width=600, height=400, left=${left}, top=${top}`
     );
 
-    win.addEventListener('onbeforeunload', () => {
-      if (callbackId !== null) {
-        off(callbackId);
-      }
+    /**
+     * Add listener for postMessage events
+     */
+    on('oauth succeeded', (event) => {
+      console.log('post message!', event);
+
+      userService.acceptSession(event.data.accessToken, event.data.refreshToken);
     });
 
-    callbackId = on((event) => {
-      console.log('post message!', event);
+    /**
+     * Clear callback when the popup is closed
+     */
+    win.addEventListener('onbeforeunload', () => {
+      off('oauth succeeded');
     });
   }
 
