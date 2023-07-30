@@ -25,7 +25,7 @@ const routes = [
     path: '/note/:id',
     component: Note,
     props: route => ({
-      id: Number(route.params.id),
+      id: String(route.params.id),
     }),
   },
   {
@@ -45,7 +45,7 @@ const routes = [
     path: '/note/:id/settings',
     component: Settings,
     props: route => ({
-      id: Number(route.params.id),
+      id: String(route.params.id),
     }),
   },
 ];

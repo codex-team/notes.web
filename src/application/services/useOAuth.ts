@@ -48,6 +48,7 @@ export default function useOAuth(): UseOAuthComposableState {
     win.addEventListener('beforeunload', (e) => {
       /**
        * Chrome doesn't fire beforeunload without this
+       *
        * @see https://stackoverflow.com/a/37948250
        */
       e.returnValue = 'CodeX was here';
@@ -56,7 +57,7 @@ export default function useOAuth(): UseOAuthComposableState {
         off(callbackId);
       }
     });
-    
+
     callbackId = on((event) => {
       console.log('post message!', event);
 

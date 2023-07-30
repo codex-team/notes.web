@@ -9,10 +9,10 @@ export default interface NoteRepositoryInterface {
   /**
    * Returns a Note by id
    *
-   * @param id - Note id
+   * @param publicId - Note id
    * @returns Note | null - Note instance
    */
-  getNoteById(id: number): Promise<Note | null>;
+  getNoteById(publicId: string): Promise<Note | null>;
 
   /**
    * Returns a Note by hostname
@@ -23,10 +23,10 @@ export default interface NoteRepositoryInterface {
   getNoteByHostname(hostname: string): Promise<Note | null>;
 
   /**
-   * Returns NotesSettings by hostname
+   * Returns NotesSettings by publicId
    *
-   * @param hostname - Custom hostname
+   * @param publicId - note publicId
    * @returns NotesSettings | null - NotesSettings instance
    */
-  getNotesSettingsById(id: number): Promise<NotesSettings | null>;
+  getNotesSettingsById(publicId: string): Promise<NotesSettings | null>;
 }
