@@ -2,6 +2,10 @@ import NoteRepository from '@/infrastructure/note.repository';
 import NoteStorage from '@/infrastructure/storage/note';
 import NotesApiTransport from '@/infrastructure/transport/notes-api';
 import UserRepository from '@/infrastructure/user.repository';
+import AuthStorage from '@/infrastructure/storage/auth';
+import type EventBus from '@/domain/event-bus';
+import type UserAuthorizedEvent from '@/domain/event-bus/events/UserAuthorized';
+import { USER_AUTHORIZED_EVENT_NAME } from '@/domain/event-bus/events/UserAuthorized';
 
 /**
  * Repositories
@@ -22,8 +26,9 @@ export interface Repositories {
  * Init repositories
  *
  * @param noteApiUrl - Note API url
+ * @param eventBus - Common domain event bus
  */
-export function init(noteApiUrl: string): Repositories {
+export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   /**
    * Init storages
    */
@@ -34,6 +39,21 @@ export function init(noteApiUrl: string): Repositories {
    * Init transport
    */
   const notesApiTransport = new NotesApiTransport(noteApiUrl);
+
+  /**
+   * When we got authorized
+   */
+  eventBus.addEventListener(USER_AUTHORIZED_EVENT_NAME, (event: UserAuthorizedEvent) => {
+    /**
+     * Authorize API transport
+     */
+    notesApiTransport.authorize(event.detail.accessToken);
+
+    /**
+     * Save refresh token
+     */
+    authStorage.setRefreshToken(event.detail.refreshToken);
+  });
 
   /**
    * Init repositories

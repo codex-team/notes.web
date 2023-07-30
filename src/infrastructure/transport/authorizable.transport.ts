@@ -21,6 +21,7 @@ export default class AuthorizableTransport extends Transport {
    */
   public authorize(accessToken: string): void {
     this.headers.set('Authorization', `Bearer ${accessToken}`);
+    console.log('transport authorized');
   }
 
   /**

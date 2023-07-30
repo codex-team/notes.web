@@ -1,4 +1,6 @@
 import type UserRepository from '@/domain/user.repository.interface';
+import type EventBus from '@/domain/event-bus';
+import UserAuthorizedEvent from './event-bus/events/UserAuthorized';
 
 /**
  * Business logic for User
@@ -12,13 +14,34 @@ export default class UserService {
   /**
    * Note Service constructor
    *
+   * @param eventBus - Common domain event bus
    * @param userRepository - User repository instance
    */
-  constructor(userRepository: UserRepository) {
+  constructor(private readonly eventBus: EventBus, userRepository: UserRepository) {
     this.repository = userRepository;
   }
 
-  logout() {
-    this.repository.removeSession();
+  /**
+   * Called after oauth to accept session
+   *
+   * @param accessToken - token got from backend. Used to access protected resources
+   * @param refreshToken - token got from backend. Used to refresh access token
+   */
+  public async acceptSession(accessToken: string, refreshToken: string): Promise<void> {
+    this.eventBus.dispatchEvent(new UserAuthorizedEvent({
+      accessToken,
+      refreshToken,
+    }));
+
+    /**
+     * @todo load user data
+     */
+  }
+
+  /**
+   * Removes auth session from the backend
+   */
+  public async logout(): Promise<void> {
+    await this.repository.removeSession();
   }
 }
