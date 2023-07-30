@@ -1,4 +1,5 @@
 import type Note from '@/domain/entities/Note';
+import type NotesSettings from '@/domain/entities/NotesSettings';
 
 /**
  * Note repository interface
@@ -20,4 +21,12 @@ export default interface NoteRepository {
    * @returns Note | null - Note instance
    */
   getNoteByHostname(hostname: string): Promise<Note | null>;
+
+  /**
+   * Returns NotesSettings by hostname
+   *
+   * @param hostname - Custom hostname
+   * @returns NotesSettings | null - NotesSettings instance
+   */
+  getNotesSettingsById(id: number): Promise<NotesSettings | null>;
 }
