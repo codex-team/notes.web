@@ -36,7 +36,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param id - Note id
    * @returns { Note | null } - Note instance
    */
-  public async getNoteById(id: number): Promise<Note | null> {
+  public async getNoteById(id: string): Promise<Note | null> {
     const noteData = await this.noteStorage.getNoteById(id);
 
     /**

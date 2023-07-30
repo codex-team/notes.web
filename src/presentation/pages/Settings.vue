@@ -32,12 +32,12 @@ const props = defineProps<{
   /**
    * Id of the current note
    */
-  id: number | null;
+   publicId: string | null;
 }>();
 
 const { loadSettings, noteSettings, isLoading } = useNote();
 
-loadSettings(props.id);
+loadSettings(props.publicId);
 
 const emit = defineEmits<{
   click: [event: MouseEvent],

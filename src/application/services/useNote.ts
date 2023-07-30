@@ -22,14 +22,14 @@ interface UseNoteComposableState {
    *
    * @param id
    */
-  load: (id: number) => Promise<void>;
+  load: (publicId: string) => Promise<void>;
 
   /**
    * Load note settings
    *
    * @param id
    */
-  loadSettings: (id: number) => Promise<void>;
+  loadSettings: (publicId: string) => Promise<void>;
 
   /**
    * Load note by custom hostname
