@@ -1,10 +1,10 @@
-import { SubscribableStore, type PropChangeCallback }  from './storage/base/subscribable';
+import { SubscribableStore, type PropChangeCallback }  from './storage/abstract/subscribable';
 
 /**
  * Base class for repositories
  * Contains common methods, e. g. for subscribing to store changes
  */
-export default class Repository<Store, StoreData> {
+export default abstract class Repository<Store, StoreData> {
   /**
    *  Creates repository instance
    *

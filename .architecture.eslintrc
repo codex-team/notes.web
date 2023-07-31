@@ -42,8 +42,18 @@
         "mode": "file"
       },
       {
+        "type": "Abstract Repository",
+        "pattern": "src/infrastructure/repository.ts",
+        "mode": "file"
+      },
+      {
         "type": "Repository",
         "pattern": "src/infrastructure/*.repository.ts",
+        "mode": "file"
+      },
+      {
+        "type": "Abstract Storage",
+        "pattern": "src/infrastructure/storage/abstract/*.ts",
         "mode": "file"
       },
       {
@@ -164,8 +174,15 @@
             ]
           },
           {
+            "from": "Abstract Repository",
+            "allow": [
+              "Abstract Storage"
+            ]
+          },
+          {
             "from": "Repository",
             "allow": [
+              "Abstract Repository",
               "Repository Interface",
               "Storage",
               "Transport",
@@ -176,6 +193,7 @@
           {
             "from": "Storage",
             "allow": [
+              "Abstract Storage",
               "Entity",
               "Utils"
             ]

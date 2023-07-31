@@ -1,5 +1,5 @@
 import type { User } from '@/domain/entities/User';
-import { SubscribableStore } from './base/subscribable';
+import { SubscribableStore } from './abstract/subscribable';
 
 /**
  * Data stored in the user store

@@ -1,8 +1,8 @@
 import NoteRepository from '@/infrastructure/note.repository';
-import NoteStorage from '@/infrastructure/storage/note';
+import NoteStore from '@/infrastructure/storage/note';
 import NotesApiTransport from '@/infrastructure/transport/notes-api';
 import AuthRepository from '@/infrastructure/auth.repository';
-import AuthStorage from '@/infrastructure/storage/auth';
+import AuthStore from '@/infrastructure/storage/auth';
 import UserRepository from '@/infrastructure/user.repository';
 import { UserStore } from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
@@ -39,9 +39,9 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   /**
    * Init storages
    */
-  const noteStorage = new NoteStorage();
-  const authStorage = new AuthStorage();
-  const userStorage = new UserStore();
+  const noteStore = new NoteStore();
+  const authStore = new AuthStore();
+  const userStore = new UserStore();
 
   /**
    * Init transport
@@ -60,15 +60,15 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     /**
      * Save refresh token
      */
-    authStorage.setRefreshToken(event.detail.refreshToken);
+    authStore.setRefreshToken(event.detail.refreshToken);
   });
 
   /**
    * Init repositories
    */
-  const noteRepository = new NoteRepository(noteStorage, notesApiTransport);
-  const authRepository = new AuthRepository(authStorage, notesApiTransport);
-  const userRepository = new UserRepository(userStorage, notesApiTransport);
+  const noteRepository = new NoteRepository(noteStore, notesApiTransport);
+  const authRepository = new AuthRepository(authStore, notesApiTransport);
+  const userRepository = new UserRepository(userStore, notesApiTransport);
 
   return {
     note: noteRepository,

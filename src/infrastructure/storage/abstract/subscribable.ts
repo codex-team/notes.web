@@ -7,7 +7,7 @@ export type PropChangeCallback<StoreData> = (prop: keyof StoreData, newValue: St
  * Base class for subscribable stores.
  * Allows to subscribe to store data changes
  */
-export class SubscribableStore<StoreData extends Record<string, unknown>> {
+export abstract class SubscribableStore<StoreData extends Record<string, unknown>> {
   /**
    * Proxy for data stored in store.
    * Used to watch data changes

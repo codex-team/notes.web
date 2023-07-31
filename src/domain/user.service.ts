@@ -30,7 +30,7 @@ export default class UserService {
   }
 
   /**
-   * Returns reactive user data
+   * Returns user data
    */
   public getUser(): User | null {
     return this.repository.getUser();
