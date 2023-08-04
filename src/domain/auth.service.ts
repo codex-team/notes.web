@@ -19,6 +19,13 @@ export default class AuthService {
    */
   constructor(private readonly eventBus: EventBus, authRepository: AuthRepository) {
     this.repository = authRepository;
+
+    if (this.repository.hasSession()) {
+      this.repository.restoreSession()
+        .then((session) => {
+          this.acceptSession(session.accessToken, session.refreshToken);
+        });
+    }
   }
 
   /**

@@ -48,14 +48,15 @@ export default class FetchTransport {
    * @param payload - JSON POST data body
    */
   public async post<Response>(endpoint: string, payload?: JSONValue): Promise<Response> {
+    this.headers.set('Content-Type', 'application/json');
+
+    /**
+     * Send payload as body to allow Fastify accept it
+     */
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'POST',
-      headers: Object.assign(this.headers, {
-        'Accept': 'application/json',
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        'Content-Type': 'application/json',
-      }),
-      body: payload ? JSON.stringify(payload): undefined,
+      headers: this.headers,
+      body: payload ? JSON.stringify(payload) : undefined,
     });
 
     return await response.json();
@@ -69,13 +70,11 @@ export default class FetchTransport {
    * @param payload - JSON POST data body
    */
   public async delete<Response>(endpoint: string, payload?: JSONValue): Promise<Response> {
+    this.headers.set('Content-Type', 'application/json');
+
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'DELETE',
-      headers: Object.assign(this.headers, {
-        'Accept': 'application/json',
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        'Content-Type': 'application/json',
-      }),
+      headers: this.headers,
       body: payload ? JSON.stringify(payload) : undefined,
     });
 

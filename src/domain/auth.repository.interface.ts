@@ -1,13 +1,18 @@
+import type AuthSession from './entities/AuthSession';
+
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
  */
 export default interface AuthRepositoryInterface {
   /**
-   * Get new session by refresh token
-   *
-   * @param refreshToken - token used to get new token pair
+   * Checks whether we have saved refresh token
    */
-  restoreSession(refreshToken: string): Promise<void>;
+  hasSession(): boolean;
+
+  /**
+   * Get new session by refresh token
+   */
+  restoreSession(): Promise<AuthSession>;
 
   /**
    * Removes session by refresh token
