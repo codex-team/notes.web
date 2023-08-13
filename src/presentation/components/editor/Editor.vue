@@ -9,10 +9,11 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
-import Editor, { OutputData } from '@editorjs/editorjs';
+import Editor, { API, OutputData } from '@editorjs/editorjs';
 import useSuggestions from '@/application/services/useSuggestions';
 import { useDebounceFn } from '@vueuse/core';
 import Suggest from './Suggest.vue';
+import { noteService } from '@/domain';
 
 
 /**
@@ -45,13 +46,17 @@ const props = defineProps<{
 
 const { show: showSuggest, hide: hideSuggest } = useSuggestions();
 
+let editor;
+
+let suggestData;
+
 /**
  * Editor container element
  */
 const holder = ref<HTMLElement | null>(null);
 
 onMounted(() => {
-  new Editor({
+  editor = new Editor({
     /**
      * id of Element that should contain the Editor
      */
@@ -86,7 +91,6 @@ onMounted(() => {
     },
     data: props.data,
     onChange: useDebounceFn(onChange, 1000),
-
   });
 
   holder.value.addEventListener('keydown', onEditorKeydown);
@@ -94,18 +98,77 @@ onMounted(() => {
 
 /**
  * Handles editor input
+ *
+ * @param e
  */
-function onEditorKeydown(): void {
+function onEditorKeydown(e): void {
+  // if (e.key === 'Tab') {
+  //   e.preventDefault();
+
+  //   insertText(suggestData, editor);
+  // }
   hideSuggest();
+  // suggestData = '';
 }
 
 /**
  * Handles editor change event
+ *
+ * @param api
  */
-async function onChange(): Promise<void> {
+async function onChange(api: API): Promise<void> {
   const content = holder.value.innerText;
+  const data2 = await api.saver.save();
 
-  await showSuggest(content);
+  console.log(data2);
+
+  // const data = await noteService.fetchSuggestions(content);
+  const data = content;
+
+  suggestData = data;
+  await showSuggest(data);
+
+  holder.value.removeEventListener('keydown', onInput);
+  holder.value.addEventListener('keydown', onInput);
+  /**
+   *
+   * @param e
+   */
+  function onInput(e: KeyboardEvent) {
+    // console.log('here');
+    if (e.key !== 'Tab') {
+      return;
+    }
+    e.preventDefault();
+
+    insertText(data, api);
+  }
+}
+
+
+/**
+ * Inserts text into the editor
+ *
+ * @param text - text to insert
+ * @param api - EditorJS api
+ */
+function insertText(text: string, api: API): void {
+  const index = api.blocks.getCurrentBlockIndex();
+  const block = api.blocks.getBlockByIndex(index);
+  const contenteditable = block.holder;
+
+  const data = { 'text/plain': ' ' + text };
+  const pasteEvent = Object.assign(new Event('paste', {
+    bubbles: true,
+    cancelable: true,
+  }), {
+    clipboardData: {
+      getData: (type): string => data[type],
+      types: Object.keys(data),
+    },
+  });
+
+  contenteditable.dispatchEvent(pasteEvent);
 }
 
 onUnmounted(() => {

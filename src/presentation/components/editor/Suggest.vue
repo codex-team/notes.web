@@ -21,10 +21,10 @@ const { isDisplayed, text, styles } = useSuggestions();
   left: var(--left);
   top: var(--top);
   font-style: italic;
-  opacity: 0.7;
+  opacity: 0.5;
 
   width: 100%;
-  max-width: var(--layout-content-width);
+  max-width: 650px;
   margin: 0 auto;
 }
 </style>
