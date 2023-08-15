@@ -10,6 +10,7 @@
       :icon="IconPlus"
     />
     <div class="header__right">
+      <ThemeButton />
       <LoginButton
         v-if="!user"
       />
@@ -29,6 +30,7 @@ import Tabs from '@/presentation/components/tabs/Tabs.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
+import ThemeButton from './ThemeButton.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
@@ -93,6 +95,7 @@ const tabs = computed<Tab[]>(() => {
 
   &__right {
     margin-left: auto;
+    display: flex;
   }
 }
 

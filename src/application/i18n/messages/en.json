@@ -4,6 +4,7 @@
   },
   "home": {
     "title": "Home",
-    "settings": "Settings"
+    "settings": "Settings",
+    "theme": "Change theme"
   }
 }
