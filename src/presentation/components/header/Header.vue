@@ -10,7 +10,7 @@
       :icon="IconPlus"
     />
     <div class="header__right">
-      <ThemeButton />
+      <ThemeButton v-if="currentPage === 'settings'" />
       <LoginButton
         v-if="!user"
       />
@@ -38,6 +38,8 @@ import { useAppState } from '@/application/services/useAppState';
 const { t } = useI18n();
 const { currentRoute } = useRouter();
 const { user } = useAppState();
+
+const currentPage = computed(() => currentRoute.value.name);
 
 const tabs = computed<Tab[]>(() => {
   const availableTabs = [
