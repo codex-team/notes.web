@@ -10,7 +10,6 @@
       :icon="IconPlus"
     />
     <div class="header__right">
-      <ThemeButton v-if="currentPage === 'settings'" />
       <LoginButton
         v-if="!user"
       />
@@ -30,7 +29,6 @@ import Tabs from '@/presentation/components/tabs/Tabs.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
-import ThemeButton from './ThemeButton.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
@@ -38,8 +36,6 @@ import { useAppState } from '@/application/services/useAppState';
 const { t } = useI18n();
 const { currentRoute } = useRouter();
 const { user } = useAppState();
-
-const currentPage = computed(() => currentRoute.value.name);
 
 const tabs = computed<Tab[]>(() => {
   const availableTabs = [
