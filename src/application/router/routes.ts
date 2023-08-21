@@ -2,6 +2,7 @@ import Home from '@/presentation/pages/Home.vue';
 import Note from '@/presentation/pages/Note.vue';
 import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
+import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -41,9 +42,13 @@ const routes = [
     component: Landing,
   },
   {
-    name: 'settings',
-    path: '/note/:id/settings',
+    path: `/settings/`,
     component: Settings,
+  },
+  {
+    name: 'note_settings',
+    path: '/note/:id/settings',
+    component: NoteSettings,
     props: route => ({
       id: String(route.params.id),
     }),

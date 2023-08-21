@@ -2,6 +2,10 @@
   "auth": {
     "login": "Login"
   },
+  "settings": {
+    "title": "Settings",
+    "changeTheme": "Change theme"
+  },
   "home": {
     "title": "Home",
     "settings": "Settings"
