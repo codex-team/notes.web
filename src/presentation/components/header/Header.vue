@@ -93,7 +93,6 @@ const tabs = computed<Tab[]>(() => {
 
   &__right {
     margin-left: auto;
-    display: flex;
   }
 }
 
