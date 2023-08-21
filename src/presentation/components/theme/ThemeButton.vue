@@ -1,7 +1,6 @@
 <template>
   <Button
-    class="header__theme"
-    :text="t('home.theme')"
+    :text="t('settings.changeTheme')"
     :icon="IconReplace"
     @click="changeTheme"
   />
