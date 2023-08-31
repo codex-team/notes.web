@@ -38,31 +38,34 @@
       letter-spacing: 0.14px;
   }
 
-  .page {
-    &__block {
+    .block {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-xs);
     }
 
-    &__title {
+    h1 {
+        @apply --text-heading-1;
         margin: 0 0 var(--spacing-ms);
     }
 
-    &__title--2 {
+    h2 {
+        @apply --text-heading-2;
         margin: var(--spacing-mm) 0 var(--spacing-xxs);
     }
 
-    &__title--3 {
+    h3 {
+        @apply --text-heading-3;
         margin: var(--spacing-xs) 0 var(--spacing-very-x);
     }
 
-    &__content {
+    p {
+        @apply --text-body;
         padding: var(--spacing-xs) 0;
-
-        &-small {
-            padding: var(--spacing-very-x) 0;
-        }
     }
-  }
+ 
+    .small {
+        @apply --text-small;
+        padding: var(--spacing-very-x) 0;
+    }
 }
