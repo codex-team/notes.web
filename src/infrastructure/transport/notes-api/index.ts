@@ -40,16 +40,16 @@ export default class NotesApiTransport extends AuthorizableTransport {
         }
 
         /**
-         * Throw error based on response status
+         * Create error based on response status
          */
         switch (status) {
           case 401:
           case 403:
-            throw new UnauthorizedError(errorText);
+            return new UnauthorizedError(errorText);
           case 404:
-            throw new NotFoundError(errorText);
+            return new NotFoundError(errorText);
           default:
-            throw new Error(errorText);
+            return new Error(errorText);
         }
       },
     });
