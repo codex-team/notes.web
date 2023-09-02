@@ -1,7 +1,9 @@
+import DomainError from './Base';
+
 /**
  * Domain error thrown when some resource is not found
  */
-export default class NotFoundError extends Error {
+export default class NotFoundError extends DomainError {
   /**
    * Constructor for NotFound error
    *
