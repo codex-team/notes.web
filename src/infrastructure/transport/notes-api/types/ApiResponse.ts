@@ -3,31 +3,26 @@
  *
  * @template Payload - Response payload type
  */
-interface ApiSuccessfulResponse<Payload> {
-  /**
-   * Response payload
-   */
-  data: Payload;
-}
+export type ApiSuccessfulResponse<Payload> = Payload;
 
 /**
  * Api error response type
  */
-interface ApiErrorResponse {
+export interface ApiErrorResponse {
   /**
-   * Error message
+   * Message identifier used for translation on client side
+   *
+   * NOT HTTP STATUS CODE — it will be send in `status` field
    */
-  message: string;
+  code?: number;
 
   /**
-   * Status code
+   * Message text for better DX. Should not be showed to users.
    */
-  status: number;
+  message?: string;
 }
 
 /**
  * Api response type
  */
-type ApiResponse<Payload> = ApiSuccessfulResponse<Payload> | ApiErrorResponse;
-
-export default ApiResponse;
+export type ApiResponse<Payload> = ApiSuccessfulResponse<Payload> | ApiErrorResponse;
