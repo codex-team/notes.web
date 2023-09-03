@@ -1,6 +1,7 @@
 import type AuthRepository from '@/domain/auth.repository.interface';
 import type EventBus from '@/domain/event-bus';
 import AuthCompletedEvent from './event-bus/events/AuthCompleted';
+import UnauthorizedError from './entities/errors/Unauthorized';
 
 /**
  * Business logic for Authentication
@@ -24,6 +25,17 @@ export default class AuthService {
       this.repository.restoreSession()
         .then((session) => {
           this.acceptSession(session.accessToken, session.refreshToken);
+        })
+        .catch((error) => {
+          if (error instanceof UnauthorizedError && error.message === 'Session is not valid') {
+            console.warn('❌ Auth session expired');
+
+            this.repository.removeSession();
+
+            return;
+          }
+
+          throw error;
         });
     }
   }

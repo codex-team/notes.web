@@ -44,10 +44,10 @@ export default class AuthRepository implements AuthRepositoryInterface {
   public async removeSession(): Promise<void> {
     const refreshToken = this.authStorage.getRefreshToken();
 
-    const response = this.transport.delete('/auth', {
+    await this.transport.delete('/auth', {
       token: refreshToken,
     });
 
-    console.log('removeSession response', response);
+    this.authStorage.removeRefreshToken();
   }
 }

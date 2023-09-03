@@ -29,4 +29,11 @@ export default class AuthStorage {
   public setRefreshToken(refreshToken: string): void {
     this.storage.setItem('refreshToken', refreshToken);
   }
+
+  /**
+   * Removes refresh token
+   */
+  public removeRefreshToken(): void {
+    this.storage.removeItem('refreshToken');
+  }
 }
