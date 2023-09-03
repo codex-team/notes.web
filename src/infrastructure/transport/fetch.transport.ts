@@ -118,32 +118,34 @@ export default class FetchTransport {
    * @throws Error
    */
   private async parseResponse(response: Response, endpoint: string): Promise<JSONValue> {
+    let payload;
+
     /**
      * Try to parse error data. If it is not valid JSON, throw error
      */
     try {
-      const payload = await response.json();
-
-      /**
-       * The 'ok' read-only property of the Response interface contains a Boolean
-       * stating whether the response was successful (status in the range 200-299) or not
-       *
-       * @see https://developer.mozilla.org/en-US/docs/Web/API/Response/ok
-       */
-      if (response.ok) {
-        return payload;
-      }
-
-      /**
-       * If error formatter is provided, use it to create an Error based on status and payload
-       */
-      if (this.options?.errorFormatter !== undefined) {
-        throw this.options.errorFormatter(response.status, payload, endpoint);
-      } else {
-        throw new Error(`${response.statusText || 'Bad response'} (requesting ${endpoint}))`);
-      }
+      payload = await response.json();
     } catch (error) {
       throw new Error(`The response is not valid JSON (requesting ${endpoint})`);
+    }
+
+    /**
+     * The 'ok' read-only property of the Response interface contains a Boolean
+     * stating whether the response was successful (status in the range 200-299) or not
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/Response/ok
+     */
+    if (response.ok) {
+      return payload;
+    }
+
+    /**
+     * If error formatter is provided, use it to create an Error based on status and payload
+     */
+    if (this.options?.errorFormatter !== undefined) {
+      throw this.options.errorFormatter(response.status, payload, endpoint);
+    } else {
+      throw new Error(`${response.statusText || 'Bad response'} (requesting ${endpoint}))`);
     }
   }
 }
