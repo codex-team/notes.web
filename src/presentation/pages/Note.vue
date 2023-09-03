@@ -8,9 +8,6 @@
     :content="note.content"
     @change="noteChanged"
   />
-  <pre>
-    {{ note }}
-  </pre>
 </template>
 
 <script lang="ts" setup>
