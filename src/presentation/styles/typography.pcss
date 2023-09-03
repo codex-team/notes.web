@@ -46,26 +46,29 @@
 
     h1 {
         @apply --text-heading-1;
+        padding: 0;
         margin: 0 0 var(--spacing-ms);
     }
 
     h2 {
         @apply --text-heading-2;
+        padding: 0;
         margin: var(--spacing-mm) 0 var(--spacing-xxs);
     }
 
     h3 {
         @apply --text-heading-3;
+        padding: 0;
         margin: var(--spacing-xs) 0 var(--spacing-very-x);
     }
 
-    p {
+    .ce-paragraph {
         @apply --text-body;
         padding: var(--spacing-xs) 0;
-    }
- 
-    .small {
-        @apply --text-small;
-        padding: var(--spacing-very-x) 0;
+
+        small {
+            @apply --text-small;
+            padding: var(--spacing-very-x) 0;
+        }
     }
 }
