@@ -1,21 +1,26 @@
 import type { OutputData } from '@editorjs/editorjs';
 
 /**
+ * Note could be resolved by this id
+ */
+export type NoteId = string;
+
+/**
+ * The format we store a note content
+ */
+export type NoteContent = OutputData;
+
+/**
  * Note entity
  */
-export default interface Note {
+export interface Note {
   /**
-   * Note public id
+   * Note unique identifier visible to the user
    */
-  publicId: string;
-
-  /**
-   * Note title
-   */
-  title: string;
+  id: NoteId;
 
   /**
    * Note content
    */
-  content: OutputData;
+  content: NoteContent;
 }

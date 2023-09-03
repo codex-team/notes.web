@@ -131,4 +131,20 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
     return notesSettings;
   }
+  /**
+   * Updates a content of existing note
+   *
+   * @param publicId - Note publicId
+   * @param content - Note content (Editor.js data)
+   */
+  public async updateNoteContent(publicId: string, content: Note['content']): Promise<void> {
+    await this.transport.patch('/note/' + publicId, {
+      content,
+    });
+
+    /**
+     * Insert note to storage
+     */
+    await this.noteStorage.updateNoteContent(publicId, content);
+  }
 }

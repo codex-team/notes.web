@@ -4,14 +4,9 @@ import type NotesSettings from '@/domain/entities/NotesSettings';
 /**
  * Get note response payload
  */
-type GetNoteResponsePayload = Note;
+export type GetNoteResponsePayload = Note;
 
 /**
  * Get notesSettings response payload
  */
-type GetNotesSettingsResponsePayload = NotesSettings;
-
-export type {
-  GetNoteResponsePayload,
-  GetNotesSettingsResponsePayload
-};
+export type GetNotesSettingsResponsePayload = NotesSettings;
