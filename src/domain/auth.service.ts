@@ -30,7 +30,7 @@ export default class AuthService {
           if (error instanceof UnauthorizedError && error.message === 'Session is not valid') {
             console.warn('❌ Auth session expired');
 
-            this.repository.removeSession();
+            this.logout();
 
             return;
           }
@@ -58,5 +58,9 @@ export default class AuthService {
    */
   public async logout(): Promise<void> {
     await this.repository.removeSession();
+
+    /**
+     * @todo dispatch AuthLogoutEvent to notify all listeners about logout
+     */
   }
 }
