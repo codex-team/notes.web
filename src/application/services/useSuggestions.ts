@@ -1,6 +1,8 @@
 import type { Ref, CSSProperties } from 'vue';
 import { createSharedComposable  } from '@vueuse/core';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
+
+/* eslint-disable @typescript-eslint/naming-convention */
 
 /**
  * Returns text line start coordinates
@@ -19,11 +21,9 @@ function getLineStartCoordinates(): { x: number, y: number } {
   selection.modify('extend', 'backward', 'lineboundary');
   const range = selection.getRangeAt(0).cloneRange();
 
-  // range.setEnd(range.endContainer, 0);
   selection.collapseToEnd();
   const rect = range.getBoundingClientRect();
 
-  // console.log(range, selection);
   if (!rect) {
     return;
   }
@@ -34,34 +34,64 @@ function getLineStartCoordinates(): { x: number, y: number } {
   };
 }
 
-
 /**
- * Returns text before caret position
+ * Returns params of the text before caret position
  */
-function getPrecaretText(): string {
+function getPrecaretTextParams(): {
+  text: string;
+  styles: Record<string, string>
+  } {
   const selection = document.getSelection();
 
   selection.modify('extend', 'backward', 'lineboundary');
   const text = selection.toString();
 
-  selection.collapseToEnd();
+  const node = selection.focusNode; // node where selection ends
+  const computedStyles = getComputedStyle(node.parentElement);
 
-  return text;
+  if (selection.rangeCount > 0) {
+    selection.collapseToEnd();
+  }
+
+  const styles = {
+    'font-size': computedStyles.fontSize,
+    'font-family': computedStyles.fontFamily.replace(/"/g, '\''),
+    'font-weight': computedStyles.fontWeight,
+    'line-height': computedStyles.lineHeight,
+    opacity: '0',
+  };
+
+  return {
+    text,
+    styles,
+  };
 }
 
 
-/* eslint-disable @typescript-eslint/naming-convention */
+/**
+ *
+ * @param text
+ * @param styles
+ */
+function buildPlaceholder(text: string, styles: Record<string, string>): string {
+  const stylesString = Object.entries(styles)
+    .map(([key, value]) => `${key}: ${value};`)
+    .join('');
+
+  return `<span style="${stylesString}">${text}</span> `;
+}
+
 
 /**
  * Allows to use text completion in the note editor
  */
-export default createSharedComposable(function (): {
+export default createSharedComposable((): {
   isDisplayed: Ref<boolean>,
   text: Ref<string>,
-  styles: CSSProperties;
+  styles: Ref<CSSProperties>;
   show: (content: string) => Promise<void>;
   hide: () => void;
-  } {
+  } => {
   /**
    * True if suggest should be displayed
    */
@@ -75,7 +105,7 @@ export default createSharedComposable(function (): {
   /**
    * CSS styles to be applied to suggest container
    */
-  const styles = reactive<CSSProperties>({
+  const styles = ref<CSSProperties>({
     '--left': '0',
     '--top': '0',
   });
@@ -86,17 +116,24 @@ export default createSharedComposable(function (): {
    * @param data - suggestion text
    */
   async function show(data: string): Promise<void> {
-    const precaretText = getPrecaretText();
-    const invisibleString = `<span style="opacity: 0">${precaretText}</span> `;
+    const precaretTextParams = getPrecaretTextParams();
 
-    text.value = invisibleString + data;
+    if (!data.endsWith(precaretTextParams.text)) {
+      return;
+    }
+    const placeholderString = buildPlaceholder(precaretTextParams.text, precaretTextParams.styles);
 
+    text.value = placeholderString + data;
     isDisplayed.value = true;
 
     const { x, y } = getLineStartCoordinates();
 
-    styles['--left'] = x + 'px';
-    styles['--top'] = y - 2 + 'px'; // @todo figure out why we need to subtract 2
+    styles.value = {
+      '--left': x + 'px',
+      '--top': y + 'px',
+      '--font-size': precaretTextParams.styles['font-size'],
+      '--line-height': precaretTextParams.styles['line-height'],
+    };
   }
 
   /**
@@ -105,8 +142,8 @@ export default createSharedComposable(function (): {
   function hide(): void {
     text.value = '';
     isDisplayed.value = false;
-    styles['--left'] = '0';
-    styles['--top'] = '0';
+    styles.value['--left'] = '0';
+    styles.value['--top'] = '0';
   }
 
   return {

@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue';
 import Editor, { API, OutputData } from '@editorjs/editorjs';
 import useSuggestions from '@/application/services/useSuggestions';
 import { useDebounceFn } from '@vueuse/core';
@@ -55,6 +55,15 @@ let suggestData;
  */
 const holder = ref<HTMLElement | null>(null);
 
+let textContainer = null;
+
+let insertExpected = false;
+
+// const pureText = computed(() => {
+//   return textContainer?.innerText;
+// });
+
+
 onMounted(() => {
   editor = new Editor({
     /**
@@ -93,7 +102,14 @@ onMounted(() => {
     onChange: useDebounceFn(onChange, 1000),
   });
 
-  holder.value.addEventListener('keydown', onEditorKeydown);
+  editor.isReady.then(() => {
+    textContainer = document.querySelector('.codex-editor__redactor');
+    textContainer.addEventListener('keydown', onEditorKeydown);
+    textContainer.addEventListener('blur', onEditorBlur);
+  });
+
+  // textContainer = document.querySelector('.codex-editor__redactor');
+  // holder.value.addEventListener('keydown', onEditorKeydown);
 });
 
 /**
@@ -109,6 +125,21 @@ function onEditorKeydown(e): void {
   // }
   hideSuggest();
   // suggestData = '';
+
+  if (e.key === 'Tab' && insertExpected) {
+    e.preventDefault();
+
+    insertText(suggestData, editor);
+  }
+  insertExpected = false;
+}
+
+/**
+ *
+ */
+function onEditorBlur() {
+  console.log('blur');
+  insertExpected = false;
 }
 
 /**
@@ -117,32 +148,22 @@ function onEditorKeydown(e): void {
  * @param api
  */
 async function onChange(api: API): Promise<void> {
-  const content = holder.value.innerText;
-  const data2 = await api.saver.save();
+  // if (!textContainer.hasFocus()) {
+  //   return;
+  // }
+  const stillFocused = document.activeElement.closest('.codex-editor__redactor') === textContainer;
 
-  console.log(data2);
+  if (!stillFocused) {
+    return;
+  }
+  const content = textContainer.innerText;
 
   // const data = await noteService.fetchSuggestions(content);
   const data = content;
 
   suggestData = data;
   await showSuggest(data);
-
-  holder.value.removeEventListener('keydown', onInput);
-  holder.value.addEventListener('keydown', onInput);
-  /**
-   *
-   * @param e
-   */
-  function onInput(e: KeyboardEvent) {
-    // console.log('here');
-    if (e.key !== 'Tab') {
-      return;
-    }
-    e.preventDefault();
-
-    insertText(data, api);
-  }
+  insertExpected = true;
 }
 
 
@@ -172,7 +193,7 @@ function insertText(text: string, api: API): void {
 }
 
 onUnmounted(() => {
-  holder.value?.removeEventListener('keydown', onEditorKeydown);
+  textContainer?.removeEventListener('keydown', onEditorKeydown);
 });
 
 </script>

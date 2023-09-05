@@ -17,9 +17,13 @@ const { isDisplayed, text, styles } = useSuggestions();
 
 <style lang="postcss">
 .suggest {
-  position: fixed;
+  font-size: var(--font-size);
+  line-height: var(--line-height) !important;
   left: var(--left);
   top: var(--top);
+
+  position: fixed;
+
   font-style: italic;
   opacity: 0.5;
 
