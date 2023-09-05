@@ -1,17 +1,18 @@
 import type Note from '@/domain/entities/Note';
+import type NotesSettings from '@/domain/entities/NotesSettings';
 
 /**
- * Note repository interface
+ * Repository interface describes the methods that required by domain for its business logic implementation
  */
-export default interface NoteRepository {
+export default interface NoteRepositoryInterface {
 
   /**
    * Returns a Note by id
    *
-   * @param id - Note id
+   * @param publicId - Note id
    * @returns Note | null - Note instance
    */
-  getNoteById(id: number): Promise<Note | null>;
+  getNoteById(publicId: string): Promise<Note | null>;
 
   /**
    * Returns a Note by hostname
@@ -27,4 +28,12 @@ export default interface NoteRepository {
    * @param content - note content
    */
   fetchSuggestions(content: string): Promise<string>
+
+  /**
+   * Returns NotesSettings by publicId
+   *
+   * @param publicId - note publicId
+   * @returns NotesSettings | null - NotesSettings instance
+   */
+  getNotesSettingsById(publicId: string): Promise<NotesSettings | null>;
 }

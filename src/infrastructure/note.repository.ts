@@ -1,8 +1,9 @@
 import type NoteRepositoryInterface from '@/domain/note.repository.interface';
 import type Note from '@/domain/entities/Note';
-import type NoteStorage from '@/infrastructure/storage/note';
+import type NotesSettings from '@/domain/entities/NotesSettings';
+import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
-import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
+import type { GetNoteResponsePayload, GetNotesSettingsResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
 
 /**
  * Note repository
@@ -32,11 +33,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
   /**
    * Get note by id
    *
-   * @param id - Note id
+   * @param publicId - Note publicId
    * @returns { Note | null } - Note instance
    */
-  public async getNoteById(id: number): Promise<Note | null> {
-    const noteData = await this.noteStorage.getNoteById(id);
+  public async getNoteById(publicId: string): Promise<Note | null> {
+    const noteData = await this.noteStorage.getNoteById(publicId);
 
     /**
      * If note data in storage exists
@@ -48,7 +49,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
     /**
      * Get note data from API
      */
-    const note = await this.transport.get<GetNoteResponsePayload>('/note/' + id);
+    const note = await this.transport.get<GetNoteResponsePayload>('/note/' + publicId);
 
     /**
      * If note data in API payload exists
@@ -106,5 +107,39 @@ export default class NoteRepository implements NoteRepositoryInterface {
     const response = await this.transport.post<string>('/ai/complete', { content });
 
     return response;
+  }
+
+  /**
+   * Get NotesSettings by note ID
+   *
+   * @param publicId - Note publicId
+   * @returns { NotesSettings | null } - NotesSettings instance
+   */
+  public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
+    const notesSettingsData = await this.noteStorage.getNotesSettingsById(publicId);
+
+    /**
+     * If notesSettings data in storage exists
+     */
+    if (notesSettingsData) {
+      return notesSettingsData;
+    }
+
+    /**
+     * Get notesSettingsData data from API
+     */
+    const notesSettings = await this.transport.get<GetNotesSettingsResponsePayload>('/note/' + publicId + '/settings');
+
+    /**
+     * If note data in API payload exists
+     */
+    if (notesSettings) {
+      /**
+       * Insert note to storage
+       */
+      await this.noteStorage.updateNotesSettings(notesSettings);
+    }
+
+    return notesSettings;
   }
 }

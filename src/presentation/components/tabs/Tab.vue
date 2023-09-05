@@ -36,11 +36,9 @@ defineProps<Tab>();
   }
 
   :deep(.button__text) {
-    font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
     line-clamp: 1;
-    white-space: nowrap;
     max-width: var(--layout-tab-max-width);
   }
 

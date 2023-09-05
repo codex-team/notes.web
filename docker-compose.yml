@@ -1,6 +1,6 @@
 version: "3.2"
 services:
-  api:
+  web:
     build:
       dockerfile: Dockerfile
       context: .

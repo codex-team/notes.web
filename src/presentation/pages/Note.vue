@@ -19,7 +19,7 @@ const props = defineProps<{
   /**
    * Null for new note, id for reading existing note
    */
-  id: number | null;
+  id: string | null;
 }>();
 
 const { note, load, isLoading } = useNote();

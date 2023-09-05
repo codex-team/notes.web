@@ -27,6 +27,11 @@
         "pattern": "src/domain/*.repository.interface.ts",
         "mode": "file"
       },
+      {
+        "type": "Domain Event Bus",
+        "pattern": "src/domain/event-bus/**",
+        "mode": "file"
+      },
 
       /**
        * Infrastructure-specific layer
@@ -37,8 +42,18 @@
         "mode": "file"
       },
       {
+        "type": "Abstract Repository",
+        "pattern": "src/infrastructure/repository.ts",
+        "mode": "file"
+      },
+      {
         "type": "Repository",
         "pattern": "src/infrastructure/*.repository.ts",
+        "mode": "file"
+      },
+      {
+        "type": "Abstract Storage",
+        "pattern": "src/infrastructure/storage/abstract/*.ts",
         "mode": "file"
       },
       {
@@ -111,6 +126,7 @@
           {
             "from": "Domain Entry",
             "allow": [
+              "Domain Event Bus",
               "Domain Service",
               "Infrastructure Entry",
               "Repository Interface",
@@ -120,6 +136,7 @@
           {
             "from": "Domain Service",
             "allow": [
+              "Domain Event Bus",
               "Entity",
               "Repository Interface",
               "Utils"
@@ -137,6 +154,12 @@
               "Entity"
             ]
           },
+          {
+            "from": "Domain Event Bus",
+            "allow": [
+              "Entity"
+            ]
+          },
 
           /**
            * Infrastructure-specific layer
@@ -144,14 +167,22 @@
           {
             "from": "Infrastructure Entry",
             "allow": [
+              "Domain Event Bus",
               "Repository",
               "Storage",
               "Transport"
             ]
           },
           {
+            "from": "Abstract Repository",
+            "allow": [
+              "Abstract Storage"
+            ]
+          },
+          {
             "from": "Repository",
             "allow": [
+              "Abstract Repository",
               "Repository Interface",
               "Storage",
               "Transport",
@@ -162,6 +193,7 @@
           {
             "from": "Storage",
             "allow": [
+              "Abstract Storage",
               "Entity",
               "Utils"
             ]

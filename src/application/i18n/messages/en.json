@@ -1,5 +1,13 @@
 {
+  "auth": {
+    "login": "Login"
+  },
+  "settings": {
+    "title": "Settings",
+    "changeTheme": "Change theme"
+  },
   "home": {
-    "title": "Home"
+    "title": "Home",
+    "settings": "Settings"
   }
 }

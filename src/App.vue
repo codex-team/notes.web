@@ -17,6 +17,7 @@ useColorMode();
 html,
 body {
   height: 100%;
+  font-size: 16px;
 }
 
 #app {

@@ -5,9 +5,9 @@ import type { OutputData } from '@editorjs/editorjs';
  */
 export default interface Note {
   /**
-   * Note id
+   * Note public id
    */
-  id: number;
+  publicId: string;
 
   /**
    * Note title
