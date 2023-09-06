@@ -74,4 +74,15 @@ onMounted(() => {
 </script>
 
 <style scoped>
+  @import '@/presentation/styles/typography.pcss';
+
+  :global(.ce-paragraph.cdx-block) {
+    @apply --text-body;
+    padding: var(--spacing-xs) 0;
+
+    small {
+      @apply --text-small;
+      padding: var(--spacing-very-x) 0;
+    }
+  }
 </style>

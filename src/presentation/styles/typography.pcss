@@ -24,51 +24,33 @@
   }
 
   --text-body {
-      color: var(--color-text-main);
       font-weight: 400;
       line-height: 25px;
       font-size: 1rem;
   }
 
   --text-small {
-      color: var(--color-text-main);
       font-weight: 400;
       font-size: 0.875rem;
       line-height: 120%;
       letter-spacing: 0.14px;
   }
 
-    .block {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-xs);
-    }
+  h1 {
+    @apply --text-heading-1;
+    padding: 0;
+    margin: 0 0 var(--spacing-ms);
+  }
 
-    h1 {
-        @apply --text-heading-1;
-        padding: 0;
-        margin: 0 0 var(--spacing-ms);
-    }
+  h2 {
+    @apply --text-heading-2;
+    padding: 0;
+    margin: var(--spacing-mm) 0 var(--spacing-xxs);
+  }
 
-    h2 {
-        @apply --text-heading-2;
-        padding: 0;
-        margin: var(--spacing-mm) 0 var(--spacing-xxs);
-    }
-
-    h3 {
-        @apply --text-heading-3;
-        padding: 0;
-        margin: var(--spacing-xs) 0 var(--spacing-very-x);
-    }
-
-    .ce-paragraph {
-        @apply --text-body;
-        padding: var(--spacing-xs) 0;
-
-        small {
-            @apply --text-small;
-            padding: var(--spacing-very-x) 0;
-        }
-    }
+  h3 {
+    @apply --text-heading-3;
+    padding: 0;
+    margin: var(--spacing-xs) 0 var(--spacing-very-x);
+  }
 }
