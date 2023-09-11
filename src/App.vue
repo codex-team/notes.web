@@ -9,8 +9,16 @@
 import { useColorMode } from '@vueuse/core';
 import Header from '@/presentation/components/header/Header.vue';
 import Layout from '@/presentation/layouts/Layout.vue';
+import { onErrorCaptured } from 'vue';
 
 useColorMode();
+
+/**
+ * All errors inside the application
+ */
+onErrorCaptured((error) => {
+  alert(error.message);
+});
 </script>
 
 <style lang="postcss">

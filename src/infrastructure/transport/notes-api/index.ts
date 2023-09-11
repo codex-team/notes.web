@@ -1,6 +1,9 @@
-import type ApiResponse from '@/infrastructure/transport/notes-api/types/ApiResponse';
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import type { ApiErrorResponse } from '@/infrastructure/transport/notes-api/types/ApiResponse';
 import AuthorizableTransport from '@/infrastructure/transport/authorizable.transport';
 import type JSONValue from '../types/JSONValue';
+import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
+import NotFoundError from '@/domain/entities/errors/NotFound';
 
 /**
  * Notes api transport
@@ -12,7 +15,44 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param baseUrl - Base URL
    */
   constructor(baseUrl: string) {
-    super(baseUrl);
+    super(baseUrl, {
+      /**
+       * Method for creating an Error based on Notes API response
+       *
+       * @param status - HTTP status
+       * @param payload - Response JSON payload
+       * @param endpoint - API endpoint we requested
+       */
+      errorFormatter(status, payload) {
+        const { message, code } = (payload as ApiErrorResponse);
+
+        let errorText = '';
+
+        /**
+         * If 'code' is provided, use it as an error text so we can show it to the user using corresponded i18n message
+         */
+        if (code !== undefined) {
+          errorText = code.toString();
+        } else if (message !== undefined) {
+          errorText = message;
+        } else {
+          errorText = 'Unknown error';
+        }
+
+        /**
+         * Create error based on response status
+         */
+        switch (status) {
+          case 401:
+          case 403:
+            return new UnauthorizedError(errorText);
+          case 404:
+            return new NotFoundError(errorText);
+          default:
+            return new Error(errorText);
+        }
+      },
+    });
   }
 
   /**
@@ -22,18 +62,9 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent url encoded
    */
   public async get<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
-    const response = await super.get<ApiResponse<Payload>>(endpoint, data);
+    const response = await super.get(endpoint, data);
 
-    /**
-     * If data is not present in response
-     */
-    if (!('data' in response)) {
-      console.log('Notes API Error:', response.message);
-
-      throw new Error(response.status ? response.status.toString() : 'Data was not received due some problems');
-    }
-
-    return response.data;
+    return response as Payload;
   }
 
   /**
@@ -43,15 +74,9 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent with request body
    */
   public async post<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
-    const response = await super.post<ApiResponse<Payload>>(endpoint, data);
+    const response = await super.post(endpoint, data);
 
-    if ('status' in response) {
-      console.log('Notes API Error:', response.message || response.status);
-
-      throw new Error(response.status.toString());
-    }
-
-    return response.data;
+    return response as Payload;
   }
 
   /**
@@ -61,14 +86,20 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent with request body
    */
   public async delete<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
-    const response = await super.delete<ApiResponse<Payload>>(endpoint, data);
+    const response = await super.delete(endpoint, data);
 
-    if ('status' in response) {
-      console.log('Notes API Error:', response.message || response.status);
+    return response as Payload;
+  }
 
-      throw new Error(response.status.toString());
-    }
+  /**
+   * Make PATCH request to the NoteX API
+   *
+   * @param endpoint - API endpoint
+   * @param data - data to be sent with request body
+   */
+  public async patch<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
+    const response = await super.patch(endpoint, data);
 
-    return response.data;
+    return response as Payload;
   }
 }

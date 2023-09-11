@@ -1,6 +1,16 @@
 import type JSONValue from '@/infrastructure/transport/types/JSONValue';
 
 /**
+ * Additional options for fetch transport
+ */
+export interface FetchTransportOptions {
+  /**
+   * Error formatter to create an Error based on status and payload
+   */
+  errorFormatter?: (status: number, payload: JSONValue, endpoint: string) => Error;
+}
+
+/**
  * Fetch transport to make HTTP requests
  */
 export default class FetchTransport {
@@ -14,8 +24,9 @@ export default class FetchTransport {
    * Fetch constructor
    *
    * @param baseUrl - Base URL
+   * @param options - Transport options
    */
-  constructor(private readonly baseUrl: string) {
+  constructor(private readonly baseUrl: string, private readonly options?: FetchTransportOptions) {
   }
 
   /**
@@ -25,7 +36,7 @@ export default class FetchTransport {
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
    */
-  public async get<Response>(endpoint: string, data?: JSONValue): Promise<Response> {
+  public async get(endpoint: string, data?: JSONValue): Promise<JSONValue> {
     const resourceUrl = new URL(this.baseUrl + endpoint);
 
     if (data !== undefined) {
@@ -37,7 +48,7 @@ export default class FetchTransport {
       headers: this.headers,
     });
 
-    return await response.json();
+    return this.parseResponse(response, endpoint);
   }
 
   /**
@@ -47,7 +58,7 @@ export default class FetchTransport {
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
    */
-  public async post<Response>(endpoint: string, payload?: JSONValue): Promise<Response> {
+  public async post(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
     this.headers.set('Content-Type', 'application/json');
 
     /**
@@ -56,10 +67,10 @@ export default class FetchTransport {
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'POST',
       headers: this.headers,
-      body: payload ? JSON.stringify(payload) : undefined,
+      body: payload !== undefined ? JSON.stringify(payload) : undefined,
     });
 
-    return await response.json();
+    return this.parseResponse(response, endpoint);
   }
 
   /**
@@ -69,15 +80,72 @@ export default class FetchTransport {
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
    */
-  public async delete<Response>(endpoint: string, payload?: JSONValue): Promise<Response> {
+  public async delete(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
     this.headers.set('Content-Type', 'application/json');
 
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'DELETE',
       headers: this.headers,
-      body: payload ? JSON.stringify(payload) : undefined,
+      body: payload !== undefined ? JSON.stringify(payload) : undefined,
     });
 
-    return await response.json();
+    return this.parseResponse(response, endpoint);
+  }
+
+  /**
+   * Make PATCH request to update some resource
+   *
+   * @param endpoint - API endpoint
+   * @param payload - JSON POST data body
+   */
+  public async patch(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
+    this.headers.set('Content-Type', 'application/json');
+
+    const response = await fetch(this.baseUrl + endpoint, {
+      method: 'PATCH',
+      headers: this.headers,
+      body: payload !== undefined ? JSON.stringify(payload) : undefined,
+    });
+
+    return this.parseResponse(response, endpoint);
+  }
+
+  /**
+   * Check response for errors
+   *
+   * @param response - Response object
+   * @param endpoint - API endpoint used for logging
+   * @throws Error
+   */
+  private async parseResponse(response: Response, endpoint: string): Promise<JSONValue> {
+    let payload;
+
+    /**
+     * Try to parse error data. If it is not valid JSON, throw error
+     */
+    try {
+      payload = await response.json();
+    } catch (error) {
+      throw new Error(`The response is not valid JSON (requesting ${endpoint})`);
+    }
+
+    /**
+     * The 'ok' read-only property of the Response interface contains a Boolean
+     * stating whether the response was successful (status in the range 200-299) or not
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/Response/ok
+     */
+    if (response.ok) {
+      return payload;
+    }
+
+    /**
+     * If error formatter is provided, use it to create an Error based on status and payload
+     */
+    if (this.options?.errorFormatter !== undefined) {
+      throw this.options.errorFormatter(response.status, payload, endpoint);
+    } else {
+      throw new Error(`${response.statusText || 'Bad response'} (requesting ${endpoint}))`);
+    }
   }
 }
