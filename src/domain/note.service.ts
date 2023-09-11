@@ -24,7 +24,7 @@ export default class NoteService {
    * Get note
    *
    * @param publicId - Note publicId
-   * @returns { Note | null } - Note data
+   * @returns Note data
    * @throws NotFoundError
    */
   public async getNoteById(publicId: string): Promise<Note> {

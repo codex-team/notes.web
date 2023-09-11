@@ -34,7 +34,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Get note by id
    *
    * @param id - Note identifier
-   * @returns { Note | null } - Note instance
+   * @returns Note instance
    * @throws NotFoundError
    */
   public async getNoteById(id: string): Promise<Note> {
