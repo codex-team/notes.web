@@ -5,12 +5,14 @@ import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
 
 /**
- * Note Draft is a base structure for the empty note
+ * On new note creation, we use predefined structure of the Editor: header + paragraph
+ * We call it NoteDraft
  */
 type NoteDraft = Pick<Note, 'content'>;
 
 /**
- * Creates base structure for the empty note
+ * Creates base structure for the empty note:
+ * First block is Header, second is an empty Paragraph
  */
 function createDraft(): NoteDraft {
   return {
