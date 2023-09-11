@@ -51,7 +51,7 @@ const tabs = computed<Tab[]>(() => {
   /**
    * Show inactive settings tab when we are on note view
    */
-  if ( currentRoute.value.name === 'note_view') {
+  if ( currentRoute.value.name === 'note') {
     availableTabs.push({
       title: t('home.settings'),
       path: currentRoute.value.path + '/settings',

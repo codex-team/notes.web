@@ -3,11 +3,12 @@ import Note from '@/presentation/pages/Note.vue';
 import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
+import type { RouteRecordRaw } from 'vue-router';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     name: 'home',
     path: '/',
@@ -22,7 +23,7 @@ const routes = [
     },
   },
   {
-    name: 'note_view',
+    name: 'note',
     path: '/note/:id',
     component: Note,
     props: route => ({

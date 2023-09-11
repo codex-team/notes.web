@@ -1,19 +1,20 @@
 <template>
-  <Editor
-    :data="editorData"
-  />
-  <div v-if="id && isLoading">
+  <div v-if="note === null">
     Loading...
   </div>
-  <div v-if="id && !note">
-    Note not found
-  </div>
+  <Editor
+    v-else
+    ref="editor"
+    :content="note.content"
+    @change="noteChanged"
+  />
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
+import { NoteContent } from '@/domain/entities/Note';
 
 const props = defineProps<{
   /**
@@ -22,48 +23,29 @@ const props = defineProps<{
   id: string | null;
 }>();
 
-const { note, load, isLoading } = useNote();
+const noteId = computed(() => props.id);
 
-onMounted(() => {
-  /**
-   * If we have id, load note
-   */
-  if (props.id !== null) {
-    load(props.id);
-  }
+const { note, save } = useNote({
+  id: noteId,
 });
 
 /**
- * Data will be used to create new note
+ * Editor component reference
  */
-const defaultData = {
-  blocks: [
-    {
-      type: 'header',
-      data: {
-        level: 1,
-        text: '',
-      },
-    },
-    {
-      type: 'paragraph',
-      data: {
-        text: '',
-      },
-    },
-  ],
-};
+const editor = ref<typeof Editor | undefined>(undefined);
 
 /**
- * Data do display in the editor
+ * Callback for editor change. Saves the note
+ *
+ * @param data - editor data
  */
-const editorData = computed(() => {
-  if (!note.value) {
-    return defaultData;
-  }
+function noteChanged(data: NoteContent): void {
+  const isEmpty = editor.value?.isEmpty();
 
-  return note.value.content;
-});
+  if (!isEmpty) {
+    save(data);
+  }
+}
 </script>
 
 <style scoped>

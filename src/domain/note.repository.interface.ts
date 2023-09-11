@@ -1,4 +1,4 @@
-import type Note from '@/domain/entities/Note';
+import type { Note, NoteContent } from '@/domain/entities/Note';
 import type NotesSettings from '@/domain/entities/NotesSettings';
 
 /**
@@ -11,8 +11,9 @@ export default interface NoteRepositoryInterface {
    *
    * @param publicId - Note id
    * @returns Note | null - Note instance
+   * @throws NotFoundError
    */
-  getNoteById(publicId: string): Promise<Note | null>;
+  getNoteById(publicId: string): Promise<Note>;
 
   /**
    * Returns a Note by hostname
@@ -21,6 +22,13 @@ export default interface NoteRepositoryInterface {
    * @returns Note | null - Note instance
    */
   getNoteByHostname(hostname: string): Promise<Note | null>;
+
+  /**
+   * Creates a new note
+   *
+   * @param content - Note content (Editor.js data)
+   */
+  createNote(content: NoteContent): Promise<Note>;
 
   /**
    * Returns NotesSettings by publicId
