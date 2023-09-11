@@ -150,10 +150,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
-    /**
-     * @todo update note
-     */
-    // await noteService.updateNoteContent(currentId.value, content);
+
+    await noteService.updateNoteContent(currentId.value, content);
   }
 
   /**

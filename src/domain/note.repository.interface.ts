@@ -31,6 +31,14 @@ export default interface NoteRepositoryInterface {
   createNote(content: NoteContent): Promise<Note>;
 
   /**
+   * Updates a content of existing note
+   *
+   * @param id - What note to update
+   * @param content - Note content (Editor.js data)
+   */
+  updateNoteContent(id: string, content: NoteContent): Promise<void>;
+
+  /**
    * Returns NotesSettings by publicId
    *
    * @param publicId - note publicId

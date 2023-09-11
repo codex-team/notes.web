@@ -51,6 +51,17 @@ export default class NoteService {
   }
 
   /**
+   * Updates a content of existing note
+   *
+   * @param id - identifier of the note to update
+   * @param content - Note content (Editor.js data)
+   */
+  public async updateNoteContent(id: string, content: NoteContent): Promise<void> {
+    return await this.noteRepository.updateNoteContent(id, content);
+  }
+
+
+  /**
    * Get notesSettings
    *
    * @param publicId - Note publicId
