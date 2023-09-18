@@ -1,6 +1,5 @@
 import type NoteRepository from '@/domain/note.repository.interface';
 import type { Note, NoteContent } from '@/domain/entities/Note';
-import type NotesSettings from '@/domain/entities/NotesSettings';
 
 /**
  * Note Service
@@ -24,7 +23,7 @@ export default class NoteService {
    * Get note
    *
    * @param publicId - Note publicId
-   * @returns Note data
+   * @returns { Promise<Note> } Note data
    * @throws NotFoundError
    */
   public async getNoteById(publicId: string): Promise<Note> {
@@ -58,18 +57,5 @@ export default class NoteService {
    */
   public async updateNoteContent(id: string, content: NoteContent): Promise<void> {
     return await this.noteRepository.updateNoteContent(id, content);
-  }
-
-
-  /**
-   * Get notesSettings
-   *
-   * @param publicId - Note publicId
-   * @returns { NotesSettings | null } - Note data
-   *
-   * @todo move to the Note Settings service
-   */
-  public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
-    return await this.noteRepository.getNotesSettingsById(publicId);
   }
 }

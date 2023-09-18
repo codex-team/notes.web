@@ -17,7 +17,7 @@
       />
     </div>
   </div>
-  <div v-else-if="isLoading">
+  <div v-else>
     Loading...
   </div>
 </template>
@@ -26,7 +26,7 @@
 import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
-import useNote from '@/application/services/useNote';
+import useNoteSettings from '@/application/services/useNoteSettings';
 
 const props = defineProps<{
   /**
@@ -35,7 +35,7 @@ const props = defineProps<{
    publicId: string | null;
 }>();
 
-const { loadSettings, noteSettings, isLoading } = useNote();
+const { loadSettings, noteSettings } = useNoteSettings();
 
 loadSettings(props.publicId);
 
