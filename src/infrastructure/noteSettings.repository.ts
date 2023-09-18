@@ -1,6 +1,6 @@
 import type NoteSettingsRepositoryInterface from '@/domain/noteSettings.repository.interface';
 import type NotesSettings from '@/domain/entities/NotesSettings';
-import type NoteSettingsStorage from '@/infrastructure/storage/notesSettings';
+import type NoteStorage from '@/infrastructure/storage/note';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNotesSettingsResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
 
@@ -16,7 +16,7 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   /**
    * Note storage
    */
-  private noteStorage: NoteSettingsStorage;
+  private noteStorage: NoteStorage;
 
   /**
    * Note repository constructor
@@ -24,7 +24,7 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
    * @param noteStorage - note storage instance
    * @param notesApiTransport - notes api transport instance
    */
-  constructor(noteStorage: NoteSettingsStorage, notesApiTransport: NotesApiTransport) {
+  constructor(noteStorage: NoteStorage, notesApiTransport: NotesApiTransport) {
     this.noteStorage = noteStorage;
     this.transport = notesApiTransport;
   }
