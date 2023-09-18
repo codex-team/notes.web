@@ -85,12 +85,14 @@ function buildPlaceholder(text: string, styles: Record<string, string>): string 
 /**
  * Allows to use text completion in the note editor
  */
-export default createSharedComposable((): {
+export default createSharedComposable(({ onPaste = () => {} }): {
   isDisplayed: Ref<boolean>,
   text: Ref<string>,
   styles: Ref<CSSProperties>;
   show: (content: string) => Promise<void>;
   hide: () => void;
+  attach: (el: HTMLElement) => void;
+  detach: () => void
   } => {
   /**
    * True if suggest should be displayed
@@ -101,6 +103,15 @@ export default createSharedComposable((): {
    * Suggest html content
    */
   const text = ref('');
+
+  /**
+   * Raw suggestion text
+   */
+  let rawText = '';
+
+  let insertExpected = false;
+
+  let editorContainer: HTMLElement | undefined;
 
   /**
    * CSS styles to be applied to suggest container
@@ -125,6 +136,8 @@ export default createSharedComposable((): {
 
     text.value = placeholderString + data;
     isDisplayed.value = true;
+    rawText = data;
+    insertExpected = true;
 
     const { x, y } = getLineStartCoordinates();
 
@@ -137,18 +150,67 @@ export default createSharedComposable((): {
   }
 
   /**
-   *  Hides suggestion
+   * Hides suggestion
    */
   function hide(): void {
     text.value = '';
     isDisplayed.value = false;
-    styles.value['--left'] = '0';
-    styles.value['--top'] = '0';
+    styles.value = {
+      ...styles.value,
+      '--left': '0',
+      '--top': '0',
+    };
+  }
+
+  /**
+   *
+   * @param editorContainer
+   * @param el
+   */
+  function attach(el: HTMLElement): void {
+    el.addEventListener('keydown', onKeydown);
+    el.addEventListener('blur', onBlur);
+
+    editorContainer = el;
+  }
+
+  /**
+   *
+   * @param e
+   */
+  function onKeydown(e: KeyboardEvent): void {
+    hide();
+    console.log('keydown');
+    if (e.key === 'Tab' && insertExpected) {
+      e.preventDefault();
+      onPaste(rawText);
+    }
+
+    insertExpected = false;
+  }
+
+  /**
+   *
+   */
+  function onBlur(): void {
+    console.log('blur');
+    insertExpected = false;
+    hide();
+  }
+
+  /**
+   *
+   */
+  function detach(): void {
+    editorContainer.removeEventListener('keydown', onKeydown);
+    editorContainer.removeEventListener('blur', onBlur);
   }
 
   return {
     show,
     hide,
+    attach,
+    detach,
     isDisplayed,
     text,
     styles,

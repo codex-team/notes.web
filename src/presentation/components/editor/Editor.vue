@@ -8,12 +8,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import Editor, { API, OutputData } from '@editorjs/editorjs';
 import useSuggestions from '@/application/services/useSuggestions';
 import { useDebounceFn } from '@vueuse/core';
 import Suggest from './Suggest.vue';
-import { noteService } from '@/domain';
+// import { noteService } from '@/domain';
 
 
 /**
@@ -44,11 +44,12 @@ const props = defineProps<{
   data?: OutputData,
 }>();
 
-const { show: showSuggest, hide: hideSuggest } = useSuggestions();
+const { show: showSuggest, /* hide: hideSuggest, */attach, detach } = useSuggestions({
+  onPaste: (data: string) => insertText(data, editorAPI),
+});
 
-let editor;
+let editorAPI;
 
-let suggestData;
 
 /**
  * Editor container element
@@ -57,15 +58,9 @@ const holder = ref<HTMLElement | null>(null);
 
 let textContainer = null;
 
-let insertExpected = false;
-
-// const pureText = computed(() => {
-//   return textContainer?.innerText;
-// });
-
 
 onMounted(() => {
-  editor = new Editor({
+  editorAPI = new Editor({
     /**
      * id of Element that should contain the Editor
      */
@@ -102,68 +97,45 @@ onMounted(() => {
     onChange: useDebounceFn(onChange, 1000),
   });
 
-  editor.isReady.then(() => {
+  editorAPI.isReady.then(() => {
     textContainer = document.querySelector('.codex-editor__redactor');
-    textContainer.addEventListener('keydown', onEditorKeydown);
-    textContainer.addEventListener('blur', onEditorBlur);
+    // textContainer.addEventListener('keydown', onEditorKeydown);
+    // textContainer.addEventListener('blur', () => console.log('blur'));
+
+    attach(textContainer);
+
+    console.log(editorAPI.blocks);
   });
 
   // textContainer = document.querySelector('.codex-editor__redactor');
   // holder.value.addEventListener('keydown', onEditorKeydown);
 });
 
-/**
- * Handles editor input
- *
- * @param e
- */
-function onEditorKeydown(e): void {
-  // if (e.key === 'Tab') {
-  //   e.preventDefault();
+onUnmounted(() => {
+  detach();
+});
 
-  //   insertText(suggestData, editor);
-  // }
-  hideSuggest();
-  // suggestData = '';
-
-  if (e.key === 'Tab' && insertExpected) {
-    e.preventDefault();
-
-    insertText(suggestData, editor);
-  }
-  insertExpected = false;
-}
-
-/**
- *
- */
-function onEditorBlur() {
-  console.log('blur');
-  insertExpected = false;
-}
 
 /**
  * Handles editor change event
  *
  * @param api
  */
-async function onChange(api: API): Promise<void> {
+async function onChange(): Promise<void> {
   // if (!textContainer.hasFocus()) {
   //   return;
   // }
-  const stillFocused = document.activeElement.closest('.codex-editor__redactor') === textContainer;
+  // const stillFocused = document.activeElement.closest('.codex-editor__redactor') === textContainer;
 
-  if (!stillFocused) {
-    return;
-  }
+  // if (!stillFocused) {
+  //   return;
+  // }
   const content = textContainer.innerText;
 
   // const data = await noteService.fetchSuggestions(content);
   const data = content;
 
-  suggestData = data;
   await showSuggest(data);
-  insertExpected = true;
 }
 
 
@@ -192,9 +164,6 @@ function insertText(text: string, api: API): void {
   contenteditable.dispatchEvent(pasteEvent);
 }
 
-onUnmounted(() => {
-  textContainer?.removeEventListener('keydown', onEditorKeydown);
-});
 
 </script>
 
