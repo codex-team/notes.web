@@ -14,9 +14,9 @@ interface UseNoteSettingsComposableState {
   /**
    * Load note settings
    *
-   * @param publicId - note publicId
+   * @param id - note id
    */
-  loadSettings: (publicId: string) => Promise<void>;
+  loadSettings: (id: string) => Promise<void>;
 }
 
 
@@ -32,10 +32,10 @@ export default function (): UseNoteSettingsComposableState {
   /**
    * Get note settings
    *
-   * @param publicId - Note publicId
+   * @param id - Note id
    */
-  const loadSettings = async (publicId: string): Promise<void> => {
-    noteSettings.value = await noteSettingsService.getNotesSettingsById(publicId);
+  const loadSettings = async (id: string): Promise<void> => {
+    noteSettings.value = await noteSettingsService.getNotesSettingsById(id);
   };
 
 
