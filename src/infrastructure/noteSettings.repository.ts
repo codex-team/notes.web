@@ -2,6 +2,7 @@ import type NoteSettingsRepositoryInterface from '@/domain/noteSettings.reposito
 import type NotesSettings from '@/domain/entities/NotesSettings';
 import type NoteStorage from '@/infrastructure/storage/note';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
+import type { NoteId } from '@/domain/entities/Note';
 import type { GetNotesSettingsResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
 
 /**
@@ -32,11 +33,11 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   /**
    * Get NotesSettings by note ID
    *
-   * @param publicId - Note publicId
+   * @param id - Note id
    * @returns { NotesSettings | null } - NotesSettings instance
    */
-  public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
-    const notesSettingsData = await this.noteStorage.getNotesSettingsById(publicId);
+  public async getNotesSettingsById(id: NoteId): Promise<NotesSettings | null> {
+    const notesSettingsData = await this.noteStorage.getNotesSettingsById(id);
 
     /**
      * If notesSettings data in storage exists
@@ -48,7 +49,7 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
     /**
      * Get notesSettingsData data from API
      */
-    const notesSettings = await this.transport.get<GetNotesSettingsResponsePayload>('/note/' + publicId + '/settings');
+    const notesSettings = await this.transport.get<GetNotesSettingsResponsePayload>('/note/' + id + '/settings');
 
     /**
      * If note data in API payload exists

@@ -1,5 +1,6 @@
 import { ref, type Ref } from 'vue';
 import type NotesSettings from '@/domain/entities/NotesSettings';
+import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
 
 /**
@@ -34,7 +35,7 @@ export default function (): UseNoteSettingsComposableState {
    *
    * @param id - Note id
    */
-  const loadSettings = async (id: string): Promise<void> => {
+  const loadSettings = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNotesSettingsById(id);
   };
 

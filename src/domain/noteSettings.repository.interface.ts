@@ -6,10 +6,10 @@ import type NotesSettings from '@/domain/entities/NotesSettings';
 export default interface NoteSettingsRepositoryInterface {
 
   /**
-   * Returns NotesSettings by publicId
+   * Returns NotesSettings by  id
    *
-   * @param publicId - note publicId
+   * @param  id - note  id
    * @returns NotesSettings | null - NotesSettings instance
    */
-  getNotesSettingsById(publicId: string): Promise<NotesSettings | null>;
+  getNotesSettingsById(id: string): Promise<NotesSettings | null>;
 }

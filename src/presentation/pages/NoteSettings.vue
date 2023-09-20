@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { NoteId } from '@/domain/entities/Note';
 import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
@@ -32,12 +33,12 @@ const props = defineProps<{
   /**
    * Id of the current note
    */
-   publicId: string | null;
+   id: NoteId | null;
 }>();
 
 const { loadSettings, noteSettings } = useNoteSettings();
 
-loadSettings(props.publicId);
+loadSettings(props.id);
 
 const emit = defineEmits<{
   click: [event: MouseEvent],
