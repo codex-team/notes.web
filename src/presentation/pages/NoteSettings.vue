@@ -1,10 +1,10 @@
 <template>
   <h1>Note settings</h1>
-  <div v-if="noteSettings">
+  <div v-if="note">
     <TextEdit
       :name="'customHostname'"
       :title="'Custom Hostname'"
-      :value="noteSettings.customHostname"
+      :value="note.customHostname"
       :placeholder="'example: landing.codex.so'"
     />
     <div class="control__button">
@@ -36,9 +36,9 @@ const props = defineProps<{
    id: NoteId | null;
 }>();
 
-const { loadSettings, noteSettings } = useNoteSettings();
+const { load, note } = useNoteSettings();
 
-loadSettings(props.id);
+load(props.id);
 
 const emit = defineEmits<{
   click: [event: MouseEvent],
