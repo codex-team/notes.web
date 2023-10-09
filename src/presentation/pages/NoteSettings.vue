@@ -1,10 +1,10 @@
 <template>
   <h1>Note settings</h1>
-  <div v-if="note">
+  <div v-if="noteSettings">
     <TextEdit
       :name="'customHostname'"
       :title="'Custom Hostname'"
-      :value="note.customHostname"
+      :value="noteSettings.customHostname"
       :placeholder="'example: landing.codex.so'"
     />
     <div class="control__button">
@@ -36,7 +36,7 @@ const props = defineProps<{
    id: NoteId | null;
 }>();
 
-const { load, note } = useNoteSettings();
+const { load, noteSettings } = useNoteSettings();
 
 load(props.id);
 

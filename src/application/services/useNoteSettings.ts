@@ -10,7 +10,7 @@ interface UseNoteSettingsComposableState {
   /**
    * NoteSettings ref
    */
-  note: Ref<NotesSettings | null>;
+  noteSettings: Ref<NotesSettings | null>;
 
   /**
    * Load note settings
@@ -28,7 +28,7 @@ export default function (): UseNoteSettingsComposableState {
   /**
    * NoteSettings ref
    */
-  const note = ref<NotesSettings | null>(null);
+  const noteSettings = ref<NotesSettings | null>(null);
 
   /**
    * Get note settings
@@ -36,12 +36,12 @@ export default function (): UseNoteSettingsComposableState {
    * @param id - Note id
    */
   const load = async (id: NoteId): Promise<void> => {
-    note.value = await noteSettingsService.getNotesSettingsById(id);
+    noteSettings.value = await noteSettingsService.getNotesSettingsById(id);
   };
 
 
   return {
-    note,
+    noteSettings,
     load,
   };
 }
