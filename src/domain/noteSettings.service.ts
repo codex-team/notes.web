@@ -1,6 +1,7 @@
 import type NoteSettingsRepository from '@/domain/noteSettings.repository.interface';
-import type NotesSettings from '@/domain/entities/NotesSettings';
+import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
+import NotFoundError from './entities/errors/NotFound';
 
 /**
  * Note Service
@@ -21,17 +22,21 @@ export default class NoteService {
   }
 
   /**
-   * Get notesSettings
+   * Returns setting for a note with passed id
    *
    * @param id - Note id
    */
-  public async getNotesSettingsById(id: NoteId): Promise<NotesSettings | null> {
+  public async getNoteSettingsById(id: NoteId): Promise<NoteSettings | null> {
     let result;
 
     try {
-      result = await this.noteSettingsRepository.getNotesSettingsById(id);
+      result = await this.noteSettingsRepository.getNoteSettingsById(id);
     } catch (error) {
-      throw new Error(`404 Not Found: We couldn't find ${id} note.`);
+      if (error instanceof NotFoundError) {
+        throw new Error(`404 Not Found: We couldn't find ${id} note.`);
+      }
+
+      throw error;
     }
 
     return result;

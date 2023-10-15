@@ -1,4 +1,4 @@
-import type NotesSettings from '@/domain/entities/NotesSettings';
+import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 
 /**
@@ -7,11 +7,11 @@ import type { NoteId } from './entities/Note';
 export default interface NoteSettingsRepositoryInterface {
 
   /**
-   * Returns NotesSettings by  id
+   * Returns setting for a note with passed id
    *
    * @param  id - note  id
    * @throws Will throw an error if id is not found.
-   * @returns NotesSettings - NotesSettings instance
+   * @returns NoteSettings - NoteSettings instance
    */
-  getNotesSettingsById(id: NoteId): Promise<NotesSettings>;
+  getNoteSettingsById(id: NoteId): Promise<NoteSettings>;
 }

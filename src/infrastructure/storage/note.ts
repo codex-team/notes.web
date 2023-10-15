@@ -1,5 +1,5 @@
 import type { Note } from '@/domain/entities/Note';
-import type NotesSettings from '@/domain/entities/NotesSettings';
+import type NoteSettings from '@/domain/entities/NoteSettings';
 
 /**
  * Note storage
@@ -41,24 +41,24 @@ export default class NoteStorage {
   }
 
   /**
-   * Get notesSettings by id
+   * Returns setting for a note by id
    *
    * @param publicId - Note publicId
-   * @returns { NotesSettings | null } - Note data
+   * @returns { NoteSettings | null } - Note data
    */
-  public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
-    console.log('Get notesSettings by publicId', publicId);
+  public async getNoteSettingsById(publicId: string): Promise<NoteSettings | null> {
+    console.log('Get noteSettings by publicId', publicId);
 
     return null;
   }
 
   /**
-   * Update notesSettings
+   * Update noteSettings
    *
-   * @param notesSettings - notesSettings to update
+   * @param noteSettings - noteSettings to update
    */
-  public async updateNotesSettings(notesSettings: NotesSettings): Promise<void> {
-    console.log('Update notesSettings', notesSettings);
+  public async updateNoteSettings(noteSettings: NoteSettings): Promise<void> {
+    console.log('Update noteSettings', noteSettings);
 
     return;
   }
