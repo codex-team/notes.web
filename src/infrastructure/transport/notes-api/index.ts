@@ -21,7 +21,6 @@ export default class NotesApiTransport extends AuthorizableTransport {
        *
        * @param status - HTTP status
        * @param payload - Response JSON payload
-       * @param endpoint - API endpoint we requested
        */
       errorFormatter(status, payload) {
         const { message, code } = (payload as ApiErrorResponse);

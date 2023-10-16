@@ -34,19 +34,9 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Get note by id
    *
    * @param id - Note identifier
-   * @returns Note instance
    * @throws NotFoundError
    */
   public async getNoteById(id: string): Promise<Note> {
-    const noteData = await this.noteStorage.getNoteById(id);
-
-    /**
-     * If note data in storage exists
-     */
-    if (noteData !== null) {
-      return noteData;
-    }
-
     /**
      * Get note data from API
      */
@@ -60,31 +50,10 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @returns { Note | null } - Note instance
    */
   public async getNoteByHostname(hostname: string): Promise<Note | null> {
-    const noteData = await this.noteStorage.getNoteByHostname(hostname);
-
-    /**
-     * If note data in storage exists
-     */
-    if (noteData) {
-      return noteData;
-    }
-
     /**
      * Get note data from API
      */
-    const note = await this.transport.get<GetNoteResponsePayload>('/note/resolve-hostname/' + encodeURIComponent(hostname));
-
-    /**
-     * If note data in API payload exists
-     */
-    if (note) {
-      /**
-       * Insert note to storage
-       */
-      await this.noteStorage.insertNote(note);
-    }
-
-    return note;
+    return await this.transport.get<GetNoteResponsePayload>('/note/resolve-hostname/' + encodeURIComponent(hostname));
   }
 
   /**
@@ -94,31 +63,10 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @returns { NotesSettings | null } - NotesSettings instance
    */
   public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
-    const notesSettingsData = await this.noteStorage.getNotesSettingsById(publicId);
-
-    /**
-     * If notesSettings data in storage exists
-     */
-    if (notesSettingsData) {
-      return notesSettingsData;
-    }
-
     /**
      * Get notesSettingsData data from API
      */
-    const notesSettings = await this.transport.get<GetNotesSettingsResponsePayload>('/note/' + publicId + '/settings');
-
-    /**
-     * If note data in API payload exists
-     */
-    if (notesSettings) {
-      /**
-       * Insert note to storage
-       */
-      await this.noteStorage.updateNotesSettings(notesSettings);
-    }
-
-    return notesSettings;
+    return await this.transport.get<GetNotesSettingsResponsePayload>('/note/' + publicId + '/settings');
   }
 
   /**

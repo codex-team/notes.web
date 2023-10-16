@@ -21,14 +21,13 @@ export default class NoteService {
   }
 
   /**
-   * Get note
+   * Returns a note by its id
    *
-   * @param publicId - Note publicId
-   * @returns Note data
+   * @param id - Note id
    * @throws NotFoundError
    */
-  public async getNoteById(publicId: string): Promise<Note> {
-    return await this.noteRepository.getNoteById(publicId);
+  public async getNoteById(id: string): Promise<Note> {
+    return await this.noteRepository.getNoteById(id);
   }
 
   /**

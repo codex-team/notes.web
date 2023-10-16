@@ -1,4 +1,4 @@
-import type Note from '@/domain/entities/Note';
+import type { Note } from '@/domain/entities/Note';
 import type NotesSettings from '@/domain/entities/NotesSettings';
 
 /**
