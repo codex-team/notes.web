@@ -73,7 +73,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
    * Init repositories
    */
   const noteRepository = new NoteRepository(noteStore, notesApiTransport);
-  const noteSettingsRepository = new NoteSettingsRepository(noteStore, notesApiTransport);
+  const noteSettingsRepository = new NoteSettingsRepository(notesApiTransport);
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
 
