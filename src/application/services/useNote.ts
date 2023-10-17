@@ -1,5 +1,4 @@
 import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
-import type NotesSettings from '@/domain/entities/NotesSettings';
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
@@ -53,22 +52,6 @@ interface UseNoteComposableState {
   save: (content: NoteContent) => Promise<void>;
 
   /**
-   * NoteSettings ref
-   *
-   * @todo move to the Note Settings service
-   */
-  noteSettings: Ref<NotesSettings | null>;
-
-  /**
-   * Load note settings
-   *
-   * @param publicId - note publicId
-   *
-   * @todo move to the Note Settings service
-   */
-  loadSettings: (publicId: string) => Promise<void>;
-
-  /**
    * Load note by custom hostname
    */
   resolveHostname: () => Promise<void>;
@@ -98,11 +81,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * When new note is created, fill with draft
    */
   const note = ref<Note | NoteDraft | null>(currentId.value === null ? createDraft() : null);
-
-  /**
-   * NoteSettings ref
-   */
-  const noteSettings = ref<NotesSettings | null>(null);
 
   /**
    * Router instance used to replace the current route with note id
@@ -155,17 +133,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
-   * Get note settings
-   *
-   * @param publicId - Note publicId
-   *
-   * @todo move to the Note Settings service
-   */
-  const loadSettings = async (publicId: string): Promise<void> => {
-    noteSettings.value = await noteService.getNotesSettingsById(publicId);
-  };
-
-  /**
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
@@ -205,9 +172,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
-    noteSettings,
     resolveHostname,
-    loadSettings,
     save,
   };
 }

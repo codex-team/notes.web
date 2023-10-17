@@ -1,5 +1,4 @@
 import type { Note, NoteContent } from '@/domain/entities/Note';
-import type NotesSettings from '@/domain/entities/NotesSettings';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -37,12 +36,4 @@ export default interface NoteRepositoryInterface {
    * @param content - Note content (Editor.js data)
    */
   updateNoteContent(id: string, content: NoteContent): Promise<void>;
-
-  /**
-   * Returns NotesSettings by publicId
-   *
-   * @param publicId - note publicId
-   * @returns NotesSettings | null - NotesSettings instance
-   */
-  getNotesSettingsById(publicId: string): Promise<NotesSettings | null>;
 }

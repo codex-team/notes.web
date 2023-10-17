@@ -1,9 +1,9 @@
 /**
- * NotesSettings entity
+ * NoteSettings entity
  */
-export default interface NotesSettings {
+export default interface NoteSettings {
   /**
-   * NotesSettings id
+   * NoteSettings id
    */
   id: number;
 

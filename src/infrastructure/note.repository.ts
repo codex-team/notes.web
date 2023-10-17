@@ -1,9 +1,8 @@
 import type NoteRepositoryInterface from '@/domain/note.repository.interface';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
-import type NotesSettings from '@/domain/entities/NotesSettings';
 import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
-import type { GetNoteResponsePayload, GetNotesSettingsResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
+import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
 
 /**
  * Note repository
@@ -54,19 +53,6 @@ export default class NoteRepository implements NoteRepositoryInterface {
      * Get note data from API
      */
     return await this.transport.get<GetNoteResponsePayload>('/note/resolve-hostname/' + encodeURIComponent(hostname));
-  }
-
-  /**
-   * Get NotesSettings by note ID
-   *
-   * @param publicId - Note publicId
-   * @returns { NotesSettings | null } - NotesSettings instance
-   */
-  public async getNotesSettingsById(publicId: string): Promise<NotesSettings | null> {
-    /**
-     * Get notesSettingsData data from API
-     */
-    return await this.transport.get<GetNotesSettingsResponsePayload>('/note/' + publicId + '/settings');
   }
 
   /**
