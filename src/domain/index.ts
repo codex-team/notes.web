@@ -1,5 +1,5 @@
 import NoteService from '@/domain/note.service';
-import NoteSettingsService from '@/domain/NoteSettings.service';
+import NoteSettingsService from '@/domain/noteSettings.service';
 import AuthService from '@/domain/auth.service';
 import UserService from '@/domain/user.service';
 import { init as initRepositories } from '@/infrastructure';
