@@ -1,9 +1,14 @@
-import { shallowRef, type ShallowRef } from 'vue';
-import { useRouter } from 'vue-router';
+import { shallowRef, type ShallowRef, type Component } from 'vue';
+import { useRoute } from 'vue-router';
 import Default from '@/presentation/layouts/Default.vue';
 
-const layouts = {
-  Default,
+/**
+ * Layouts available in application.
+ *
+ * Layout — is page wrapper. You can use it to create different layouts for different pages, e.g.: multiple sidebars, etc.
+ */
+export const layouts = {
+  default: Default,
 };
 
 /**
@@ -11,14 +16,13 @@ const layouts = {
  *
  * @returns { ShallowRef<string> } - Layout template was got by meta
  */
-export default function (): ShallowRef<string> {
-  const layout = shallowRef('div');
-  const router = useRouter();
+export default function (): ShallowRef<Component> {
+  const layout = shallowRef(layouts.default);
+  const route = useRoute();
 
-
-  router.beforeEach((to) => {
-    layout.value = layouts[to.meta.layout] || Default;
-  });
+  if (route.meta.layout !== undefined) {
+    layout.value = layouts[route.meta.layout];
+  }
 
   return layout;
 }

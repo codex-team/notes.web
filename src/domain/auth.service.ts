@@ -23,14 +23,14 @@ export default class AuthService {
 
     if (this.repository.hasSession()) {
       this.repository.restoreSession()
-        .then((session) => {
-          this.acceptSession(session.accessToken, session.refreshToken);
+        .then(async (session) => {
+          await this.acceptSession(session.accessToken, session.refreshToken);
         })
-        .catch((error) => {
+        .catch(async (error) => {
           if (error instanceof UnauthorizedError && error.message === 'Session is not valid') {
             console.warn('❌ Auth session expired');
 
-            this.logout();
+            await this.logout();
 
             return;
           }

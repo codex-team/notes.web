@@ -118,7 +118,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       /**
        * Replace the current route with note id
        */
-      router.replace({
+      void router.replace({
         name: 'note',
         params: {
           id: noteCreated.id,
@@ -144,7 +144,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      * If we have id, load note
      */
     if (currentId.value !== null) {
-      load(currentId.value);
+      void load(currentId.value);
     }
   });
 
@@ -167,7 +167,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
-    load(newId);
+    void load(newId);
   });
 
   return {
