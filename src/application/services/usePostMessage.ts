@@ -21,7 +21,7 @@ export const usePostMessage = createSharedComposable((): UsePostMessageComposabl
   /**
    * Listener for postMessage events
    */
-  let listener = null;
+  let listener: Callback | null = null;
 
   /**
    * Callbacks subscribed on postMessage events

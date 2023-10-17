@@ -33,19 +33,9 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Get note by id
    *
    * @param id - Note identifier
-   * @returns { Promise<Note> } Note instance
    * @throws NotFoundError
    */
   public async getNoteById(id: string): Promise<Note> {
-    const noteData = await this.noteStorage.getNoteById(id);
-
-    /**
-     * If note data in storage exists
-     */
-    if (noteData !== null) {
-      return noteData;
-    }
-
     /**
      * Get note data from API
      */
@@ -59,31 +49,10 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @returns { Note | null } - Note instance
    */
   public async getNoteByHostname(hostname: string): Promise<Note | null> {
-    const noteData = await this.noteStorage.getNoteByHostname(hostname);
-
-    /**
-     * If note data in storage exists
-     */
-    if (noteData) {
-      return noteData;
-    }
-
     /**
      * Get note data from API
      */
-    const note = await this.transport.get<GetNoteResponsePayload>('/note/resolve-hostname/' + encodeURIComponent(hostname));
-
-    /**
-     * If note data in API payload exists
-     */
-    if (note) {
-      /**
-       * Insert note to storage
-       */
-      await this.noteStorage.insertNote(note);
-    }
-
-    return note;
+    return await this.transport.get<GetNoteResponsePayload>('/note/resolve-hostname/' + encodeURIComponent(hostname));
   }
 
   /**

@@ -4,11 +4,13 @@ export {};
 
 declare module '*.vue'
 
+import type { layouts } from '@/application/services/useLayout';
+
 declare module 'vue-router' {
   interface RouteMeta {
     /**
      * Layout like component wrapper
      */
-    layout?: string
+    layout?: keyof typeof layouts;
   }
 }
