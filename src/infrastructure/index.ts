@@ -1,4 +1,5 @@
 import NoteRepository from '@/infrastructure/note.repository';
+import NoteSettingsRepository from '@/infrastructure/noteSettings.repository';
 import NoteStore from '@/infrastructure/storage/note';
 import NotesApiTransport from '@/infrastructure/transport/notes-api';
 import AuthRepository from '@/infrastructure/auth.repository';
@@ -17,6 +18,11 @@ export interface Repositories {
    * Working with Note data
    */
   note: NoteRepository;
+
+  /**
+   * Working with Note settings data
+   */
+  noteSettings: NoteSettingsRepository;
 
   /**
    * Working with Auth data
@@ -67,11 +73,13 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
    * Init repositories
    */
   const noteRepository = new NoteRepository(noteStore, notesApiTransport);
+  const noteSettingsRepository = new NoteSettingsRepository(notesApiTransport);
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
 
   return {
     note: noteRepository,
+    noteSettings: noteSettingsRepository,
     auth: authRepository,
     user: userRepository,
   };
