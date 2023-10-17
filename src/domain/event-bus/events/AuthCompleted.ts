@@ -8,7 +8,7 @@ export const AUTH_COMPLETED_EVENT_NAME = 'auth-completed';
 /**
  * Use cross domain events to explicitly implement side effects of changes within of a domain
  */
-export default class AuthCompletedEvent extends CustomEvent<AuthSession> {
+export class AuthCompletedEvent extends CustomEvent<AuthSession> {
   /**
    * Constructor options
    *
