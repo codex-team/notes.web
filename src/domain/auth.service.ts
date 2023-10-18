@@ -1,6 +1,6 @@
 import type AuthRepository from '@/domain/auth.repository.interface';
 import type EventBus from '@/domain/event-bus';
-import AuthCompletedEvent from './event-bus/events/AuthCompleted';
+import { AuthCompletedEvent } from './event-bus/events/AuthCompleted';
 import UnauthorizedError from './entities/errors/Unauthorized';
 
 /**
