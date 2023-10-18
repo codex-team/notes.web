@@ -24,10 +24,8 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
 
   /**
    * Subscribe to user changes in the App State
-   *
-   * @todo create better type definition for params
    */
-  AppStateController.user((prop: 'user', value: User) => {
+  AppStateController.user((prop: 'user', value: User | null) => {
     if (prop === 'user') {
       user.value = value;
     }

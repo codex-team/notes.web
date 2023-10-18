@@ -1,4 +1,4 @@
-import { SubscribableStore, type PropChangeCallback }  from './storage/abstract/subscribable';
+import { SubscribableStore, type PropChangeCallback } from './storage/abstract/subscribable';
 
 /**
  * Base class for repositories
@@ -17,7 +17,7 @@ export default abstract class Repository<Store, StoreData> {
    *
    * @param callback - callback that will be called on store change. Accepts new store data
    */
-  public onStoreChange(callback: PropChangeCallback<StoreData> ): void {
+  public setStoreChangeCallback(callback: PropChangeCallback<StoreData> ): void {
     if (this.store instanceof SubscribableStore) {
       this.store.subscribe(callback);
     } else {

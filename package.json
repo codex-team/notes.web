@@ -4,11 +4,12 @@
   "author": "CodeX <team@codex.so> (https://codex.so)",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite & yarn watch-ts",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.vue",
-    "lint:fix": "yarn lint --fix"
+    "lint:fix": "yarn lint --fix",
+    "watch-ts": "vue-tsc --noEmit --watch"
   },
   "dependencies": {
     "@codexteam/icons": "^0.3.0",

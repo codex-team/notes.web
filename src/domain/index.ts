@@ -33,7 +33,8 @@ const userService = new UserService(eventBus, repositories.user);
  * Allows to subscribe to store data changes
  */
 export const AppStateController = {
-  user: (callback) => repositories.user.onStoreChange(callback),
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  user: (callback: Parameters<typeof repositories.user.setStoreChangeCallback>[0]) => repositories.user.setStoreChangeCallback(callback),
 };
 
 export {
