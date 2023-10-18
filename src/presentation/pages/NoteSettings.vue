@@ -33,7 +33,7 @@ const props = defineProps<{
   /**
    * Id of the current note
    */
-   id: NoteId | null;
+   id: NoteId;
 }>();
 
 const { load, noteSettings } = useNoteSettings();
