@@ -6,19 +6,31 @@
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import Editor, { type OutputData, type API } from '@editorjs/editorjs';
 
-
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Header from '@editorjs/header';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Image from '@editorjs/image';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import CodeTool from '@editorjs/code';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import List from '@editorjs/list';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Delimiter from '@editorjs/delimiter';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Table from '@editorjs/table';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Warning from '@editorjs/warning';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Checklist from '@editorjs/checklist';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import LinkTool from '@editorjs/link';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import RawTool from '@editorjs/raw';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Embed from '@editorjs/embed';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import InlineCode from '@editorjs/inline-code';
+// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Marker from '@editorjs/marker';
 
 

@@ -7,8 +7,7 @@ import AuthStore from '@/infrastructure/storage/auth';
 import UserRepository from '@/infrastructure/user.repository';
 import { UserStore } from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
-import type AuthCompletedEvent from '@/domain/event-bus/events/AuthCompleted';
-import { AUTH_COMPLETED_EVENT_NAME } from '@/domain/event-bus/events/AuthCompleted';
+import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
 
 /**
  * Repositories
