@@ -11,10 +11,13 @@
 !app-config.yaml
 !package.json
 !package-lock.json
+!yarn.lock
+!.yarnrc.yml
 !tsconfig.json
 !index.html
 !vite.config.ts
 !postcss.config.js
+!.yarn/releases
 
 # Ignore unnecessary files inside allowed directories
 **/*~
