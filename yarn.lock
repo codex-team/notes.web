@@ -953,7 +953,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^6.2.0, @typescript-eslint/eslint-plugin@npm:^6.8.0":
+"@typescript-eslint/eslint-plugin@npm:^6.8.0":
   version: 6.8.0
   resolution: "@typescript-eslint/eslint-plugin@npm:6.8.0"
   dependencies:
@@ -978,7 +978,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^6.2.0":
+"@typescript-eslint/parser@npm:^6.8.0":
   version: 6.8.0
   resolution: "@typescript-eslint/parser@npm:6.8.0"
   dependencies:
@@ -1875,9 +1875,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.535":
-  version: 1.4.559
-  resolution: "electron-to-chromium@npm:1.4.559"
-  checksum: 020388642361ee08744256d3e56842d28611b0ba5967897cba574e08abb6ad851c03626393f326cbb85e65318ee85afd240a5dbf1e72f3fb04f3050243146228
+  version: 1.4.560
+  resolution: "electron-to-chromium@npm:1.4.560"
+  checksum: 30ba099592544235f1cc79c56d0ce370d4e5309072e02e099e7714a4de370286e635853f0b9c6f16bedbcc65c979352128dde8607895d6cbb901a42c9cae0a70
   languageName: node
   linkType: hard
 
@@ -2097,25 +2097,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-codex@npm:^1.8.2":
-  version: 1.8.3
-  resolution: "eslint-config-codex@npm:1.8.3"
+"eslint-config-codex@npm:^1.9.1":
+  version: 1.9.1
+  resolution: "eslint-config-codex@npm:1.9.1"
   dependencies:
-    "@typescript-eslint/eslint-plugin": ^6.2.0
-    "@typescript-eslint/parser": ^6.2.0
-    eslint-config-standard: 17.1.0
-    eslint-plugin-import: 2.28.0
-    eslint-plugin-jsdoc: ^46.4.5
-    eslint-plugin-n: ^16.0.1
-    eslint-plugin-promise: 6.1.1
-    eslint-plugin-standard: 5.0.0
+    "@typescript-eslint/eslint-plugin": ^6.8.0
+    "@typescript-eslint/parser": ^6.8.0
+    eslint-config-standard: ^17.1.0
+    eslint-plugin-import: ^2.28.1
+    eslint-plugin-jsdoc: ^46.8.2
+    eslint-plugin-n: ^16.2.0
+    eslint-plugin-promise: ^6.1.1
   peerDependencies:
     eslint: ">= 5.3.0"
-  checksum: e822c990b749d8b1410be0d950aef75654f296b193091a79d73df1e7f33e50c6bc7396866dd4c421b9b71d7c650d38f8fe56c1792c2ec78353ef6bc5cbdf99f1
+  checksum: cad03b9f47791e2cf9bca5e1d5dd50cca6697f3783b6e3198f467896e963b94170ff921b46895a1a50c77f715de6918ff94830e3042729c0c9e9e61038da44e4
   languageName: node
   linkType: hard
 
-"eslint-config-standard@npm:17.1.0":
+"eslint-config-standard@npm:^17.1.0":
   version: 17.1.0
   resolution: "eslint-config-standard@npm:17.1.0"
   peerDependencies:
@@ -2195,9 +2194,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:2.28.0":
-  version: 2.28.0
-  resolution: "eslint-plugin-import@npm:2.28.0"
+"eslint-plugin-import@npm:^2.28.1":
+  version: 2.28.1
+  resolution: "eslint-plugin-import@npm:2.28.1"
   dependencies:
     array-includes: ^3.1.6
     array.prototype.findlastindex: ^1.2.2
@@ -2208,22 +2207,21 @@ __metadata:
     eslint-import-resolver-node: ^0.3.7
     eslint-module-utils: ^2.8.0
     has: ^1.0.3
-    is-core-module: ^2.12.1
+    is-core-module: ^2.13.0
     is-glob: ^4.0.3
     minimatch: ^3.1.2
     object.fromentries: ^2.0.6
     object.groupby: ^1.0.0
     object.values: ^1.1.6
-    resolve: ^1.22.3
     semver: ^6.3.1
     tsconfig-paths: ^3.14.2
   peerDependencies:
     eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
-  checksum: f9eba311b93ca1bb89311856b1f7285bd79e0181d7eb70fe115053ff77e2235fea749b30f538b78927dc65769340b5be61f4c9581d1c82bcdcccb2061f440ad1
+  checksum: e8ae6dd8f06d8adf685f9c1cfd46ac9e053e344a05c4090767e83b63a85c8421ada389807a39e73c643b9bff156715c122e89778169110ed68d6428e12607edf
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsdoc@npm:^46.4.5":
+"eslint-plugin-jsdoc@npm:^46.8.2":
   version: 46.8.2
   resolution: "eslint-plugin-jsdoc@npm:46.8.2"
   dependencies:
@@ -2242,7 +2240,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^16.0.1":
+"eslint-plugin-n@npm:^16.2.0":
   version: 16.2.0
   resolution: "eslint-plugin-n@npm:16.2.0"
   dependencies:
@@ -2261,21 +2259,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-promise@npm:6.1.1":
+"eslint-plugin-promise@npm:^6.1.1":
   version: 6.1.1
   resolution: "eslint-plugin-promise@npm:6.1.1"
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
   checksum: 46b9a4f79dae5539987922afc27cc17cbccdecf4f0ba19c0ccbf911b0e31853e9f39d9959eefb9637461b52772afa1a482f1f87ff16c1ba38bdb6fcf21897e9a
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-standard@npm:5.0.0":
-  version: 5.0.0
-  resolution: "eslint-plugin-standard@npm:5.0.0"
-  peerDependencies:
-    eslint: ">=5.0.0"
-  checksum: 58f1aba8915560535604bdfe4bf96dd86cdf5507cb8cec69345b0fba4afccf2af513336ffff0be5492f087c45fc492f4cde422857f98b9e88b2f64e25bb9316c
   languageName: node
   linkType: hard
 
@@ -2313,7 +2302,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.45.0":
+"eslint@npm:^8.51.0":
   version: 8.51.0
   resolution: "eslint@npm:8.51.0"
   dependencies:
@@ -3543,11 +3532,10 @@ __metadata:
     "@editorjs/raw": ^2.4.0
     "@editorjs/table": ^2.2.2
     "@editorjs/warning": ^1.3.0
-    "@typescript-eslint/eslint-plugin": ^6.8.0
     "@vitejs/plugin-vue": ^4.1.0
     "@vueuse/core": ^10.3.0
-    eslint: ^8.45.0
-    eslint-config-codex: ^1.8.2
+    eslint: ^8.51.0
+    eslint-config-codex: ^1.9.1
     eslint-import-resolver-typescript: ^3.5.5
     eslint-plugin-boundaries: ^3.1.1
     eslint-plugin-vue: ^9.15.1
@@ -4266,7 +4254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.22.2, resolve@npm:^1.22.3, resolve@npm:^1.22.4":
+"resolve@npm:^1.22.2, resolve@npm:^1.22.4":
   version: 1.22.8
   resolution: "resolve@npm:1.22.8"
   dependencies:
@@ -4279,7 +4267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.22.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.3#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.22.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
   version: 1.22.8
   resolution: "resolve@patch:resolve@npm%3A1.22.8#~builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
   dependencies:
