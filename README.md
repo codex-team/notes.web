@@ -12,6 +12,11 @@ Install dependencies
 yarn install
 ```
 
+Copy .env.sample as .env
+```
+cp .env.sample .env
+```
+
 Run the project
 ```
 yarn dev
