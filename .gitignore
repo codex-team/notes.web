@@ -13,7 +13,9 @@ dist-ssr
 *.local
 
 # package manager
-.yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
 .pnp.*
 
 # Editor directories and files
