@@ -57,15 +57,22 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
    * When we got authorized
    */
   eventBus.addEventListener(AUTH_COMPLETED_EVENT_NAME, (event: AuthCompletedEvent) => {
-    /**
-     * Authorize API transport
-     */
-    notesApiTransport.authorize(event.detail.accessToken);
+    if (event.detail !== null) {
+      /**
+       * Authorize API transport
+       */
+      notesApiTransport.authorize(event.detail.accessToken);
 
-    /**
-     * Save refresh token
-     */
-    authStore.setRefreshToken(event.detail.refreshToken);
+      /**
+       * Save refresh token
+       */
+      authStore.setRefreshToken(event.detail.refreshToken);
+    } else {
+      /**
+       * Tell API transport to continue working in anonymous mode (send waiting requests without auth)
+       */
+      notesApiTransport.continueAnonymous();
+    }
   });
 
   /**
