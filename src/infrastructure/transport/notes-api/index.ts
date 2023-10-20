@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { ApiErrorResponse } from '@/infrastructure/transport/notes-api/types/ApiResponse';
+import type { AuthorizableRequestParams } from '@/infrastructure/transport/authorizable.transport';
 import AuthorizableTransport from '@/infrastructure/transport/authorizable.transport';
 import type JSONValue from '../types/JSONValue';
 import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
 import NotFoundError from '@/domain/entities/errors/NotFound';
+
+/**
+ * Additional params that could be specified for request to NoteX API
+ */
+interface NotexApiRequestParams extends AuthorizableRequestParams {}
 
 /**
  * Notes api transport
@@ -59,9 +65,10 @@ export default class NotesApiTransport extends AuthorizableTransport {
    *
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
+   * @param params - Additional params to tune request
    */
-  public async get<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
-    const response = await super.get(endpoint, data);
+  public async get<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
+    const response = await super.get(endpoint, data, params);
 
     return response as Payload;
   }
@@ -71,9 +78,10 @@ export default class NotesApiTransport extends AuthorizableTransport {
    *
    * @param endpoint - API endpoint
    * @param data - data to be sent with request body
+   * @param params - Additional params to tune request
    */
-  public async post<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
-    const response = await super.post(endpoint, data);
+  public async post<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
+    const response = await super.post(endpoint, data, params);
 
     return response as Payload;
   }
@@ -83,9 +91,10 @@ export default class NotesApiTransport extends AuthorizableTransport {
    *
    * @param endpoint - API endpoint
    * @param data - data to be sent with request body
+   * @param params - Additional params to tune request
    */
-  public async delete<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
-    const response = await super.delete(endpoint, data);
+  public async delete<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
+    const response = await super.delete(endpoint, data, params);
 
     return response as Payload;
   }
@@ -95,9 +104,10 @@ export default class NotesApiTransport extends AuthorizableTransport {
    *
    * @param endpoint - API endpoint
    * @param data - data to be sent with request body
+   * @param params - Additional params to tune request
    */
-  public async patch<Payload>(endpoint: string, data?: JSONValue): Promise<Payload> {
-    const response = await super.patch(endpoint, data);
+  public async patch<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
+    const response = await super.patch(endpoint, data, params);
 
     return response as Payload;
   }

@@ -37,6 +37,8 @@ export default class AuthService {
 
           throw error;
         });
+    } else {
+      this.continueAnonymousSession();
     }
   }
 
@@ -62,5 +64,14 @@ export default class AuthService {
     /**
      * @todo dispatch AuthLogoutEvent to notify all listeners about logout
      */
+  }
+
+  /**
+   * We know that current user is not authorized.
+   *
+   * Tells the app to continue working in anonymous mode
+   */
+  private continueAnonymousSession(): void {
+    this.eventBus.dispatchEvent(new AuthCompletedEvent(null));
   }
 }
