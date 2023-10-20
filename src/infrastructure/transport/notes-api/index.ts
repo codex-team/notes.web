@@ -9,7 +9,7 @@ import NotFoundError from '@/domain/entities/errors/NotFound';
 /**
  * Additional params that could be specified for request to NoteX API
  */
-interface NotexApiTransportRequestParams extends AuthorizableRequestParams {}
+interface NotexApiRequestParams extends AuthorizableRequestParams {}
 
 /**
  * Notes api transport
@@ -67,7 +67,7 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent url encoded
    * @param params - Additional params to tune request
    */
-  public async get<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiTransportRequestParams): Promise<Payload> {
+  public async get<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
     const response = await super.get(endpoint, data, params);
 
     return response as Payload;
@@ -80,7 +80,7 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request
    */
-  public async post<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiTransportRequestParams): Promise<Payload> {
+  public async post<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
     const response = await super.post(endpoint, data, params);
 
     return response as Payload;
@@ -93,7 +93,7 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request
    */
-  public async delete<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiTransportRequestParams): Promise<Payload> {
+  public async delete<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
     const response = await super.delete(endpoint, data, params);
 
     return response as Payload;
@@ -106,7 +106,7 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request
    */
-  public async patch<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiTransportRequestParams): Promise<Payload> {
+  public async patch<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
     const response = await super.patch(endpoint, data, params);
 
     return response as Payload;
