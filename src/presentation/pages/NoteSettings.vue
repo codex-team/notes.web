@@ -50,9 +50,12 @@ load(props.id);
  * Button click handler
  */
 function onClick() {
+  if (!noteSettings.value) {
+    throw new Error('Note settings is not loaded');
+  }
   update(props.id, {
-    enabled: noteSettings.value?.enabled ?? false,
-    customHostname: noteSettings.value?.customHostname ?? '',
+    enabled: noteSettings.value.enabled,
+    customHostname: noteSettings.value.customHostname,
   });
 }
 
