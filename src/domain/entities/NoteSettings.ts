@@ -11,4 +11,9 @@ export default interface NoteSettings {
    * Custom hostname
    */
   customHostname: string;
+
+  /**
+   * Is note enabled
+   */
+  enabled: boolean;
 }
