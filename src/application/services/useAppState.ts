@@ -13,6 +13,9 @@ interface UseAppStateComposable {
    */
   user: Ref<User | null>;
 
+  /**
+   * User editor tools that are used in notes creation
+   */
   userEditorTools: Ref<EditorTool[]>
 }
 
