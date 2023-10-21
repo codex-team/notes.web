@@ -36,7 +36,7 @@ const props = defineProps<{
   checked: boolean;
 
   /**
-   * Variable Name
+   * Checkbox value name
    */
   name: string;
 
