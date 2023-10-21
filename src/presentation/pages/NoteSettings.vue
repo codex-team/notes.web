@@ -9,8 +9,8 @@
     />
     <Checkbox
       :id="noteSettings.id.toString()"
-      v-model:checked="noteSettings.enabled"
-      label="enabled"
+      v-model:checked="noteSettings.isPublic"
+      label="is note public"
     />
     <div class="control__button">
       <Button
@@ -54,7 +54,7 @@ function onClick() {
     throw new Error('Note settings is not loaded');
   }
   update(props.id, {
-    enabled: noteSettings.value.enabled,
+    isPublic: noteSettings.value.isPublic,
     customHostname: noteSettings.value.customHostname,
   });
 }
