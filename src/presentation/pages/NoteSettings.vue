@@ -10,7 +10,6 @@
     <Checkbox
       :id="noteSettings.id.toString()"
       v-model:checked="noteSettings.enabled"
-      name="enabled"
       label="enabled"
     />
     <div class="control__button">

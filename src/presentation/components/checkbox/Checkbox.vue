@@ -4,7 +4,6 @@
       :id="id"
       :checked="checked"
       type="checkbox"
-      :name="name"
       :disabled="disabled"
       class="checkbox"
       @input="onClick"
@@ -34,11 +33,6 @@ const props = defineProps<{
    * Is checkbox checked
    */
   checked: boolean;
-
-  /**
-   * Checkbox value name
-   */
-  name: string;
 
   /**
    * Placeholder value
