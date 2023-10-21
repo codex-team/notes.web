@@ -15,5 +15,5 @@ export default interface NoteSettings {
   /**
    * Is note enabled
    */
-  enabled: boolean;
+  isPublic: boolean;
 }
