@@ -43,7 +43,7 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   }
 
   /**
-   * load tools
+   * Load tools and set it
    */
   public async loadUserEditorTools(): Promise<void> {
     const response = await this.transport.get<{ data: EditorTool[] }>('/user/editor-tools');
@@ -52,7 +52,7 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   }
 
   /**
-   * load tools
+   * Returns current user editor tools
    */
   public getUserEditorTools(): EditorTool[] {
     return this.store.getUserEditorTools();
