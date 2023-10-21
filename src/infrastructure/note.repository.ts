@@ -78,8 +78,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param content - Note content (Editor.js data)
    */
   public async updateNoteContent(id: string, content: NoteContent): Promise<void> {
-    await this.transport.patch('/note', {
-      id,
+    await this.transport.patch(`/note/${id}`, {
       content,
     });
   }
