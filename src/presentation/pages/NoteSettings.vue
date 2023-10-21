@@ -14,15 +14,16 @@
       name="enabled"
       :disabled="false"
       label="enabled"
-      class="control__button"
     />
-    <Button
-      class="header__plus"
-      text="Save"
-      type="primary"
-      :icon="IconSave"
-      @click.passive="onClick"
-    />
+    <div class="control__button">
+      <Button
+        class="header__plus"
+        text="Save"
+        type="primary"
+        :icon="IconSave"
+        @click.passive="onClick"
+      />
+    </div>
   </div>
   <div v-else>
     Loading...

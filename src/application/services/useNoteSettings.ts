@@ -21,6 +21,9 @@ interface UseNoteSettingsComposableState {
 
   /**
    * Update note settings
+   *
+   * @param id - note id
+   * @param data - note settings data with new values
    */
   update: (id: NoteId, data: Partial<NoteSettings>) => Promise<void>;
 }
@@ -44,8 +47,14 @@ export default function (): UseNoteSettingsComposableState {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
   };
 
+  /**
+   * Update note settings
+   *
+   * @param id - Note id
+   * @param data - Note settings data with new values
+   */
   const update = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
-    noteSettings.value =  await noteSettingsService.patchNoteSettingsById(id, data);
+    noteSettings.value =  await noteSettingsService.patchNoteSettingsByNoteId(id, data);
   };
 
 

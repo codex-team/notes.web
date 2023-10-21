@@ -6,9 +6,10 @@
       type="checkbox"
       :name="name"
       :disabled="disabled"
+      class="checkbox"
       @input="onClick"
     >
-    <label>{{ label }}</label>
+    <label :for="id">{{ label }}</label>
   </div>
 </template>
 
@@ -55,10 +56,9 @@ const onClick = () => {
 
 <style lang="postcss">
 @import '@/presentation/styles/typography.pcss';
-input[type="checkbox"] {
+.checkbox {
   width: 20px;
   height: 20px;
-  background: #369FFF;
   appearance: auto;
 }
 </style>

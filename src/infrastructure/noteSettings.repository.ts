@@ -33,11 +33,13 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   }
 
   /**
+   * Updates note settings
    *
-   * @param id
-   * @param data
+   * @param id - Note id
+   * @param data - Note settings data with new values
+   * @returns { NoteSettings } updated note settings
    */
-  public async patchNoteSettingsById(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings> {
+  public async patchNoteSettingsByNoteId(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings> {
     return await this.transport.patch<NoteSettings>('/note-settings/' + id, data);
   }
 }
