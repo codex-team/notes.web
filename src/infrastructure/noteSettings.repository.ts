@@ -29,6 +29,6 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
    * @returns { NoteSettings } - NoteSettings instance
    */
   public async getNoteSettingsById(id: NoteId): Promise<NoteSettings> {
-    return await this.transport.get<GetNoteSettingsResponsePayload>('/note/' + id + '/settings');
+    return await this.transport.get<GetNoteSettingsResponsePayload>('/note-settings/' + id);
   }
 }
