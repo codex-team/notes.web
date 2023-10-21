@@ -1,7 +1,6 @@
 <template>
   <div
     :title="title"
-    :value="value"
     class="text__edit"
   >
     <div
@@ -11,16 +10,19 @@
       {{ title }}
     </div>
     <input
+      v-model="value"
       type="text"
       :name="name"
-      :value="props.value"
       :placeholder="placeholder"
+      @input="onChange"
     >
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+
 const props = defineProps<{
   /**
    * Title of the field
@@ -42,6 +44,14 @@ const props = defineProps<{
     */
    placeholder?: string;
 }>();
+
+const value = ref(props.value);
+
+const emit = defineEmits([ 'update:value' ]);
+
+const onChange = () => {
+  emit('update:value', value);
+};
 
 </script>
 

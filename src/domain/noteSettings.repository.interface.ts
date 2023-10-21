@@ -14,4 +14,6 @@ export default interface NoteSettingsRepositoryInterface {
    * @returns NoteSettings - NoteSettings instance
    */
   getNoteSettingsById(id: NoteId): Promise<NoteSettings>;
+
+  patchNoteSettingsById(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings>;
 }

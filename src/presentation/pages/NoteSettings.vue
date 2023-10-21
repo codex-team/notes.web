@@ -2,20 +2,27 @@
   <h1>Note settings</h1>
   <div v-if="noteSettings">
     <TextEdit
+      v-model:value="noteSettings.customHostname"
       :name="'customHostname'"
       :title="'Custom Hostname'"
-      :value="noteSettings.customHostname"
       :placeholder="'example: landing.codex.so'"
     />
-    <div class="control__button">
-      <Button
-        class="header__plus"
-        text="Save"
-        type="primary"
-        :icon="IconSave"
-        @click.passive="onClick"
-      />
-    </div>
+    <Checkbox
+      v-if="noteSettings.id"
+      :id="noteSettings.id.toString()"
+      v-model:checked="noteSettings.enabled"
+      name="enabled"
+      :disabled="false"
+      label="enabled"
+      class="control__button"
+    />
+    <Button
+      class="header__plus"
+      text="Save"
+      type="primary"
+      :icon="IconSave"
+      @click.passive="onClick"
+    />
   </div>
   <div v-else>
     Loading...
@@ -28,6 +35,7 @@ import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
 import useNoteSettings from '@/application/services/useNoteSettings';
+import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 
 const props = defineProps<{
   /**
@@ -36,7 +44,7 @@ const props = defineProps<{
    id: NoteId;
 }>();
 
-const { load, noteSettings } = useNoteSettings();
+const { load, noteSettings, update } = useNoteSettings();
 
 load(props.id);
 
@@ -51,7 +59,10 @@ const emit = defineEmits<{
  */
 function onClick(event: MouseEvent) {
   emit('click', event);
-  console.log('TODO: implement noteSettings update');
+  update(props.id, {
+    enabled: noteSettings.value?.enabled ?? false,
+    customHostname: noteSettings.value?.customHostname ?? '',
+  });
 }
 
 </script>

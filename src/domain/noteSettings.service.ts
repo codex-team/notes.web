@@ -22,6 +22,15 @@ export default class NoteService {
   }
 
   /**
+   *
+   * @param id
+   * @param data
+   */
+  public async patchNoteSettingsById(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings> {
+    return await this.noteSettingsRepository.patchNoteSettingsById(id, data);
+  }
+
+  /**
    * Returns setting for a note with passed id
    *
    * @param id - Note id

@@ -31,4 +31,13 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   public async getNoteSettingsById(id: NoteId): Promise<NoteSettings> {
     return await this.transport.get<GetNoteSettingsResponsePayload>('/note-settings/' + id);
   }
+
+  /**
+   *
+   * @param id
+   * @param data
+   */
+  public async patchNoteSettingsById(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings> {
+    return await this.transport.patch<NoteSettings>('/note-settings/' + id, data);
+  }
 }
