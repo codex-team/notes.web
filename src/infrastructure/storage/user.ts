@@ -11,6 +11,9 @@ export type UserStoreData = {
    */
   user: User | null;
 
+  /**
+   * User editor tools that are used in notes creation
+   */
   editorTools: EditorTool[];
 };
 

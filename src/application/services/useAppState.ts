@@ -24,6 +24,10 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
    * Current authenticated user
    */
   const user = ref<User | null>(null);
+
+  /**
+   * User editor tools that are used in notes creation
+   */
   const userEditorTools = ref<EditorTool[]>([]);
 
   /**
