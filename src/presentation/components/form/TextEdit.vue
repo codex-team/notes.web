@@ -1,7 +1,6 @@
 <template>
   <div
     :title="title"
-    :value="value"
     class="text__edit"
   >
     <div
@@ -11,17 +10,18 @@
       {{ title }}
     </div>
     <input
+      :value="value"
       type="text"
       :name="name"
-      :value="props.value"
       :placeholder="placeholder"
+      @input="onChange"
     >
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   /**
    * Title of the field
    */
@@ -42,6 +42,14 @@ const props = defineProps<{
     */
    placeholder?: string;
 }>();
+
+const emit = defineEmits([ 'update:value' ]);
+
+const onChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+
+  emit('update:value', target.value);
+};
 
 </script>
 

@@ -2,10 +2,15 @@
   <h1>Note settings</h1>
   <div v-if="noteSettings">
     <TextEdit
+      v-model:value="noteSettings.customHostname"
       :name="'customHostname'"
       :title="'Custom Hostname'"
-      :value="noteSettings.customHostname"
       :placeholder="'example: landing.codex.so'"
+    />
+    <Checkbox
+      :id="noteSettings.id.toString()"
+      v-model:checked="noteSettings.enabled"
+      label="enabled"
     />
     <div class="control__button">
       <Button
@@ -28,6 +33,7 @@ import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
 import useNoteSettings from '@/application/services/useNoteSettings';
+import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 
 const props = defineProps<{
   /**
@@ -36,22 +42,21 @@ const props = defineProps<{
    id: NoteId;
 }>();
 
-const { load, noteSettings } = useNoteSettings();
+const { load, noteSettings, update } = useNoteSettings();
 
 load(props.id);
 
-const emit = defineEmits<{
-  click: [event: MouseEvent],
-}>();
-
 /**
  * Button click handler
- *
- * @param event - click event
  */
-function onClick(event: MouseEvent) {
-  emit('click', event);
-  console.log('TODO: implement noteSettings update');
+function onClick() {
+  if (!noteSettings.value) {
+    throw new Error('Note settings is not loaded');
+  }
+  update(props.id, {
+    enabled: noteSettings.value.enabled,
+    customHostname: noteSettings.value.customHostname,
+  });
 }
 
 </script>

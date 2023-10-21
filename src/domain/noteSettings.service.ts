@@ -22,11 +22,34 @@ export default class NoteService {
   }
 
   /**
+   * Updates note settings
+   *
+   * @param id - Note id
+   * @param data - Note settings data with new values
+   * @returns { NoteSettings } updated note settings
+   */
+  public async patchNoteSettingsByNoteId(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings> {
+    let result;
+
+    try {
+      result = await this.noteSettingsRepository.patchNoteSettingsByNoteId(id, data);
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw new Error(`404 Not Found: We couldn't find ${id} note.`);
+      }
+
+      throw error;
+    }
+
+    return result;
+  }
+
+  /**
    * Returns setting for a note with passed id
    *
    * @param id - Note id
    */
-  public async getNoteSettingsById(id: NoteId): Promise<NoteSettings | null> {
+  public async getNoteSettingsById(id: NoteId): Promise<NoteSettings> {
     let result;
 
     try {
