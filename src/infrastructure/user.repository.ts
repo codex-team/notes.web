@@ -3,11 +3,12 @@ import type NotesApiTransport from './transport/notes-api';
 import type { UserStore, UserStoreData } from './storage/user';
 import type { User } from '@/domain/entities/User';
 import Repository from './repository';
+import type EditorTool from '@/domain/entities/EditorTool';
 
 /**
  * Facade for the user data
  */
-export default class UserRepository extends Repository<UserStore, UserStoreData> implements UserRepositoryInterface  {
+export default class UserRepository extends Repository<UserStore, UserStoreData> implements UserRepositoryInterface {
   /**
    * Transport instance
    */
@@ -37,7 +38,23 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   /**
    * Load user data and put it to the storage
    */
-  public getUser(): User | null  {
+  public getUser(): User | null {
     return this.store.getUser();
+  }
+
+  /**
+   * load tools
+   */
+  public async loadUserEditorTools(): Promise<void> {
+    const response = await this.transport.get<{ data: EditorTool[] }>('/user/editor-tools');
+
+    this.store.setUserEditorTools(response.data);
+  }
+
+  /**
+   * load tools
+   */
+  public getUserEditorTools(): EditorTool[] {
+    return this.store.getUserEditorTools();
   }
 }

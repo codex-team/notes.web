@@ -26,6 +26,7 @@ export default class UserService {
      */
     eventBus.addEventListener(AUTH_COMPLETED_EVENT_NAME, () => {
       void this.repository.loadUser();
+      void this.repository.loadUserEditorTools();
     });
   }
 

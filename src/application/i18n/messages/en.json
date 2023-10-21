@@ -4,7 +4,8 @@
   },
   "settings": {
     "title": "Settings",
-    "changeTheme": "Change theme"
+    "changeTheme": "Change theme",
+    "userEditorTools": "User editor tools"
   },
   "home": {
     "title": "Home",

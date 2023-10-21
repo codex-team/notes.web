@@ -1,3 +1,4 @@
+import type EditorTool from './entities/EditorTool';
 import type { User } from './entities/User';
 
 /**
@@ -13,4 +14,8 @@ export default interface UserRepositoryInterface {
    * Return stored user data
    */
   getUser: () => User | null;
+
+  loadUserEditorTools: () => Promise<void>;
+
+  getUserEditorTools: () => EditorTool[];
 }
