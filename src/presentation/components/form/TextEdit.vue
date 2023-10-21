@@ -10,7 +10,7 @@
       {{ title }}
     </div>
     <input
-      v-model="value"
+      :value="value"
       type="text"
       :name="name"
       :placeholder="placeholder"
@@ -21,9 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const props = defineProps<{
+defineProps<{
   /**
    * Title of the field
    */
@@ -45,12 +43,12 @@ const props = defineProps<{
    placeholder?: string;
 }>();
 
-const value = ref(props.value);
-
 const emit = defineEmits([ 'update:value' ]);
 
-const onChange = () => {
-  emit('update:value', value);
+const onChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+
+  emit('update:value', target.value);
 };
 
 </script>

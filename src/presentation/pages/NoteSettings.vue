@@ -8,11 +8,9 @@
       :placeholder="'example: landing.codex.so'"
     />
     <Checkbox
-      v-if="noteSettings.id"
       :id="noteSettings.id.toString()"
       v-model:checked="noteSettings.enabled"
       name="enabled"
-      :disabled="false"
       label="enabled"
     />
     <div class="control__button">
@@ -49,17 +47,10 @@ const { load, noteSettings, update } = useNoteSettings();
 
 load(props.id);
 
-const emit = defineEmits<{
-  click: [event: MouseEvent],
-}>();
-
 /**
  * Button click handler
- *
- * @param event - click event
  */
-function onClick(event: MouseEvent) {
-  emit('click', event);
+function onClick() {
   update(props.id, {
     enabled: noteSettings.value?.enabled ?? false,
     customHostname: noteSettings.value?.customHostname ?? '',

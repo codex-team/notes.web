@@ -28,7 +28,7 @@ const props = defineProps<{
   /**
    * Is checkbox disabled
    */
-  disabled: boolean;
+  disabled?: boolean;
 
   /**
    * Is checkbox checked
