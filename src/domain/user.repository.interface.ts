@@ -15,7 +15,13 @@ export default interface UserRepositoryInterface {
    */
   getUser: () => User | null;
 
+  /**
+   * Loads and store editor tools from user extensions
+   */
   loadUserEditorTools: () => Promise<void>;
 
+  /**
+   * Returns array of editor tools
+   */
   getUserEditorTools: () => EditorTool[];
 }

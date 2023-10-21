@@ -35,14 +35,14 @@ export class UserStore extends SubscribableStore<UserStoreData> {
   }
 
   /**
-   * array of tools
+   * Array of tools
    */
   public getUserEditorTools(): EditorTool[] {
     return this.data.editorTools;
   }
 
   /**
-   * Setter
+   * Set editor tools that are used in notes creation
    *
    * @param editorTools - editor plugins
    */
