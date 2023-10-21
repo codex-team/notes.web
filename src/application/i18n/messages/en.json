@@ -9,5 +9,10 @@
   "home": {
     "title": "Home",
     "settings": "Settings"
+  },
+  "errors": {
+    "404": "Page not found",
+    "500": "Unknown error happened",
+    "default": "Something went wrong"
   }
 }
