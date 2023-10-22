@@ -9,6 +9,10 @@
       {{ tool.title }}
     </li>
   </ul>
+  <input
+    type="string"
+    placeholder="Add tool by id"
+  >
   <ThemeButton />
 </template>
 
@@ -18,8 +22,8 @@ import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 
 const { userEditorTools } = useAppState();
-
 const { t } = useI18n();
+
 </script>
 
 <style scoped></style>
