@@ -36,4 +36,13 @@ export default class UserService {
   public getUser(): User | null {
     return this.repository.getUser();
   }
+
+  /**
+   * Adds a tool to the user (marketplace mock)
+   *
+   * @param id - tool id
+   */
+  public addTool(id: string): void {
+    this.repository.addTool(id);
+  }
 }
