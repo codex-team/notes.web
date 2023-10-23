@@ -1,5 +1,5 @@
 <template>
-    <Button 
+<Button 
   text="Log out"
   :icon="IconUnlink"
   type="primary"
@@ -19,18 +19,11 @@ const router = useRouter();
  * Function to logout the user by deleting the refresh 
  * token from the local storage
  */
-
  async function logOut() {
-    
     await authService.logout().then(() => {
     router.push({ path: "/" }).then(() => {
       window.location.reload();
-    });
-  });
-
-      
-      
+      });
+    });     
   }
- 
-
 </script>
