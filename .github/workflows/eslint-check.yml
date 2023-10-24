@@ -3,9 +3,11 @@ name: Run eslint check
 on:
   push:
     branches:
-      - '*'
-    tags:
-      - 'v*'
+      - 'main'
+  pull_request:
+    types:
+      - opened
+      - edited
 
 jobs:
   eslint:
@@ -21,3 +23,5 @@ jobs:
 
       - name: Run ESLint
         run: yarn lint
+        
+    
