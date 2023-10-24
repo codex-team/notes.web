@@ -3,6 +3,7 @@ name: Run eslint check
 on:
   push:
     branches:
+      - '*'
       - 'main'
   pull_request:
     types:

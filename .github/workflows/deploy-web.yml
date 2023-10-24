@@ -3,6 +3,7 @@ name: Deploy WEB
 on:
   push:
     branches:
+      - '*'
       - 'main'
 
 env:
