@@ -8,6 +8,13 @@ interface UseOAuthComposableState {
   showGoogleAuthPopup: () => void;
 }
 
+interface UseAuthComposableState {
+  /**
+   * logouts the user by deleting the refresh token in the local storage
+   */
+  logoutTheUser: () => Promise<void>;
+}
+
 /**
  * Methods for working with OAuth (Google)
  */
@@ -57,5 +64,21 @@ export default function useOAuth(): UseOAuthComposableState {
 
   return {
     showGoogleAuthPopup,
+  };
+}
+
+/**
+ * Methods for working with Auth tokens
+ */
+export function useAuth(): UseAuthComposableState {
+  /**
+   * Deletes the refresh token in the local storage
+   */
+  async function logoutTheUser(): Promise<void> {
+    await authService.logout();
+  }
+
+  return {
+    logoutTheUser,
   };
 }
