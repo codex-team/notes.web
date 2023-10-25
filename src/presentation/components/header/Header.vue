@@ -40,7 +40,7 @@ const { user } = useAppState();
 const tabs = computed<Tab[]>(() => {
   const availableTabs = [
     {
-      title: t('home.title'),
+      title: t('header.buttons.home'),
       path: '/',
       icon: IconPicture,
       isActive: currentRoute.value.name === 'home',
@@ -53,7 +53,7 @@ const tabs = computed<Tab[]>(() => {
    */
   if ( currentRoute.value.name === 'note') {
     availableTabs.push({
-      title: t('home.settings'),
+      title: t('header.buttons.noteSettings'),
       path: currentRoute.value.path + '/settings',
       icon: IconMenu,
       isActive: false,
@@ -66,7 +66,7 @@ const tabs = computed<Tab[]>(() => {
    */
   if ( currentRoute.value.name === 'settings') {
     availableTabs.push({
-      title: t('home.settings'),
+      title: t('header.buttons.noteSettings'),
       path: currentRoute.value.path,
       icon: IconMenu,
       isActive: true,

@@ -6,9 +6,14 @@
     "title": "Settings",
     "changeTheme": "Change theme"
   },
+  "header": {
+    "buttons": {
+      "home": "Home",
+      "noteSettings": "Settings"
+    }
+  },
   "home": {
-    "title": "Home",
-    "settings": "Settings"
+    "title": "Recent Notes"
   },
   "errors": {
     "404": "Page not found",
