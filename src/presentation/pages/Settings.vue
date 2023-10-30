@@ -15,7 +15,7 @@ import ThemeButton from '../components/theme/ThemeButton.vue';
 import Button from '../components/button/Button.vue';
 import { IconUnlink } from '@codexteam/icons';
 import { useRouter } from 'vue-router';
-import { useAuth } from '@/application/services/useAuth';
+import useAuth from '@/application/services/useAuth';
 
 const { t } = useI18n();
 const router = useRouter();
