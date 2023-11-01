@@ -4,6 +4,7 @@ import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
+import Marketplace from '@/presentation/pages/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
 
 // Default production hostname for homepage. If different, then custom hostname used
@@ -54,6 +55,10 @@ const routes: RouteRecordRaw[] = [
     props: route => ({
       id: String(route.params.id),
     }),
+  },
+  {
+    path: `/marketplace/`,
+    component: Marketplace,
   },
   /**
    * 404 page
