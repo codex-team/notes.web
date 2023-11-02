@@ -1,4 +1,5 @@
 import type { Note, NoteContent } from '@/domain/entities/Note';
+import type { NoteList } from './entities/NoteList';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -21,6 +22,14 @@ export default interface NoteRepositoryInterface {
    * @returns Note | null - Note instance
    */
   getNoteByHostname(hostname: string): Promise<Note | null>;
+
+  /**
+   * Returns a list of notes by creator id
+   *
+   * @param userId - user id
+   * @param page - number of pages
+   */
+  getNoteListByCreatorId(userId: number, page: number): Promise<NoteList>;
 
   /**
    * Creates a new note

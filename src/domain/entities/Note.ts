@@ -6,6 +6,11 @@ import type { OutputData } from '@editorjs/editorjs';
 export type NoteId = string;
 
 /**
+ * Id visible for users. Used to query Note by public API
+ */
+export type NotePublicId = string;
+
+/**
  * The format we store a note content
  */
 export type NoteContent = OutputData;
@@ -14,6 +19,12 @@ export type NoteContent = OutputData;
  * Note entity
  */
 export interface Note {
+
+  /**
+   * Note public id
+   */
+     publicId?: NotePublicId;
+
   /**
    * Note unique identifier visible to the user
    */
@@ -23,4 +34,15 @@ export interface Note {
    * Note content
    */
   content: NoteContent;
+
+  /**
+   * When note was created
+   */
+  createdAt?: string;
+
+  /**
+   * Last time note was updated
+   */
+  updatedAt?: string;
+
 }

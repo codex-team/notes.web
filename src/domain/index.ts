@@ -4,6 +4,7 @@ import AuthService from '@/domain/auth.service';
 import UserService from '@/domain/user.service';
 import { init as initRepositories } from '@/infrastructure';
 import EventBus from './event-bus';
+import NoteListService from './noteList.service';
 
 /**
  * Get API url from environment
@@ -24,6 +25,7 @@ const repositories = initRepositories(apiUrl, eventBus);
  * Init services
  */
 const noteService = new NoteService(repositories.note);
+const noteListService = new NoteListService(repositories.note);
 const noteSettingsService = new NoteSettingsService(repositories.noteSettings);
 const authService = new AuthService(eventBus, repositories.auth);
 const userService = new UserService(eventBus, repositories.user);
@@ -35,10 +37,12 @@ const userService = new UserService(eventBus, repositories.user);
 export const AppStateController = {
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   user: (callback: Parameters<typeof repositories.user.setStoreChangeCallback>[0]) => repositories.user.setStoreChangeCallback(callback),
+
 };
 
 export {
   noteService,
+  noteListService,
   noteSettingsService,
   authService,
   userService
