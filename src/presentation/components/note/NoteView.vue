@@ -2,14 +2,14 @@
   <div class="note">
     <div class="note-header">
       <h1 class="note-title">
-        {{ props.title }}
+        {{ props.title.substring(0,36) }}
       </h1>
       <p class="note-date">
         {{ new Date(props.createdAt).toLocaleDateString() }}
       </p>
     </div>
     <p class="note-sub">
-      {{ props.subtitle }}
+      {{ props.subtitle?.substring(0,96) }}
     </p>
   </div>
 </template>
