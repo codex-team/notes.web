@@ -23,7 +23,7 @@ export interface Note {
   /**
    * Note public id
    */
-     publicId?: NotePublicId;
+  publicId: NotePublicId;
 
   /**
    * Note unique identifier visible to the user
@@ -38,11 +38,11 @@ export interface Note {
   /**
    * When note was created
    */
-  createdAt?: string;
+  createdAt: string;
 
   /**
    * Last time note was updated
    */
-  updatedAt?: string;
+  updatedAt: string;
 
 }

@@ -1,5 +1,6 @@
 import type NoteRepository from '@/domain/note.repository.interface';
 import type { Note, NoteContent } from '@/domain/entities/Note';
+import { useEventBus } from '@vueuse/core';
 
 /**
  * Note Service
@@ -55,6 +56,8 @@ export default class NoteService {
    * @param content - Note content (Editor.js data)
    */
   public async updateNoteContent(id: string, content: NoteContent): Promise<void> {
+    useEventBus('note').emit('note-updated', id);
+
     return await this.noteRepository.updateNoteContent(id, content);
   }
 }

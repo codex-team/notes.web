@@ -2,14 +2,14 @@
   <div class="note">
     <div class="note-header">
       <h1 class="note-title">
-        {{ title }}
+        {{ props.title }}
       </h1>
       <p class="note-date">
-        {{ new Date(createdAt).toLocaleDateString() }}
+        {{ new Date(props.createdAt).toLocaleDateString() }}
       </p>
     </div>
     <p class="note-sub">
-      {{ subtitle }}
+      {{ props.subtitle }}
     </p>
   </div>
 </template>
@@ -22,8 +22,7 @@
 const props = defineProps<{
     title: string,
     subtitle?: string,
-    createdAt?: string,
-    updatedAt?: string,}>();
+    createdAt: string,}>();
 </script>
 
 <style>

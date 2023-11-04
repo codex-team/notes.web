@@ -1,5 +1,6 @@
 import type { AUTH_COMPLETED_EVENT_NAME, AuthCompletedEvent } from './events/AuthCompleted';
 
+
 /**
  * Event Bus provides a loosely coupled communication way between Domain and some other layers
  *

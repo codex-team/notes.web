@@ -1,5 +1,5 @@
 import type NoteRepositoryInterface from '@/domain/note.repository.interface';
-import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type { Note, NoteContent, NoteId, NotePublicId } from '@/domain/entities/Note';
 import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
@@ -76,11 +76,15 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param content - Note content (Editor.js data)
    */
   public async createNote(content: NoteContent): Promise<Note> {
-    const response = await this.transport.post<{ id: NoteId }>('/note', { content });
+    const response = await this.transport.post<{ id: NoteId, publicId: NotePublicId, createdAt: string, updatedAt: string  }>('/note', { content });
 
     const note: Note = {
+      publicId: response.publicId,
       id: response.id,
       content,
+      createdAt: response.createdAt,
+      updatedAt: response.updatedAt,
+
     };
 
     return note;

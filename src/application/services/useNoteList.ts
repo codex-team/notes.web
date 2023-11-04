@@ -9,14 +9,16 @@ import { useAppState } from './useAppState';
  */
 interface UseNoteListComposableState {
   /**
-   * NoteSettings ref
+   * NoteList ref
    */
-  noteList: Ref<NoteList| undefined>;
+  noteList: Ref<NoteList| null>;
 
   /**
    * Get Note List
+   *
+   * @param page - number of pages
    */
-  load: () => Promise<void>
+  load: (page:number) => Promise<void>
 
 }
 
@@ -27,13 +29,15 @@ export default function (): UseNoteListComposableState {
   /**
    * NoteList ref
    */
-  const noteList = ref<NoteList | undefined>();
+  const noteList = ref<NoteList | null>(null);
 
 
   /**
    * Get note list
+   *
+   * @param page - number of pages
    */
-  const load = async (): Promise<void> => {
+  const load = async (page:number): Promise<void> => {
     /**
      * Get user id
      */
@@ -44,19 +48,19 @@ export default function (): UseNoteListComposableState {
      * If user is logged in, load note list
      */
 
-    if (user !== undefined && user !== null) {
-      noteList.value = await noteListService.getNoteListByCreatorId(user.id, 1);
+    if (user) {
+      noteList.value = await noteListService.getNoteListByCreatorId(user.id, page);
     } else {
       console.log('User is not logged');
     }
   };
 
   onMounted(async () => {
-    await load();
+    await load(1);
   });
 
   watch(useAppState().user, async () => {
-    await load();
+    await load(1);
   });
 
   return {
