@@ -13,4 +13,9 @@ export default interface UserRepositoryInterface {
    * Return stored user data
    */
   getUser: () => User | null;
+
+  /**
+   * Removes user data from the storage
+   */
+  removeUser: () => Promise<void>;
 }

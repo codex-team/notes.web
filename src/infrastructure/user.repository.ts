@@ -40,4 +40,10 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   public getUser(): User | null  {
     return this.store.getUser();
   }
+  /**
+   * Removes user data from the storage
+   */
+  public async removeUser(): Promise<void> {
+    this.store.removeUser();
+  }
 }

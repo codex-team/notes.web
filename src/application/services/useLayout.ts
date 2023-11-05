@@ -1,4 +1,4 @@
-import { shallowRef, type ShallowRef, type Component, onBeforeMount, watch } from 'vue';
+import { shallowRef, type ShallowRef, type Component, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Default from '@/presentation/layouts/Default.vue';
 import Fullpage from '@/presentation/layouts/Fullpage.vue';

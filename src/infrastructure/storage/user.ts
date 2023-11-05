@@ -30,4 +30,11 @@ export class UserStore extends SubscribableStore<UserStoreData> {
   public setUser(user: User): void {
     this.data.user = user;
   }
+
+  /**
+   * Removes user data
+   */
+  public removeUser(): void {
+    this.data.user = null;
+  }
 }

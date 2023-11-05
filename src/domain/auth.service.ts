@@ -2,6 +2,7 @@ import type AuthRepository from '@/domain/auth.repository.interface';
 import type EventBus from '@/domain/event-bus';
 import { AuthCompletedEvent } from './event-bus/events/AuthCompleted';
 import UnauthorizedError from './entities/errors/Unauthorized';
+import { AuthLogoutEvent } from './event-bus/events/AuthLogoutEvent';
 
 /**
  * Business logic for Authentication
@@ -62,8 +63,9 @@ export default class AuthService {
     await this.repository.removeSession();
 
     /**
-     * @todo dispatch AuthLogoutEvent to notify all listeners about logout
+     * Event to notify all listeners about logout
      */
+    this.eventBus.dispatchEvent(new AuthLogoutEvent());
   }
 
   /**

@@ -26,9 +26,7 @@ const { logoutTheUser } = useAuth();
  */
 async function logout() {
   await logoutTheUser().then(() => {
-    router.push({ path: '/' }).then(() => {
-      window.location.reload();
-    });
+    router.push({ path: '/' });
   });
 }
 </script>
