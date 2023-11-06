@@ -1,10 +1,20 @@
 <template>
-  <div>
-    <h1>Marketplace</h1>
-  </div>
+  <h1>{{ $t('marketplace.title') }}</h1>
+  <h2>{{ $t('marketplace.listOfTools') }}</h2>
+  <ul
+    v-for="tool in editorTools"
+    :key="tool.id"
+  >
+    <li>
+      {{ tool.name }}
+    </li>
+  </ul>
 </template>
 
-<script setup lang="ts">
+<script lang = "ts" setup>
+import { useAppState } from '@/application/services/useAppState';
+
+const { editorTools } = useAppState();
 </script>
 
 <style setup lang = "postcss" scoped>
