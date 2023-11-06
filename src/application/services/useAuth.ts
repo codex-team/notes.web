@@ -9,7 +9,7 @@ interface UseOAuthComposableState {
   /**
    * Logs out the user
    */
-  logoutTheUser: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 /**
@@ -61,13 +61,13 @@ export default function useAuth(): UseOAuthComposableState {
   /**
    *Logs out the user by deleting the refresh token in local strorage
    */
-  async function logoutTheUser(): Promise<void> {
+  async function logout(): Promise<void> {
     await authService.logout();
   }
 
   return {
     showGoogleAuthPopup,
-    logoutTheUser,
+    logout,
   };
 }
 

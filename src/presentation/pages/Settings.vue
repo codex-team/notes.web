@@ -5,7 +5,7 @@
     :text="t('auth.logout')"
     type="primary"
     :icon="IconUnlink"
-    @click="logout"
+    @click="userLogout"
   />
 </template>
 
@@ -19,13 +19,13 @@ import useAuth from '@/application/services/useAuth';
 
 const { t } = useI18n();
 const router = useRouter();
-const { logoutTheUser } = useAuth();
+const { logout } = useAuth();
 
 /**
  * Function to logout the user by deleting the refresh  token from the local storage and redirecting to the main page
  */
-async function logout() {
-  await logoutTheUser().then(() => {
+async function userLogout() {
+  await logout().then(() => {
     router.push({ path: '/' });
   });
 }

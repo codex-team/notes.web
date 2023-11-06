@@ -8,6 +8,7 @@ import UserRepository from '@/infrastructure/user.repository';
 import { UserStore } from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
+import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEvent';
 
 /**
  * Repositories
@@ -73,6 +74,15 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
        */
       notesApiTransport.continueAnonymous();
     }
+  });
+  /**
+   * When we got unauthorized
+   */
+  eventBus.addEventListener(AUTH_LOGOUT_EVENT_NAME, () => {
+    /**
+     * Tell API transport to continue working in anonymous mode (send waiting requests without auth)
+     */
+    notesApiTransport.continueAnonymous();
   });
 
   /**
