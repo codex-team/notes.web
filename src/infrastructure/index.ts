@@ -82,6 +82,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     /**
      * Tell API transport to continue working in anonymous mode (send waiting requests without auth)
      */
+    authStore.removeRefreshToken();
     notesApiTransport.continueAnonymous();
   });
 
