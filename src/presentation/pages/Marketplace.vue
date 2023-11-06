@@ -6,7 +6,7 @@
     :key="tool.id"
   >
     <li>
-      {{ tool.name }}
+      {{ tool.title }}
     </li>
   </ul>
 </template>

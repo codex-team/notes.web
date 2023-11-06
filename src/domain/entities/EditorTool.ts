@@ -8,20 +8,22 @@ export interface EditorTool {
     id: string;
 
     /**
-     * Technical id of the tool, like 'header', 'list', 'linkTool'
-     */
-    pluginId: string;
-
-    /**
-     * User-friendly plugin title
+     * Plugin id that editor will use,
+     *  e.g. "warning", "list", "linkTool"
      */
     name: string;
 
     /**
-     * Name of the tool class. Since it's imported globally,
-     * we need the class name to properly connect the tool to the editor
+     * User-friendly name that will be shown in marketplace,
+     *  .e.g "Warning tool 3000"
      */
-    class: string;
+    title: string;
+
+    /**
+     *Name of the plugin's class,
+      e.g. "LinkTool", "Checklist", "Header"
+     */
+    exportName: string;
 
     /**
      * Is plugin included by default in the editor
