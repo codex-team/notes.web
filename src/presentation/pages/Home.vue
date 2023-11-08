@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Recent Notes</h1>
+    <h1>{{ $t('home.title') }}</h1>
     <p>This page will contain your Notes you recently worked with </p>
   </div>
 </template>

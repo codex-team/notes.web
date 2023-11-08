@@ -3,11 +3,12 @@ import type NotesApiTransport from './transport/notes-api';
 import type { UserStore, UserStoreData } from './storage/user';
 import type { User } from '@/domain/entities/User';
 import Repository from './repository';
+import type EditorTool from '@/domain/entities/EditorTool';
 
 /**
  * Facade for the user data
  */
-export default class UserRepository extends Repository<UserStore, UserStoreData> implements UserRepositoryInterface  {
+export default class UserRepository extends Repository<UserStore, UserStoreData> implements UserRepositoryInterface {
   /**
    * Transport instance
    */
@@ -37,7 +38,7 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   /**
    * Load user data and put it to the storage
    */
-  public getUser(): User | null  {
+  public getUser(): User | null {
     return this.store.getUser();
   }
   /**
@@ -46,4 +47,34 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   public async removeUser(): Promise<void> {
     this.store.removeUser();
   }
+
+  /**
+   * Load tools and set it
+   */
+  public async loadUserEditorTools(): Promise<void> {
+    const response = await this.transport.get<{ data: EditorTool[] }>('/user/editor-tools');
+
+    this.store.setUserEditorTools(response.data);
+  }
+
+  /**
+   * Returns current user editor tools
+   */
+  public getUserEditorTools(): EditorTool[] {
+    return this.store.getUserEditorTools();
+  }
+
+  /**
+   * Adds a tool to the user (marketplace mock)
+   *
+   * @param id - tool id
+   */
+  public async addTool(id: string): Promise<void> {
+    const response = await this.transport.post<{toolId: string}>('/user/editor-tools', {
+      toolId: id,
+    });
+
+    console.log('Add tool response', response);
+  }
 }
+

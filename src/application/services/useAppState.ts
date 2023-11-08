@@ -1,4 +1,5 @@
 import { AppStateController } from '@/domain';
+import type EditorTool from '@/domain/entities/EditorTool';
 import type { User } from '@/domain/entities/User';
 import { createSharedComposable } from '@vueuse/core';
 import { type Ref, ref } from 'vue';
@@ -11,6 +12,11 @@ interface UseAppStateComposable {
    * Current authenticated user
    */
   user: Ref<User | null>;
+
+  /**
+   * User editor tools that are used in notes creation
+   */
+  userEditorTools: Ref<EditorTool[]>
 }
 
 /**
@@ -23,15 +29,24 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
   const user = ref<User | null>(null);
 
   /**
+   * User editor tools that are used in notes creation
+   */
+  const userEditorTools = ref<EditorTool[]>([]);
+
+  /**
    * Subscribe to user changes in the App State
    */
-  AppStateController.user((prop: 'user', value: User | null) => {
+  AppStateController.user((prop: 'user' | 'editorTools', value: User | EditorTool[] | null) => {
     if (prop === 'user') {
-      user.value = value;
+      user.value = value as User;
+    }
+    if (prop === 'editorTools') {
+      userEditorTools.value = value as EditorTool[];
     }
   });
 
   return {
     user,
+    userEditorTools,
   };
 });
