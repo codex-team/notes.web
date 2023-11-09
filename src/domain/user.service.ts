@@ -26,6 +26,7 @@ export default class UserService {
      */
     eventBus.addEventListener(AUTH_COMPLETED_EVENT_NAME, () => {
       void this.repository.loadUser();
+      void this.repository.loadUserEditorTools();
     });
   }
 
@@ -34,5 +35,14 @@ export default class UserService {
    */
   public getUser(): User | null {
     return this.repository.getUser();
+  }
+
+  /**
+   * Adds a tool to the user (marketplace mock)
+   *
+   * @param id - tool id
+   */
+  public addTool(id: string): void {
+    this.repository.addTool(id);
   }
 }
