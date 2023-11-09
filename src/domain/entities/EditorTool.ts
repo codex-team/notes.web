@@ -34,9 +34,10 @@ export interface EditorTool {
      * Source of the tool to get it's code
      */
     source: {
-        /**
-         * Tool URL in content delivery network
-         */
+    /**
+     * Tool URL in content delivery network
+     */
+
         cdn?: string;
     }
 }

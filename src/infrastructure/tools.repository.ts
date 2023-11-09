@@ -15,7 +15,7 @@ export default class EditorToolRepository extends Repository<EditorToolStore, Ed
 
   /**
    * Repository constructor
-   
+   *
    * @param store - stores editor tools
    * @param notesApiTransport - notes api transport instance
    */
@@ -25,9 +25,8 @@ export default class EditorToolRepository extends Repository<EditorToolStore, Ed
     this.transport = notesApiTransport;
   }
 
-
   /**
-   *
+   * Api request to get list of tools
    */
   public async loadEditorTool(): Promise<void> {
     const response = await this.transport.get<EditorTool>('/editor-tools/all');
