@@ -24,7 +24,15 @@ export default interface UserRepositoryInterface {
    * Returns array of editor tools
    */
   getUserEditorTools: () => EditorTool[];
+  /**
+   * Loads and store all editor tools from user extensions
+   */
+  loadAllEditorTools: () => Promise<void>;
 
+  /**
+   * Returns array of editor tools
+   */
+  getAllEditorTools: () => EditorTool[];
   /**
    * Adds a tool to the user (marketplace mock)
    *

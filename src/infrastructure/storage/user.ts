@@ -14,7 +14,12 @@ export type UserStoreData = {
   /**
    * User editor tools that are used in notes creation
    */
-  editorTools: EditorTool[];
+  userEditorTools: EditorTool[];
+
+  /**
+   * User editor tools that are used in notes creation
+   */
+  allEditorTools: EditorTool[];
 };
 
 /**
@@ -41,7 +46,7 @@ export class UserStore extends SubscribableStore<UserStoreData> {
    * Array of tools
    */
   public getUserEditorTools(): EditorTool[] {
-    return this.data.editorTools;
+    return this.data.userEditorTools;
   }
 
   /**
@@ -50,6 +55,22 @@ export class UserStore extends SubscribableStore<UserStoreData> {
    * @param editorTools - editor plugins
    */
   public setUserEditorTools(editorTools: EditorTool[]): void {
-    this.data.editorTools = editorTools;
+    this.data.userEditorTools = editorTools;
+  }
+
+  /**
+   * Array of all tools
+   */
+  public getAllEditorTools(): EditorTool[] {
+    return this.data.allEditorTools;
+  }
+
+  /**
+   * Set all editor tools that are used in notes creation
+   *
+   * @param editorTools - editor plugins
+   */
+  public setAllEditorTools(editorTools: EditorTool[]): void {
+    this.data.allEditorTools = editorTools;
   }
 }
