@@ -17,10 +17,7 @@ interface UseAppStateComposable {
    * User editor tools that are used in notes creation
    */
   userEditorTools: Ref<EditorTool[]>
-  /**
-   * All editor tools that are used in notes creation
-   */
-  allEditorTools: Ref<EditorTool[]>
+
 }
 
 /**
@@ -38,28 +35,19 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
   const userEditorTools = ref<EditorTool[]>([]);
 
   /**
-   *  All editor tools that are used in notes creation
-   */
-  const allEditorTools = ref<EditorTool[]>([]);
-
-  /**
    * Subscribe to user changes in the App State
    */
-  AppStateController.user((prop: 'user' | 'userEditorTools' | 'allEditorTools', value: User | EditorTool[] | EditorTool[] | null) => {
+  AppStateController.user((prop: 'user' | 'userEditorTools' | 'allEditorTools', value: User | EditorTool[] | null) => {
     if (prop === 'user') {
       user.value = value as User;
     }
     if (prop === 'userEditorTools') {
       userEditorTools.value = value as EditorTool[];
     }
-    if (prop === 'allEditorTools') {
-      allEditorTools.value = value as EditorTool[];
-    }
   });
 
   return {
     user,
     userEditorTools,
-    allEditorTools,
   };
 });

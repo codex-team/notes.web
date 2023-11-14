@@ -70,19 +70,4 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
 
     console.log('Add tool response', response);
   }
-  /**
-   * Load tools and set it
-   */
-  public async loadAllEditorTools(): Promise<void> {
-    const response = await this.transport.get<{ data: EditorTool[] }>('/editor-tools/all');
-
-    this.store.setAllEditorTools(response.data);
-  }
-
-  /**
-   * Returns all editor tools
-   */
-  public getAllEditorTools(): EditorTool[] {
-    return this.store.getAllEditorTools();
-  }
 }

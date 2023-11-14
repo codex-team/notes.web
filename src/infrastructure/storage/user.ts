@@ -57,20 +57,4 @@ export class UserStore extends SubscribableStore<UserStoreData> {
   public setUserEditorTools(editorTools: EditorTool[]): void {
     this.data.userEditorTools = editorTools;
   }
-
-  /**
-   * Array of all tools
-   */
-  public getAllEditorTools(): EditorTool[] {
-    return this.data.allEditorTools;
-  }
-
-  /**
-   * Set all editor tools that are used in notes creation
-   *
-   * @param editorTools - editor plugins
-   */
-  public setAllEditorTools(editorTools: EditorTool[]): void {
-    this.data.allEditorTools = editorTools;
-  }
 }

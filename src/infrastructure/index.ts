@@ -5,6 +5,7 @@ import NotesApiTransport from '@/infrastructure/transport/notes-api';
 import AuthRepository from '@/infrastructure/auth.repository';
 import AuthStore from '@/infrastructure/storage/auth';
 import UserRepository from '@/infrastructure/user.repository';
+import EditorToolRepository from '@/infrastructure/editorTool.repository';
 import { UserStore } from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
@@ -32,6 +33,11 @@ export interface Repositories {
    * Working with User data
    */
   user: UserRepository;
+
+  /**
+   * Working with editor tools data
+   */
+  editorTool: EditorToolRepository;
 }
 
 /**
@@ -82,11 +88,13 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteSettingsRepository = new NoteSettingsRepository(notesApiTransport);
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
+  const editorToolRepository = new EditorToolRepository(notesApiTransport);
 
   return {
     note: noteRepository,
     noteSettings: noteSettingsRepository,
     auth: authRepository,
     user: userRepository,
+    editorTool: editorToolRepository,
   };
 }
