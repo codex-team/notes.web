@@ -17,7 +17,7 @@
 import { useAppState } from '@/application/services/useAppState';
 
 const { allEditorTools } = useAppState();
-console.log(allEditorTools);
+
 </script>
 
 <style setup lang = "postcss" scoped>

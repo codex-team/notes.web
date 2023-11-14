@@ -57,7 +57,7 @@ const routes: RouteRecordRaw[] = [
     }),
   },
   {
-    path: `/marketplace/`,
+    path: `/marketplace`,
     component: Marketplace,
   },
   /**
