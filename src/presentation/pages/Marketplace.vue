@@ -14,10 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { useAppState } from '@/application/services/useAppState';
+import useEditorTools  from '@/application/services/useEditorTool';
 
-const { allEditorTools } = useAppState();
-
+const { allEditorTools } = useEditorTools();
 </script>
 
 <style setup lang = "postcss" scoped>
