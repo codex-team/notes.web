@@ -1,6 +1,6 @@
 import type EditorTool from '@/domain/entities/EditorTool';
 import { type Ref, ref } from 'vue';
-import { editorToolService } from '@/domain';
+import { marketplaceService } from '@/domain';
 
 /**
  * Composable for the application state
@@ -25,7 +25,7 @@ export default function (): UseEditorToolComposable {
    * Get list of all tools
    */
   async (): Promise<void> => {
-    tools.value = await editorToolService.getAllTools();
+    tools.value = await marketplaceService.getAllTools();
   };
 
   return {
