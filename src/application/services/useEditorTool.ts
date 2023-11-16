@@ -9,7 +9,7 @@ interface UseEditorToolComposable {
   /**
    * All editor tools that are used in notes creation
    */
-  allEditorTools: Ref<EditorTool[]>
+  tools: Ref<EditorTool[]>
 }
 
 /**
@@ -19,16 +19,16 @@ export default function (): UseEditorToolComposable {
   /**
    *  All editor tools
    */
-  const allEditorTools = ref<EditorTool[]>([]);
+  const tools = ref<EditorTool[]>([]);
 
   /**
    * Get list of all tools
    */
   async (): Promise<void> => {
-    allEditorTools.value = await editorToolService.getAllTools();
+    tools.value = await editorToolService.getAllTools();
   };
 
   return {
-    allEditorTools,
+    tools: tools,
   };
 }
