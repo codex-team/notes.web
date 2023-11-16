@@ -37,7 +37,7 @@ import EditorTool from '@/domain/entities/EditorTool';
 import { useAppState } from '@/application/services/useAppState';
 
 
-const { userEditorTools } = useAppState();
+const { editorTools } = useAppState();
 
 
 /**
@@ -132,7 +132,7 @@ const mountEditorOnce = async () => {
   console.log('mount');
   isEditorMounted.value = true;
 
-  Promise.allSettled(userEditorTools.value.map((spec: EditorTool) => {
+  Promise.allSettled(editorTools.value.map((spec: EditorTool) => {
     if (!spec.source.cdn) {
       return;
     }
@@ -140,7 +140,7 @@ const mountEditorOnce = async () => {
     return loadScript(spec.source.cdn);
   })).then(async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const loadedTools: {[key: string]: any } = userEditorTools.value.reduce(
+    const loadedTools: {[key: string]: any } = editorTools.value.reduce(
       (acc, spec: EditorTool) => {
       // @ts-expect-error: we need to rewrite plugins to TS to get their types
         const windowPlugin = window[spec.exportName];
@@ -193,10 +193,10 @@ const mountEditorOnce = async () => {
   });
 };
 
-watch(userEditorTools, mountEditorOnce);
+watch(editorTools, mountEditorOnce);
 onMounted(() => {
-  console.log('mount', userEditorTools.value);
-  if (userEditorTools.value.length > 0) {
+  console.log('mount', editorTools.value);
+  if (editorTools.value.length > 0) {
     mountEditorOnce();
   }
 });
