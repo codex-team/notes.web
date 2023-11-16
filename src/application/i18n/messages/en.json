@@ -20,5 +20,9 @@
     "404": "Page not found",
     "500": "Unknown error happened",
     "default": "Something went wrong"
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "listOfTools": "Tools"
   }
 }
