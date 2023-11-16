@@ -1,11 +1,11 @@
-import type EditorToolRepositoryInterface from '@/domain/editorTool.repository.interface';
+import type MarketplaceRepositoryInterface from '@/domain/marketplace.repository.interface';
 import type NotesApiTransport from './transport/notes-api';
 import type EditorTool from '@/domain/entities/EditorTool';
 
 /**
- * Facade for the user data
+ * Facade for the marketplace data
  */
-export default class EditorToolRepository implements EditorToolRepositoryInterface {
+export default class MarketplaceRepository implements MarketplaceRepositoryInterface {
   /**
    * Transport instance
    */
@@ -23,12 +23,12 @@ export default class EditorToolRepository implements EditorToolRepositoryInterfa
   /**
    * Returns all editor tools
    */
-  public async getAllEditorTool(): Promise<EditorTool[]> {
+  public async getToolsAvailable(): Promise<EditorTool[]> {
     /**
      * Get tool data from API
      */
     const response = await this.transport.get<{ data: EditorTool[] }>('/editor-tools/all');
 
-    return (response.data);
+    return response.data;
   }
 }
