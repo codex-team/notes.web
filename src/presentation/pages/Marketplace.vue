@@ -3,7 +3,7 @@
     <h1>{{ $t('marketplace.title') }}</h1>
     <h2>{{ $t('marketplace.listOfTools') }}</h2>
     <ul
-      v-for="tool in allEditorTools"
+      v-for="tool in tools"
       :key="tool.id"
     >
       <li>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import useEditorTools  from '@/application/services/useEditorTool';
 
-const { allEditorTools } = useEditorTools();
+const { tools } = useEditorTools();
 </script>
 
 <style setup lang = "postcss" scoped>
