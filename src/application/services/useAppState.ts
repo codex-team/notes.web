@@ -37,7 +37,7 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
   /**
    * Subscribe to user changes in the App State
    */
-  AppStateController.user((prop: 'user' | 'userEditorTools' | 'allEditorTools', value: User | EditorTool[] | null) => {
+  AppStateController.user((prop: 'user' | 'userEditorTools',  value: User | EditorTool[] | null) => {
     if (prop === 'user') {
       user.value = value as User;
     }

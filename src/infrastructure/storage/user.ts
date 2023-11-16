@@ -15,11 +15,6 @@ export type UserStoreData = {
    * User editor tools that are used in notes creation
    */
   userEditorTools: EditorTool[];
-
-  /**
-   * User editor tools that are used in notes creation
-   */
-  allEditorTools: EditorTool[];
 };
 
 /**
