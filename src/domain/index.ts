@@ -28,7 +28,7 @@ const noteService = new NoteService(repositories.note);
 const noteSettingsService = new NoteSettingsService(repositories.noteSettings);
 const authService = new AuthService(eventBus, repositories.auth);
 const userService = new UserService(eventBus, repositories.user);
-const editorToolService = new MarketplaceService(repositories.marketplace);
+const marketplaceService = new MarketplaceService(repositories.marketplace);
 
 /**
  * App State — is a read-only combination of app Stores.
@@ -44,6 +44,6 @@ export {
   noteSettingsService,
   authService,
   userService,
-  editorToolService
+  marketplaceService
 };
 

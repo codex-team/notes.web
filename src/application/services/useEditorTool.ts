@@ -1,6 +1,6 @@
 import type EditorTool from '@/domain/entities/EditorTool';
 import { type Ref, ref } from 'vue';
-import { editorToolService } from '@/domain';
+import { marketplaceService } from '@/domain';
 
 /**
  * Composable for the application state
@@ -9,7 +9,7 @@ interface UseEditorToolComposable {
   /**
    * All editor tools that are used in notes creation
    */
-  allEditorTools: Ref<EditorTool[]>
+  tools: Ref<EditorTool[]>
 }
 
 /**
@@ -19,16 +19,16 @@ export default function (): UseEditorToolComposable {
   /**
    *  All editor tools
    */
-  const allEditorTools = ref<EditorTool[]>([]);
+  const tools = ref<EditorTool[]>([]);
 
   /**
    * Get list of all tools
    */
   async (): Promise<void> => {
-    allEditorTools.value = await editorToolService.getAllTools();
+    tools.value = await marketplaceService.getAllTools();
   };
 
   return {
-    allEditorTools,
+    tools: tools,
   };
 }
