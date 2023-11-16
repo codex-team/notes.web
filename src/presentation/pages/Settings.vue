@@ -30,11 +30,11 @@ import { useI18n } from 'vue-i18n';
 import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 import { useUserSettings } from '@/application/services/useUserSettings';
+import { useHead } from 'unhead';
 
 const { userEditorTools } = useAppState();
 const { t } = useI18n();
 const { addTool: addToolToUser } = useUserSettings();
-
 
 /**
  * Add tool to user. Imitates Installations from the Marketplace
@@ -51,6 +51,12 @@ function addTool(event: KeyboardEvent): void {
   }
 }
 
+/**
+ * Changing the title in the browser
+ */
+useHead({
+  title: t('site.titles.noteSettings'),
+});
 </script>
 
 <style scoped>

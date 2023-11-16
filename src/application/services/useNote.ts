@@ -55,6 +55,11 @@ interface UseNoteComposableState {
    * Load note by custom hostname
    */
   resolveHostname: () => Promise<void>;
+
+  /**
+   * Title for bookmarks in the browser
+   */
+  title: Ref<string>;
 }
 
 interface UseNoteComposableOptions {
@@ -86,6 +91,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
+
+  /**
+   * Title identifier
+   */
+  const title = computed(() => {
+    return note.value?.content.blocks[0].data.text;
+  });
 
   /**
    * Load note by id
@@ -172,6 +184,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
+    title,
     resolveHostname,
     save,
   };

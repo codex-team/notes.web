@@ -6,6 +6,17 @@
 </template>
 
 <script setup lang="ts">
+import { useHead } from 'unhead';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+/**
+ * Changing the title in the browser
+ */
+useHead({
+  title: t('site.titles.home'),
+});
 </script>
 
 <style lang="postcss" scoped>

@@ -14,7 +14,13 @@
 import { computed, ref } from 'vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
-import { NoteContent } from '@/domain/entities/Note';
+import {  NoteContent } from '@/domain/entities/Note';
+import { useHead } from 'unhead';
+import { useI18n } from 'vue-i18n';
+import { watchEffect } from 'vue';
+import limitTitle from '@/application/services/useBrowserTitle.js';
+
+const { t } = useI18n();
 
 const props = defineProps<{
   /**
@@ -25,7 +31,7 @@ const props = defineProps<{
 
 const noteId = computed(() => props.id);
 
-const { note, save } = useNote({
+const { note, save, title } = useNote({
   id: noteId,
 });
 
@@ -45,6 +51,23 @@ function noteChanged(data: NoteContent): void {
   if (!isEmpty) {
     save(data);
   }
+}
+
+/**
+ * Changing the title in the browser
+ */
+if (!props.id) {
+  useHead({
+    title: t('site.titles.newNote'),
+  });
+} else {
+  watchEffect(() => {
+    if (title.value) {
+      useHead({
+        title: limitTitle(title.value),
+      });
+    }
+  });
 }
 </script>
 

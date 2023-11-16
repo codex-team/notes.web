@@ -1,4 +1,13 @@
 {
+  "site": {
+    "titles": {
+      "home": "NoteX",
+      "userSettings": "User Settings",
+      "noteSettings": "Note Settings",
+      "newNote": "New Note"
+    }
+  },
+
   "auth": {
     "login": "Login"
   },
