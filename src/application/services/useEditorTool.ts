@@ -1,5 +1,5 @@
 import type EditorTool from '@/domain/entities/EditorTool';
-import { type Ref, ref } from 'vue';
+import { type Ref, ref, onMounted } from 'vue';
 import { marketplaceService } from '@/domain';
 
 /**
@@ -24,9 +24,10 @@ export default function (): UseEditorToolComposable {
   /**
    * Get list of all tools
    */
-  async (): Promise<void> => {
+  onMounted(async () => {
     tools.value = await marketplaceService.getAllTools();
-  };
+  });
+
 
   return {
     tools: tools,
