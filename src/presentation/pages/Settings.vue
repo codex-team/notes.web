@@ -2,7 +2,7 @@
   <h1>{{ t("settings.title") }}</h1>
   <h2>{{ t("settings.userEditorTools") }}:</h2>
   <ul
-    v-for="tool in editorTools"
+    v-for="tool in userEditorTools"
     :key="tool.id"
   >
     <li>
@@ -31,7 +31,7 @@ import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 import { useUserSettings } from '@/application/services/useUserSettings';
 
-const { editorTools } = useAppState();
+const { userEditorTools } = useAppState();
 const { t } = useI18n();
 const { addTool: addToolToUser } = useUserSettings();
 
