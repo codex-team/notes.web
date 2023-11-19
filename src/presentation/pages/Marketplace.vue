@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import useEditorTools  from '@/application/services/useEditorTool';
+import useMarketplace  from '@/application/services/useMarketplace';
 
-const { tools } = useEditorTools();
+const { tools } = useMarketplace();
 </script>
 
 <style setup lang = "postcss" scoped>
@@ -26,3 +26,4 @@ h1 {
     @apply --text-heading-1;
 }
 </style>
+@/application/services/useMarketplace

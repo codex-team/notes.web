@@ -5,7 +5,7 @@ import { marketplaceService } from '@/domain';
 /**
  * Composable for the application state
  */
-interface UseEditorToolComposable {
+interface UseMarketplaceComposable {
   /**
    * All editor tools that are used in notes creation
    */
@@ -15,7 +15,7 @@ interface UseEditorToolComposable {
 /**
  * Application service for working with the Editor Tools
  */
-export default function (): UseEditorToolComposable {
+export default function (): UseMarketplaceComposable {
   /**
    *  All editor tools
    */
