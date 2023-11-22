@@ -1,0 +1,57 @@
+name: Send check results to CodeX chat
+
+on:
+  push:
+    branches:
+      - 'main'
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  send-message:
+    permissions: read-all
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Set commit_sha to pull request head sha
+        if: ${{ github.event_name == 'pull_request' }}
+        run: echo "COMMIT_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
+
+      - name: Set commit_sha to pushed commit sha
+        if: ${{ github.event_name == 'push' }}
+        run: echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+
+      - name: Wait for other checks to succeed
+        uses: lewagon/wait-on-check-action@v1.3.1
+        with:
+          ref: ${{ env.COMMIT_SHA }}
+          running-workflow-name: send-message
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 3
+          allowed-conclusions: success,skipped,cancelled,failure
+
+        # Find results of the actions with the same SHA as this action via github api and set them to env variable
+      - name: Get actions results
+        run: |
+          url="https://api.github.com/repos/${{ github.repository }}/actions/runs"
+          echo 'ACTIONS_RESULTS<<0x0a' >> $GITHUB_ENV
+          curl -s -X GET -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"\
+           "$url" | jq -r '.workflow_runs[] | select(((.head_sha=="${{ env.COMMIT_SHA }}") and (.id != ${{ github.run_id }}))
+            and ((.conclusion == "success") or (.conclusion == "failure"))) | "\(.conclusion) [\(.name)](\(.html_url))" |
+             gsub("success"; "✅") | gsub("failure"; "❌")' >> $GITHUB_ENV
+          echo '0x0a' >> $GITHUB_ENV
+
+        # Skip if all checks were skipped/cancelled
+      - name: Skip this workflow if none of the results have conclusion "success" or "failure"
+        uses: styfle/cancel-workflow-action@0.12.0
+        if: ${{ env.ACTIONS_RESULTS == '' }}
+        with:
+          workflow_id: ${{ github.run_id }}
+
+      - name: Send a message
+        uses: codex-team/action-codexbot-notify@v1
+        with:
+          webhook: ${{ secrets.CODEX_BOT_NOTIFY_NOTES_CHAT }}
+          message: "${{ env.ACTIONS_RESULTS }}"
+          parse_mode: 'markdown'
+          disable_web_page_preview: true
