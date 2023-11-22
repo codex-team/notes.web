@@ -96,7 +96,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * @todo try-catch domain errors
      */
-    note.value = await noteService.getNoteById(id);
+    note.value = (await noteService.getNoteById(id)).note;
   };
 
   /**
@@ -136,7 +136,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
-    note.value = await noteService.getNoteByHostname(location.hostname);
+    note.value = (await noteService.getNoteByHostname(location.hostname)).note;
   };
 
   onMounted(() => {
