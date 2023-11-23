@@ -11,10 +11,10 @@
 import { IconUser } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
 import Button from '@/presentation/components/button/Button.vue';
-import useOAuth from '@/application/services/useOAuth';
+import useAuth from '@/application/services/useAuth';
 
 const { t } = useI18n();
-const { showGoogleAuthPopup } = useOAuth();
+const { showGoogleAuthPopup } = useAuth();
 
 /**
  * Shows Google Authentication in a popup

@@ -1,6 +1,7 @@
 {
   "auth": {
-    "login": "Login"
+    "login": "Login",
+    "logout": "Logout"
   },
   "settings": {
     "title": "Settings",

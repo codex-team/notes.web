@@ -10,6 +10,12 @@
     </li>
   </ul>
   <ThemeButton />
+  <Button
+    :text="t('auth.logout')"
+    type="primary"
+    :icon="IconUnlink"
+    @click="userLogout"
+  />
 
   <div class="add-tool">
     <h2>
@@ -27,12 +33,18 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
+import Button from '../components/button/Button.vue';
+import { IconUnlink } from '@codexteam/icons';
+import { useRouter } from 'vue-router';
+import useAuth from '@/application/services/useAuth';
 import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 import { useUserSettings } from '@/application/services/useUserSettings';
 
 const { userEditorTools } = useAppState();
 const { t } = useI18n();
+const router = useRouter();
+const { logout } = useAuth();
 const { addTool: addToolToUser } = useUserSettings();
 
 
@@ -49,6 +61,15 @@ function addTool(event: KeyboardEvent): void {
     addToolToUser(toolId);
     input.value = '';
   }
+}
+
+/**
+ * Logs out the user
+ */
+async function userLogout() {
+  await logout().then(() => {
+    router.push({ path: '/' });
+  });
 }
 
 </script>

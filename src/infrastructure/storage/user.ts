@@ -38,6 +38,12 @@ export class UserStore extends SubscribableStore<UserStoreData> {
   }
 
   /**
+   * Removes user data
+   */
+  public removeUser(): void {
+    this.data.user = null;
+  }
+  /**
    * Array of tools
    */
   public getUserEditorTools(): EditorTool[] {

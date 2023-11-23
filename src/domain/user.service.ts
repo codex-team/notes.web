@@ -2,6 +2,7 @@ import type UserRepository from '@/domain/user.repository.interface';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME } from './event-bus/events/AuthCompleted';
 import type { User } from './entities/User';
+import { AUTH_LOGOUT_EVENT_NAME } from './event-bus/events/AuthLogoutEvent';
 
 /**
  * Business logic for User
@@ -27,6 +28,12 @@ export default class UserService {
     eventBus.addEventListener(AUTH_COMPLETED_EVENT_NAME, () => {
       void this.repository.loadUser();
       void this.repository.loadUserEditorTools();
+    });
+    /**
+     * When we got unauthorized
+     */
+    eventBus.addEventListener(AUTH_LOGOUT_EVENT_NAME, () => {
+      void this.repository.removeUser();
     });
   }
 
