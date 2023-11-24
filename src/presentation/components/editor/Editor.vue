@@ -61,6 +61,7 @@ function loadScript(src: string) {
  */
 const props = defineProps<{
   content?: OutputData,
+  readOnly?: boolean,
 }>();
 
 const emit = defineEmits<{
@@ -185,6 +186,7 @@ const mountEditorOnce = async () => {
       },
       data: props.content,
       onChange,
+      readOnly: props.readOnly,
     });
 
     await editorInstance.isReady;
