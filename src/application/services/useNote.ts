@@ -1,7 +1,9 @@
 import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import { useRouter } from 'vue-router';
+
 
 /**
  * On new note creation, we use predefined structure of the Editor: header + paragraph
@@ -36,6 +38,15 @@ function createDraft(): NoteDraft {
 }
 
 /**
+ * Create access rights for the empty note
+ */
+function createAccessRights(): NoteAccessRights {
+  return {
+    canEdit: true,
+  };
+}
+
+/**
  * Note hook state
  */
 interface UseNoteComposableState {
@@ -55,6 +66,12 @@ interface UseNoteComposableState {
    * Load note by custom hostname
    */
   resolveHostname: () => Promise<void>;
+
+  /**
+   * NoteAccessRights - when note is loaded or new note created
+   * null - when note and its access rights is not loaded yet
+   */
+  accessRights: Ref<NoteAccessRights | null>;
 }
 
 interface UseNoteComposableOptions {
@@ -88,6 +105,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const router = useRouter();
 
   /**
+   * Access rights for currently opened note
+   *
+   * Create new NoteAccessRights instance when new note is created
+   */
+  const accessRights = ref<NoteAccessRights | null>(currentId.value == null ? createAccessRights() : null);
+
+  /**
    * Load note by id
    *
    * @param id - Note identifier got from composable argument
@@ -96,8 +120,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * @todo try-catch domain errors
      */
-    note.value = (await noteService.getNoteById(id)).note;
-  };
+
+    const response = await noteService.getNoteById(id);
+
+    note.value = response.note;
+    accessRights.value = response.accessRights;
+  }
 
   /**
    * Saves the note
@@ -155,6 +183,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     if (newId === null) {
       note.value = createDraft();
+      accessRights.value = createAccessRights();
 
       return;
     }
@@ -172,6 +201,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
+    accessRights,
     resolveHostname,
     save,
   };
