@@ -10,6 +10,10 @@
       :icon="IconPlus"
     />
     <div class="header__right">
+      <Button
+        text="Connect Wallet"
+        @click="onConnectWalletClicked"
+      />
       <LoginButton
         v-if="!user"
       />
@@ -32,10 +36,22 @@ import UserPanel from './HeaderUser.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
+import { useWeb3 } from '@/application/services/useWeb3';
+
+
 
 const { t } = useI18n();
 const { currentRoute } = useRouter();
 const { user } = useAppState();
+
+const { openModal }  = useWeb3();
+
+/**
+ *
+ */
+function onConnectWalletClicked(): void {
+  openModal();
+}
 
 const tabs = computed<Tab[]>(() => {
   const availableTabs = [
@@ -93,6 +109,8 @@ const tabs = computed<Tab[]>(() => {
 
   &__right {
     margin-left: auto;
+    display: flex;
+    gap: var(--spacing-ms);
   }
 }
 
