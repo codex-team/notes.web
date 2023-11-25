@@ -10,6 +10,7 @@
       :icon="IconPlus"
     />
     <div class="header__right">
+      <w3m-account-button />
       <Button
         text="Connect Wallet"
         @click="onConnectWalletClicked"
@@ -36,7 +37,7 @@ import UserPanel from './HeaderUser.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
-import { useWeb3 } from '@/application/services/useWeb3';
+import { useWeb3, useWalletConnect } from '@/application/services/useWeb3';
 
 
 
@@ -44,7 +45,8 @@ const { t } = useI18n();
 const { currentRoute } = useRouter();
 const { user } = useAppState();
 
-const { openModal }  = useWeb3();
+// const { openModal }  = useWeb3();
+const { openModal }  = useWalletConnect();
 
 /**
  *

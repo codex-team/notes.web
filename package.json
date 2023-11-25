@@ -33,7 +33,7 @@
     "@web3-onboard/injected-wallets": "^2.10.9",
     "@web3-onboard/vue": "^2.7.12",
     "@web3-onboard/walletconnect": "^2.5.0",
-    "ethers": "^6.8.1",
+    "@web3modal/ethers5": "^3.3.2",
     "jwt-decode": "^3.1.2",
     "normalize.css": "^8.0.1",
     "typescript-cookie": "^1.0.6",
