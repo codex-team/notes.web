@@ -1,103 +1,54 @@
-import {createSharedComposable} from '@vueuse/core';
-import {init as initWeb3Onboard, useOnboard} from '@web3-onboard/vue';
-import injectedModule from '@web3-onboard/injected-wallets';
-import coinbaseWalletModule from '@web3-onboard/coinbase';
-import walletConnectModule from '@web3-onboard/walletconnect';
-// import { mainnet } from 'viem/chains';
-import type {Chain} from '@wagmi/core';
-import {getAccount, getWalletClient, mainnet, sepolia} from '@wagmi/core';
-import {createPublicClient, createWalletClient, custom, http} from 'viem';
-// import { createWeb3Modal, defaultConfig, useWeb3Modal, useWeb3ModalSigner, useWeb3ModalAccount, useWeb3ModalState, useWeb3ModalEvents } from '@web3modal/ethers5/vue';
-import {createWeb3Modal, defaultWagmiConfig, useWeb3Modal, useWeb3ModalState} from '@web3modal/wagmi/vue';
-import {watch, watchEffect} from 'vue';
-// import {useWeb3ModalAccount, useWeb3ModalSigner} from "@web3modal/ethers5/dist/types/exports/vue";
-
-const abi = [
-  {
-    'constant': false,
-    'inputs': [
-      {
-        'name': '_to',
-        'type': 'address',
-      },
-      {
-        'name': '_value',
-        'type': 'uint256',
-      },
-    ],
-    'name': 'transfer',
-    'outputs': [
-      {
-        'name': '',
-        'type': 'bool',
-      },
-    ],
-    'payable': false,
-    'stateMutability': 'nonpayable',
-    'type': 'function',
-  },
-];
-
+import type { Chain } from '@wagmi/core';
+import { getAccount, getWalletClient, mainnet, sepolia, type GetAccountResult, type WalletClient } from '@wagmi/core';
+import { createWeb3Modal, defaultWagmiConfig, useWeb3Modal, useWeb3ModalEvents } from '@web3modal/wagmi/vue';
+import { ref, watch } from 'vue';
 
 /**
- *
- * @param provider
- * @param transport
- * @param address
+ * Tether USDT Stablecoin contract
  */
-async function requestTransaction(transport, address): void {
-  const walletClient = createWalletClient({
-    account: address as `0x${string}`,
-    chain: mainnet,
-    transport,
-  });
-
-  await walletClient.writeContract({
-    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    abi: abi,
-    functionName: 'transfer',
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    args: ['0xFbDa07a729d5649Da74C58F8F01613FA842323fe', 10000000n],
-  });
-}
-
+const stablecoinContract = {
+  address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+  abi: [
+    {
+      'constant': false,
+      'inputs': [
+        {
+          'name': '_to',
+          'type': 'address',
+        },
+        {
+          'name': '_value',
+          'type': 'uint256',
+        },
+      ],
+      'name': 'transfer',
+      'outputs': [
+        {
+          'name': '',
+          'type': 'bool',
+        },
+      ],
+      'payable': false,
+      'stateMutability': 'nonpayable',
+      'type': 'function',
+    },
+  ],
+};
 
 /**
  * Working with Web3Modal
  */
 export function useWalletConnect(): {
   openModal: () => void;
-} {
-  // console.log('first')
-  // console.log(JSON.stringify(window.ethereum))
+  pay: () => void;
+  } {
   const projectId = import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID;
 
-  // const sepolia = {
-  //   chainId: 11155111,
-  //   name: 'Ethereum',
-  //   currency: 'ETH',
-  //   explorerUrl: 'https://etherscan.io',
-  //   rpcUrl: 'https://cloudflare-eth.com',
-  // };
-
-  // const mainnetChain = {
-  //   chainId: 1,
-  //   name: 'Ethereum',
-  //   currency: 'ETH',
-  //   explorerUrl: 'https://etherscan.io',
-  //   rpcUrl: 'https://cloudflare-eth.com',
-  // };
-
-  // 3. Create modal
   const metadata = {
-    name: 'My Website',
-    description: 'My Website description',
-    url: 'https://mywebsite.com',
-    icons: ['https://avatars.mywebsite.com/'],
+    name: 'NoteX',
+    description: 'Knowledge presentation platform',
+    url: 'https://notex.so',
   };
-
-  const rpcAPIKey = import.meta.env.VITE_RPC_API_KEY;
-  // const rpcUrl = `https://mainnet.infura.io/v3/${rpcAPIKey}`;
 
   const chains: Chain[] = [
     mainnet,
@@ -116,96 +67,47 @@ export function useWalletConnect(): {
     projectId,
   });
 
-  const state = useWeb3ModalState();
+  const account = ref<GetAccountResult | null>(null);
+  const walletClient = ref<WalletClient | null>(null);
 
+  /**
+   * Resolver for the promise returned by the openModal function
+   * Resolved when the user has connected his wallet
+   */
   let walletConnectResolver: null | (() => void) = null;
 
-  watch(state, async (newState, prevState) => {
-    console.log('new state', newState.selectedNetworkId);
-    console.log('prev state', prevState.selectedNetworkId);
-    const account = getAccount();
-
-    console.log(account.address);
-
-    if (account.address && walletConnectResolver !== null){
-      walletConnectResolver();
-    }
-
-  });
-
-  // watchEffect(() => {
-  //   const account = getAccount()
-  //   console.log(account.address)
-  // });
-
-  // console.log('second')
-  // console.log(JSON.stringify(window.ethereum))
-
-  // const client = wagmiConfig.getPublicClient({chainId: 1})
-  // requestTransaction(custom(window.ethereum), '0xFbDa07a729d5649Da74C58F8F01613FA842323fe');
-  // const client = await getWalletClient({chainId: 1})
-  // console.log({client})
-  // if (client) {
-  //   const walletClient = createWalletClient({
-  //     account: address as `0x${string}`,
-  //     chain: mainnet,
-  //     transport: client.transport,
-  //   });
-  //
-  //   await walletClient.writeContract({
-  //     address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-  //     abi: abi,
-  //     functionName: 'transfer',
-  //     args: ['0xFbDa07a729d5649Da74C58F8F01613FA842323fe', 10000000n],
-  //   });
-  // }
-
-  // const { signer } = useWeb3ModalSigner();
-  // const { address, chainId, isConnected } = useWeb3ModalAccount();
-  //
-  // requestTransaction(custom(signer.value.provider), address.value);
-
-
   /**
-   * Called when the signer changes
-   *  - after the user has connected their wallet
-   *  - on disconnect
+   * Hook called when the user has connected his wallet
    */
-  // watch(signer, async (newSigner, preSigner) => {
-  //   console.log('new signer', newSigner);
-  //   console.log('prev signer', preSigner);
-  //
-  //   if (!newSigner) {
-  //     return;
-  //   }
-  //
-  //
-  //   const request = newSigner.provider.jsonRpcFetchFunc;
-  //
-  //   console.log('request', request );
-  //   console.log('address', address.value);
-  //
-  //   const transport = custom({
-  //     async request({ method, params }) {
-  //       try {
-  //         const response = await request(method, params);
-  //
-  //         console.log('response', response);
-  //
-  //         return response;
-  //       } catch (error) {
-  //         console.log('error', error);
-  //       }
-  //
-  //       return undefined;
-  //     },
-  //   });
-  //
-  //   requestTransaction(transport, address.value);
-  // });
+  async function onWalletConnected(): Promise<void> {
+    walletClient.value = await getWalletClient({ chainId: 1 });
+
+    if (walletConnectResolver !== null) {
+      walletConnectResolver();
+
+      walletConnectResolver = null;
+    }
+  }
 
   /**
+   * Hook called when the user has disconnected his wallet
+   */
+  function onWalletDisconnected(): void {
+    account.value = null;
+    walletClient.value = null;
+  }
+
+  /**
+   * Hook called when the error occurs during the modal process
    *
+   * @param errorText Error text
+   */
+  function onModalError(errorText: string): void {
+    console.log(errorText);
+  }
+
+  /**
+   * Opens the modal and returns a promise that is resolved when the user has connected his wallet
    */
   async function openModal(): Promise<void> {
     return new Promise((resolve) => {
@@ -213,42 +115,71 @@ export function useWalletConnect(): {
 
       const modal = useWeb3Modal();
 
-      console.log('modal', modal);
-
       void modal.open();
+
+      /**
+       * Web3Modal events. Changed when some action is performed in the modal
+       */
+      const event = useWeb3ModalEvents();
+
+      /**
+       * Watch for modal events to find out when the user has connected his wallet
+       */
+      const unwatchModalEvents = watch(event, async (newEvent) => {
+        switch (newEvent.data.event) {
+          case 'CONNECT_SUCCESS':
+            await onWalletConnected();
+            unwatchModalEvents();
+            break;
+
+          case 'DISCONNECT_SUCCESS':
+            onWalletDisconnected();
+            unwatchModalEvents();
+            break;
+
+          case 'CONNECT_ERROR':
+            onModalError('Wallet connect error');
+            unwatchModalEvents();
+
+          case 'DISCONNECT_ERROR':
+            onModalError('Wallet disconnect error');
+            unwatchModalEvents();
+            break;
+
+          case 'MODAL_CLOSE':
+            unwatchModalEvents();
+            break;
+
+          default:
+            console.log(`Modal event: ${newEvent.data.event}`);
+        }
+      });
     });
   }
 
   /**
-   *
+   * Method called when the user clicks on the pay button
    */
   async function pay(): Promise<void> {
-    const account = getAccount();
+    walletClient.value = await getWalletClient({ chainId: 1 });
 
-    console.log(account);
-    let walletClient = await getWalletClient({chainId: 1});
-
-    if (!walletClient) {
-      console.log('wallet client not found');
+    if (walletClient.value === null) {
       await openModal();
-      walletClient = await getWalletClient({chainId: 1});
     }
 
-    // const client = createWalletClient({
-    //   chain: mainnet,
-    //   transport: custom(window.ethereum)
-    // })
-    //
-    // const [address] = await client.getAddresses()
-    // console.log(address)
-    //
-    await walletClient.writeContract({
-      account: account.address,
-      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-      abi: abi,
+    account.value = getAccount();
+
+    /**
+     * Price of the service
+     */
+    const price = 10000000n;
+
+    await walletClient.value!.writeContract({
+      account: account.value.address,
+      address: stablecoinContract.address as `0x${string}`,
+      abi: stablecoinContract.abi,
       functionName: 'transfer',
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      args: ['0xFbDa07a729d5649Da74C58F8F01613FA842323fe', 10000000n],
+      args: ['0xFbDa07a729d5649Da74C58F8F01613FA842323fe', price],
     });
   }
 
@@ -257,82 +188,3 @@ export function useWalletConnect(): {
     pay,
   };
 }
-
-
-export const useWeb3 = createSharedComposable(() => {
-  /**
-   * Initialize the web3 modal
-   */
-  const injected = injectedModule();
-  const coinbaseWalletSdk = coinbaseWalletModule({darkMode: true});
-
-  const wcInitOptions = {
-    /**
-     * Project ID associated with [WalletConnect account](https://cloud.walletconnect.com)
-     */
-    projectId: import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID,
-    /**
-     * Chains required to be supported by all wallets connecting to your DApp
-     */
-    requiredChains: [1],
-    /**
-     * Chains required to be supported by all wallets connecting to your DApp
-     */
-    optionalChains: [42161, 8453, 10, 137, 56],
-    /**
-     * Defaults to `appMetadata.explore` that is supplied to the web3-onboard init
-     * Strongly recommended to provide atleast one URL as it is required by some wallets (i.e. MetaMask)
-     * To connect with WalletConnect
-     */
-    dappUrl: 'http://YourAwesomeDapp.com',
-  };
-
-  const walletConnect = walletConnectModule(wcInitOptions);
-
-  // Only one RPC endpoint required per chain
-  const rpcAPIKey = import.meta.env.VITE_RPC_API_KEY;
-  const rpcUrl = `https://mainnet.infura.io/v3/${rpcAPIKey}`;
-
-  initWeb3Onboard({
-    wallets: [
-      injected,
-      coinbaseWalletSdk,
-      walletConnect,
-    ],
-    chains: [
-      {
-        id: '0x1',
-        token: 'ETH',
-        label: 'Ethereum Mainnet',
-        rpcUrl,
-      },
-    ],
-  });
-
-  /**
-   *
-   */
-  async function openModal(): Promise<void> {
-    const {connectWallet, connectedWallet} = useOnboard();
-    const wallets = await connectWallet();
-
-    if (connectedWallet !== null) {
-      const transport = custom(connectedWallet.value?.provider!);
-      const address = connectedWallet.value?.accounts[0].address;
-
-      requestTransaction(transport, address);
-
-      // const hash = await walletClient.sendTransaction({
-      //   to: '0xFbDa07a729d5649Da74C58F8F01613FA842323fe',
-      //   value: 50_000_000_000_000_000n
-      // })
-      // console.log({hash})
-    }
-
-    console.log('wallets', wallets);
-  }
-
-  return {
-    openModal,
-  };
-});
