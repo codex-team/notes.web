@@ -1,8 +1,40 @@
 <script lang="ts" setup>
-import { useWeb3ModalEvents, useWeb3ModalState } from '@web3modal/ethers5/vue';
+import {useWeb3ModalEvents, useWeb3ModalState} from '@web3modal/wagmi/vue';
+import {createWalletClient, custom} from 'viem'
+import {mainnet} from 'viem/chains'
+import { getAccount, getWalletClient } from '@wagmi/core'
+
+
 
 const state = useWeb3ModalState()
 const events = useWeb3ModalEvents()
+
+const abi = [
+  {
+    'constant': false,
+    'inputs': [
+      {
+        'name': '_to',
+        'type': 'address',
+      },
+      {
+        'name': '_value',
+        'type': 'uint256',
+      },
+    ],
+    'name': 'transfer',
+    'outputs': [
+      {
+        'name': '',
+        'type': 'bool',
+      },
+    ],
+    'payable': false,
+    'stateMutability': 'nonpayable',
+    'type': 'function',
+  },
+];
+
 </script>
 
 <template>
@@ -12,11 +44,9 @@ const events = useWeb3ModalEvents()
 
     <pre>{{ JSON.stringify(state, null, 2) }}</pre>
     <pre>{{ JSON.stringify(events, null, 2) }}</pre>
+    <button @click="sendTx">send tx</button>
   </div>
 </template>
-
-<script setup lang="ts">
-</script>
 
 <style lang="postcss" scoped>
 @import '@/presentation/styles/typography.pcss';

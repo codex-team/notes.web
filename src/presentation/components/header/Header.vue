@@ -12,7 +12,7 @@
     <div class="header__right">
       <w3m-account-button />
       <Button
-        text="Connect Wallet"
+        text="Pay 10$"
         @click="onConnectWalletClicked"
       />
       <LoginButton
@@ -37,7 +37,7 @@ import UserPanel from './HeaderUser.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
-import { useWeb3, useWalletConnect } from '@/application/services/useWeb3';
+import { useWalletConnect } from '@/application/services/useWeb3';
 
 
 
@@ -46,13 +46,13 @@ const { currentRoute } = useRouter();
 const { user } = useAppState();
 
 // const { openModal }  = useWeb3();
-const { openModal }  = useWalletConnect();
+const { openModal, pay }  = useWalletConnect();
 
 /**
  *
  */
 function onConnectWalletClicked(): void {
-  openModal();
+  pay();
 }
 
 const tabs = computed<Tab[]>(() => {
