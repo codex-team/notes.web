@@ -3,7 +3,6 @@ import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
 
-
 /**
  * On new note creation, we use predefined structure of the Editor: header + paragraph
  * We call it NoteDraft
@@ -109,7 +108,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * @todo try-catch domain errors
      */
-
     const response = await noteService.getNoteById(id);
 
     note.value = response.note;
