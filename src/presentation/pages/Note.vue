@@ -6,7 +6,7 @@
     v-else
     ref="editor"
     :content="note.content"
-    :read-only="!accessRights?.canEdit"
+    :read-only="!canEdit"
     @change="noteChanged"
   />
 </template>
@@ -26,7 +26,7 @@ const props = defineProps<{
 
 const noteId = computed(() => props.id);
 
-const { note, save, accessRights } = useNote({
+const { note, save, canEdit } = useNote({
   id: noteId,
 });
 

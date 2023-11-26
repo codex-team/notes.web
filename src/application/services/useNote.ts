@@ -1,7 +1,6 @@
 import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
-import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import { useRouter } from 'vue-router';
 
 
@@ -38,15 +37,6 @@ function createDraft(): NoteDraft {
 }
 
 /**
- * Create access rights for the empty note
- */
-function createAccessRights(): NoteAccessRights {
-  return {
-    canEdit: true,
-  };
-}
-
-/**
  * Note hook state
  */
 interface UseNoteComposableState {
@@ -68,10 +58,9 @@ interface UseNoteComposableState {
   resolveHostname: () => Promise<void>;
 
   /**
-   * NoteAccessRights - when note is loaded or new note created
-   * null - when note and its access rights is not loaded yet
+   * Defines if user can edit note
    */
-  accessRights: Ref<NoteAccessRights | null>;
+  canEdit: Ref<boolean>;
 }
 
 interface UseNoteComposableOptions {
@@ -105,11 +94,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const router = useRouter();
 
   /**
-   * Access rights for currently opened note
+   * Editing rights for the currently opened note
    *
-   * Create new NoteAccessRights instance when new note is created
+   * true by default
    */
-  const accessRights = ref<NoteAccessRights | null>(currentId.value == null ? createAccessRights() : null);
+  const canEdit = ref<boolean>(true);
 
   /**
    * Load note by id
@@ -124,7 +113,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     const response = await noteService.getNoteById(id);
 
     note.value = response.note;
-    accessRights.value = response.accessRights;
+    canEdit.value = response.accessRights.canEdit;
   }
 
   /**
@@ -183,7 +172,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     if (newId === null) {
       note.value = createDraft();
-      accessRights.value = createAccessRights();
+      canEdit.value = true;
 
       return;
     }
@@ -201,7 +190,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
-    accessRights,
+    canEdit,
     resolveHostname,
     save,
   };
