@@ -1,7 +1,21 @@
 import type { Chain } from '@wagmi/core';
-import { getAccount, getWalletClient, mainnet, sepolia, type GetAccountResult, type WalletClient } from '@wagmi/core';
+import { getAccount, getWalletClient, type GetAccountResult, type WalletClient, getNetwork } from '@wagmi/core';
+import { goerli, mainnet, sepolia } from '@wagmi/chains';
 import { createWeb3Modal, defaultWagmiConfig, useWeb3Modal, useWeb3ModalEvents } from '@web3modal/wagmi/vue';
 import { ref, watch } from 'vue';
+
+interface Invoice {
+  id: string,
+  amount: number,
+  currency: 'ETH',
+  walletAddress: string,
+}
+
+interface PaymentGatewayResponse<Data> {
+  status: 'success' | 'error',
+  message: string,
+  data: Data,
+}
 
 /**
  * Tether USDT Stablecoin contract
@@ -53,6 +67,7 @@ export function useWalletConnect(): {
   const chains: Chain[] = [
     mainnet,
     sepolia,
+    goerli,
   ];
 
   const wagmiConfig = defaultWagmiConfig({
@@ -77,10 +92,25 @@ export function useWalletConnect(): {
   let walletConnectResolver: null | (() => void) = null;
 
   /**
+   * Access wallet client
+   */
+  async function createWalletClient(): Promise<WalletClient | null> {
+    const { chain } = getNetwork();
+
+    if (chain === undefined) {
+      return null;
+    }
+
+    return await getWalletClient({
+      chainId: chain.id, // currently selected chain
+    });
+  }
+
+  /**
    * Hook called when the user has connected his wallet
    */
   async function onWalletConnected(): Promise<void> {
-    walletClient.value = await getWalletClient({ chainId: 1 });
+    walletClient.value = await createWalletClient();
 
     if (walletConnectResolver !== null) {
       walletConnectResolver();
@@ -158,10 +188,33 @@ export function useWalletConnect(): {
   }
 
   /**
+   * Send post request to the payment gateway to create an invoice
+   */
+  async function createInvoice(): Promise<Invoice> {
+    const response: PaymentGatewayResponse<Invoice> = await fetch(import.meta.env.VITE_PAYMENT_GATEWAY_URL + '/invoice/create', {
+      method: 'POST',
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Content-Type': 'application/json',
+      },
+    }).then((rawResponse) => rawResponse.json());
+
+    if (response.status === 'error') {
+      throw new Error(response.message);
+    }
+
+    const { data } = response;
+
+    return data;
+  }
+
+  /**
    * Method called when the user clicks on the pay button
    */
   async function pay(): Promise<void> {
-    walletClient.value = await getWalletClient({ chainId: 1 });
+    const invoice = await createInvoice();
+
+    walletClient.value = await createWalletClient();
 
     if (walletClient.value === null) {
       await openModal();
@@ -172,15 +225,24 @@ export function useWalletConnect(): {
     /**
      * Price of the service
      */
-    const price = 10000000n;
+    const price = BigInt(invoice.amount);
 
-    await walletClient.value!.writeContract({
-      account: account.value.address,
-      address: stablecoinContract.address as `0x${string}`,
-      abi: stablecoinContract.abi,
-      functionName: 'transfer',
-      args: ['0xFbDa07a729d5649Da74C58F8F01613FA842323fe', price],
+    walletClient.value?.sendTransaction({
+      to: invoice.walletAddress as `0x${string}`,
+      value: price,
     });
+
+
+    // await walletClient.value!.writeContract({
+    //   account: account.value.address,
+    //   address: stablecoinContract.address as `0x${string}`,
+    //   abi: stablecoinContract.abi,
+    //   functionName: 'transfer',
+    //   args: [
+    //     invoice.walletAddress,
+    //     price
+    //   ],
+    // });
   }
 
   return {
