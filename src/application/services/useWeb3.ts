@@ -3,12 +3,14 @@ import { getAccount, getWalletClient, type GetAccountResult, type WalletClient, 
 import { goerli, mainnet, sepolia } from '@wagmi/chains';
 import { createWeb3Modal, defaultWagmiConfig, useWeb3Modal, useWeb3ModalEvents } from '@web3modal/wagmi/vue';
 import { ref, watch } from 'vue';
+import FetchTransport from '@/infrastructure/transport/fetch.transport';
 
 interface Invoice {
   id: string,
   amount: number,
   currency: 'ETH',
   walletAddress: string,
+  status: 'paid' | 'unpaid' | 'pending',
 }
 
 interface PaymentGatewayResponse<Data> {
@@ -50,11 +52,92 @@ const stablecoinContract = {
 };
 
 /**
+ * Working with the Payment Gateway to work with invoices
+ */
+function usePaymentsGateway(): {
+  createInvoice: () => Promise<Invoice>;
+  watchTransaction: (invoiceId: string, hooks: {
+    onPaid: () => void;
+    onUnpaid: () => void;
+  }) => Promise<void>;
+  } {
+  /**
+   * Transport to make HTTP requests
+   */
+  const transport = new FetchTransport(import.meta.env.VITE_PAYMENT_GATEWAY_URL);
+
+  /**
+   * Send post request to the payment gateway to create an invoice
+   */
+  async function createInvoice(): Promise<Invoice> {
+    const response = await transport.post('/invoice/create') as unknown as PaymentGatewayResponse<Invoice>;
+
+    if (response.status === 'error') {
+      throw new Error(response.message);
+    }
+
+    return response.data;
+  }
+
+  /**
+   * Currently postponed polling call
+   */
+  let pollTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  /**
+   * Timeout between polling calls
+   */
+  const pollingTimeout = 1000;
+
+  /**
+   * Watch for the transaction to be confirmed or rejected
+   *
+   * @param invoiceId - Invoice ID issued by the payment gateway
+   * @param hooks - Hooks to be called when the transaction is confirmed or rejected
+   */
+  async function watchTransaction(invoiceId: string, hooks: {
+    onPaid: () => void;
+    onUnpaid: () => void;
+  }): Promise<void> {
+    const response = await transport.get(`/invoice/${invoiceId}`) as unknown as PaymentGatewayResponse<Invoice>;
+
+    if (response.status === 'error') {
+      throw new Error(response.message);
+    }
+
+    const { data } = response;
+
+    switch (data.status) {
+      case 'paid':
+        hooks.onPaid();
+        break;
+
+      case 'unpaid':
+        hooks.onUnpaid();
+        break;
+
+      case 'pending':
+        pollTimeout = setTimeout(() => {
+          void watchTransaction(invoiceId, hooks);
+        }, pollingTimeout);
+        break;
+
+      default:
+        throw new Error(`Unknown invoice status: ${data.status}`);
+    }
+  }
+
+  return {
+    createInvoice,
+    watchTransaction,
+  };
+}
+
+/**
  * Working with Web3Modal
  */
-export function useWalletConnect(): {
-  openModal: () => void;
-  pay: () => void;
+export function useWeb3Payments(): {
+  pay: (invoice: Invoice) => Promise<void>;
   } {
   const projectId = import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID;
 
@@ -188,65 +271,84 @@ export function useWalletConnect(): {
   }
 
   /**
-   * Send post request to the payment gateway to create an invoice
-   */
-  async function createInvoice(): Promise<Invoice> {
-    const response: PaymentGatewayResponse<Invoice> = await fetch(import.meta.env.VITE_PAYMENT_GATEWAY_URL + '/invoice/create', {
-      method: 'POST',
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        'Content-Type': 'application/json',
-      },
-    }).then((rawResponse) => rawResponse.json());
-
-    if (response.status === 'error') {
-      throw new Error(response.message);
-    }
-
-    const { data } = response;
-
-    return data;
-  }
-
-  /**
    * Method called when the user clicks on the pay button
+   *
+   * @param invoice - Invoice to pay
    */
-  async function pay(): Promise<void> {
-    const invoice = await createInvoice();
+  async function pay(invoice: Invoice): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      walletClient.value = await createWalletClient();
 
-    walletClient.value = await createWalletClient();
+      if (walletClient.value === null) {
+        await openModal();
+      }
 
-    if (walletClient.value === null) {
-      await openModal();
-    }
+      const { watchTransaction } = usePaymentsGateway();
 
-    account.value = getAccount();
+      /**
+       * Price of the service
+       */
+      const price = BigInt(invoice.amount);
 
-    /**
-     * Price of the service
-     */
-    const price = BigInt(invoice.amount);
+      walletClient.value?.sendTransaction({
+        to: invoice.walletAddress as `0x${string}`,
+        value: price,
+      });
 
-    walletClient.value?.sendTransaction({
-      to: invoice.walletAddress as `0x${string}`,
-      value: price,
+      void watchTransaction(invoice.id, {
+        onPaid: () => {
+          resolve();
+        },
+        onUnpaid: () => {
+          reject();
+        },
+      });
+
+      // account.value = getAccount();
+
+      // await walletClient.value!.writeContract({
+      //   account: account.value.address,
+      //   address: stablecoinContract.address as `0x${string}`,
+      //   abi: stablecoinContract.abi,
+      //   functionName: 'transfer',
+      //   args: [
+      //     invoice.walletAddress,
+      //     price
+      //   ],
+      // });
     });
-
-
-    // await walletClient.value!.writeContract({
-    //   account: account.value.address,
-    //   address: stablecoinContract.address as `0x${string}`,
-    //   abi: stablecoinContract.abi,
-    //   functionName: 'transfer',
-    //   args: [
-    //     invoice.walletAddress,
-    //     price
-    //   ],
-    // });
   }
 
   return {
-    openModal,
     pay,
+  };
+}
+
+/**
+ * Working with the NoteX Premium service
+ */
+export function useNotexPremium(): {
+  buy: () => void;
+  } {
+  const { pay } = useWeb3Payments();
+  const { createInvoice } = usePaymentsGateway();
+
+  /**
+   * Process the purchase of the NoteX Premium service
+   */
+  async function buy(): Promise<void> {
+    const invoice = await createInvoice();
+
+    try {
+      await pay(invoice);
+
+      alert('Congratulations! \n\n Your subscription to NoteX Premium 💎 has been successfully activated!');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return {
+    buy,
   };
 }

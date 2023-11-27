@@ -12,8 +12,8 @@
     <div class="header__right">
       <w3m-account-button />
       <Button
-        text="Pay 10$"
-        @click="onConnectWalletClicked"
+        text="NoteX Premium  💎"
+        @click="onBuyPremiumClicked"
       />
       <LoginButton
         v-if="!user"
@@ -37,22 +37,18 @@ import UserPanel from './HeaderUser.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
-import { useWalletConnect } from '@/application/services/useWeb3';
-
-
+import { useNotexPremium } from '@/application/services/useWeb3';
 
 const { t } = useI18n();
 const { currentRoute } = useRouter();
 const { user } = useAppState();
-
-// const { openModal }  = useWeb3();
-const { openModal, pay }  = useWalletConnect();
+const { buy }  = useNotexPremium();
 
 /**
- *
+ * "Buy premium" button click handler
  */
-function onConnectWalletClicked(): void {
-  pay();
+function onBuyPremiumClicked(): void {
+  buy();
 }
 
 const tabs = computed<Tab[]>(() => {
