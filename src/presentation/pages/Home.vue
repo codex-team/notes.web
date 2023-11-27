@@ -12,7 +12,7 @@
           :title="note.content.blocks[0]?.data?.text"
           :subtitle="note.content.blocks[1]?.data.text || ''"
           :created-at="note.createdAt"
-          @click="router.push('/note/'+note.publicId)"
+          @click="router.push('/note/'+note.id)"
         />
       </div>
     </div>
@@ -38,6 +38,7 @@ const { user }= useAppState();
 
 
 const { noteList } = useNoteList();
+
 
 </script>
 
