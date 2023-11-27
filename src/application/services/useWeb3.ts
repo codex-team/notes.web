@@ -1,9 +1,10 @@
 import type { Chain } from '@wagmi/core';
-import { getAccount, getWalletClient, type GetAccountResult, type WalletClient, getNetwork } from '@wagmi/core';
+import { getAccount, getWalletClient, type GetAccountResult, type WalletClient, getNetwork, waitForTransaction } from '@wagmi/core';
 import { goerli, mainnet, sepolia } from '@wagmi/chains';
 import { createWeb3Modal, defaultWagmiConfig, useWeb3Modal, useWeb3ModalEvents } from '@web3modal/wagmi/vue';
 import { ref, watch } from 'vue';
 import FetchTransport from '@/infrastructure/transport/fetch.transport';
+import { createSharedComposable } from '@vueuse/core';
 
 interface Invoice {
   id: string,
@@ -54,13 +55,13 @@ const stablecoinContract = {
 /**
  * Working with the Payment Gateway to work with invoices
  */
-function usePaymentsGateway(): {
+const usePaymentsGateway = createSharedComposable((): {
   createInvoice: () => Promise<Invoice>;
-  watchTransaction: (invoiceId: string, hooks: {
+  checkInvoice: (invoiceId: string, hooks: {
     onPaid: () => void;
     onUnpaid: () => void;
   }) => Promise<void>;
-  } {
+  } => {
   /**
    * Transport to make HTTP requests
    */
@@ -95,10 +96,14 @@ function usePaymentsGateway(): {
    * @param invoiceId - Invoice ID issued by the payment gateway
    * @param hooks - Hooks to be called when the transaction is confirmed or rejected
    */
-  async function watchTransaction(invoiceId: string, hooks: {
+  async function checkInvoice(invoiceId: string, hooks: {
     onPaid: () => void;
     onUnpaid: () => void;
   }): Promise<void> {
+    if (pollTimeout !== null) {
+      clearTimeout(pollTimeout);
+    }
+
     const response = await transport.get(`/invoice/${invoiceId}`) as unknown as PaymentGatewayResponse<Invoice>;
 
     if (response.status === 'error') {
@@ -118,7 +123,7 @@ function usePaymentsGateway(): {
 
       case 'pending':
         pollTimeout = setTimeout(() => {
-          void watchTransaction(invoiceId, hooks);
+          void checkInvoice(invoiceId, hooks);
         }, pollingTimeout);
         break;
 
@@ -129,15 +134,15 @@ function usePaymentsGateway(): {
 
   return {
     createInvoice,
-    watchTransaction,
+    checkInvoice,
   };
-}
+});
 
 /**
  * Working with Web3Modal
  */
 export function useWeb3Payments(): {
-  pay: (invoice: Invoice) => Promise<void>;
+  pay: (invoice: Invoice) => Promise<ReturnType<typeof waitForTransaction>>;
   } {
   const projectId = import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID;
 
@@ -275,48 +280,44 @@ export function useWeb3Payments(): {
    *
    * @param invoice - Invoice to pay
    */
-  async function pay(invoice: Invoice): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-      walletClient.value = await createWalletClient();
+  async function pay(invoice: Invoice): Promise<ReturnType<typeof waitForTransaction>> {
+    walletClient.value = await createWalletClient();
 
-      if (walletClient.value === null) {
-        await openModal();
-      }
+    if (walletClient.value === null) {
+      await openModal();
+    }
 
-      const { watchTransaction } = usePaymentsGateway();
-
-      /**
-       * Price of the service
-       */
-      const price = BigInt(invoice.amount);
-
-      walletClient.value?.sendTransaction({
-        to: invoice.walletAddress as `0x${string}`,
-        value: price,
-      });
-
-      void watchTransaction(invoice.id, {
-        onPaid: () => {
-          resolve();
-        },
-        onUnpaid: () => {
-          reject();
-        },
-      });
-
-      // account.value = getAccount();
-
-      // await walletClient.value!.writeContract({
-      //   account: account.value.address,
-      //   address: stablecoinContract.address as `0x${string}`,
-      //   abi: stablecoinContract.abi,
-      //   functionName: 'transfer',
-      //   args: [
-      //     invoice.walletAddress,
-      //     price
-      //   ],
-      // });
+    /**
+     * Price of the service
+     */
+    const price = BigInt(invoice.amount);
+    const hash = await walletClient.value?.sendTransaction({
+      to: invoice.walletAddress as `0x${string}`,
+      value: price,
     });
+
+    if (hash === undefined) {
+      throw new Error('Transaction hash is undefined');
+    }
+
+    const receipt = await waitForTransaction({
+      hash,
+    });
+
+    return receipt;
+
+    // account.value = getAccount();
+
+    // await walletClient.value!.writeContract({
+    //   account: account.value.address,
+    //   address: stablecoinContract.address as `0x${string}`,
+    //   abi: stablecoinContract.abi,
+    //   functionName: 'transfer',
+    //   args: [
+    //     invoice.walletAddress,
+    //     price
+    //   ],
+    // });
   }
 
   return {
@@ -331,7 +332,7 @@ export function useNotexPremium(): {
   buy: () => void;
   } {
   const { pay } = useWeb3Payments();
-  const { createInvoice } = usePaymentsGateway();
+  const { createInvoice, checkInvoice } = usePaymentsGateway();
 
   /**
    * Process the purchase of the NoteX Premium service
@@ -340,9 +341,22 @@ export function useNotexPremium(): {
     const invoice = await createInvoice();
 
     try {
-      await pay(invoice);
+      const receipt = await pay(invoice);
 
-      alert('Congratulations! \n\n Your subscription to NoteX Premium 💎 has been successfully activated!');
+      console.log('receipt', receipt);
+
+      /**
+       * Now we know that transaction is completed, but we need to check if it was successful
+       */
+
+      void checkInvoice(invoice.id, {
+        onPaid: () => {
+          alert('Congratulations! \n\n Your subscription to NoteX Premium 💎 has been successfully activated!');
+        },
+        onUnpaid: () => {
+          console.log('Payment unsuccessful');
+        },
+      });
     } catch (error) {
       console.log(error);
     }
