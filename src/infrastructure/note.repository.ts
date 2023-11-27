@@ -1,5 +1,6 @@
 import type NoteRepositoryInterface from '@/domain/note.repository.interface';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
@@ -34,8 +35,9 @@ export default class NoteRepository implements NoteRepositoryInterface {
    *
    * @param id - Note identifier
    * @throws NotFoundError
+   * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
-  public async getNoteById(id: string): Promise<Note> {
+  public async getNoteById(id: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
     /**
      * Get note data from API
      */
@@ -46,9 +48,9 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Get note by hostname
    *
    * @param hostname - Custom hostname linked with one Note
-   * @returns { Note | null } - Note instance
+   * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
-  public async getNoteByHostname(hostname: string): Promise<Note | null> {
+  public async getNoteByHostname(hostname: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
     /**
      * Get note data from API
      */
