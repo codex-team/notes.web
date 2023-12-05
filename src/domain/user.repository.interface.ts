@@ -16,6 +16,11 @@ export default interface UserRepositoryInterface {
   getUser: () => User | null;
 
   /**
+   * Removes user data from the storage
+   */
+  removeUser: () => Promise<void>;
+
+  /**
    * Loads and store editor tools from user extensions
    */
   loadUserEditorTools: () => Promise<void>;
@@ -24,7 +29,6 @@ export default interface UserRepositoryInterface {
    * Returns array of editor tools
    */
   getUserEditorTools: () => EditorTool[];
-
   /**
    * Adds a tool to the user (marketplace mock)
    *

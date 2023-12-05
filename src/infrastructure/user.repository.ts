@@ -41,6 +41,12 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   public getUser(): User | null {
     return this.store.getUser();
   }
+  /**
+   * Removes user data from the storage
+   */
+  public async removeUser(): Promise<void> {
+    this.store.removeUser();
+  }
 
   /**
    * Load tools and set it
@@ -71,3 +77,4 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
     console.log('Add tool response', response);
   }
 }
+

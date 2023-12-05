@@ -6,12 +6,16 @@ interface UseOAuthComposableState {
    * Shows a popup window with google authorization
    */
   showGoogleAuthPopup: () => void;
+  /**
+   * Logs out the user
+   */
+  logout: () => Promise<void>;
 }
 
 /**
- * Methods for working with OAuth (Google)
+ * Methods for working with Auth
  */
-export default function useOAuth(): UseOAuthComposableState {
+export default function useAuth(): UseOAuthComposableState {
   /**
    * Google OAuth URL
    */
@@ -54,8 +58,16 @@ export default function useOAuth(): UseOAuthComposableState {
       }
     });
   }
+  /**
+   *Logs out the user by deleting the refresh token in local strorage
+   */
+  async function logout(): Promise<void> {
+    await authService.logout();
+  }
 
   return {
     showGoogleAuthPopup,
+    logout,
   };
 }
+

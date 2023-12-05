@@ -1,5 +1,6 @@
 import type NoteRepository from '@/domain/note.repository.interface';
 import type { Note, NoteContent } from '@/domain/entities/Note';
+import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 
 /**
  * Note Service
@@ -20,22 +21,23 @@ export default class NoteService {
   }
 
   /**
-   * Returns a note by its id
+   * Returns a note and accessRights by its id
    *
    * @param id - Note identifier
    * @throws NotFoundError
+   * @returns {{ note: Note, accessRights: NoteAccessRights }} - note data and accessRights data
    */
-  public async getNoteById(id: string): Promise<Note> {
+  public async getNoteById(id: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
     return await this.noteRepository.getNoteById(id);
   }
 
   /**
-   * Get note by hostname
+   * Get note and accessRights by hostname
    *
    * @param hostname - Custom hostname linked with a note
-   * @returns { Note | null } - Note data
+   * @returns {{ note: Note, accessRights: NoteAccessRights }} - note data and accessRights data
    */
-  public async getNoteByHostname(hostname: string): Promise<Note | null> {
+  public async getNoteByHostname(hostname: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
     return await this.noteRepository.getNoteByHostname(hostname);
   }
 

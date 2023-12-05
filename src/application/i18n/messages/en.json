@@ -1,7 +1,8 @@
 {
   "appTitle": "NoteX",
   "auth": {
-    "login": "Login"
+    "login": "Login",
+    "logout": "Logout"
   },
   "header": {
     "buttons": {
@@ -27,5 +28,9 @@
     "404": "Page not found",
     "500": "Unknown error happened",
     "default": "Something went wrong"
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "listOfTools": "Tools"
   }
 }
