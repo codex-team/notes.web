@@ -93,10 +93,29 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const router = useRouter();
 
   /**
+   * Limit Title length to 50 char
+   *
+   * @param line - title taken from the note
+   */
+  function limitTitle(line: string): string {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    if (line.length <= 50) {
+      return line;
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      return line.slice(0, 50);
+    }
+  }
+
+  /**
    * Title identifier
    */
   const title = computed(() => {
-    return note.value?.content.blocks[0].data.text;
+    if (!note.value?.content.blocks[0] && !(Boolean((note.value?.content.blocks[0].data.text)))) {
+      return 'Note';
+    } else {
+      return limitTitle(note.value?.content.blocks[0].data.text);
+    }
   });
 
   /**

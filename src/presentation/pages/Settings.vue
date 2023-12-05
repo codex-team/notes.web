@@ -1,6 +1,6 @@
 <template>
-  <h1>{{ t("settings.title") }}</h1>
-  <h2>{{ t("settings.userEditorTools") }}:</h2>
+  <h1>{{ t("userSettings.title") }}</h1>
+  <h2>{{ t("userSettings.userEditorTools") }}:</h2>
   <ul
     v-for="tool in userEditorTools"
     :key="tool.id"
@@ -55,7 +55,7 @@ function addTool(event: KeyboardEvent): void {
  * Changing the title in the browser
  */
 useHead({
-  title: t('site.titles.noteSettings'),
+  title: t('userSettings.title'),
 });
 </script>
 

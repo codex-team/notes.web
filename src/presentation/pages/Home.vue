@@ -15,7 +15,7 @@ const { t } = useI18n();
  * Changing the title in the browser
  */
 useHead({
-  title: t('site.titles.home'),
+  title: t('home.title'),
 });
 </script>
 

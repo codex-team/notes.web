@@ -67,7 +67,7 @@ function onClick() {
  * Changing the title in the browser
  */
 useHead({
-  title: t('site.titles.noteSettings'),
+  title: t('noteSettings.title'),
 });
 </script>
 

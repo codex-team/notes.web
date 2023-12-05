@@ -18,7 +18,6 @@ import {  NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { watchEffect } from 'vue';
-import limitTitle from '@/application/services/useBrowserTitle.js';
 
 const { t } = useI18n();
 
@@ -58,13 +57,13 @@ function noteChanged(data: NoteContent): void {
  */
 if (!props.id) {
   useHead({
-    title: t('site.titles.newNote'),
+    title: t('note.new'),
   });
 } else {
   watchEffect(() => {
     if (title.value) {
       useHead({
-        title: limitTitle(title.value),
+        title: title.value,
       });
     }
   });
