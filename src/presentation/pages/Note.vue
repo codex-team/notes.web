@@ -31,7 +31,7 @@ const props = defineProps<{
 
 const noteId = computed(() => props.id);
 
-const { note, save, title, canEdit } = useNote({
+const { note, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
 
@@ -62,9 +62,9 @@ if (!props.id) {
   });
 } else {
   watchEffect(() => {
-    if (title.value) {
+    if (noteTitle.value) {
       useHead({
-        title: title.value,
+        title: noteTitle.value,
       });
     }
   });

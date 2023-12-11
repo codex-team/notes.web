@@ -64,7 +64,7 @@ interface UseNoteComposableState {
   /**
    * Title for bookmarks in the browser
    */
-  title: Ref<string>;
+  noteTitle: Ref<string>;
 }
 
 interface UseNoteComposableOptions {
