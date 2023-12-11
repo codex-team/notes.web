@@ -98,16 +98,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const router = useRouter();
 
   /**
-   * Title identifier
+   * Note Title identifier
    */
-  const limitChars = 50;
-  const title = computed(() => {
-    const firstBlockNote = note.value?.content.blocks[0];
+  const limitCharsForNoteTitle = 50;
+  const noteTitle = computed(() => {
+    const firstNoteBlock = note.value?.content.blocks[0];
 
-    if (!firstBlockNote || !(Boolean(firstBlockNote.data.text))) {
+    if (!firstNoteBlock || !(Boolean(firstNoteBlock.data.text))) {
       return 'Note';
     } else {
-      return firstBlockNote.data.text.slice(0, limitChars);
+      return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
     }
   });
 
@@ -207,7 +207,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
-    title,
+    noteTitle,
     canEdit,
     resolveHostname,
     save,
