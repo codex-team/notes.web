@@ -1,6 +1,6 @@
 <template>
   <Button
-    :text="t('settings.changeTheme')"
+    :text="t('userSettings.changeTheme')"
     :icon="IconReplace"
     @click="changeTheme"
   />

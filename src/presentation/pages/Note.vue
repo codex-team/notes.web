@@ -15,7 +15,12 @@
 import { computed, ref } from 'vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
-import { NoteContent } from '@/domain/entities/Note';
+import {  NoteContent } from '@/domain/entities/Note';
+import { useHead } from 'unhead';
+import { useI18n } from 'vue-i18n';
+import { watchEffect } from 'vue';
+
+const { t } = useI18n();
 
 const props = defineProps<{
   /**
@@ -26,7 +31,7 @@ const props = defineProps<{
 
 const noteId = computed(() => props.id);
 
-const { note, save, canEdit } = useNote({
+const { note, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
 
@@ -46,6 +51,23 @@ function noteChanged(data: NoteContent): void {
   if (!isEmpty) {
     save(data);
   }
+}
+
+/**
+ * Changing the title in the browser
+ */
+if (!props.id) {
+  useHead({
+    title: t('note.new'),
+  });
+} else {
+  watchEffect(() => {
+    if (noteTitle.value) {
+      useHead({
+        title: noteTitle.value,
+      });
+    }
+  });
 }
 </script>
 

@@ -60,6 +60,11 @@ interface UseNoteComposableState {
    * Defines if user can edit note
    */
   canEdit: Ref<boolean>;
+
+  /**
+   * Title for bookmarks in the browser
+   */
+  noteTitle: Ref<string>;
 }
 
 interface UseNoteComposableOptions {
@@ -91,6 +96,20 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
+
+  /**
+   * Note Title identifier
+   */
+  const limitCharsForNoteTitle = 50;
+  const noteTitle = computed(() => {
+    const firstNoteBlock = note.value?.content.blocks[0];
+
+    if (!firstNoteBlock || !(Boolean(firstNoteBlock.data.text))) {
+      return 'Note';
+    } else {
+      return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+    }
+  });
 
   /**
    * Editing rights for the currently opened note
@@ -188,6 +207,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
+    noteTitle,
     canEdit,
     resolveHostname,
     save,

@@ -1,6 +1,6 @@
 <template>
-  <h1>{{ t("settings.title") }}</h1>
-  <h2>{{ t("settings.userEditorTools") }}:</h2>
+  <h1>{{ t("userSettings.title") }}</h1>
+  <h2>{{ t("userSettings.userEditorTools") }}:</h2>
   <ul
     v-for="tool in userEditorTools"
     :key="tool.id"
@@ -40,13 +40,13 @@ import useAuth from '@/application/services/useAuth';
 import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 import { useUserSettings } from '@/application/services/useUserSettings';
+import { useHead } from 'unhead';
 
 const { userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
 const { addTool: addToolToUser } = useUserSettings();
-
 
 /**
  * Add tool to user. Imitates Installations from the Marketplace
@@ -63,6 +63,12 @@ function addTool(event: KeyboardEvent): void {
   }
 }
 
+/**
+ * Changing the title in the browser
+ */
+useHead({
+  title: t('userSettings.title'),
+});
 /**
  * Logs out the user
  */

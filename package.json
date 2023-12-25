@@ -31,6 +31,7 @@
     "jwt-decode": "^3.1.2",
     "normalize.css": "^8.0.1",
     "typescript-cookie": "^1.0.6",
+    "unhead": "^1.8.3",
     "vue": "^3.3.4",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.2.4"

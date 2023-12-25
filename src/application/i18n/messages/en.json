@@ -1,18 +1,25 @@
 {
+  "appTitle": "NoteX",
   "auth": {
     "login": "Login",
     "logout": "Logout"
-  },
-  "settings": {
-    "title": "Settings",
-    "changeTheme": "Change theme",
-    "userEditorTools": "User editor tools"
   },
   "header": {
     "buttons": {
       "home": "Home",
       "noteSettings": "Settings"
     }
+  },
+  "userSettings": {
+    "title": "User Settings",
+    "changeTheme": "Change theme",
+    "userEditorTools": "User editor tools"
+  },
+  "noteSettings": {
+    "title": "Note Settings"
+  },
+  "note": {
+    "new": "New Note"
   },
   "home": {
     "title": "Recent Notes"

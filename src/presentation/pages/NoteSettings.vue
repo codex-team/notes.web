@@ -34,6 +34,10 @@ import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
+import { useHead } from 'unhead';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps<{
   /**
@@ -59,6 +63,12 @@ function onClick() {
   });
 }
 
+/**
+ * Changing the title in the browser
+ */
+useHead({
+  title: t('noteSettings.title'),
+});
 </script>
 
 <style scoped>
