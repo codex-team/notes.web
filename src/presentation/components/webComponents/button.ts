@@ -1,3 +1,5 @@
+import { themeState } from '../../../application/services/themeService';
+
 /**
  * Button Web Component
  */
@@ -22,6 +24,7 @@ class Btn extends HTMLElement {
 
   /**
    * Called when an attribute is changed, appended, removed, or replaced on the element.
+   *
    * @param name - The name of the attribute that changed.
    */
   public attributeChangedCallback(name: string): void {
@@ -34,40 +37,24 @@ class Btn extends HTMLElement {
    * Renders the component
    */
   public render(): void {
-    const type = (this.getAttribute('type') ?? "") || 'primary';
-    const iconType = (this.getAttribute('icon-type') ?? "") || 'none';
+    const type = (this.getAttribute('type') ?? '') || 'primary';
+    const iconType = (this.getAttribute('icon-type') ?? '') || 'none';
 
     this._shadowRoot.innerHTML = `
       <style>
-        button {
-          display: inline-block;
-          padding: 8px 12px;
-          margin: 10px;
-          text-align: center;
-          text-decoration: none;
-          font-size: 16px;
-          border:none;
-          border-radius: 8px;
-          align-items: center;
-        }
-
-        /* Primary styles */
-        .primary {
-          background-color: #24A3FF;
-          color: white;
-        }
-
-        /* Secondary styles */
-        .secondary {
-          background-color: #EBEBEC;
-          color: #333;
-        }
-
-        /* Danger styles */
-        .danger {
-          background-color: #E32121;
-          color: white;
-        }
+      button {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        align-items: center;
+        background-color: ${this.getBackgroundColor(type)};
+        color: ${this.getTextColor()};
+      }
 
         /* Style for icons */
         .icon {
@@ -101,6 +88,38 @@ class Btn extends HTMLElement {
   public connectedCallback(): void {
     this.render();
     this.addEventListener('click', () => this.dispatchCustomEvent());
+
+    /**
+     * Listens for the theme-change event
+     */
+    document.addEventListener('theme-change', () => {
+      console.log('Button heard the change');
+      this.render();
+    });
+  }
+
+  /**
+   * Returns the background color
+   *
+   * @param type - The type of the button
+   */
+  private getBackgroundColor(type: string): string {
+    console.log(`Getting background color for type '${type}'`);
+    switch (type) {
+      case 'primary':
+        return themeState.secondaryColor;
+      case 'secondary':
+        return themeState.secondaryColor;
+      default:
+        return themeState.secondaryColor;
+    }
+  }
+
+  /**
+   * Returns the text color
+   */
+  private getTextColor(): string {
+    return themeState.textColor;
   }
 
   /**

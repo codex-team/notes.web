@@ -2,30 +2,50 @@
   <div>
     <h1>{{ $t('home.title') }}</h1>
     <p>This page will contain your Notes you recently worked with </p>
-    <my-btn
-      :type="buttonType"
-      @click="toggleButtonType"
-    >
-      Toggle Type
+    <my-btn>
+      Example button
     </my-btn>
+    <label for="themeSelect">Select Theme:</label>
+    <select
+      id="themeSelect"
+      v-model="selectedTheme"
+      @change="changeTheme"
+    >
+      <option value="default">
+        Default
+      </option>
+      <option value="choco">
+        Choco
+      </option>
+      <option value="graphite">
+        Graphite
+      </option>
+      <option value="blue">
+        Blue
+      </option>
+    </select>
   </div>
 </template>
 
 <script setup lang="ts">
+import { setTheme } from '../../application/services/themeService';
 import '../components/webComponents/button';
 import { ref } from 'vue';
 
-const buttonType = ref('primary');
+type ThemeName = 'default' | 'choco' | 'graphite' | 'blue';
 
-const toggleButtonType = () => {
-  if (buttonType.value === 'primary') {
-    buttonType.value = 'secondary';
-  } else if (buttonType.value === 'secondary') {
-    buttonType.value = 'danger';
-  } else {
-    buttonType.value = 'primary';
-  }
+const selectedTheme = ref<ThemeName>('default');
+
+const changeTheme = () => {
+  setTheme(selectedTheme.value);
 };
+
+
+/**
+ * Toggle theme between default and choco
+ */
+
+
 </script>
 
 <style lang="postcss" scoped>
