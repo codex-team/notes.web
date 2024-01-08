@@ -1,93 +1,196 @@
-// themeService.ts
-import { reactive } from 'vue';
+// ThemeService.ts
+import { ref, onMounted, computed } from 'vue';
 
-interface ThemeState {
-  primaryColor: string;
-  secondaryColor: string;
-  backgroundColor: string;
-  textColor: string;
-  linkColor: string;
-  whiteColor: string;
+interface Theme {
+  [key: string]: string;
 }
 
-type ThemeName = 'default' | 'choco' | 'graphite' | 'blue';
-/**
- * Gets the initial theme name from local storage or sets it to 'default'
- */
-const initialThemeName: ThemeName = (localStorage.getItem('theme') as ThemeName) || 'default';
+interface Themes {
+  [key: string]: Theme;
+}
 
-const themes: Record<ThemeName, ThemeState> = {
-  default: {
-    primaryColor: '#0C0D0D',
-    secondaryColor: '#424448',
-    backgroundColor: '#1D1E20',
-    textColor: '#FFFFFF',
-    linkColor: '#F2F2F3',
-    whiteColor: '#FFFFFF',
+const baseThemes: Themes = {
+  'Classic': {
+    'bgPrimary': '#000000',
+    'bgSecondary': '#000000',
+    'bgSecondaryHover': '#191919',
+    'bgInput': '#161616',
+    'border': '#1C1C1C',
+    'solidHover': '#F8FD1A',
+    'solid': '#3E3E3E',
+    'textSecondary': '#828282',
+    'text': '#FFFFFF',
+    'textSolidForeground': '#FFFFFF',
   },
-  choco: {
-    primaryColor: '#0D0C0D',
-    secondaryColor: '#484246',
-    backgroundColor: '#201D1F',
-    textColor: '#FFFFFF',
-    linkColor: '#898086',
-    whiteColor: '#FFFFFF',
+  'Crimson': {
+    'bgPrimary': '#1D1A1B',
+    'bgSecondary': '#272324',
+    'bgSecondaryHover': '#322A2D',
+    'bgInput': '#383134',
+    'border': '#51383E',
+    'solidHover': '#600F27',
+    'solid': '#DD2058',
+    'textSecondary': '#A4858D',
+    'text': '#FADBE4',
+    'textSolidForeground': '#F9F9F9',
   },
-  graphite: {
-    primaryColor: '#0B0C0E',
-    secondaryColor: '#3E434C',
-    backgroundColor: '#222429',
-    textColor: '#FFFFFF',
-    linkColor: '#ABB0BA',
-    whiteColor: '#F1F2F4',
+  'Violet': {
+    'bgPrimary': '#19141E',
+    'bgSecondary': '#261F2D',
+    'bgSecondaryHover': '#261F2D',
+    'bgInput': '#302B36',
+    'border': '#362B40',
+    'solidHover': '#261636',
+    'solid': '#913BE6',
+    'textSecondary': '#A389BD',
+    'text': '#D9CEE5',
+    'textSolidForeground': '#F2F1F4',
   },
-  blue: {
-    primaryColor: '#040A16',
-    secondaryColor: '#153575',
-    backgroundColor: '#0F2757',
-    textColor: '#FFFFFF',
-    linkColor: '#A8C0F0',
-    whiteColor: '#E9EFFB',
+  'Red': {
+    'bgPrimary': '#171313',
+    'bgSecondary': '#221B1B',
+    'bgSecondaryHover': '#302626',
+    'bgInput': '#312626',
+    'border': '#3D2121',
+    'solidHover': '#751F22',
+    'solid': '#B72A2E',
+    'textSecondary': '#856766',
+    'text': '#F0DCDF',
+    'textSolidForeground': '#FFEBEB',
   },
 };
 
-/**
- * Represents the state of the theme.
- */
-const themeState: ThemeState = reactive(themes[initialThemeName]);
+const accentThemes: Themes = {
+  'Classic': {
+    'bgPrimary': '#242527',
+    'bgSecondary': '#2C2D30',
+    'bgSecondaryHover': '#3B3C40',
+    'bgInput': '#383A3E',
+    'border': '#383A3E',
+    'solidSecondary': '#27303B',
+    'solidHover': '#183B65',
+    'solid': '#1C84FF',
+    'textSecondary': '#94979A',
+    'text': '#F5F5F5',
+    'textSolidForeground': '#F5F5F5',
+  },
+  'Crimson': {
+    'bgPrimary': '#1D1A1B',
+    'bgSecondary': '#272324',
+    'bgSecondaryHover': '#322A2D',
+    'bgInput': '#383134',
+    'border': '#51383E',
+    'solidSecondary': '#311C22',
+    'solidHover': '#600F27',
+    'solid': '#DD2058',
+    'textSecondary': '#A4858D',
+    'text': '#FADBE4',
+    'textSolidForeground': '#FADBE4',
+  },
+  'Violet': {
+    'bgPrimary': '#19141E',
+    'bgSecondary': '#261F2D',
+    'bgSecondaryHover': '#302B36',
+    'bgInput': '#403847',
+    'border': '#362B40',
+    'solidSecondary': '#261636',
+    'solidHover': '#461577',
+    'solid': '#913BE6',
+    'textSecondary': '#A389BD',
+    'text': '#D9CEE5',
+    'textSolidForeground': '#F2F1F4',
+  },
+  'Red': {
+    'bgPrimary': '#171313',
+    'bgSecondary': '#221B1B',
+    'bgSecondaryHover': '#403838',
+    'bgInput': '#312626',
+    'border': '#3D2121',
+    'solidSecondary': '#271616',
+    'solidHover': '#271616',
+    'solid': '#B72A2E',
+    'textSecondary': '#856766',
+    'text': '#F0DCDF',
+    'textSolidForeground': '#FFEBEB',
+  },
+};
 
 
-/**
- * Sets the theme
- *
- * @param themeName - The name of the theme to set
- */
-function setTheme(themeName: ThemeName): void {
-  console.log(`Setting theme '${themeName}'`);
-  const selectedTheme = themes[themeName];
+const currentBaseTheme = ref((localStorage.getItem('baseTheme') ?? '') || 'Classic');
+const currentAccentTheme = ref((localStorage.getItem('accentTheme') ?? '') || 'Classic');
 
-  if (typeof selectedTheme !== 'undefined') {
-    console.log(`Applying '${themeName}'`);
+// Reactive computed properties for theme classes
+const baseThemeClass = computed(() => `base-theme-${currentBaseTheme.value}`);
+const accentThemeClass = computed(() => `accent-theme-${currentAccentTheme.value}`);
 
-    // Iterate over the keys of the selected theme and applies them to the themeState object
-    Object.keys(selectedTheme).forEach((key) => {
-      themeState[key as keyof ThemeState] = selectedTheme[key as keyof ThemeState];
-    });
+const applyBaseTheme = ():void => {
+  const baseThemeColors = baseThemes[currentBaseTheme.value];
 
-    // Save the theme to local storage
-    localStorage.setItem('theme', themeName);
-  } else {
-    console.error(`Theme '${themeName}' not found. Applying default theme.`);
-    Object.keys(themes.default).forEach((key) => {
-      themeState[key as keyof ThemeState] = themes.default[key as keyof ThemeState];
-    });
+  for (const color in baseThemeColors) {
+    document.documentElement.style.setProperty(`--base-${color}`, baseThemeColors[color]);
   }
+};
 
-  const themeChangeEvent = new CustomEvent('theme-change', {
-    detail: { theme: themeState },
-  });
+/**
+ * Applies Accent theme
+ */
+const applyAccentTheme = ():void => {
+  const accentThemeColors = accentThemes[currentAccentTheme.value];
 
-  document.dispatchEvent(themeChangeEvent);
-}
+  for (const color in accentThemeColors) {
+    document.documentElement.style.setProperty(`--accent-${color}`, accentThemeColors[color]);
+  }
+};
 
-export { themeState, setTheme };
+/**
+ * Changes Accent theme
+ *
+ * @param accentThemeName - the name of Accent theme
+ */
+const setAccentTheme = (accentThemeName:string):void => {
+  currentAccentTheme.value = accentThemeName;
+  localStorage.setItem('accentTheme', accentThemeName);
+  applyAccentTheme();
+};
+/**
+ *  Changes base theme
+ *
+ * @param baseThemeName - The name of base theme
+ */
+const setBaseTheme = (baseThemeName:string):void => {
+  currentBaseTheme.value = baseThemeName;
+  localStorage.setItem('baseTheme', baseThemeName);
+  applyBaseTheme();
+};
+
+// const setTheme = (baseThemeName: string, accentThemeName: string):void => {
+//   currentBaseTheme.value = baseThemeName;
+//   currentAccentTheme.value = accentThemeName;
+//   localStorage.setItem('baseTheme', baseThemeName);
+//   localStorage.setItem('accentTheme', accentThemeName);
+//   applyTheme();
+// };
+
+const getThemeFromLocalStorage = ():{baseTheme: string |null, accentTheme: string |null} => {
+  return {
+    baseTheme: localStorage.getItem('baseTheme'),
+    accentTheme: localStorage.getItem('accentTheme'),
+  };
+};
+
+onMounted(() => {
+  applyAccentTheme();
+  applyBaseTheme();
+});
+
+export default {
+  currentBaseTheme,
+  currentAccentTheme,
+  setAccentTheme,
+  setBaseTheme,
+  getThemeFromLocalStorage,
+  applyAccentTheme,
+  applyBaseTheme,
+  baseThemeClass,
+  accentThemeClass,
+};

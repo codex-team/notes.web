@@ -9,15 +9,31 @@
 import { useColorMode } from '@vueuse/core';
 import Header from '@/presentation/components/header/Header.vue';
 import Layout from '@/presentation/layouts/Layout.vue';
-import { onErrorCaptured } from 'vue';
+import { onErrorCaptured, onMounted, watch } from 'vue';
+import themeService from './application/services/themeService';
 
 useColorMode();
+
+
+// Watch for changes in the base and accent themes
+watch(() => themeService.currentBaseTheme.value, () => {
+  themeService.applyBaseTheme();
+});
+
+watch(() => themeService.currentAccentTheme.value, () => {
+  themeService.applyAccentTheme();
+});
 
 /**
  * All errors inside the application
  */
 onErrorCaptured((error) => {
   alert(error.message);
+});
+
+onMounted(() => {
+  themeService.applyBaseTheme();
+  themeService.applyAccentTheme();
 });
 </script>
 
@@ -26,17 +42,12 @@ html,
 body {
   height: 100%;
   font-size: 16px;
+  background-color: var(--base-bgPrimary);
+  color: var(--accent-text);
 }
 
-#app {
-  min-height: 100%;
-  background: var(--color-bg);
-  color: var(--color-text-main);
-  word-break: break-word;
-  font-family: 'Source Sans Pro', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: grid;
-  grid-template-rows: auto 1fr;
+
+button {
+  color: var(--accent-text)
 }
 </style>
