@@ -13,16 +13,11 @@ declare global {
 
 export const useErrorCatcher = createSharedComposable(() => {
   /**
-   * Hawk catcher instance
-   */
-  let hawk: typeof HawkCatcher | undefined;
-
-  /**
    * Initializes error catcher
    *
    * @param app - vue app instance
    */
-  function init(app: App) {
+  function init(app: App): void {
     new HawkCatcher({
       token: import.meta.env.VITE_HAWK_TOKEN,
       vue: app,

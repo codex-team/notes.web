@@ -14,4 +14,5 @@ app.use(i18n);
 app.mount('#app');
 
 const { init } = useErrorCatcher();
+
 init(app);
