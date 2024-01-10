@@ -30,8 +30,9 @@ import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
 import { useRouter } from 'vue-router';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
+import themeService from '@/application/services/themeService';
 
 const { t } = useI18n();
 const { currentRoute } = useRouter();
@@ -74,6 +75,22 @@ const tabs = computed<Tab[]>(() => {
     });
   }
 
+  const theme = computed(() => themeService.currentBaseTheme.value);
+  var all = document.getElementsByClassName('header');
+
+  for (var i = 0; i < all.length; i++) {
+    (all[i] as HTMLElement).style.backgroundColor = `var(--base-${theme.value.toLowerCase()}-bgPrimary)`;
+  }
+
+  watch(theme, (newTheme) => {
+    var all2 = document.getElementsByClassName('header');
+
+    for (var l = 0; l < all.length; l++) {
+      (all2[l] as HTMLElement).style.backgroundColor = `var(--base-${newTheme.toLowerCase()}-bgPrimary)`;
+    }
+  });
+
+
   return availableTabs;
 });
 </script>
@@ -81,7 +98,7 @@ const tabs = computed<Tab[]>(() => {
 <style scoped lang="postcss">
 .header {
   padding: var(--spacing-ms) var(--spacing-l);
-  background-color: var(--color-bg-header);
+  background-color: var(--base-crimson-bgPrimary);
   display: flex;
   align-items: center;
   width: 100%;

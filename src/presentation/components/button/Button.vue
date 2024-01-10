@@ -30,7 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import themeService from '@/application/services/themeService';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const props = withDefaults(defineProps<{
   /**
@@ -97,11 +98,52 @@ const emit = defineEmits<{
 function onClick(event: MouseEvent) {
   emit('click', event);
 }
+const theme = computed(() => themeService.currentAccentTheme.value);
 
+
+watch(theme, (newTheme) => {
+  var allPrimary = document.getElementsByClassName('button--primary');
+  var allSecondary = document.getElementsByClassName('button--secondary');
+  var allTransparent = document.getElementsByClassName('button--transparent');
+
+  for (var i = 0; i < allPrimary.length; i++) {
+    (allPrimary[i] as HTMLElement).style.backgroundColor = `var(--accent-${newTheme.toLowerCase()}-solid)`;
+    (allPrimary[i] as HTMLElement).style.color = `var(--accent-${newTheme.toLowerCase()}-text)`;
+  }
+
+  for (var k=0; k < allTransparent.length; k++) {
+    (allTransparent[k] as HTMLElement).style.color = `var(--accent-${newTheme.toLowerCase()}-text)`;
+  }
+
+  for (var s=0; s < allSecondary.length; s++) {
+    (allSecondary[s] as HTMLElement).style.backgroundColor = `var(--accent-${newTheme.toLowerCase()}-solidSecondary)`;
+  }
+});
+
+onMounted(() => {
+  var allPrimary = document.getElementsByClassName('button--primary');
+  var allSecondary = document.getElementsByClassName('button--secondary');
+  var allTransparent = document.getElementsByClassName('button--transparent');
+
+  for (var i=0; i < allPrimary.length; i++) {
+    (allPrimary[i] as HTMLElement).style.backgroundColor = `var(--accent-${theme.value.toLowerCase()}-solid)`;
+    (allPrimary[i] as HTMLElement).style.color = `var(--accent-${theme.value.toLowerCase()}-text)`;
+  }
+
+  for (var k=0; k < allTransparent.length; k++) {
+    (allTransparent[k] as HTMLElement).style.color = `var(--accent-${theme.value.toLowerCase()}-text)`;
+  }
+
+  for (var s=0; s < allSecondary.length; s++) {
+    (allSecondary[s] as HTMLElement).style.backgroundColor = `var(--accent-${theme.value.toLowerCase()}-solidSecondary)`;
+  }
+});
+console.log(theme);
 </script>
 
-<style lang="postcss">
+<style scoped lang="postcss">
 @import '@/presentation/styles/typography.pcss';
+
 
 .button {
   @apply --text-small;
@@ -116,12 +158,12 @@ function onClick(event: MouseEvent) {
   user-select: none;
 
   &--primary {
-    background: var(--color-bg-signal);
+    background-color: var(--accent-red-solid);
     color: var(--color-text-contrast);
   }
 
   &--secondary {
-    background: var(--color-bg);
+    background: var(--accent-secondary);
     color: var(--color-text-main);
   }
 

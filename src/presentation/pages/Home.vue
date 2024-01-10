@@ -1,55 +1,72 @@
 <template>
   <div>
     <h1>{{ $t('home.title') }}</h1>
-    <p>This page will contain your Notes you recently worked with </p>
+    <p class="hint">
+      This page will contain your Notes you recently worked with
+    </p>
     <div>
-      <p>Accent</p>
-      <button @click="changeAccentTheme('Classic')">
-        Classic
-      </button>
-      <button @click="changeAccentTheme('Crimson')">
-        Crimson
-      </button>
-      <button @click="changeAccentTheme('Violet')">
-        Violet
-      </button>
-      <button @click="changeAccentTheme('Red')">
-        Red
-      </button>
+      <p class="btnHeadline">
+        Base
+      </p>
+      <div class="buttons">
+        <Button
+          type="primary"
+          text="Classic"
+          @click="changeBaseTheme('Classic')"
+        />
+        <Button
+          type="secondary"
+          text="Crimson"
+          @click="changeBaseTheme('Crimson')"
+        />
+        <Button
+          type="primary"
+          text="Violet"
+          @click="changeBaseTheme('Violet')"
+        />
+
+        <Button
+          type="secondary"
+          text="Red"
+          @click="changeBaseTheme('Red')"
+        />
+      </div>
+
+      <p class="btnHeadline">
+        Accent
+      </p>
+      <div class="buttons">
+        <Button
+          type="primary"
+          text="Classic"
+          @click="changeAccentTheme('Classic')"
+        />
+        <Button
+          type="secondary"
+          text="Crimson"
+          @click="changeAccentTheme('Crimson')"
+        />
+        <Button
+          type="primary"
+          text="Violet"
+          @click="changeAccentTheme('Violet')"
+        />
+
+        <Button
+          type="secondary"
+          text="Red"
+          @click="changeAccentTheme('Red')"
+        />
+      </div>
     </div>
-    <p>Base</p>
-    <button @click="changeBaseTheme('Classic')">
-      Classic
-    </button>
-    <button @click="changeBaseTheme('Crimson')">
-      Crimson
-    </button>
-    <button @click="changeBaseTheme('Violet')">
-      Violet
-    </button>
-    <button @click="changeBaseTheme('Red')">
-      Red
-    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Ref, inject } from 'vue';
+import Button from '../components/button/Button.vue';
+import themeService from '@/application/services/themeService';
 
-
-interface ThemeService {
-  currentBaseTheme: Ref<string>;
-  currentAccentTheme: Ref<string>;
-  // eslint-disable-next-line no-unused-vars
-  setBaseTheme: (baseThemeName:string) =>void;
-  // eslint-disable-next-line no-unused-vars
-  setAccentTheme: (accentThemeName:string)=> void;
-  getThemeFromLocalStorage: () => { baseTheme: string | null, accentTheme: string | null };
-  applyTheme: () => void;
-}
-
-const theme = inject<ThemeService>('theme');
-
+const theme = themeService;
 const changeBaseTheme = (baseThemeName:string) => {
   if (theme) {
     theme.setBaseTheme(baseThemeName);
@@ -71,5 +88,18 @@ const changeAccentTheme = (accentTheme:string) => {
 
 <style>
 
+.hint {
+  margin-bottom: 80px;
+}
+
+.btnHeadline {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
 </style>
 

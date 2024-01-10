@@ -1,6 +1,7 @@
 <template>
   <Button
     class="header__login"
+    type="transparent"
     :text="t('auth.login')"
     :icon="IconUser"
     @click="showLoginPopup"

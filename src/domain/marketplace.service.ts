@@ -10,12 +10,10 @@ export default class MarketplaceService {
    */
   private readonly repository: MarketplaceRepository;
 
+
   /**
-   * Service constructor
    *
-   * @param eventBus - Common domain event bus
-   * @param marketplaceRepository - repository instance
-   * @param marketplaceRepositoryRepository
+   * @param marketplaceRepository - Facade for accessing user data
    */
   constructor(marketplaceRepository: MarketplaceRepository) {
     this.repository = marketplaceRepository;

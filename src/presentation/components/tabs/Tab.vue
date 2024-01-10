@@ -3,6 +3,7 @@
     :text="title"
     :icon="icon"
     :link="path"
+    type="secondary"
     class="tab"
     :class="{'tab--active': isActive}"
   >
@@ -20,11 +21,22 @@
 import { IconCross } from '@codexteam/icons';
 import type Tab from './types/Tab';
 import Button from '@/presentation/components/button/Button.vue';
+import themeService from '@/application/services/themeService';
+import { computed, onMounted } from 'vue';
 
 /**
  * Tab component props
  */
 defineProps<Tab>();
+const theme = computed(() => themeService.currentBaseTheme.value);
+
+onMounted(() => {
+  var all = document.getElementsByClassName('tab');
+
+  for (var i = 0; i < all.length; i++) {
+    (all[i] as HTMLElement).style.color = `var(--base-${theme.value.toLowerCase()}-text)`;
+  }
+});
 </script>
 
 <style scoped lang="postcss">
