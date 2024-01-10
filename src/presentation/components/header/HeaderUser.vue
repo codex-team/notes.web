@@ -3,7 +3,7 @@
     to="/settings"
     class="header-user"
   >
-    <!-- referepolicy allows us to get images from other sites while on localhost -->
+    <!-- referrerpolicy allows us to get images from other sites while on localhost -->
     <img
       :src="user.photo"
       alt="User avatar"
