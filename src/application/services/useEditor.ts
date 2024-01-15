@@ -1,6 +1,5 @@
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import Editor, { type OutputData, type API } from '@editorjs/editorjs';
-import { loadScript } from '@/utils';
 import type EditorTool from '@/domain/entities/EditorTool';
 // @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Header from '@editorjs/header';
@@ -24,6 +23,22 @@ interface EditorProps {
      * Handler for every content change in Editor
      */
     onChange: (api: API) => void
+}
+
+/**
+ * Load one tool at a time
+ *
+ * @param src - source path to tool
+ */
+function loadScript(src: string): Promise<Event> {
+  return new Promise(function (resolve, reject) {
+    const script = document.createElement('script');
+
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
 }
 
 /**

@@ -21,7 +21,6 @@
       "@/presentation/*": ["presentation/*"],
       "@/presentation": ["presentation"],
       "@/domain/*": ["domain/*"],
-      "@/utils": ["utils/*"],
       "@/domain": ["domain"],
       "@/application/*": ["application/*"],
       "@/application": ["application"],
