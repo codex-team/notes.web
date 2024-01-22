@@ -1,6 +1,6 @@
 
 /**
- * Typescript Intellisense for VITE Environmental variables
+ * @description Typescript Intellisense for VITE Environmental variables
  * Add VITE local variables here
  */
 interface ImportMetaEnv {
