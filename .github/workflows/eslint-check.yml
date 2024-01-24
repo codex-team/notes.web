@@ -1,14 +1,11 @@
-name: Run eslint check
+name: ESLint
 
 on:
   push:
     branches:
       - 'main'
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - edited
+    types: [opened, synchronize, reopened]
 
 jobs:
   eslint:

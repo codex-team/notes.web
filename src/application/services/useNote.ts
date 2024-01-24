@@ -55,6 +55,16 @@ interface UseNoteComposableState {
    * Load note by custom hostname
    */
   resolveHostname: () => Promise<void>;
+
+  /**
+   * Defines if user can edit note
+   */
+  canEdit: Ref<boolean>;
+
+  /**
+   * Title for bookmarks in the browser
+   */
+  noteTitle: Ref<string>;
 }
 
 interface UseNoteComposableOptions {
@@ -88,6 +98,27 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const router = useRouter();
 
   /**
+   * Note Title identifier
+   */
+  const limitCharsForNoteTitle = 50;
+  const noteTitle = computed(() => {
+    const firstNoteBlock = note.value?.content.blocks[0];
+
+    if (!firstNoteBlock || !(Boolean(firstNoteBlock.data.text))) {
+      return 'Note';
+    } else {
+      return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+    }
+  });
+
+  /**
+   * Editing rights for the currently opened note
+   *
+   * true by default
+   */
+  const canEdit = ref<boolean>(true);
+
+  /**
    * Load note by id
    *
    * @param id - Note identifier got from composable argument
@@ -96,8 +127,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * @todo try-catch domain errors
      */
-    note.value = await noteService.getNoteById(id);
-  };
+    const response = await noteService.getNoteById(id);
+
+    note.value = response.note;
+    canEdit.value = response.accessRights.canEdit;
+  }
 
   /**
    * Saves the note
@@ -136,7 +170,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
-    note.value = await noteService.getNoteByHostname(location.hostname);
+    note.value = (await noteService.getNoteByHostname(location.hostname)).note;
   };
 
   onMounted(() => {
@@ -155,6 +189,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     if (newId === null) {
       note.value = createDraft();
+      canEdit.value = true;
 
       return;
     }
@@ -172,6 +207,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
+    noteTitle,
+    canEdit,
     resolveHostname,
     save,
   };

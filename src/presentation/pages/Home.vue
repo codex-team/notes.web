@@ -40,6 +40,18 @@ const { user }= useAppState();
 const { noteList } = useNoteList();
 
 
+import { useHead } from 'unhead';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+/**
+ * Changing the title in the browser
+ */
+useHead({
+  title: t('home.title'),
+});
+
 </script>
 
 <style lang="postcss" scoped>

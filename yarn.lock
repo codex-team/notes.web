@@ -1075,6 +1075,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@unhead/dom@npm:1.8.3":
+  version: 1.8.3
+  resolution: "@unhead/dom@npm:1.8.3"
+  dependencies:
+    "@unhead/schema": 1.8.3
+    "@unhead/shared": 1.8.3
+  checksum: f42d5552c6cba1b6a831772122099bd029a2eb0f46198c924fa28c7c27566f9d568a194e290ef1b982465b8accfa6f3ca310f041c2536e99c19f83b291849b09
+  languageName: node
+  linkType: hard
+
+"@unhead/schema@npm:1.8.3":
+  version: 1.8.3
+  resolution: "@unhead/schema@npm:1.8.3"
+  dependencies:
+    hookable: ^5.5.3
+    zhead: ^2.2.4
+  checksum: 2bb6d77bfc526269ee43f7a16f48c1305b4d26d3b7152764be97b1b7d09e153879630272f4a65a2e5b6fad1d50bf0920777d74d45ecde7fcdcf25cc40b4d1380
+  languageName: node
+  linkType: hard
+
+"@unhead/shared@npm:1.8.3":
+  version: 1.8.3
+  resolution: "@unhead/shared@npm:1.8.3"
+  dependencies:
+    "@unhead/schema": 1.8.3
+  checksum: c9e25b84fa8ac7a6f951bf41077ade781b00b0511e451fe4b079c7fa78101ff90631dc60444ab217bcf56e28e76cadadc1cd7b01c4e16dea261049e78dcf3d69
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-vue@npm:^4.1.0":
   version: 4.4.0
   resolution: "@vitejs/plugin-vue@npm:4.4.0"
@@ -2809,6 +2838,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hookable@npm:^5.5.3":
+  version: 5.5.3
+  resolution: "hookable@npm:5.5.3"
+  checksum: df659977888398649b6ef8c4470719e7e8384a1d939a6587e332e86fd55b3881806e2f8aaebaabdb4f218f74b83b98f2110e143df225e16d62a39dc271e7e288
+  languageName: node
+  linkType: hard
+
 "http-cache-semantics@npm:^4.1.1":
   version: 4.1.1
   resolution: "http-cache-semantics@npm:4.1.1"
@@ -3548,6 +3584,7 @@ __metadata:
     postcss-preset-env: ^9.0.0
     typescript: ^5.0.2
     typescript-cookie: ^1.0.6
+    unhead: ^1.8.3
     vite: ^4.4.9
     vue: ^3.3.4
     vue-i18n: ^9.2.2
@@ -4805,6 +4842,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unhead@npm:^1.8.3":
+  version: 1.8.3
+  resolution: "unhead@npm:1.8.3"
+  dependencies:
+    "@unhead/dom": 1.8.3
+    "@unhead/schema": 1.8.3
+    "@unhead/shared": 1.8.3
+    hookable: ^5.5.3
+  checksum: f49c62504717c37cc164b10b4c5a14fc5433df078e0eb1197b898899b1b4c70b92f3cee71fe19f3682c9345011c9a48fbbbb75490c6ef2fae844401b09ace0e2
+  languageName: node
+  linkType: hard
+
 "unique-filename@npm:^3.0.0":
   version: 3.0.0
   resolution: "unique-filename@npm:3.0.0"
@@ -5081,5 +5130,12 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"zhead@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "zhead@npm:2.2.4"
+  checksum: 22836aa6947b27d35176cde40e3f5b19c24e0f46ee52d860e8df674a35aec07b34f6c78437323c797d1dc37ec0847e61e4f07ab605d519cc742245b5fa25b889
   languageName: node
   linkType: hard

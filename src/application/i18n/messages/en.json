@@ -1,16 +1,25 @@
 {
+  "appTitle": "NoteX",
   "auth": {
-    "login": "Login"
-  },
-  "settings": {
-    "title": "Settings",
-    "changeTheme": "Change theme"
+    "login": "Login",
+    "logout": "Logout"
   },
   "header": {
     "buttons": {
       "home": "Home",
       "noteSettings": "Settings"
     }
+  },
+  "userSettings": {
+    "title": "User Settings",
+    "changeTheme": "Change theme",
+    "userEditorTools": "User editor tools"
+  },
+  "noteSettings": {
+    "title": "Note Settings"
+  },
+  "note": {
+    "new": "New Note"
   },
   "home": {
     "title": "Recent Notes"
@@ -19,5 +28,9 @@
     "404": "Page not found",
     "500": "Unknown error happened",
     "default": "Something went wrong"
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "listOfTools": "Tools"
   }
 }
