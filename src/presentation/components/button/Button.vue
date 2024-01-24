@@ -9,6 +9,7 @@
       'button--only-icon': isOnlyIcon,
       'button--primary': type === 'primary',
       'button--secondary': type === 'secondary',
+      'button--danger': type === 'danger',
       'button--transparent': type === 'transparent',
     }"
     @click.passive="onClick"
@@ -30,8 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import themeService from '@/application/services/themeService';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = withDefaults(defineProps<{
   /**
@@ -52,7 +52,7 @@ const props = withDefaults(defineProps<{
   /**
    * Button style type
    */
-  type?: 'primary' | 'secondary' | 'transparent';
+  type?: 'primary' | 'secondary' |'danger'| 'transparent';
 }>(), {
   type: 'secondary',
   text: undefined,
@@ -98,47 +98,7 @@ const emit = defineEmits<{
 function onClick(event: MouseEvent) {
   emit('click', event);
 }
-const theme = computed(() => themeService.currentAccentTheme.value);
 
-
-watch(theme, (newTheme) => {
-  var allPrimary = document.getElementsByClassName('button--primary');
-  var allSecondary = document.getElementsByClassName('button--secondary');
-  var allTransparent = document.getElementsByClassName('button--transparent');
-
-  for (var i = 0; i < allPrimary.length; i++) {
-    (allPrimary[i] as HTMLElement).style.backgroundColor = `var(--accent-${newTheme.toLowerCase()}-solid)`;
-    (allPrimary[i] as HTMLElement).style.color = `var(--accent-${newTheme.toLowerCase()}-text)`;
-  }
-
-  for (var k=0; k < allTransparent.length; k++) {
-    (allTransparent[k] as HTMLElement).style.color = `var(--accent-${newTheme.toLowerCase()}-text)`;
-  }
-
-  for (var s=0; s < allSecondary.length; s++) {
-    (allSecondary[s] as HTMLElement).style.backgroundColor = `var(--accent-${newTheme.toLowerCase()}-solidSecondary)`;
-  }
-});
-
-onMounted(() => {
-  var allPrimary = document.getElementsByClassName('button--primary');
-  var allSecondary = document.getElementsByClassName('button--secondary');
-  var allTransparent = document.getElementsByClassName('button--transparent');
-
-  for (var i=0; i < allPrimary.length; i++) {
-    (allPrimary[i] as HTMLElement).style.backgroundColor = `var(--accent-${theme.value.toLowerCase()}-solid)`;
-    (allPrimary[i] as HTMLElement).style.color = `var(--accent-${theme.value.toLowerCase()}-text)`;
-  }
-
-  for (var k=0; k < allTransparent.length; k++) {
-    (allTransparent[k] as HTMLElement).style.color = `var(--accent-${theme.value.toLowerCase()}-text)`;
-  }
-
-  for (var s=0; s < allSecondary.length; s++) {
-    (allSecondary[s] as HTMLElement).style.backgroundColor = `var(--accent-${theme.value.toLowerCase()}-solidSecondary)`;
-  }
-});
-console.log(theme);
 </script>
 
 <style scoped lang="postcss">
@@ -158,18 +118,27 @@ console.log(theme);
   user-select: none;
 
   &--primary {
-    background-color: var(--accent-red-solid);
-    color: var(--color-text-contrast);
+    background-color: var(--solid-accent);
+    color: var(--text-solid-foreground-accent);
+
+    &:hover {
+      background: var(--solid-hover-accent);
+    }
   }
 
   &--secondary {
-    background: var(--accent-secondary);
-    color: var(--color-text-main);
+    background: var(--bg-secondary-accent);
+    color: var(--text-solid-foreground-accent);
+    border: 1px solid var(--border-accent);
+
+    &:hover {
+      background: var(--bg-secondary-hover-accent);
+    }
   }
 
   &--transparent {
     background: transparent;
-    color: var(--color-text-main);
+    color: var(----text-solid-foreground-accent);
 
     &:hover {
       background: var(--color-bg);
@@ -180,12 +149,15 @@ console.log(theme);
     line-height: var(--size-icon);
     font-weight: 600;
     white-space: nowrap;
+    color: var(--text-accent);
   }
 
   &__icon {
     height: var(--size-icon);
     width: var(--size-icon);
+    color: var(--text-secondary-accent);
     flex-shrink: 0;
+    color: var(--text-accent);
   }
 
   &--only-icon {

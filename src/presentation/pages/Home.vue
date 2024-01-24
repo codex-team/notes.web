@@ -12,23 +12,23 @@
         <Button
           type="primary"
           text="Classic"
-          @click="changeBaseTheme('Classic')"
+          @click="changeBaseTheme('theme-base-pure')"
         />
         <Button
           type="secondary"
           text="Crimson"
-          @click="changeBaseTheme('Crimson')"
+          @click="changeBaseTheme('theme-base-crimson')"
         />
         <Button
           type="primary"
           text="Violet"
-          @click="changeBaseTheme('Violet')"
+          @click="changeBaseTheme('theme-base-violet')"
         />
 
         <Button
           type="secondary"
           text="Red"
-          @click="changeBaseTheme('Red')"
+          @click="changeBaseTheme('theme-base-red')"
         />
       </div>
 
@@ -39,23 +39,23 @@
         <Button
           type="primary"
           text="Classic"
-          @click="changeAccentTheme('Classic')"
+          @click="changeAccentTheme('theme-accent-classic')"
         />
         <Button
           type="secondary"
           text="Crimson"
-          @click="changeAccentTheme('Crimson')"
+          @click="changeAccentTheme('theme-accent-crimson')"
         />
         <Button
           type="primary"
           text="Violet"
-          @click="changeAccentTheme('Violet')"
+          @click="changeAccentTheme('theme-accent-violet')"
         />
 
         <Button
           type="secondary"
           text="Red"
-          @click="changeAccentTheme('Red')"
+          @click="changeAccentTheme('theme-accent-red')"
         />
       </div>
     </div>

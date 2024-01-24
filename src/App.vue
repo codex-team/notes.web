@@ -9,7 +9,7 @@
 import { useColorMode } from '@vueuse/core';
 import Header from '@/presentation/components/header/Header.vue';
 import Layout from '@/presentation/layouts/Layout.vue';
-import { onErrorCaptured, watch, computed, onMounted } from 'vue';
+import { onErrorCaptured, computed, watch, onMounted } from 'vue';
 import themeService from './application/services/themeService';
 
 
@@ -18,22 +18,47 @@ useColorMode();
 /**
  * Get the current theme
  */
-const theme = computed(() => themeService.currentBaseTheme.value);
+const currentBaseTheme = computed(() => themeService.currentBaseTheme.value);
+const currentAccentTheme = computed(() => themeService.currentAccentTheme.value);
 
-watch(theme, (newTheme) => {
-  document.getElementById('app')?.style.setProperty('background-color', `var(--base-${newTheme.toLowerCase()}-bgPrimary)`);
-  document.getElementById('app')?.style.setProperty('color', `var(--base-${newTheme.toLowerCase()}-text)`);
-  document.querySelector('p')?.style.setProperty('color', `var(--base-${newTheme.toLowerCase()}-textSecondary)`);
-});
 onErrorCaptured((error) => {
   alert(error.message);
 });
 
-onMounted(() => {
-  document.getElementById('app')?.style.setProperty('background-color', `var(--base-${theme.value.toLowerCase()}-bgPrimary)`);
-  document.getElementById('app')?.style.setProperty('color', `var(--base-${theme.value.toLowerCase()}-text)`);
-  document.querySelector('p')?.style.setProperty('color', `var(--base-${theme.value.toLowerCase()}-textSecondary)`);
+watch([currentBaseTheme, currentAccentTheme], ([baseTheme, accentTheme]) => {
+  const rootElement = document.querySelector('#app');
+
+  if (rootElement) {
+    // Remove old theme classes
+    const themeClasses = Array.from(rootElement.classList).filter(
+      (className) => className.startsWith('theme-')
+    );
+
+    rootElement.classList.remove(...themeClasses);
+
+    // Add new theme classes
+    rootElement.classList.add(baseTheme, accentTheme);
+  }
 });
+
+onMounted(() => {
+  const rootElement = document.querySelector('#app');
+
+  if (rootElement) {
+    // Remove old theme classes
+    const themeClasses = Array.from(rootElement.classList).filter(
+      (className) => className.startsWith('theme-')
+
+    );
+
+    rootElement.classList.remove(...themeClasses);
+
+    // Add new theme classes
+    rootElement.classList.add(currentBaseTheme.value, currentAccentTheme.value);
+  }
+});
+
+
 </script>
 
 <style lang="postcss">
@@ -47,8 +72,7 @@ body {
 
 #app {
   min-height: 100%;
-  background-color: var(--color-bg);
-  color: var(--color-text-main);
+  background-color: var(--bg-primary-base);
   word-break: break-word;
   font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -56,4 +80,14 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
 }
+
+#app p {
+  color: var(--text-secondary-base)
+}
+
+#app h1,h2,h3,h4,h5,h6 {
+  color: var(--text-base)
+}
+
+
 </style>

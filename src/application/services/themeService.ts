@@ -1,8 +1,7 @@
-// ThemeService.ts
 import { ref } from 'vue';
 
-const currentBaseTheme = ref((localStorage.getItem('baseTheme') ?? '') || 'Classic');
-const currentAccentTheme = ref((localStorage.getItem('accentTheme') ?? '') || 'Classic');
+const currentBaseTheme = ref((localStorage.getItem('baseTheme') ?? '') || 'theme-base-pure');
+const currentAccentTheme = ref((localStorage.getItem('accentTheme') ?? '') || 'theme-accent-classic');
 /**
  * Changes Accent theme
  *
@@ -11,9 +10,6 @@ const currentAccentTheme = ref((localStorage.getItem('accentTheme') ?? '') || 'C
 const setAccentTheme = (accentThemeName:string):void => {
   currentAccentTheme.value = accentThemeName;
   localStorage.setItem('accentTheme', accentThemeName);
-
-
-  // applyAccentTheme();
 };
 /**
  *  Changes base theme
