@@ -198,7 +198,9 @@ const mountEditorOnce = async () => {
 watch(userEditorTools, mountEditorOnce);
 onMounted(() => {
   console.log('mount', userEditorTools.value);
-  mountEditorOnce();
+  if (userEditorTools.value.length > 0) {
+    mountEditorOnce();
+  }
 });
 
 watch(() => props.content, (content) => {
