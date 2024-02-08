@@ -1,4 +1,4 @@
-name: Run eslint check
+name: ESLint
 
 on:
   push:

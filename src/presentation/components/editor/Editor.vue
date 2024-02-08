@@ -11,14 +11,13 @@ import { useEditor } from '@/application/services/useEditor';
  * Define the props for the component
  */
 const props = defineProps<{
-  content?: OutputData,
-  readOnly?: boolean,
+  content?: OutputData;
+  readOnly?: boolean;
 }>();
 
 const emit = defineEmits<{
-  'change': [data: OutputData],
+  change: [data: OutputData];
 }>();
-
 
 /**
  * Attribute containing is-empty state.
@@ -74,9 +73,11 @@ async function onChange(api: API): Promise<void> {
   emit('change', data);
 }
 
-useEditor({ content: props.content,
+useEditor({
+  content: props.content,
   isReadOnly: props.readOnly,
-  onChange });
+  onChange,
+});
 
 defineExpose({
   /**
