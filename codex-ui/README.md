@@ -30,7 +30,7 @@ src/
       Button.vue
   react/
   web/
-  native/
+  js/
 ```
 
 ## Access Vue components
