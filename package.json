@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "yarn build:ui && vue-tsc && vite build",
+    "build:ui": "yarn workspace codex-ui run build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.vue",
     "lint:fix": "yarn lint --fix",
