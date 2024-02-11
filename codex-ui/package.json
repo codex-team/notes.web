@@ -1,22 +1,25 @@
 {
-  "name": "design-system",
+  "name": "codex-ui",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "yarn build-src && yarn build-types",
+    "build-src": "vite build",
+    "build-types": "vue-tsc --declaration --emitDeclarationOnly --project tsconfig.dts.json",
     "preview": "vite preview"
   },
   "files": [
     "dist"
   ],
-  "main": "./dist/codex-design.umd.cjs",
-  "module": "./dist/codex-design.js",
   "exports": {
-    "./ui": {
-      "import": "./dist/ui.js"
+    "./vue": {
+      "import": {
+        "default": "./dist/vue.js"
+      }
     },
     "./styles": {
-      "import": "./dist/styles.js"
+      "import": "./dist/styles.css"
     }
   },
   "devDependencies": {
@@ -26,8 +29,13 @@
     "postcss-hover-media-feature": "^1.0.2",
     "postcss-nested": "^6.0.1",
     "postcss-preset-env": "^9.3.0",
+    "tsc": "^2.0.4",
+    "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vite-plugin-css-injected-by-js": "^3.3.1",
-    "vue-tsc": "^1.8.27"
+    "vue-tsc": "latest"
+  },
+  "dependencies": {
+    "vue": "^3.4.16"
   }
 }
