@@ -5,20 +5,21 @@
  */
 interface ImportMetaEnv {
   /**
-   * Notex hosted backend server url from environmental variable file(.env)
+   * NoteX API server URL
    */
   VITE_API_URL: string;
+
   /**
-   * Notex google oauth url from environmental variable file (.env )
+   * Google OAuth redirect URL
    */
   VITE_GOOGLE_OAUTH_URL: string;
+
   /**
-   * local backend server url from environmental variable file (.env)
-   */
-  VITE_API_LOCAL_URL: string;
-  /**
-   * local google oauth url from environmental variable file (.env)
-   * Add your preferred google oauth url
+   * Google local oauth url
    */
   VITE_GOOGLE_LOCAL_OAUTH_URL: string;
+
+
+  /** NoteX default production hostname */
+  VITE_PRODUCTION_HOSTNAME: string;
 }
