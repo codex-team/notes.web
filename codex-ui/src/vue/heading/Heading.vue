@@ -19,7 +19,7 @@ const props = defineProps<{
 </script>
 
 <style module>
-@import '@/styles/mixins/typography.pcss';
+@import '../../styles/mixins/typography.pcss';
 
 .heading {
   @apply --text-heading-1;

@@ -8,7 +8,10 @@
     >
       CodeX UI showcase
     </Heading>
-    <Button text="Button text" />
+    <div :class="$style.button">Test</div>
+    <Button
+      text="Button text"
+    />
     <Input text="Input text" />
   </div>
 </template>
@@ -16,7 +19,7 @@
 <script setup lang="ts">
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { Button, Input, Heading } from 'codex-ui/vue';
+import { Button, Input, Heading } from '../../../codex-ui/src/vue';
 
 const { t } = useI18n();
 
@@ -30,7 +33,7 @@ useHead({
 
 <style lang="postcss" module>
 .page {
-  background-color: var(--ui-color);
+  background-color: var(--base--bg-primary);
 }
 
 h2 {
@@ -39,6 +42,10 @@ h2 {
 
 p {
   @apply --text-body;
+}
+
+.button {
+ background-color: var(--accent--solid);
 }
 
 </style>
