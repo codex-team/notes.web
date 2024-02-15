@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "types": ["vite/client"],
+    "target": "ES2020",
+    "baseUrl": "src" ,
+    "useDefineForClassFields": true,
+    "module": "NodeNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "paths": {
+    },
+  },
+  "include": ["src", "vite.config.ts"],
+}
