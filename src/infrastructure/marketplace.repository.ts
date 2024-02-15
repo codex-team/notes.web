@@ -14,7 +14,7 @@ export default class MarketplaceRepository implements MarketplaceRepositoryInter
   /**
    * Repository constructor
    *
-   * @param notesApiTransport - notes api transport instancea
+   * @param notesApiTransport - notes api transport instance
    */
   constructor(notesApiTransport: NotesApiTransport) {
     this.transport = notesApiTransport;
