@@ -17,7 +17,6 @@
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { Button, Input, Heading } from 'codex-ui/vue';
-import 'codex-ui/styles';
 
 const { t } = useI18n();
 
