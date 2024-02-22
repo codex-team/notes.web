@@ -4,13 +4,17 @@
   "author": "CodeX <team@codex.so> (https://codex.so)",
   "type": "module",
   "scripts": {
-    "dev": "vite & yarn watch-ts",
-    "build": "vue-tsc && vite build",
+    "dev": "vite",
+    "build": "yarn build:ui && vue-tsc && vite build",
+    "build:ui": "yarn workspace codex-ui run build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.vue",
     "lint:fix": "yarn lint --fix",
     "watch-ts": "vue-tsc --noEmit --watch"
   },
+  "workspaces": [
+    "codex-ui"
+  ],
   "dependencies": {
     "@codexteam/icons": "^0.3.0",
     "@editorjs/checklist": "^1.5.0",
@@ -28,6 +32,7 @@
     "@editorjs/table": "^2.2.2",
     "@editorjs/warning": "^1.3.0",
     "@vueuse/core": "^10.3.0",
+    "codex-ui": "workspace:^",
     "jwt-decode": "^3.1.2",
     "normalize.css": "^8.0.1",
     "typescript-cookie": "^1.0.6",

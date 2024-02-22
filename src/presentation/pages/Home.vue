@@ -1,29 +1,39 @@
 <template>
-  <div v-if="user">
-    <h1>{{ $t('home.title') }}</h1>
-    <p>This page will contain your Notes you recently worked with </p>
+  <div :class="$style.page">
+    <div v-if="user">
+      <h1>{{ $t('home.title') }}</h1>
+      <p>This page will contain your Notes you recently worked with </p>
 
-    <div v-if="noteList">
-      <div
-        v-for="note in noteList.items"
-        :key="note.id"
+      <Heading
+        :level="2"
       >
-        <NoteView
-          :title="note.content.blocks[0]?.data?.text"
-          :subtitle="note.content.blocks[1]?.data.text || ''"
-          :created-at="note.createdAt"
-          @click="router.push('/note/'+note.id)"
-        />
+        CodeX UI showcase
+      </Heading>
+      <Button text="Button text" />
+      <Input text="Input text" />
+
+      <div v-if="noteList">
+        <div
+          v-for="note in noteList.items"
+          :key="note.id"
+        >
+          <NoteView
+            :title="note.content.blocks[0]?.data?.text"
+            :subtitle="note.content.blocks[1]?.data.text || ''"
+            :created-at="note.createdAt"
+            @click="router.push('/note/'+note.id)"
+          />
+        </div>
+      </div>
+
+      <div v-else>
+        Loading...
       </div>
     </div>
 
     <div v-else>
-      Loading...
+      <h1>You are not logged in, log in to see your recent notes</h1>
     </div>
-  </div>
-
-  <div v-else>
-    <h1>You are not logged in, log in to see your recent notes</h1>
   </div>
 </template>
 
@@ -42,6 +52,7 @@ const { noteList } = useNoteList();
 
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { Button, Input, Heading } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -51,14 +62,15 @@ const { t } = useI18n();
 useHead({
   title: t('home.title'),
 });
-
 </script>
 
-<style lang="postcss" scoped>
-@import '@/presentation/styles/typography.pcss';
+<style lang="postcss" module>
+.page {
+  background-color: var(--ui-color);
+}
 
-h1 {
-  @apply --text-heading-1;
+h2 {
+  @apply --text-heading-2;
 }
 
 p {

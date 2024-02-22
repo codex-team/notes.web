@@ -104,6 +104,15 @@
         "type": "Component Type",
         "pattern": "src/presentation/components/**/types/*",
         "mode": "full"
+      },
+
+      /**
+       * External modules
+       */
+      {
+        "type": "CodeX UI",
+        "pattern": "**/codex-ui/**/*",
+        "mode": "file"
       }
     ],
     "import/resolver": {
@@ -234,7 +243,8 @@
               "Application Service",
               "Entity",
               "Utils",
-              "Component Type"
+              "Component Type",
+              "CodeX UI"
             ]
           },
           {
