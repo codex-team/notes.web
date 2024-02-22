@@ -5,5 +5,5 @@ import type { Note } from './Note';
  * An object with the "items" property containing a list of all existing notes created by the user
  */
 export type NoteList = {
-    items: Note[];
+  items: Note[];
 };

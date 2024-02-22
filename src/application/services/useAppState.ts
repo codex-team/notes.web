@@ -45,7 +45,6 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
     }
   });
 
-
   return {
     user,
     userEditorTools,
