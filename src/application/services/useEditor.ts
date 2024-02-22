@@ -1,31 +1,36 @@
-import { onBeforeUnmount, onMounted, ref, watch, type Ref } from 'vue';
 import Editor, { type OutputData, type API } from '@editorjs/editorjs';
-import type EditorTool from '@/domain/entities/EditorTool';
-// @ts-expect-error: we need to rewrite plugins to TS to get their types
 import Header from '@editorjs/header';
+import type { Ref } from 'vue';
+import { onBeforeUnmount, onMounted } from 'vue';
 import { useAppState } from './useAppState';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GlobalEditorTool = any;
+import type EditorTool from '@/domain/entities/EditorTool';
 
 /**
- * Interface describing hook props
+ * Editor.js tool
  */
-interface EditorProps {
+type Tool = any;
+
+/**
+ * Editorjs params
+ */
+interface UseEditorParams {
+  /** Host element id */
+  id: string;
+
   /**
-   * Content displayed in Editor
+   * Editor initial content
    */
   content?: OutputData;
 
   /**
-   * Allow edit content in Editor
+   * True if editor should not allow editing
    */
   isReadOnly?: boolean;
 
   /**
-   * Handler for every content change in Editor
+   * Handles content change in Editor
    */
-  onChange: (api: API) => void;
+  onChange?: (api: API) => void;
 }
 
 /**
@@ -45,60 +50,15 @@ function loadScript(src: string): Promise<Event> {
 }
 
 /**
- * Load user editor tools
+ * Handles Editor.js instance creation
  *
- * @param userEditorTools User editor tools
+ * @param params - Editor.js params
  */
-function loadUserTools(
-  userEditorTools: Ref<Array<EditorTool>>
-): Promise<Array<PromiseSettledResult<Event | undefined>>> {
-  return Promise.allSettled(
-    userEditorTools.value.map((spec: EditorTool) => {
-      if (spec.source.cdn === undefined || spec.source.cdn === '') {
-        return undefined;
-      }
-
-      return loadScript(spec.source.cdn);
-    })
-  );
-}
-
-/**
- * Create Editor.js tools settings from editor tools
- *
- * @param userEditorTools User editor tools
- */
-function createToolsSettings(
-  userEditorTools: Ref<Array<EditorTool>>
-): Record<string, GlobalEditorTool> {
-  return userEditorTools.value.reduce((acc, spec: EditorTool) => {
-    // @ts-expect-error: we need to rewrite plugins to TS to get their types
-    const windowPlugin = window[spec.exportName];
-
-    return {
-      ...acc,
-      [spec.title]: windowPlugin,
-    };
-  }, {});
-}
-
-/**
- * Application service for working with Editor
- */
-export function useEditor({
-  content,
-  isReadOnly,
-  onChange,
-}: EditorProps): void {
+export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams): void {
   /**
-   * Editor.js instance
+   * Editor instance
    */
   let editor: Editor | undefined;
-
-  /**
-   * Editor content instance
-   */
-  const refContent = ref<OutputData | undefined>(content);
 
   /**
    * User notes tools
@@ -106,70 +66,68 @@ export function useEditor({
   const { userEditorTools } = useAppState();
 
   /**
-   * Function for loading and adding tools to Editor
+   * Downloads tool code
+   *
+   * @param tool - tool - data
    */
-  const mountEditor = async (): Promise<void> => {
-    try {
-      await loadUserTools(userEditorTools);
+  async function downloadTool(tool: EditorTool): Promise<[string, Tool] | undefined> {
+    if (tool.source.cdn === undefined) {
+      return;
+    }
 
-      const loadedTools = createToolsSettings(userEditorTools);
+    await loadScript(tool.source.cdn);
+
+    return [tool.title, window[tool.exportName]];
+  }
+
+  /**
+   * Download all the user tools
+   *
+   * @param tools - tools data
+   */
+  async function downloadTools(tools: Ref<EditorTool[]>): Promise<Record<string, Tool>> {
+    const toolsData = await Promise.all(tools.value.map(downloadTool));
+
+    return toolsData.reduce((acc, curr) => {
+      if (curr === undefined) {
+        return acc;
+      }
+      const name = curr[0];
+      const obj = curr[1];
+
+      acc[name] = obj;
+
+      return acc;
+    }, {});
+  }
+
+  /**
+   * Initializes editorjs instance
+   */
+  async function mountEditor(): Promise<void> {
+    try {
+      const tools = await downloadTools(userEditorTools);
 
       editor = new Editor({
-        /**
-         * Block Tools
-         */
+        holder: id,
+        data: content,
         tools: {
-          header: {
-            class: Header,
-            config: {
-              placeholder: 'Title...',
-            },
-          },
-          ...loadedTools,
+          header: Header,
+          ...tools,
         },
-        data: refContent.value,
         onChange,
         readOnly: isReadOnly,
       });
 
       await editor.isReady;
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
     }
-  };
+  }
 
-  /**
-   * Update editor instance when user tools was changed
-   */
-  watch(userEditorTools, mountEditor);
-
-  /**
-   * Set editor instance after first mount
-   */
   onMounted(() => {
-    if (userEditorTools.value.length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      mountEditor();
-    }
+    void mountEditor();
   });
-
-  /**
-   * Add content to editor
-   */
-  watch(
-    () => refContent,
-    (watchedRef) => {
-      const watchedContent = watchedRef.value;
-
-      if (watchedContent === undefined) {
-        editor?.clear();
-
-        return;
-      }
-
-      editor?.render(watchedContent).catch(console.error);
-    }
-  );
 
   /**
    * Destroy editor instance after unmount

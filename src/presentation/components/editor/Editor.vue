@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { type OutputData, type API } from '@editorjs/editorjs';
-import { useEditor } from '@/application/services/useEditor';
+import { useEditor } from '@/application/services/useEditor2';
 
 /**
  * Define the props for the component
@@ -74,6 +74,7 @@ async function onChange(api: API): Promise<void> {
 }
 
 useEditor({
+  id: 'editorjs',
   content: props.content,
   isReadOnly: props.readOnly,
   onChange,
