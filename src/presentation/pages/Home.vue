@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { Button, Input, Heading } from '../../../codex-ui/src/vue';
+import { Button, Input, Heading } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -46,6 +46,7 @@ p {
 
 .button {
  background-color: var(--accent--solid);
+  
 }
 
 </style>
