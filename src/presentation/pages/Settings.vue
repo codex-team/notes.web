@@ -17,18 +17,12 @@
     @click="userLogout"
   />
 
-  <div class="add-tool">
-    <h2>
-      🎡 Marketplace
-    </h2>
-
-    Insert Tool Id and press Enter:
-    <input
-      type="string"
-      placeholder="Add tool by id"
-      @keydown.enter="addTool"
-    >
-  </div>
+  <Button
+    class="marketplace"
+    :text="t('marketplace.title')"
+    link="/marketplace"
+    type="primary"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -39,29 +33,12 @@ import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
 import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
-import { useUserSettings } from '@/application/services/useUserSettings';
 import { useHead } from 'unhead';
 
 const { userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
-const { addTool: addToolToUser } = useUserSettings();
-
-/**
- * Add tool to user. Imitates Installations from the Marketplace
- *
- * @param event - keyboard event
- */
-function addTool(event: KeyboardEvent): void {
-  const input = event.target as HTMLInputElement;
-  const toolId = input.value;
-
-  if (toolId) {
-    addToolToUser(toolId);
-    input.value = '';
-  }
-}
 
 /**
  * Changing the title in the browser
@@ -80,24 +57,10 @@ async function userLogout() {
 
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 @import '@/presentation/styles/typography.pcss';
-.add-tool {
-  margin-top: 100px;
 
-  h2 {
-    margin-bottom: var(--spacing-l);
-
-    @apply --text-heading-2;
-  }
-
-  input {
-    @apply --text-body;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-s);
-    padding: var(--spacing-xs) var(--spacing-ms);
-    width: 100%;
-    margin-top: var(--spacing-mm);
-  }
+.marketplace {
+  margin-top: var(--spacing-l);
 }
 </style>
