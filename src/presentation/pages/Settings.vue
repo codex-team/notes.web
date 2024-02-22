@@ -22,6 +22,18 @@
       🎡 Marketplace
     </h2>
 
+    <h3>
+      {{ t("userSettings.availableTools") }}
+    </h3>
+    <ul>
+      <li
+        v-for="tool in tools"
+        :key="tool.id"
+      >
+        {{ tool.title }}
+      </li>
+    </ul>
+
     Insert Tool Id and press Enter:
     <input
       type="string"
@@ -41,8 +53,10 @@ import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 import { useUserSettings } from '@/application/services/useUserSettings';
 import { useHead } from 'unhead';
+import useMarketplace from '@/application/services/useMarketplace';
 
 const { userEditorTools } = useAppState();
+const { tools } = useMarketplace();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
