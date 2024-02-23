@@ -4,6 +4,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases ./.yarn/releases
+COPY ./codex-ui/package.json codex-ui/
 RUN yarn install
 
 FROM node:20-alpine AS builder
