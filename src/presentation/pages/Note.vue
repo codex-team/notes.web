@@ -1,10 +1,9 @@
 <template>
   <div v-if="note === null">Loading...</div>
   <div v-else>
-    <div class="control__button">
+    <div>
       <Button
-        class="header__plus"
-        text="createChildNote"
+        text="Add child note"
         @click.passive="createChildNote"
       />
     </div>
