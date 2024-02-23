@@ -9,7 +9,7 @@ import { useAppState } from './useAppState';
  */
 interface UseMarketplaceComposable {
   /**
-   * Get list of all tools with user binding
+   * List of tools with information, if they are installed by the user
    */
   tools: Ref<EditorToolWithUserBinding[]>;
 }
@@ -18,9 +18,6 @@ interface UseMarketplaceComposable {
  * Application service for working with the Editor Tools
  */
 export default function (): UseMarketplaceComposable {
-  /**
-   *  List of tools with information, if they are installed by the user
-   */
   const toolsWithUserBindings = ref<EditorToolWithUserBinding[]>([]);
 
   /**
