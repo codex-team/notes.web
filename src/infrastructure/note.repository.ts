@@ -63,7 +63,9 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param content - Note content (Editor.js data)
    */
   public async createNote(content: NoteContent): Promise<Note> {
-    const response = await this.transport.post<{ id: NoteId }>('/note', { content });
+    const response = await this.transport.post<{ id: NoteId }>('/note', {
+      content,
+    });
 
     const note: Note = {
       id: response.id,
