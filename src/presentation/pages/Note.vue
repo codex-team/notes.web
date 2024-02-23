@@ -1,18 +1,27 @@
 <template>
   <div v-if="note === null">Loading...</div>
-  <Editor
-    v-else
-    ref="editor"
-    :content="note.content"
-    :read-only="!canEdit"
-    @change="noteChanged"
-  />
+  <div v-else>
+    <div>
+      <Button
+        text="Add child note"
+        @click.passive="createChildNote"
+      />
+    </div>
+    <Editor
+      ref="editor"
+      :content="note.content"
+      :read-only="!canEdit"
+      @change="noteChanged"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { Button } from 'codex-ui/vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
+import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
@@ -20,11 +29,18 @@ import { watchEffect } from 'vue';
 
 const { t } = useI18n();
 
+const router = useRouter();
+
 const props = defineProps<{
   /**
    * Null for new note, id for reading existing note
    */
   id: string | null;
+
+  /**
+   * Parent note id, null for root note
+   */
+  parentId: string | null;
 }>();
 
 const noteId = computed(() => props.id);
@@ -47,8 +63,18 @@ function noteChanged(data: NoteContent): void {
   const isEmpty = editor.value?.isEmpty();
 
   if (!isEmpty) {
-    save(data);
+    save(data, props.parentId);
   }
+}
+
+/**
+ * Create new child note
+ */
+function createChildNote(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/note/${props.id}/new`);
 }
 
 /**

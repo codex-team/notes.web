@@ -1,4 +1,4 @@
-import type { Note, NoteContent } from '@/domain/entities/Note';
+import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 
 /**
@@ -26,8 +26,9 @@ export default interface NoteRepositoryInterface {
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
+   * @param parentId - Id of the parent note. If null, then it's a root note
    */
-  createNote(content: NoteContent): Promise<Note>;
+  createNote(content: NoteContent, parentId: NoteId | null): Promise<Note>;
 
   /**
    * Updates a content of existing note

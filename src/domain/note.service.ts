@@ -1,5 +1,5 @@
 import type NoteRepository from '@/domain/note.repository.interface';
-import type { Note, NoteContent } from '@/domain/entities/Note';
+import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 
 /**
@@ -45,9 +45,10 @@ export default class NoteService {
    * Creates a new note and returns it
    *
    * @param content - Note content (Editor.js data)
+   * @param parentId - Id of the parent note. If null, then it's a root note
    */
-  public async createNote(content: NoteContent): Promise<Note> {
-    return await this.noteRepository.createNote(content);
+  public async createNote(content: NoteContent, parentId: NoteId | null): Promise<Note> {
+    return await this.noteRepository.createNote(content, parentId);
   }
 
   /**
