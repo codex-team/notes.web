@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 import useMarketplace  from '@/application/services/useMarketplace';
+import EditorToolElement from '../components/marketplace/EditorToolElement.vue';
 
 const { tools } = useMarketplace();
 
