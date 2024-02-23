@@ -23,7 +23,7 @@ declare global {
   interface EventTarget {
     addEventListener<T extends keyof CrossDomainEventMap>(
       type: T,
-      listener: (event: CrossDomainEventMap[T]) => void
+      listener: (event: CrossDomainEventMap[T]) => void,
     ): void;
   }
 }

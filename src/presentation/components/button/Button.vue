@@ -59,7 +59,7 @@ const props = withDefaults(
     text: undefined,
     icon: undefined,
     link: undefined,
-  }
+  },
 );
 
 /**

@@ -20,7 +20,7 @@ export default class AuthRepository implements AuthRepositoryInterface {
    */
   constructor(
     private readonly authStorage: AuthStorage,
-    notesApiTransport: NotesApiTransport
+    notesApiTransport: NotesApiTransport,
   ) {
     this.transport = notesApiTransport;
   }
@@ -43,7 +43,7 @@ export default class AuthRepository implements AuthRepositoryInterface {
       },
       {
         skipAuthCheck: true,
-      }
+      },
     );
   }
 

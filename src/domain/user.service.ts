@@ -21,7 +21,7 @@ export default class UserService {
    */
   constructor(
     private readonly eventBus: EventBus,
-    userRepository: UserRepository
+    userRepository: UserRepository,
   ) {
     this.repository = userRepository;
 

@@ -10,9 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.vue",
     "lint:fix": "yarn lint --fix",
-    "watch-ts": "vue-tsc --noEmit --watch",
-    "format": "prettier --write --cache .",
-    "format:check": "prettier --check --cache ."
+    "watch-ts": "vue-tsc --noEmit --watch"
   },
   "private": true,
   "workspaces": [
@@ -48,8 +46,10 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "eslint": "^8.51.0",
     "eslint-config-codex": "^1.9.1",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-boundaries": "^3.1.1",
+    "eslint-plugin-prettier-vue": "^5.0.0",
     "eslint-plugin-vue": "^9.15.1",
     "postcss": "^8.4.26",
     "postcss-apply": "^0.12.0",

@@ -28,7 +28,7 @@ export default class FetchTransport {
    */
   constructor(
     private readonly baseUrl: string,
-    private readonly options?: FetchTransportOptions
+    private readonly options?: FetchTransportOptions,
   ) {}
 
   /**

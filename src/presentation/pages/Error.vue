@@ -30,7 +30,7 @@ const props = withDefaults(
   {
     code: 500,
     customMessage: '',
-  }
+  },
 );
 
 const message = computed(() => {
