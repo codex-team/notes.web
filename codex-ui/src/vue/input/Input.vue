@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup lang=ts>
+<script setup lang="ts">
 import { defineProps } from 'vue';
 
 const props = defineProps<{
@@ -16,7 +16,6 @@ const props = defineProps<{
    */
   text: string;
 }>();
-
 </script>
 
 <style lang="postcss" module>

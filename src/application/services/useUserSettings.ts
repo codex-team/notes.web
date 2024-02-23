@@ -7,9 +7,8 @@ interface UseUserSettingsComposableState {
   /**
    * Add tool to the user settings
    */
-  addTool(id: string): void
+  addTool(id: string): void;
 }
-
 
 /**
  * Methods for working with user settings

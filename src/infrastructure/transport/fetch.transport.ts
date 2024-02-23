@@ -26,8 +26,10 @@ export default class FetchTransport {
    * @param baseUrl - Base URL
    * @param options - Transport options
    */
-  constructor(private readonly baseUrl: string, private readonly options?: FetchTransportOptions) {
-  }
+  constructor(
+    private readonly baseUrl: string,
+    private readonly options?: FetchTransportOptions
+  ) {}
 
   /**
    * Gets specific resource

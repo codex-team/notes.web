@@ -20,4 +20,3 @@ export class AuthCompletedEvent extends CustomEvent<AuthSession | null> {
     });
   }
 }
-

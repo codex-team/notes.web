@@ -14,7 +14,7 @@ jobs:
       actions: write
     runs-on: ubuntu-22.04
     env:
-      API_URL: "https://api.github.com/repos/${{ github.repository }}/actions/runs"
+      API_URL: 'https://api.github.com/repos/${{ github.repository }}/actions/runs'
     steps:
       - name: Set commit_sha to pull request head sha
         if: ${{ github.event_name == 'pull_request' }}
@@ -58,6 +58,6 @@ jobs:
         uses: codex-team/action-codexbot-notify@v1
         with:
           webhook: ${{ secrets.CODEX_BOT_NOTIFY_NOTES_CHAT }}
-          message: "${{ env.ACTIONS_RESULTS }}"
+          message: '${{ env.ACTIONS_RESULTS }}'
           parse_mode: 'markdown'
           disable_web_page_preview: true

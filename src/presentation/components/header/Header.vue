@@ -1,8 +1,6 @@
 <template>
   <div class="header">
-    <Tabs
-      :tabs="tabs"
-    />
+    <Tabs :tabs="tabs" />
     <Button
       class="header__plus"
       link="/new"
@@ -10,9 +8,7 @@
       :icon="IconPlus"
     />
     <div class="header__right">
-      <LoginButton
-        v-if="!user"
-      />
+      <LoginButton v-if="!user" />
       <UserPanel
         v-else
         :user="user"
@@ -51,7 +47,7 @@ const tabs = computed<Tab[]>(() => {
   /**
    * Show inactive settings tab when we are on note view
    */
-  if ( currentRoute.value.name === 'note') {
+  if (currentRoute.value.name === 'note') {
     availableTabs.push({
       title: t('header.buttons.noteSettings'),
       path: currentRoute.value.path + '/settings',
@@ -64,7 +60,7 @@ const tabs = computed<Tab[]>(() => {
   /**
    * Show active settings tab when we are on settings itself
    */
-  if ( currentRoute.value.name === 'settings') {
+  if (currentRoute.value.name === 'settings') {
     availableTabs.push({
       title: t('header.buttons.noteSettings'),
       path: currentRoute.value.path,
@@ -95,5 +91,4 @@ const tabs = computed<Tab[]>(() => {
     margin-left: auto;
   }
 }
-
 </style>
