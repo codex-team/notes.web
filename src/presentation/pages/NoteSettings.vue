@@ -8,7 +8,6 @@
       :placeholder="'example: landing.codex.so'"
     />
     <Checkbox
-      :id="noteSettings.id as unknown as string"
       v-model:checked="noteSettings.isPublic"
       label="is note public"
     />

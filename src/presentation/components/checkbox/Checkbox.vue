@@ -22,7 +22,7 @@ const props = defineProps<{
   /**
    * Checkbox id
    */
-  id: string;
+  id?: string;
 
   /**
    * Is checkbox disabled
