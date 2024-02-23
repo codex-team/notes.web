@@ -19,7 +19,7 @@ interface UseMarketplaceComposable {
  */
 export default function (): UseMarketplaceComposable {
   /**
-   *  List of tools with user binding
+   *  List of tools with information, if they are installed by the user
    */
   const toolsWithUserBindings = ref<EditorToolWithUserBinding[]>([]);
 
