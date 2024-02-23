@@ -43,7 +43,6 @@ const noteSubTitle = computed(() => {
   if (secondNoteBlock) {
     switch (secondNoteBlock.type) {
       case 'header':
-        return secondNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
       case 'paragraph':
         return secondNoteBlock.data.text.slice(0, limitCharsForNoteSubTitle);
       default:
