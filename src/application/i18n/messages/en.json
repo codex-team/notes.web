@@ -21,10 +21,12 @@
   "note": {
     "new": "New Note"
   },
+  "noteList": {
+    "noNoteList": "No Notes yet. Make your first note"
+  },
   "home": {
     "title": "Recent Notes",
-    "authText": "You are not logged in, log in to see your recent notes",
-    "noNoteList": "No Notes yet. Make your first note"
+    "authText": "You are not logged in, log in to see your recent notes"
   },
   "errors": {
     "404": "Page not found",

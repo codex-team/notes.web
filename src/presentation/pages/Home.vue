@@ -3,7 +3,6 @@
     <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
 
-
       <Heading
         :level="2"
       >
@@ -11,24 +10,7 @@
       </Heading>
       <Button text="Button text" />
       <Input text="Input text" />
-
-      <div v-if="noteList?.items.length">
-        <div
-          v-for="note in noteList.items"
-          :key="note.id"
-        >
-          <NoteView
-            :title="note.content.blocks[0]?.data?.text"
-            :subtitle="note.content.blocks[1]?.data.text || ''"
-            :created-at="note.createdAt"
-            @click="router.push('/note/'+note.id)"
-          />
-        </div>
-      </div>
-
-      <div v-else>
-        <p>{{ $t('home.noNoteList') }}</p>
-      </div>
+      <NoteList/>
     </div>
 
     <div v-else>
@@ -38,22 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { useAppState } from '@/application/services/useAppState';
-import useNoteList from '@/application/services/useNoteList';
-import NoteView from '@/presentation/components/note/NoteView.vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
-const { user } = useAppState();
-
-
-const { noteList } = useNoteList();
-
-
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { Button, Input, Heading } from 'codex-ui/vue';
+import { useAppState } from '@/application/services/useAppState';
+import NoteList from '@/presentation/components/note/NoteList.vue';
 
+const { user } = useAppState();
 const { t } = useI18n();
 
 /**

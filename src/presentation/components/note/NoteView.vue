@@ -2,27 +2,27 @@
   <div class="note">
     <div class="note-header">
       <h1 class="note-title">
-        {{ props.title.substring(0,36) }}
+        {{ props.note.content.blocks[0]?.data.text.substring(0,36) }}
       </h1>
       <p class="note-date">
-        {{ new Date(props.createdAt).toLocaleDateString() }}
+        {{ new Date(props.note.createdAt).toLocaleDateString() }}
       </p>
     </div>
     <p class="note-sub">
-      {{ props.subtitle?.substring(0,96) }}
+      {{ props.note.content.blocks[1]?.data.text.substring(0,96) }}
     </p>
   </div>
 </template>
 
 <script  setup lang="ts">
+import { Note } from '@/domain/entities/Note.ts';
 
 /**
  * NoteView component props
  */
 const props = defineProps<{
-    title: string,
-    subtitle?: string,
-    createdAt: string,}>();
+    note: Note}>();
+console.log(props.note);
 </script>
 
 <style>

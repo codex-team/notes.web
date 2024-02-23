@@ -18,7 +18,7 @@ interface UseNoteListComposableState {
    *
    * @param page - number of pages
    */
-  load: (page:number) => Promise<void>
+  load: (page: number) => Promise<void>
 }
 
 /**
@@ -35,7 +35,7 @@ export default function (): UseNoteListComposableState {
    *
    * @param page - number of pages
    */
-  const load = async (page:number): Promise<void> => {
+  const load = async (page: number): Promise<void> => {
     /**
      * Get user id
      */
