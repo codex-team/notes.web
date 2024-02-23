@@ -4,9 +4,7 @@ import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
-import type { GetNoteListPayload } from './transport/notes-api/types/GetNoteListResponsePayload';
 import type { NoteList } from '@/domain/entities/NoteList';
-
 
 /**
  * Note repository
@@ -67,10 +65,9 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param page - number of pages to get
    */
   public async getNoteListByCreatorId(userId: number, page: number): Promise<NoteList> {
-    return await this.transport.get<GetNoteListPayload>(`/notes`, { userId,
+    return await this.transport.get<NoteList>(`/notes`, { userId,
       page });
   }
-
 
   /**
    * Creates a new note

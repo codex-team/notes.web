@@ -19,7 +19,6 @@ interface UseNoteListComposableState {
    * @param page - number of pages
    */
   load: (page:number) => Promise<void>
-
 }
 
 /**
@@ -30,7 +29,6 @@ export default function (): UseNoteListComposableState {
    * NoteList ref
    */
   const noteList = ref<NoteList | null>(null);
-
 
   /**
    * Get note list
@@ -43,15 +41,12 @@ export default function (): UseNoteListComposableState {
      */
     const user = useAppState().user.value;
 
-
     /**
      * If user is logged in, load note list
      */
 
     if (user) {
       noteList.value = await noteListService.getNoteListByCreatorId(user.id, page);
-    } else {
-      console.log('User is not logged');
     }
   };
 
@@ -64,7 +59,6 @@ export default function (): UseNoteListComposableState {
   });
 
   return {
-
     noteList,
     load,
   };

@@ -22,7 +22,9 @@
     "new": "New Note"
   },
   "home": {
-    "title": "Recent Notes"
+    "title": "Recent Notes",
+    "authText": "You are not logged in, log in to see your recent notes",
+    "noNoteList": "No Notes yet. Make your first note"
   },
   "errors": {
     "404": "Page not found",

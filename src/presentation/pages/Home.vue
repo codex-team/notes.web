@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.page">
+    <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
-      <h1>{{ $t('home.title') }}</h1>
-      <p>This page will contain your Notes you recently worked with </p>
+
 
       <Heading
         :level="2"
@@ -12,7 +12,7 @@
       <Button text="Button text" />
       <Input text="Input text" />
 
-      <div v-if="noteList">
+      <div v-if="noteList?.items.length">
         <div
           v-for="note in noteList.items"
           :key="note.id"
@@ -27,12 +27,12 @@
       </div>
 
       <div v-else>
-        Loading...
+        <p>{{ $t('home.noNoteList') }}</p>
       </div>
     </div>
 
     <div v-else>
-      <h1>You are not logged in, log in to see your recent notes</h1>
+      <p>{{ $t('home.authText') }}</p>
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@ import NoteView from '@/presentation/components/note/NoteView.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const { user }= useAppState();
+const { user } = useAppState();
 
 
 const { noteList } = useNoteList();
@@ -65,8 +65,10 @@ useHead({
 </script>
 
 <style lang="postcss" module>
+@import '@/presentation/styles/typography.pcss';
+
 .page {
-  background-color: var(--ui-color);
+  //background-color: var(--ui-color);
 }
 
 h2 {

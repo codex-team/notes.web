@@ -14,7 +14,6 @@ export type NoteContent = OutputData;
  * Note entity
  */
 export interface Note {
-
   /**
    * Note unique identifier visible to the user
    */
@@ -34,5 +33,4 @@ export interface Note {
    * Last time note was updated
    */
   updatedAt: string;
-
 }
