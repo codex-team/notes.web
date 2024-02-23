@@ -3,6 +3,7 @@ import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME } from './event-bus/events/AuthCompleted';
 import type { User } from './entities/User';
 import { AUTH_LOGOUT_EVENT_NAME } from './event-bus/events/AuthLogoutEvent';
+import type { AddedToolData, RemovedToolData } from './entities/EditorTool';
 
 /**
  * Business logic for User
@@ -49,8 +50,8 @@ export default class UserService {
    *
    * @param id - tool id
    */
-  public async addTool(id: string): Promise<void> {
-    await this.repository.addTool(id);
+  public async addTool(id: string): Promise<AddedToolData> {
+    return await this.repository.addTool(id);
   }
 
   /**
@@ -58,7 +59,7 @@ export default class UserService {
    *
    * @param id - tool id
    */
-  public async removeTool(id: string): Promise<void> {
-    await this.repository.removeTool(id);
+  public async removeTool(id: string): Promise<RemovedToolData> {
+    return await this.repository.removeTool(id);
   }
 }

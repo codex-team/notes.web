@@ -2,6 +2,7 @@ import type EditorTool from '@/domain/entities/EditorTool';
 import { type Ref, ref, onMounted, watch } from 'vue';
 import { marketplaceService } from '@/domain';
 import type { EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
+import { useAppState } from './useAppState';
 
 /**
  * Composable for the application state
@@ -15,29 +16,43 @@ interface UseMarketplaceComposable {
 
 /**
  * Application service for working with the Editor Tools
- *
- * @param userEditorTools - User editor tools list
  */
-export default function (userEditorTools: Ref<EditorTool[]>): UseMarketplaceComposable {
+export default function (): UseMarketplaceComposable {
   /**
-   *  All editor tools
+   *  List of tools with user binding
    */
-  const tools = ref<EditorToolWithUserBinding[]>([]);
+  const toolsWithUserBindings = ref<EditorToolWithUserBinding[]>([]);
+
+  /**
+   * User tools
+   */
+  const { userEditorTools } = useAppState();
+
+  /**
+   * List of all tools
+   */
+  const availableTools = ref<EditorTool[]>([]);
 
   /**
    * Get list of all tools
    */
   onMounted(async () => {
-    tools.value = await marketplaceService.getToolsWithUserBinding(userEditorTools.value);
+    availableTools.value = await marketplaceService.getAllTools();
+
+    toolsWithUserBindings.value = await marketplaceService.getToolsWithUserBindings(userEditorTools.value, availableTools.value);
   });
 
+  /**
+   * Check if user tools are changed
+   */
   watch(userEditorTools, async (newValue) => {
-    tools.value.forEach(element => {
-      element.isUserIncluded = newValue.some((userTool) => userTool.id === element.id);
-    });
+    /**
+     * Update list of tools with user binding
+     */
+    toolsWithUserBindings.value = await marketplaceService.getToolsWithUserBindings(newValue, availableTools.value);
   });
 
   return {
-    tools: tools,
+    tools: toolsWithUserBindings,
   };
 };

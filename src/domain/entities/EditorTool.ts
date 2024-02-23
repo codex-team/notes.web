@@ -46,6 +46,13 @@ export interface EditorToolWithUserBinding extends EditorTool {
   /**
    * Is tool included in user's editor settings
    */
-  isUserIncluded: boolean;
+  isInstalled: boolean;
 }
 
+export interface RemovedToolData {
+  removedId: EditorTool['id'];
+}
+
+export interface AddedToolData {
+  addedTool: EditorTool;
+}

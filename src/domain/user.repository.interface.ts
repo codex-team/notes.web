@@ -1,4 +1,5 @@
 import type EditorTool from './entities/EditorTool';
+import type { AddedToolData, RemovedToolData } from './entities/EditorTool';
 import type { User } from './entities/User';
 
 /**
@@ -34,12 +35,12 @@ export default interface UserRepositoryInterface {
    *
    * @param id - tool id
    */
-  addTool: (id: string) => Promise<void>;
+  addTool: (id: string) => Promise<AddedToolData>;
 
   /**
    * Removes a tool from the user (marketplace mock)
    *
    * @param id - tool id
    */
-  removeTool: (id: string) => Promise<void>;
+  removeTool: (id: string) => Promise<RemovedToolData>;
 }

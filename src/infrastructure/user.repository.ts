@@ -4,6 +4,7 @@ import type { UserStore, UserStoreData } from './storage/user';
 import type { User } from '@/domain/entities/User';
 import Repository from './repository';
 import type EditorTool from '@/domain/entities/EditorTool';
+import type { AddedToolData, RemovedToolData } from '@/domain/entities/EditorTool';
 
 /**
  * Facade for the user data
@@ -69,8 +70,8 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
    *
    * @param id - tool id
    */
-  public async addTool(id: string): Promise<void> {
-    await this.transport.post<{toolId: string}>('/user/editor-tools', {
+  public async addTool(id: string): Promise<AddedToolData> {
+    return await this.transport.post<AddedToolData>('/user/editor-tools', {
       toolId: id,
     });
   }
@@ -80,8 +81,8 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
    *
    * @param id - tool id
    */
-  public async removeTool(id: string): Promise<void> {
-    await this.transport.delete<{toolId: string}>('/user/editor-tools', {
+  public async removeTool(id: string): Promise<RemovedToolData> {
+    return await this.transport.delete<RemovedToolData>('/user/editor-tools', {
       toolId: id,
     });
   }
