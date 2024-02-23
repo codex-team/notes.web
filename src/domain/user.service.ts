@@ -48,7 +48,7 @@ export default class UserService {
   }
 
   /**
-   * Adds a tool to the user (marketplace mock)
+   * Adds a tool to the user
    *
    * @param id - tool id
    */
@@ -66,7 +66,7 @@ export default class UserService {
   }
 
   /**
-   * Deletes a tool from the user (marketplace mock)
+   * Deletes a tool from the user
    *
    * @param id - tool id
    */

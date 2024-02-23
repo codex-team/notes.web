@@ -9,7 +9,7 @@
       {{ tool.title }}
       <Button
         v-if="tool.isDefault === false"
-        :text="t('editorTools.delete')"
+        :text="t('userSettings.delete')"
         @click="userDeleteTool(tool.id)"
       />
     </li>
