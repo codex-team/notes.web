@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { type OutputData, type API } from '@editorjs/editorjs';
-import { useEditor } from '@/application/services/useEditor2';
+import { useEditor } from '@/application/services/useEditor';
 
 /**
  * Define the props for the component

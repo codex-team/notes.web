@@ -1,20 +1,25 @@
+import type { BlockTool } from '@editorjs/editorjs';
 import Editor, { type OutputData, type API } from '@editorjs/editorjs';
+// @ts-expect-error editor plugins have no types
 import Header from '@editorjs/header';
 import type { Ref } from 'vue';
 import { onBeforeUnmount, onMounted } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
+import { loadScript } from '@/infrastructure/utils/load-script';
 
 /**
- * Editor.js tool
+ * Downloaded tools data structure
  */
-type Tool = any;
+type DownloadedTools = Record<string, BlockTool>;
 
 /**
- * Editorjs params
+ * UseEditor composable params
  */
 interface UseEditorParams {
-  /** Host element id */
+  /**
+   * Host element id
+   */
   id: string;
 
   /**
@@ -33,21 +38,6 @@ interface UseEditorParams {
   onChange?: (api: API) => void;
 }
 
-/**
- * Add promise which is rejected after loading is complete
- *
- * @param src - source path to tool
- */
-function loadScript(src: string): Promise<Event> {
-  return new Promise(function (resolve, reject) {
-    const script = document.createElement('script');
-
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-}
 
 /**
  * Handles Editor.js instance creation
@@ -66,39 +56,24 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
   const { userEditorTools } = useAppState();
 
   /**
-   * Downloads tool code
-   *
-   * @param tool - tool - data
-   */
-  async function downloadTool(tool: EditorTool): Promise<[string, Tool] | undefined> {
-    if (tool.source.cdn === undefined) {
-      return;
-    }
-
-    await loadScript(tool.source.cdn);
-
-    return [tool.title, window[tool.exportName]];
-  }
-
-  /**
-   * Download all the user tools
+   * Download all the user tools and return a map to use in Editor.js constructor
    *
    * @param tools - tools data
    */
-  async function downloadTools(tools: Ref<EditorTool[]>): Promise<Record<string, Tool>> {
-    const toolsData = await Promise.all(tools.value.map(downloadTool));
+  async function downloadTools(tools: Ref<EditorTool[]>): Promise<DownloadedTools> {
+    const downloadedTools: DownloadedTools = {};
 
-    return toolsData.reduce((acc, curr) => {
-      if (curr === undefined) {
-        return acc;
+    for (const tool of tools.value) {
+      if (tool.source.cdn === undefined) {
+        continue;
       }
-      const name = curr[0];
-      const obj = curr[1];
 
-      acc[name] = obj;
+      await loadScript(tool.source.cdn);
 
-      return acc;
-    }, {});
+      downloadedTools[tool.name] = window[tool.exportName as keyof typeof window];
+    }
+
+    return downloadedTools;
   }
 
   /**
