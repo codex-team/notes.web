@@ -4,5 +4,14 @@
   "singleQuote": true,
   "singleAttributePerLine": true,
   "bracketSameLine": false,
-  "printWidth": 120
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": ["**/*.*rc"],
+      "options": {
+        "parser": "json",
+        "trailingComma": "none"
+      }
+    }
+  ]
 }
