@@ -95,6 +95,4 @@ if (!props.id) {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

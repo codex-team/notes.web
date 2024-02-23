@@ -104,7 +104,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const noteTitle = computed(() => {
     const firstNoteBlock = note.value?.content.blocks[0];
 
-    if (!firstNoteBlock || !(Boolean(firstNoteBlock.data.text))) {
+    if (!firstNoteBlock || !Boolean(firstNoteBlock.data.text)) {
       return 'Note';
     } else {
       return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
@@ -163,7 +163,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
-
     await noteService.updateNoteContent(currentId.value, content);
   }
 
@@ -214,4 +213,3 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     save,
   };
 }
-
