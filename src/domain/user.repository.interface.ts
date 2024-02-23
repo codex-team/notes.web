@@ -30,17 +30,32 @@ export default interface UserRepositoryInterface {
    * Returns array of editor tools
    */
   getUserEditorTools: () => EditorTool[];
+
   /**
    * Adds a tool to the user (marketplace mock)
    *
    * @param id - tool id
    */
-  addTool: (id: string) => Promise<AddedToolData>;
+  addTool: (id: string) => Promise<EditorTool>;
 
   /**
    * Removes a tool from the user (marketplace mock)
    *
    * @param id - tool id
    */
-  removeTool: (id: string) => Promise<RemovedToolData>;
+  removeTool: (id: string) => Promise<EditorTool['id']>;
+
+  /**
+   * Add tool to the store
+   *
+   * @param tool - tool to add
+   */
+  addToolToStore: (tool: EditorTool) => void;
+
+  /**
+   * Remove tool from the store
+   *
+   * @param id - tool id
+   */
+  removeToolFromStore: (id: EditorTool['id']) => void;
 }

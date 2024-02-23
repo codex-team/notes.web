@@ -48,23 +48,3 @@ export interface EditorToolWithUserBinding extends EditorTool {
    */
   isInstalled: boolean;
 }
-
-/**
- * Data which is returned when tool is removed
- */
-export interface RemovedToolData {
-  /**
-   * Removed tool identifier
-   */
-  removedId: EditorTool['id'];
-}
-
-/**
- * Data which is returned when tool is added
- */
-export interface AddedToolData {
-  /**
-   * Added tool
-   */
-  addedTool: EditorTool;
-}

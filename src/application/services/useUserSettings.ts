@@ -21,16 +21,13 @@ interface UseUserSettingsComposableState {
  */
 export function useUserSettings(): UseUserSettingsComposableState {
   const { userEditorTools } = useAppState();
-
   /**
    * Add tool to the user settings
    *
    * @param id - Tool identifier
    */
   async function addTool(id: string): Promise<void> {
-    const addedToolData = await userService.addTool(id);
-
-    userEditorTools.value = [...userEditorTools.value, addedToolData.addedTool];
+    await userService.addTool(id);
   }
 
   /**
@@ -39,9 +36,7 @@ export function useUserSettings(): UseUserSettingsComposableState {
    * @param id - Tool identifier
    */
   async function removeTool(id: string): Promise<void> {
-    const deletedToolData = await userService.removeTool(id);
-
-    userEditorTools.value = userEditorTools.value.filter((tool) => tool.id !== deletedToolData.removedId);
+    await userService.removeTool(id);
   }
 
   return {

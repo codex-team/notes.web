@@ -31,9 +31,10 @@ export default class MarketplaceService {
    * Returns list of all tools with user binding
    *
    * @param userTools - user tools
-   * @param availableTools - all available tools
    */
-  public getToolsWithUserBindings(userTools: EditorTool[], availableTools: EditorTool[]): EditorToolWithUserBinding[] {
+  public async getAllToolsWithUserBindings(userTools: EditorTool[]): Promise<EditorToolWithUserBinding[]> {
+    const availableTools = await this.repository.getToolsAvailable();
+
     return availableTools.map((tool) => {
       return {
         ...tool,

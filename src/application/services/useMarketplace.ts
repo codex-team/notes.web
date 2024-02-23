@@ -29,30 +29,12 @@ export default function (): UseMarketplaceComposable {
   const { userEditorTools } = useAppState();
 
   /**
-   * List of all tools
-   */
-  const availableTools = ref<EditorTool[]>([]);
-
-  /**
-   * Get list of all tools
-   */
-  onMounted(async () => {
-    availableTools.value = await marketplaceService.getAllTools();
-
-    toolsWithUserBindings.value = marketplaceService.getToolsWithUserBindings(
-      userEditorTools.value,
-      availableTools.value
-    );
-  });
-
-  /**
    * Check if user tools are changed
    */
   watch(userEditorTools, async (newValue) => {
-    /**
-     * Update list of tools with user binding
-     */
-    toolsWithUserBindings.value = marketplaceService.getToolsWithUserBindings(newValue, availableTools.value);
+    toolsWithUserBindings.value = await marketplaceService.getAllToolsWithUserBindings(newValue);
+  }, {
+    immediate: true,
   });
 
   return {
