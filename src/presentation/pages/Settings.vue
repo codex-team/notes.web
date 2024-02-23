@@ -67,7 +67,7 @@ async function userLogout() {
  *
  * @param toolId - id of the tool
  */
-async function userDeleteTool(toolId) {
+async function userDeleteTool(toolId: string) {
   await deleteTool(toolId);
 }
 </script>
