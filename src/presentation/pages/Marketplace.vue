@@ -28,11 +28,5 @@ const { tools } = useMarketplace();
 h1 {
     @apply --text-heading-1;
 }
-
-.marketplace__tool {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-very-x);
-}
 </style>
 
