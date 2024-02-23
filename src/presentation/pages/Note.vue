@@ -2,25 +2,37 @@
   <div v-if="note === null">
     Loading...
   </div>
-  <Editor
-    v-else
-    ref="editor"
-    :content="note.content"
-    :read-only="!canEdit"
-    @change="noteChanged"
-  />
+  <div v-else>
+    <div class="control__button">
+      <Button
+        class="header__plus"
+        text="createChildNote"
+        @click.passive="createChildNote"
+      />
+    </div>
+    <Editor
+      ref="editor"
+      :content="note.content"
+      :read-only="!canEdit"
+      @change="noteChanged"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { Button } from 'codex-ui/vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
+import { useRouter } from 'vue-router';
 import {  NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { watchEffect } from 'vue';
 
 const { t } = useI18n();
+
+const router = useRouter();
 
 const props = defineProps<{
   /**
@@ -56,8 +68,15 @@ function noteChanged(data: NoteContent): void {
 }
 
 /**
- * Changing the title in the browser
+ * Create new child note
  */
+function createChildNote(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/${props.id}/new`);
+}
+
 if (!props.id) {
   useHead({
     title: t('note.new'),
