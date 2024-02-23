@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
-      /* eslint-disable-next-line @typescript-eslint/naming-convention */
+        /* eslint-disable-next-line @typescript-eslint/naming-convention */
         '@/': '/src/',
       },
     },

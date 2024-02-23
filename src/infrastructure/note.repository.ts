@@ -61,9 +61,13 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
+   * @param parentId - Id of the parent note. If null, then it's a root note
    */
-  public async createNote(content: NoteContent): Promise<Note> {
-    const response = await this.transport.post<{ id: NoteId }>('/note', { content });
+  public async createNote(content: NoteContent, parentId: NoteId | null): Promise<Note> {
+    const response = await this.transport.post<{ id: NoteId }>('/note', {
+      content,
+      parentId,
+    });
 
     const note: Note = {
       id: response.id,

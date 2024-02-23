@@ -41,6 +41,14 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/note/:id/new',
+    component: Note,
+    props: (route) => ({
+      id: null,
+      parentId: String(route.params.id),
+    }),
+  },
+  {
     path: '/view/',
     component: Landing,
   },

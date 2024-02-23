@@ -14,4 +14,3 @@ app.use(router);
 app.use(i18n);
 app.use(hawk);
 app.mount('#app');
-
