@@ -7,6 +7,11 @@
   >
     <li>
       {{ tool.title }}
+      <Button
+        v-if="tool.isDefault === false"
+        :text="t('editorTools.delete')"
+        @click="userDeleteTool(tool.id)"
+      />
     </li>
   </ul>
   <ThemeButton />
@@ -31,6 +36,7 @@ import Button from '../components/button/Button.vue';
 import { IconUnlink } from '@codexteam/icons';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
+import useUserSettings from '@/application/services/useUserSettings';
 import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 import { useHead } from 'unhead';
@@ -39,6 +45,7 @@ const { userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
+const { deleteTool } = useUserSettings();
 
 /**
  * Changing the title in the browser
@@ -53,6 +60,15 @@ async function userLogout() {
   await logout().then(() => {
     router.push({ path: '/' });
   });
+}
+
+/**
+ * Deletes tool from the user
+ *
+ * @param toolId - id of the tool
+ */
+async function userDeleteTool(toolId) {
+  await deleteTool(toolId);
 }
 </script>
 

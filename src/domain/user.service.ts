@@ -64,4 +64,13 @@ export default class UserService {
   public async removeTool(id: string): Promise<void> {
     return await this.repository.removeTool(id);
   }
+
+  /**
+   * Deletes a tool from the user (marketplace mock)
+   *
+   * @param id - tool id
+   */
+  public deleteTool(id: string): void {
+    this.repository.deleteTool(id);
+  }
 }
