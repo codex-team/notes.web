@@ -27,6 +27,8 @@ const props = defineProps<{
    * Null for new note, id for reading existing note
    */
   id: string | null;
+
+  parentId: string | null;
 }>();
 
 const noteId = computed(() => props.id);
@@ -49,7 +51,7 @@ function noteChanged(data: NoteContent): void {
   const isEmpty = editor.value?.isEmpty();
 
   if (!isEmpty) {
-    save(data);
+    save(data, props.parentId);
   }
 }
 
