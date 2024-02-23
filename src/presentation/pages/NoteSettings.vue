@@ -4,7 +4,7 @@
     <TextEdit
       v-model:value="noteSettings.customHostname"
       :name="'customHostname'"
-      :title="'Custom Hostname'"
+      :title="t(noteSettings.customHostname)"
       :placeholder="'example: landing.codex.so'"
     />
     <Checkbox
@@ -15,7 +15,7 @@
     <TextEdit
       v-model:value="noteSettings.invitationHash"
       :name="'invitationHash'"
-      :title="'Invitation Hash'"
+      :title="t(noteSettings.invitationHash)"
       :placeholder="'It will generate a new invitation hash...'"
     />
     <div class="control__button">

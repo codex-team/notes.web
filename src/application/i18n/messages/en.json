@@ -16,7 +16,9 @@
     "userEditorTools": "User editor tools"
   },
   "noteSettings": {
-    "title": "Note Settings"
+    "title": "Note Settings",
+    "customHostname": "Custom Hostname",
+    "invitationHash": "Invitation Hash"
   },
   "note": {
     "new": "New Note"
