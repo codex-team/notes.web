@@ -12,6 +12,12 @@
       v-model:checked="noteSettings.isPublic"
       label="is note public"
     />
+    <TextEdit
+      v-model:value="noteSettings.invitationHash"
+      :name="'invitationHash'"
+      :title="'Invitation Hash'"
+      :placeholder="'It will generate a new invitation hash...'"
+    />
     <div class="control__button">
       <Button
         class="header__plus"
