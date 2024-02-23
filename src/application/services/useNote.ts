@@ -49,7 +49,7 @@ interface UseNoteComposableState {
   /**
    * Creates/updates the note
    */
-  save: (content: NoteContent) => Promise<void>;
+  save: (content: NoteContent, parentId: NoteId | null) => Promise<void>;
 
   /**
    * Load note by custom hostname
@@ -137,8 +137,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Saves the note
    *
    * @param content - Note content (Editor.js data)
+   * @param parentId - Id of the parent note. If null, then it's a root note
    */
-  async function save(content: NoteContent): Promise<void> {
+  async function save(content: NoteContent, parentId: NoteId | null): Promise<void> {
     if (note.value === null) {
       throw new Error('Note is not loaded yet');
     }
@@ -147,7 +148,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       /**
        * @todo try-catch domain errors
        */
-      const noteCreated = await noteService.createNote(content);
+      const noteCreated = await noteService.createNote(content, parentId);
 
       /**
        * Replace the current route with note id
