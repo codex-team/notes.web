@@ -31,6 +31,8 @@
   },
   "marketplace": {
     "title": "Marketplace",
-    "listOfTools": "Tools"
+    "listOfTools": "Tools",
+    "removeTool": "Remove tool",
+    "addTool": "Add tool"
   }
 }

@@ -49,7 +49,16 @@ export default class UserService {
    *
    * @param id - tool id
    */
-  public addTool(id: string): void {
-    this.repository.addTool(id);
+  public async addTool(id: string): Promise<void> {
+    await this.repository.addTool(id);
+  }
+
+  /**
+   * Removes a tool from the user
+   *
+   * @param id - tool id
+   */
+  public async removeTool(id: string): Promise<void> {
+    await this.repository.removeTool(id);
   }
 }

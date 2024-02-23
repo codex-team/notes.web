@@ -1,5 +1,6 @@
 import type MarketplaceRepository from '@/domain/marketplace.repository.interface';
 import type EditorTool  from './entities/EditorTool';
+import type { EditorToolWithUserBinding } from './entities/EditorTool';
 
 /**
  * Business logic working with Marketplace
@@ -26,5 +27,21 @@ export default class MarketplaceService {
    */
   public async getAllTools(): Promise<EditorTool[]> {
     return await this.repository.getToolsAvailable();
+  }
+
+  /**
+   * Returns list of all tools data with user binding
+   *
+   * @param userTools - list of user tools
+   */
+  public async getToolsWithUserBinding(userTools: EditorTool[]): Promise<EditorToolWithUserBinding[]> {
+    const allTools = await this.getAllTools();
+
+    return allTools.map((tool) => {
+      return {
+        ...tool,
+        isUserIncluded: userTools.some((userTool) => userTool.id === tool.id),
+      };
+    });
   }
 }

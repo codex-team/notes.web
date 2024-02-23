@@ -65,16 +65,25 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   }
 
   /**
-   * Adds a tool to the user (marketplace mock)
+   * Adds a tool to the user
    *
    * @param id - tool id
    */
   public async addTool(id: string): Promise<void> {
-    const response = await this.transport.post<{toolId: string}>('/user/editor-tools', {
+    await this.transport.post<{toolId: string}>('/user/editor-tools', {
       toolId: id,
     });
+  }
 
-    console.log('Add tool response', response);
+  /**
+   * Removes a tool from the user
+   *
+   * @param id - tool id
+   */
+  public async removeTool(id: string): Promise<void> {
+    await this.transport.delete<{toolId: string}>('/user/editor-tools', {
+      toolId: id,
+    });
   }
 }
 

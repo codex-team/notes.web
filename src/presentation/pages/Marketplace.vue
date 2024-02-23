@@ -7,16 +7,40 @@
       :key="tool.id"
     >
       <li>
-        {{ tool.title }}
+        <div class="marketplace__tool">
+          {{ tool.title }}
+          <Button
+            v-if="tool.isUserIncluded && !tool.isDefault"
+            :disabled="tool.isDefault"
+            :text="t('marketplace.removeTool')"
+            @click="removeTool(tool.id)"
+          />
+          <Button
+            v-if="!tool.isDefault && !tool.isUserIncluded"
+            :text="t('marketplace.addTool')"
+            type="transparent"
+            @click="addTool(tool.id)"
+          />
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useAppState } from '@/application/services/useAppState';
 import useMarketplace  from '@/application/services/useMarketplace';
+import Button from '../components/button/Button.vue';
+import { useUserSettings } from '@/application/services/useUserSettings';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const { addTool, removeTool } = useUserSettings();
 
-const { tools } = useMarketplace();
+const { userEditorTools } = useAppState();
+
+const { tools } = useMarketplace(userEditorTools);
+
+
 </script>
 
 <style setup lang = "postcss" scoped>
@@ -24,6 +48,12 @@ const { tools } = useMarketplace();
 
 h1 {
     @apply --text-heading-1;
+}
+
+.marketplace__tool {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-very-x);
 }
 </style>
 
