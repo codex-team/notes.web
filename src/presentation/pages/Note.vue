@@ -77,6 +77,9 @@ function createChildNote(): void {
   router.push(`/${props.id}/new`);
 }
 
+/**
+ * Changing the title in the browser
+ */
 if (!props.id) {
   useHead({
     title: t('note.new'),
