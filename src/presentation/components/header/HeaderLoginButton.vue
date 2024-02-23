@@ -24,6 +24,4 @@ function showLoginPopup() {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -40,9 +40,7 @@ import { Button, Input, Heading } from 'codex-ui/vue';
 ```
 
 ```vue
-<Heading
-  :level="2"
->
+<Heading :level="2">
   CodeX UI showcase
 </Heading>
 <Button text="Button text" />
@@ -68,7 +66,3 @@ Add the following "path" to the "tsconfig.json"
 
 1. Import `codex-ui/styles` somewhere in App
 2. Use variable in CSS, e.g `var(--ui-color)`
-
-
-
-

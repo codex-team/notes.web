@@ -38,7 +38,6 @@ interface UseEditorParams {
   onChange?: (api: API) => void;
 }
 
-
 /**
  * Handles Editor.js instance creation
  *

@@ -18,7 +18,10 @@ export default class AuthRepository implements AuthRepositoryInterface {
    * @param authStorage - stores refresh token
    * @param notesApiTransport - notes api transport instance
    */
-  constructor(private readonly authStorage: AuthStorage, notesApiTransport: NotesApiTransport) {
+  constructor(
+    private readonly authStorage: AuthStorage,
+    notesApiTransport: NotesApiTransport
+  ) {
     this.transport = notesApiTransport;
   }
 
@@ -33,11 +36,15 @@ export default class AuthRepository implements AuthRepositoryInterface {
    * Get new session by refresh token
    */
   public async restoreSession(): Promise<AuthSession> {
-    return this.transport.post<AuthSession>('/auth', {
-      token: this.authStorage.getRefreshToken(),
-    }, {
-      skipAuthCheck: true,
-    });
+    return this.transport.post<AuthSession>(
+      '/auth',
+      {
+        token: this.authStorage.getRefreshToken(),
+      },
+      {
+        skipAuthCheck: true,
+      }
+    );
   }
 
   /**

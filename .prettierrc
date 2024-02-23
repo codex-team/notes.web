@@ -1,9 +1,8 @@
 {
-  "editorconfig": true,
   "trailingComma": "es5",
   "semi": true,
   "singleQuote": true,
   "singleAttributePerLine": true,
-  "bracketSameLine": true,
+  "bracketSameLine": false,
   "printWidth": 120
 }

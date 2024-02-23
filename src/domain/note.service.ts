@@ -27,7 +27,7 @@ export default class NoteService {
    * @throws NotFoundError
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - note data and accessRights data
    */
-  public async getNoteById(id: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
+  public async getNoteById(id: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     return await this.noteRepository.getNoteById(id);
   }
 
@@ -37,7 +37,7 @@ export default class NoteService {
    * @param hostname - Custom hostname linked with a note
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - note data and accessRights data
    */
-  public async getNoteByHostname(hostname: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
+  public async getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     return await this.noteRepository.getNoteByHostname(hostname);
   }
 

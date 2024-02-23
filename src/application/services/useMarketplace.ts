@@ -9,7 +9,7 @@ interface UseMarketplaceComposable {
   /**
    * All editor tools that are used in notes creation
    */
-  tools: Ref<EditorTool[]>
+  tools: Ref<EditorTool[]>;
 }
 
 /**
@@ -27,7 +27,6 @@ export default function (): UseMarketplaceComposable {
   onMounted(async () => {
     tools.value = await marketplaceService.getAllTools();
   });
-
 
   return {
     tools: tools,

@@ -8,7 +8,7 @@
       :src="user.photo"
       alt="User avatar"
       referrerpolicy="no-referrer"
-    >
+    />
   </RouterLink>
 </template>
 
@@ -18,7 +18,6 @@ import type { User } from '@/domain/entities/User';
 defineProps<{
   user: User;
 }>();
-
 </script>
 
 <style>
