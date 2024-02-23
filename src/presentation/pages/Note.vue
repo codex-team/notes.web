@@ -1,7 +1,5 @@
 <template>
-  <div v-if="note === null">
-    Loading...
-  </div>
+  <div v-if="note === null">Loading...</div>
   <div v-else>
     <div class="control__button">
       <Button
@@ -25,7 +23,7 @@ import { Button } from 'codex-ui/vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
-import {  NoteContent } from '@/domain/entities/Note';
+import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { watchEffect } from 'vue';
@@ -40,6 +38,9 @@ const props = defineProps<{
    */
   id: string | null;
 
+  /**
+   * Parent note id, null for root note
+   */
   parentId: string | null;
 }>();
 
