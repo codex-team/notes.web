@@ -11,7 +11,7 @@ interface UseMarketplaceComposable {
   /**
    * Get list of all tools with user binding
    */
-  tools: Ref<EditorToolWithUserBinding[]>
+  tools: Ref<EditorToolWithUserBinding[]>;
 }
 
 /**
@@ -39,7 +39,10 @@ export default function (): UseMarketplaceComposable {
   onMounted(async () => {
     availableTools.value = await marketplaceService.getAllTools();
 
-    toolsWithUserBindings.value = marketplaceService.getToolsWithUserBindings(userEditorTools.value, availableTools.value);
+    toolsWithUserBindings.value = marketplaceService.getToolsWithUserBindings(
+      userEditorTools.value,
+      availableTools.value
+    );
   });
 
   /**
@@ -55,4 +58,4 @@ export default function (): UseMarketplaceComposable {
   return {
     tools: toolsWithUserBindings,
   };
-};
+}

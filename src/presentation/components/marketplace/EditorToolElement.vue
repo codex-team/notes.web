@@ -29,7 +29,7 @@ const { addTool, removeTool } = useUserSettings();
 const { t } = useI18n();
 
 const props = defineProps<{
-  tool: EditorToolWithUserBinding
+  tool: EditorToolWithUserBinding;
 }>();
 
 const canBeUninstalled = computed(() => !props.tool.isDefault && props.tool.isInstalled);
@@ -37,9 +37,9 @@ const canBeInstalled = computed(() => !props.tool.isDefault && !props.tool.isIns
 </script>
 
 <style scoped lang="postcss">
-  .marketplace__tool {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-very-x);
-  }
+.marketplace__tool {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-very-x);
+}
 </style>

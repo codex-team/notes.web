@@ -1,6 +1,6 @@
 import type MarketplaceRepository from '@/domain/marketplace.repository.interface';
-import type EditorTool  from './entities/EditorTool';
-import { EditorToolWithUserBinding } from './entities/EditorTool';
+import type EditorTool from './entities/EditorTool';
+import type { EditorToolWithUserBinding } from './entities/EditorTool';
 
 /**
  * Business logic working with Marketplace
@@ -14,9 +14,7 @@ export default class MarketplaceService {
   /**
    * Service constructor
    *
-   * @param eventBus - Common domain event bus
    * @param marketplaceRepository - repository instance
-   * @param marketplaceRepositoryRepository
    */
   constructor(marketplaceRepository: MarketplaceRepository) {
     this.repository = marketplaceRepository;

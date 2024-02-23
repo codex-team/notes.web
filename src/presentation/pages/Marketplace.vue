@@ -6,20 +6,16 @@
       v-for="tool in tools"
       :key="tool.id"
     >
-      <EditorToolElement
-        :tool="tool"
-      />
+      <EditorToolElement :tool="tool" />
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import useMarketplace  from '@/application/services/useMarketplace';
+import useMarketplace from '@/application/services/useMarketplace';
 import EditorToolElement from '../components/marketplace/EditorToolElement.vue';
 
 const { tools } = useMarketplace();
-
-
 </script>
 
 <style setup lang="postcss" scoped>

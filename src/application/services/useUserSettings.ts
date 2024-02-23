@@ -1,6 +1,5 @@
 import { userService } from '@/domain';
 import { useAppState } from './useAppState';
-import EditorTool from '@/domain/entities/EditorTool';
 
 /**
  * User settings hook state
@@ -9,12 +8,12 @@ interface UseUserSettingsComposableState {
   /**
    * Add tool to the user settings
    */
-  addTool(id: string): Promise<void>
+  addTool(id: string): Promise<void>;
 
   /**
    * Remove tool from the user settings
    */
-  removeTool(id: string): Promise<void>
+  removeTool(id: string): Promise<void>;
 }
 
 /**
