@@ -20,7 +20,10 @@ export default class UserService {
    * @param eventBus - Common domain event bus
    * @param userRepository - repository instance
    */
-  constructor(private readonly eventBus: EventBus, userRepository: UserRepository) {
+  constructor(
+    private readonly eventBus: EventBus,
+    userRepository: UserRepository
+  ) {
     this.repository = userRepository;
 
     /**

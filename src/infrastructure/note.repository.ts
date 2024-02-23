@@ -37,7 +37,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @throws NotFoundError
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
-  public async getNoteById(id: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
+  public async getNoteById(id: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     /**
      * Get note data from API
      */
@@ -50,7 +50,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param hostname - Custom hostname linked with one Note
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
-  public async getNoteByHostname(hostname: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
+  public async getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     /**
      * Get note data from API
      */
@@ -63,7 +63,9 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param content - Note content (Editor.js data)
    */
   public async createNote(content: NoteContent): Promise<Note> {
-    const response = await this.transport.post<{ id: NoteId }>('/note', { content });
+    const response = await this.transport.post<{ id: NoteId }>('/note', {
+      content,
+    });
 
     const note: Note = {
       id: response.id,
@@ -71,7 +73,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
     };
 
     return note;
-  };
+  }
 
   /**
    * Updates a content of existing note

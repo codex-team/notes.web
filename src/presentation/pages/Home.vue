@@ -1,13 +1,9 @@
 <template>
   <div :class="$style.page">
     <h1>{{ $t('home.title') }}</h1>
-    <p>This page will contain your Notes you recently worked with </p>
+    <p>This page will contain your Notes you recently worked with</p>
 
-    <Heading
-      :level="2"
-    >
-      CodeX UI showcase
-    </Heading>
+    <Heading :level="2"> CodeX UI showcase </Heading>
     <Button text="Button text" />
     <Input text="Input text" />
   </div>
@@ -40,5 +36,4 @@ h2 {
 p {
   @apply --text-body;
 }
-
 </style>

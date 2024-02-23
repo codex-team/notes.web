@@ -35,7 +35,7 @@ export default class MarketplaceService {
    * @param userTools - user tools
    * @param availableTools - all available tools
    */
-  public getToolsWithUserBindings(userTools: EditorTool[], availableTools: EditorTool[]): Promise<EditorToolWithUserBinding[]> {
+  public getToolsWithUserBindings(userTools: EditorTool[], availableTools: EditorTool[]): EditorToolWithUserBinding[] {
     return availableTools.map((tool) => {
       return {
         ...tool,

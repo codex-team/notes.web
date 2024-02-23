@@ -63,9 +63,8 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
    * @param newValue - new value of changed property
    */
   private onDataChange(prop: keyof StoreData, newValue: StoreData[typeof prop]): void {
-    this.subscribers
-      .forEach((callback) => {
-        callback(prop, newValue);
-      });
+    this.subscribers.forEach((callback) => {
+      callback(prop, newValue);
+    });
   }
 }

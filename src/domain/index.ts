@@ -36,14 +36,8 @@ const marketplaceService = new MarketplaceService(repositories.marketplace);
  */
 export const AppStateController = {
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  user: (callback: Parameters<typeof repositories.user.setStoreChangeCallback>[0]) => repositories.user.setStoreChangeCallback(callback),
+  user: (callback: Parameters<typeof repositories.user.setStoreChangeCallback>[0]) =>
+    repositories.user.setStoreChangeCallback(callback),
 };
 
-export {
-  noteService,
-  noteSettingsService,
-  authService,
-  userService,
-  marketplaceService
-};
-
+export { noteService, noteSettingsService, authService, userService, marketplaceService };

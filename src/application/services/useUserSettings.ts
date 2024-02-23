@@ -17,7 +17,6 @@ interface UseUserSettingsComposableState {
   removeTool(id: string): Promise<void>
 }
 
-
 /**
  * Methods for working with user settings
  */

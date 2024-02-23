@@ -39,7 +39,7 @@ export default function (): UseMarketplaceComposable {
   onMounted(async () => {
     availableTools.value = await marketplaceService.getAllTools();
 
-    toolsWithUserBindings.value = await marketplaceService.getToolsWithUserBindings(userEditorTools.value, availableTools.value);
+    toolsWithUserBindings.value = marketplaceService.getToolsWithUserBindings(userEditorTools.value, availableTools.value);
   });
 
   /**
@@ -49,7 +49,7 @@ export default function (): UseMarketplaceComposable {
     /**
      * Update list of tools with user binding
      */
-    toolsWithUserBindings.value = await marketplaceService.getToolsWithUserBindings(newValue, availableTools.value);
+    toolsWithUserBindings.value = marketplaceService.getToolsWithUserBindings(newValue, availableTools.value);
   });
 
   return {

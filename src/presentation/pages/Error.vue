@@ -15,20 +15,23 @@ import { useI18n } from 'vue-i18n';
 
 const { t, te } = useI18n();
 
-const props = withDefaults(defineProps<{
-  /**
-   * Visible error code
-   */
-  code?: number;
+const props = withDefaults(
+  defineProps<{
+    /**
+     * Visible error code
+     */
+    code?: number;
 
-  /**
-   * Error message to override default one got by code
-   */
-  customMessage?: string;
-}>(), {
-  code: 500,
-  customMessage: '',
-});
+    /**
+     * Error message to override default one got by code
+     */
+    customMessage?: string;
+  }>(),
+  {
+    code: 500,
+    customMessage: '',
+  }
+);
 
 const message = computed(() => {
   if (props.customMessage) {
@@ -41,7 +44,6 @@ const message = computed(() => {
 
   return t('errors.default');
 });
-
 </script>
 
 <style lang="postcss" module>
@@ -63,5 +65,4 @@ const message = computed(() => {
   margin-right: var(--spacing-ms);
   line-height: 110%;
 }
-
 </style>

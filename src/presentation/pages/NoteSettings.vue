@@ -22,9 +22,7 @@
       />
     </div>
   </div>
-  <div v-else>
-    Loading...
-  </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script lang="ts" setup>
@@ -43,7 +41,7 @@ const props = defineProps<{
   /**
    * Id of the current note
    */
-   id: NoteId;
+  id: NoteId;
 }>();
 
 const { load, noteSettings, update } = useNoteSettings();
