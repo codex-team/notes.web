@@ -21,7 +21,8 @@
     "hostnamePlaceholder": "example: landing.codex.so",
     "invitationHash": "Invitation Hash",
     "invitationHashPlaceholder": "It will generate a new invitation hash...",
-    "isPublic": "is note public"
+    "isPublic": "is note public",
+    "teamUsers": "Team users"
   },
   "note": {
     "new": "New Note"

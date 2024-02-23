@@ -26,6 +26,12 @@
         @click.passive="onClick"
       />
     </div>
+    <Button
+      class="team"
+      :text="t('noteSettings.teamUsers')"
+      link="/:notePublicId/team"
+      type="primary"
+    />
   </div>
   <div v-else>
     Loading...
