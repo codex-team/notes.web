@@ -1,6 +1,5 @@
 import type NoteRepository from '@/domain/note.repository.interface';
 import type { Note, NoteContent } from '@/domain/entities/Note';
-import { useEventBus } from '@vueuse/core';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 
 /**
