@@ -74,7 +74,7 @@ function createChildNote(): void {
   if (props.id === null) {
     throw new Error('Note is Empty');
   }
-  router.push(`/${props.id}/new`);
+  router.push(`/note/${props.id}/new`);
 }
 
 /**

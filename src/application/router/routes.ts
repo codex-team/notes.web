@@ -42,7 +42,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     name: 'test',
-    path: '/:id/new',
+    path: '/note/:id/new',
     component: Note,
     props: route => ({
       id: null,
