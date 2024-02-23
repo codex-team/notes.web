@@ -2,27 +2,57 @@
   <div class="note">
     <div class="note-header">
       <h1 class="note-title">
-        {{ props.note.content.blocks[0]?.data.text.substring(0,36) }}
+        {{ noteTitle }}
       </h1>
       <p class="note-date">
         {{ new Date(props.note.createdAt).toLocaleDateString() }}
       </p>
     </div>
     <p class="note-sub">
-      {{ props.note.content.blocks[1]?.data.text.substring(0,96) }}
+      {{ noteSubTitle }}
     </p>
   </div>
 </template>
 
 <script  setup lang="ts">
 import { Note } from '@/domain/entities/Note.ts';
+import { computed } from 'vue';
 
 /**
  * NoteView component props
  */
 const props = defineProps<{
     note: Note}>();
-console.log(props.note);
+
+const limitCharsForNoteTitle = 50;
+const limitCharsForNoteSubTitle = 96;
+
+const noteTitle = computed(() => {
+  const firstNoteBlock = props.note.content.blocks[0];
+
+  if (!firstNoteBlock || !(Boolean(firstNoteBlock.data.text))) {
+    return 'Note';
+  } else {
+    return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+  }
+});
+
+const noteSubTitle = computed(() => {
+  const secondNoteBlock = props.note.content.blocks[1];
+
+  if (secondNoteBlock) {
+    switch (secondNoteBlock.type) {
+      case 'header':
+        return secondNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+      case 'paragraph':
+        return secondNoteBlock.data.text.slice(0, limitCharsForNoteSubTitle);
+      default:
+        return '';
+    }
+  } else {
+    return '';
+  }
+});
 </script>
 
 <style>
