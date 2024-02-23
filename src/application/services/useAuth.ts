@@ -40,11 +40,7 @@ export default function useAuth(): UseOAuthComposableState {
     const left = (window.screen.width - popupWidth) / 2;
     const top = (window.screen.height - popupHeight) / 2;
 
-    window.open(
-      loginUrl,
-      'oauth',
-      `popup=true, width=600, height=400, left=${left}, top=${top}`
-    );
+    window.open(loginUrl, 'oauth', `popup=true, width=600, height=400, left=${left}, top=${top}`);
 
     if (callbackId !== null) {
       off(callbackId);
@@ -70,4 +66,3 @@ export default function useAuth(): UseOAuthComposableState {
     logout,
   };
 }
-

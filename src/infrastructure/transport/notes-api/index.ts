@@ -29,7 +29,7 @@ export default class NotesApiTransport extends AuthorizableTransport {
        * @param payload - Response JSON payload
        */
       errorFormatter(status, payload) {
-        const { message, code } = (payload as ApiErrorResponse);
+        const { message, code } = payload as ApiErrorResponse;
 
         let errorText = '';
 

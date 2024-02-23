@@ -15,7 +15,7 @@
       :name="name"
       :placeholder="placeholder"
       @input="onChange"
-    >
+    />
     <slot />
   </div>
 </template>
@@ -30,27 +30,26 @@ defineProps<{
   /**
    * Value of the field
    */
-   value: string;
+  value: string;
 
   /**
    * Variable Name
    */
   name: string;
 
-   /**
-    * Placeholder value
-    */
-   placeholder?: string;
+  /**
+   * Placeholder value
+   */
+  placeholder?: string;
 }>();
 
-const emit = defineEmits([ 'update:value' ]);
+const emit = defineEmits(['update:value']);
 
 const onChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
 
   emit('update:value', target.value);
 };
-
 </script>
 
 <style lang="postcss">
@@ -77,5 +76,4 @@ const onChange = (event: Event) => {
     border-radius: var(--spacing-xxs);
   }
 }
-
 </style>

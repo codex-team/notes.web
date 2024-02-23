@@ -3,7 +3,7 @@
     "strict": true,
     "types": ["vite/client"],
     "target": "ES2020",
-    "baseUrl": "./src" ,
+    "baseUrl": "./src",
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -24,8 +24,8 @@
       "@/domain": ["domain"],
       "@/application/*": ["application/*"],
       "@/application": ["application"],
-      "codex-ui/vue": ["../codex-ui/dist/types/vue/index.d.ts"],
+      "codex-ui/vue": ["../codex-ui/dist/types/vue/index.d.ts"]
     }
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", "vite.config.ts"]
 }

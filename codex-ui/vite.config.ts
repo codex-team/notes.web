@@ -37,7 +37,7 @@ export default defineConfig({
           vue: 'Vue',
         },
       },
-       // make sure to externalize deps that shouldn't be bundled
+      // make sure to externalize deps that shouldn't be bundled
       // into your library
       external: ['vue'],
     },
@@ -47,4 +47,4 @@ export default defineConfig({
       '@/': '/src/',
     },
   },
-})
+});
