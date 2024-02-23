@@ -40,7 +40,7 @@ export default function (): ShallowRef<Component> {
       } else {
         layout.value = layouts.default;
       }
-    },
+    }
   );
 
   return layout;

@@ -21,7 +21,7 @@ export default class AuthService {
    */
   constructor(
     private readonly eventBus: EventBus,
-    authRepository: AuthRepository,
+    authRepository: AuthRepository
   ) {
     this.repository = authRepository;
 
@@ -58,7 +58,7 @@ export default class AuthService {
       new AuthCompletedEvent({
         accessToken,
         refreshToken,
-      }),
+      })
     );
   }
 

@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.vue",
     "lint:fix": "yarn lint --fix",
-    "watch-ts": "vue-tsc --noEmit --watch"
+    "watch-ts": "vue-tsc --noEmit --watch",
+    "format": "prettier --write --cache ."
   },
   "private": true,
   "workspaces": [

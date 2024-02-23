@@ -2,3 +2,4 @@ dist
 yarn.lock
 .eslintrc
 .architecture.eslintrc
+.nvmrc
