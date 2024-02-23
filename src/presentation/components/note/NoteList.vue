@@ -24,8 +24,6 @@ import useNoteList from '@/application/services/useNoteList';
 const router = useRouter();
 const { noteList } = useNoteList();
 
-console.log(noteList);
-
 </script>
 
 <style scoped lang="postcss">
