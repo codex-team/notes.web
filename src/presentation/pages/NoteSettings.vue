@@ -3,19 +3,19 @@
   <div v-if="noteSettings">
     <TextEdit
       v-model:value="noteSettings.customHostname"
-      :name="'customHostname'"
-      :title="t(noteSettings.customHostname)"
-      :placeholder="'example: landing.codex.so'"
+      name="customHostname"
+      :title="t('noteSettings.customHostname')"
+      :placeholder="t('noteSettings.hostnamePlaceholder')"
     />
     <Checkbox
       v-model:checked="noteSettings.isPublic"
-      label="is note public"
+      :label="t('noteSettings.isPublic')"
     />
     <TextEdit
       v-model:value="noteSettings.invitationHash"
-      :name="'invitationHash'"
-      :title="t(noteSettings.invitationHash)"
-      :placeholder="'It will generate a new invitation hash...'"
+      name="invitationHash"
+      :title="t('noteSettings.invitationHash')"
+      :placeholder="t('noteSettings.invitationHashPlaceholder')"
     />
     <div class="control__button">
       <Button

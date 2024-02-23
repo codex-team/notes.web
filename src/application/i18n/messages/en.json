@@ -18,7 +18,10 @@
   "noteSettings": {
     "title": "Note Settings",
     "customHostname": "Custom Hostname",
-    "invitationHash": "Invitation Hash"
+    "hostnamePlaceholder": "example: landing.codex.so",
+    "invitationHash": "Invitation Hash",
+    "invitationHashPlaceholder": "It will generate a new invitation hash...",
+    "isPublic": "is note public"
   },
   "note": {
     "new": "New Note"
