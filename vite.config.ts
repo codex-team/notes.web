@@ -12,10 +12,9 @@ export default defineConfig(({ mode }) => {
         token: env.VITE_HAWK_TOKEN,
       }),
     ],
-    build: {},
     resolve: {
       alias: {
-        /* eslint-disable-next-line @typescript-eslint/naming-convention */
+      /* eslint-disable-next-line @typescript-eslint/naming-convention */
         '@/': '/src/',
       },
     },

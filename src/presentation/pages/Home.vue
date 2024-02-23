@@ -1,13 +1,18 @@
 <template>
-  <div>
+  <div :class="$style.page">
     <h1>{{ $t('home.title') }}</h1>
-    <p>This page will contain your Notes you recently worked with </p>
+    <p>This page will contain your Notes you recently worked with</p>
+
+    <Heading :level="2"> CodeX UI showcase </Heading>
+    <Button text="Button text" />
+    <Input text="Input text" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { Button, Input, Heading } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -19,15 +24,16 @@ useHead({
 });
 </script>
 
-<style lang="postcss" scoped>
-@import '@/presentation/styles/typography.pcss';
+<style lang="postcss" module>
+.page {
+  background-color: var(--ui-color);
+}
 
-h1 {
-  @apply --text-heading-1;
+h2 {
+  @apply --text-heading-2;
 }
 
 p {
   @apply --text-body;
 }
-
 </style>

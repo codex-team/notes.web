@@ -33,7 +33,7 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
     const response = await this.transport.get<User>('/user/myself');
 
     this.store.setUser(response);
-  };
+  }
 
   /**
    * Load user data and put it to the storage
@@ -70,11 +70,10 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
    * @param id - tool id
    */
   public async addTool(id: string): Promise<void> {
-    const response = await this.transport.post<{toolId: string}>('/user/editor-tools', {
+    const response = await this.transport.post<{ toolId: string }>('/user/editor-tools', {
       toolId: id,
     });
 
     console.log('Add tool response', response);
   }
 }
-

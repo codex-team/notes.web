@@ -1,7 +1,5 @@
 <template>
-  <div v-if="note === null">
-    Loading...
-  </div>
+  <div v-if="note === null">Loading...</div>
   <Editor
     v-else
     ref="editor"
@@ -15,7 +13,7 @@
 import { computed, ref } from 'vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
-import {  NoteContent } from '@/domain/entities/Note';
+import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { watchEffect } from 'vue';
@@ -71,6 +69,4 @@ if (!props.id) {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -7,7 +7,7 @@
       :disabled="disabled"
       class="checkbox"
       @input="onClick"
-    >
+    />
     <label :for="id">{{ label }}</label>
   </div>
 </template>
@@ -40,12 +40,11 @@ const props = defineProps<{
   placeholder?: string;
 }>();
 
-const emit = defineEmits([ 'update:checked' ]);
+const emit = defineEmits(['update:checked']);
 
 const onClick = () => {
   emit('update:checked', !props.checked);
 };
-
 </script>
 
 <style lang="postcss">

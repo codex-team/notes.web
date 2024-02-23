@@ -37,5 +37,4 @@ h1 {
 p {
   @apply --text-body;
 }
-
 </style>
