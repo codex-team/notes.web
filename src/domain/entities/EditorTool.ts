@@ -39,6 +39,9 @@ export default interface EditorTool {
   }
 }
 
+/**
+ * Editor tool with user binding
+ */
 export interface EditorToolWithUserBinding extends EditorTool {
   /**
    * Is tool included in user's editor settings
