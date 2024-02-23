@@ -1,5 +1,4 @@
 import { userService } from '@/domain';
-import { useAppState } from './useAppState';
 
 /**
  * User settings hook state
@@ -20,7 +19,6 @@ interface UseUserSettingsComposableState {
  * Methods for working with user settings
  */
 export function useUserSettings(): UseUserSettingsComposableState {
-  const { userEditorTools } = useAppState();
   /**
    * Add tool to the user settings
    *

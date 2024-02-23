@@ -1,5 +1,4 @@
 import type EditorTool from './entities/EditorTool';
-import type { AddedToolData, RemovedToolData } from './entities/EditorTool';
 import type { User } from './entities/User';
 
 /**
