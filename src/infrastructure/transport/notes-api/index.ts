@@ -5,7 +5,6 @@ import AuthorizableTransport from '@/infrastructure/transport/authorizable.trans
 import type JSONValue from '../types/JSONValue';
 import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
 import NotFoundError from '@/domain/entities/errors/NotFound';
-import ForbiddenError from '@/domain/entities/errors/Forbidden';
 
 /**
  * Additional params that could be specified for request to NoteX API
@@ -50,9 +49,8 @@ export default class NotesApiTransport extends AuthorizableTransport {
          */
         switch (status) {
           case 401:
-            return new UnauthorizedError(errorText);
           case 403:
-            return new ForbiddenError(errorText);
+            return new UnauthorizedError(errorText);
           case 404:
             return new NotFoundError(errorText);
           default:
