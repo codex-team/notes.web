@@ -16,7 +16,7 @@ interface UseMarketplaceComposable {
 /**
  * Application service for working with the Editor Tools
  *
- * @param userEditorTools - User editor tools that are used in notes creation
+ * @param userEditorTools - User editor tools list
  */
 export default function (userEditorTools: Ref<EditorTool[]>): UseMarketplaceComposable {
   /**
