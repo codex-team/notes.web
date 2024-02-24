@@ -1,4 +1,5 @@
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type { NoteList } from './entities/NoteList';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 
 /**
@@ -21,6 +22,13 @@ export default interface NoteRepositoryInterface {
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
   getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }>;
+
+  /**
+   * Returns a list of notes
+   *
+   * @param page - number of pages
+   */
+  getNoteList(page: number): Promise<NoteList>;
 
   /**
    * Creates a new note

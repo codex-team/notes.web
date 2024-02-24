@@ -2,7 +2,6 @@ import type NoteSettingsRepositoryInterface from '@/domain/noteSettings.reposito
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { NoteId } from '@/domain/entities/Note';
-import type { GetNoteSettingsResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteSettingsResponsePayload';
 
 /**
  * Note settings repository
@@ -29,7 +28,7 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
    * @returns { NoteSettings } - NoteSettings instance
    */
   public async getNoteSettingsById(id: NoteId): Promise<NoteSettings> {
-    return await this.transport.get<GetNoteSettingsResponsePayload>('/note-settings/' + id);
+    return await this.transport.get<NoteSettings>('/note-settings/' + id);
   }
 
   /**

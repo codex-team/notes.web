@@ -1,20 +1,23 @@
 <template>
   <div :class="$style.page">
     <h1>{{ $t('home.title') }}</h1>
-    <p>This page will contain your Notes you recently worked with</p>
+    <div v-if="user">
+      <NoteList />
+    </div>
 
-    <Heading :level="2"> CodeX UI showcase </Heading>
-    <div :class="$style.button">Test</div>
-    <Button text="Button text" />
-    <Input text="Input text" />
+    <div v-else>
+      <p>{{ $t('home.authText') }}</p>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { Button, Input, Heading } from 'codex-ui/vue';
+import { useAppState } from '@/application/services/useAppState';
+import NoteList from '@/presentation/components/note-list/NoteList.vue';
 
+const { user } = useAppState();
 const { t } = useI18n();
 
 /**
@@ -26,9 +29,7 @@ useHead({
 </script>
 
 <style lang="postcss" module>
-.page {
-  background-color: var(--base--bg-primary);
-}
+@import '@/presentation/styles/typography.pcss';
 
 h2 {
   @apply --text-heading-2;

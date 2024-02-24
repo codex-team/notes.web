@@ -23,4 +23,18 @@ export interface Note {
    * Note content
    */
   content: NoteContent;
+
+  /**
+   * When note was created
+   *
+   * @todo Resolve the optionality issue
+   */
+  createdAt?: string;
+
+  /**
+   * Last time note was updated
+   *
+   * @todo Resolve the optionality issue
+   */
+  updatedAt?: string;
 }
