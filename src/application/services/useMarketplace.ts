@@ -27,7 +27,7 @@ export default function (): UseMarketplaceComposable {
    * @param tools - list of all tools
    * @param userTools - list of user tools
    */
-  const getToolsWthUserBindings = (tools: EditorTool[], userTools: EditorTool[]): EditorToolWithUserBinding[] => {
+  const getToolsWithUserBindings = (tools: EditorTool[], userTools: EditorTool[]): EditorToolWithUserBinding[] => {
     return tools.map((tool) => {
       return {
         ...tool,
