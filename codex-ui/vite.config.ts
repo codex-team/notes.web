@@ -47,4 +47,7 @@ export default defineConfig({
       '@/': '/src/',
     },
   },
+  server: {
+    open: '/dev/index.html',
+  },
 });

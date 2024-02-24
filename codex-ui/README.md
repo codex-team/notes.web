@@ -10,7 +10,7 @@
 - [ ] Make tree-shaking work
 - [ ] Prepare hooks/composables example
 - [ ] Fix Eslint
-- [ ] Improve DX for components debug
+- [x] Improve DX for components debug
 - [ ] Test Web/React/Native implementations
 - [ ] Think about i18n
 
