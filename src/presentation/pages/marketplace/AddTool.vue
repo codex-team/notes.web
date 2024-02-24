@@ -4,29 +4,29 @@
     <TextEdit
       v-model:value="toolName"
       name="toolName"
-      :title="$t('newTool.name.label')"
-      :placeholder="$t('newTool.name.placeholder')"
+      :title="$t('marketplace.newTool.name.label')"
+      :placeholder="$t('marketplace.newTool.name.placeholder')"
     />
     <TextEdit
       v-model:value="toolCdn"
       name="toolCdn"
-      :title="$t('newTool.cdn.label')"
-      :placeholder="$t('newTool.cdn.placeholder')"
+      :title="$t('marketplace.newTool.cdn.label')"
+      :placeholder="$t('marketplace.newTool.cdn.placeholder')"
     />
     <TextEdit
       v-model:value="toolTitle"
       name="toolTitle"
-      :title="$t('newTool.title.label')"
-      :placeholder="$t('newTool.title.placeholder')"
+      :title="$t('marketplace.newTool.title.label')"
+      :placeholder="$t('marketplace.newTool.title.placeholder')"
     />
     <TextEdit
       v-model:value="toolExport"
       name="toolExport"
-      :title="$t('newTool.exportName.label')"
-      :placeholder="$t('newTool.exportName.placeholder')"
+      :title="$t('marketplace.newTool.exportName.label')"
+      :placeholder="$t('marketplace.newTool.exportName.placeholder')"
     />
     <Button
-      :text="$t('newTool.add')"
+      :text="$t('marketplace.newTool.add')"
       type="primary"
       :icon="IconPlus"
       @click.passive="onClick"
@@ -37,8 +37,8 @@
 <script setup lang="ts">
 import { IconPlus } from '@codexteam/icons';
 import useMarketplace from '@/application/services/useMarketplace';
-import TextEdit from '../components/form/TextEdit.vue';
-import Button from '../components/button/Button.vue';
+import TextEdit from '@/presentation/components/form/TextEdit.vue';
+import Button from '@/presentation/components/button/Button.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 

@@ -1,6 +1,6 @@
 import type MarketplaceRepository from '@/domain/marketplace.repository.interface';
 import type EditorTool from './entities/EditorTool';
-import type { AddNewTool } from './entities/EditorTool';
+import type { NewToolData } from './entities/EditorTool';
 
 /**
  * Business logic working with Marketplace
@@ -32,7 +32,7 @@ export default class MarketplaceService {
    *
    * @param tool - tool data
    */
-  public async addTool(tool: AddNewTool): Promise<EditorTool> {
+  public async addTool(tool: NewToolData): Promise<EditorTool> {
     return await this.repository.addTool(tool);
   }
 }

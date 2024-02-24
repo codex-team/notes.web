@@ -49,25 +49,25 @@
     "listOfTools": "Tools",
     "uninstallTool": "Uninstall",
     "installTool": "Install",
-    "addTool": "Add Tool"
-  },
-  "newTool": {
-    "title": {
-      "placeholder": "Enter tool title",
-      "label": "Title"
-    },
-    "name": {
-      "placeholder": "Enter tool name",
-      "label": "Name"
-    },
-    "exportName": {
-      "placeholder": "Enter tool export name",
-      "label": "Export Name"
-    },
-    "cdn": {
-      "placeholder": "Enter tool CDN link",
-      "label": "CDN"
-    },
-    "add": "Add"
+    "addTool": "Add Tool",
+    "newTool": {
+      "title": {
+        "placeholder": "Enter tool title",
+        "label": "Title"
+      },
+      "name": {
+        "placeholder": "Enter tool name",
+        "label": "Name"
+      },
+      "exportName": {
+        "placeholder": "Enter tool export name",
+        "label": "Export Name"
+      },
+      "cdn": {
+        "placeholder": "Enter tool CDN link",
+        "label": "CDN"
+      },
+      "add": "Add"
+    }
   }
 }

@@ -1,5 +1,5 @@
 import type EditorTool from './entities/EditorTool';
-import type { AddNewTool } from './entities/EditorTool';
+import type { NewToolData } from './entities/EditorTool';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -15,5 +15,5 @@ export default interface MarketplaceRepositoryInterface {
    *
    * @param tool - tool data
    */
-  addTool: (tool: AddNewTool) => Promise<EditorTool>;
+  addTool: (tool: NewToolData) => Promise<EditorTool>;
 }
