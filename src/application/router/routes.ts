@@ -71,7 +71,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     name: 'newTool',
-    path: `/marketplace/newTool`,
+    path: `/marketplace/add`,
     component: AddTool,
   },
   /**
