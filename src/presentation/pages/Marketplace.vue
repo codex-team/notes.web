@@ -8,7 +8,10 @@
     >
       <EditorToolElement :tool="tool" />
     </ul>
-    <Button link="/marketplace/newTool">Add tool</Button>
+    <Button
+      link="/marketplace/newTool"
+      :text="$t('marketplace.addTool')"
+    ></Button>
   </div>
 </template>
 
