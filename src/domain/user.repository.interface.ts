@@ -43,18 +43,4 @@ export default interface UserRepositoryInterface {
    * @param id - tool id
    */
   removeTool: (id: string) => Promise<EditorTool['id']>;
-
-  /**
-   * Add tool to the store
-   *
-   * @param tool - tool to add
-   */
-  addToolToStore: (tool: EditorTool) => void;
-
-  /**
-   * Remove tool from the store
-   *
-   * @param id - tool id
-   */
-  removeToolFromStore: (id: EditorTool['id']) => void;
 }
