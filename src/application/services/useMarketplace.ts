@@ -12,6 +12,13 @@ interface UseMarketplaceComposable {
    * List of tools with information, if they are installed by the user
    */
   tools: Ref<EditorToolWithUserBinding[]>;
+
+  /**
+   * Add new tool to the marketplace
+   *
+   * @param tool - tool data
+   */
+  addTool: (tool: Omit<EditorTool, 'userId' | 'id'>) => Promise<void>;
 }
 
 /**
@@ -59,7 +66,17 @@ export default function (): UseMarketplaceComposable {
     }
   );
 
+  /**
+   * Add new tool to the marketplace
+   *
+   * @param tool - tool data
+   */
+  const addTool = async (tool: Omit<EditorTool, 'userId' | 'id'>): Promise<void> => {
+    await marketplaceService.addTool(tool);
+  };
+
   return {
     tools: toolsWithUserBindings,
+    addTool,
   };
 }

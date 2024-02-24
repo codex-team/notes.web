@@ -8,12 +8,14 @@
     >
       <EditorToolElement :tool="tool" />
     </ul>
+    <Button link="/marketplace/newTool">Add tool</Button>
   </div>
 </template>
 
 <script setup lang="ts">
 import useMarketplace from '@/application/services/useMarketplace';
 import EditorToolElement from '../components/marketplace/EditorToolElement.vue';
+import Button from '../components/button/Button.vue';
 
 const { tools } = useMarketplace();
 </script>

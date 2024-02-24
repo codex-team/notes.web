@@ -8,4 +8,11 @@ export default interface MarketplaceRepositoryInterface {
    * Returns array of editor tools
    */
   getToolsAvailable: () => Promise<EditorTool[]>;
+
+  /**
+   * Add new tool to the marketplace
+   *
+   * @param tool - tool data
+   */
+  addTool: (tool: Omit<EditorTool, 'userId' | 'id'>) => Promise<EditorTool>;
 }

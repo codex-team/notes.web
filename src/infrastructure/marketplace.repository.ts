@@ -31,4 +31,15 @@ export default class MarketplaceRepository implements MarketplaceRepositoryInter
 
     return response.data;
   }
+
+  /**
+   * Add new tool to the marketplace
+   *
+   * @param tool - tool data
+   */
+  public async addTool(tool: Omit<EditorTool, 'userId' | 'id'>): Promise<EditorTool> {
+    const res = await this.transport.post<{ data: EditorTool }>('/editor-tools/add-tool', tool);
+
+    return res.data;
+  }
 }

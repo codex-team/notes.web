@@ -25,4 +25,13 @@ export default class MarketplaceService {
   public async getAllTools(): Promise<EditorTool[]> {
     return await this.repository.getToolsAvailable();
   }
+
+  /**
+   * Add new tool to the marketplace
+   *
+   * @param tool - tool data
+   */
+  public async addTool(tool: Omit<EditorTool, 'userId' | 'id'>): Promise<EditorTool> {
+    return await this.repository.addTool(tool);
+  }
 }

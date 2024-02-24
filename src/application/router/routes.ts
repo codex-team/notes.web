@@ -6,6 +6,7 @@ import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
 import Marketplace from '@/presentation/pages/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
+import AddTool from '@/presentation/pages/AddTool.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -67,6 +68,11 @@ const routes: RouteRecordRaw[] = [
   {
     path: `/marketplace`,
     component: Marketplace,
+  },
+  {
+    name: 'newTool',
+    path: `/marketplace/newTool`,
+    component: AddTool,
   },
   /**
    * 404 page
