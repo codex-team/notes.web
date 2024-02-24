@@ -24,7 +24,6 @@ export default defineConfig({
       formats: ['es'],
     },
     cssCodeSplit: false,
-
     rollupOptions: {
       input: {
         styles: resolve(__dirname, 'src/styles/index.pcss'),
