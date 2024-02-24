@@ -5,7 +5,7 @@
         {{ noteTitle }}
       </h1>
       <p class="note-date">
-        {{ new Date(String(props.note.createdAt)).toLocaleDateString() }}
+        {{ noteCreatedDate }}
       </p>
     </div>
     <p class="note-sub">
@@ -19,15 +19,21 @@ import { Note } from '@/domain/entities/Note.ts';
 import { computed } from 'vue';
 
 /**
- * NoteView component props
+ * NoteListItem props, receive Note
  */
 const props = defineProps<{
   note: Note;
 }>();
 
+/**
+ * Variables limiting the number of characters in the title and subtitle
+ */
 const limitCharsForNoteTitle = 50;
 const limitCharsForNoteSubTitle = 96;
 
+/**
+ * Get the title from Note
+ */
 const noteTitle = computed(() => {
   const firstNoteBlock = props.note.content.blocks[0];
 
@@ -38,6 +44,9 @@ const noteTitle = computed(() => {
   }
 });
 
+/**
+ * Get the subtitle depending on the type of block from Note
+ */
 const noteSubTitle = computed(() => {
   const secondNoteBlock = props.note.content.blocks[1];
 
@@ -53,11 +62,15 @@ const noteSubTitle = computed(() => {
     return '';
   }
 });
+/**
+ * Get the creation date of the Note
+ */
+const noteCreatedDate = new Date(String(props.note.createdAt)).toLocaleDateString();
 </script>
 
 <style>
 .note {
-  margin: 20px 0px;
+  margin: 20px 0;
   padding-bottom: 20px;
   border-bottom: 1px solid #4b4b4b;
   cursor: pointer;
