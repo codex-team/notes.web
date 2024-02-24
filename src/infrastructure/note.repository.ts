@@ -59,12 +59,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
   }
 
   /**
-   * Gets note list by creator id
+   * Gets note list
    *
-   * @param userId - note creator id
    * @param page - number of pages to get
    */
-  public async getNoteListByCreatorId(page: number): Promise<NoteList> {
+  public async getNoteList(page: number): Promise<NoteList> {
     return await this.transport.get<NoteList>(`/notes`, { page });
   }
 

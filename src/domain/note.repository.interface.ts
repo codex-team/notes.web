@@ -24,12 +24,11 @@ export default interface NoteRepositoryInterface {
   getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }>;
 
   /**
-   * Returns a list of notes by creator id
+   * Returns a list of notes
    *
-   * @param userId - user id
    * @param page - number of pages
    */
-  getNoteListByCreatorId(page: number): Promise<NoteList>;
+  getNoteList(page: number): Promise<NoteList>;
 
   /**
    * Creates a new note

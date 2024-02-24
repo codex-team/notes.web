@@ -17,13 +17,12 @@ export default class NoteListService {
   }
 
   /**
-   * Returns note list by creator id
+   * Returns note list
    *
-   * @param userId - user id
    * @param page - number of current pages
    * @returns { Promise<NoteList> } list of notes
    */
-  public async getNoteListByCreatorId(page: number): Promise<NoteList> {
-    return await this.repository.getNoteListByCreatorId(page);
+  public async getNoteList(page: number): Promise<NoteList> {
+    return await this.repository.getNoteList(page);
   }
 }

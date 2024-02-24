@@ -2,7 +2,6 @@ import type { NoteList } from '@/domain/entities/NoteList';
 import { noteListService } from '@/domain/index';
 import type { Ref } from 'vue';
 import { onMounted, ref } from 'vue';
-import { useAppState } from './useAppState';
 
 /**
  * Note list hook state
@@ -46,17 +45,7 @@ export default function (): UseNoteListComposableState {
    * @param page - number of pages
    */
   const load = async (page: number): Promise<void> => {
-    /**
-     * Get user id
-     */
-    const user = useAppState().user.value;
-
-    /**
-     * If user is logged in, load note list
-     */
-    if (user) {
-      noteList.value = await noteListService.getNoteListByCreatorId(page);
-    }
+    noteList.value = await noteListService.getNoteList(page);
   };
 
   /**
