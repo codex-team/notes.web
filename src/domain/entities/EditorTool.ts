@@ -53,3 +53,8 @@ export interface EditorToolWithUserBinding extends EditorTool {
    */
   isInstalled: boolean;
 }
+
+/**
+ * Add new tool to the marketplace
+ */
+export type AddNewTool = Omit<EditorTool, 'userId' | 'id'>;

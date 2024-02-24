@@ -1,6 +1,7 @@
 import type MarketplaceRepositoryInterface from '@/domain/marketplace.repository.interface';
 import type NotesApiTransport from './transport/notes-api';
 import type EditorTool from '@/domain/entities/EditorTool';
+import type { AddNewTool } from '@/domain/entities/EditorTool';
 
 /**
  * Facade for the marketplace data
@@ -37,7 +38,7 @@ export default class MarketplaceRepository implements MarketplaceRepositoryInter
    *
    * @param tool - tool data
    */
-  public async addTool(tool: Omit<EditorTool, 'userId' | 'id'>): Promise<EditorTool> {
+  public async addTool(tool: AddNewTool): Promise<EditorTool> {
     const res = await this.transport.post<{ data: EditorTool }>('/editor-tools/add-tool', tool);
 
     return res.data;

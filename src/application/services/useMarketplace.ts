@@ -1,6 +1,6 @@
 import { type Ref, ref, watch, onMounted } from 'vue';
 import { marketplaceService } from '@/domain';
-import type { EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
+import type { AddNewTool, EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 
@@ -71,7 +71,7 @@ export default function (): UseMarketplaceComposable {
    *
    * @param tool - tool data
    */
-  const addTool = async (tool: Omit<EditorTool, 'userId' | 'id'>): Promise<void> => {
+  const addTool = async (tool: AddNewTool): Promise<void> => {
     await marketplaceService.addTool(tool);
   };
 
