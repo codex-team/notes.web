@@ -1,9 +1,9 @@
-version: "3.2"
+version: '3.2'
 services:
   web:
     build:
       dockerfile: Dockerfile
       context: .
     ports:
-      - "127.0.0.1:3000:80"
+      - '127.0.0.1:3000:80'
     restart: unless-stopped

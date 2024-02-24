@@ -38,7 +38,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @throws NotFoundError
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
-  public async getNoteById(id: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
+  public async getNoteById(id: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     /**
      * Get note data from API
      */
@@ -51,7 +51,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param hostname - Custom hostname linked with one Note
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
-  public async getNoteByHostname(hostname: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
+  public async getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     /**
      * Get note data from API
      */
@@ -59,34 +59,24 @@ export default class NoteRepository implements NoteRepositoryInterface {
   }
 
   /**
-   * Gets note list by creator id
-   *
-   * @param userId - note creator id
-   * @param page - number of pages to get
-   */
-  public async getNoteListByCreatorId(userId: number, page: number): Promise<NoteList> {
-    return await this.transport.get<NoteList>(`/notes`, { userId,
-      page });
-  }
-
-  /**
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
+   * @param parentId - Id of the parent note. If null, then it's a root note
    */
-  public async createNote(content: NoteContent): Promise<Note> {
-    const response = await this.transport.post<{ id: NoteId, createdAt: string, updatedAt: string  }>('/note', { content });
+  public async createNote(content: NoteContent, parentId: NoteId | null): Promise<Note> {
+    const response = await this.transport.post<{ id: NoteId }>('/note', {
+      content,
+      parentId,
+    });
 
     const note: Note = {
       id: response.id,
       content,
-      createdAt: response.createdAt,
-      updatedAt: response.updatedAt,
-
     };
 
     return note;
-  };
+  }
 
   /**
    * Updates a content of existing note

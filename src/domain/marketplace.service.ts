@@ -1,5 +1,5 @@
 import type MarketplaceRepository from '@/domain/marketplace.repository.interface';
-import type EditorTool  from './entities/EditorTool';
+import type EditorTool from './entities/EditorTool';
 
 /**
  * Business logic working with Marketplace

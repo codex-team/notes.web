@@ -1,7 +1,7 @@
 <template>
   <component
-   :is="`h${props.level}`"
-   :class="$style.heading"
+    :is="`h${props.level}`"
+    :class="$style.heading"
   >
     <slot />
   </component>

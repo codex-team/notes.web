@@ -5,6 +5,6 @@ import type NoteAccessRights from '@/domain/entities/NoteAccessRights.ts';
  * Get note response payload
  */
 export type GetNoteResponsePayload = {
-  note: Note,
-  accessRights: NoteAccessRights
+  note: Note;
+  accessRights: NoteAccessRights;
 };

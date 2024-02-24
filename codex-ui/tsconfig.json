@@ -3,7 +3,7 @@
     "strict": true,
     "types": ["vite/client"],
     "target": "ES2020",
-    "baseUrl": "src" ,
+    "baseUrl": "src",
     "useDefineForClassFields": true,
     "module": "NodeNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -16,8 +16,7 @@
     "allowJs": true,
     "declaration": true,
     "declarationDir": "./dist/types",
-    "paths": {
-    },
+    "paths": {}
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", "vite.config.ts"]
 }

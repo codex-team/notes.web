@@ -3,14 +3,19 @@
   <div v-if="noteSettings">
     <TextEdit
       v-model:value="noteSettings.customHostname"
-      :name="'customHostname'"
-      :title="'Custom Hostname'"
-      :placeholder="'example: landing.codex.so'"
+      name="customHostname"
+      :title="t('noteSettings.customHostname')"
+      :placeholder="t('noteSettings.hostnamePlaceholder')"
     />
     <Checkbox
-      :id="noteSettings.id.toString()"
       v-model:checked="noteSettings.isPublic"
-      label="is note public"
+      :label="t('noteSettings.isPublic')"
+    />
+    <TextEdit
+      v-model:value="noteSettings.invitationHash"
+      name="invitationHash"
+      :title="t('noteSettings.invitationHash')"
+      :placeholder="t('noteSettings.invitationHashPlaceholder')"
     />
     <div class="control__button">
       <Button
@@ -22,9 +27,7 @@
       />
     </div>
   </div>
-  <div v-else>
-    Loading...
-  </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script lang="ts" setup>
@@ -43,7 +46,7 @@ const props = defineProps<{
   /**
    * Id of the current note
    */
-   id: NoteId;
+  id: NoteId;
 }>();
 
 const { load, noteSettings, update } = useNoteSettings();

@@ -16,7 +16,12 @@
     "userEditorTools": "User editor tools"
   },
   "noteSettings": {
-    "title": "Note Settings"
+    "title": "Note Settings",
+    "customHostname": "Custom Hostname",
+    "hostnamePlaceholder": "example: landing.codex.so",
+    "invitationHash": "Invitation Hash",
+    "invitationHashPlaceholder": "It will generate a new invitation hash...",
+    "isPublic": "is note public"
   },
   "note": {
     "new": "New Note"
