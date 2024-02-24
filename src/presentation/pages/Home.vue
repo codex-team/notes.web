@@ -4,6 +4,7 @@
     <p>This page will contain your Notes you recently worked with</p>
 
     <Heading :level="2"> CodeX UI showcase </Heading>
+    <div :class="$style.button">Test</div>
     <Button text="Button text" />
     <Input text="Input text" />
   </div>
@@ -26,7 +27,7 @@ useHead({
 
 <style lang="postcss" module>
 .page {
-  background-color: var(--ui-color);
+  background-color: var(--base--bg-primary);
 }
 
 h2 {
