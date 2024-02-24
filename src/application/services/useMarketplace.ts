@@ -71,7 +71,7 @@ export default function (): UseMarketplaceComposable {
    *
    * @param tool - tool data
    */
-  const addTool = async (tool: AddNewTool): Promise<void> => {
+  const addTool = async (tool: NewToolData): Promise<void> => {
     await marketplaceService.addTool(tool);
   };
 
