@@ -1,6 +1,6 @@
 import { type Ref, ref, watch, onMounted } from 'vue';
 import { marketplaceService } from '@/domain';
-import type { AddNewTool, EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
+import type { NewToolData, EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 
@@ -18,7 +18,7 @@ interface UseMarketplaceComposable {
    *
    * @param tool - tool data
    */
-  addTool: (tool: AddNewTool) => Promise<void>;
+  addTool: (tool: NewToolData) => Promise<void>;
 }
 
 /**
