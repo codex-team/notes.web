@@ -59,10 +59,23 @@ export default class NoteRepository implements NoteRepositoryInterface {
   }
 
   /**
+   * Gets note list by creator id
+   *
+   * @param userId - note creator id
+   * @param page - number of pages to get
+   */
+  public async getNoteListByCreatorId(userId: number, page: number): Promise<NoteList> {
+    return await this.transport.get<NoteList>(`/notes`, { userId,
+      page });
+  }
+
+  /**
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
+   *
+   * @TODO API should return note
    */
   public async createNote(content: NoteContent, parentId: NoteId | null): Promise<Note> {
     const response = await this.transport.post<{ id: NoteId }>('/note', {
