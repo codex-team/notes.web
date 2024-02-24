@@ -6,7 +6,7 @@ import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
 import Marketplace from '@/presentation/pages/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
-import AddTool from '@/presentation/pages/AddTool.vue';
+import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
