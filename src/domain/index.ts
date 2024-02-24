@@ -42,11 +42,4 @@ export const AppStateController = {
     repositories.user.setStoreChangeCallback(callback),
 };
 
-export {
-  noteService,
-  noteListService,
-  noteSettingsService,
-  authService,
-  userService,
-  marketplaceService
-};
+export { noteService, noteListService, noteSettingsService, authService, userService, marketplaceService };

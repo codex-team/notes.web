@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script  setup lang="ts">
+<script setup lang="ts">
 import { Note } from '@/domain/entities/Note.ts';
 import { computed } from 'vue';
 

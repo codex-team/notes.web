@@ -26,6 +26,4 @@ const router = useRouter();
 const { noteList, loadMoreNotes } = useNoteList();
 </script>
 
-<style scoped lang="postcss">
-
-</style>
+<style scoped lang="postcss"></style>

@@ -11,14 +11,14 @@ interface UseNoteListComposableState {
   /**
    * NoteList ref
    */
-  noteList: Ref<NoteList| null>;
+  noteList: Ref<NoteList | null>;
 
   /**
    * Get Note List
    *
    * @param page - number of pages
    */
-  load: (page: number) => Promise<void>
+  load: (page: number) => Promise<void>;
 
   /**
    * Load more notes

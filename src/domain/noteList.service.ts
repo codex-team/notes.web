@@ -26,4 +26,4 @@ export default class NoteListService {
   public async getNoteListByCreatorId(userId: number, page: number): Promise<NoteList> {
     return await this.repository.getNoteListByCreatorId(userId, page);
   }
-};
+}
