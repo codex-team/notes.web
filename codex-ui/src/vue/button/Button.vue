@@ -19,7 +19,13 @@ const props = defineProps<{
 
 <style lang="postcss" module>
 .button {
-  border: 1px solid green;
-  background-color: blue;
+  background-color: var(--base--solid);
+  border: 0;
+  outline: 0;
+  color: var(--classic--text-solid-foreground);
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
 }
 </style>

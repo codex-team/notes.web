@@ -1,9 +1,6 @@
 <template>
   <div>
-    <input
-      :class="$style.input"
-      :value="props.text"
-    />
+    <input class="input" :value="props.text" />
   </div>
 </template>
 
@@ -18,8 +15,15 @@ const props = defineProps<{
 }>();
 </script>
 
-<style lang="postcss" module>
+<style lang="postcss">
 .input {
-  background-color: red;
+  background-color: var(--base--bg-secondary);
+  border: 0;
+  outline: 0;
+  color: var(--base--text);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: inherit;
+  font-family: inherit;
 }
 </style>

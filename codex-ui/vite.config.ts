@@ -24,6 +24,7 @@ export default defineConfig({
       formats: ['es'],
     },
     cssCodeSplit: false,
+
     rollupOptions: {
       input: {
         styles: resolve(__dirname, 'src/styles/index.pcss'),
@@ -46,5 +47,8 @@ export default defineConfig({
     alias: {
       '@/': '/src/',
     },
+  },
+  server: {
+    open: '/dev/index.html',
   },
 });

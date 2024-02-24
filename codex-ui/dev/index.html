@@ -1,0 +1,26 @@
+<body
+  theme-base="classic"
+  theme-accent="classic"
+>
+  <link
+    rel="stylesheet"
+    href="../src/styles/index.pcss"
+  />
+  <div id="app"></div>
+  <script type="module">
+    import { createApp, ref, h } from 'vue';
+    import Playground from './Playground.vue';
+
+    createApp({
+      render() {
+        return h(Playground);
+      },
+    }).mount('#app');
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</body>
