@@ -18,7 +18,7 @@ interface UseMarketplaceComposable {
    *
    * @param tool - tool data
    */
-  addTool: (tool: Omit<EditorTool, 'userId' | 'id'>) => Promise<void>;
+  addTool: (tool: AddNewTool) => Promise<void>;
 }
 
 /**
