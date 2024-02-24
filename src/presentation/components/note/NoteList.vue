@@ -9,6 +9,9 @@
         @click="router.push('/note/'+note.publicId)"
       />
     </div>
+    <button @click="loadMoreNotes">
+      Load more notes
+    </button>
   </div>
 
   <div v-else>
@@ -22,7 +25,7 @@ import { useRouter } from 'vue-router';
 import useNoteList from '@/application/services/useNoteList';
 
 const router = useRouter();
-const { noteList } = useNoteList();
+const { noteList, loadMoreNotes } = useNoteList();
 
 </script>
 

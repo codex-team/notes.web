@@ -19,6 +19,11 @@ interface UseNoteListComposableState {
    * @param page - number of pages
    */
   load: (page: number) => Promise<void>
+
+  /**
+   * Load more notes
+   */
+  loadMoreNotes: () => Promise<void>;
 }
 
 /**
@@ -29,6 +34,11 @@ export default function (): UseNoteListComposableState {
    * NoteList ref
    */
   const noteList = ref<NoteList | null>(null);
+
+  /**
+   * Current page
+   */
+  let currentPage = 1;
 
   /**
    * Get note list
@@ -44,10 +54,18 @@ export default function (): UseNoteListComposableState {
     /**
      * If user is logged in, load note list
      */
-
     if (user) {
+
       noteList.value = await noteListService.getNoteListByCreatorId(user.id, page);
     }
+  };
+
+  /**
+   * Load more notes
+   */
+  const loadMoreNotes = async (): Promise<void> => {
+    currentPage += 1;
+    await load(currentPage);
   };
 
   onMounted(async () => {
@@ -61,5 +79,6 @@ export default function (): UseNoteListComposableState {
   return {
     noteList,
     load,
+    loadMoreNotes,
   };
 }
