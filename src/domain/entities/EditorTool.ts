@@ -55,6 +55,6 @@ export interface EditorToolWithUserBinding extends EditorTool {
 }
 
 /**
- * Add new tool to the marketplace
+ * Tool creation attributes
  */
 export type NewToolData = Omit<EditorTool, 'userId' | 'id'>;
