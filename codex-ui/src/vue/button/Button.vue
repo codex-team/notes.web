@@ -22,7 +22,7 @@ const props = defineProps<{
   background-color: var(--base--solid);
   border: 0;
   outline: 0;
-  color: var(--classic--text-solid-foreground);
+  color: var(--base--text-solid-foreground);
   padding: 8px 12px;
   font-size: 14px;
   font-weight: 500;
