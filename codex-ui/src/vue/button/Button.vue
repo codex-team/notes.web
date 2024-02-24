@@ -23,9 +23,9 @@ const props = defineProps<{
   border: 0;
   outline: 0;
   color: var(--base--text-solid-foreground);
-  padding: 8px 12px;
+  padding: var(--spacing-s) var(--spacing-mm);
   font-size: 14px;
   font-weight: 500;
-  border-radius: 8px;
+  border-radius: var(--radius-m);
 }
 </style>

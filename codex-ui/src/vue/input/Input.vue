@@ -21,7 +21,7 @@ const props = defineProps<{
   border: 0;
   outline: 0;
   color: var(--base--text);
-  padding: 12px 16px;
+  padding: var(--spacing-mm) var(--spacing-ml);
   border-radius: 12px;
   font-size: inherit;
   font-family: inherit;
