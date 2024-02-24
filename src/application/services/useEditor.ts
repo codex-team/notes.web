@@ -2,11 +2,12 @@ import type { BlockTool } from '@editorjs/editorjs';
 import Editor, { type OutputData, type API } from '@editorjs/editorjs';
 // @ts-expect-error editor plugins have no types
 import Header from '@editorjs/header';
-import type { Ref } from 'vue';
-import { onBeforeUnmount, onMounted } from 'vue';
+import { Ref, ref, shallowRef } from 'vue';
+import { onBeforeUnmount, onMounted, reactive } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { loadScript } from '@/infrastructure/utils/load-script';
+import { createSharedComposable } from '@vueuse/core';
 
 /**
  * Downloaded tools data structure
@@ -43,11 +44,16 @@ interface UseEditorParams {
  *
  * @param params - Editor.js params
  */
-export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams): void {
+export const useEditor = createSharedComposable(({ id, content, isReadOnly, onChange }: UseEditorParams): void => {
   /**
    * Editor instance
    */
   let editor: Editor | undefined;
+
+  /**
+   * Downloaded tools data
+   */
+  const downloadedTools = shallowRef<DownloadedTools>({})
 
   /**
    * User notes tools
@@ -55,24 +61,25 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
   const { userEditorTools } = useAppState();
 
   /**
-   * Download all the user tools and return a map to use in Editor.js constructor
+   * Download all the user tools and stores them in a map to use in Editor.js constructor
    *
    * @param tools - tools data
    */
-  async function downloadTools(tools: Ref<EditorTool[]>): Promise<DownloadedTools> {
-    const downloadedTools: DownloadedTools = {};
+  async function downloadTools(tools: Ref<EditorTool[]>): Promise<void> {
 
     for (const tool of tools.value) {
       if (tool.source.cdn === undefined) {
         continue;
       }
 
+      if (tool.name in downloadedTools.value) {
+        continue;
+      }
+
       await loadScript(tool.source.cdn);
 
-      downloadedTools[tool.name] = window[tool.exportName as keyof typeof window];
+      downloadedTools.value[tool.name] = window[tool.exportName as keyof typeof window]
     }
-
-    return downloadedTools;
   }
 
   /**
@@ -80,14 +87,14 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
    */
   async function mountEditor(): Promise<void> {
     try {
-      const tools = await downloadTools(userEditorTools);
+      await downloadTools(userEditorTools);
 
       editor = new Editor({
         holder: id,
         data: content,
         tools: {
           header: Header,
-          ...tools,
+          ...downloadedTools.value,
         },
         onChange,
         readOnly: isReadOnly,
@@ -110,4 +117,4 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
     editor?.destroy();
     editor = undefined;
   });
-}
+})
