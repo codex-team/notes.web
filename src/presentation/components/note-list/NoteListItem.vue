@@ -17,6 +17,9 @@
 <script setup lang="ts">
 import { Note } from '@/domain/entities/Note.ts';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 /**
  * NoteListItem props, receive Note
@@ -38,7 +41,7 @@ const noteTitle = computed(() => {
   const firstNoteBlock = props.note.content.blocks[0];
 
   if (!firstNoteBlock || firstNoteBlock.data.text === undefined) {
-    return 'Untitled';
+    return t('noteList.noteListItem.untitled');
   } else {
     return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
   }

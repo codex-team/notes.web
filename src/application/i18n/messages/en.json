@@ -30,7 +30,10 @@
     "buttons": {
       "loadMoreNotes": "Load more notes"
     },
-    "emptyNoteList": "No Notes yet. Make your first note"
+    "emptyNoteList": "No Notes yet. Make your first note",
+    "noteListItem": {
+      "untitled": "Untitled"
+    }
   },
   "home": {
     "title": "Recent Notes",
