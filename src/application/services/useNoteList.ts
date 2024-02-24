@@ -55,7 +55,6 @@ export default function (): UseNoteListComposableState {
      * If user is logged in, load note list
      */
     if (user) {
-
       noteList.value = await noteListService.getNoteListByCreatorId(user.id, page);
     }
   };
