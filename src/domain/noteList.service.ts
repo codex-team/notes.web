@@ -23,7 +23,7 @@ export default class NoteListService {
    * @param page - number of current pages
    * @returns { Promise<NoteList> } list of notes
    */
-  public async getNoteListByCreatorId(userId: number, page: number): Promise<NoteList> {
-    return await this.repository.getNoteListByCreatorId(userId, page);
+  public async getNoteListByCreatorId(page: number): Promise<NoteList> {
+    return await this.repository.getNoteListByCreatorId(page);
   }
 }

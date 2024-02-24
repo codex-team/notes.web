@@ -29,7 +29,7 @@ export default interface NoteRepositoryInterface {
    * @param userId - user id
    * @param page - number of pages
    */
-  getNoteListByCreatorId(userId: number, page: number): Promise<NoteList>;
+  getNoteListByCreatorId(page: number): Promise<NoteList>;
 
   /**
    * Creates a new note

@@ -1,7 +1,7 @@
 import type { NoteList } from '@/domain/entities/NoteList';
 import { noteListService } from '@/domain/index';
 import type { Ref } from 'vue';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useAppState } from './useAppState';
 
 /**
@@ -55,7 +55,7 @@ export default function (): UseNoteListComposableState {
      * If user is logged in, load note list
      */
     if (user) {
-      noteList.value = await noteListService.getNoteListByCreatorId(user.id, page);
+      noteList.value = await noteListService.getNoteListByCreatorId(page);
     }
   };
 
@@ -67,11 +67,10 @@ export default function (): UseNoteListComposableState {
     await load(currentPage);
   };
 
+  /**
+   * Load first notes
+   */
   onMounted(async () => {
-    await load(1);
-  });
-
-  watch(useAppState().user, async () => {
     await load(1);
   });
 

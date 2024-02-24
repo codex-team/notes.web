@@ -31,8 +31,8 @@ const limitCharsForNoteSubTitle = 96;
 const noteTitle = computed(() => {
   const firstNoteBlock = props.note.content.blocks[0];
 
-  if (!firstNoteBlock || !Boolean(firstNoteBlock.data.text)) {
-    return 'Note';
+  if (!firstNoteBlock || firstNoteBlock.data.text === undefined) {
+    return 'Untitled';
   } else {
     return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
   }

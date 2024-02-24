@@ -9,7 +9,7 @@
         @click="router.push('/note/' + note.id)"
       />
     </div>
-    <button @click="loadMoreNotes">Load more notes</button>
+    <button @click="loadMoreNotes">{{ $t('noteList.buttons.loadMoreNotes') }}</button>
   </div>
 
   <div v-else>
@@ -18,9 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import NoteView from '@/presentation/components/note/NoteView.vue';
+import NoteView from '@/presentation/components/note-list/NoteListItem.vue';
 import { useRouter } from 'vue-router';
-import useNoteList from '@/application/services/useNoteList';
+import useNoteList from '@/application/services/useNoteList.ts';
 
 const router = useRouter();
 const { noteList, loadMoreNotes } = useNoteList();
