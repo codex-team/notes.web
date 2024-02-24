@@ -53,9 +53,7 @@ export default class UserService {
    * @param id - tool id
    */
   public async addTool(id: string): Promise<void> {
-    const addedTool = await this.repository.addTool(id);
-
-    this.repository.addToolToStore(addedTool);
+    return await this.repository.addTool(id);
   }
 
   /**
@@ -64,8 +62,6 @@ export default class UserService {
    * @param id - tool id
    */
   public async removeTool(id: string): Promise<void> {
-    const removedId = await this.repository.removeTool(id);
-
-    this.repository.removeToolFromStore(removedId);
+    return await this.repository.removeTool(id);
   }
 }

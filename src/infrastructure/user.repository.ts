@@ -58,24 +58,6 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   }
 
   /**
-   * Adds a tool to the user store
-   *
-   * @param tool - tool to add
-   */
-  public addToolToStore(tool: EditorTool): void {
-    this.store.addEditorTool(tool);
-  }
-
-  /**
-   * Removes a tool from the user store
-   *
-   * @param id - tool id
-   */
-  public removeToolFromStore(id: EditorTool['id']): void {
-    this.store.removeEditorTool(id);
-  }
-
-  /**
    * Returns current user editor tools
    */
   public getUserEditorTools(): EditorTool[] {
@@ -87,12 +69,12 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
    *
    * @param id - tool id
    */
-  public async addTool(id: string): Promise<EditorTool> {
+  public async addTool(id: string): Promise<void> {
     const res = await this.transport.post<{ addedTool: EditorTool }>('/user/editor-tools', {
       toolId: id,
     });
 
-    return res.addedTool;
+    this.store.addEditorTool(res.addedTool);
   }
 
   /**
@@ -100,11 +82,11 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
    *
    * @param id - tool id
    */
-  public async removeTool(id: string): Promise<EditorTool['id']> {
+  public async removeTool(id: string): Promise<void> {
     const res = await this.transport.delete<{ removedId: EditorTool['id'] }>('/user/editor-tools', {
       toolId: id,
     });
 
-    return res.removedId;
+    this.store.removeEditorTool(res.removedId);
   }
 }

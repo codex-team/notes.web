@@ -35,12 +35,12 @@ export default interface UserRepositoryInterface {
    *
    * @param id - tool id
    */
-  addTool: (id: string) => Promise<EditorTool>;
+  addTool: (id: string) => Promise<void>;
 
   /**
    * Removes a tool from the user (marketplace mock)
    *
    * @param id - tool id
    */
-  removeTool: (id: string) => Promise<EditorTool['id']>;
+  removeTool: (id: string) => Promise<void>;
 }
