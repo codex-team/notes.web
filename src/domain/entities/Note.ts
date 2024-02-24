@@ -27,14 +27,14 @@ export interface Note {
   /**
    * When note was created
    *
-   * @TODO Resolve the optionality issue
+   * @todo Resolve the optionality issue
    */
   createdAt?: string;
 
   /**
    * Last time note was updated
    *
-   * @TODO Resolve the optionality issue
+   * @todo Resolve the optionality issue
    */
   updatedAt?: string;
 }

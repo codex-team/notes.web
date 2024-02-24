@@ -5,7 +5,7 @@
         {{ noteTitle }}
       </h1>
       <p class="note-date">
-        {{ new Date(props.note.createdAt).toLocaleDateString() }}
+        {{ new Date(String(props.note.createdAt)).toLocaleDateString() }}
       </p>
     </div>
     <p class="note-sub">
@@ -52,6 +52,7 @@ const noteSubTitle = computed(() => {
     return '';
   }
 });
+
 </script>
 
 <style>

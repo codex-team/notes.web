@@ -6,7 +6,7 @@
     >
       <NoteView
         :note="note"
-        @click="router.push('/note/'+note.publicId)"
+        @click="router.push('/note/'+note.id)"
       />
     </div>
     <button @click="loadMoreNotes">
