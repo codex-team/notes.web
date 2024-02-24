@@ -38,3 +38,13 @@ export default interface EditorTool {
     cdn?: string;
   };
 }
+
+/**
+ * Editor tool with user binding
+ */
+export interface EditorToolWithUserBinding extends EditorTool {
+  /**
+   * Is tool included in user's editor settings
+   */
+  isInstalled: boolean;
+}

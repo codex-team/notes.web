@@ -36,6 +36,8 @@
   },
   "marketplace": {
     "title": "Marketplace",
-    "listOfTools": "Tools"
+    "listOfTools": "Tools",
+    "uninstallTool": "Uninstall",
+    "installTool": "Install"
   }
 }
