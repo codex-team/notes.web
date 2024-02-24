@@ -2,15 +2,10 @@
   <div :class="$style.page">
     <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
-
-      <Heading
-        :level="2"
-      >
-        CodeX UI showcase
-      </Heading>
+      <Heading :level="2"> CodeX UI showcase </Heading>
       <Button text="Button text" />
       <Input text="Input text" />
-      <NoteList/>
+      <NoteList />
     </div>
 
     <div v-else>
@@ -51,5 +46,4 @@ h2 {
 p {
   @apply --text-body;
 }
-
 </style>

@@ -6,12 +6,10 @@
     >
       <NoteView
         :note="note"
-        @click="router.push('/note/'+note.id)"
+        @click="router.push('/note/' + note.id)"
       />
     </div>
-    <button @click="loadMoreNotes">
-      Load more notes
-    </button>
+    <button @click="loadMoreNotes">Load more notes</button>
   </div>
 
   <div v-else>
@@ -26,7 +24,6 @@ import useNoteList from '@/application/services/useNoteList';
 
 const router = useRouter();
 const { noteList, loadMoreNotes } = useNoteList();
-
 </script>
 
 <style scoped lang="postcss">
