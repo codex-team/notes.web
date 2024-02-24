@@ -13,7 +13,7 @@
   </div>
 
   <div v-else>
-    <p>{{ $t('noteList.noNoteList') }}</p>
+    <p>{{ $t('noteList.emptyNoteList') }}</p>
   </div>
 </template>
 
