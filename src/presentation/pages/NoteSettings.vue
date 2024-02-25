@@ -18,7 +18,7 @@
       :placeholder="t('noteSettings.invitationHashPlaceholder')"
     />
     <Button
-      text="Regenerate hash"
+      :text="t('noteSettings.revokeHash')"
       type="primary"
       @click="regenerateHash"
     />
