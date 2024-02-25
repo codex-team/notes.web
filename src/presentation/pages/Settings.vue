@@ -45,7 +45,7 @@ const { userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
-const { deleteTool } = useUserSettings();
+const { removeTool } = useUserSettings();
 
 /**
  * Changing the title in the browser
@@ -68,7 +68,7 @@ async function userLogout() {
  * @param toolId - id of the tool
  */
 async function userDeleteTool(toolId: string) {
-  await deleteTool(toolId);
+  await removeTool(toolId);
 }
 </script>
 
