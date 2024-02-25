@@ -84,26 +84,22 @@ watch(
     /** If new child note is created, refresh editor with empty data */
     if (props.id === null) {
       editor.value?.refresh();
-    }
-  }
-);
 
-/**
- * Changing the title in the browser
- */
-if (!props.id) {
-  useHead({
-    title: t('note.new'),
-  });
-} else {
-  watchEffect(() => {
-    if (noteTitle.value) {
       useHead({
-        title: noteTitle.value,
+        title: t('note.new'),
+      });
+    } else {
+      watchEffect(() => {
+        if (noteTitle.value) {
+          useHead({
+            title: noteTitle.value,
+          });
+        }
       });
     }
-  });
-}
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped></style>

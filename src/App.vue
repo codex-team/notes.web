@@ -17,7 +17,7 @@ useColorMode();
  * All errors inside the application
  */
 onErrorCaptured((error) => {
-  alert(error.message);
+  console.error(error.message);
 });
 </script>
 
