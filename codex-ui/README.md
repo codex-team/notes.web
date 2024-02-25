@@ -66,3 +66,25 @@ Add the following "path" to the "tsconfig.json"
 
 1. Import `codex-ui/styles` somewhere in App
 2. Use variable in CSS, e.g `var(--ui-color)`
+
+## Using Typography
+
+To use typography styles, add corresponded classes from the [typography.pcss](./src/styles/typography.pcss).
+
+Example:
+
+```html
+<div class="text-ui-base">Title</div>
+<div class="text-ui-subtle">Description</div>
+```
+
+Inside this package you can also use PostCSS `@apply`:
+
+```
+<style>
+@import url('@/styles/typography.pcss');
+
+.label {
+  @apply --text-ui-base-bold;
+}
+```

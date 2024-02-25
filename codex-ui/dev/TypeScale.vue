@@ -83,7 +83,7 @@ const samples = [
 </script>
 
 <style module>
-@import url('../src/styles/typography.pcss');
+@import url('@/styles/typography.pcss');
 
 .typescale {}
 
