@@ -24,6 +24,11 @@ export default interface EditorTool {
   exportName: string;
 
   /**
+   * User ID who added the tool to the marketplace
+   */
+  userId: number | null;
+
+  /**
    * Is plugin included by default in the editor
    */
   isDefault?: boolean;
@@ -48,3 +53,8 @@ export interface EditorToolWithUserBinding extends EditorTool {
    */
   isInstalled: boolean;
 }
+
+/**
+ * Tool creation attributes
+ */
+export type NewToolData = Omit<EditorTool, 'userId' | 'id'>;
