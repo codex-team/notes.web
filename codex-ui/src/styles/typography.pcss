@@ -1,11 +1,28 @@
-body {
+@import url('https://rsms.me/inter/inter.css');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+:root {
+  font-family: Inter, system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings:
+    'liga' 1,
+    'calt' 1; /* fix for Chrome */
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, system-ui, 'Segoe UI', Roboto, sans-serif;
+    font-optical-sizing: auto;
+  }
+}
+
+:root {
   /**
    * Base font size. All other sizes are based on this value.
    */
   font-size: 15px;
-}
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-:root {
   /**
    * Content styles
    * Should be used only for content (user-writed text), not for UI elements.
@@ -48,7 +65,7 @@ body {
     font-size: 1rem;
     line-height: 145%;
     font-weight: 400;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', Consolas, monospace;
     color: var(--base--text-secondary);
   }
 
