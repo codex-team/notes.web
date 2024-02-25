@@ -1,12 +1,24 @@
 <template>
   <div :class="$style.playground">
     <Heading :level="1">Playground</Heading>
+
     <Heading :level="3">Buttons</Heading>
-    <Button size="small">Button</Button><br />
-    <Button>Button</Button><br />
-    <Button size="large">Button</Button><br />
+    <div :class="$style.buttons">
+      <div v-for="button in buttons">
+        <Button
+          :size="button[0]"
+          :secondary="button[1] === 'secondary'"
+          :disabled="button[1] === 'disabled'"
+          :destructive="button[1] === 'destructive'"
+        >
+          Button
+        </Button>
+      </div>
+    </div>
+
     <Heading :level="3"> Input </Heading>
     <Input text="Enter email" />
+
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
   </div>
@@ -15,6 +27,24 @@
 <script setup lang="ts">
 import { Button, Heading, Input } from '../src/vue';
 import TypeScale from './TypeScale.vue';
+
+/**
+ * Button samples in different states
+ */
+const buttons = [
+  ['small'],
+  ['small', 'secondary'],
+  ['small', 'destructive'],
+  ['small', 'disabled'],
+  ['medium'],
+  ['medium', 'secondary'],
+  ['medium', 'destructive'],
+  ['medium', 'disabled'],
+  ['large'],
+  ['large', 'secondary'],
+  ['large', 'destructive'],
+  ['large', 'disabled'],
+];
 </script>
 
 <style module>
@@ -23,5 +53,11 @@ import TypeScale from './TypeScale.vue';
   color: var(--base--text);
   min-height: 100%;
   padding: 20px;
+}
+
+.buttons {
+  display: grid;
+  gap: var(--spacing-xl);
+  grid-template-columns: repeat(4, 1fr);
 }
 </style>
