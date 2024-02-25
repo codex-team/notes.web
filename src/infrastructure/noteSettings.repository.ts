@@ -41,4 +41,14 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   public async patchNoteSettingsByNoteId(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings> {
     return await this.transport.patch<NoteSettings>('/note-settings/' + id, data);
   }
+
+  /**
+   * Revoke invitation hash
+   *
+   * @param id - Note id
+   * @returns { NoteSettings } updated note settings
+   */
+  public async regenerateInvitationHash(id: NoteId): Promise<NoteSettings> {
+    return await this.transport.patch<NoteSettings>(`/note-settings/${id}/invitation-hash`);
+  }
 }

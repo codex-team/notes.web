@@ -31,7 +31,7 @@ export default interface UserRepositoryInterface {
   getUserEditorTools: () => EditorTool[];
 
   /**
-   * Adds a tool to the user (marketplace mock)
+   * Adds a tool to the user
    *
    * @param id - tool id
    */

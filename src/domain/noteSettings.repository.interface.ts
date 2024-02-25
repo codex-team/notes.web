@@ -22,4 +22,12 @@ export default interface NoteSettingsRepositoryInterface {
    * @returns updated note settings
    */
   patchNoteSettingsByNoteId(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings>;
+
+  /**
+   * Revoke invitation hash
+   *
+   * @param id - note id
+   * @returns updated note settings
+   */
+  regenerateInvitationHash(id: NoteId): Promise<NoteSettings>;
 }

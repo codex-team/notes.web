@@ -22,6 +22,27 @@ export default class NoteService {
   }
 
   /**
+   * Returns setting for a note with passed id
+   *
+   * @param id - Note id
+   */
+  public async getNoteSettingsById(id: NoteId): Promise<NoteSettings> {
+    let result;
+
+    try {
+      result = await this.noteSettingsRepository.getNoteSettingsById(id);
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw new Error(`404 Not Found: We couldn't find ${id} note.`);
+      }
+
+      throw error;
+    }
+
+    return result;
+  }
+
+  /**
    * Updates note settings
    *
    * @param id - Note id
@@ -45,15 +66,16 @@ export default class NoteService {
   }
 
   /**
-   * Returns setting for a note with passed id
+   * Revoke invitation hash
    *
    * @param id - Note id
+   * @returns { NoteSettings } updated note settings
    */
-  public async getNoteSettingsById(id: NoteId): Promise<NoteSettings> {
+  public async regenerateInvitationHash(id: NoteId): Promise<NoteSettings> {
     let result;
 
     try {
-      result = await this.noteSettingsRepository.getNoteSettingsById(id);
+      result = await this.noteSettingsRepository.regenerateInvitationHash(id);
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw new Error(`404 Not Found: We couldn't find ${id} note.`);
