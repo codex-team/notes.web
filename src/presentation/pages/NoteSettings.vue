@@ -11,12 +11,13 @@
       v-model:checked="noteSettings.isPublic"
       :label="t('noteSettings.isPublic')"
     />
-    <TextEdit
+    <!-- <TextEdit
       v-model:value="noteSettings.invitationHash"
       name="invitationHash"
       :title="t('noteSettings.invitationHash')"
       :placeholder="t('noteSettings.invitationHashPlaceholder')"
-    />
+    /> -->
+    {{ invitationLink }}
     <Button
       :text="t('noteSettings.revokeHash')"
       type="primary"
@@ -44,6 +45,7 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
 const { t } = useI18n();
 
@@ -55,6 +57,10 @@ const props = defineProps<{
 }>();
 
 const { load, noteSettings, update, revokeHash } = useNoteSettings();
+
+const invitationLink = computed(
+  () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
+);
 
 load(props.id);
 
