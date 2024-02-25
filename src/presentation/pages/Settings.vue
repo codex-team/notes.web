@@ -5,7 +5,7 @@
     v-for="tool in userEditorTools"
     :key="tool.id"
   >
-    <li :class="$style.user__tool">
+    <li :class="$style.tool">
       {{ tool.title }}
       <Button
         v-if="tool.isDefault === false"
@@ -68,7 +68,7 @@ async function userLogout() {
  * @param toolId - id of the tool
  */
 async function uninstallClicked(toolId: string) {
-  if (window.confirm(t('confirmations.uninstallEditorTool'))) {
+  if (window.confirm(t('userSettings.toolUninstallConfirmation'))) {
     await removeTool(toolId);
   }
 }
@@ -81,7 +81,7 @@ async function uninstallClicked(toolId: string) {
   margin-top: var(--spacing-l);
 }
 
-.user__tool {
+.tool {
   display: flex;
   align-items: center;
   gap: var(--spacing-very-x);
