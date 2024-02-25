@@ -1,0 +1,185 @@
+@import url('https://rsms.me/inter/inter.css');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+/**
+ * Fonts setup
+ */
+:root {
+  font-family: Inter, system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings:
+    'liga' 1,
+    'calt' 1; /* fix for Chrome */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, system-ui, 'Segoe UI', Roboto, sans-serif;
+    font-optical-sizing: auto;
+  }
+}
+
+/**
+ * Type Scale
+ */
+:root {
+  /**
+   * Base font size. All other sizes are based on this value.
+   */
+  font-size: 15px;
+
+  /**
+   * Content styles
+   * Should be used only for content (user-written text), not for UI elements.
+   */
+  --text-h1 {
+    font-size: 2.8rem;
+    line-height: 110%;
+    font-weight: 700;
+  }
+
+  --text-h2 {
+    font-weight: 700;
+    line-height: 120%;
+    font-size: 1.8rem;
+  }
+
+  --text-h3 {
+    font-size: 1.4rem;
+    line-height: 120%;
+    font-weight: 700;
+  }
+
+  --text-p {
+    font-size: 1rem;
+    line-height: 145%;
+    font-weight: 400;
+    color: var(--base--text-secondary);
+  }
+
+  --text-blockquote {
+    font-size: 1.2rem;
+    line-height: 140%;
+    font-weight: 400;
+    color: var(--base--text-secondary);
+    border-left: 3px solid var(--accent--solid);
+    padding-left: var(--spacing-l);
+  }
+
+  --text-monospaced {
+    font-size: 1rem;
+    line-height: 145%;
+    font-weight: 400;
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    color: var(--base--text-secondary);
+  }
+
+  /**
+   * UI styles
+   * Should be used only for UI elements, not for content (user-writed text).
+   */
+  --text-ui-large {
+    font-size: 1.2rem;
+    line-height: 130%;
+    font-weight: 600;
+  }
+
+  --text-ui-small {
+    font-size: 0.866rem;
+    line-height: 120%;
+    font-weight: 400;
+    letter-spacing: 1%;
+  }
+
+  --text-ui-base {
+    font-size: 0.933rem;
+    line-height: 140%;
+    font-weight: 400;
+    letter-spacing: 2%;
+  }
+
+  --text-ui-base-medium {
+    font-size: 0.933rem;
+    line-height: 140%;
+    font-weight: 500;
+    letter-spacing: 2%;
+  }
+
+  --text-ui-base-bold {
+    font-size: 0.933rem;
+    line-height: 140%;
+    font-weight: 700;
+    letter-spacing: 2%;
+  }
+
+  --text-ui-subtle {
+    font-size: 0.933rem;
+    line-height: 140%;
+    font-weight: 400;
+    color: var(--base--text-secondary);
+  }
+
+  --text-ui-footnote {
+    font-size: 0.866rem;
+    line-height: 120%;
+    color: var(--base--text-secondary);
+    letter-spacing: 2%;
+    text-transform: uppercase;
+  }
+}
+
+/**
+ * Classes for usage without PostCSS `@apply` directive
+ */
+.text-h1 {
+  @apply --text-h1;
+}
+
+.text-h2 {
+  @apply --text-h2;
+}
+
+.text-h3 {
+  @apply --text-h3;
+}
+
+.text-p {
+  @apply --text-p;
+}
+
+.text-blockquote {
+  @apply --text-blockquote;
+}
+
+.text-monospaced {
+  @apply --text-monospaced;
+}
+
+.text-ui-large {
+  @apply --text-ui-large;
+}
+
+.text-ui-small {
+  @apply --text-ui-small;
+}
+
+.text-ui-base {
+  @apply --text-ui-base;
+}
+
+.text-ui-base-medium {
+  @apply --text-ui-base-medium;
+}
+
+.text-ui-base-bold {
+  @apply --text-ui-base-bold;
+}
+
+.text-ui-subtle {
+  @apply --text-ui-subtle;
+}
+
+.text-ui-footnote {
+  @apply --text-ui-footnote;
+}
