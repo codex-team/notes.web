@@ -103,7 +103,10 @@ export default class FetchTransport {
   public async patch(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
     this.headers.set('Content-Type', 'application/json');
 
-    /** If body is undefined, we send an empty body */
+    /**
+     * If the body undefined, request fails fastify validation
+     * and sends a Bad Request, so we make it empty
+     */
     const data = payload !== undefined ? payload : {};
 
     const response = await fetch(this.baseUrl + endpoint, {
