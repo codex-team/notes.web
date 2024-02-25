@@ -101,12 +101,13 @@ export default class FetchTransport {
    * @param payload - JSON POST data body
    */
   public async patch(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
-    // this.headers.set('Content-Type', 'application/json');
+    this.headers.set('Content-Type', 'application/json');
+    const data = payload || {}
 
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'PATCH',
       headers: this.headers,
-      body:  JSON.stringify({}),
+      body: JSON.stringify(data),
     });
 
     return this.parseResponse(response, endpoint);

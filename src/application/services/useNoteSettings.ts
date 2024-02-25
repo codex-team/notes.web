@@ -69,7 +69,13 @@ export default function (): UseNoteSettingsComposableState {
    * @param id - Note id
    */
   const revokeHash = async (id: NoteId): Promise<void> => {
-    noteSettings.value = await noteSettingsService.regenerateInvitationHash(id);
+    const { invitationHash } = await noteSettingsService.regenerateInvitationHash(id);
+    /**
+     * Check if note setting is not empty
+     */
+    if (noteSettings.value) {
+      noteSettings.value = { ...noteSettings.value, invitationHash }
+    }
   };
 
   return {
