@@ -7,6 +7,7 @@
         @click.passive="createChildNote"
       />
     </div>
+
     <Editor
       ref="editor"
       :content="note.content"
@@ -17,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { ref, toRef, watch } from 'vue';
 import { Button } from 'codex-ui/vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
@@ -25,7 +26,6 @@ import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { watchEffect } from 'vue';
 
 const { t } = useI18n();
 
@@ -38,12 +38,12 @@ const props = defineProps<{
   id: string | null;
 
   /**
-   * Parent note id, null for root note
+   * Parent note id, undefined for root note
    */
-  parentId: string | null;
+  parentId?: string;
 }>();
 
-const noteId = computed(() => props.id);
+const noteId = toRef(props, 'id');
 
 const { note, save, noteTitle, canEdit } = useNote({
   id: noteId,
@@ -77,22 +77,28 @@ function createChildNote(): void {
   router.push(`/note/${props.id}/new`);
 }
 
-/**
- * Changing the title in the browser
- */
-if (!props.id) {
-  useHead({
-    title: t('note.new'),
-  });
-} else {
-  watchEffect(() => {
-    if (noteTitle.value) {
+watch(
+  () => props.id,
+  () => {
+    /** If new child note is created, refresh editor with empty data */
+    if (props.id === null) {
+      editor.value?.refresh();
+
       useHead({
-        title: noteTitle.value,
+        title: t('note.new'),
       });
     }
-  });
-}
+  },
+  { immediate: true }
+);
+
+watch(noteTitle, () => {
+  if (props.id !== null) {
+    useHead({
+      title: noteTitle.value,
+    });
+  }
+});
 </script>
 
 <style scoped></style>
