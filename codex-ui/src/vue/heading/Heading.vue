@@ -1,5 +1,8 @@
 <template>
-  <component :is="`h${props.level}`" :class="$style.heading">
+  <component
+    :is="`h${props.level}`"
+    :class="$style.heading"
+  >
     <slot />
   </component>
 </template>

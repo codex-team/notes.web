@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button :class="$style.button">
-      {{ text || 'No text passed' }}
+    <button :class="[$style.button, `${$style.button}--${size}`, 'text-ui-base-medium']">
+      <slot />
     </button>
   </div>
 </template>
@@ -9,23 +9,48 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
-const props = defineProps<{
-  /**
-   * The text to display on the button
-   */
-  text: string;
-}>();
+withDefaults(
+  defineProps<{
+    /**
+     * The size of the button
+     */
+    size?: 'small' | 'medium' | 'large';
+  }>(),
+  {
+    size: 'medium',
+  }
+);
 </script>
 
 <style lang="postcss" module>
 .button {
-  background-color: var(--base--solid);
   border: 0;
   outline: 0;
-  color: var(--base--text-solid-foreground);
-  padding: var(--spacing-s) var(--spacing-mm);
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: var(--radius-m);
+  font-family: inherit;
+
+  --padding: 0 0;
+  --radius: 0;
+  --color: var(--base--text-solid-foreground);
+  --bg: var(--base--solid);
+
+  &--small {
+    --padding: var(--spacing-xxs) var(--spacing-s);
+    --radius: var(--radius-m);
+  }
+
+  &--medium {
+    --padding: var(--spacing-s) var(--spacing-m);
+    --radius: var(--radius-m);
+  }
+
+  &--large {
+    --padding: var(--spacing-m) var(--spacing-l);
+    --radius: var(--radius-ml);
+  }
+
+  padding: var(--padding);
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  color: var(--color);
 }
 </style>

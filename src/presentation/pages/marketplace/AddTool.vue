@@ -67,5 +67,4 @@ function onClick() {
 }
 </script>
 
-<style setup lang="postcss" scoped>
-</style>
+<style setup lang="postcss" scoped></style>
