@@ -72,6 +72,7 @@ const style = computed(() => {
   --color: var(--base--text-solid-foreground);
   --bg: var(--base--solid);
   --bg-hover: var(--base--solid-hover);
+  --border-color: transparent;
 
   /**
    * Sizes
@@ -102,6 +103,7 @@ const style = computed(() => {
   &--secondary {
     --bg: var(--base--bg-secondary);
     --bg-hover: var(--base--bg-secondary-hover);
+    --border-color: var(--base--border);
   }
 
   &--disabled {
@@ -120,6 +122,7 @@ const style = computed(() => {
   border-radius: var(--radius);
   background-color: var(--bg);
   color: var(--color);
+  box-shadow: inset 0 0 0 1px var(--border-color);
 
   &:hover {
     background-color: var(--bg-hover);
