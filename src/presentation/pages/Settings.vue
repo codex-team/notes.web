@@ -5,14 +5,14 @@
     v-for="tool in userEditorTools"
     :key="tool.id"
   >
-    <li>
+    <div class="user__tool">
       {{ tool.title }}
       <Button
         v-if="tool.isDefault === false"
-        :text="t('userSettings.delete')"
+        :text="t('userSettings.deleteEditorTool')"
         @click="userRemoveTool(tool.id)"
       />
-    </li>
+    </div>
   </ul>
   <ThemeButton />
   <Button
@@ -77,5 +77,11 @@ async function userRemoveTool(toolId: string) {
 
 .marketplace {
   margin-top: var(--spacing-l);
+}
+
+.user__tool {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-very-x);
 }
 </style>
