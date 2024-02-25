@@ -7,9 +7,8 @@
       <div v-for="button in buttons">
         <Button
           :size="button[0]"
-          :secondary="button[1] === 'secondary'"
+          :style="button[1]"
           :disabled="button[1] === 'disabled'"
-          :destructive="button[1] === 'destructive'"
         >
           Button
         </Button>
@@ -17,7 +16,26 @@
     </div>
 
     <Heading :level="3"> Input </Heading>
-    <Input text="Enter email" />
+    <Input
+      text="Enter email"
+      size="small"
+    />
+    <br />
+    <Input
+      text="Enter email"
+      size="medium"
+    />
+    <br />
+    <Input
+      text="Enter email"
+      size="large"
+    />
+    <br />
+    <Input
+      text="Enter email"
+      size="large"
+      disabled
+    />
 
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />

@@ -18,25 +18,19 @@ const props = withDefaults(
     size?: 'small' | 'medium' | 'large';
 
     /**
-     * Whether the button is a secondary button
+     * The style of the button
      */
-    secondary?: boolean;
+    style?: 'primary' | 'secondary' | 'destructive';
 
     /**
      * Whether the button is disabled
      */
     disabled?: boolean;
-
-    /**
-     * Whether the button is responsible for a destructive action
-     */
-    destructive?: boolean;
   }>(),
   {
     size: 'medium',
-    secondary: false,
+    style: 'primary',
     disabled: false,
-    destructive: false,
   }
 );
 
@@ -48,15 +42,7 @@ const style = computed(() => {
     return 'disabled';
   }
 
-  if (props.secondary) {
-    return 'secondary';
-  }
-
-  if (props.destructive) {
-    return 'destructive';
-  }
-
-  return 'primary';
+  return props.style;
 });
 </script>
 
