@@ -97,6 +97,8 @@ const samples = [
 .label {
   grid-column: 1;
   @apply --text-ui-base-bold;
+  align-items: center;
+  display: flex;
 }
 
 .text {
