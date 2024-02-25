@@ -18,10 +18,10 @@
       :placeholder="t('noteSettings.invitationHashPlaceholder')"
     />
     <Button
-    text="Regenerate hash"
-    type="primary"
-    @click="regenerateHash"
-  />
+      text="Regenerate hash"
+      type="primary"
+      @click="regenerateHash"
+    />
     <div class="control__button">
       <Button
         class="header__plus"

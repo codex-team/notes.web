@@ -70,11 +70,12 @@ export default function (): UseNoteSettingsComposableState {
    */
   const revokeHash = async (id: NoteId): Promise<void> => {
     const { invitationHash } = await noteSettingsService.regenerateInvitationHash(id);
+
     /**
      * Check if note setting is not empty
      */
     if (noteSettings.value) {
-      noteSettings.value = { ...noteSettings.value, invitationHash }
+      noteSettings.value = { ...noteSettings.value, invitationHash };
     }
   };
 
@@ -82,6 +83,6 @@ export default function (): UseNoteSettingsComposableState {
     noteSettings,
     load,
     update,
-    revokeHash
+    revokeHash,
   };
 }
