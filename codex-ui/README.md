@@ -69,7 +69,7 @@ Add the following "path" to the "tsconfig.json"
 
 ## Using Typography
 
-To use typography styles, add corresponded classes from the [typography.pcss](./src/styles/typography.pcss).
+Just add corresponded classes listed in the [typography.pcss](./src/styles/typography.pcss).
 
 Example:
 
