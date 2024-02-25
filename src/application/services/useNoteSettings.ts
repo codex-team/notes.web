@@ -26,6 +26,13 @@ interface UseNoteSettingsComposableState {
    * @param data - note settings data with new values
    */
   update: (id: NoteId, data: Partial<NoteSettings>) => Promise<void>;
+
+  /**
+   * Revoke invitation hash
+   *
+   * @param id - note id
+   */
+  revokeHash: (id: NoteId) => Promise<void>;
 }
 
 /**
@@ -56,9 +63,26 @@ export default function (): UseNoteSettingsComposableState {
     noteSettings.value = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
   };
 
+  /**
+   * Revoke invitation hash
+   *
+   * @param id - Note id
+   */
+  const revokeHash = async (id: NoteId): Promise<void> => {
+    const { invitationHash } = await noteSettingsService.regenerateInvitationHash(id);
+
+    /**
+     * Check if note setting is not empty
+     */
+    if (noteSettings.value) {
+      noteSettings.value = { ...noteSettings.value, invitationHash };
+    }
+  };
+
   return {
     noteSettings,
     load,
     update,
+    revokeHash,
   };
 }
