@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { Input } from '@/vue';
+import Input from '../input/Input.vue';
 
 const props = withDefaults(
   defineProps<{
