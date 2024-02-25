@@ -7,19 +7,42 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { computed, defineProps } from 'vue';
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     /**
      * The size of the button
      */
     size?: 'small' | 'medium' | 'large';
+
+    /**
+     * The style of the button
+     */
+    style?: 'primary' | 'secondary' | 'destructive';
+
+    /**
+     * Whether the button is disabled
+     */
+    disabled?: boolean;
   }>(),
   {
     size: 'medium',
+    style: 'primary',
+    disabled: false,
   }
 );
+
+/**
+ * Button style: primary (default), secondary, destructive, disabled
+ */
+const style = computed(() => {
+  if (props.disabled) {
+    return 'disabled';
+  }
+
+  return props.style;
+});
 </script>
 
 <style lang="postcss" module>
