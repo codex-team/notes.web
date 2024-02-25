@@ -102,6 +102,8 @@ export default class FetchTransport {
    */
   public async patch(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
     this.headers.set('Content-Type', 'application/json');
+
+    /** If body is undefined, we send an empty body */
     const data = payload !== undefined ? payload : {};
 
     const response = await fetch(this.baseUrl + endpoint, {
