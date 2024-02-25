@@ -9,8 +9,8 @@
       {{ tool.title }}
       <Button
         v-if="tool.isDefault === false"
-        :text="t('userSettings.deleteEditorTool')"
-        @click="userRemoveTool(tool.id)"
+        :text="t('userSettings.uninstallEditorTool')"
+        @click="uninstallClicked(tool.id)"
       />
     </div>
   </ul>
@@ -67,8 +67,10 @@ async function userLogout() {
  *
  * @param toolId - id of the tool
  */
-async function userRemoveTool(toolId: string) {
-  await removeTool(toolId);
+async function uninstallClicked(toolId: string) {
+  if (window.confirm('Do you really want to delete thid tool?')) {
+    await removeTool(toolId);
+  }
 }
 </script>
 
