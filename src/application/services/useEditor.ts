@@ -3,7 +3,7 @@ import Editor, { type OutputData, type API } from '@editorjs/editorjs';
 // @ts-expect-error editor plugins have no types
 import Header from '@editorjs/header';
 import type { Ref } from 'vue';
-import { onBeforeUnmount, onMounted } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { loadScript } from '@/infrastructure/utils/load-script';
@@ -35,7 +35,7 @@ interface UseEditorParams {
   /**
    * Handles content change in Editor
    */
-  onChange?: (api: API) => void;
+  onChange?: (data: OutputData) => void;
 }
 
 /**
@@ -43,16 +43,69 @@ interface UseEditorParams {
  *
  * @param params - Editor.js params
  */
-export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams): void {
+export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams): {
+  isEmpty: Ref<boolean>;
+} {
   /**
    * Editor instance
    */
   let editor: Editor | undefined;
 
   /**
+   * Attribute containing is-empty state.
+   * It is updated on every change of the editor
+   */
+  const isEmpty = ref(true);
+
+  /**
    * User notes tools
    */
   const { userEditorTools } = useAppState();
+
+  /**
+   * Checks if the editor is empty
+   * Uses EditorJS API:
+   *  - blocks.getById()
+   *  - block.isEmpty()
+   *
+   * @todo implement "isEmpty" method in the EditorJS API
+   *
+   * @param data - saved data
+   * @param api - EditorJS API
+   */
+  function checkIsEmpty(data: OutputData, api: API): boolean {
+    const blockIds = data.blocks.map((block) => block.id);
+
+    return blockIds.reduce((acc, blockId) => {
+      if (blockId === undefined) {
+        return acc;
+      }
+
+      const block = api.blocks.getById(blockId);
+
+      if (block) {
+        return acc && block.isEmpty;
+      }
+
+      return acc;
+    }, true);
+  }
+
+  /**
+   * Function called on every change of the editor
+   *
+   * @param api - EditorJS API
+   */
+  async function handleChange(api: API): Promise<void> {
+    const data = await api.saver.save();
+
+    /**
+     * Update the isEmpty attribute
+     */
+    isEmpty.value = checkIsEmpty(data, api);
+
+    onChange?.(data);
+  }
 
   /**
    * Download all the user tools and return a map to use in Editor.js constructor
@@ -89,7 +142,7 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
           header: Header,
           ...tools,
         },
-        onChange,
+        onChange: handleChange,
         readOnly: isReadOnly,
       });
 
@@ -110,4 +163,8 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
     editor?.destroy();
     editor = undefined;
   });
+
+  return {
+    isEmpty,
+  };
 }

@@ -40,7 +40,7 @@ const props = defineProps<{
   /**
    * Parent note id, null for root note
    */
-  parentId: string | null;
+  parentId?: string | null;
 }>();
 
 const noteId = computed(() => props.id);

@@ -47,7 +47,7 @@ export default class NoteService {
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
    */
-  public async createNote(content: NoteContent, parentId: NoteId | null): Promise<Note> {
+  public async createNote(content: NoteContent, parentId?: NoteId): Promise<Note> {
     return await this.noteRepository.createNote(content, parentId);
   }
 
