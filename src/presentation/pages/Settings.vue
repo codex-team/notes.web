@@ -5,14 +5,14 @@
     v-for="tool in userEditorTools"
     :key="tool.id"
   >
-    <div class="user__tool">
+    <li :class="$style.user__tool">
       {{ tool.title }}
       <Button
         v-if="tool.isDefault === false"
         :text="t('userSettings.uninstallEditorTool')"
         @click="uninstallClicked(tool.id)"
       />
-    </div>
+    </li>
   </ul>
   <ThemeButton />
   <Button
@@ -74,7 +74,7 @@ async function uninstallClicked(toolId: string) {
 }
 </script>
 
-<style scoped lang="postcss">
+<style scoped lang="postcss" module>
 @import '@/presentation/styles/typography.pcss';
 
 .marketplace {
