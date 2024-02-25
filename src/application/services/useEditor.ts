@@ -156,8 +156,9 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
   }
 
   /**
+   * Reinitializes editor instance with new data
    *
-   * @param data
+   * @param data - new data to be displayed in editor
    */
   async function refresh(data?: OutputData): Promise<void> {
     editor?.destroy();

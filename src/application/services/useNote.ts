@@ -49,7 +49,7 @@ interface UseNoteComposableState {
   /**
    * Creates/updates the note
    */
-  save: (content: NoteContent, parentId: NoteId | null | undefined) => Promise<void>;
+  save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
 
   /**
    * Load note by custom hostname
@@ -97,10 +97,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    */
   const router = useRouter();
 
+  const limitCharsForNoteTitle = 50;
+
   /**
    * Note Title identifier
    */
-  const limitCharsForNoteTitle = 50;
   const noteTitle = computed(() => {
     const firstNoteBlock = note.value?.content.blocks[0];
 
@@ -164,6 +165,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     await noteService.updateNoteContent(currentId.value, content);
+    note.value = { ...note.value, content };
   }
 
   /**
