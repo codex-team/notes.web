@@ -14,7 +14,7 @@
     "title": "User Settings",
     "changeTheme": "Change theme",
     "userEditorTools": "User editor tools",
-    "deleteEditorTool": "Uninstall"
+    "uninstallEditorTool": "Uninstall"
   },
   "noteSettings": {
     "title": "Note Settings",
