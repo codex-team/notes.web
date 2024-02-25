@@ -10,7 +10,7 @@
       <Button
         v-if="tool.isDefault === false"
         :text="t('userSettings.delete')"
-        @click="userDeleteTool(tool.id)"
+        @click="userRemoveTool(tool.id)"
       />
     </li>
   </ul>
@@ -67,7 +67,7 @@ async function userLogout() {
  *
  * @param toolId - id of the tool
  */
-async function userDeleteTool(toolId: string) {
+async function userRemoveTool(toolId: string) {
   await removeTool(toolId);
 }
 </script>
