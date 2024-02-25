@@ -74,7 +74,7 @@ function onClick() {
 /**
  * Regenerate invitation hash
  */
- async function regenerateHash() {
+async function regenerateHash() {
   revokeHash(props.id);
 }
 
