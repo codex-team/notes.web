@@ -17,6 +17,11 @@
       :title="t('noteSettings.invitationHash')"
       :placeholder="t('noteSettings.invitationHashPlaceholder')"
     />
+    <Button
+    text="Regenerate hash"
+    type="primary"
+    @click="regenerateHash"
+  />
     <div class="control__button">
       <Button
         class="header__plus"
@@ -49,7 +54,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { load, noteSettings, update } = useNoteSettings();
+const { load, noteSettings, update, revokeHash } = useNoteSettings();
 
 load(props.id);
 
@@ -64,6 +69,13 @@ function onClick() {
     isPublic: noteSettings.value.isPublic,
     customHostname: noteSettings.value.customHostname,
   });
+}
+
+/**
+ * Regenerate invitation hash
+ */
+ async function regenerateHash() {
+  revokeHash(props.id);
 }
 
 /**
