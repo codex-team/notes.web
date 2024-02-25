@@ -34,9 +34,9 @@ export default interface NoteRepositoryInterface {
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
-   * @param parentId - Id of the parent note. If null, then it's a root note
+   * @param parentId - Id of the parent note. If undefined, then it's a root note
    */
-  createNote(content: NoteContent, parentId: NoteId | null): Promise<Note>;
+  createNote(content: NoteContent, parentId?: NoteId): Promise<Note>;
 
   /**
    * Updates a content of existing note

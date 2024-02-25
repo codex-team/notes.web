@@ -1,6 +1,7 @@
 <template>
   <div :class="$style.playground">
     <Heading :level="1">Playground</Heading>
+
     <Heading :level="3">Buttons</Heading>
     <div :class="$style.buttons">
       <div v-for="button in buttons">

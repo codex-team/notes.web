@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <button :class="[$style.button, `${$style.button}--${size}`, 'text-ui-base-medium']">
-      <slot />
-    </button>
-  </div>
+  <button
+    :class="[$style.button, `${$style.button}--${size}`, `${$style.button}--${style}`, 'text-ui-base-medium']"
+    :theme-accent="style === 'destructive' ? 'red' : undefined"
+  >
+    <slot />
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -50,12 +51,18 @@ const style = computed(() => {
   border: 0;
   outline: 0;
   font-family: inherit;
+  cursor: pointer;
 
   --padding: 0 0;
   --radius: 0;
   --color: var(--base--text-solid-foreground);
   --bg: var(--base--solid);
+  --bg-hover: var(--base--solid-hover);
+  --border-color: transparent;
 
+  /**
+   * Sizes
+   */
   &--small {
     --padding: var(--spacing-xxs) var(--spacing-s);
     --radius: var(--radius-m);
@@ -71,9 +78,40 @@ const style = computed(() => {
     --radius: var(--radius-ml);
   }
 
+  /**
+   * Styles
+   */
+  &--primary {
+    --bg: var(--base--solid);
+    --bg-hover: var(--base--solid-hover);
+  }
+
+  &--secondary {
+    --bg: var(--base--bg-secondary);
+    --bg-hover: var(--base--bg-secondary-hover);
+    --border-color: var(--base--border);
+  }
+
+  &--disabled {
+    --bg: var(--base--bg-secondary);
+    --bg-hover: var(--base--bg-secondary);
+    --color: var(--base--text-secondary);
+    cursor: not-allowed;
+  }
+
+  &--destructive {
+    --bg: var(--accent--solid);
+    --bg-hover: var(--accent--solid-hover);
+  }
+
   padding: var(--padding);
   border-radius: var(--radius);
   background-color: var(--bg);
   color: var(--color);
+  box-shadow: inset 0 0 0 1px var(--border-color);
+
+  &:hover {
+    background-color: var(--bg-hover);
+  }
 }
 </style>
