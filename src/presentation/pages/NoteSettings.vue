@@ -11,12 +11,6 @@
       v-model:checked="noteSettings.isPublic"
       :label="t('noteSettings.isPublic')"
     />
-    <!-- <TextEdit
-      v-model:value="noteSettings.invitationHash"
-      name="invitationHash"
-      :title="t('noteSettings.invitationHash')"
-      :placeholder="t('noteSettings.invitationHashPlaceholder')"
-    /> -->
     {{ invitationLink }}
     <Button
       :text="t('noteSettings.revokeHash')"
