@@ -24,7 +24,7 @@ const emit = defineEmits<{
   change: [data: OutputData];
 }>();
 
-const { isEmpty } = useEditor({
+const { isEmpty, refresh } = useEditor({
   id: 'editorjs',
   content: props.content,
   isReadOnly: props.readOnly,
@@ -38,6 +38,11 @@ defineExpose({
   isEmpty() {
     return isEmpty.value;
   },
+
+  /**
+   * Reinitialize editor instance with new data
+   */
+  refresh,
 });
 </script>
 

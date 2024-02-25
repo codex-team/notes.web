@@ -7,6 +7,7 @@
         @click.passive="createChildNote"
       />
     </div>
+
     <Editor
       ref="editor"
       :content="note.content"
@@ -17,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { Button } from 'codex-ui/vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
@@ -76,6 +77,16 @@ function createChildNote(): void {
   }
   router.push(`/note/${props.id}/new`);
 }
+
+watch(
+  () => props.id,
+  () => {
+    /** If new child note is created, refresh editor with empty data */
+    if (props.id === null) {
+      editor.value?.refresh();
+    }
+  }
+);
 
 /**
  * Changing the title in the browser

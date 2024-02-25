@@ -45,6 +45,7 @@ interface UseEditorParams {
  */
 export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams): {
   isEmpty: Ref<boolean>;
+  refresh: (data: OutputData) => void;
 } {
   /**
    * Editor instance
@@ -130,14 +131,16 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
 
   /**
    * Initializes editorjs instance
+   *
+   * @param data
    */
-  async function mountEditor(): Promise<void> {
+  async function mountEditor(data?: OutputData): Promise<void> {
     try {
       const tools = await downloadTools(userEditorTools);
 
       editor = new Editor({
         holder: id,
-        data: content,
+        data: data,
         tools: {
           header: Header,
           ...tools,
@@ -152,8 +155,17 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
     }
   }
 
+  /**
+   *
+   * @param data
+   */
+  async function refresh(data?: OutputData): Promise<void> {
+    editor?.destroy();
+    await mountEditor(data);
+  }
+
   onMounted(() => {
-    void mountEditor();
+    void mountEditor(content);
   });
 
   /**
@@ -166,5 +178,6 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
 
   return {
     isEmpty,
+    refresh,
   };
 }
