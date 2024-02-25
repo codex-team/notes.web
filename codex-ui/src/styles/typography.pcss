@@ -1,11 +1,16 @@
 @import url('https://rsms.me/inter/inter.css');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
 
+/**
+ * Fonts setup
+ */
 :root {
   font-family: Inter, system-ui, 'Segoe UI', Roboto, sans-serif;
   font-feature-settings:
     'liga' 1,
     'calt' 1; /* fix for Chrome */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @supports (font-variation-settings: normal) {
@@ -15,13 +20,14 @@
   }
 }
 
+/**
+ * Type Scale
+ */
 :root {
   /**
    * Base font size. All other sizes are based on this value.
    */
   font-size: 15px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   /**
    * Content styles
