@@ -10,6 +10,9 @@
       "noteSettings": "Settings"
     }
   },
+  "confirmations": {
+    "uninstallEditorTool": "Do you really want to delete this tool?"
+  },
   "userSettings": {
     "title": "User Settings",
     "changeTheme": "Change theme",

@@ -18,7 +18,7 @@ interface UseUserSettingsComposableState {
 /**
  * Methods for working with user settings
  */
-export default function useUserSettings(): UseUserSettingsComposableState {
+export function useUserSettings(): UseUserSettingsComposableState {
   /**
    * Add tool to the user settings
    *

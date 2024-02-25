@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
-import useUserSettings from '@/application/services/useUserSettings';
+import { useUserSettings } from '@/application/services/useUserSettings';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import Button from '../button/Button.vue';
