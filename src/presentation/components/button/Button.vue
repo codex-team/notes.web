@@ -32,32 +32,35 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-const props = withDefaults(defineProps<{
-  /**
-   * Text displayed on button
-   */
-  text?: string;
+const props = withDefaults(
+  defineProps<{
+    /**
+     * Text displayed on button
+     */
+    text?: string;
 
-  /**
-   * Icon at left side of button
-   */
-  icon?: string;
+    /**
+     * Icon at left side of button
+     */
+    icon?: string;
 
-  /**
-   * Link to navigate on click
-   */
-  link?: string;
+    /**
+     * Link to navigate on click
+     */
+    link?: string;
 
-  /**
-   * Button style type
-   */
-  type?: 'primary' | 'secondary' | 'transparent';
-}>(), {
-  type: 'secondary',
-  text: undefined,
-  icon: undefined,
-  link: undefined,
-});
+    /**
+     * Button style type
+     */
+    type?: 'primary' | 'secondary' | 'transparent';
+  }>(),
+  {
+    type: 'secondary',
+    text: undefined,
+    icon: undefined,
+    link: undefined,
+  }
+);
 
 /**
  * True if button contains only icon
@@ -86,7 +89,7 @@ const component = computed(() => {
 });
 
 const emit = defineEmits<{
-  click: [event: MouseEvent],
+  click: [event: MouseEvent];
 }>();
 
 /**
@@ -97,7 +100,6 @@ const emit = defineEmits<{
 function onClick(event: MouseEvent) {
   emit('click', event);
 }
-
 </script>
 
 <style lang="postcss">
@@ -150,5 +152,4 @@ function onClick(event: MouseEvent) {
     padding: var(--spacing-xxs);
   }
 }
-
 </style>

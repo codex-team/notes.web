@@ -19,11 +19,15 @@ export default class AuthService {
    * @param eventBus - Common domain event bus
    * @param authRepository - Auth repository instance
    */
-  constructor(private readonly eventBus: EventBus, authRepository: AuthRepository) {
+  constructor(
+    private readonly eventBus: EventBus,
+    authRepository: AuthRepository
+  ) {
     this.repository = authRepository;
 
     if (this.repository.hasSession()) {
-      this.repository.restoreSession()
+      this.repository
+        .restoreSession()
         .then(async (session) => {
           await this.acceptSession(session.accessToken, session.refreshToken);
         })
@@ -50,10 +54,12 @@ export default class AuthService {
    * @param refreshToken - token got from backend. Used to refresh access token
    */
   public async acceptSession(accessToken: string, refreshToken: string): Promise<void> {
-    this.eventBus.dispatchEvent(new AuthCompletedEvent({
-      accessToken,
-      refreshToken,
-    }));
+    this.eventBus.dispatchEvent(
+      new AuthCompletedEvent({
+        accessToken,
+        refreshToken,
+      })
+    );
   }
 
   /**

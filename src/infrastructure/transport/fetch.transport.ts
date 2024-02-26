@@ -26,8 +26,10 @@ export default class FetchTransport {
    * @param baseUrl - Base URL
    * @param options - Transport options
    */
-  constructor(private readonly baseUrl: string, private readonly options?: FetchTransportOptions) {
-  }
+  constructor(
+    private readonly baseUrl: string,
+    private readonly options?: FetchTransportOptions
+  ) {}
 
   /**
    * Gets specific resource
@@ -101,10 +103,16 @@ export default class FetchTransport {
   public async patch(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
     this.headers.set('Content-Type', 'application/json');
 
+    /**
+     * If the body undefined, request fails fastify validation
+     * and sends a Bad Request, so we make it empty
+     */
+    const data = payload !== undefined ? payload : {};
+
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'PATCH',
       headers: this.headers,
-      body: payload !== undefined ? JSON.stringify(payload) : undefined,
+      body: JSON.stringify(data),
     });
 
     return this.parseResponse(response, endpoint);

@@ -83,7 +83,6 @@ export default class AuthorizableTransport extends Transport {
     return super.get(endpoint, data);
   }
 
-
   /**
    * Make POST request to update some resource
    *

@@ -1,7 +1,7 @@
 <template>
   <component
-   :is="`h${props.level}`"
-   :class="$style.heading"
+    :is="`h${props.level}`"
+    :class="$style.heading"
   >
     <slot />
   </component>
@@ -21,7 +21,15 @@ const props = defineProps<{
 <style module>
 @import '@/styles/mixins/typography.pcss';
 
-.heading {
+h1.heading {
   @apply --text-heading-1;
+}
+
+h2.heading {
+  @apply --text-heading-2;
+}
+
+h3.heading {
+  @apply --text-heading-3;
 }
 </style>
