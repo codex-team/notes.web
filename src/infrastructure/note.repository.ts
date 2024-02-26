@@ -4,6 +4,7 @@ import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
+import type { NoteList } from '@/domain/entities/NoteList';
 
 /**
  * Note repository
@@ -37,7 +38,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @throws NotFoundError
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
-  public async getNoteById(id: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
+  public async getNoteById(id: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     /**
      * Get note data from API
      */
@@ -50,7 +51,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param hostname - Custom hostname linked with one Note
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
-  public async getNoteByHostname(hostname: string): Promise<{ note: Note, accessRights: NoteAccessRights }> {
+  public async getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     /**
      * Get note data from API
      */
@@ -58,12 +59,27 @@ export default class NoteRepository implements NoteRepositoryInterface {
   }
 
   /**
+   * Gets note list
+   *
+   * @param page - number of pages to get
+   */
+  public async getNoteList(page: number): Promise<NoteList> {
+    return await this.transport.get<NoteList>(`/notes`, { page });
+  }
+
+  /**
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
+   * @param parentId - Id of the parent note. If undefined, then it's a root note
+   *
+   * @todo API should return Note
    */
-  public async createNote(content: NoteContent): Promise<Note> {
-    const response = await this.transport.post<{ id: NoteId }>('/note', { content });
+  public async createNote(content: NoteContent, parentId?: NoteId): Promise<Note> {
+    const response = await this.transport.post<{ id: NoteId }>('/note', {
+      content,
+      parentId,
+    });
 
     const note: Note = {
       id: response.id,
@@ -71,7 +87,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
     };
 
     return note;
-  };
+  }
 
   /**
    * Updates a content of existing note

@@ -13,16 +13,34 @@
   "userSettings": {
     "title": "User Settings",
     "changeTheme": "Change theme",
-    "userEditorTools": "User editor tools"
+    "userEditorTools": "User editor tools",
+    "uninstallEditorTool": "Uninstall",
+    "toolUninstallConfirmation": "Do you really want to delete this tool?"
   },
   "noteSettings": {
-    "title": "Note Settings"
+    "title": "Note Settings",
+    "customHostname": "Custom Hostname",
+    "hostnamePlaceholder": "example: landing.codex.so",
+    "invitationHash": "Invitation Hash",
+    "invitationHashPlaceholder": "It will generate a new invitation hash...",
+    "isPublic": "is note public",
+    "revokeHash": "Revoke"
   },
   "note": {
     "new": "New Note"
   },
+  "noteList": {
+    "buttons": {
+      "loadMoreNotes": "Load more notes"
+    },
+    "emptyNoteList": "No Notes yet. Make your first note",
+    "noteListItem": {
+      "untitled": "Untitled"
+    }
+  },
   "home": {
-    "title": "Recent Notes"
+    "title": "Recent Notes",
+    "authText": "You are not logged in, log in to see your recent notes"
   },
   "errors": {
     "404": "Page not found",
@@ -31,6 +49,28 @@
   },
   "marketplace": {
     "title": "Marketplace",
-    "listOfTools": "Tools"
+    "listOfTools": "Tools",
+    "uninstallTool": "Uninstall",
+    "installTool": "Install",
+    "addTool": "Add Tool",
+    "newTool": {
+      "title": {
+        "placeholder": "Enter tool title",
+        "label": "Title"
+      },
+      "name": {
+        "placeholder": "Enter tool name",
+        "label": "Name"
+      },
+      "exportName": {
+        "placeholder": "Enter tool export name",
+        "label": "Export Name"
+      },
+      "cdn": {
+        "placeholder": "Enter tool CDN link",
+        "label": "CDN"
+      },
+      "add": "Add"
+    }
   }
 }

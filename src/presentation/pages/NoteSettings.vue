@@ -3,14 +3,19 @@
   <div v-if="noteSettings">
     <TextEdit
       v-model:value="noteSettings.customHostname"
-      :name="'customHostname'"
-      :title="'Custom Hostname'"
-      :placeholder="'example: landing.codex.so'"
+      name="customHostname"
+      :title="t('noteSettings.customHostname')"
+      :placeholder="t('noteSettings.hostnamePlaceholder')"
     />
     <Checkbox
-      :id="noteSettings.id.toString()"
       v-model:checked="noteSettings.isPublic"
-      label="is note public"
+      :label="t('noteSettings.isPublic')"
+    />
+    {{ invitationLink }}
+    <Button
+      :text="t('noteSettings.revokeHash')"
+      type="primary"
+      @click="regenerateHash"
     />
     <div class="control__button">
       <Button
@@ -22,9 +27,7 @@
       />
     </div>
   </div>
-  <div v-else>
-    Loading...
-  </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script lang="ts" setup>
@@ -36,6 +39,7 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
 const { t } = useI18n();
 
@@ -43,10 +47,14 @@ const props = defineProps<{
   /**
    * Id of the current note
    */
-   id: NoteId;
+  id: NoteId;
 }>();
 
-const { load, noteSettings, update } = useNoteSettings();
+const { load, noteSettings, update, revokeHash } = useNoteSettings();
+
+const invitationLink = computed(
+  () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
+);
 
 load(props.id);
 
@@ -61,6 +69,13 @@ function onClick() {
     isPublic: noteSettings.value.isPublic,
     customHostname: noteSettings.value.customHostname,
   });
+}
+
+/**
+ * Regenerate invitation hash
+ */
+async function regenerateHash() {
+  revokeHash(props.id);
 }
 
 /**

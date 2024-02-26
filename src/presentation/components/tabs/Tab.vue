@@ -4,7 +4,7 @@
     :icon="icon"
     :link="path"
     class="tab"
-    :class="{'tab--active': isActive}"
+    :class="{ 'tab--active': isActive }"
   >
     <!-- eslint-disable vue/no-v-html -->
     <div

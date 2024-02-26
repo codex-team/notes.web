@@ -16,4 +16,7 @@ interface ImportMetaEnv {
 
   /** NoteX default production hostname */
   VITE_PRODUCTION_HOSTNAME: string;
+
+  /** Hawk integration token. See https://hawk.so/ */
+  VITE_HAWK_TOKEN: string;
 }

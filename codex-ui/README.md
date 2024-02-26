@@ -10,7 +10,7 @@
 - [ ] Make tree-shaking work
 - [ ] Prepare hooks/composables example
 - [ ] Fix Eslint
-- [ ] Improve DX for components debug
+- [x] Improve DX for components debug
 - [ ] Test Web/React/Native implementations
 - [ ] Think about i18n
 
@@ -40,9 +40,7 @@ import { Button, Input, Heading } from 'codex-ui/vue';
 ```
 
 ```vue
-<Heading
-  :level="2"
->
+<Heading :level="2">
   CodeX UI showcase
 </Heading>
 <Button text="Button text" />
@@ -69,6 +67,24 @@ Add the following "path" to the "tsconfig.json"
 1. Import `codex-ui/styles` somewhere in App
 2. Use variable in CSS, e.g `var(--ui-color)`
 
+## Using Typography
 
+Just add corresponded classes listed in the [typography.pcss](./src/styles/typography.pcss).
 
+Example:
 
+```html
+<div class="text-ui-base">Title</div>
+<div class="text-ui-subtle">Description</div>
+```
+
+Inside this package you can also use PostCSS `@apply`:
+
+```
+<style>
+@import url('@/styles/typography.pcss');
+
+.label {
+  @apply --text-ui-base-bold;
+}
+```

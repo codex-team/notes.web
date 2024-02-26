@@ -11,11 +11,6 @@ import postcssHoverMediaFeature from 'postcss-hover-media-feature';
  */
 export default function () {
   return {
-    plugins: [
-      postcssNested(),
-      postcssPresetEnv(),
-      postcssApply(),
-      postcssHoverMediaFeature(),
-    ],
+    plugins: [postcssNested(), postcssPresetEnv(), postcssApply(), postcssHoverMediaFeature()],
   };
-};
+}

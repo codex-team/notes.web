@@ -19,7 +19,10 @@ export default class UserService {
    * @param eventBus - Common domain event bus
    * @param userRepository - repository instance
    */
-  constructor(private readonly eventBus: EventBus, userRepository: UserRepository) {
+  constructor(
+    private readonly eventBus: EventBus,
+    userRepository: UserRepository
+  ) {
     this.repository = userRepository;
 
     /**
@@ -45,11 +48,20 @@ export default class UserService {
   }
 
   /**
-   * Adds a tool to the user (marketplace mock)
+   * Adds a tool to the user
    *
    * @param id - tool id
    */
-  public addTool(id: string): void {
-    this.repository.addTool(id);
+  public async addTool(id: string): Promise<void> {
+    return await this.repository.addTool(id);
+  }
+
+  /**
+   * Removes a tool from the user
+   *
+   * @param id - tool id
+   */
+  public async removeTool(id: string): Promise<void> {
+    return await this.repository.removeTool(id);
   }
 }

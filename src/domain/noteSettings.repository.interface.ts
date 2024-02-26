@@ -5,7 +5,6 @@ import type { NoteId } from './entities/Note';
  * Repository interface describes the methods that required by domain for its business logic implementation
  */
 export default interface NoteSettingsRepositoryInterface {
-
   /**
    * Returns setting for a note with passed id
    *
@@ -23,4 +22,12 @@ export default interface NoteSettingsRepositoryInterface {
    * @returns updated note settings
    */
   patchNoteSettingsByNoteId(id: NoteId, data: Partial<NoteSettings>): Promise<NoteSettings>;
+
+  /**
+   * Revoke invitation hash
+   *
+   * @param id - note id
+   * @returns updated note settings
+   */
+  regenerateInvitationHash(id: NoteId): Promise<NoteSettings>;
 }

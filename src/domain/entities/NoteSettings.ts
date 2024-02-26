@@ -1,4 +1,9 @@
 /**
+ * Used to invite users to team
+ */
+export type InvitationHash = string;
+
+/**
  * NoteSettings entity
  */
 export default interface NoteSettings {
@@ -16,4 +21,9 @@ export default interface NoteSettings {
    * Is note enabled
    */
   isPublic: boolean;
+
+  /**
+   * Invitation hash
+   */
+  invitationHash: InvitationHash;
 }

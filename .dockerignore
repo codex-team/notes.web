@@ -18,8 +18,10 @@
 !vite.config.ts
 !postcss.config.js
 !.yarn/releases
+!codex-ui
 
 # Ignore unnecessary files inside allowed directories
 **/*~
 **/*.log
 **/.DS_Store
+**/README.md

@@ -37,9 +37,19 @@ export default defineConfig({
           vue: 'Vue',
         },
       },
-       // make sure to externalize deps that shouldn't be bundled
+      // make sure to externalize deps that shouldn't be bundled
       // into your library
       external: ['vue'],
+    },
+  },
+  css: {
+    modules: {
+      /**
+       * Disable CSS Modules hash and add a custom prefix (to allow users customizing the styles)
+       *
+       * @example _button_1yxsp_2 -> .cdx-button
+       */
+      generateScopedName: 'cdx-[local]',
     },
   },
   resolve: {
@@ -47,4 +57,7 @@ export default defineConfig({
       '@/': '/src/',
     },
   },
-})
+  server: {
+    open: '/dev/index.html',
+  },
+});

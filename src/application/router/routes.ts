@@ -4,8 +4,9 @@ import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
-import Marketplace from '@/presentation/pages/Marketplace.vue';
+import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
+import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -28,7 +29,7 @@ const routes: RouteRecordRaw[] = [
     name: 'note',
     path: '/note/:id',
     component: Note,
-    props: route => ({
+    props: (route) => ({
       id: String(route.params.id),
     }),
   },
@@ -39,6 +40,14 @@ const routes: RouteRecordRaw[] = [
     props: {
       id: null,
     },
+  },
+  {
+    path: '/note/:id/new',
+    component: Note,
+    props: (route) => ({
+      id: null,
+      parentId: String(route.params.id),
+    }),
   },
   {
     path: '/view/',
@@ -52,13 +61,18 @@ const routes: RouteRecordRaw[] = [
     name: 'note_settings',
     path: '/note/:id/settings',
     component: NoteSettings,
-    props: route => ({
+    props: (route) => ({
       id: String(route.params.id),
     }),
   },
   {
     path: `/marketplace`,
     component: Marketplace,
+  },
+  {
+    name: 'newTool',
+    path: `/marketplace/add`,
+    component: AddTool,
   },
   /**
    * 404 page

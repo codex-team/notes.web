@@ -1,35 +1,49 @@
 <template>
-  <div v-if="note === null">
-    Loading...
+  <div v-if="note === null">Loading...</div>
+  <div v-else>
+    <div>
+      <Button
+        text="Add child note"
+        @click.passive="createChildNote"
+      />
+    </div>
+
+    <Editor
+      ref="editor"
+      :content="note.content"
+      :read-only="!canEdit"
+      @change="noteChanged"
+    />
   </div>
-  <Editor
-    v-else
-    ref="editor"
-    :content="note.content"
-    :read-only="!canEdit"
-    @change="noteChanged"
-  />
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { ref, toRef, watch } from 'vue';
+import { Button } from 'codex-ui/vue';
 import Editor from '@/presentation/components/editor/Editor.vue';
 import useNote from '@/application/services/useNote';
-import {  NoteContent } from '@/domain/entities/Note';
+import { useRouter } from 'vue-router';
+import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { watchEffect } from 'vue';
 
 const { t } = useI18n();
+
+const router = useRouter();
 
 const props = defineProps<{
   /**
    * Null for new note, id for reading existing note
    */
   id: string | null;
+
+  /**
+   * Parent note id, undefined for root note
+   */
+  parentId?: string;
 }>();
 
-const noteId = computed(() => props.id);
+const noteId = toRef(props, 'id');
 
 const { note, save, noteTitle, canEdit } = useNote({
   id: noteId,
@@ -49,28 +63,42 @@ function noteChanged(data: NoteContent): void {
   const isEmpty = editor.value?.isEmpty();
 
   if (!isEmpty) {
-    save(data);
+    save(data, props.parentId);
   }
 }
 
 /**
- * Changing the title in the browser
+ * Create new child note
  */
-if (!props.id) {
-  useHead({
-    title: t('note.new'),
-  });
-} else {
-  watchEffect(() => {
-    if (noteTitle.value) {
+function createChildNote(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/note/${props.id}/new`);
+}
+
+watch(
+  () => props.id,
+  () => {
+    /** If new child note is created, refresh editor with empty data */
+    if (props.id === null) {
+      editor.value?.refresh();
+
       useHead({
-        title: noteTitle.value,
+        title: t('note.new'),
       });
     }
-  });
-}
+  },
+  { immediate: true }
+);
+
+watch(noteTitle, () => {
+  if (props.id !== null) {
+    useHead({
+      title: noteTitle.value,
+    });
+  }
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
