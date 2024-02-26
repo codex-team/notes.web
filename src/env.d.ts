@@ -14,12 +14,6 @@ interface ImportMetaEnv {
    */
   VITE_GOOGLE_OAUTH_URL: string;
 
-  /**
-   * Google local oauth url
-   */
-  VITE_GOOGLE_LOCAL_OAUTH_URL: string;
-
-
   /** NoteX default production hostname */
   VITE_PRODUCTION_HOSTNAME: string;
 }
