@@ -1,16 +1,16 @@
 <template>
-  <div :class="[$style['form-section'], `${$style['form-section']}--${size}`]">
-    <div :class="[$style['form-section-title'], 'text-ui-footnote']">
+  <div :class="[$style['field'], `${$style['field']}--${size}`]">
+    <div :class="[$style['field-title'], 'text-ui-footnote']">
       {{ title }}
     </div>
-    <div :class="$style['form-section-field']">
+    <div :class="$style['field-field']">
       <Input
         :size="size"
         :disabled="disabled"
         v-model="model"
         :value="value"
       />
-      <div :class="[$style['form-section-caption'], 'text-ui-subtle']">
+      <div :class="[$style['field-caption'], 'text-ui-subtle']">
         {{ caption }}
       </div>
     </div>
@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import Input from '../input/Input.vue';
 
 const props = withDefaults(
@@ -29,7 +28,7 @@ const props = withDefaults(
     value?: string;
 
     /**
-     * Form section title
+     * Form field title
      * Will be displayed as a heading
      */
     title: string;
@@ -41,12 +40,12 @@ const props = withDefaults(
     caption?: string;
 
     /**
-     * The size of the form section
+     * The size of the form field
      */
     size?: 'small' | 'medium' | 'large';
 
     /**
-     * Whether the form section is disabled
+     * Whether the form field is disabled
      */
     disabled?: boolean;
   }>(),
@@ -62,7 +61,7 @@ const model = defineModel();
 </script>
 
 <style module>
-.form-section {
+.field {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);

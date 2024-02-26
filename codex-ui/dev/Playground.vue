@@ -41,25 +41,25 @@
     />
 
     <Heading :level="3">Form Section</Heading>
-    <FormSection
-      v-model="formSectionValue"
-      :value="formSectionValue"
+    <FormField
+      v-model="formFieldValue"
+      :value="formFieldValue"
       title="Title"
       caption="Will be visible in Tools list"
       size="small"
     />
     <br />
-    <FormSection
-      v-model="formSectionValue"
-      :value="formSectionValue"
+    <FormField
+      v-model="formFieldValue"
+      :value="formFieldValue"
       title="Title"
       caption="Will be visible in Tools list"
       size="medium"
     />
     <br />
-    <FormSection
-      v-model="formSectionValue"
-      :value="formSectionValue"
+    <FormField
+      v-model="formFieldValue"
+      :value="formFieldValue"
       title="Title"
       caption="Will be visible in Tools list"
       size="large"
@@ -72,10 +72,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormSection } from '../src/vue';
+import { Button, Heading, Input, FormField } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
-const formSectionValue = ref('Heading');
+const formFieldValue = ref('Heading');
 
 /**
  * Button samples in different states
