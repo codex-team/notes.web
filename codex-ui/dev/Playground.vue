@@ -40,7 +40,7 @@
       disabled
     />
 
-    <Heading :level="3">Form Section</Heading>
+    <Heading :level="3">Form Field</Heading>
     <FormField
       v-model="formFieldValue"
       :value="formFieldValue"
