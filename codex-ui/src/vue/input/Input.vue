@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <input
-      :class="[$style.input, `${$style.input}--${size}`, 'text-ui-base']"
-      :value="props.text"
-      :disabled="props.disabled"
-    />
-  </div>
+  <input
+    :class="[$style.input, `${$style.input}--${size}`, 'text-ui-base']"
+    :disabled="props.disabled"
+    v-model="model"
+  />
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { onMounted } from 'vue';
 
 const props = withDefaults(
   defineProps<{
     /**
      * The text to display on the input
      */
-    text: string;
+    value?: string;
 
     /**
      * The size of the input
@@ -29,10 +27,17 @@ const props = withDefaults(
     disabled?: boolean;
   }>(),
   {
+    value: '',
     size: 'medium',
     disabled: false,
   }
 );
+
+const model = defineModel();
+
+onMounted(() => {
+  model.value = props.value;
+});
 </script>
 
 <style lang="postcss" module>
