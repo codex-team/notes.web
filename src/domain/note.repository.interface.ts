@@ -45,4 +45,9 @@ export default interface NoteRepositoryInterface {
    * @param content - Note content (Editor.js data)
    */
   updateNoteContent(id: string, content: NoteContent): Promise<void>;
+
+  /**
+   * Unlink note from parent
+   */
+  unlinkParent(id: NoteId): Promise<void>;
 }

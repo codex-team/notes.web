@@ -100,4 +100,13 @@ export default class NoteRepository implements NoteRepositoryInterface {
       content,
     });
   }
+
+  /**
+   * Unlink note from parent
+   *
+   * @param id - Child note id
+   */
+  public async unlinkParent(id: NoteId): Promise<void> {
+    await this.transport.delete(`/note/${id}/relation`);
+  }
 }
