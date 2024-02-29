@@ -6,6 +6,10 @@
         text="Add child note"
         @click.passive="createChildNote"
       />
+      <Button
+        text="Unlink"
+        @click.passive="unlinkButton"
+      />
     </div>
 
     <Editor
@@ -45,7 +49,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, save, noteTitle, canEdit } = useNote({
+const { note, save, noteTitle, canEdit, unlinkParent } = useNote({
   id: noteId,
 });
 
@@ -75,6 +79,16 @@ function createChildNote(): void {
     throw new Error('Note is Empty');
   }
   router.push(`/note/${props.id}/new`);
+}
+
+/**
+ * Unlink note from parent
+ */
+function unlinkButton(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  unlinkParent();
 }
 
 watch(
