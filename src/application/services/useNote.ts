@@ -57,6 +57,11 @@ interface UseNoteComposableState {
   resolveHostname: () => Promise<void>;
 
   /**
+   * Unlink note from parent
+   */
+  unlinkParent: () => Promise<void>;
+
+  /**
    * Defines if user can edit note
    */
   canEdit: Ref<boolean>;
@@ -169,6 +174,21 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
+   * Unlink note from parent
+   */
+  async function unlinkParent(): Promise<void> {
+    if (note.value === null) {
+      throw new Error('Note is not loaded yet');
+    }
+
+    if (currentId.value === null) {
+      throw new Error('Note id is not defined');
+    }
+
+    await noteService.unlinkParent(currentId.value);
+  }
+
+  /**
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
@@ -213,5 +233,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     canEdit,
     resolveHostname,
     save,
+    unlinkParent,
   };
 }

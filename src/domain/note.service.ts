@@ -60,4 +60,13 @@ export default class NoteService {
   public async updateNoteContent(id: string, content: NoteContent): Promise<void> {
     return await this.noteRepository.updateNoteContent(id, content);
   }
+
+  /**
+   * Unlink note from parent
+   *
+   * @param id - Note identifier
+   */
+  public async unlinkParent(id: NoteId): Promise<void> {
+    return await this.noteRepository.unlinkParent(id);
+  }
 }
