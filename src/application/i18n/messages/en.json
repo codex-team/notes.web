@@ -28,8 +28,8 @@
   },
   "note": {
     "new": "New Note",
-    "unlink": "Unlink",
-    "createChild": "Create Child"
+    "unlink": "Unlink from parent",
+    "createChild": "Create child"
   },
   "noteList": {
     "buttons": {
