@@ -27,7 +27,9 @@
     "revokeHash": "Revoke"
   },
   "note": {
-    "new": "New Note"
+    "new": "New Note",
+    "unlink": "Unlink",
+    "createChild": "Create Child"
   },
   "noteList": {
     "buttons": {
