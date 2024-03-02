@@ -3,13 +3,13 @@
   <div v-else>
     <div>
       <Button
-        :disabled="props.id === null"
+        v-if="props.id != null"
         @click="createChildNote"
       >
         {{ t('note.createChild') }}
       </Button>
       <Button
-        :disabled="parentNote === undefined"
+        v-if="parentNote != undefined"
         @click="unlinkButton"
       >
         {{ t('note.unlink') }}
