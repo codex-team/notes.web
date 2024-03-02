@@ -7,4 +7,5 @@ import type NoteAccessRights from '@/domain/entities/NoteAccessRights.ts';
 export type GetNoteResponsePayload = {
   note: Note;
   accessRights: NoteAccessRights;
+  parentNote: Note | undefined;
 };
