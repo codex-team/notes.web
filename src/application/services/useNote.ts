@@ -67,7 +67,7 @@ interface UseNoteComposableState {
   canEdit: Ref<boolean>;
 
   /**
-   * TODO: add description
+   * Parent note, undefined if it's a root note
    */
   parentNote: Ref<Note | undefined>;
 
