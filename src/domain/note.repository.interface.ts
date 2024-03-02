@@ -7,13 +7,14 @@ import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
  */
 export default interface NoteRepositoryInterface {
   /**
-   * Returns a Note and NoteAccessRights by id
+   * Returns a Note, NoteAccessRights and parent note if exists by id
    *
    * @param publicId - Note id
-   * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
+   * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - Note instance, NoteAccessRights instance
+   * and parent note if exists
    * @throws NotFoundError
    */
-  getNoteById(publicId: string): Promise<{ note: Note; accessRights: NoteAccessRights }>;
+  getNoteById(publicId: string): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }>;
 
   /**
    * Returns a Note and NoteAccessRights by hostname

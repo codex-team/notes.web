@@ -25,9 +25,12 @@ export default class NoteService {
    *
    * @param id - Note identifier
    * @throws NotFoundError
-   * @returns {{ note: Note, accessRights: NoteAccessRights }} - note data and accessRights data
+   * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - note data, accessRights data
+   * and parent note data if exists
    */
-  public async getNoteById(id: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
+  public async getNoteById(
+    id: string
+  ): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }> {
     return await this.noteRepository.getNoteById(id);
   }
 
