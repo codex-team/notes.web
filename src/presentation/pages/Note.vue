@@ -9,7 +9,7 @@
         {{ t('note.createChild') }}
       </Button>
       <Button
-        :disabled="props.id === null"
+        :disabled="parentNote === undefined"
         @click="unlinkButton"
       >
         {{ t('note.unlink') }}
@@ -53,7 +53,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, save, noteTitle, canEdit, unlinkParent } = useNote({
+const { note, save, noteTitle, canEdit, unlinkParent, parentNote } = useNote({
   id: noteId,
 });
 
@@ -92,6 +92,9 @@ function unlinkButton(): void {
   if (props.id === null) {
     throw new Error('Note is Empty');
   }
+
+  parentNote.value = undefined;
+
   unlinkParent();
 }
 

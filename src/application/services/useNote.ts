@@ -67,6 +67,11 @@ interface UseNoteComposableState {
   canEdit: Ref<boolean>;
 
   /**
+   * TODO: add description
+   */
+  parentNote: Ref<Note | undefined>;
+
+  /**
    * Title for bookmarks in the browser
    */
   noteTitle: Ref<string>;
@@ -125,6 +130,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const canEdit = ref<boolean>(true);
 
   /**
+   * Parent note
+   *
+   * undefined by default
+   */
+  const parentNote = ref<Note | undefined>(undefined);
+
+  /**
    * Load note by id
    *
    * @param id - Note identifier got from composable argument
@@ -137,6 +149,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
     note.value = response.note;
     canEdit.value = response.accessRights.canEdit;
+    parentNote.value = response.parentNote;
   }
 
   /**
@@ -234,5 +247,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     resolveHostname,
     save,
     unlinkParent,
+    parentNote,
   };
 }
