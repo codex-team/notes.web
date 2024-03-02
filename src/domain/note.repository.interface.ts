@@ -10,8 +10,7 @@ export default interface NoteRepositoryInterface {
    * Returns a Note, NoteAccessRights and parent note if exists by id
    *
    * @param publicId - Note id
-   * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - Note instance, NoteAccessRights instance
-   * and parent note if exists
+   * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - Returns a Note, NoteAccessRights and parent note (if exists) by id
    * @throws NotFoundError
    */
   getNoteById(publicId: string): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }>;
