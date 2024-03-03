@@ -6,7 +6,7 @@
         v-if="props.id != null"
         @click="createChildNote"
       >
-        {{ t('note.createChild') }}
+        {{ t('note.createChildNote') }}
       </Button>
       <Button
         v-if="parentNote != undefined"
@@ -92,8 +92,6 @@ function unlinkButton(): void {
   if (props.id === null) {
     throw new Error('Note is Empty');
   }
-
-  parentNote.value = undefined;
 
   unlinkParent();
 }
