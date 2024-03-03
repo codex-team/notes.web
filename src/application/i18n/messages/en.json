@@ -29,7 +29,7 @@
   "note": {
     "new": "New Note",
     "unlink": "Unlink from parent",
-    "createChild": "Create child"
+    "createChildNote": "Create child note"
   },
   "noteList": {
     "buttons": {
