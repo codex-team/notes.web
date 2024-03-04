@@ -14,15 +14,19 @@ jobs:
       actions: write
     runs-on: ubuntu-22.04
     env:
-      API_URL: 'https://api.github.com/repos/${{ github.repository }}/actions/runs'
+      API_URL: "https://api.github.com/repos/${{ github.repository }}/actions/runs"
     steps:
-      - name: Set commit_sha to pull request head sha
+      - name: Set commit_sha to pull request head sha and ref to pull request
         if: ${{ github.event_name == 'pull_request' }}
-        run: echo "COMMIT_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
+        run: |
+          echo "COMMIT_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
+          echo "REF=[${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})" >> $GITHUB_ENV
 
-      - name: Set commit_sha to pushed commit sha
+      - name: Set commit_sha to pushed commit sha and ref to branch name
         if: ${{ github.event_name == 'push' }}
-        run: echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+        run: |
+          echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+          echo "REF=[${{ github.ref_name }}](https://github.com/${{ github.repository }}/tree/${{ github.ref }})" >> $GITHUB_ENV
 
       - name: Wait for other checks to succeed
         uses: lewagon/wait-on-check-action@v1.3.1
@@ -37,27 +41,17 @@ jobs:
       - name: Get actions results
         run: |
           echo 'ACTIONS_RESULTS<<0x0a' >> $GITHUB_ENV
+          echo -e "👏 ${{ github.triggering_actor }}:\n${{ env.REF }}\n" >> $GITHUB_ENV
           curl -s -X GET -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"\
            "$API_URL" | jq -r '.workflow_runs[] | select(((.head_sha=="${{ env.COMMIT_SHA }}") and (.id != ${{ github.run_id }}))
             and ((.conclusion == "success") or (.conclusion == "failure"))) | "\(.conclusion) [\(.name)](\(.html_url))" |
              gsub("success"; "✅") | gsub("failure"; "❌")' >> $GITHUB_ENV
           echo '0x0a' >> $GITHUB_ENV
 
-        # Stop if all checks were skipped/cancelled
-      - name: Stop this workflow if none of the results have conclusion "success" or "failure"
-        if: ${{ env.ACTIONS_RESULTS == '' }}
-        run: |
-          curl -L \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          ${{ env.API_URL }}/${{ github.run_id }}/cancel
-
       - name: Send a message
         uses: codex-team/action-codexbot-notify@v1
         with:
           webhook: ${{ secrets.CODEX_BOT_NOTIFY_NOTES_CHAT }}
-          message: '${{ env.ACTIONS_RESULTS }}'
+          message: "${{ env.ACTIONS_RESULTS }}"
           parse_mode: 'markdown'
           disable_web_page_preview: true
