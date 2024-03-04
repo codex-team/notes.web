@@ -46,7 +46,7 @@ jobs:
           echo -e "<b>${{ github.event.repository.name }}</b> 👏 ${{ github.triggering_actor }}:\n"${{ env.REF }}"\n" >> $GITHUB_ENV
           curl -s -X GET -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"\
            "$API_URL" | jq -r '.workflow_runs[] | select(((.head_sha=="${{ env.COMMIT_SHA }}") and (.id != ${{ github.run_id }}))
-            and ((.conclusion == "success") or (.conclusion == "failure"))) | "\(.conclusion) $action_name" |
+            and ((.conclusion == "success") or (.conclusion == "failure"))) | "\(.conclusion) ${{ env.action_name }}" |
              gsub("success"; "✅") | gsub("failure"; "❌")' >> $GITHUB_ENV
           echo '0x0a' >> $GITHUB_ENV
 
