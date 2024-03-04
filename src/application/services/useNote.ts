@@ -198,9 +198,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       throw new Error('Note id is not defined');
     }
 
-    parentNote.value = undefined;
-
     await noteService.unlinkParent(currentId.value);
+
+    parentNote.value = undefined;
   }
 
   /**
