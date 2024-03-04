@@ -1,7 +1,83 @@
 <template>
   <div :class="$style.playground">
     <Heading :level="1">Playground</Heading>
+    <Heading :level="3">Mode:</Heading>
+    <div :class="$style.buttons">
+      <Button
+        size="small"
+        @click="() => setMode('light')"
+      >
+        Light
+      </Button>
 
+      <Button
+        size="small"
+        @click="() => setMode('dark')"
+      >
+        Dark
+      </Button>
+      </div>
+    <br/>
+    <Heading :level="3">Base Colors:</Heading>
+    <div :class="$style.buttons">
+      <Button
+        size="small"
+        @click="() => setBaseColor('classic')"
+      >
+        Classic
+      </Button>
+
+      <Button
+        size="small"
+        @click="() => setBaseColor('crimson')"
+      >
+        Crimson
+      </Button>
+
+      <Button
+        size="small"
+        @click="() => setBaseColor('red')"
+      >
+        Red
+      </Button>
+
+      <Button
+        size="small"
+        @click="() => setBaseColor('violet')">
+          Violet
+      </Button>
+      </div>
+    <br/>
+    <Heading :level="3">Accent Colors:</Heading>
+    <div :class="$style.buttons">
+      <Button
+        size="small"
+        @click="() => setAccentColor('classic')"
+      >
+        Classic
+      </Button>
+
+      <Button
+        size="small"
+        @click="() => setAccentColor('crimson')"
+      >
+        Crimson
+      </Button>
+
+      <Button
+        size="small"
+        @click="() => setAccentColor('red')"
+      >
+        Red
+      </Button>
+
+      <Button
+        size="small"
+        @click="() => setAccentColor('violet')"
+      >
+        Violet
+      </Button>
+      </div>
     <Heading :level="3">Buttons</Heading>
     <div :class="$style.buttons">
       <div v-for="button in buttons">
@@ -94,6 +170,18 @@ const buttons = [
   ['large', 'destructive'],
   ['large', 'disabled'],
 ];
+
+function setBaseColor(color: string) {
+  document.body.setAttribute('theme-base', color);
+}
+
+function setAccentColor(color: string) {
+  document.body.setAttribute('theme-accent', color);
+}
+
+function setMode(mode: string) {
+  document.body.setAttribute('mode', mode);
+}
 </script>
 
 <style module>
