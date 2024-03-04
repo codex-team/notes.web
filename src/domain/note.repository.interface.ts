@@ -7,13 +7,13 @@ import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
  */
 export default interface NoteRepositoryInterface {
   /**
-   * Returns a Note and NoteAccessRights by id
+   * Returns a Note, NoteAccessRights and parent note if exists by id
    *
    * @param publicId - Note id
-   * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
+   * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - Returns a Note, NoteAccessRights and parent note (if exists) by id
    * @throws NotFoundError
    */
-  getNoteById(publicId: string): Promise<{ note: Note; accessRights: NoteAccessRights }>;
+  getNoteById(publicId: string): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }>;
 
   /**
    * Returns a Note and NoteAccessRights by hostname
@@ -45,4 +45,9 @@ export default interface NoteRepositoryInterface {
    * @param content - Note content (Editor.js data)
    */
   updateNoteContent(id: string, content: NoteContent): Promise<void>;
+
+  /**
+   * Unlink note from parent
+   */
+  unlinkParent(id: NoteId): Promise<void>;
 }

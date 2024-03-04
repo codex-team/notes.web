@@ -36,9 +36,12 @@ export default class NoteRepository implements NoteRepositoryInterface {
    *
    * @param id - Note identifier
    * @throws NotFoundError
-   * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
+   * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote }} - Note instance, NoteAccessRights instance
+   * and parent note, if exists
    */
-  public async getNoteById(id: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
+  public async getNoteById(
+    id: string
+  ): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }> {
     /**
      * Get note data from API
      */
@@ -99,5 +102,14 @@ export default class NoteRepository implements NoteRepositoryInterface {
     await this.transport.patch(`/note/${id}`, {
       content,
     });
+  }
+
+  /**
+   * Unlink note from parent
+   *
+   * @param id - Child note id
+   */
+  public async unlinkParent(id: NoteId): Promise<void> {
+    await this.transport.delete(`/note/${id}/relation`);
   }
 }
