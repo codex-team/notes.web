@@ -17,7 +17,7 @@
       type="primary"
       @click="regenerateHash"
     />
-    {{ team }}
+    {{ teamMembers }}
     <div class="control__button">
       <Button
         class="header__plus"
@@ -41,6 +41,7 @@ import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
+import useTeam from '@/application/services/useTeam';
 
 const { t } = useI18n();
 
@@ -51,7 +52,8 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, loadSettings, updateSettings, revokeHash, loadTeam } = useNoteSettings();
+const { noteSettings, loadSettings, updateSettings, revokeHash } = useNoteSettings();
+const { loadTeam } = useTeam();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -79,7 +81,7 @@ async function regenerateHash() {
   revokeHash(props.id);
 }
 
-const team = computed(() => loadTeam(props.id));
+const teamMembers = computed(() => loadTeam(props.id));
 
 /**
  * Changing the title in the browser

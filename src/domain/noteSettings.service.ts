@@ -86,25 +86,4 @@ export default class NoteService {
 
     return result;
   }
-
-  /**
-   * Returns all team members by note id
-   *
-   * @param id - Note id
-   */
-  public async getTeamByNoteId(id: NoteId): Promise<NoteSettings> {
-    let result;
-
-    try {
-      result = await this.noteSettingsRepository.getTeamByNoteId(id);
-    } catch (error) {
-      if (error instanceof NotFoundError) {
-        throw new Error(`404 Not Found: We couldn't find team of ${id} note.`);
-      }
-
-      throw error;
-    }
-
-    return result;
-  }
 }

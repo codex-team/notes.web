@@ -33,13 +33,6 @@ interface UseNoteSettingsComposableState {
    * @param id - note id
    */
   revokeHash: (id: NoteId) => Promise<void>;
-
-  /**
-   * Load note team
-   *
-   * @param id - note id
-   */
-  loadTeam: (id: NoteId) => Promise<void>;
 }
 
 /**
@@ -86,20 +79,10 @@ export default function (): UseNoteSettingsComposableState {
     }
   };
 
-  /**
-   * Get all team members by note id
-   *
-   * @param id - Note id
-   */
-  const loadTeam = async (id: NoteId): Promise<void> => {
-    noteSettings.value = await noteSettingsService.getTeamByNoteId(id);
-  };
-
   return {
     noteSettings,
     loadSettings,
     updateSettings,
     revokeHash,
-    loadTeam,
   };
 }

@@ -1,5 +1,6 @@
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
+import type { Team } from './entities/Team';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -37,5 +38,5 @@ export default interface NoteSettingsRepositoryInterface {
    * @param  id - note  id
    * @returns NoteSettings - NoteSettings instance
    */
-  getTeamByNoteId(id: NoteId): Promise<NoteSettings>;
+  getTeamByNoteId(id: NoteId): Promise<Team>;
 }
