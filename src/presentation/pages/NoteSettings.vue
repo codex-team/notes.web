@@ -17,6 +17,7 @@
       type="primary"
       @click="regenerateHash"
     />
+    {{ team }}
     <div class="control__button">
       <Button
         class="header__plus"
@@ -50,13 +51,13 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { load, noteSettings, update, revokeHash } = useNoteSettings();
+const { noteSettings, loadSettings, updateSettings, revokeHash, loadTeam } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
 
-load(props.id);
+loadSettings(props.id);
 
 /**
  * Button click handler
@@ -65,7 +66,7 @@ function onClick() {
   if (!noteSettings.value) {
     throw new Error('Note settings is not loaded');
   }
-  update(props.id, {
+  updateSettings(props.id, {
     isPublic: noteSettings.value.isPublic,
     customHostname: noteSettings.value.customHostname,
   });
@@ -77,6 +78,8 @@ function onClick() {
 async function regenerateHash() {
   revokeHash(props.id);
 }
+
+const team = computed(() => loadTeam(props.id));
 
 /**
  * Changing the title in the browser

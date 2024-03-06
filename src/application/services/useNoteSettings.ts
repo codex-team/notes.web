@@ -17,7 +17,7 @@ interface UseNoteSettingsComposableState {
    *
    * @param id - note id
    */
-  load: (id: NoteId) => Promise<void>;
+  loadSettings: (id: NoteId) => Promise<void>;
 
   /**
    * Update note settings
@@ -25,7 +25,7 @@ interface UseNoteSettingsComposableState {
    * @param id - note id
    * @param data - note settings data with new values
    */
-  update: (id: NoteId, data: Partial<NoteSettings>) => Promise<void>;
+  updateSettings: (id: NoteId, data: Partial<NoteSettings>) => Promise<void>;
 
   /**
    * Revoke invitation hash
@@ -33,6 +33,13 @@ interface UseNoteSettingsComposableState {
    * @param id - note id
    */
   revokeHash: (id: NoteId) => Promise<void>;
+
+  /**
+   * Load note team
+   *
+   * @param id - note id
+   */
+  loadTeam: (id: NoteId) => Promise<void>;
 }
 
 /**
@@ -49,7 +56,7 @@ export default function (): UseNoteSettingsComposableState {
    *
    * @param id - Note id
    */
-  const load = async (id: NoteId): Promise<void> => {
+  const loadSettings = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
   };
 
@@ -59,7 +66,7 @@ export default function (): UseNoteSettingsComposableState {
    * @param id - Note id
    * @param data - Note settings data with new values
    */
-  const update = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
+  const updateSettings = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
     noteSettings.value = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
   };
 
@@ -79,10 +86,20 @@ export default function (): UseNoteSettingsComposableState {
     }
   };
 
+  /**
+   * Get all team members by note id
+   *
+   * @param id - Note id
+   */
+  const loadTeam = async (id: NoteId): Promise<void> => {
+    noteSettings.value = await noteSettingsService.getTeamByNoteId(id);
+  };
+
   return {
     noteSettings,
-    load,
-    update,
+    loadSettings,
+    updateSettings,
     revokeHash,
+    loadTeam,
   };
 }

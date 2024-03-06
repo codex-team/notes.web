@@ -51,4 +51,14 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   public async regenerateInvitationHash(id: NoteId): Promise<NoteSettings> {
     return await this.transport.patch<NoteSettings>(`/note-settings/${id}/invitation-hash`);
   }
+
+  /**
+   * Get all team members by note id
+   *
+   * @param id - Note id
+   * @returns { NoteSettings } - NoteSettings instance
+   */
+  public async getTeamByNoteId(id: NoteId): Promise<NoteSettings> {
+    return await this.transport.get<NoteSettings>(`/note-settings/${id}/team`);
+  }
 }

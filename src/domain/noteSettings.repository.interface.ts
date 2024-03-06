@@ -30,4 +30,12 @@ export default interface NoteSettingsRepositoryInterface {
    * @returns updated note settings
    */
   regenerateInvitationHash(id: NoteId): Promise<NoteSettings>;
+
+  /**
+   * Returns all team members by note id
+   *
+   * @param  id - note  id
+   * @returns NoteSettings - NoteSettings instance
+   */
+  getTeamByNoteId(id: NoteId): Promise<NoteSettings>;
 }
