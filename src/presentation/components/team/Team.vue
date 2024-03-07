@@ -4,7 +4,7 @@
       v-for="member in team"
       :key="member.id"
     >
-      <Members :team-member="member" />
+      <Member :team-member="member" />
     </div>
   </div>
 
@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import useTeam from '@/application/services/useTeam';
-import Members from './Member.vue';
+import Member from './Member.vue';
 import { NoteId } from '@/domain/entities/Note';
 
 const { team, loadTeam } = useTeam();
