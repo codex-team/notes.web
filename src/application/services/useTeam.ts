@@ -39,10 +39,6 @@ export default function (): UseTeamComposableState {
     team.value = await teamService.getTeamByNoteId(id);
   };
 
-  // onMounted(async() => {
-  //   await loadTeam();
-  // })
-
   return {
     team,
     loadTeam,
