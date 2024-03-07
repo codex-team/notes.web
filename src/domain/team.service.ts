@@ -1,7 +1,6 @@
 import type NoteSettingsRepository from '@/domain/noteSettings.repository.interface';
 import type { Team } from './entities/Team';
 import type { NoteId } from './entities/Note';
-import NotFoundError from './entities/errors/NotFound';
 
 /**
  * Team Service
@@ -25,18 +24,6 @@ export default class TeamService {
    * @returns { Team } array of the TeamMember instaces
    */
   public async getTeamByNoteId(id: NoteId): Promise<Team> {
-    let result;
-
-    try {
-      result = await this.repository.getTeamByNoteId(id);
-    } catch (error) {
-      if (error instanceof NotFoundError) {
-        throw new Error(`404 Not Found: We couldn't find team of ${id} note.`);
-      }
-
-      throw error;
-    }
-
-    return result;
+    return await this.repository.getTeamByNoteId(id);
   }
 }
