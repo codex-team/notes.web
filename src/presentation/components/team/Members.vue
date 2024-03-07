@@ -23,11 +23,6 @@ const props = defineProps<{
 }>();
 
 /**
- * Variables limiting the number of characters in the title and subtitle
- */
-const limitCharsForNoteTitle = 50;
-
-/**
  * Get the title like userId
  */
 const teamTitle = computed(() => {
@@ -36,7 +31,7 @@ const teamTitle = computed(() => {
   if (!firstNoteBlock) {
     return 'Loading...';
   } else {
-    return firstNoteBlock.slice(0, limitCharsForNoteTitle);
+    return firstNoteBlock;
   }
 });
 
