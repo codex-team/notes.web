@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import useTeam from '@/application/services/useTeam';
-import Members from './Members.vue';
+import Members from './Member.vue';
 import { NoteId } from '@/domain/entities/Note';
 
 const { team, loadTeam } = useTeam();
@@ -30,4 +30,4 @@ const props = defineProps<{
 loadTeam(props.id);
 </script>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss"></style>./Member.vue
