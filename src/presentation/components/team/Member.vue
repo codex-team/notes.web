@@ -5,9 +5,6 @@
         {{ teamTitle }}
       </h1>
     </div>
-    <p class="team-sub">
-      {{ teamSubTitle }}
-    </p>
   </div>
 </template>
 
@@ -24,28 +21,13 @@ const props = defineProps<{
 
 /**
  * Get the member title
+ *
+ * @todo add name of the user to the title
  */
 const teamTitle = computed(() => {
   const firstNoteBlock = props.teamMember.noteId;
 
-  if (!firstNoteBlock) {
-    return 'Loading...';
-  } else {
-    return firstNoteBlock;
-  }
-});
-
-/**
- * Get the member subtitle
- */
-const teamSubTitle = computed(() => {
-  const secondNoteBlock = props.teamMember.userId;
-
-  if (!secondNoteBlock) {
-    return 'Loading...';
-  } else {
-    return 'User id is ' + secondNoteBlock;
-  }
+  return firstNoteBlock;
 });
 </script>
 

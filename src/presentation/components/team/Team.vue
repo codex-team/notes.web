@@ -1,4 +1,5 @@
 <template>
+  <h1>{{ $t('team.title') }}</h1>
   <div v-if="team">
     <div
       v-for="member in team"
@@ -30,4 +31,4 @@ const props = defineProps<{
 loadTeam(props.id);
 </script>
 
-<style scoped lang="postcss"></style>./Member.vue
+<style scoped lang="postcss"></style>

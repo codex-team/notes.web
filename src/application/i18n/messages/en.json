@@ -74,5 +74,8 @@
       },
       "add": "Add"
     }
+  },
+  "team": {
+    "title": "Team"
   }
 }
