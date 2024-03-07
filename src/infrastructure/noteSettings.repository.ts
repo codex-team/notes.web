@@ -57,7 +57,7 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
    * Get all team members by note id
    *
    * @param id - Note id
-   * @returns { NoteSettings } - NoteSettings instance
+   * @returns { Team } array of the TeamMember instaces
    */
   public async getTeamByNoteId(id: NoteId): Promise<Team> {
     return await this.transport.get<Team>(`/note-settings/${id}/team`);

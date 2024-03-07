@@ -36,7 +36,7 @@ export default interface NoteSettingsRepositoryInterface {
    * Returns all team members by note id
    *
    * @param  id - note  id
-   * @returns NoteSettings - NoteSettings instance
+   * @returns { Team } array of the TeamMember instaces
    */
   getTeamByNoteId(id: NoteId): Promise<Team>;
 }

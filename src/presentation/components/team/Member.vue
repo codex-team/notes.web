@@ -16,14 +16,14 @@ import { TeamMember } from '@/domain/entities/Team.ts';
 import { computed } from 'vue';
 
 /**
- * NoteListItem props, receive Note
+ * TeamMember props
  */
 const props = defineProps<{
   teamMember: TeamMember;
 }>();
 
 /**
- * Get the title like userId
+ * Get the member title
  */
 const teamTitle = computed(() => {
   const firstNoteBlock = props.teamMember.noteId;
@@ -36,7 +36,7 @@ const teamTitle = computed(() => {
 });
 
 /**
- * Get the subtitle depending on the type of block from Note
+ * Get the member subtitle
  */
 const teamSubTitle = computed(() => {
   const secondNoteBlock = props.teamMember.userId;

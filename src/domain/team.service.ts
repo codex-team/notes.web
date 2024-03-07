@@ -4,13 +4,13 @@ import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
 
 /**
- * NoteList Service
+ * Team Service
  */
 export default class TeamService {
   private readonly repository: NoteSettingsRepository;
 
   /**
-   * Note service constructor
+   * Team service constructor
    *
    * @param repository - note settings repository
    */
@@ -22,6 +22,7 @@ export default class TeamService {
    * Returns all team members by note id
    *
    * @param id - Note id
+   * @returns { Team } array of the TeamMember instaces
    */
   public async getTeamByNoteId(id: NoteId): Promise<Team> {
     let result;
