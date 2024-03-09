@@ -52,7 +52,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, loadSettings, updateSettings, revokeHash } = useNoteSettings();
+const { noteSettings, load: loadSettings, update: updateSettings, revokeHash } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
