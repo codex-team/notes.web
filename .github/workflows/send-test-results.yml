@@ -41,7 +41,7 @@ jobs:
       - name: Get actions results
         run: |
           echo 'ACTIONS_RESULTS<<0x0a' >> $GITHUB_ENV
-          echo -e "**api** 👏 ${{ github.triggering_actor }}:\n${{ env.REF }}\n" >> $GITHUB_ENV
+          echo -e "**web** 👏 ${{ github.triggering_actor }}:\n${{ env.REF }}\n" >> $GITHUB_ENV
           curl -s -X GET -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"\
            "$API_URL" | jq -r '.workflow_runs[] | select(((.head_sha=="${{ env.COMMIT_SHA }}") and (.id != ${{ github.run_id }}))
             and ((.conclusion == "success") or (.conclusion == "failure"))) | "\(.conclusion) [\(.name)](\(.html_url))" |
