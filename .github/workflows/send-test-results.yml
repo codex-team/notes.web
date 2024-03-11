@@ -20,13 +20,13 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           echo "COMMIT_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
-          echo 'REF=<a href="${{ github.event.pull_request.html_url }}">${{ github.event.pull_request.title }}</a>' >> $GITHUB_ENV
+          echo "REF=[${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})" >> $GITHUB_ENV
 
       - name: Set commit_sha to pushed commit sha and ref to branch name
         if: ${{ github.event_name == 'push' }}
         run: |
           echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
-          echo 'REF=<a href="https://github.com/${{ github.repository }}/tree/${{ github.ref }}">${{ github.ref_name }}</a>' >> $GITHUB_ENV
+          echo "REF=[${{ github.ref_name }}](https://github.com/${{ github.repository }}/tree/${{ github.ref }})" >> $GITHUB_ENV
 
       - name: Wait for other checks to succeed
         uses: lewagon/wait-on-check-action@v1.3.1
