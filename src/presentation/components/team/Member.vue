@@ -1,34 +1,35 @@
 <template>
-  <div class="member">
+  <li class="member">
     <div class="member-name">
-      {{ teamTitle }}
+      {{ props.teamMember.user.name }}
     </div>
-  </div>
+  </li>
 </template>
 
 <script setup lang="ts">
 import { TeamMember } from '@/domain/entities/Team.ts';
-import { computed } from 'vue';
 
 /**
  * TeamMember props
  */
 const props = defineProps<{
+  /**
+   * Team member data
+   */
   teamMember: TeamMember;
 }>();
-
-/**
- * Get the member title
- *
- * @todo add name of the user to the title
- */
-const teamTitle = computed(() => {
-  const name = props.teamMember;
-
-  return name;
-});
 </script>
 
 <style scoped lang="postcss" module>
-
+@import '@/presentation/styles/typography.pcss';
+.member {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-very-x);
+}
+.member-name {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-very-x);
+}
 </style>
