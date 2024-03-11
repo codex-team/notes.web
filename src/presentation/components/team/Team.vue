@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ $t('team.title') }}</h1>
+  <h1>{{ $t('noteSettings.team.title') }}</h1>
   <ul
     v-for="member in props.team"
     :key="member.id"
