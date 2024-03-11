@@ -1,5 +1,4 @@
-import type { NoteId } from './Note.js';
-import type { UserId } from './User.js';
+import type { User } from './User.js';
 
 /**
  * Class representing a team entity
@@ -12,14 +11,9 @@ export interface TeamMember {
   id: number;
 
   /**
-   * Note ID
+   * Team member user
    */
-  noteId: NoteId;
-
-  /**
-   * Team member user id
-   */
-  userId: UserId;
+  user: User;
 }
 
 export type Team = TeamMember[];

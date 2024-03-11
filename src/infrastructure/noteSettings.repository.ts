@@ -2,7 +2,6 @@ import type NoteSettingsRepositoryInterface from '@/domain/noteSettings.reposito
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { NoteId } from '@/domain/entities/Note';
-import type { Team } from '@/domain/entities/Team';
 
 /**
  * Note settings repository
@@ -51,15 +50,5 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
    */
   public async regenerateInvitationHash(id: NoteId): Promise<NoteSettings> {
     return await this.transport.patch<NoteSettings>(`/note-settings/${id}/invitation-hash`);
-  }
-
-  /**
-   * Get all team members by note id
-   *
-   * @param id - Note id
-   * @returns { Team } array of the TeamMember instaces
-   */
-  public async getTeamByNoteId(id: NoteId): Promise<Team> {
-    return await this.transport.get<Team>(`/note-settings/${id}/team`);
   }
 }

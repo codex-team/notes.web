@@ -1,12 +1,15 @@
 <template>
   <h1>{{ $t('team.title') }}</h1>
-  <div v-if="team">
-    <div
-      v-for="member in team"
+  <div v-if="props.team">
+    <ul
+      v-for="member in props.team"
       :key="member.id"
     >
-      <Member :team-member="member" />
-    </div>
+      <li :class="$style.team">
+        {{ member.user.name }}
+      </li>
+      <!-- <Member :team-member="member" /> -->
+    </ul>
   </div>
 
   <div v-else>
@@ -15,20 +18,22 @@
 </template>
 
 <script setup lang="ts">
-import useTeam from '@/application/services/useTeam';
-import Member from './Member.vue';
-import { NoteId } from '@/domain/entities/Note';
-
-const { team, loadTeam } = useTeam();
+import { Team } from '@/domain/entities/Team';
 
 const props = defineProps<{
   /**
-   * Id of the current note
+   * Team of the current note
    */
-  id: NoteId;
+  team: Team;
 }>();
-
-loadTeam(props.id);
 </script>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss" module>
+@import '@/presentation/styles/typography.pcss';
+.team {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-very-x);
+}
+</style>
+

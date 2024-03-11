@@ -6,7 +6,6 @@ import MarketplaceService from '@/domain/marketplace.service';
 import { init as initRepositories } from '@/infrastructure';
 import EventBus from './event-bus';
 import NoteListService from './noteList.service';
-import TeamService from './team.service';
 
 /**
  * Get API url from environment
@@ -32,7 +31,6 @@ const noteSettingsService = new NoteSettingsService(repositories.noteSettings);
 const authService = new AuthService(eventBus, repositories.auth);
 const userService = new UserService(eventBus, repositories.user);
 const marketplaceService = new MarketplaceService(repositories.marketplace);
-const teamService = new TeamService(repositories.noteSettings);
 
 /**
  * App State — is a read-only combination of app Stores.
@@ -44,4 +42,4 @@ export const AppStateController = {
     repositories.user.setStoreChangeCallback(callback),
 };
 
-export { noteService, noteListService, noteSettingsService, authService, userService, marketplaceService, teamService };
+export { noteService, noteListService, noteSettingsService, authService, userService, marketplaceService };

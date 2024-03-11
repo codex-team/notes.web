@@ -27,7 +27,7 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   }
 
   /**
-   *
+   * Returns data of the current user
    */
   public async loadUser(): Promise<void> {
     const response = await this.transport.get<User>('/user/myself');
@@ -41,6 +41,7 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   public getUser(): User | null {
     return this.store.getUser();
   }
+
   /**
    * Removes user data from the storage
    */
