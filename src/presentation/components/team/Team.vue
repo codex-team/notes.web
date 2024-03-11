@@ -1,7 +1,7 @@
 <template>
   <h1>{{ $t('noteSettings.team.title') }}</h1>
   <ul
-    v-for="member in props.team"
+    v-for="member in team"
     :key="member.id"
   >
     <Member :team-member="member" />
@@ -12,7 +12,7 @@
 import { Team } from '@/domain/entities/Team';
 import Member from './Member.vue';
 
-const props = defineProps<{
+defineProps<{
   /**
    * Team of the current note
    */
@@ -20,5 +20,5 @@ const props = defineProps<{
 }>();
 </script>
 
-<style scoped lang="postcss" module></style>
+<style scoped></style>
 

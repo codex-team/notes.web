@@ -1,7 +1,7 @@
 <template>
   <li class="member">
     <div class="member-name">
-      {{ props.teamMember.user.name }}
+      {{ teamMember.user.name }}
     </div>
   </li>
 </template>
@@ -12,7 +12,7 @@ import { TeamMember } from '@/domain/entities/Team.ts';
 /**
  * TeamMember props
  */
-const props = defineProps<{
+defineProps<{
   /**
    * Team member data
    */
@@ -20,8 +20,7 @@ const props = defineProps<{
 }>();
 </script>
 
-<style scoped lang="postcss" module>
-@import '@/presentation/styles/typography.pcss';
+<style scoped>
 .member {
   margin-top: var(--spacing-l);
 }
