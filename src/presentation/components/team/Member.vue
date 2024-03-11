@@ -23,9 +23,7 @@ const props = defineProps<{
 <style scoped lang="postcss" module>
 @import '@/presentation/styles/typography.pcss';
 .member {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-very-x);
+  margin-top: var(--spacing-l);
 }
 .member-name {
   display: flex;
