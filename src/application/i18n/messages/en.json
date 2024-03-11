@@ -26,7 +26,8 @@
     "isPublic": "is note public",
     "revokeHash": "Revoke",
     "team": {
-      "title": "Team"
+      "title": "Team",
+      "canEdit": "Can edit"
     }
   },
   "note": {

@@ -1,5 +1,7 @@
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
+import type { UserId } from './entities/User';
+import type { MemberRole } from './entities/Team';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -30,4 +32,14 @@ export default interface NoteSettingsRepositoryInterface {
    * @returns updated note settings
    */
   regenerateInvitationHash(id: NoteId): Promise<NoteSettings>;
+
+  /**
+   * Patch team member role by user and note id
+   *
+   * @param id - Note id
+   * @param userId - id of the user whose role is to be changed
+   * @param newRole - new role
+   * @returns updated note settings
+   */
+  patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole>;
 }

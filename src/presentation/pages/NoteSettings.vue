@@ -17,7 +17,10 @@
       type="primary"
       @click="regenerateHash"
     />
-    <Team :team="noteSettings.team" />
+    <Team
+      :id="id"
+      :team="noteSettings.team"
+    />
     <div class="control__button">
       <Button
         class="header__plus"

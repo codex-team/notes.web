@@ -2,6 +2,8 @@ import type NoteSettingsRepository from '@/domain/noteSettings.repository.interf
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
+import type { UserId } from './entities/User';
+import type { MemberRole } from './entities/Team';
 
 /**
  * Note Service
@@ -85,5 +87,17 @@ export default class NoteService {
     }
 
     return result;
+  }
+
+  /**
+   * Patch team member role by user and note id
+   *
+   * @param id - Note id
+   * @param userId - id of the user whose role is to be changed
+   * @param newRole - new role
+   * @returns updated note settings
+   */
+  public async patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole> {
+    return await this.noteSettingsRepository.patchMemberRoleByUserId(id, userId, newRole);
   }
 }
