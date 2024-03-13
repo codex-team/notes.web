@@ -1,7 +1,7 @@
 <template>
   <li class="member">
     <div class="member-name">
-      {{ teamMember.user.name }}
+      {{ teamMember.user.name || teamMember.user.email }}
     </div>
   </li>
 </template>
