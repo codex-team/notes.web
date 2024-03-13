@@ -24,7 +24,10 @@
     "invitationHash": "Invitation Hash",
     "invitationHashPlaceholder": "It will generate a new invitation hash...",
     "isPublic": "is note public",
-    "revokeHash": "Revoke"
+    "revokeHash": "Revoke",
+    "team": {
+      "title": "Team"
+    }
   },
   "note": {
     "new": "New Note",
