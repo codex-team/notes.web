@@ -11,8 +11,9 @@
         <option
           v-for="(role, index) in roleOptions"
           :key="index"
+          :value="role"
         >
-          {{ role }}
+          {{ t(`noteSettings.team.roles.${role}`) }}
         </option>
       </select>
     </div>
@@ -25,6 +26,7 @@ import { NoteId } from '@/domain/entities/Note.ts';
 import { computed, ref } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings.ts';
 import { useAppState } from '@/application/services/useAppState';
+import { useI18n } from 'vue-i18n';
 
 /**
  * TeamMember props
@@ -47,6 +49,8 @@ const roleOptions = computed(() => Object.values(MemberRole).filter((value) => t
 const { changeRole } = useNoteSettings();
 
 const { user } = useAppState();
+
+const { t } = useI18n();
 
 /**
  * Updates the user role if it has been changed
