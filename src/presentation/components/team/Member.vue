@@ -3,25 +3,28 @@
     <div class="member-name">
       {{ teamMember.user.name || teamMember.user.email }}
     </div>
-    <select
-      v-model="selectedRole"
-      @change="updateMemberRole($event)"
-    >
-      <option
-        v-for="(role, index) in roleOptions"
-        :key="index"
+    <div v-if="teamMember.user.id != user?.id">
+      <select
+        v-model="selectedRole"
+        @change="updateMemberRole(selectedRole)"
       >
-        {{ role }}
-      </option>
-    </select>
+        <option
+          v-for="(role, index) in roleOptions"
+          :key="index"
+        >
+          {{ role }}
+        </option>
+      </select>
+    </div>
   </li>
 </template>
 
 <script setup lang="ts">
 import { MemberRole, TeamMember } from '@/domain/entities/Team.ts';
-import { NoteId } from '@/domain/entities/Note';
+import { NoteId } from '@/domain/entities/Note.ts';
 import { computed, ref } from 'vue';
-import useNoteSettings from '@/application/services/useNoteSettings';
+import useNoteSettings from '@/application/services/useNoteSettings.ts';
+import { useAppState } from '@/application/services/useAppState';
 
 /**
  * TeamMember props
@@ -43,14 +46,15 @@ const roleOptions = computed(() => Object.values(MemberRole).filter((value) => t
 
 const { changeRole } = useNoteSettings();
 
+const { user } = useAppState();
+
 /**
  * Updates the user role if it has been changed
  *
- * @param event
+ * @param newRole - new member role
  */
-async function updateMemberRole(event: Event) {
-  changeRole(props.id, props.teamMember.user.id, MemberRole[(event.target as HTMLSelectElement).value as string]);
-  console.log((event.target as HTMLSelectElement).value);
+async function updateMemberRole(newRole: string) {
+  changeRole(props.id, props.teamMember.user.id, MemberRole[newRole as keyof typeof MemberRole]);
 }
 </script>
 
