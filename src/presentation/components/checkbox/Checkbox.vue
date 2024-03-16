@@ -5,6 +5,7 @@
       :checked="checked"
       type="checkbox"
       :disabled="disabled"
+      :noteId="noteId"
       class="checkbox"
       @input="onClick"
     />
@@ -13,6 +14,9 @@
 </template>
 
 <script setup lang="ts">
+import useNoteSettings from '@/application/services/useNoteSettings.ts';
+import { NoteId } from '@/domain/entities/Note';
+
 const props = defineProps<{
   /**
    * Checkbox label
@@ -38,12 +42,24 @@ const props = defineProps<{
    * Placeholder value
    */
   placeholder?: string;
+
+  /**
+   * Note id
+   */
+  noteId: NoteId;
 }>();
+
+const { update: updateSettings } = useNoteSettings();
 
 const emit = defineEmits(['update:checked']);
 
 const onClick = () => {
-  emit('update:checked', !props.checked);
+  const newValue = !props.checked;
+
+  emit('update:checked', newValue);
+  updateSettings(props.noteId, {
+    isPublic: newValue,
+  });
 };
 </script>
 
