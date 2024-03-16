@@ -6,7 +6,7 @@
     <div v-if="teamMember.user.id != user?.id">
       <select
         v-model="selectedRole"
-        @change="updateMemberRole(selectedRole)"
+        @change="updateMemberRole"
       >
         <option
           v-for="(role, index) in roleOptions"
@@ -54,11 +54,9 @@ const { t } = useI18n();
 
 /**
  * Updates the user role if it has been changed
- *
- * @param newRole - new member role
  */
-async function updateMemberRole(newRole: string) {
-  changeRole(props.noteId, props.teamMember.user.id, MemberRole[newRole as keyof typeof MemberRole]);
+async function updateMemberRole() {
+  changeRole(props.noteId, props.teamMember.user.id, MemberRole[selectedRole.value as keyof typeof MemberRole]);
 }
 </script>
 
