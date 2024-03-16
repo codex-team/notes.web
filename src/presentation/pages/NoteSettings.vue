@@ -1,16 +1,16 @@
 <template>
   <h1>Note settings</h1>
   <div v-if="noteSettings">
-    <TextEdit
+    <!-- <TextEdit
       v-model:value="noteSettings.customHostname"
       name="customHostname"
       :title="t('noteSettings.customHostname')"
       :placeholder="t('noteSettings.hostnamePlaceholder')"
-    />
+    /> -->
     <Checkbox
       v-model:checked="noteSettings.isPublic"
       :label="t('noteSettings.isPublic')"
-      :note-id="id"
+      @update:checked="changeAccess"
     />
     {{ invitationLink }}
     <Button
@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import type { NoteId } from '@/domain/entities/Note';
-import TextEdit from '@/presentation/components/form/TextEdit.vue';
+// import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
@@ -46,7 +46,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, revokeHash } = useNoteSettings();
+const { noteSettings, load: loadSettings, update: updateSettings, revokeHash } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -59,6 +59,15 @@ loadSettings(props.id);
  */
 async function regenerateHash() {
   revokeHash(props.id);
+}
+
+/**
+ * Change isPublic property
+ */
+async function changeAccess() {
+  updateSettings(props.id, {
+    isPublic: noteSettings.value?.isPublic,
+  });
 }
 
 /**
