@@ -39,7 +39,6 @@ export default interface NoteSettingsRepositoryInterface {
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
    * @param newRole - new role
-   * @returns updated note settings
    */
   patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole>;
 }

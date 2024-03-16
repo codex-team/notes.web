@@ -95,7 +95,6 @@ export default class NoteService {
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
    * @param newRole - new role
-   * @returns updated note settings
    */
   public async patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole> {
     return await this.noteSettingsRepository.patchMemberRoleByUserId(id, userId, newRole);

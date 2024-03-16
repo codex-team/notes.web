@@ -60,7 +60,7 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
    * @param newRole - new role
-   * @returns { NoteSettings } updated note settings
+   * @returns updated role
    */
   public async patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole> {
     return await this.transport.patch<MemberRole>(`/note-settings/${id}/team`, { userId, newRole });
