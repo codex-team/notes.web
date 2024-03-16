@@ -2,6 +2,8 @@ import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
+import type { UserId } from '@/domain/entities/User';
+import type { MemberRole } from '@/domain/entities/Team';
 
 /**
  * Note settings hook state
@@ -33,6 +35,15 @@ interface UseNoteSettingsComposableState {
    * @param id - note id
    */
   revokeHash: (id: NoteId) => Promise<void>;
+
+  /**
+   * Patch team member role by user and note id
+   *
+   * @param id - Note id
+   * @param userId - id of the user whose role is to be changed
+   * @param newRole - new role
+   */
+  changeRole: (id: NoteId, userId: UserId, newRole: MemberRole) => Promise<void>;
 }
 
 /**
@@ -79,10 +90,23 @@ export default function (): UseNoteSettingsComposableState {
     }
   };
 
+  /**
+   * Patch team member role by user and note id
+   *
+   * @param id - Note id
+   * @param userId - id of the user whose role is to be changed
+   * @param newRole - new role
+   * @returns updated note settings
+   */
+  const changeRole = async (id: NoteId, userId: UserId, newRole: MemberRole): Promise<void> => {
+    await noteSettingsService.patchMemberRoleByUserId(id, userId, newRole);
+  };
+
   return {
     noteSettings,
     load,
     update,
     revokeHash,
+    changeRole,
   };
 }

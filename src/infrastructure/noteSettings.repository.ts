@@ -2,6 +2,8 @@ import type NoteSettingsRepositoryInterface from '@/domain/noteSettings.reposito
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { NoteId } from '@/domain/entities/Note';
+import type { MemberRole } from '@/domain/entities/Team';
+import type { UserId } from '@/domain/entities/User';
 
 /**
  * Note settings repository
@@ -50,5 +52,17 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
    */
   public async regenerateInvitationHash(id: NoteId): Promise<NoteSettings> {
     return await this.transport.patch<NoteSettings>(`/note-settings/${id}/invitation-hash`);
+  }
+
+  /**
+   * Patch team member role by user and note id
+   *
+   * @param id - Note id
+   * @param userId - id of the user whose role is to be changed
+   * @param newRole - new role
+   * @returns updated role
+   */
+  public async patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole> {
+    return await this.transport.patch<MemberRole>(`/note-settings/${id}/team`, { userId, newRole });
   }
 }
