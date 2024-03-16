@@ -1,6 +1,7 @@
 <template>
   <h1>Note settings</h1>
   <div v-if="noteSettings">
+    <!-- Hidden for now -->
     <!-- <TextEdit
       v-model:value="noteSettings.customHostname"
       name="customHostname"
