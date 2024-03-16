@@ -39,7 +39,7 @@ const props = defineProps<{
   /**
    * Id of the current note
    */
-  id: NoteId;
+  noteId: NoteId;
 }>();
 
 const selectedRole = ref(MemberRole[props.teamMember.role]);
@@ -58,7 +58,7 @@ const { t } = useI18n();
  * @param newRole - new member role
  */
 async function updateMemberRole(newRole: string) {
-  changeRole(props.id, props.teamMember.user.id, MemberRole[newRole as keyof typeof MemberRole]);
+  changeRole(props.noteId, props.teamMember.user.id, MemberRole[newRole as keyof typeof MemberRole]);
 }
 </script>
 

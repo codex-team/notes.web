@@ -18,7 +18,7 @@
       @click="regenerateHash"
     />
     <Team
-      :id="id"
+      :note-id="id"
       :team="noteSettings.team"
     />
     <div class="control__button">

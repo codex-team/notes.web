@@ -5,7 +5,7 @@
     :key="member.id"
   >
     <Member
-      :id="id"
+      :note-id="noteId"
       :team-member="member"
     />
   </ul>
@@ -25,7 +25,7 @@ defineProps<{
   /**
    * Id of the current note
    */
-  id: NoteId;
+  noteId: NoteId;
 }>();
 
 const { t } = useI18n();
