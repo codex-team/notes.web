@@ -65,7 +65,7 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
-   * Update part of note settings - isPublic
+   * Update note settings
    *
    * @param id - Note id
    * @param data - Note settings data with new values
