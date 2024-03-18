@@ -1,16 +1,10 @@
 <template>
   <div class="note">
-    <div class="note-header">
-      <h1 class="note-title">
-        {{ noteTitle }}
-      </h1>
-      <p class="note-date">
-        {{ noteCreatedDate }}
-      </p>
+    <div class="cover"></div>
+    <div class="footer">
+      <h2 class="noteTitle">{{ noteTitle }}</h2>
+      <p class="updatedDate">{{ formattedUpdatedAt }}</p>
     </div>
-    <p class="note-sub">
-      {{ noteSubTitle }}
-    </p>
   </div>
 </template>
 
@@ -32,7 +26,6 @@ const props = defineProps<{
  * Variables limiting the number of characters in the title and subtitle
  */
 const limitCharsForNoteTitle = 50;
-const limitCharsForNoteSubTitle = 96;
 
 /**
  * Get the title from Note
@@ -46,56 +39,61 @@ const noteTitle = computed(() => {
     return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
   }
 });
-
 /**
- * Get the subtitle depending on the type of block from Note
+ * Get the update date of the Note
  */
-const noteSubTitle = computed(() => {
-  const secondNoteBlock = props.note.content.blocks[1];
+const noteUpdatedAt = new Date(String(props.note.updatedAt));
 
-  if (secondNoteBlock) {
-    switch (secondNoteBlock.type) {
-      case 'header':
-      case 'paragraph':
-        return secondNoteBlock.data.text.slice(0, limitCharsForNoteSubTitle);
-      default:
-        return '';
-    }
-  } else {
-    return '';
-  }
-});
-/**
- * Get the creation date of the Note
- */
-const noteCreatedDate = new Date(String(props.note.createdAt)).toLocaleDateString();
+const currentDate = new Date();
+
+const timeDifference = currentDate.getTime() - noteUpdatedAt.getTime();
+const secondsDifference = Math.floor(timeDifference / 1000);
+const minutesDifference = Math.floor(secondsDifference / 60);
+const hoursDifference = Math.floor(minutesDifference / 60);
+const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+const weeksDifference = Math.floor(daysDifference / 7);
+const monthsDifference = Math.floor(daysDifference / 30);
+const yearsDifference = Math.floor(daysDifference / 365);
+let formattedUpdatedAt: string;
+
+if (secondsDifference < 60) {
+  formattedUpdatedAt = 'Just now';
+} else if (minutesDifference < 60) {
+  formattedUpdatedAt = `${minutesDifference} ${minutesDifference === 1 ? 'minute' : 'minutes'} ago`;
+} else if (hoursDifference < 24) {
+  formattedUpdatedAt = `${hoursDifference} ${hoursDifference === 1 ? 'hour' : 'hours'} ago`;
+} else if (daysDifference < 7) {
+  formattedUpdatedAt = `${daysDifference} ${daysDifference === 1 ? 'day' : 'days'} ago`;
+} else if (daysDifference < 30) {
+  formattedUpdatedAt = `${weeksDifference} ${weeksDifference === 1 ? 'week' : 'weeks'} ago`;
+} else if (daysDifference < 365) {
+  formattedUpdatedAt = `${monthsDifference} ${monthsDifference === 1 ? 'month' : 'months'} ago`;
+} else {
+  formattedUpdatedAt = `${yearsDifference} ${yearsDifference === 1 ? 'year' : 'years'} ago`;
+}
 </script>
 
 <style>
 .note {
-  margin: 20px 0;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #4b4b4b;
-  cursor: pointer;
-}
-
-.note-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  width: 222px;
+  align-items: flex-start;
+  gap: 16px;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: var(--accent--bg-secondary);
 }
 
-.note-title {
-  font-size: 24px;
-  font-weight: 600;
-  color: white;
-  margin: 0;
+.cover {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+  background-color: var(--accent--bg-primary);
 }
-
-.note-sub {
-  margin-top: 4px;
+.noteTitle {
+  color: var(--accent--text);
   font-size: 16px;
-  color: white;
-  opacity: 0.5;
+  font-weight: 700;
 }
 </style>

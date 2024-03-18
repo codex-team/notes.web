@@ -2,20 +2,11 @@
   <div>
     <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
-      <div
-        v-if="noteList?.items.length"
-        class="noteList"
-      >
-        <div
-          v-for="note in noteList.items"
-          :key="note.id"
-        >
-          <NoteListItem
-            :title="getTitle(note.content)"
-            :updated-at="getUpdateTime(note.updatedAt!)"
-            @click="router.push('/note/' + note.id)"
-          />
-        </div>
+      <div v-if="noteList">
+        <PageList :page-list="noteList.items" />
+      </div>
+      <div v-else>
+        <p>{{ $t('home.emptyNoteList') }}</p>
       </div>
       <button @click="loadMoreNotes">{{ $t('home.loadMoreNotes') }}</button>
     </div>
@@ -30,14 +21,11 @@
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
-import { NoteListItem } from 'codex-ui/vue';
+import { PageList } from 'codex-ui/vue';
 import useNoteList from '@/application/services/useNoteList';
-import { useRouter } from 'vue-router';
-import { getTitle, getUpdateTime } from '@/application/services/useNoteUtils';
 const { user } = useAppState();
 const { t } = useI18n();
 
-const router = useRouter();
 const { noteList, loadMoreNotes } = useNoteList();
 
 /**

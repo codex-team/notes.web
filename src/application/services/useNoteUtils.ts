@@ -1,9 +1,17 @@
 import { type OutputData } from '@editorjs/editorjs';
 
+/**
+ * Get the title of the note
+ * @param content - content of the note
+ * @returns the title of the note
+ */
 export const getTitle = (content: OutputData): string => {
   const limitCharsForNoteTitle = 50;
   const firstNoteBlock = content.blocks[0];
 
+  /**
+   *  If the heading is empty, return 'Untitled'
+   */
   if (firstNoteBlock.data.text == '') {
     return 'Untitled';
   } else {
@@ -11,6 +19,11 @@ export const getTitle = (content: OutputData): string => {
   }
 };
 
+/**
+ *
+ * @param updatedAt - the date the note was last updated
+ * @returns the last updated time in a human-readable format
+ */
 export const getUpdateTime = (updatedAt: string): string => {
   const noteUpdatedAt = new Date(String(updatedAt));
 
@@ -35,6 +48,9 @@ export const getUpdateTime = (updatedAt: string): string => {
   const yearsDifference = Math.floor(daysDifference / yearDiff);
   let formattedUpdatedAt: string;
 
+  /**
+   * Check the last updated time and display the appropriate message
+   */
   if (secondsDifference < minuteDiff) {
     formattedUpdatedAt = 'Just now';
   } else if (minutesDifference < minuteDiff) {

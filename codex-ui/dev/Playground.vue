@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormField } from '../src/vue';
+import { Button, Heading, Input, FormField } from '../src/vue-components';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
