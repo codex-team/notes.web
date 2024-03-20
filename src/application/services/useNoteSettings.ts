@@ -74,9 +74,7 @@ export default function (): UseNoteSettingsComposableState {
     const response = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
 
     for (let key in noteSettings.value) {
-      if (typeof key === 'string') {
-        key = response[key as keyof typeof noteSettings.value] as string;
-      }
+      key = response[key as keyof typeof noteSettings.value] as string;
     }
   };
 
