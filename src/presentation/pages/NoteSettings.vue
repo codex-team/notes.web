@@ -66,9 +66,7 @@ async function regenerateHash() {
  * Change isPublic property
  */
 async function changeAccess() {
-  updateIsPublic(props.id, {
-    isPublic: noteSettings.value?.isPublic,
-  });
+  updateIsPublic(props.id, noteSettings.value?.isPublic);
 }
 
 /**
