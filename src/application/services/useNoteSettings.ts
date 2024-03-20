@@ -71,7 +71,13 @@ export default function (): UseNoteSettingsComposableState {
    * @param data - Note settings data with new values
    */
   const update = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
-    await noteSettingsService.patchNoteSettingsByNoteId(id, data);
+    const response = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
+
+    for (let key in noteSettings.value) {
+      if (typeof key === 'string') {
+        key = response[key as keyof typeof noteSettings.value] as string;
+      }
+    }
   };
 
   /**
