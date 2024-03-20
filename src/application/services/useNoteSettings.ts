@@ -27,7 +27,7 @@ interface UseNoteSettingsComposableState {
    * @param id - note id
    * @param data - note settings data with new values
    */
-  update: (id: NoteId, data: Partial<NoteSettings>) => Promise<void>;
+  updateIsPublic: (id: NoteId, data: Partial<NoteSettings>) => Promise<void>;
 
   /**
    * Revoke invitation hash
@@ -65,16 +65,14 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
-   * Update note settings
+   * Update field isPublic in note settings
    *
    * @param id - Note id
    * @param data - Note settings data with new values
    */
-  const update = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
-    const response = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
-
-    for (let key in noteSettings.value) {
-      key = response[key as keyof typeof noteSettings.value] as string;
+  const updateIsPublic = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
+    if (noteSettings.value) {
+      noteSettings.value.isPublic = (await noteSettingsService.patchNoteSettingsByNoteId(id, data)).isPublic;
     }
   };
 
@@ -109,7 +107,7 @@ export default function (): UseNoteSettingsComposableState {
   return {
     noteSettings,
     load,
-    update,
+    updateIsPublic,
     revokeHash,
     changeRole,
   };

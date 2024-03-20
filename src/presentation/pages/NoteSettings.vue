@@ -47,7 +47,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, update: updateSettings, revokeHash } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, revokeHash } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -66,7 +66,7 @@ async function regenerateHash() {
  * Change isPublic property
  */
 async function changeAccess() {
-  updateSettings(props.id, {
+  updateIsPublic(props.id, {
     isPublic: noteSettings.value?.isPublic,
   });
 }
