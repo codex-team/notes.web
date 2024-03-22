@@ -25,9 +25,9 @@ interface UseNoteSettingsComposableState {
    * Update field isPublic in note settings
    *
    * @param id - note id
-   * @param data - note settings data with new values
+   * @param newIsPublicValue - new value for isPublic field
    */
-  updateIsPublic: (id: NoteId, newIsPublicValue?: boolean) => Promise<void>;
+  updateIsPublic: (id: NoteId, newIsPublicValue: boolean) => Promise<void>;
 
   /**
    * Revoke invitation hash
@@ -70,13 +70,13 @@ export default function (): UseNoteSettingsComposableState {
    * @param id - Note id
    * @param newIsPublicValue - new isPublic
    */
-  const updateIsPublic = async (id: NoteId, newIsPublicValue?: boolean): Promise<void> => {
+  async function updateIsPublic(id: NoteId, newIsPublicValue: boolean): Promise<void> {
     if (noteSettings.value) {
       const response = await noteSettingsService.patchNoteSettingsByNoteId(id, { isPublic: newIsPublicValue });
 
       noteSettings.value.isPublic = response.isPublic;
     }
-  };
+  }
 
   /**
    * Revoke invitation hash
