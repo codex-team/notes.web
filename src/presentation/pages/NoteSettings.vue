@@ -17,14 +17,14 @@
       type="primary"
       @click="regenerateHash"
     />
-    <TextEdit
-      v-model:value="newParentURL"
-      name="updateParent"
-      :title="t('noteSettings.updateParent')"
-      :placeholder="t('noteSettings.updateParentPlaceholder')"
+    <form-field
+      v-model="newParentURL"
+      :title="t('noteSettings.parentNote')"
+      size="medium"
+      :caption="t('noteSettings.parentNoteCaption')"
     />
     <Button
-      :text="t('noteSettings.updateParent')"
+      :text="t('noteSettings.parentNote')"
       type="primary"
       @click="updateParentButton"
     />
@@ -48,6 +48,7 @@
 <script lang="ts" setup>
 import type { NoteId } from '@/domain/entities/Note';
 import TextEdit from '@/presentation/components/form/TextEdit.vue';
+import { FormField } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
 import useNoteSettings from '@/application/services/useNoteSettings';
