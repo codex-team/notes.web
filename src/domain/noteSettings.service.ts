@@ -1,4 +1,5 @@
 import type NoteSettingsRepository from '@/domain/noteSettings.repository.interface';
+import type NoteRepository from '@/domain/note.repository.interface';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
@@ -10,17 +11,24 @@ import type { MemberRole } from './entities/Team';
  */
 export default class NoteService {
   /**
-   * Note repository
+   * Note settings repository
    */
   private readonly noteSettingsRepository: NoteSettingsRepository;
 
   /**
+   * Note repository
+   */
+  private readonly noteRepository: NoteRepository;
+
+  /**
    * Note Service constructor
    *
-   * @param noteSettingsRepository - Note repository instance
+   * @param noteSettingsRepository - Note settings repository instance
+   * @param noteRepository - Note repository instance
    */
-  constructor(noteSettingsRepository: NoteSettingsRepository) {
+  constructor(noteSettingsRepository: NoteSettingsRepository, noteRepository: NoteRepository) {
     this.noteSettingsRepository = noteSettingsRepository;
+    this.noteRepository = noteRepository;
   }
 
   /**
@@ -98,5 +106,33 @@ export default class NoteService {
    */
   public async patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole> {
     return await this.noteSettingsRepository.patchMemberRoleByUserId(id, userId, newRole);
+  }
+
+  /**
+   * Set new parent for the note
+   *
+   * @param id - Note id
+   * @param parentURL - link to the new parent note
+   */
+  public async updateParent(id: NoteId, parentURL: string): Promise<void> {
+    // The regex matches a substring in the URL that follows '/note/' and consists of exactly 10 characters
+    const regex = /\/note\/([a-zA-Z0-9-_]{10})/;
+
+    const matches = parentURL.match(regex);
+
+    if (matches === null) {
+      throw new Error('Invalid parent URL');
+    }
+
+    // Extracts the ID from the URL. The ID is matches[1] as matches[0] is the full match.
+    const parentId = matches[1];
+
+    const isUpdated = await this.noteRepository.updateParent(id, parentId);
+
+    if (!isUpdated) {
+      throw new Error('Parent was not updated');
+    }
+
+    return;
   }
 }

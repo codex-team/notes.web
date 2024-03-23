@@ -27,7 +27,7 @@ const repositories = initRepositories(apiUrl, eventBus);
  */
 const noteService = new NoteService(repositories.note);
 const noteListService = new NoteListService(repositories.note);
-const noteSettingsService = new NoteSettingsService(repositories.noteSettings);
+const noteSettingsService = new NoteSettingsService(repositories.noteSettings, repositories.note);
 const authService = new AuthService(eventBus, repositories.auth);
 const userService = new UserService(eventBus, repositories.user);
 const marketplaceService = new MarketplaceService(repositories.marketplace);
