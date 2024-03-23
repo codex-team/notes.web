@@ -115,8 +115,8 @@ export default class NoteService {
    * @param parentURL - link to the new parent note
    */
   public async updateParent(id: NoteId, parentURL: string): Promise<void> {
-    // The regex matches a substring in the URL that follows '/note/' and consists of exactly 10 characters
-    const regex = /\/note\/([a-zA-Z0-9-_]{10})/;
+    // Regex matches any characters between '/note/' and the next slash or end of string
+    const regex = /\/note\/([^/]+)/;
 
     const matches = parentURL.match(regex);
 
@@ -124,8 +124,14 @@ export default class NoteService {
       throw new Error('Invalid parent URL');
     }
 
-    // Extracts the ID from the URL. The ID is matches[1] as matches[0] is the full match.
+    // Extracts the ID from the URL. The ID is matches[1] as matches[0] is the full match
     const parentId = matches[1];
+
+    const noteIdPattern = /^[a-zA-Z0-9-_]{10}$/;
+
+    if (!noteIdPattern.test(parentId)) {
+      throw new Error('Invalid parent ID');
+    }
 
     const isUpdated = await this.noteRepository.updateParent(id, parentId);
 
