@@ -15,6 +15,11 @@ interface UseNoteSettingsComposableState {
   noteSettings: Ref<NoteSettings | null>;
 
   /**
+   * Link to the new parent note
+   */
+  newParentURL: Ref<string>;
+
+  /**
    * Load note settings
    *
    * @param id - note id
@@ -44,6 +49,14 @@ interface UseNoteSettingsComposableState {
    * @param newRole - new role
    */
   changeRole: (id: NoteId, userId: UserId, newRole: MemberRole) => Promise<void>;
+
+  /**
+   * Set new parent note
+   *
+   * @param id - id of the current note
+   * @param newParentURL - link to the new parent note
+   */
+  updateParent: (id: NoteId, newParentURL: string) => Promise<void>;
 }
 
 /**
@@ -54,6 +67,8 @@ export default function (): UseNoteSettingsComposableState {
    * NoteSettings ref
    */
   const noteSettings = ref<NoteSettings | null>(null);
+
+  const newParentURL = ref<string>('');
 
   /**
    * Get note settings
@@ -102,11 +117,23 @@ export default function (): UseNoteSettingsComposableState {
     await noteSettingsService.patchMemberRoleByUserId(id, userId, newRole);
   };
 
+  /**
+   * Set new parent note
+   *
+   * @param id - id of the current note
+   * @param parentURL - link to the new parent note
+   */
+  const updateParent = async (id: NoteId, parentURL: NoteId): Promise<void> => {
+    await noteSettingsService.updateParent(id, parentURL);
+  };
+
   return {
     noteSettings,
     load,
     update,
     revokeHash,
     changeRole,
+    updateParent,
+    newParentURL,
   };
 }

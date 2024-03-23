@@ -17,6 +17,17 @@
       type="primary"
       @click="regenerateHash"
     />
+    <TextEdit
+      v-model:value="newParentURL"
+      name="updateParent"
+      :title="t('noteSettings.updateParent')"
+      :placeholder="t('noteSettings.updateParentPlaceholder')"
+    />
+    <Button
+      :text="t('noteSettings.updateParent')"
+      type="primary"
+      @click="updateParentButton"
+    />
     <Team
       :note-id="id"
       :team="noteSettings.team"
@@ -55,7 +66,14 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, update: updateSettings, revokeHash } = useNoteSettings();
+const {
+  noteSettings,
+  load: loadSettings,
+  update: updateSettings,
+  revokeHash,
+  updateParent,
+  newParentURL,
+} = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -80,7 +98,21 @@ function onClick() {
  * Regenerate invitation hash
  */
 async function regenerateHash() {
-  revokeHash(props.id);
+  await revokeHash(props.id);
+}
+
+/**
+ * Update parent button click handler
+ */
+async function updateParentButton() {
+  try {
+    await updateParent(props.id, newParentURL.value);
+  } catch (error) {
+    if (error instanceof Error) {
+      window.alert(error.message);
+    }
+    throw error;
+  }
 }
 
 /**
