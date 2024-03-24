@@ -2,6 +2,7 @@ import { type OutputData } from '@editorjs/editorjs';
 
 /**
  * Get the title of the note
+ *
  * @param content - content of the note
  * @returns the title of the note
  */

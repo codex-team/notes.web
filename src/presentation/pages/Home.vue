@@ -3,7 +3,18 @@
     <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
       <div v-if="noteList">
-        <PageList :page-list="noteList.items" />
+        <div class="noteList">
+          <div
+            v-for="note in noteList.items"
+            :key="note.id"
+          >
+            <CardVertical
+              :title="getTitle(note.content)"
+              :updated-at="getUpdateTime(note.updatedAt!)"
+              @click="router.push(`/note/${note.id}`)"
+            />
+          </div>
+        </div>
       </div>
       <div v-else>
         <p>{{ $t('home.emptyNoteList') }}</p>
@@ -21,12 +32,15 @@
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
-import { PageList } from 'codex-ui/vue';
+import { CardVertical } from 'codex-ui/vue';
 import useNoteList from '@/application/services/useNoteList';
+import { getTitle, getUpdateTime } from '@/application/services/useNoteUtils';
+import { useRouter } from 'vue-router';
 const { user } = useAppState();
 const { t } = useI18n();
 
 const { noteList, loadMoreNotes } = useNoteList();
+const router = useRouter();
 
 /**
  * Changing the title in the browser
