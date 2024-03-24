@@ -1,10 +1,13 @@
 <template>
-  <div v-if="noteList?.items.length">
+  <div
+    v-if="noteList?.items.length"
+    class="noteList"
+  >
     <div
       v-for="note in noteList.items"
       :key="note.id"
     >
-      <NoteView
+      <NoteListItem
         :note="note"
         @click="router.push('/note/' + note.id)"
       />
@@ -18,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import NoteView from '@/presentation/components/note-list/NoteListItem.vue';
+import NoteListItem from '@/presentation/components/note-list/NoteListItem.vue';
 import { useRouter } from 'vue-router';
 import useNoteList from '@/application/services/useNoteList.ts';
 
@@ -26,4 +29,12 @@ const router = useRouter();
 const { noteList, loadMoreNotes } = useNoteList();
 </script>
 
-<style scoped lang="postcss"></style>
+<style>
+.noteList {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+</style>
