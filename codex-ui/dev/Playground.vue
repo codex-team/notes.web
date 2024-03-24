@@ -67,12 +67,14 @@
 
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
+    <Heading :level="3">Editor.js</Heading>
+    <Editor :tools="{}" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormField } from '../src/vue';
+import { Button, Heading, Input, FormField, Editor } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');

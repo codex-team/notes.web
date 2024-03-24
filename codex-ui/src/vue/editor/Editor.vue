@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { type OutputData } from '@editorjs/editorjs';
-import { useEditor } from '@/application/services/useEditor';
+import { useEditor, DownloadedTools } from './useEditor.js';
 
 /**
  * Define the props for the component
@@ -18,6 +18,10 @@ const props = defineProps<{
    * True if editor content is not editable
    */
   readOnly?: boolean;
+  /**
+   * Loaded user tools for Editor
+   */
+  tools?: DownloadedTools;
 }>();
 
 const emit = defineEmits<{
@@ -28,6 +32,7 @@ const { isEmpty, refresh } = useEditor({
   id: 'editorjs',
   content: props.content,
   isReadOnly: props.readOnly,
+  tools: props.tools || {},
   onChange: (data) => emit('change', data),
 });
 
