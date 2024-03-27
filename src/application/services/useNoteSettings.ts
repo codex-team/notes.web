@@ -27,7 +27,7 @@ interface UseNoteSettingsComposableState {
   noteSettings: Ref<NoteSettings | null>;
 
   /**
-   * Link to the new parent note
+   * Link to the parent note
    */
   parentURL: Ref<string>;
 
@@ -66,9 +66,9 @@ interface UseNoteSettingsComposableState {
    * Set new parent note
    *
    * @param id - id of the current note
-   * @param parentURL - link to the new parent note
+   * @param newParentURL - link to the new parent note
    */
-  updateParent: (id: NoteId, parentURL: string) => Promise<void>;
+  updateParent: (id: NoteId, newParentURL: string) => Promise<void>;
 }
 
 /**
@@ -102,6 +102,9 @@ export default function (): UseNoteSettingsComposableState {
    */
   const update = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
     noteSettings.value = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
+    const { parentNote } = await noteService.getNoteById(id);
+
+    parentURL.value = getNoteURL(parentNote?.id);
   };
 
   /**
