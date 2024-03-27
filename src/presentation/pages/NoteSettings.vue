@@ -17,6 +17,17 @@
       type="primary"
       @click="regenerateHash"
     />
+    <form-field
+      v-model="parentURL"
+      :title="t('noteSettings.parentNote')"
+      size="medium"
+      :caption="t('noteSettings.parentNoteCaption')"
+    />
+    <Button
+      :text="t('noteSettings.setParent')"
+      type="primary"
+      @click="updateParentButton"
+    />
     <Team
       :note-id="id"
       :team="noteSettings.team"
@@ -37,6 +48,7 @@
 <script lang="ts" setup>
 import type { NoteId } from '@/domain/entities/Note';
 import TextEdit from '@/presentation/components/form/TextEdit.vue';
+import { FormField } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
 import useNoteSettings from '@/application/services/useNoteSettings';
@@ -55,7 +67,14 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, update: updateSettings, revokeHash } = useNoteSettings();
+const {
+  noteSettings,
+  load: loadSettings,
+  update: updateSettings,
+  revokeHash,
+  updateParent,
+  parentURL,
+} = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -80,7 +99,21 @@ function onClick() {
  * Regenerate invitation hash
  */
 async function regenerateHash() {
-  revokeHash(props.id);
+  await revokeHash(props.id);
+}
+
+/**
+ * Update parent button click handler
+ */
+async function updateParentButton() {
+  try {
+    await updateParent(props.id, parentURL.value);
+  } catch (error) {
+    if (error instanceof Error) {
+      window.alert(error.message);
+    }
+    throw error;
+  }
 }
 
 /**

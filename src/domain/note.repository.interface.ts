@@ -48,6 +48,16 @@ export default interface NoteRepositoryInterface {
 
   /**
    * Unlink note from parent
+   *
+   * @param id - Note id
    */
   unlinkParent(id: NoteId): Promise<void>;
+
+  /**
+   * Set new parent for the note
+   *
+   * @param id - Child note id
+   * @param parentNoteId - id of the new parent note
+   */
+  updateParent(id: NoteId, parentNoteId: NoteId): Promise<boolean>;
 }
