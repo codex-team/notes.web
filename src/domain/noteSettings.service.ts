@@ -7,9 +7,9 @@ import type { UserId } from './entities/User';
 import type { MemberRole } from './entities/Team';
 
 /**
- * Note Service
+ * Note Settings Service
  */
-export default class NoteService {
+export default class NoteSettingsService {
   /**
    * Note settings repository
    */

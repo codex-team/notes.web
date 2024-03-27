@@ -18,7 +18,7 @@
       @click="regenerateHash"
     />
     <form-field
-      v-model="newParentURL"
+      v-model="parentURL"
       :title="t('noteSettings.parentNote')"
       size="medium"
       :caption="t('noteSettings.parentNoteCaption')"
@@ -73,7 +73,7 @@ const {
   update: updateSettings,
   revokeHash,
   updateParent,
-  newParentURL,
+  parentURL,
 } = useNoteSettings();
 
 const invitationLink = computed(
@@ -107,7 +107,7 @@ async function regenerateHash() {
  */
 async function updateParentButton() {
   try {
-    await updateParent(props.id, newParentURL.value);
+    await updateParent(props.id, parentURL.value);
   } catch (error) {
     if (error instanceof Error) {
       window.alert(error.message);
