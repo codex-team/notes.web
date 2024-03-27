@@ -1,5 +1,10 @@
 <template>
-    <img :src="props.src" alt="avatar" :class="$style.avatar">
+  <img
+    :src="props.src"
+    alt="avatar"
+    :class="$style.avatar"
+    referrerpolicy="no-referrer"
+  >
 </template>
 
 <script setup lang="ts">
