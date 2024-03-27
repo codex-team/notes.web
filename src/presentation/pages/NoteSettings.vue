@@ -24,7 +24,7 @@
       :caption="t('noteSettings.parentNoteCaption')"
     />
     <Button
-      :text="t('noteSettings.parentNote')"
+      :text="t('noteSettings.setParent')"
       type="primary"
       @click="updateParentButton"
     />

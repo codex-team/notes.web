@@ -138,7 +138,5 @@ export default class NoteService {
     if (!isUpdated) {
       throw new Error('Parent was not updated');
     }
-
-    return;
   }
 }
