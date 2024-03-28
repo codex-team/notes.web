@@ -85,5 +85,9 @@ const model = defineModel();
     padding-top: var(--spacing-xs);
     padding-inline: var(--h-padding);
   }
+
+  &-caption {
+    color: var(--base--text-secondary);
+  }
 }
 </style>
