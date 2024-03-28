@@ -65,6 +65,36 @@
       size="large"
     />
 
+    <Heading :level="3">Row</Heading>
+
+    <Row
+      title="Title"
+      subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+      :has-delimiter="true"
+      >
+      <template #left>
+        <div style="width: 30px; height: 30px; background: rgb(74 230 123); border-radius: 6px;"></div>
+      </template>
+
+      <template #right>
+        <Button size="small" :style="'secondary'">Edit</Button>
+      </template>
+    </Row>
+
+    <Row
+      title="Title"
+      subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+      label="Time Sensitive"
+      >
+      <template #left>
+        <div style="width: 30px; height: 30px; background: rgb(74 230 123); border-radius: 6px;"></div>
+      </template>
+
+      <template #right>
+        <Button size="small" :style="'secondary'">Edit</Button>
+      </template>
+    </Row>
+
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
   </div>
@@ -72,7 +102,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormField } from '../src/vue';
+import { Button, Heading, Input, FormField, Row } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
