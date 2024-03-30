@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
-import { FieldSize } from './Field.typings'
+import { FieldSize } from './Field.types'
 
 const props = withDefaults(
   defineProps<{

@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { computed, defineProps } from 'vue';
-import type { ButtonSize, ButtonStyle } from './Button.typings'
+import type { ButtonSize, ButtonStyle } from './Button.types'
 
 const props = withDefaults(
   defineProps<{
