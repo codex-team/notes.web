@@ -4,7 +4,10 @@
 
     <Heading :level="3">Buttons</Heading>
     <div :class="$style.buttons">
-      <div v-for="button in buttons">
+      <div
+        v-for="(button, index) in buttons"
+        :key="button[0] + index"
+      >
         <Button
           :size="button[0] as ButtonSize"
           :style="button[1] as ButtonStyle"
@@ -71,13 +74,17 @@
       title="Title"
       subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
       :has-delimiter="true"
-      >
+    >
       <template #left>
-        <div style="width: 30px; height: 30px; background: rgb(74 230 123); border-radius: 6px;"></div>
+        <div style="width: 30px; height: 30px; background: rgb(74 230 123); border-radius: 6px"></div>
       </template>
 
       <template #right>
-        <Button size="small" :style="'secondary'">Edit</Button>
+        <Button
+          size="small"
+          :style="'secondary'"
+          >Edit</Button
+        >
       </template>
     </Row>
 
@@ -85,13 +92,17 @@
       title="Title"
       subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
       label="Time Sensitive"
-      >
+    >
       <template #left>
-        <div style="width: 30px; height: 30px; background: rgb(74 230 123); border-radius: 6px;"></div>
+        <div style="width: 30px; height: 30px; background: rgb(74 230 123); border-radius: 6px"></div>
       </template>
 
       <template #right>
-        <Button size="small" :style="'secondary'">Edit</Button>
+        <Button
+          size="small"
+          :style="'secondary'"
+          >Edit</Button
+        >
       </template>
     </Row>
 
