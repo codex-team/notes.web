@@ -118,14 +118,7 @@ async function regenerateHash() {
  * Update parent button click handler
  */
 async function updateParentButton() {
-  try {
-    await updateParent(props.id, parentURL.value);
-  } catch (error) {
-    if (error instanceof Error) {
-      window.alert(error.message);
-    }
-    throw error;
-  }
+  await updateParent(props.id, parentURL.value);
 }
 
 /**
