@@ -4,14 +4,16 @@
 
 
 <script lang='ts' setup>
+import * as iconMap from '@codexteam/icons';
+
 const props = defineProps<{
   /**
-   * Icon source code
+   * Icon name
    */
   name: string;
 }>();
 
-import * as iconMap from '@codexteam/icons';
+defineExpose({ iconMap })
 </script>
 
 <style module lang="postcss">
