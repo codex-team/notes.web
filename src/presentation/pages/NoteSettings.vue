@@ -86,9 +86,8 @@ const parentURL = ref<string>('');
  * @param id - id of the  note
  */
 function getParentURL(id: NoteId | undefined): string {
-  console.log('TEST' + parentNote.value);
   if (parentNote.value === undefined) {
-    return 'null';
+    return '';
   }
   const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
 
