@@ -6,7 +6,7 @@
 <script lang='ts' setup>
 defineProps<{
   /**
-   * Path to the icon
+   * Icon source code
    */
   src: string;
 }>();
