@@ -3,7 +3,7 @@
     <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
       <div v-if="noteList">
-        <div class="noteList">
+        <div :class="$style.noteList">
           <div
             v-for="note in noteList.items"
             :key="note.id"
@@ -50,7 +50,7 @@ useHead({
 });
 </script>
 
-<style scoped lang="postcss">
+<style lang="postcss" module>
 @import '@/presentation/styles/typography.pcss';
 
 .noteList {
