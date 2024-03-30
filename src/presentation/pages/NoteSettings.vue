@@ -55,7 +55,7 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import Team from '@/presentation/components/team/Team.vue';
 
 const { t } = useI18n();
@@ -73,14 +73,27 @@ const {
   update: updateSettings,
   revokeHash,
   updateParent,
-  parentURL,
+  parentNote,
 } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
 
-loadSettings(props.id);
+const parentURL = ref<string>('');
+
+/**
+ * @param id - id of the  note
+ */
+function getParentURL(id: NoteId | undefined): string {
+  console.log('TEST' + parentNote.value);
+  if (parentNote.value === undefined) {
+    return 'null';
+  }
+  const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
+
+  return `${websiteHostname}/note/${id}`;
+}
 
 /**
  * Button click handler
@@ -121,6 +134,11 @@ async function updateParentButton() {
  */
 useHead({
   title: t('noteSettings.title'),
+});
+
+onMounted(async () => {
+  await loadSettings(props.id);
+  parentURL.value = getParentURL(parentNote.value?.id);
 });
 </script>
 

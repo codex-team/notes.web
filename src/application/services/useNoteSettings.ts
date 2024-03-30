@@ -1,21 +1,9 @@
 import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
-import type { NoteId } from '@/domain/entities/Note';
+import type { Note, NoteId } from '@/domain/entities/Note';
 import { noteSettingsService, noteService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
-
-/**
- * Generates a note's URL using its noteId.
- *
- * @param id - note id, if undefined returns an empty string
- */
-function getNoteURL(id: NoteId | undefined): string {
-  const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
-  const noteURL = id === undefined ? '' : `${websiteHostname}/note/${id}`;
-
-  return noteURL;
-}
 
 /**
  * Note settings hook state
@@ -27,9 +15,9 @@ interface UseNoteSettingsComposableState {
   noteSettings: Ref<NoteSettings | null>;
 
   /**
-   * Link to the parent note
+   * Instance of the parent note, undefined if there is no parent note
    */
-  parentURL: Ref<string>;
+  parentNote: Ref<Note | undefined>;
 
   /**
    * Load note settings
@@ -80,7 +68,10 @@ export default function (): UseNoteSettingsComposableState {
    */
   const noteSettings = ref<NoteSettings | null>(null);
 
-  const parentURL = ref<string>('');
+  /**
+   * Instance of the parent note, undefined if there is no parent note
+   */
+  const parentNote = ref<Note | undefined>(undefined);
 
   /**
    * Get note settings and parent note
@@ -89,9 +80,7 @@ export default function (): UseNoteSettingsComposableState {
    */
   const load = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
-    const { parentNote } = await noteService.getNoteById(id);
-
-    parentURL.value = getNoteURL(parentNote?.id);
+    parentNote.value = (await noteService.getNoteById(id)).parentNote;
   };
 
   /**
@@ -102,9 +91,7 @@ export default function (): UseNoteSettingsComposableState {
    */
   const update = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
     noteSettings.value = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
-    const { parentNote } = await noteService.getNoteById(id);
-
-    parentURL.value = getNoteURL(parentNote?.id);
+    parentNote.value = (await noteService.getNoteById(id)).parentNote;
   };
 
   /**
@@ -152,6 +139,6 @@ export default function (): UseNoteSettingsComposableState {
     revokeHash,
     changeRole,
     updateParent,
-    parentURL,
+    parentNote,
   };
 }
