@@ -6,8 +6,8 @@
     <div :class="$style.buttons">
       <div v-for="button in buttons">
         <Button
-          :size="button[0]"
-          :style="button[1]"
+          :size="button[0] as ButtonSize"
+          :style="button[1] as ButtonStyle"
           :disabled="button[1] === 'disabled'"
         >
           Button
@@ -102,7 +102,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormField, Row } from '../src/vue';
+import { Button, Heading, Input, Field as FormField, Row, ButtonSize, ButtonStyle } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
