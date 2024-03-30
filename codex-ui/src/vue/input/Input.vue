@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { InputSize } from './Input.types'
 
 const props = withDefaults(
   defineProps<{
@@ -19,7 +20,7 @@ const props = withDefaults(
     /**
      * The size of the input
      */
-    size?: 'small' | 'medium' | 'large';
+    size?: InputSize;
 
     /**
      * Whether the input is disabled

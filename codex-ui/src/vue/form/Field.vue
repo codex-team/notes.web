@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
+import { FieldSize } from './Field.types'
 
 const props = withDefaults(
   defineProps<{
@@ -42,7 +43,7 @@ const props = withDefaults(
     /**
      * The size of the form field
      */
-    size?: 'small' | 'medium' | 'large';
+    size?: FieldSize;
 
     /**
      * Whether the form field is disabled
