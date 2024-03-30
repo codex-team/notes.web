@@ -7,7 +7,10 @@
     "build": "yarn build-src && yarn build-types",
     "build-src": "vite build",
     "build-types": "vue-tsc --declaration --emitDeclarationOnly --project tsconfig.dts.json",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .ts,.vue",
+    "lint:fix": "yarn lint --fix",
+    "format": "prettier --write --cache ."
   },
   "files": [
     "dist"

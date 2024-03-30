@@ -5,9 +5,9 @@
     </div>
     <div :class="$style['field-field']">
       <Input
+        v-model="model"
         :size="size"
         :disabled="disabled"
-        v-model="model"
         :value="value"
       />
       <div :class="[$style['field-caption'], 'text-ui-subtle']">
@@ -19,9 +19,9 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
-import { FieldSize } from './Field.types'
+import { FieldSize } from './Field.types';
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     /**
      * Input value
