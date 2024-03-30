@@ -2291,6 +2291,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "codex-ui@workspace:codex-ui"
   dependencies:
+    "@codexteam/icons": ^0.3.0
     "@types/node": ^20.11.15
     "@vitejs/plugin-vue": ^5.0.3
     postcss-apply: ^0.12.0

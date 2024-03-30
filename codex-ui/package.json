@@ -23,6 +23,7 @@
     }
   },
   "devDependencies": {
+    "@codexteam/icons": "latest",
     "@types/node": "^20.11.15",
     "@vitejs/plugin-vue": "^5.0.3",
     "postcss-apply": "^0.12.0",

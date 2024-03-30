@@ -65,6 +65,10 @@
       size="large"
     />
 
+    <Heading :level="3"> Icon </Heading>
+
+    <Icon :src="IconChecklist"/> <Icon :src="IconLoader"/>
+
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
   </div>
@@ -72,7 +76,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormField } from '../src/vue';
+import { IconChecklist, IconLoader } from '@codexteam/icons';
+import { Button, Heading, Input, FormField, Icon } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
