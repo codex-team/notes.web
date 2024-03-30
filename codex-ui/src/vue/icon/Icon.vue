@@ -1,5 +1,5 @@
 <template>
-  <span v-html="iconMap[props.src]" :class="$style['icon']"></span>
+  <span v-html="iconMap[props.name]" :class="$style['icon']"></span>
 </template>
 
 
@@ -8,7 +8,7 @@ const props = defineProps<{
   /**
    * Icon source code
    */
-  src: string;
+  name: string;
 }>();
 
 import * as iconMap from '@codexteam/icons';

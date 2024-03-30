@@ -97,7 +97,7 @@
 
     <Heading :level="3"> Icon </Heading>
 
-    <Icon src="IconChecklist"/> <Icon src="IconLoader"/>
+    <Icon name="IconChecklist"/> <Icon name="IconLoader"/>
 
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
