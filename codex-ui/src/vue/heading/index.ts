@@ -1,3 +1,3 @@
-import Heading from "./Heading.vue";
+import Heading from './Heading.vue';
 
-export { Heading }
+export { Heading };

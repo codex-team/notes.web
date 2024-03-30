@@ -1,40 +1,48 @@
 <template>
-<div :class="$style.row">
-  <div v-if="$slots.left" :class="$style['row__left']">
-    <slot name="left" />
-  </div>
-
-  <div :class="$style['row__body']">
-    <div :class="$style['row__body-inner']">
-      <div :class="$style['row__center']">
-
-        <div :class="[$style['row__label'], 'text-ui-footnote']">
-          {{ label }}
-        </div>
-        
-        <div :class="[$style['row__title'], 'text-ui-base-medium']">
-          {{ title }}
-        </div>
-
-        <div :class="[$style['row__subtle'], 'text-ui-subtle']">
-          {{ subtle }}
-        </div>
-      </div>
-  
-      <div v-if="$slots.right" :class="$style['row__right']">
-        <slot name="right" />
-      </div>
+  <div :class="$style.row">
+    <div
+      v-if="$slots.left"
+      :class="$style['row__left']"
+    >
+      <slot name="left" />
     </div>
 
-    <div v-if="hasDelimiter" :class="$style['row__delimiter']"></div>
+    <div :class="$style['row__body']">
+      <div :class="$style['row__body-inner']">
+        <div :class="$style['row__center']">
+          <div :class="[$style['row__label'], 'text-ui-footnote']">
+            {{ label }}
+          </div>
+
+          <div :class="[$style['row__title'], 'text-ui-base-medium']">
+            {{ title }}
+          </div>
+
+          <div :class="[$style['row__subtle'], 'text-ui-subtle']">
+            {{ subtle }}
+          </div>
+        </div>
+
+        <div
+          v-if="$slots.right"
+          :class="$style['row__right']"
+        >
+          <slot name="right" />
+        </div>
+      </div>
+
+      <div
+        v-if="hasDelimiter"
+        :class="$style['row__delimiter']"
+      ></div>
+    </div>
   </div>
-</div>
 </template>
 
 <script lang='ts' setup>
 defineProps<{
   /**
-   * Title to be displayd in row component. 
+   * Title to be displayd in row component.
    * Largest text inside row
    */
   title: string;
@@ -54,11 +62,9 @@ defineProps<{
    */
   hasDelimiter?: boolean;
 }>();
-
 </script>
 
 <style module lang="postcss">
-
 .row {
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);
@@ -66,7 +72,7 @@ defineProps<{
   padding-left: var(--h-padding);
   display: flex;
   gap: var(--h-padding);
-  
+
   &__left {
     display: flex;
     align-items: center;
@@ -103,5 +109,4 @@ defineProps<{
     align-items: center;
   }
 }
-
 </style>

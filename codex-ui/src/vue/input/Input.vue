@@ -1,14 +1,14 @@
 <template>
   <input
+    v-model="model"
     :class="[$style.input, `${$style.input}--${size}`, 'text-ui-base']"
     :disabled="props.disabled"
-    v-model="model"
   />
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { InputSize } from './Input.types'
+import { onMounted, defineProps } from 'vue';
+import { InputSize } from './Input.types';
 
 const props = withDefaults(
   defineProps<{
