@@ -2,7 +2,7 @@
   <div :class="$style.typescale">
     <div
       v-for="sample in samples"
-      :class="$style.row"
+      :class="$style['ts-row']"
       :key="sample.label"
     >
       <div :class="[$style.label]">
@@ -91,7 +91,7 @@ const samples = [
 .typescale {
 }
 
-.row {
+.ts-row {
   display: grid;
   gap: var(--spacing-xl);
   grid-template-columns: 120px 3fr;
