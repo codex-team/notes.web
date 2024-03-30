@@ -9,10 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { defineProps } from 'vue';
 import Heading from '../heading/Heading.vue';
-const { t } = useI18n();
 
 /**
  * NoteListItem props, receive Note
@@ -21,7 +19,6 @@ const props = defineProps<{
   title: string;
   updatedAt: string;
 }>();
-
 </script>
 
 <style module >
