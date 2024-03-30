@@ -21,7 +21,7 @@
     "title": "Note Settings",
     "customHostname": "Custom Hostname",
     "hostnamePlaceholder": "example: landing.codex.so",
-    "parentNote": "Parent Note",
+    "parentNote": "Parent note",
     "parentNoteCaption": "Link to new parent note",
     "setParent": "Set as parent",
     "invitationHash": "Invitation Hash",

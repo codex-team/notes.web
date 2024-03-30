@@ -17,7 +17,7 @@
       type="primary"
       @click="regenerateHash"
     />
-    <form-field
+    <FormField
       v-model="parentURL"
       :title="t('noteSettings.parentNote')"
       size="medium"
@@ -80,9 +80,14 @@ const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
 
+/**
+ * URL of the parent note. Used to set and display the parent note
+ */
 const parentURL = ref<string>('');
 
 /**
+ * Construct the parent note URL. If the parent note is not set, return an empty string
+ *
  * @param id - id of the  note
  */
 function getParentURL(id: NoteId | undefined): string {
