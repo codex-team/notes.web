@@ -1,15 +1,17 @@
 <template>
-  <span v-html="src" :class="$style['icon']"></span>
+  <span v-html="iconMap[props.src]" :class="$style['icon']"></span>
 </template>
 
 
 <script lang='ts' setup>
-defineProps<{
+const props = defineProps<{
   /**
    * Icon source code
    */
   src: string;
 }>();
+
+import * as iconMap from '@codexteam/icons';
 </script>
 
 <style module lang="postcss">

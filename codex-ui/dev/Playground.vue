@@ -97,7 +97,7 @@
 
     <Heading :level="3"> Icon </Heading>
 
-    <Icon :src="IconChecklist"/> <Icon :src="IconLoader"/>
+    <Icon src="IconChecklist"/> <Icon src="IconLoader"/>
 
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
@@ -106,7 +106,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { IconChecklist, IconLoader } from '@codexteam/icons';
 import { Button, Heading, Input, FormField, Icon, Row } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
