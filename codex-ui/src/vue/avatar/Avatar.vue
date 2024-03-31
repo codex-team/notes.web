@@ -4,13 +4,13 @@
     alt="Avatar"
     :class="$style.avatar"
     referrerpolicy="no-referrer"
-  >
+  />
 </template>
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
-const props = defineProps<{
+defineProps<{
   /**
    * Path to the image
    */
