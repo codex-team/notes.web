@@ -69,7 +69,10 @@
     />
 
     <Heading :level="3">Avatar</Heading>
-    <Avatar src="../static/example-avatar.png" />
+    <Avatar
+      src="../static/example-avatar.png"
+      username="Vitaly"
+    />
 
     <Heading :level="3">Row</Heading>
 
@@ -79,7 +82,10 @@
       :has-delimiter="true"
     >
       <template #left>
-        <Avatar src="../static/example-avatar.png" />
+        <Avatar
+          src="../static/example-avatar.png"
+          username="Vitaly"
+        />
       </template>
 
       <template #right>
@@ -97,7 +103,10 @@
       label="Time Sensitive"
     >
       <template #left>
-        <Avatar src="../static/example-avatar.png" />
+        <Avatar
+          src="../static/example-avatar.png"
+          username="Vitaly"
+        />
       </template>
 
       <template #right>

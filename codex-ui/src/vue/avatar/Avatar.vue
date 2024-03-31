@@ -1,7 +1,7 @@
 <template>
   <img
     :src="src"
-    alt="Avatar"
+    :alt="`Avatar of ${username}`"
     :class="$style.avatar"
     referrerpolicy="no-referrer"
   />
@@ -20,7 +20,7 @@ defineProps<{
    * Name of the user
    * In future, we can use this to generate initials
    */
-  username?: string;
+  username: string;
 }>();
 </script>
 
