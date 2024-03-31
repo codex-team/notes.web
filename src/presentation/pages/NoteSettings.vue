@@ -48,7 +48,7 @@
 <script lang="ts" setup>
 import type { NoteId } from '@/domain/entities/Note';
 import TextEdit from '@/presentation/components/form/TextEdit.vue';
-import { FormField } from 'codex-ui/vue';
+import { Field as FormField } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { IconSave } from '@codexteam/icons';
 import useNoteSettings from '@/application/services/useNoteSettings';
