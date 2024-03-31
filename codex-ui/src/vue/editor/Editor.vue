@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { type OutputData } from '@editorjs/editorjs';
-import { useEditor, DownloadedTools } from './useEditor.js';
+import { type EditorConfig, type OutputData } from '@editorjs/editorjs';
+import { useEditor } from './useEditor.js';
 
 /**
  * Define the props for the component
@@ -21,7 +21,7 @@ const props = defineProps<{
   /**
    * Loaded user tools for Editor
    */
-  tools?: DownloadedTools;
+  tools?: EditorConfig['tools'];
 }>();
 
 const emit = defineEmits<{
@@ -32,7 +32,7 @@ const { isEmpty, refresh } = useEditor({
   id: 'editorjs',
   content: props.content,
   isReadOnly: props.readOnly,
-  tools: props.tools || {},
+  tools: props.tools ?? {},
   onChange: (data) => emit('change', data),
 });
 

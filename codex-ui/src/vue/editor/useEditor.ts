@@ -1,13 +1,8 @@
-import Editor, { type OutputData, type API, BlockTool } from '@editorjs/editorjs';
+import Editor, { type OutputData, type API, type EditorConfig } from '@editorjs/editorjs';
 // @ts-expect-error editor plugins have no types
 import Header from '@editorjs/header';
 import type { Ref } from 'vue';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-
-/**
- * Downloaded tools data structure
- */
-export type DownloadedTools = Record<string, BlockTool>;
 
 /**
  * UseEditor composable params
@@ -36,7 +31,7 @@ interface UseEditorParams {
   /**
    * Loaded user tools for Editor
    */
-  tools: DownloadedTools;
+  tools: EditorConfig['tools'];
 }
 
 /**
@@ -51,7 +46,6 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
   /**
    * Editor instance
    */
-  // @ts-expect-error Ts config doesn't match with Editor
   let editor: Editor | undefined;
 
   /**
@@ -108,11 +102,10 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
   /**
    * Initializes editorjs instance
    *
-   * @param data
+   * @param data - Displayed content for Editor.js
    */
   async function mountEditor(data?: OutputData): Promise<void> {
     try {
-      // @ts-expect-error Ts config doesn't match with Editor
       editor = new Editor({
         holder: id,
         data: data,

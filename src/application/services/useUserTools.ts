@@ -1,13 +1,13 @@
-import type { BlockTool } from '@editorjs/editorjs';
 import { type Ref, ref, onMounted } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { loadScript } from '@/infrastructure/utils/load-script';
+import type { EditorConfig } from '@editorjs/editorjs';
 
 /**
  * Downloaded tools data structure
  */
-type DownloadedTools = Record<string, BlockTool>;
+type DownloadedTools = EditorConfig['tools'];
 
 /**
  * Service for load user tools
