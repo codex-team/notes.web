@@ -1,7 +1,7 @@
 <template>
   <img
-    :src="props.src"
-    alt="avatar"
+    :src="src"
+    alt="Avatar"
     :class="$style.avatar"
     referrerpolicy="no-referrer"
   >
@@ -15,6 +15,12 @@ const props = defineProps<{
    * Path to the image
    */
   src: string;
+
+  /**
+   * Name of the user
+   * In future, we can use this to generate initials
+   */
+  username?: string;
 }>();
 </script>
 
