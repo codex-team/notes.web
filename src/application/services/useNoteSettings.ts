@@ -15,6 +15,11 @@ interface UseNoteSettingsComposableState {
   noteSettings: Ref<NoteSettings | null>;
 
   /**
+   * Instance of the current note, undefined if not loaded
+   */
+  note: Ref<Note | undefined>;
+
+  /**
    * Instance of the parent note, undefined if there is no parent note
    */
   parentNote: Ref<Note | undefined>;
@@ -69,18 +74,26 @@ export default function (): UseNoteSettingsComposableState {
   const noteSettings = ref<NoteSettings | null>(null);
 
   /**
+   * Instance of the current note, undefined if not loaded
+   */
+  const note = ref<Note | undefined>(undefined);
+
+  /**
    * Instance of the parent note, undefined if there is no parent note
    */
   const parentNote = ref<Note | undefined>(undefined);
 
   /**
-   * Get note settings and parent note
+   * Get note settings, note and parent note
    *
    * @param id - Note id
    */
   const load = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
-    parentNote.value = (await noteService.getNoteById(id)).parentNote;
+    const response = await noteService.getNoteById(id);
+
+    note.value = response.note;
+    parentNote.value = response.parentNote;
   };
 
   /**
@@ -146,6 +159,7 @@ export default function (): UseNoteSettingsComposableState {
     revokeHash,
     changeRole,
     updateParent,
+    note,
     parentNote,
   };
 }
