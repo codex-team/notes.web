@@ -68,6 +68,9 @@
       size="large"
     />
 
+    <Heading :level="3">Avatar</Heading>
+    <Avatar src="../static/example-avatar.png" />
+
     <Heading :level="3">Row</Heading>
 
     <Row
@@ -76,7 +79,7 @@
       :has-delimiter="true"
     >
       <template #left>
-        <div style="width: 30px; height: 30px; background: rgb(74 230 123); border-radius: 6px"></div>
+        <Avatar src="../static/example-avatar.png" />
       </template>
 
       <template #right>
@@ -94,7 +97,7 @@
       label="Time Sensitive"
     >
       <template #left>
-        <div style="width: 30px; height: 30px; background: rgb(74 230 123); border-radius: 6px"></div>
+        <Avatar src="../static/example-avatar.png" />
       </template>
 
       <template #right>
@@ -113,7 +116,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, Field as FormField, Row, ButtonSize, ButtonStyle } from '../src/vue';
+import { Button, Heading, Input, Field as FormField, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
