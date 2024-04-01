@@ -5,9 +5,9 @@
     </div>
     <div :class="$style['field-field']">
       <Input
+        v-model="model"
         :size="size"
         :disabled="disabled"
-        v-model="model"
         :value="value"
       />
       <div :class="[$style['field-caption'], 'text-ui-subtle']">
@@ -19,8 +19,9 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
+import { FieldSize } from './Field.types';
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     /**
      * Input value
@@ -42,7 +43,7 @@ const props = withDefaults(
     /**
      * The size of the form field
      */
-    size?: 'small' | 'medium' | 'large';
+    size?: FieldSize;
 
     /**
      * Whether the form field is disabled
@@ -84,6 +85,10 @@ const model = defineModel();
   &-caption {
     padding-top: var(--spacing-xs);
     padding-inline: var(--h-padding);
+  }
+
+  &-caption {
+    color: var(--base--text-secondary);
   }
 }
 </style>

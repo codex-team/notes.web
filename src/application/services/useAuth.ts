@@ -19,7 +19,7 @@ export default function useAuth(): UseOAuthComposableState {
   /**
    * Google OAuth URL
    */
-  const loginUrl = import.meta.env.VITE_GOOGLE_OAUTH_URL as string;
+  const loginUrl = import.meta.env.VITE_GOOGLE_OAUTH_URL;
 
   /**
    * Id of the postMessage callback
@@ -55,7 +55,7 @@ export default function useAuth(): UseOAuthComposableState {
     });
   }
   /**
-   *Logs out the user by deleting the refresh token in local strorage
+   *Logs out the user by deleting the refresh token in local storage
    */
   async function logout(): Promise<void> {
     await authService.logout();

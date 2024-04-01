@@ -10,6 +10,7 @@
     "sourceType": "module",
     "parser": "@typescript-eslint/parser"
   },
+  "ignorePatterns": ["codex-ui/dist"],
   "settings": {
     "prettier-vue": {
       // Settings for how to process Vue SFC Blocks

@@ -4,10 +4,13 @@
 
     <Heading :level="3">Buttons</Heading>
     <div :class="$style.buttons">
-      <div v-for="button in buttons">
+      <div
+        v-for="(button, index) in buttons"
+        :key="button[0] + index"
+      >
         <Button
-          :size="button[0]"
-          :style="button[1]"
+          :size="button[0] as ButtonSize"
+          :style="button[1] as ButtonStyle"
           :disabled="button[1] === 'disabled'"
         >
           Button
@@ -65,6 +68,56 @@
       size="large"
     />
 
+    <Heading :level="3">Avatar</Heading>
+    <Avatar
+      src="../static/example-avatar.png"
+      username="Vitaly"
+    />
+
+    <Heading :level="3">Row</Heading>
+
+    <Row
+      title="Title"
+      subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+      :has-delimiter="true"
+    >
+      <template #left>
+        <Avatar
+          src="../static/example-avatar.png"
+          username="Vitaly"
+        />
+      </template>
+
+      <template #right>
+        <Button
+          size="small"
+          :style="'secondary'"
+          >Edit</Button
+        >
+      </template>
+    </Row>
+
+    <Row
+      title="Title"
+      subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+      label="Time Sensitive"
+    >
+      <template #left>
+        <Avatar
+          src="../static/example-avatar.png"
+          username="Vitaly"
+        />
+      </template>
+
+      <template #right>
+        <Button
+          size="small"
+          :style="'secondary'"
+          >Edit</Button
+        >
+      </template>
+    </Row>
+
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
   </div>
@@ -72,7 +125,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormField } from '../src/vue';
+import { Button, Heading, Input, Field as FormField, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
