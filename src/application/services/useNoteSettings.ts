@@ -71,13 +71,13 @@ export default function (): UseNoteSettingsComposableState {
    * @param newIsPublicValue - new isPublic
    */
   async function updateIsPublic(id: NoteId, newIsPublicValue: boolean): Promise<void> {
-    const updatedIsPublic = await noteSettingsService.patchNoteSettingsByNoteId(id, { isPublic: newIsPublicValue });
+    const { isPublic } = await noteSettingsService.patchNoteSettingsByNoteId(id, { isPublic: newIsPublicValue });
 
     /**
-     * Check if note setting is not empty
+     * Check in case noteSettings has not yet been created and is set to null
      */
     if (noteSettings.value) {
-      noteSettings.value.isPublic = updatedIsPublic.isPublic;
+      noteSettings.value.isPublic = isPublic;
     }
   }
 
