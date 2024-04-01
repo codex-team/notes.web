@@ -66,8 +66,10 @@ async function regenerateHash() {
  * Change isPublic property
  */
 async function changeAccess() {
-  if (noteSettings.value) {
-    updateIsPublic(props.id, noteSettings.value.isPublic);
+  const isPublic = noteSettings.value?.isPublic;
+
+  if (isPublic) {
+    updateIsPublic(props.id, isPublic);
   }
 }
 
