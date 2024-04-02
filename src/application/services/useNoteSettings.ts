@@ -74,7 +74,7 @@ export default function (): UseNoteSettingsComposableState {
     const { isPublic } = await noteSettingsService.patchNoteSettingsByNoteId(id, { isPublic: newIsPublicValue });
 
     /**
-     * Check in case noteSettings has not yet been created and is set to null
+     * If note settings were not loaded till this moment for some reason, do nothing
      */
     if (noteSettings.value) {
       noteSettings.value.isPublic = isPublic;
