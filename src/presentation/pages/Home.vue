@@ -8,18 +8,24 @@
             v-for="note in noteList.items"
             :key="note.id"
           >
-            <CardVertical
-              :title="getTitle(note.content)"
-              :updated-at="getUpdateTime(note.updatedAt!)"
-              @click="router.push(`/note/${note.id}`)"
-            />
+            <RouterLink :to="`/note/${note.id}`">
+              <CardVertical
+                :title="getTitle(note.content)"
+                :updated-at="getUpdateTime(note.updatedAt)"
+              />
+            </RouterLink>
           </div>
         </div>
+        <Button
+          :class="$style.button"
+          @click="loadMoreNotes"
+        >
+          {{ $t('home.loadMore') }}
+        </Button>
       </div>
       <div v-else>
         <p>{{ $t('home.emptyNoteList') }}</p>
       </div>
-      <button @click="loadMoreNotes">{{ $t('home.loadMoreNotes') }}</button>
     </div>
 
     <div v-else>
@@ -34,13 +40,11 @@ import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
 import { CardVertical } from 'codex-ui/vue';
 import useNoteList from '@/application/services/useNoteList';
-import { getTitle, getUpdateTime } from '@/application/services/useNoteUtils';
-import { useRouter } from 'vue-router';
+import { getTitle, getUpdateTime } from '@/infrastructure/utils/note';
+import { Button } from 'codex-ui/vue';
 const { user } = useAppState();
 const { t } = useI18n();
-
 const { noteList, loadMoreNotes } = useNoteList();
-const router = useRouter();
 
 /**
  * Changing the title in the browser
@@ -59,6 +63,10 @@ useHead({
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.button {
+  margin-top: var(--spacing-l);
 }
 
 h1 {

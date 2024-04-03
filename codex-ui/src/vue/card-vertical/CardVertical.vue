@@ -1,9 +1,13 @@
 <template>
-  <div :class="$style['note']">
-    <div :class="$style['cover']"></div>
-    <div :class="$style['footer']">
-      <Heading :level="3">{{ props.title }}</Heading>
-      <div :class="$style['updatedAt']">{{ props.updatedAt }}</div>
+  <div :class="$style.note">
+    <div :class="$style.cover"></div>
+    <div :class="$style.footer">
+      <Heading
+        :level="3"
+        class="text-ui-base-bold"
+        >{{ title }}</Heading
+      >
+      <div :class="[$style.updatedAt, 'text-ui-subtle']">{{ updatedAt }}</div>
     </div>
   </div>
 </template>
@@ -14,8 +18,11 @@ import Heading from '../heading/Heading.vue';
 
 /**
  * NoteListItem props, receive Note
+ *
+ * @param {string} title - Note title
+ * @param {string} updatedAt - Last updated date of note
  */
-const props = defineProps<{
+defineProps<{
   title: string;
   updatedAt: string;
 }>();

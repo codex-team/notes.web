@@ -49,7 +49,8 @@
   },
   "home": {
     "title": "Recent Notes",
-    "authText": "You are not logged in, log in to see your recent notes"
+    "authText": "You are not logged in, log in to see your recent notes",
+    "loadMore":"Load More Notes"
   },
   "errors": {
     "404": "Page not found",
