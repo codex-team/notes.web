@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { onMounted, defineProps } from 'vue';
 import { InputSize } from './Input.types';
+import { defineModel } from 'vue';
 
 const props = withDefaults(
   defineProps<{

@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
+import { defineModel } from 'vue';
 import { FieldSize } from './Field.types';
 
 withDefaults(

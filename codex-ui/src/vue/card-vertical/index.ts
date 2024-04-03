@@ -1,3 +1,2 @@
-import CardVertical from "./CardVertical.vue";
-
+import CardVertical from './CardVertical.vue';
 export { CardVertical };

@@ -87,6 +87,8 @@ export default class NoteRepository implements NoteRepositoryInterface {
     const note: Note = {
       id: response.id,
       content,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
 
     return note;
