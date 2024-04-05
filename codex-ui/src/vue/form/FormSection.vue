@@ -4,61 +4,42 @@
       {{ title }}
     </div>
     <div :class="$style['field-field']">
-      <Input
-        v-model="model"
-        :size="size"
-        :disabled="disabled"
-        :value="value"
-      />
-      <div :class="[$style['field-caption'], 'text-ui-subtle']">
-        {{ caption }}
-      </div>
+      <slot :size="size"></slot>
+    </div>
+    <div :class="[$style['field-caption'], 'text-ui-subtle']">
+      {{ caption }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Input from '../input/Input.vue';
-import { FieldSize } from './Field.types';
+import { FieldSize } from './FormSection.types';
 
 withDefaults(
   defineProps<{
     /**
-     * Input value
-     */
-    value?: string;
-
-    /**
-     * Form field title
+     * Form section title
      * Will be displayed as a heading
      */
     title: string;
 
     /**
-     * The size of the input
-     * Will be passed to the input component
+     * Additional description of the embedded field
      */
     caption?: string;
 
     /**
-     * The size of the form field
+     * The size of the form section
      */
     size?: FieldSize;
-
-    /**
-     * Whether the form field is disabled
-     */
-    disabled?: boolean;
   }>(),
   {
-    value: '',
     caption: '',
     size: 'medium',
-    disabled: false,
   }
 );
 
-const model = defineModel();
+// const model = defineModel();
 </script>
 
 <style module>
@@ -92,3 +73,4 @@ const model = defineModel();
   }
 }
 </style>
+./FormSection.types

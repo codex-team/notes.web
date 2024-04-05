@@ -1,0 +1,46 @@
+<template>
+  <FormSection :title="title">
+    <template #default="{ size }">
+      <Input
+        v-model="model"
+        :size="size"
+        :disabled="disabled"
+        :value="value"
+      />
+    </template>
+  </FormSection>
+</template>
+
+<script setup lang="ts">
+import Input from '../input/Input.vue';
+import FormSection from './FormSection.vue';
+withDefaults(
+  defineProps<{
+    /**
+     * Form section title
+     * Will be displayed as a heading
+     */
+    title: string;
+
+    /**
+     * Whether the form field is disabled
+     */
+    disabled?: boolean;
+
+    /**
+     * Input value
+     */
+    value?: string;
+  }>(),
+  {
+    disabled: false,
+    value: '',
+  }
+);
+
+const model = defineModel();
+</script>
+
+<style module>
+
+</style>

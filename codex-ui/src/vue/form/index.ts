@@ -1,4 +1,5 @@
-export * from './Field.types.js';
-import Field from './Field.vue';
+export * from './FormSection.types.js';
+import FormSection from './FormSection.vue';
+import FormField from './FormField.vue';
 
-export { Field };
+export { FormSection, FormField };
