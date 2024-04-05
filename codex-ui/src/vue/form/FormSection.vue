@@ -4,7 +4,7 @@
       {{ title }}
     </div>
     <div :class="$style['field-field']">
-      <slot :size="size"></slot>
+      <slot></slot>
     </div>
     <div :class="[$style['field-caption'], 'text-ui-subtle']">
       {{ caption }}
