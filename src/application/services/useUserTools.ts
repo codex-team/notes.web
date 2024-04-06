@@ -1,4 +1,4 @@
-import { type Ref, ref, onMounted } from 'vue';
+import { type Ref, ref, watchEffect } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { loadScript } from '@/infrastructure/utils/load-script';
@@ -19,17 +19,17 @@ export function useUserTools(): {
    * User notes tools
    */
   const { userEditorTools } = useAppState();
-  const userTools = ref<DownloadedTools | undefined>(undefined);
+  const userTools = ref<DownloadedTools | undefined>();
 
   /**
    * Download all the user tools and return a map
    *
    * @param tools - tools data
    */
-  async function downloadTools(tools: Ref<EditorTool[]>): Promise<DownloadedTools> {
+  async function downloadTools(tools: EditorTool[]): Promise<DownloadedTools> {
     const downloadedTools: DownloadedTools = {};
 
-    for (const tool of tools.value) {
+    for (const tool of tools) {
       if (tool.source.cdn === undefined) {
         continue;
       }
@@ -42,11 +42,11 @@ export function useUserTools(): {
     return downloadedTools;
   }
 
-  /**
-   * First load user tools
-   */
-  onMounted(async () => {
-    userTools.value = await downloadTools(userEditorTools);
+  watchEffect(async () => {
+    if (userEditorTools.value === undefined || userEditorTools.value?.length === 0) {
+      return;
+    }
+    userTools.value = await downloadTools(userEditorTools.value);
   });
 
   return {

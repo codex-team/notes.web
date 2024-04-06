@@ -16,7 +16,7 @@ interface UseAppStateComposable {
   /**
    * User editor tools that are used in notes creation
    */
-  userEditorTools: Ref<EditorTool[]>;
+  userEditorTools: Ref<EditorTool[] | undefined>;
 }
 
 /**
@@ -31,7 +31,7 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
   /**
    * User editor tools that are used in notes creation
    */
-  const userEditorTools = ref<EditorTool[]>([]);
+  const userEditorTools = ref<EditorTool[] | undefined>();
 
   /**
    * Subscribe to user changes in the App State

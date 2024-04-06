@@ -17,6 +17,7 @@
     </div>
 
     <Editor
+      v-if="userTools"
       ref="editor"
       :tools="userTools"
       :content="note.content"
