@@ -118,6 +118,53 @@
       </template>
     </Row>
 
+    <Heading :level="3">Row List</Heading>
+
+    <FormSection
+      list-name="List name"
+      caption="List of Row components"
+    >
+      <Row
+        title="ItemName"
+        :has-delimiter="true"
+      >
+        <template #left>
+          <Avatar
+            src="../static/example-avatar.png"
+            username="Vitaly"
+          />
+        </template>
+
+        <template #right>
+          <Button
+            size="small"
+            :style="'secondary'"
+            >Can View</Button
+          >
+        </template>
+      </Row>
+
+      <Row
+        title="ItemName"
+        :has-delimiter="true"
+      >
+        <template #left>
+          <Avatar
+            src="../static/example-avatar.png"
+            username="Vitaly"
+          />
+        </template>
+
+        <template #right>
+          <Button
+            size="small"
+            :style="'secondary'"
+            >Can view</Button
+          >
+        </template>
+      </Row>
+    </FormSection>
+
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
   </div>

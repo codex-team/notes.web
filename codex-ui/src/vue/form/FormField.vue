@@ -25,7 +25,7 @@ withDefaults(
     title: string;
 
     /**
-     * The size of the form section
+     * The size of the form section and input
      */
     size?: FieldSize;
 
