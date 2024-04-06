@@ -120,50 +120,11 @@
 
     <Heading :level="3">Row List</Heading>
 
-    <FormSection
-      list-name="List name"
-      caption="List of Row components"
+    <RowList
+      list-name="List Name"
+      :items="items"
     >
-      <Row
-        title="ItemName"
-        :has-delimiter="true"
-      >
-        <template #left>
-          <Avatar
-            src="../static/example-avatar.png"
-            username="Vitaly"
-          />
-        </template>
-
-        <template #right>
-          <Button
-            size="small"
-            :style="'secondary'"
-            >Can View</Button
-          >
-        </template>
-      </Row>
-
-      <Row
-        title="ItemName"
-        :has-delimiter="true"
-      >
-        <template #left>
-          <Avatar
-            src="../static/example-avatar.png"
-            username="Vitaly"
-          />
-        </template>
-
-        <template #right>
-          <Button
-            size="small"
-            :style="'secondary'"
-            >Can view</Button
-          >
-        </template>
-      </Row>
-    </FormSection>
+    </RowList>
 
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
@@ -172,8 +133,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormField, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
+import { Button, Heading, Input, FormField, Row, RowList, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
 import TypeScale from './TypeScale.vue';
+import { RowItem } from '../src/vue/row/RowList.vue';
 
 const formFieldValue = ref('Heading');
 
@@ -194,6 +156,8 @@ const buttons = [
   ['large', 'destructive'],
   ['large', 'disabled'],
 ];
+
+const items: RowItem[] = [{ id: 1, name: 'title1' }];
 </script>
 
 <style module>
