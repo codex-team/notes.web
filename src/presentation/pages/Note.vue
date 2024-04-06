@@ -18,6 +18,7 @@
 
     <Editor
       ref="editor"
+      :tools="userTools"
       :content="note.content"
       :read-only="!canEdit"
       @change="noteChanged"
@@ -27,15 +28,16 @@
 
 <script lang="ts" setup>
 import { ref, toRef, watch } from 'vue';
-import { Button } from 'codex-ui/vue';
-import Editor from '@/presentation/components/editor/Editor.vue';
+import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
+import { useUserTools } from '@/application/services/useUserTools.ts';
 import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+const { userTools } = useUserTools();
 
 const router = useRouter();
 
