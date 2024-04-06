@@ -1,6 +1,4 @@
 import Editor, { type OutputData, type API, type EditorConfig } from '@editorjs/editorjs';
-// @ts-expect-error editor plugins have no types
-import Header from '@editorjs/header';
 import type { Ref } from 'vue';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
@@ -110,7 +108,6 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
         holder: id,
         data: data,
         tools: {
-          header: Header,
           ...tools,
         },
         onChange: handleChange,

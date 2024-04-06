@@ -55,13 +55,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codexteam/icons@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "@codexteam/icons@npm:0.0.5"
-  checksum: 7a27857f769bab2ec6fa52662b9fad0b8084c3b1b86ad12addad774d03430a6666b88ba6f49bae945aab7e53dd5d3c9797d92948d5db177042e881caab394e86
-  languageName: node
-  linkType: hard
-
 "@codexteam/icons@npm:^0.3.0":
   version: 0.3.0
   resolution: "@codexteam/icons@npm:0.3.0"
@@ -501,15 +494,6 @@ __metadata:
   version: 2.29.1
   resolution: "@editorjs/editorjs@npm:2.29.1"
   checksum: a4c242660aaf62b29998d80bb39eae9f91b5030d33df1fc35b3f41cbe0a0b46f6c522761a787cb0cf11b3ba187380503ab31775a1bd17f999b9bda44747631d7
-  languageName: node
-  linkType: hard
-
-"@editorjs/header@npm:^2.7.0":
-  version: 2.8.1
-  resolution: "@editorjs/header@npm:2.8.1"
-  dependencies:
-    "@codexteam/icons": ^0.0.5
-  checksum: d27cb82e63cdaa5be314c102b55b835b326a75e5a40b32c6e41728c26afcbb301dbac78c185e41e8b9a502698f2ab240fce5ff2ccae0114d2368eac1ffdea067
   languageName: node
   linkType: hard
 
@@ -2162,7 +2146,6 @@ __metadata:
   resolution: "codex-ui@workspace:codex-ui"
   dependencies:
     "@editorjs/editorjs": ^2.29.1
-    "@editorjs/header": ^2.7.0
     "@types/node": ^20.11.15
     "@vitejs/plugin-vue": ^5.0.3
     eslint: ^8.51.0
