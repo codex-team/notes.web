@@ -1,4 +1,4 @@
-import { type Ref, ref, watchEffect } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { loadScript } from '@/infrastructure/utils/load-script';
@@ -42,7 +42,10 @@ export function useUserTools(): {
     return downloadedTools;
   }
 
-  watchEffect(async () => {
+  watch(userEditorTools, async () => {
+    /**
+     * If user tools are not loaded yet or empty, skip downloading their scripts
+     */
     if (userEditorTools.value === undefined || userEditorTools.value?.length === 0) {
       return;
     }

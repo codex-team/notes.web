@@ -62,6 +62,9 @@ export default function (): UseMarketplaceComposable {
   watch(
     userEditorTools,
     async (newValue) => {
+      /**
+       * Check if user tools are not loaded yet
+       */
       if (newValue === undefined) {
         return;
       }

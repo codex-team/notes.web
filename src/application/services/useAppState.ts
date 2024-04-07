@@ -14,7 +14,8 @@ interface UseAppStateComposable {
   user: Ref<User | null>;
 
   /**
-   * User editor tools that are used in notes creation
+   * User editor tools that are used in notes creation.
+   * Undefined means that tools have not been loaded yet.
    */
   userEditorTools: Ref<EditorTool[] | undefined>;
 }
