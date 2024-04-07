@@ -38,8 +38,6 @@ withDefaults(
     size: 'medium',
   }
 );
-
-// const model = defineModel();
 </script>
 
 <style module>
@@ -73,4 +71,3 @@ withDefaults(
   }
 }
 </style>
-./FormSection.types

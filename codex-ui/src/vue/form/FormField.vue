@@ -19,13 +19,13 @@ import FormSection from './FormSection.vue';
 withDefaults(
   defineProps<{
     /**
-     * Form section title
+     * Form field title
      * Will be displayed as a heading
      */
     title: string;
 
     /**
-     * The size of the form section and input
+     * The size of the form field and input
      */
     size?: FieldSize;
 
