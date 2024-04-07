@@ -41,6 +41,7 @@
     "vue-tsc": "latest"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.29.1",
     "vue": "^3.4.16"
   }
 }
