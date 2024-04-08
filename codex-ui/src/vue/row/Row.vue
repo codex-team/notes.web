@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 defineProps<{
   /**
    * Title to be displayd in row component.
