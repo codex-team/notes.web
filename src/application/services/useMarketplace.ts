@@ -50,7 +50,10 @@ export default function (): UseMarketplaceComposable {
 
   onMounted(async () => {
     availableTools.value = await marketplaceService.getAllTools();
-    toolsWithUserBindings.value = getToolsWithUserBindings(availableTools.value, userEditorTools.value);
+
+    if (userEditorTools.value !== undefined) {
+      toolsWithUserBindings.value = getToolsWithUserBindings(availableTools.value, userEditorTools.value);
+    }
   });
 
   /**
@@ -59,6 +62,12 @@ export default function (): UseMarketplaceComposable {
   watch(
     userEditorTools,
     async (newValue) => {
+      /**
+       * Check if user tools are not loaded yet
+       */
+      if (newValue === undefined) {
+        return;
+      }
       toolsWithUserBindings.value = getToolsWithUserBindings(availableTools.value, newValue);
     },
     {

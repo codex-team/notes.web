@@ -51,4 +51,24 @@ defineExpose({
 });
 </script>
 
-<style scoped></style>
+<style lang="postcss">
+@import '../../styles/typography.pcss';
+
+.ce-header {
+  color: var(--base--text);
+}
+
+h1.ce-header {
+  @apply --text-h1;
+}
+
+h2.ce-header {
+  @apply --text-h2;
+}
+
+h3.ce-header {
+  @apply --text-h3;
+}
+
+/* @todo add h4-h6 styles */
+</style>
