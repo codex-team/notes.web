@@ -1,18 +1,18 @@
 <template>
   <div :class="$style.playground">
     <Heading :level="1">Playground</Heading>
-    <Heading :level="3">Mode:</Heading>
+    <Heading :level="3">colorScheme:</Heading>
     <div :class="$style.buttons">
       <Button
         size="small"
-        @click="() => setMode('light')"
+        @click="() => setColorScheme('light')"
       >
         Light
       </Button>
 
       <Button
         size="small"
-        @click="() => setMode('dark')"
+        @click="() => setColorScheme('dark')"
       >
         Dark
       </Button>
@@ -179,8 +179,8 @@ function setAccentColor(color: string) {
   document.body.setAttribute('theme-accent', color);
 }
 
-function setMode(mode: string) {
-  document.body.setAttribute('mode', mode);
+function setColorScheme(colorScheme: string) {
+  document.body.setAttribute('color-scheme', colorScheme);
 }
 </script>
 
