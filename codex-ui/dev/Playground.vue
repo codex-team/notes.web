@@ -16,8 +16,8 @@
       >
         Dark
       </Button>
-      </div>
-    <br/>
+    </div>
+    <br />
     <Heading :level="3">Base Colors:</Heading>
     <div :class="$style.buttons">
       <Button
@@ -43,11 +43,12 @@
 
       <Button
         size="small"
-        @click="() => setBaseColor('violet')">
+        @click="() => setBaseColor('violet')"
+      >
           Violet
       </Button>
-      </div>
-    <br/>
+    </div>
+    <br />
     <Heading :level="3">Accent Colors:</Heading>
     <div :class="$style.buttons">
       <Button
@@ -77,7 +78,7 @@
       >
         Violet
       </Button>
-      </div>
+    </div>
     <Heading :level="3">Buttons</Heading>
     <div :class="$style.buttons">
       <div v-for="button in buttons">
@@ -170,15 +171,32 @@ const buttons = [
   ['large', 'destructive'],
   ['large', 'disabled'],
 ];
+/**
+ * Set the base color
+ *
+ * @param color - The base color to set
 
+ */
 function setBaseColor(color: string) {
   document.body.setAttribute('theme-base', color);
 }
 
+/**
+ * Set the accent color
+ *
+ * @param color - The accent color to set
+
+ */
 function setAccentColor(color: string) {
   document.body.setAttribute('theme-accent', color);
 }
 
+/**
+ * Set the color scheme
+ *
+ * @param colorScheme - The color scheme to set('light' | 'dark')
+
+ */
 function setColorScheme(colorScheme: string) {
   document.body.setAttribute('color-scheme', colorScheme);
 }

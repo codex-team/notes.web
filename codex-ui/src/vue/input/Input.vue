@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, defineModel } from 'vue';
 
 const props = withDefaults(
   defineProps<{
