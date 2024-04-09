@@ -13,9 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { FieldSize } from './FormSection.types';
+import { FieldSize } from '../form-section/FormSection.types';
 import Input from '../input/Input.vue';
-import FormSection from './FormSection.vue';
+import FormSection from '../form-section/FormSection.vue';
 withDefaults(
   defineProps<{
     /**
