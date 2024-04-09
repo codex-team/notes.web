@@ -1,12 +1,12 @@
 <template>
-  <div :class="[$style['field'], `${$style['field']}--${size}`]">
-    <div :class="[$style['field-title'], 'text-ui-footnote']">
+  <div :class="[$style['form-section'], `${$style['form-section']}--${size}`]">
+    <div :class="[$style['form-section-title'], 'text-ui-footnote']">
       {{ title }}
     </div>
-    <div :class="$style['field-field']">
+    <div :class="$style['form-section-field']">
       <slot></slot>
     </div>
-    <div :class="[$style['field-caption'], 'text-ui-subtle']">
+    <div :class="[$style['form-section-caption'], 'text-ui-subtle']">
       {{ caption }}
     </div>
   </div>
@@ -41,7 +41,7 @@ withDefaults(
 </script>
 
 <style module>
-.field {
+.form-section {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
