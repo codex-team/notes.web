@@ -120,8 +120,8 @@
 
     <Heading :level="3">Row List</Heading>
 
-    <RowList
-      list-name="List Name"
+    <FormSection
+      title="List Name"
       caption="Item list"
     >
       <Row
@@ -145,7 +145,7 @@
           >
         </template>
       </Row>
-    </RowList>
+    </FormSection>
 
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
@@ -156,7 +156,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Editor, Input, FormField, Row, RowList, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
+import { Button, Heading, Editor, Input, FormField, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
