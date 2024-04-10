@@ -59,10 +59,15 @@ defineExpose({
 }
 
 h1.ce-header {
+  padding-bottom: 20px;
+
   @apply --text-h1;
 }
 
 h2.ce-header {
+  padding-top: 12px;
+  padding-bottom: 4px;
+
   @apply --text-h2;
 }
 
@@ -81,6 +86,20 @@ h3.ce-header {
   &:hover {
     background-color: var(--base--bg-secondary-hover);
   }
+}
+
+.cdx-block {
+  padding: 0;
+}
+
+.codex-editor__redactor {
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ce-paragraph {
+  line-height: inherit !important;
 }
 
 /* @todo add h4-h6 styles */
