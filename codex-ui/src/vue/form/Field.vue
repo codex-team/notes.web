@@ -1,5 +1,5 @@
 <template>
-  <FormSection
+  <Section
     :title="title"
     :size="size"
     :with-background="false"
@@ -10,13 +10,13 @@
       :disabled="disabled"
       :value="value"
     />
-  </FormSection>
+  </Section>
 </template>
 
 <script setup lang="ts">
 import { FieldSize } from './Section.types';
 import Input from '../input/Input.vue';
-import FormSection from './Section.vue';
+import Section from './Section.vue';
 withDefaults(
   defineProps<{
     /**
