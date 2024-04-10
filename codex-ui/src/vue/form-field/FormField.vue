@@ -26,6 +26,11 @@ withDefaults(
     title: string;
 
     /**
+     * Additional description of the embedded field
+     */
+    caption?: string;
+
+    /**
      * The size of the form field and input
      */
     size?: FieldSize;
@@ -41,6 +46,7 @@ withDefaults(
     value?: string;
   }>(),
   {
+    caption: '',
     size: 'medium',
     disabled: false,
     value: '',

@@ -118,17 +118,17 @@
       </template>
     </Row>
 
-    <Heading :level="3">Row List</Heading>
+    <Heading :level="3">Form Section</Heading>
 
     <FormSection
       title="List Name"
       caption="Item list"
     >
       <Row
-        v-for="(item, index) in items"
+        v-for="(item, index) in formSectionItems"
         :key="item.id"
         :title="item.name"
-        :has-delimiter="index !== items.length - 1"
+        :has-delimiter="index !== formSectionItems.length - 1"
       >
         <template #left>
           <Avatar
@@ -190,7 +190,7 @@ const buttons = [
   ['large', 'disabled'],
 ];
 
-const items = [
+const formSectionItems = [
   { id: 1, name: 'Vitaly' },
   { id: 2, name: 'Nickmel' },
 ];
