@@ -3,7 +3,12 @@
     <div :class="[$style['form-section-title'], 'text-ui-footnote']">
       {{ title }}
     </div>
-    <div :class="[$style['form-section-body-wrapper'], withBackground ? $style['form-section-body-wrapper--bg'] : '']">
+    <div
+      :class="[
+        $style['form-section-body-wrapper'],
+        withBackground ? $style['form-section-body-wrapper--with-background'] : '',
+      ]"
+    >
       <slot></slot>
     </div>
     <div :class="[$style['form-section-caption'], 'text-ui-subtle']">
@@ -78,7 +83,7 @@ withDefaults(
   }
 
   &-body-wrapper {
-    &--bg {
+    &--with-background {
       padding-block: var(--v-padding);
       border-radius: var(--radius-m);
       background-color: var(--base--bg-secondary);
