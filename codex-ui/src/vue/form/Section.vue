@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { FieldSize } from './FormSection.types';
+import { FieldSize } from './Section.types';
 
 withDefaults(
   defineProps<{
@@ -83,4 +83,4 @@ withDefaults(
     }
   }
 }
-</style>
+</style>../form/FormSection.types./Section.types

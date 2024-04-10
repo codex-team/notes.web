@@ -44,7 +44,7 @@
     />
 
     <Heading :level="3">Form Field</Heading>
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -52,7 +52,7 @@
       size="small"
     />
     <br />
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -60,7 +60,7 @@
       size="medium"
     />
     <br />
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -120,7 +120,7 @@
 
     <Heading :level="3">Form Section</Heading>
 
-    <FormSection
+    <Section
       title="List Name"
       caption="Item list"
     >
@@ -145,7 +145,7 @@
           >
         </template>
       </Row>
-    </FormSection>
+    </Section>
 
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
@@ -156,18 +156,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import {
-  Button,
-  Heading,
-  Editor,
-  Input,
-  FormField,
-  FormSection,
-  Row,
-  ButtonSize,
-  ButtonStyle,
-  Avatar,
-} from '../src/vue';
+import { Button, Heading, Editor, Input, Field, Section, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');

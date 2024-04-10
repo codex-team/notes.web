@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { FieldSize } from '../form-section/FormSection.types';
+import { FieldSize } from './Section.types';
 import Input from '../input/Input.vue';
-import FormSection from '../form-section/FormSection.vue';
+import FormSection from './Section.vue';
 withDefaults(
   defineProps<{
     /**
@@ -58,4 +58,4 @@ const model = defineModel();
 
 <style module>
 
-</style>
+</style>./FormSection.types
