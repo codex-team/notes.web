@@ -2,6 +2,7 @@
   <FormSection
     :title="title"
     :size="size"
+    :with-background="false"
   >
     <Input
       v-model="model"

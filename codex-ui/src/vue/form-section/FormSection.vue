@@ -36,7 +36,7 @@ withDefaults(
     /**
      * True if there is a background in the component body
      */
-    withBackground: boolean;
+    withBackground?: boolean;
   }>(),
   {
     caption: '',

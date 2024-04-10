@@ -50,7 +50,6 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="small"
-      with-background="false"
     />
     <br />
     <FormField
@@ -59,7 +58,6 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="medium"
-      with-background="false"
     />
     <br />
     <FormField
@@ -68,7 +66,6 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="large"
-      with-background="false"
     />
 
     <Heading :level="3">Avatar</Heading>
