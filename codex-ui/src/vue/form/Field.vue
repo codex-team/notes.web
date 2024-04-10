@@ -1,6 +1,7 @@
 <template>
   <Section
     :title="title"
+    :caption="caption"
     :size="size"
     :with-background="false"
   >
