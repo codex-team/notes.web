@@ -44,7 +44,7 @@
     />
 
     <Heading :level="3">Form Field</Heading>
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -52,7 +52,7 @@
       size="small"
     />
     <br />
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -60,7 +60,7 @@
       size="medium"
     />
     <br />
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -118,6 +118,35 @@
       </template>
     </Row>
 
+    <Heading :level="3">Form Section</Heading>
+
+    <Section
+      title="List Name"
+      caption="Item list"
+    >
+      <Row
+        v-for="(item, index) in formSectionItems"
+        :key="item.id"
+        :title="item.name"
+        :has-delimiter="index !== formSectionItems.length - 1"
+      >
+        <template #left>
+          <Avatar
+            src="../static/example-avatar.png"
+            :username="item.name"
+          />
+        </template>
+
+        <template #right>
+          <Button
+            size="small"
+            :style="'secondary'"
+            >Can View</Button
+          >
+        </template>
+      </Row>
+    </Section>
+
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
     <Heading :level="3">Editor.js</Heading>
@@ -127,7 +156,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Editor, Input, Field as FormField, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
+import { Button, Heading, Editor, Input, Field, Section, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
@@ -148,6 +177,11 @@ const buttons = [
   ['large', 'secondary'],
   ['large', 'destructive'],
   ['large', 'disabled'],
+];
+
+const formSectionItems = [
+  { id: 1, name: 'Vitaly' },
+  { id: 2, name: 'Nickmel' },
 ];
 </script>
 
