@@ -70,5 +70,18 @@ h3.ce-header {
   @apply --text-h3;
 }
 
+.ce-block {
+  @apply --text-p;
+}
+
+.ce-toolbar__plus,
+.ce-toolbar__settings-btn {
+  color: var(--base--text);
+
+  &:hover {
+    background-color: var(--base--bg-secondary-hover);
+  }
+}
+
 /* @todo add h4-h6 styles */
 </style>
