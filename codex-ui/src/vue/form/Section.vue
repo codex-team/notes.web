@@ -53,6 +53,7 @@ withDefaults(
   gap: var(--spacing-xs);
 
   --h-padding: var(--spacing-m);
+  --v-padding: var(--spacing-xs);
 
   &--small {
     --h-padding: var(--spacing-s);
@@ -77,9 +78,9 @@ withDefaults(
   }
 
   &-body-wrapper {
-    --v-padding: var(--spacing-xs);
-    border-radius: var(--radius-m);
     &--bg {
+      padding-block: var(--v-padding);
+      border-radius: var(--radius-m);
       background-color: var(--base--bg-secondary);
     }
   }
