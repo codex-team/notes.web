@@ -77,10 +77,11 @@ withDefaults(
   }
 
   &-body-wrapper {
+    --v-padding: var(--spacing-xs);
     border-radius: var(--radius-m);
     &--bg {
-      background-color: #0a0a0a;
+      background-color: var(--base--bg-secondary);
     }
   }
 }
-</style>../form/FormSection.types./Section.types
+</style>
