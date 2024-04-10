@@ -59,14 +59,14 @@ defineExpose({
 }
 
 h1.ce-header {
-  padding-bottom: 20px;
+  padding-bottom: 1.333rem;
 
   @apply --text-h1;
 }
 
 h2.ce-header {
-  padding-top: 12px;
-  padding-bottom: 4px;
+  padding-top: 0.8rem;
+  padding-bottom: 0.333rem;
 
   @apply --text-h2;
 }
@@ -93,7 +93,7 @@ h3.ce-header {
 }
 
 .codex-editor__redactor {
-  gap: 6px;
+  gap: 0.4rem;
   display: flex;
   flex-direction: column;
 }
