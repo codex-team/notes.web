@@ -160,40 +160,16 @@
     <br />
     <Heading :level="3">Switch</Heading>
     on, default
-    <Switch
-      value="on"
-      state="default"
-    ></Switch>
-    <br />
-    on, hover
-    <Switch
-      value="on"
-      state="hover"
-    ></Switch>
+    <Switch state="default"></Switch>
     <br />
     on, disabled
-    <Switch
-      value="on"
-      state="disabled"
-    ></Switch>
+    <Switch state="disabled"></Switch>
     <br />
     off, default
-    <Switch
-      value="off"
-      state="default"
-    ></Switch>
-    <br />
-    off, hover
-    <Switch
-      value="off"
-      state="hover"
-    ></Switch>
+    <Switch state="default"></Switch>
     <br />
     off, disabled
-    <Switch
-      value="off"
-      state="disabled"
-    ></Switch>
+    <Switch state="disabled"></Switch>
     <br />
     <br />
     <Heading :level="3">Form Section</Heading>
