@@ -1,85 +1,111 @@
 <template>
-  <div :class="[$style.switch, $style[`switch__${props.value}__${state}`]]">
-    <div :class="$style['switch__ellipse']"></div>
+  <div
+    v-if="state === 'disabled'"
+    :class="[$style.switch, $style[`switch__${switchValue}__disabled`]]"
+  >
+    <div :class="[$style[`switch__ellipse`], $style[`switch__${switchValue}`]]"></div>
+  </div>
+  <div
+    v-if="state === 'default'"
+    :class="[$style.switch, $style[`switch__${switchValue}__default`]]"
+    @click="changeValue"
+  >
+    <div :class="[$style[`switch__ellipse`], $style[`switch__${switchValue}`]]"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { SwitchValues, SwitchStates } from './Switch.types.js';
+import { SwitchOn, SwitchState } from './Switch.types.js';
+import { ref } from 'vue';
 
-const props = defineProps<{
-  /**
-   * Value of the switch ('on' or 'off')
-   */
-  value: SwitchValues;
+const props = withDefaults(
+  defineProps<{
+    /**
+     * Value of the switch ('on' or 'off')
+     */
+    value?: SwitchOn;
 
-  /**
-   * State of interaction with the component
-   */
-  state: SwitchStates;
-}>();
+    /**
+     * State of interaction with the component
+     */
+    state?: SwitchState;
+  }>(),
+  { value: true, state: 'default' }
+);
+
+const switchValue = ref(props.value);
+
+/**
+ *
+ */
+function changeValue() {
+  switchValue.value = !switchValue.value;
+}
 </script>
 
 <style module lang="postcss">
 .switch {
   cursor: pointer;
-  display: flex;
   width: 32px;
   padding: var(--padding, 2px);
-  flex-direction: column;
   gap: 10px;
   border-radius: var(--Radius-radius-l, 16px);
 
-  --padding: var(--spacing-very-x);
+  /* Остальные стили */
+}
+
+/* Дополнительные стили для включенного состояния */
+.switch__true__default {
   --bg-color: var(--solid, #1c84ff);
-  --align: flex-start;
+}
 
-  &__ellipse {
-    width: 18px;
-    height: 18px;
-    background: var(--solid, #f5f5f5);
-    border-radius: var(--Radius-radius-l, 16px);
-  }
+/* Дополнительные стили для выключенного состояния */
+.switch__false__default {
+  --bg-color: var(--bg-secondary, #2c2d30);
+}
 
-  /**
-  * States
-  */
-  &__on {
-    --align: flex-end;
+.switch__true__default:hover {
+  background-color: var(--solid-hover, #0075ff);
+}
 
-    /**
-    * Styles
-    */
-    &__default {
-      --bg-color: var(--solid, #1c84ff);
-    }
-    &__disabled {
-      --bg-color: var(--bg-hover, #2c2d30);
-      cursor: not-allowed;
-    }
-    &__hover {
-      --bg-color: var(--solid-hover, #0075ff);
-    }
-  }
-  &__off {
-    --align: flex-start;
+.switch__false__default:hover {
+  background-color: var(--bg-secondary-hover, #3b3c40);
+}
 
-    /**
-    * Styles
-    */
-    &__default {
-      --bg-color: var(--bg-secondary, #2c2d30);
-    }
-    &__disabled {
-      --bg-color: var(--bg-secondary, #2c2d30);
-      cursor: not-allowed;
-    }
-    &__hover {
-      --bg-color: var(--bg-secondary-hover, #3b3c40);
-    }
-  }
+.switch__true__disabled {
+  --bg-color: var(--bg-secondary, #2c2d30);
+  cursor: not-allowed;
+}
 
+.switch__false__disabled {
+  --bg-color: var(--bg-secondary, #2c2d30);
+  cursor: not-allowed;
+}
+
+/* Элемент-эллипс */
+.switch__ellipse {
+  width: 18px;
+  height: 18px;
+  background: var(--solid, #f5f5f5);
+  border-radius: var(--Radius-radius-l, 16px);
+}
+
+/* Изменения для включенного/выключенного состояния */
+.switch__true {
+  margin-left: calc(100% - 18px);
+  transition: margin-left 0.2s;
+  /* Дополнительные стили */
+}
+.switch__false {
+  margin-left: 0;
+  transition: margin-left 0.2s;
+
+  /* Дополнительные стили */
+}
+
+/* Стили фона, зависящие от состояния */
+.switch {
   background-color: var(--bg-color);
-  align-items: var(--align);
+  transition: background-color 0.2s;
 }
 </style>
