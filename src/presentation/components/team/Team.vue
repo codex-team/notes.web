@@ -1,21 +1,30 @@
 <template>
-  <h1>{{ t('noteSettings.team.title') }}</h1>
-  <ul
-    v-for="member in team"
-    :key="member.id"
+  <Section
+    title="Collaborators"
+    caption="Who can access the Note even if it’s not published"
   >
-    <Member
-      :note-id="noteId"
-      :team-member="member"
-    />
-  </ul>
+    <Row
+      v-for="(member, memberIndex) in team"
+      :key="member.id"
+      :title="member.user.name || member.user.email"
+      :has-delimiter="memberIndex !== team.length - 1"
+    >
+      <template #right>
+        <RoleSelect
+          :note-id="noteId"
+          :team-member="member"
+        >
+        </RoleSelect>
+      </template>
+    </Row>
+  </Section>
 </template>
 
 <script setup lang="ts">
 import { Team } from '@/domain/entities/Team';
-import Member from './Member.vue';
-import { useI18n } from 'vue-i18n';
 import { NoteId } from '@/domain/entities/Note';
+import { Section, Row } from 'codex-ui/vue';
+import RoleSelect from './RoleSelect.vue';
 
 defineProps<{
   /**
@@ -27,8 +36,6 @@ defineProps<{
    */
   noteId: NoteId;
 }>();
-
-const { t } = useI18n();
 </script>
 
 <style scoped></style>
