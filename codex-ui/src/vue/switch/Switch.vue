@@ -3,14 +3,18 @@
     v-if="state === 'disabled'"
     :class="[$style.switch, $style[`switch__${switchValue}__disabled`]]"
   >
-    <div :class="[$style[`switch__ellipse`], $style[`switch__${switchValue}`]]"></div>
+    <div
+      :class="[$style[`switch__ellipse`], $style[`switch__ellipse__disabled`], $style[`switch__${switchValue}`]]"
+    ></div>
   </div>
   <div
     v-if="state === 'default'"
     :class="[$style.switch, $style[`switch__${switchValue}__default`]]"
     @click="changeValue"
   >
-    <div :class="[$style[`switch__ellipse`], $style[`switch__${switchValue}`]]"></div>
+    <div
+      :class="[$style[`switch__ellipse`], $style[`switch__ellipse__default`], $style[`switch__${switchValue}`]]"
+    ></div>
   </div>
 </template>
 
@@ -48,18 +52,16 @@ function changeValue() {
   cursor: pointer;
   width: 32px;
   padding: var(--padding, 2px);
-  gap: 10px;
+  gap: --spacing-ms;
   border-radius: var(--Radius-radius-l, 16px);
-
-  /* Остальные стили */
+  background-color: var(--bg-color);
+  transition: background-color 0.2s;
 }
 
-/* Дополнительные стили для включенного состояния */
 .switch__true__default {
   --bg-color: var(--solid, #1c84ff);
 }
 
-/* Дополнительные стили для выключенного состояния */
 .switch__false__default {
   --bg-color: var(--bg-secondary, #2c2d30);
 }
@@ -82,30 +84,26 @@ function changeValue() {
   cursor: not-allowed;
 }
 
-/* Элемент-эллипс */
 .switch__ellipse {
   width: 18px;
   height: 18px;
-  background: var(--solid, #f5f5f5);
   border-radius: var(--Radius-radius-l, 16px);
+  &__disabled {
+    background: var(--text-secondary, #94979a);
+  }
+  &__default {
+    background: var(--solid, #f5f5f5);
+  }
 }
 
-/* Изменения для включенного/выключенного состояния */
 .switch__true {
   margin-left: calc(100% - 18px);
   transition: margin-left 0.2s;
   /* Дополнительные стили */
 }
+
 .switch__false {
   margin-left: 0;
   transition: margin-left 0.2s;
-
-  /* Дополнительные стили */
-}
-
-/* Стили фона, зависящие от состояния */
-.switch {
-  background-color: var(--bg-color);
-  transition: background-color 0.2s;
 }
 </style>
