@@ -56,9 +56,9 @@ const style = computed(() => {
 
   --padding: 0 0;
   --radius: 0;
-  --color: var(--base--text-solid-foreground);
-  --bg: var(--base--solid);
-  --bg-hover: var(--base--solid-hover);
+  --color: var(--accent--text-solid-foreground);
+  --bg: var(--accent--solid);
+  --bg-hover: var(--accent--solid-hover);
   --border-color: transparent;
 
   /**
@@ -83,20 +83,20 @@ const style = computed(() => {
    * Styles
    */
   &--primary {
-    --bg: var(--base--solid);
-    --bg-hover: var(--base--solid-hover);
+    --bg: var(--accent--solid);
+    --bg-hover: var(--accent--solid-hover);
   }
 
   &--secondary {
-    --bg: var(--base--bg-secondary);
-    --bg-hover: var(--base--bg-secondary-hover);
-    --border-color: var(--base--border);
+    --bg: var(--accent--bg-secondary);
+    --bg-hover: var(--accent--bg-secondary-hover);
+    --border-color: var(--accent--border);
   }
 
   &--disabled {
-    --bg: var(--base--bg-secondary);
-    --bg-hover: var(--base--bg-secondary);
-    --color: var(--base--text-secondary);
+    --bg: var(--accent--bg-secondary);
+    --bg-hover: var(--accent--bg-secondary);
+    --color: var(--accent--text-secondary);
     cursor: not-allowed;
   }
 

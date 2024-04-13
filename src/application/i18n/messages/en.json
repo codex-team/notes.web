@@ -26,7 +26,8 @@
     "isPublic": "is note public",
     "revokeHash": "Revoke",
     "team": {
-      "title": "Team",
+      "title": "Collaborators",
+      "caption": "Who can access the Note even if it’s not published",
       "roles": {
         "Read": "Reader",
         "Write": "Writer"

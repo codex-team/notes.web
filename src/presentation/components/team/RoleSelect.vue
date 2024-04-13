@@ -1,23 +1,18 @@
 <template>
-  <li class="member">
-    <div class="member-name">
-      {{ teamMember.user.name || teamMember.user.email }}
-    </div>
-    <div v-if="teamMember.user.id != user?.id">
-      <select
-        v-model="selectedRole"
-        @change="updateMemberRole"
+  <div v-if="teamMember.user.id != user?.id">
+    <select
+      v-model="selectedRole"
+      @change="updateMemberRole"
+    >
+      <option
+        v-for="(role, index) in roleOptions"
+        :key="index"
+        :value="role"
       >
-        <option
-          v-for="(role, index) in roleOptions"
-          :key="index"
-          :value="role"
-        >
-          {{ t(`noteSettings.team.roles.${role}`) }}
-        </option>
-      </select>
-    </div>
-  </li>
+        {{ t(`noteSettings.team.roles.${role}`) }}
+      </option>
+    </select>
+  </div>
 </template>
 
 <script setup lang="ts">
