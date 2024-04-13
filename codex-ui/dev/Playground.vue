@@ -204,26 +204,6 @@
       </Row>
     </Section>
     <br />
-    <Heading :level="3">Switch</Heading>
-    on, default
-    <Switch state="default"></Switch>
-    <br />
-    on, disabled
-    <Switch state="disabled"></Switch>
-    <br />
-    off, default
-    <Switch
-      state="default"
-      :value="false"
-    ></Switch>
-    <br />
-    off, disabled
-    <Switch
-      state="disabled"
-      :value="false"
-    ></Switch>
-    <br />
-    <br />
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
     <Heading :level="3">Editor.js</Heading>
