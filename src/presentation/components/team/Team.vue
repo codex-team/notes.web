@@ -1,7 +1,7 @@
 <template>
   <Section
-    title="Collaborators"
-    caption="Who can access the Note even if it’s not published"
+    :title="t('noteSettings.team.title')"
+    :caption="t('noteSettings.team.caption')"
   >
     <Row
       v-for="(member, memberIndex) in team"
@@ -25,6 +25,7 @@ import { Team } from '@/domain/entities/Team';
 import { NoteId } from '@/domain/entities/Note';
 import { Section, Row } from 'codex-ui/vue';
 import RoleSelect from './RoleSelect.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps<{
   /**
@@ -36,6 +37,8 @@ defineProps<{
    */
   noteId: NoteId;
 }>();
+
+const { t } = useI18n();
 </script>
 
 <style scoped></style>
