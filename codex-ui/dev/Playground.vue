@@ -156,7 +156,7 @@
 
     <Heading :level="3"> Icon </Heading>
 
-    <Icon name="Checklist"/> <Icon name="Loader"/>
+    <Icon name="Checklist" /> <Icon name="Loader" />
 
     <Heading :level="3">Form Section</Heading>
 
