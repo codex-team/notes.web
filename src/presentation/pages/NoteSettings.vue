@@ -9,13 +9,14 @@
       :placeholder="t('noteSettings.hostnamePlaceholder')"
     /> -->
     <Section
-      title="Availability"
-      caption="Should the Note be available by its URL for people who knows it?"
+      :title="t('noteSettings.availabilityTitle')"
+      :caption="t('noteSettings.availabilityCaption')"
     >
       <Row title="Publish Note">
         <template #right>
           <Checkbox
             v-model:checked="noteSettings.isPublic"
+            label=""
             @update:checked="changeAccess"
           />
         </template>

@@ -23,7 +23,8 @@
     "hostnamePlaceholder": "example: landing.codex.so",
     "invitationHash": "Invitation Hash",
     "invitationHashPlaceholder": "It will generate a new invitation hash...",
-    "isPublic": "is note public",
+    "availabilityTitle": "Availability",
+    "availabilityCaption": "Should the Note be available by its URL for people who knows it?",
     "revokeHash": "Revoke",
     "team": {
       "title": "Collaborators",
