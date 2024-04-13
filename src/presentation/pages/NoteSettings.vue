@@ -8,11 +8,19 @@
       :title="t('noteSettings.customHostname')"
       :placeholder="t('noteSettings.hostnamePlaceholder')"
     /> -->
-    <Checkbox
-      v-model:checked="noteSettings.isPublic"
-      :label="t('noteSettings.isPublic')"
-      @update:checked="changeAccess"
-    />
+    <Section
+      title="Availability"
+      caption="Should the Note be available by its URL for people who knows it?"
+    >
+      <Row title="Publish Note">
+        <template #right>
+          <Checkbox
+            v-model:checked="noteSettings.isPublic"
+            @update:checked="changeAccess"
+          />
+        </template>
+      </Row>
+    </Section>
     {{ invitationLink }}
     <Button
       :text="t('noteSettings.revokeHash')"
@@ -37,6 +45,7 @@ import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import Team from '@/presentation/components/team/Team.vue';
+import { Section, Row } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
