@@ -160,20 +160,17 @@
     <br />
     <Heading :level="3">Switch</Heading>
     on, default
-    <Switch state="default"></Switch>
+    <Switch></Switch>
     <br />
     on, disabled
-    <Switch state="disabled"></Switch>
+    <Switch :disabled="true"></Switch>
     <br />
     off, default
-    <Switch
-      state="default"
-      :value="false"
-    ></Switch>
+    <Switch :value="false"></Switch>
     <br />
     off, disabled
     <Switch
-      state="disabled"
+      :disabled="true"
       :value="false"
     ></Switch>
     <br />

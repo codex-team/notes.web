@@ -1,7 +1,7 @@
 /**
  * States of the switch
  */
-export type SwitchState = 'default' | 'disabled';
+export type Disabled = true | false;
 
 /**
  * Values of the switch
