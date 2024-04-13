@@ -23,9 +23,10 @@
           :src="member.user.photo"
           :username="member.user.name"
         />
-        <div v-else>
-          <div class="mock"></div>
-        </div>
+        <div
+          v-else
+          class="mock"
+        ></div>
       </template>
     </Row>
   </Section>
