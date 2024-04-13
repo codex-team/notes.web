@@ -172,7 +172,10 @@
     ></Switch>
     <br />
     off, disabled
-    <Switch state="disabled"></Switch>
+    <Switch
+      state="disabled"
+      :value="false"
+    ></Switch>
     <br />
     <br />
     <Heading :level="3">Form Section</Heading>
@@ -218,7 +221,10 @@
     ></Switch>
     <br />
     off, disabled
-    <Switch state="disabled"></Switch>
+    <Switch
+      state="disabled"
+      :value="false"
+    ></Switch>
     <br />
     <br />
     <Heading :level="3"> Type Scale </Heading>

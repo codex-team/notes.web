@@ -1,19 +1,10 @@
 <template>
   <div
-    v-if="state === 'disabled'"
-    :class="[$style.switch, $style[`switch__${switchValue}__disabled`]]"
+    :class="[$style.switch, $style[`switch__${switchValue}__${state}`]]"
+    v-on="state === 'default' ? { click: changeValue } : {}"
   >
     <div
-      :class="[$style[`switch__ellipse`], $style[`switch__ellipse__disabled`], $style[`switch__${switchValue}`]]"
-    ></div>
-  </div>
-  <div
-    v-if="state === 'default'"
-    :class="[$style.switch, $style[`switch__${switchValue}__default`]]"
-    @click="changeValue"
-  >
-    <div
-      :class="[$style[`switch__ellipse`], $style[`switch__ellipse__default`], $style[`switch__${switchValue}`]]"
+      :class="[$style[`switch__ellipse`], $style[`switch__ellipse__${state}`], $style[`switch__${switchValue}`]]"
     ></div>
   </div>
 </template>
@@ -51,48 +42,48 @@ function changeValue() {
 .switch {
   cursor: pointer;
   width: 32px;
-  padding: var(--padding, 2px);
-  gap: --spacing-ms;
-  border-radius: var(--Radius-radius-l, 16px);
+  gap: var(--spacing-ms);
+  padding: var(--spacing-very-x);
+  border-radius: var(--radius-l);
   background-color: var(--bg-color);
   transition: background-color 0.2s;
 }
 
 .switch__true__default {
-  --bg-color: var(--solid, #1c84ff);
+  --bg-color: var(--accent--solid);
 }
 
 .switch__false__default {
-  --bg-color: var(--bg-secondary, #2c2d30);
+  --bg-color: var(--accent--bg-secondary);
 }
 
 .switch__true__default:hover {
-  background-color: var(--solid-hover, #0075ff);
+  background-color: var(--base--solid-hover);
 }
 
 .switch__false__default:hover {
-  background-color: var(--bg-secondary-hover, #3b3c40);
+  background-color: var(--accent--bg-secondary-hover);
 }
 
 .switch__true__disabled {
-  --bg-color: var(--bg-secondary, #2c2d30);
+  --bg-color: var(--accent--bg-secondary);
   cursor: not-allowed;
 }
 
 .switch__false__disabled {
-  --bg-color: var(--bg-secondary, #2c2d30);
+  --bg-color: var(--accent--bg-secondary);
   cursor: not-allowed;
 }
 
 .switch__ellipse {
   width: 18px;
   height: 18px;
-  border-radius: var(--Radius-radius-l, 16px);
+  border-radius: var(--radius-l);
   &__disabled {
-    background: var(--text-secondary, #94979a);
+    background: var(--accent--text-secondary);
   }
   &__default {
-    background: var(--solid, #f5f5f5);
+    background: var(--accent--text-solid-foreground);
   }
 }
 
