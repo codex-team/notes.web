@@ -78,7 +78,7 @@ function changeValue() {
     pointer-events: none;
     --bg-color: var(--base--bg-secondary);
 
-    & .switch__disabled {
+    & .switch__ellipse {
       background: var(--accent--text-secondary);
     }
   }
