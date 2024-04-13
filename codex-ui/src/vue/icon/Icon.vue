@@ -1,10 +1,11 @@
 <template>
-  <span v-html="iconMap[props.name]" :class="$style['icon']"></span>
+  <span v-html="iconSource" :class="$style['icon']"></span>
 </template>
 
 
 <script lang='ts' setup>
 import * as iconMap from '@codexteam/icons';
+import { computed } from 'vue';
 
 const props = defineProps<{
   /**
@@ -13,7 +14,9 @@ const props = defineProps<{
   name: string;
 }>();
 
-defineExpose({ iconMap })
+const iconSource = computed(() => {
+  return iconMap["Icon" + props.name as keyof typeof iconMap];
+})
 </script>
 
 <style module lang="postcss">
@@ -21,7 +24,6 @@ defineExpose({ iconMap })
 .icon {
   --icon-size: var(--size-icon);
   display: inline-block;
-  opacity: 50%;
   width: var(--icon-size);
   height: var(--icon-size);
 }
