@@ -59,15 +59,47 @@ defineExpose({
 }
 
 h1.ce-header {
+  padding-bottom: 1.333rem;
+
   @apply --text-h1;
 }
 
 h2.ce-header {
+  padding-top: 0.8rem;
+  padding-bottom: 0.333rem;
+
   @apply --text-h2;
 }
 
 h3.ce-header {
   @apply --text-h3;
+}
+
+.ce-block {
+  @apply --text-p;
+}
+
+.ce-toolbar__plus,
+.ce-toolbar__settings-btn {
+  color: var(--base--text);
+
+  &:hover {
+    background-color: var(--base--bg-secondary-hover);
+  }
+}
+
+.cdx-block {
+  padding: 0;
+}
+
+.codex-editor__redactor {
+  gap: 0.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.ce-paragraph {
+  line-height: inherit !important;
 }
 
 /* @todo add h4-h6 styles */
