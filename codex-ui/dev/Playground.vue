@@ -1,84 +1,40 @@
 <template>
   <div :class="$style.playground">
     <Heading :level="1">Playground</Heading>
-    <Heading :level="3">colorScheme:</Heading>
-    <div :class="$style.buttons">
-      <Button
-        size="small"
-        @click="setColorScheme('light')"
-      >
-        Light
-      </Button>
+    <Heading :level="3">Color Scheme</Heading>
+    <RadioGroup
+      :values="[
+        { label: 'Light', value: 'light' },
+        { label: 'Dark', value: 'dark' },
+      ]"
+      name="color-scheme"
+      @change="($event) => setColorScheme($event.target.value)"
+    />
 
-      <Button
-        size="small"
-        @click="setColorScheme('dark')"
-      >
-        Dark
-      </Button>
-    </div>
-    <br />
-    <Heading :level="3">Base Theme:</Heading>
-    <div :class="$style.buttons">
-      <Button
-        size="small"
-        @click="setBaseTheme('classic')"
-      >
-        Classic
-      </Button>
+    <Heading :level="3">Base Theme</Heading>
+    <RadioGroup
+      name="base-theme"
+      :values="[
+        { label: 'Classic', value: 'classic' },
+        { label: 'Crimson', value: 'crimson' },
+        { label: 'Red', value: 'red' },
+        { label: 'Violet', value: 'violet' },
+      ]"
+      @change="($event) => setBaseTheme($event.target.value)"
+    />
 
-      <Button
-        size="small"
-        @click="setBaseTheme('crimson')"
-      >
-        Crimson
-      </Button>
+    <Heading :level="3">Accent Theme</Heading>
+    <RadioGroup
+      name="accent-theme"
+      :values="[
+        { label: 'Classic', value: 'classic' },
+        { label: 'Crimson', value: 'crimson' },
+        { label: 'Red', value: 'red' },
+        { label: 'Violet', value: 'violet' },
+      ]"
+      @change="($event) => setAccentTheme($event.target.value)"
+    />
 
-      <Button
-        size="small"
-        @click="setBaseTheme('red')"
-      >
-        Red
-      </Button>
-
-      <Button
-        size="small"
-        @click="setBaseTheme('violet')"
-      >
-        Violet
-      </Button>
-    </div>
-    <br />
-    <Heading :level="3">Accent Theme:</Heading>
-    <div :class="$style.buttons">
-      <Button
-        size="small"
-        @click="setAccentTheme('classic')"
-      >
-        Classic
-      </Button>
-
-      <Button
-        size="small"
-        @click="setAccentTheme('crimson')"
-      >
-        Crimson
-      </Button>
-
-      <Button
-        size="small"
-        @click="setAccentTheme('red')"
-      >
-        Red
-      </Button>
-
-      <Button
-        size="small"
-        @click="setAccentTheme('violet')"
-      >
-        Violet
-      </Button>
-    </div>
     <Heading :level="3">Buttons</Heading>
     <div :class="$style.buttons">
       <div
@@ -233,7 +189,19 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Editor, Input, Field, Section, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
+import {
+  Button,
+  Heading,
+  Editor,
+  Input,
+  Field,
+  Section,
+  Row,
+  ButtonSize,
+  ButtonStyle,
+  Avatar,
+  RadioGroup,
+} from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
