@@ -1,3 +1,5 @@
+import type { Team } from './Team';
+
 /**
  * Used to invite users to team
  */
@@ -26,4 +28,9 @@ export default interface NoteSettings {
    * Invitation hash
    */
   invitationHash: InvitationHash;
+
+  /**
+   * Team members
+   */
+  team: Team;
 }

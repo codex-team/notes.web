@@ -1,15 +1,17 @@
 <template>
   <h1>Note settings</h1>
   <div v-if="noteSettings">
-    <TextEdit
+    <!-- Hidden for now -->
+    <!-- <TextEdit
       v-model:value="noteSettings.customHostname"
       name="customHostname"
       :title="t('noteSettings.customHostname')"
       :placeholder="t('noteSettings.hostnamePlaceholder')"
-    />
+    /> -->
     <Checkbox
       v-model:checked="noteSettings.isPublic"
       :label="t('noteSettings.isPublic')"
+      @update:checked="changeAccess"
     />
     {{ invitationLink }}
     <Button
@@ -17,29 +19,24 @@
       type="primary"
       @click="regenerateHash"
     />
-    <div class="control__button">
-      <Button
-        class="header__plus"
-        text="Save"
-        type="primary"
-        :icon="IconSave"
-        @click.passive="onClick"
-      />
-    </div>
+    <Team
+      :note-id="id"
+      :team="noteSettings.team"
+    />
   </div>
   <div v-else>Loading...</div>
 </template>
 
 <script lang="ts" setup>
 import type { NoteId } from '@/domain/entities/Note';
-import TextEdit from '@/presentation/components/form/TextEdit.vue';
+// import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
-import { IconSave } from '@codexteam/icons';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
+import Team from '@/presentation/components/team/Team.vue';
 
 const { t } = useI18n();
 
@@ -50,32 +47,26 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { load, noteSettings, update, revokeHash } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, revokeHash } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
 
-load(props.id);
-
-/**
- * Button click handler
- */
-function onClick() {
-  if (!noteSettings.value) {
-    throw new Error('Note settings is not loaded');
-  }
-  update(props.id, {
-    isPublic: noteSettings.value.isPublic,
-    customHostname: noteSettings.value.customHostname,
-  });
-}
+loadSettings(props.id);
 
 /**
  * Regenerate invitation hash
  */
 async function regenerateHash() {
   revokeHash(props.id);
+}
+
+/**
+ * Change isPublic property
+ */
+async function changeAccess() {
+  updateIsPublic(props.id, noteSettings.value!.isPublic);
 }
 
 /**

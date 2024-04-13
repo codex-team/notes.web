@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { type OutputData } from '@editorjs/editorjs';
-import { useEditor } from '@/application/services/useEditor';
+import { type EditorConfig, type OutputData } from '@editorjs/editorjs';
+import { useEditor } from './useEditor.js';
 
 /**
  * Define the props for the component
@@ -18,6 +18,10 @@ const props = defineProps<{
    * True if editor content is not editable
    */
   readOnly?: boolean;
+  /**
+   * Loaded user tools for Editor
+   */
+  tools?: EditorConfig['tools'];
 }>();
 
 const emit = defineEmits<{
@@ -28,6 +32,7 @@ const { isEmpty, refresh } = useEditor({
   id: 'editorjs',
   content: props.content,
   isReadOnly: props.readOnly,
+  tools: props.tools ?? {},
   onChange: (data) => emit('change', data),
 });
 
@@ -46,4 +51,24 @@ defineExpose({
 });
 </script>
 
-<style scoped></style>
+<style lang="postcss">
+@import '../../styles/typography.pcss';
+
+.ce-header {
+  color: var(--base--text);
+}
+
+h1.ce-header {
+  @apply --text-h1;
+}
+
+h2.ce-header {
+  @apply --text-h2;
+}
+
+h3.ce-header {
+  @apply --text-h3;
+}
+
+/* @todo add h4-h6 styles */
+</style>

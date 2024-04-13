@@ -22,30 +22,30 @@
     <div :class="$style.buttons">
       <Button
         size="small"
-        @click="() => setBaseColor('classic')"
+        @click="() => setBaseTheme('classic')"
       >
         Classic
       </Button>
 
       <Button
         size="small"
-        @click="() => setBaseColor('crimson')"
+        @click="() => setBaseTheme('crimson')"
       >
         Crimson
       </Button>
 
       <Button
         size="small"
-        @click="() => setBaseColor('red')"
+        @click="() => setBaseTheme('red')"
       >
         Red
       </Button>
 
       <Button
         size="small"
-        @click="() => setBaseColor('violet')"
+        @click="() => setBaseTheme('violet')"
       >
-          Violet
+        Violet
       </Button>
     </div>
     <br />
@@ -53,38 +53,41 @@
     <div :class="$style.buttons">
       <Button
         size="small"
-        @click="() => setAccentColor('classic')"
+        @click="() => setAccentTheme('classic')"
       >
         Classic
       </Button>
 
       <Button
         size="small"
-        @click="() => setAccentColor('crimson')"
+        @click="() => setAccentTheme('crimson')"
       >
         Crimson
       </Button>
 
       <Button
         size="small"
-        @click="() => setAccentColor('red')"
+        @click="() => setAccentTheme('red')"
       >
         Red
       </Button>
 
       <Button
         size="small"
-        @click="() => setAccentColor('violet')"
+        @click="() => setAccentTheme('violet')"
       >
         Violet
       </Button>
     </div>
     <Heading :level="3">Buttons</Heading>
     <div :class="$style.buttons">
-      <div v-for="button in buttons">
+      <div
+        v-for="(button, index) in buttons"
+        :key="button[0] + index"
+      >
         <Button
-          :size="button[0]"
-          :style="button[1]"
+          :size="button[0] as ButtonSize"
+          :style="button[1] as ButtonStyle"
           :disabled="button[1] === 'disabled'"
         >
           Button
@@ -118,7 +121,7 @@
     />
 
     <Heading :level="3">Form Field</Heading>
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -126,7 +129,7 @@
       size="small"
     />
     <br />
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -134,7 +137,7 @@
       size="medium"
     />
     <br />
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -142,14 +145,95 @@
       size="large"
     />
 
+    <Heading :level="3">Avatar</Heading>
+    <Avatar
+      src="../static/example-avatar.png"
+      username="Vitaly"
+    />
+
+    <Heading :level="3">Row</Heading>
+
+    <Row
+      title="Title"
+      subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+      :has-delimiter="true"
+    >
+      <template #left>
+        <Avatar
+          src="../static/example-avatar.png"
+          username="Vitaly"
+        />
+      </template>
+
+      <template #right>
+        <Button
+          size="small"
+          :style="'secondary'"
+          >Edit</Button
+        >
+      </template>
+    </Row>
+
+    <Row
+      title="Title"
+      subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+      label="Time Sensitive"
+    >
+      <template #left>
+        <Avatar
+          src="../static/example-avatar.png"
+          username="Vitaly"
+        />
+      </template>
+
+      <template #right>
+        <Button
+          size="small"
+          :style="'secondary'"
+          >Edit</Button
+        >
+      </template>
+    </Row>
+
+    <Heading :level="3">Form Section</Heading>
+
+    <Section
+      title="List Name"
+      caption="Item list"
+    >
+      <Row
+        v-for="(item, index) in formSectionItems"
+        :key="item.id"
+        :title="item.name"
+        :has-delimiter="index !== formSectionItems.length - 1"
+      >
+        <template #left>
+          <Avatar
+            src="../static/example-avatar.png"
+            :username="item.name"
+          />
+        </template>
+
+        <template #right>
+          <Button
+            size="small"
+            :style="'secondary'"
+            >Can View</Button
+          >
+        </template>
+      </Row>
+    </Section>
+
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
+    <Heading :level="3">Editor.js</Heading>
+    <Editor :tools="{}" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, FormField } from '../src/vue';
+import { Button, Heading, Editor, Input, Field, Section, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
@@ -171,13 +255,13 @@ const buttons = [
   ['large', 'destructive'],
   ['large', 'disabled'],
 ];
+
 /**
  * Set the base color
  *
  * @param color - The base color to set
-
  */
-function setBaseColor(color: string) {
+function setBaseTheme(color: string) {
   document.body.setAttribute('theme-base', color);
 }
 
@@ -185,9 +269,8 @@ function setBaseColor(color: string) {
  * Set the accent color
  *
  * @param color - The accent color to set
-
  */
-function setAccentColor(color: string) {
+function setAccentTheme(color: string) {
   document.body.setAttribute('theme-accent', color);
 }
 
@@ -195,11 +278,18 @@ function setAccentColor(color: string) {
  * Set the color scheme
  *
  * @param colorScheme - The color scheme to set('light' | 'dark')
-
  */
 function setColorScheme(colorScheme: string) {
   document.body.setAttribute('color-scheme', colorScheme);
 }
+
+/**
+ * Form section items elements
+ */
+const formSectionItems = [
+  { id: 1, name: 'Vitaly' },
+  { id: 2, name: 'Nickmel' },
+];
 </script>
 
 <style module>
