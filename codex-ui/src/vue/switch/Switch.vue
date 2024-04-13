@@ -1,15 +1,9 @@
 <template>
   <div
-    :class="[
-      $style.switch,
-      $style[`switch--${switchValue}`],
-      disabled ? $style[`switch--${switchValue}--disabled`] : '',
-    ]"
+    :class="[$style.switch, disabled ? $style[`switch--disabled`] : '', switchValue ? $style[`switch--on`] : '']"
     v-on="disabled === false ? { click: changeValue } : {}"
   >
-    <div
-      :class="[$style[`switch__ellipse${disabled ? '--disabled' : ''}`], $style[`switch__ellipse--${switchValue}`]]"
-    ></div>
+    <div :class="[$style[`switch__ellipse`], $style[`switch__ellipse--${switchValue}`]]"></div>
   </div>
 </template>
 
@@ -49,58 +43,43 @@ function changeValue() {
   padding: var(--spacing-very-x);
   border-radius: var(--radius-l);
   background-color: var(--bg-color);
+  --bg-color: var(--accent--bg-secondary);
   transition: background-color 0.2s;
+  &:hover {
+    --bg-color: var(--base--bg-secondary-hover);
+  }
 
   &__ellipse {
     width: 18px;
     height: 18px;
-    transition: background 2s;
     border-radius: var(--radius-l);
     background: var(--accent--text-solid-foreground);
-
-    &--true {
-      margin-left: calc(100% - 18px);
-      transition: margin-left 0.2s;
-    }
-
-    &--false {
-      margin-left: 0;
-      transition: margin-left 0.2s;
-    }
-
-    &--disabled {
-      width: 18px;
-      height: 18px;
-      border-radius: var(--radius-l);
-      background: var(--accent--text-secondary);
-    }
+    margin-left: 0px;
+    transition: margin-left 0.2s;
   }
 
   /* Style for true value of the switch*/
-  &--true {
+  &--on {
     --bg-color: var(--accent--solid);
+    transition: margin-left 0.2s;
 
     &:hover {
       --bg-color: var(--base--solid-hover);
     }
 
-    &--disabled {
-      --bg-color: var(--accent--bg-secondary);
-      cursor: not-allowed;
+    & .switch__ellipse {
+      --bg-color: var(--accent--solid);
+      margin-left: calc(100% - 18px);
     }
   }
 
-  /* Style for false value of the switch*/
-  &--false {
-    --bg-color: var(--accent--bg-secondary);
+  &--disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    --bg-color: var(--base--bg-secondary);
 
-    &:hover {
-      --bg-color: var(--accent--bg-secondary-hover);
-    }
-
-    &--disabled {
-      --bg-color: var(--accent--bg-secondary);
-      cursor: not-allowed;
+    & .switch__disabled {
+      background: var(--accent--text-secondary);
     }
   }
 }
