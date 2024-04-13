@@ -166,7 +166,10 @@
     <Switch state="disabled"></Switch>
     <br />
     off, default
-    <Switch state="default"></Switch>
+    <Switch
+      state="default"
+      :value="false"
+    ></Switch>
     <br />
     off, disabled
     <Switch state="disabled"></Switch>
