@@ -5,14 +5,14 @@
     <div :class="$style.buttons">
       <Button
         size="small"
-        @click="() => setColorScheme('light')"
+        @click="setColorScheme('light')"
       >
         Light
       </Button>
 
       <Button
         size="small"
-        @click="() => setColorScheme('dark')"
+        @click="setColorScheme('dark')"
       >
         Dark
       </Button>
@@ -22,28 +22,28 @@
     <div :class="$style.buttons">
       <Button
         size="small"
-        @click="() => setBaseTheme('classic')"
+        @click="setBaseTheme('classic')"
       >
         Classic
       </Button>
 
       <Button
         size="small"
-        @click="() => setBaseTheme('crimson')"
+        @click="setBaseTheme('crimson')"
       >
         Crimson
       </Button>
 
       <Button
         size="small"
-        @click="() => setBaseTheme('red')"
+        @click="setBaseTheme('red')"
       >
         Red
       </Button>
 
       <Button
         size="small"
-        @click="() => setBaseTheme('violet')"
+        @click="setBaseTheme('violet')"
       >
         Violet
       </Button>
@@ -53,28 +53,28 @@
     <div :class="$style.buttons">
       <Button
         size="small"
-        @click="() => setAccentTheme('classic')"
+        @click="setAccentTheme('classic')"
       >
         Classic
       </Button>
 
       <Button
         size="small"
-        @click="() => setAccentTheme('crimson')"
+        @click="setAccentTheme('crimson')"
       >
         Crimson
       </Button>
 
       <Button
         size="small"
-        @click="() => setAccentTheme('red')"
+        @click="setAccentTheme('red')"
       >
         Red
       </Button>
 
       <Button
         size="small"
-        @click="() => setAccentTheme('violet')"
+        @click="setAccentTheme('violet')"
       >
         Violet
       </Button>
