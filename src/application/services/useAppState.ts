@@ -14,9 +14,10 @@ interface UseAppStateComposable {
   user: Ref<User | null>;
 
   /**
-   * User editor tools that are used in notes creation
+   * User editor tools that are used in notes creation.
+   * Undefined means that tools have not been loaded yet.
    */
-  userEditorTools: Ref<EditorTool[]>;
+  userEditorTools: Ref<EditorTool[] | undefined>;
 }
 
 /**
@@ -31,7 +32,7 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
   /**
    * User editor tools that are used in notes creation
    */
-  const userEditorTools = ref<EditorTool[]>([]);
+  const userEditorTools = ref<EditorTool[] | undefined>();
 
   /**
    * Subscribe to user changes in the App State

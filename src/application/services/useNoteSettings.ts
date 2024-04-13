@@ -32,12 +32,12 @@ interface UseNoteSettingsComposableState {
   load: (id: NoteId) => Promise<void>;
 
   /**
-   * Update note settings
+   * Update field isPublic in note settings
    *
    * @param id - note id
-   * @param data - note settings data with new values
+   * @param newIsPublicValue - new value for isPublic field
    */
-  update: (id: NoteId, data: Partial<NoteSettings>) => Promise<void>;
+  updateIsPublic: (id: NoteId, newIsPublicValue: boolean) => Promise<void>;
 
   /**
    * Revoke invitation hash
@@ -97,15 +97,21 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
-   * Update note settings
+   * Update field isPublic in note settings
    *
    * @param id - Note id
-   * @param data - Note settings data with new values
+   * @param newIsPublicValue - new isPublic
    */
-  const update = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
-    noteSettings.value = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
-    parentNote.value = (await noteService.getNoteById(id)).parentNote;
-  };
+  async function updateIsPublic(id: NoteId, newIsPublicValue: boolean): Promise<void> {
+    const { isPublic } = await noteSettingsService.patchNoteSettingsByNoteId(id, { isPublic: newIsPublicValue });
+
+    /**
+     * If note settings were not loaded till this moment for some reason, do nothing
+     */
+    if (noteSettings.value) {
+      noteSettings.value.isPublic = isPublic;
+    }
+  }
 
   /**
    * Revoke invitation hash
@@ -155,11 +161,11 @@ export default function (): UseNoteSettingsComposableState {
   return {
     noteSettings,
     load,
-    update,
     revokeHash,
     changeRole,
     updateParent,
     note,
     parentNote,
+    updateIsPublic,
   };
 }
