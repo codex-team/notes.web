@@ -18,7 +18,7 @@
       </Button>
     </div>
     <br />
-    <Heading :level="3">Base Colors:</Heading>
+    <Heading :level="3">Base Theme:</Heading>
     <div :class="$style.buttons">
       <Button
         size="small"
@@ -49,7 +49,7 @@
       </Button>
     </div>
     <br />
-    <Heading :level="3">Accent Colors:</Heading>
+    <Heading :level="3">Accent Theme:</Heading>
     <div :class="$style.buttons">
       <Button
         size="small"

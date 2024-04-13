@@ -17,7 +17,6 @@
 <script setup lang="ts">
 import { FieldSize } from './Section.types';
 import Input from '../input/Input.vue';
-import { defineModel } from 'vue';
 import Section from './Section.vue';
 
 withDefaults(
