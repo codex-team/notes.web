@@ -18,12 +18,10 @@
       </template>
 
       <template #left>
-        <div v-if="member.user.photo !== ''">
-          <Avatar
+          <Avatar v-if="member.user.photo !== ''"
             :src="member.user.photo"
             :username="member.user.name"
           />
-        </div>
         <div v-else>
           <div class="mock"></div>
         </div>
