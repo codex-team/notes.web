@@ -1,18 +1,37 @@
-[theme-base='classic'],
-[theme-accent='classic'] {
+[color-scheme='dark'][theme-base='classic'],
+[color-scheme='dark'][theme-accent='classic'] {
   /**
   * Classic Dark Colors
   */
   --classic--bg-primary: #242527;
   --classic--bg-secondary: #2c2d30;
   --classic--bg-secondary-hover: #3b3c40;
-  --classic--bg-input: #e70037;
+  --classic--bg-input: red;
   --classic--border: #363940;
+  --classic--solid-secondary: #27303B;
   --classic--solid-hover: #0075ff;
   --classic--solid: #1c84ff;
   --classic--text-secondary: #94979a;
   --classic--text: #f5f5f5;
   --classic--text-solid-foreground: #f5f5f5;
+}
+
+[color-scheme='light'][theme-base='classic'],
+[color-scheme='light'][theme-accent='classic'] {
+  /**
+  * Classic Light Colors
+  */
+  --classic--bg-primary: #F0F1F6;
+  --classic--bg-secondary: #FCFCFD;
+  --classic--bg-secondary-hover: #F6F9FD;
+  --classic--bg-input: red;
+  --classic--border: #E2E4EE;
+  --classic--solid-secondary: #D7ECFF;
+  --classic--solid-hover: #2081DA;
+  --classic--solid: #2591F5;
+  --classic--text-secondary: #535353;
+  --classic--text: #202020;
+  --classic--text-solid-foreground: #ffffff;
 }
 
 /**
@@ -24,6 +43,7 @@
   --base--bg-secondary-hover: var(--classic--bg-secondary-hover);
   --base--bg-input: var(--classic--bg-input);
   --base--border: var(--classic--border);
+  --base--solid-secondary: var(--classic--solid-hover);
   --base--solid-hover: var(--classic--solid-hover);
   --base--solid: var(--classic--solid);
   --base--text-secondary: var(--classic--text-secondary);
@@ -37,6 +57,8 @@
   --accent--bg-secondary-hover: var(--classic--bg-secondary-hover);
   --accent--input: var(--classic--bg-input);
   --accent--border: var(--classic--border);
+  --accent--solid-secondary: var(--classic--solid-secondary);
+  --accent--solid-hover: var(--classic--solid-hover);
   --accent--solid: var(--classic--solid);
   --accent--text-secondary: var(--classic--text-secondary);
   --accent--text: var(--classic--text);
