@@ -16,6 +16,18 @@
         >
         </RoleSelect>
       </template>
+
+      <template #left>
+        <div v-if="member.user.photo !== ''">
+          <Avatar
+            :src="member.user.photo"
+            :username="member.user.name"
+          />
+        </div>
+        <div v-else>
+          <div class="mock"></div>
+        </div>
+      </template>
     </Row>
   </Section>
 </template>
@@ -23,7 +35,7 @@
 <script setup lang="ts">
 import { Team } from '@/domain/entities/Team';
 import { NoteId } from '@/domain/entities/Note';
-import { Section, Row } from 'codex-ui/vue';
+import { Section, Row, Avatar } from 'codex-ui/vue';
 import RoleSelect from './RoleSelect.vue';
 import { useI18n } from 'vue-i18n';
 
@@ -41,5 +53,12 @@ defineProps<{
 const { t } = useI18n();
 </script>
 
-<style scoped></style>
+<style scoped>
+.mock {
+  width: var(--size-avatar);
+  height: var(--size-avatar);
+  border-radius: var(--radius-m);
+  background-color: var(--base--text-solid-foreground);
+}
+</style>
 
