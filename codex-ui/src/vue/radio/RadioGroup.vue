@@ -6,6 +6,7 @@
       v-model="model"
       :value="item.value"
       :name="name"
+      :checked="item.value === value"
     >
       {{ item.label }}
     </Radio>
@@ -22,6 +23,11 @@ defineProps<{
    * The values of the radio group
    */
   values: RadioGroupItem[];
+
+  /**
+   * Current value
+   */
+  value: string;
 
   /**
    * The name of input that will be submitted

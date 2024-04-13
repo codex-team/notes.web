@@ -7,6 +7,7 @@
         { label: 'Light', value: 'light' },
         { label: 'Dark', value: 'dark' },
       ]"
+      value="dark"
       name="color-scheme"
       @change="($event) => setColorScheme($event.target.value)"
     />
@@ -14,6 +15,7 @@
     <Heading :level="3">Base Theme</Heading>
     <RadioGroup
       name="base-theme"
+      value="classic"
       :values="[
         { label: 'Classic', value: 'classic' },
         { label: 'Crimson', value: 'crimson' },
@@ -26,6 +28,7 @@
     <Heading :level="3">Accent Theme</Heading>
     <RadioGroup
       name="accent-theme"
+      value="classic"
       :values="[
         { label: 'Classic', value: 'classic' },
         { label: 'Crimson', value: 'crimson' },

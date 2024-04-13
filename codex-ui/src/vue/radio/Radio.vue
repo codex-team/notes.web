@@ -5,7 +5,7 @@
       v-model="model"
       type="radio"
       :value="value"
-      :checked="modelValue === value"
+      :checked="checked"
       :name="name"
     />
     <label
@@ -30,12 +30,17 @@ const props = defineProps<{
    * The name of the radio
    */
   name?: string;
-}>();
 
-const model = defineModel();
+  /**
+   * Is radio checked
+   */
+  checked: boolean;
+}>();
 
 /**
  * Unique identifier used to link the radio input and label
  */
 const id = computed(() => `radio-${props.name ?? 'unknown'}-${props.value}`);
+
+const model = defineModel();
 </script>
