@@ -42,15 +42,19 @@ export function useUserTools(): {
     return downloadedTools;
   }
 
-  watch(userEditorTools, async () => {
-    /**
-     * If user tools are not loaded yet or empty, skip downloading their scripts
-     */
-    if (userEditorTools.value === undefined || userEditorTools.value?.length === 0) {
-      return;
-    }
-    userTools.value = await downloadTools(userEditorTools.value);
-  });
+  watch(
+    userEditorTools,
+    async () => {
+      /**
+       * If user tools are not loaded yet or empty, skip downloading their scripts
+       */
+      if (userEditorTools.value === undefined || userEditorTools.value?.length === 0) {
+        return;
+      }
+      userTools.value = await downloadTools(userEditorTools.value);
+    },
+    { immediate: true }
+  );
 
   return {
     userTools,
