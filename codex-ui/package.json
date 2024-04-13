@@ -26,6 +26,7 @@
     }
   },
   "devDependencies": {
+    "@codexteam/icons": "^0.3.0",
     "@types/node": "^20.11.15",
     "@vitejs/plugin-vue": "^5.0.3",
     "eslint": "^8.51.0",

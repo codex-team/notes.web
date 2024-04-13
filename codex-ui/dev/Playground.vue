@@ -154,6 +154,10 @@
       </template>
     </Row>
 
+    <Heading :level="3"> Icon </Heading>
+
+    <Icon name="Checklist" /> <Icon name="Loader" />
+
     <Heading :level="3">Form Section</Heading>
 
     <Section
@@ -199,6 +203,7 @@ import {
   Input,
   Field,
   Section,
+  Icon,
   Row,
   ButtonSize,
   ButtonStyle,
