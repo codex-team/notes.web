@@ -12,7 +12,7 @@
       :title="t('noteSettings.availabilityTitle')"
       :caption="t('noteSettings.availabilityCaption')"
     >
-      <Row title="Publish Note">
+      <Row :title="t('noteSettings.publish')">
         <template #right>
           <Checkbox
             v-model:checked="noteSettings.isPublic"
