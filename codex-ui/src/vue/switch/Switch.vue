@@ -35,7 +35,7 @@ const props = withDefaults(
 const switchValue = ref(props.value);
 
 /**
- *
+ * Function for changing value of the switch on click
  */
 function changeValue() {
   switchValue.value = !switchValue.value;
