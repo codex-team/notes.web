@@ -2,8 +2,8 @@
   <div :class="$style.typescale">
     <div
       v-for="sample in samples"
-      :class="$style['ts-row']"
       :key="sample.label"
+      :class="$style['ts-row']"
     >
       <div :class="[$style.label]">
         {{ sample.label }}
