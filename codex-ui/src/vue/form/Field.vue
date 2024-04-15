@@ -18,7 +18,6 @@
 import { FieldSize } from './Section.types';
 import Input from '../input/Input.vue';
 import { defineModel } from 'vue';
-import { FieldSize } from './Field.types';
 import Section from './Section.vue';
 withDefaults(
   defineProps<{
