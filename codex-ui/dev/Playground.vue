@@ -1,6 +1,42 @@
 <template>
   <div :class="$style.playground">
     <Heading :level="1">Playground</Heading>
+    <Heading :level="3">Color Scheme</Heading>
+    <RadioGroup
+      :values="[
+        { label: 'Light', value: 'light' },
+        { label: 'Dark', value: 'dark' },
+      ]"
+      value="dark"
+      name="color-scheme"
+      @change="($event) => setColorScheme($event.target.value)"
+    />
+
+    <Heading :level="3">Base Theme</Heading>
+    <RadioGroup
+      name="base-theme"
+      value="classic"
+      :values="[
+        { label: 'Classic', value: 'classic' },
+        { label: 'Crimson', value: 'crimson' },
+        { label: 'Red', value: 'red' },
+        { label: 'Violet', value: 'violet' },
+      ]"
+      @change="($event) => setBaseTheme($event.target.value)"
+    />
+
+    <Heading :level="3">Accent Theme</Heading>
+    <RadioGroup
+      name="accent-theme"
+      value="classic"
+      :values="[
+        { label: 'Classic', value: 'classic' },
+        { label: 'Crimson', value: 'crimson' },
+        { label: 'Red', value: 'red' },
+        { label: 'Violet', value: 'violet' },
+      ]"
+      @change="($event) => setAccentTheme($event.target.value)"
+    />
 
     <Heading :level="3">Buttons</Heading>
     <div :class="$style.buttons">
@@ -44,7 +80,7 @@
     />
 
     <Heading :level="3">Form Field</Heading>
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -52,7 +88,7 @@
       size="small"
     />
     <br />
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -60,7 +96,7 @@
       size="medium"
     />
     <br />
-    <FormField
+    <Field
       v-model="formFieldValue"
       :value="formFieldValue"
       title="Title"
@@ -118,14 +154,62 @@
       </template>
     </Row>
 
+    <Heading :level="3"> Icon </Heading>
+
+    <Icon name="Checklist" /> <Icon name="Loader" />
+
+    <Heading :level="3">Form Section</Heading>
+
+    <Section
+      title="List Name"
+      caption="Item list"
+    >
+      <Row
+        v-for="(item, index) in formSectionItems"
+        :key="item.id"
+        :title="item.name"
+        :has-delimiter="index !== formSectionItems.length - 1"
+      >
+        <template #left>
+          <Avatar
+            src="../static/example-avatar.png"
+            :username="item.name"
+          />
+        </template>
+
+        <template #right>
+          <Button
+            size="small"
+            :style="'secondary'"
+            >Can View</Button
+          >
+        </template>
+      </Row>
+    </Section>
+
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
+    <Heading :level="3">Editor.js</Heading>
+    <Editor :tools="{}" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Heading, Input, Field as FormField, Row, ButtonSize, ButtonStyle, Avatar } from '../src/vue';
+import {
+  Button,
+  Heading,
+  Editor,
+  Input,
+  Field,
+  Section,
+  Icon,
+  Row,
+  ButtonSize,
+  ButtonStyle,
+  Avatar,
+  RadioGroup,
+} from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
 const formFieldValue = ref('Heading');
@@ -146,6 +230,41 @@ const buttons = [
   ['large', 'secondary'],
   ['large', 'destructive'],
   ['large', 'disabled'],
+];
+
+/**
+ * Set the base color
+ *
+ * @param color - The base color to set
+ */
+function setBaseTheme(color: string) {
+  document.body.setAttribute('theme-base', color);
+}
+
+/**
+ * Set the accent color
+ *
+ * @param color - The accent color to set
+ */
+function setAccentTheme(color: string) {
+  document.body.setAttribute('theme-accent', color);
+}
+
+/**
+ * Set the color scheme
+ *
+ * @param colorScheme - The color scheme to set('light' | 'dark')
+ */
+function setColorScheme(colorScheme: string) {
+  document.body.setAttribute('color-scheme', colorScheme);
+}
+
+/**
+ * Form section items elements
+ */
+const formSectionItems = [
+  { id: 1, name: 'Vitaly' },
+  { id: 2, name: 'Nickmel' },
 ];
 </script>
 

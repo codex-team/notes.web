@@ -1,17 +1,6 @@
-import type { BlockTool } from '@editorjs/editorjs';
-import Editor, { type OutputData, type API } from '@editorjs/editorjs';
-// @ts-expect-error editor plugins have no types
-import Header from '@editorjs/header';
+import Editor, { type OutputData, type API, type EditorConfig } from '@editorjs/editorjs';
 import type { Ref } from 'vue';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { useAppState } from './useAppState';
-import type EditorTool from '@/domain/entities/EditorTool';
-import { loadScript } from '@/infrastructure/utils/load-script';
-
-/**
- * Downloaded tools data structure
- */
-type DownloadedTools = Record<string, BlockTool>;
 
 /**
  * UseEditor composable params
@@ -36,6 +25,11 @@ interface UseEditorParams {
    * Handles content change in Editor
    */
   onChange?: (data: OutputData) => void;
+
+  /**
+   * Loaded user tools for Editor
+   */
+  tools: EditorConfig['tools'];
 }
 
 /**
@@ -43,7 +37,7 @@ interface UseEditorParams {
  *
  * @param params - Editor.js params
  */
-export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams): {
+export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEditorParams): {
   isEmpty: Ref<boolean>;
   refresh: (data: OutputData) => void;
 } {
@@ -57,11 +51,6 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
    * It is updated on every change of the editor
    */
   const isEmpty = ref(true);
-
-  /**
-   * User notes tools
-   */
-  const { userEditorTools } = useAppState();
 
   /**
    * Checks if the editor is empty
@@ -109,54 +98,30 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
   }
 
   /**
-   * Download all the user tools and return a map to use in Editor.js constructor
-   *
-   * @param tools - tools data
-   */
-  async function downloadTools(tools: Ref<EditorTool[]>): Promise<DownloadedTools> {
-    const downloadedTools: DownloadedTools = {};
-
-    for (const tool of tools.value) {
-      if (tool.source.cdn === undefined) {
-        continue;
-      }
-
-      await loadScript(tool.source.cdn);
-
-      downloadedTools[tool.name] = window[tool.exportName as keyof typeof window];
-    }
-
-    return downloadedTools;
-  }
-
-  /**
    * Initializes editorjs instance
    *
-   * @param data - initial data
+   * @param data - Displayed content for Editor.js
    */
   async function mountEditor(data?: OutputData): Promise<void> {
     try {
-      const tools = await downloadTools(userEditorTools);
-
       editor = new Editor({
         holder: id,
         data: data,
         tools: {
-          header: Header,
           ...tools,
         },
         onChange: handleChange,
         readOnly: isReadOnly,
       });
 
-      await editor.isReady;
+      await editor?.isReady;
     } catch (e) {
       console.error(e);
     }
   }
 
   /**
-   * Reinitializes editor instance with new data
+   * Reinitialized editor instance with new data
    *
    * @param data - new data to be displayed in editor
    */

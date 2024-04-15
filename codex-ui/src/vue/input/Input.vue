@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, defineProps } from 'vue';
+import { onMounted, defineModel } from 'vue';
 import { InputSize } from './Input.types';
 import { defineModel } from 'vue';
 

@@ -5,3 +5,6 @@ export * from './input';
 export * from './row';
 export * from './card-vertical';
 export * from './avatar';
+export * from './editor';
+export * from './icon';
+export * from './radio';
