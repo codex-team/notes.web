@@ -10,7 +10,7 @@ import type { EditorConfig } from '@editorjs/editorjs';
 type DownloadedTools = EditorConfig['tools'];
 
 /**
- * Service for load user tools
+ * Service for load editor tools
  *
  * @param noteTools - note tools
  */
