@@ -52,9 +52,10 @@ function changeValue() {
 
   &__ellipse {
     --ellipse-color: var(--accent--text-solid-foreground);
+    --ellipse-size: 18px;
 
-    width: 18px;
-    height: 18px;
+    width: var(--ellipse-size);
+    height: var(--ellipse-size);
     border-radius: var(--radius-l);
     background: var(--ellipse-color);
     margin-left: 0px;
@@ -72,7 +73,7 @@ function changeValue() {
 
     & .switch__ellipse {
       --bg-color: var(--accent--solid);
-      margin-left: calc(100% - 18px);
+      margin-left: calc(100% - var(--ellipse-size));
     }
   }
 
