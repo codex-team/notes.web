@@ -7,3 +7,4 @@ export * from './avatar';
 export * from './editor';
 export * from './icon';
 export * from './radio';
+export * from './switch';
