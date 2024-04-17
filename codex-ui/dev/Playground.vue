@@ -160,19 +160,19 @@
     <br />
     <Heading :level="3">Switch</Heading>
     on, default
-    <Switch></Switch>
+    <Switch value></Switch>
     <br />
     on, disabled
-    <Switch :disabled="true"></Switch>
+    <Switch
+      value
+      disabled
+    ></Switch>
     <br />
     off, default
-    <Switch :value="false"></Switch>
+    <Switch></Switch>
     <br />
     off, disabled
-    <Switch
-      :disabled="true"
-      :value="false"
-    ></Switch>
+    <Switch disabled></Switch>
     <br />
     <br />
     <Heading :level="3">Form Section</Heading>

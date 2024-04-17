@@ -5,8 +5,7 @@
   ></span>
 </template>
 
-
-<script lang='ts' setup>
+<script lang="ts" setup>
 import * as iconMap from '@codexteam/icons';
 import { computed } from 'vue';
 

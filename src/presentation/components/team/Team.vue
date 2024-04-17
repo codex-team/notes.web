@@ -61,4 +61,3 @@ const { t } = useI18n();
   background-color: var(--base--text-solid-foreground);
 }
 </style>
-

@@ -3,7 +3,7 @@
     :class="[$style.switch, disabled ? $style[`switch--disabled`] : '', switchValue ? $style[`switch--on`] : '']"
     v-on="disabled === false ? { click: changeValue } : {}"
   >
-    <div :class="[$style[`switch__ellipse`], $style[`switch__ellipse--${switchValue}`]]"></div>
+    <div :class="$style[`switch__ellipse`]"></div>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ const props = withDefaults(
      */
     disabled?: boolean;
   }>(),
-  { value: true, disabled: false }
+  { value: false, disabled: false }
 );
 
 const switchValue = defineModel({ default: true });
@@ -37,23 +37,26 @@ function changeValue() {
 
 <style module lang="postcss">
 .switch {
+  --bg-color: var(--accent--bg-secondary);
+
   cursor: pointer;
   width: 32px;
   gap: var(--spacing-ms);
   padding: var(--spacing-very-x);
   border-radius: var(--radius-l);
   background-color: var(--bg-color);
-  --bg-color: var(--accent--bg-secondary);
   transition: background-color 0.2s;
   &:hover {
-    --bg-color: var(--base--bg-secondary-hover);
+    --bg-color: var(--accent--bg-secondary-hover);
   }
 
   &__ellipse {
+    --ellipse-color: var(--accent--text-solid-foreground);
+
     width: 18px;
     height: 18px;
     border-radius: var(--radius-l);
-    background: var(--accent--text-solid-foreground);
+    background: var(--ellipse-color);
     margin-left: 0px;
     transition: margin-left 0.2s;
   }
@@ -64,7 +67,7 @@ function changeValue() {
     transition: margin-left 0.2s;
 
     &:hover {
-      --bg-color: var(--base--solid-hover);
+      --bg-color: var(--accent--solid-hover);
     }
 
     & .switch__ellipse {
@@ -76,10 +79,10 @@ function changeValue() {
   &--disabled {
     cursor: not-allowed;
     pointer-events: none;
-    --bg-color: var(--base--bg-secondary);
+    --bg-color: var(--accent--bg-secondary);
 
     & .switch__ellipse {
-      background: var(--accent--text-secondary);
+      --ellipse-color: var(--accent--text-secondary);
     }
   }
 }
