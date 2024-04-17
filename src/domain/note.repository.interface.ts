@@ -1,6 +1,7 @@
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type { NoteList } from './entities/NoteList';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
+import type { NoteDTO } from './entities/NoteDTO';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -13,7 +14,7 @@ export default interface NoteRepositoryInterface {
    * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - Returns a Note, NoteAccessRights and parent note (if exists) by id
    * @throws NotFoundError
    */
-  getNoteById(publicId: string): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }>;
+  getNoteById(publicId: string): Promise<NoteDTO>;
 
   /**
    * Returns a Note and NoteAccessRights by hostname

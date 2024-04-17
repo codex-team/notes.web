@@ -1,6 +1,7 @@
 import type NoteRepository from '@/domain/note.repository.interface';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
+import type { NoteDTO } from './entities/NoteDTO';
 
 /**
  * Note Service
@@ -28,9 +29,7 @@ export default class NoteService {
    * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - note data, accessRights data
    * and parent note data if exists
    */
-  public async getNoteById(
-    id: string
-  ): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }> {
+  public async getNoteById(id: string): Promise<NoteDTO> {
     return await this.noteRepository.getNoteById(id);
   }
 

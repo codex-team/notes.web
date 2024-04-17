@@ -2,12 +2,8 @@ import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, wat
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
-
-/**
- * On new note creation, we use predefined structure of the Editor: header + paragraph
- * We call it NoteDraft
- */
-type NoteDraft = Pick<Note, 'content'>;
+import type { NoteDraft } from '@/domain/entities/NoteDraft';
+import type EditorTool from '@/domain/entities/EditorTool';
 
 /**
  * Creates base structure for the empty note:
@@ -45,6 +41,11 @@ interface UseNoteComposableState {
    * null - when note is not loaded yet
    */
   note: Ref<Note | NoteDraft | null>;
+
+  /**
+   * List of tools used in the note
+   */
+  noteTools: Ref<EditorTool[]>;
 
   /**
    * Creates/updates the note
@@ -103,6 +104,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const note = ref<Note | NoteDraft | null>(currentId.value === null ? createDraft() : null);
 
   /**
+   * List of tools used in the note
+   */
+  const noteTools = ref<EditorTool[]>([]);
+
+  /**
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
@@ -149,6 +155,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
     note.value = response.note;
     canEdit.value = response.accessRights.canEdit;
+    noteTools.value = response.tools;
     parentNote.value = response.parentNote;
   }
 
@@ -244,6 +251,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
+    noteTools,
     noteTitle,
     canEdit,
     resolveHostname,

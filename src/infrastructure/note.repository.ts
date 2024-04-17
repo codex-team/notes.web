@@ -5,6 +5,7 @@ import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
 import type { NoteList } from '@/domain/entities/NoteList';
+import type { NoteDTO } from '@/domain/entities/NoteDTO';
 
 /**
  * Note repository
@@ -39,9 +40,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote }} - Note instance, NoteAccessRights instance
    * and parent note, if exists
    */
-  public async getNoteById(
-    id: string
-  ): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }> {
+  public async getNoteById(id: string): Promise<NoteDTO> {
     /**
      * Get note data from API
      */
