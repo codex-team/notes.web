@@ -46,7 +46,8 @@ function changeValue() {
   border-radius: var(--radius-l);
   background-color: var(--bg-color);
   transition: background-color 0.2s;
-  &:hover {
+
+  &:not(&--disabled):hover {
     --bg-color: var(--accent--bg-secondary-hover);
   }
 
@@ -58,7 +59,6 @@ function changeValue() {
     height: var(--ellipse-size);
     border-radius: var(--radius-l);
     background: var(--ellipse-color);
-    margin-left: 0px;
     transition: margin-left 0.2s;
   }
 
@@ -67,7 +67,7 @@ function changeValue() {
     --bg-color: var(--accent--solid);
     transition: margin-left 0.2s;
 
-    &:hover {
+    &:not(.switch--disabled):hover {
       --bg-color: var(--accent--solid-hover);
     }
 
@@ -78,9 +78,8 @@ function changeValue() {
   }
 
   &--disabled {
-    cursor: not-allowed;
-    pointer-events: none;
     --bg-color: var(--accent--bg-secondary);
+    cursor: not-allowed;
 
     & .switch__ellipse {
       --ellipse-color: var(--accent--text-secondary);
