@@ -126,4 +126,3 @@ watch(noteTitle, () => {
 </script>
 
 <style scoped></style>
-@/application/services/useTools
