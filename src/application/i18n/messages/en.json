@@ -39,6 +39,7 @@
   "note": {
     "new": "New Note",
     "unlink": "Unlink from parent",
+    "untitled": "Untitled",
     "createChildNote": "Create child note"
   },
   "noteList": {

@@ -11,7 +11,7 @@
             <RouterLink :to="`/note/${note.id}`">
               <CardVertical
                 :title="getTitle(note.content)"
-                :updated-at="getUpdateTime(note.updatedAt)"
+                :updated-at="formatShortDate(note.updatedAt)"
               />
             </RouterLink>
           </div>
@@ -40,7 +40,8 @@ import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
 import { CardVertical } from 'codex-ui/vue';
 import useNoteList from '@/application/services/useNoteList';
-import { getTitle, getUpdateTime } from '@/infrastructure/utils/note';
+import { getTitle } from '@/infrastructure/utils/title';
+import { formatShortDate } from '@/infrastructure/utils/date';
 import { Button } from 'codex-ui/vue';
 const { user } = useAppState();
 const { t } = useI18n();
