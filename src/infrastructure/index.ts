@@ -10,6 +10,8 @@ import { UserStore } from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEvent';
+import ToolsRepository from '@/infrastructure/tools.repository';
+import { ToolsStore } from '@/infrastructure/storage/tools.ts';
 
 /**
  * Repositories
@@ -19,6 +21,11 @@ export interface Repositories {
    * Working with Note data
    */
   note: NoteRepository;
+
+  /**
+   * Working with User editor tools
+   */
+  tools: ToolsRepository;
 
   /**
    * Working with Note settings data
@@ -54,6 +61,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteStore = new NoteStore();
   const authStore = new AuthStore();
   const userStore = new UserStore();
+  const toolsStore = new ToolsStore();
 
   /**
    * Init transport
@@ -99,10 +107,12 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteSettingsRepository = new NoteSettingsRepository(notesApiTransport);
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
+  const toolsRepository = new ToolsRepository(toolsStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
 
   return {
     note: noteRepository,
+    tools: toolsRepository,
     noteSettings: noteSettingsRepository,
     auth: authRepository,
     user: userRepository,

@@ -36,7 +36,7 @@ import Button from '../components/button/Button.vue';
 import { IconUnlink } from '@codexteam/icons';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
-import { useUserSettings } from '@/application/services/useUserSettings';
+import { useUserTools } from '@/application/services/useUserTools.ts';
 import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 import { useHead } from 'unhead';
@@ -45,7 +45,7 @@ const { userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
-const { removeTool } = useUserSettings();
+const { removeTool } = useUserTools();
 
 /**
  * Changing the title in the browser

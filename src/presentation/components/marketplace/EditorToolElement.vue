@@ -20,11 +20,11 @@
 
 <script setup lang="ts">
 import { EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
-import { useUserSettings } from '@/application/services/useUserSettings';
+import { useUserTools } from '@/application/services/useUserTools.ts';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import Button from '../button/Button.vue';
-const { addTool, removeTool } = useUserSettings();
+const { addTool, removeTool } = useUserTools();
 
 const { t } = useI18n();
 

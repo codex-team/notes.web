@@ -2,6 +2,7 @@ import NoteService from '@/domain/note.service';
 import NoteSettingsService from '@/domain/noteSettings.service';
 import AuthService from '@/domain/auth.service';
 import UserService from '@/domain/user.service';
+import ToolsService from '@/domain/tools.service';
 import MarketplaceService from '@/domain/marketplace.service';
 import { init as initRepositories } from '@/infrastructure';
 import EventBus from './event-bus';
@@ -31,6 +32,7 @@ const noteSettingsService = new NoteSettingsService(repositories.noteSettings);
 const authService = new AuthService(eventBus, repositories.auth);
 const userService = new UserService(eventBus, repositories.user);
 const marketplaceService = new MarketplaceService(repositories.marketplace);
+const toolsService = new ToolsService(eventBus, repositories.tools);
 
 /**
  * App State — is a read-only combination of app Stores.
@@ -42,4 +44,12 @@ export const AppStateController = {
     repositories.user.setStoreChangeCallback(callback),
 };
 
-export { noteService, noteListService, noteSettingsService, authService, userService, marketplaceService };
+export {
+  toolsService,
+  noteService,
+  noteListService,
+  noteSettingsService,
+  authService,
+  userService,
+  marketplaceService,
+};

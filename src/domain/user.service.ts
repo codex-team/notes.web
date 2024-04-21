@@ -30,7 +30,6 @@ export default class UserService {
      */
     eventBus.addEventListener(AUTH_COMPLETED_EVENT_NAME, () => {
       void this.repository.loadUser();
-      void this.repository.loadUserEditorTools();
     });
     /**
      * When we got unauthorized
@@ -45,23 +44,5 @@ export default class UserService {
    */
   public getUser(): User | null {
     return this.repository.getUser();
-  }
-
-  /**
-   * Adds a tool to the user
-   *
-   * @param id - tool id
-   */
-  public async addTool(id: string): Promise<void> {
-    return await this.repository.addTool(id);
-  }
-
-  /**
-   * Removes a tool from the user
-   *
-   * @param id - tool id
-   */
-  public async removeTool(id: string): Promise<void> {
-    return await this.repository.removeTool(id);
   }
 }
