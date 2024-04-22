@@ -3,15 +3,17 @@
     <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
       <div v-if="noteList">
-        <div :class="$style.noteList">
+        <div :class="[$style.noteList, cardOrientation === 'horizontal' ? $style.horizontal : '']">
           <div
             v-for="note in noteList.items"
             :key="note.id"
           >
             <RouterLink :to="`/note/${note.id}`">
-              <CardVertical
+              <Card
                 :title="getTitle(note.content)"
                 :updated-at="formatShortDate(note.updatedAt)"
+                :button-text="t('note.open')"
+                :orientation="cardOrientation"
               />
             </RouterLink>
           </div>
@@ -36,9 +38,10 @@
 
 <script setup lang="ts">
 import { useHead } from 'unhead';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
-import { CardVertical } from 'codex-ui/vue';
+import { Card } from 'codex-ui/vue';
 import useNoteList from '@/application/services/useNoteList';
 import { getTitle } from '@/infrastructure/utils/title';
 import { formatShortDate } from '@/infrastructure/utils/date';
@@ -46,6 +49,7 @@ import { Button } from 'codex-ui/vue';
 const { user } = useAppState();
 const { t } = useI18n();
 const { noteList, loadMoreNotes } = useNoteList();
+const cardOrientation = ref<'horizontal' | 'vertical'>('horizontal');
 
 /**
  * Changing the title in the browser
@@ -64,6 +68,10 @@ useHead({
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--spacing-m);
+}
+
+.horizontal {
+  flex-direction: column;
 }
 
 .button {
