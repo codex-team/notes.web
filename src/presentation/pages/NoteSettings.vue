@@ -14,10 +14,9 @@
     >
       <Row :title="t('noteSettings.publish')">
         <template #right>
-          <Checkbox
-            v-model:checked="noteSettings.isPublic"
-            label=""
-            @update:checked="changeAccess"
+          <Switch
+            v-model="isPublic"
+            @click="changeAccess"
           />
         </template>
       </Row>
@@ -41,12 +40,11 @@ import type { NoteId } from '@/domain/entities/Note';
 // import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
-import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row } from 'codex-ui/vue';
+import { Section, Row, Switch } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -73,10 +71,17 @@ async function regenerateHash() {
 }
 
 /**
+ * Current value of isPublic field
+ */
+const isPublic = computed(() => {
+  return noteSettings.value?.isPublic;
+});
+
+/**
  * Change isPublic property
  */
 async function changeAccess() {
-  updateIsPublic(props.id, noteSettings.value!.isPublic);
+  updateIsPublic(props.id, !noteSettings.value!.isPublic);
 }
 
 /**
