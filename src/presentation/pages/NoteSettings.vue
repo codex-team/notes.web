@@ -16,7 +16,6 @@
         <template #right>
           <Switch
             v-model="isPublic"
-            :value="noteSettings.isPublic"
             @click="changeAccess"
           />
         </template>
@@ -46,7 +45,6 @@ import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch } from 'codex-ui/vue';
-import { ref } from 'vue';
 
 const { t } = useI18n();
 
@@ -72,7 +70,12 @@ async function regenerateHash() {
   revokeHash(props.id);
 }
 
-const isPublic = ref(noteSettings.value?.isPublic);
+/**
+ * Current value of isPublic field
+ */
+const isPublic = computed(() => {
+  return noteSettings.value?.isPublic;
+});
 
 /**
  * Change isPublic property
