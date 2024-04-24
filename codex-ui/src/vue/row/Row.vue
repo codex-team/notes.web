@@ -64,7 +64,7 @@ defineProps<{
 }>();
 </script>
 
-<style module lang="postcss">
+<style module>
 .row {
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);

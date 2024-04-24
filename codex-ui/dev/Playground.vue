@@ -204,6 +204,8 @@
       </Row>
     </Section>
     <br />
+    <Heading :level="3"> Context Menu </Heading>
+    <ContextMenu />
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
     <Heading :level="3">Editor.js</Heading>
@@ -227,6 +229,7 @@ import {
   Avatar,
   Switch,
   RadioGroup,
+  ContextMenu,
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 
