@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
  * @param content - content of the note
  * @returns the title of the note
  */
-export const getTitle = (content: OutputData): string => {
+export function getTitle(content: OutputData): string {
   const limitCharsForNoteTitle = 50;
   const firstNoteBlock = content.blocks[0];
   const { t } = useI18n();
@@ -19,4 +19,4 @@ export const getTitle = (content: OutputData): string => {
   } else {
     return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
   }
-};
+}

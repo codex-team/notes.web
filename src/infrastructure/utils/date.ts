@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 /**
- *
+ * Formats the date in a human-readable format
  * @param updatedAt - the date the note was last updated
- * @returns the last updated time in a human-readable format
+ * @returns the last updated time
  */
 export const formatShortDate = (updatedAt: string): string => {
   dayjs.extend(relativeTime);
