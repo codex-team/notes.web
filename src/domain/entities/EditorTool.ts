@@ -1,3 +1,5 @@
+import type { ToolSettings, ToolConstructable } from '@editorjs/editorjs';
+
 /**
  * Plugin that connects to the editor based on user settings
  */
@@ -58,3 +60,13 @@ export interface EditorToolWithUserBinding extends EditorTool {
  * Tool creation attributes
  */
 export type NewToolData = Omit<EditorTool, 'userId' | 'id'>;
+
+/**
+ * Editor tool data structure
+ */
+export type EditorConfigTool = ToolSettings | ToolConstructable;
+
+/**
+ * Map loaded editor tools
+ */
+export type EditorConfigTools = Record<string, EditorConfigTool>;

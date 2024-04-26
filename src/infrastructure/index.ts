@@ -10,6 +10,8 @@ import { UserStore } from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEvent';
+import { ToolsStore } from '@/infrastructure/storage/tools';
+import ToolsRepository from '@/infrastructure/tools.repository';
 
 /**
  * Repositories
@@ -36,9 +38,14 @@ export interface Repositories {
   user: UserRepository;
 
   /**
-   * Working with editor tools data
+   * Working with marketplace tools data
    */
   marketplace: MarketplaceRepository;
+
+  /**
+   * Working with editor tools data
+   */
+  tools: ToolsRepository;
 }
 
 /**
@@ -53,6 +60,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteStore = new NoteStore();
   const authStore = new AuthStore();
   const userStore = new UserStore();
+  const toolsStore = new ToolsStore();
 
   /**
    * Init transport
@@ -99,6 +107,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
+  const toolsRepository = new ToolsRepository(toolsStore);
 
   return {
     note: noteRepository,
@@ -106,5 +115,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     auth: authRepository,
     user: userRepository,
     marketplace: marketplaceRepository,
+    tools: toolsRepository,
   };
 }
