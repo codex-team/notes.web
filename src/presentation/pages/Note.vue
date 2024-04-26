@@ -17,6 +17,7 @@
       </Button>
     </div>
 
+    <div>{{ noteTools }}</div>
     <Editor
       v-if="tools !== undefined"
       ref="editor"
@@ -76,7 +77,7 @@ function noteChanged(data: NoteContent): void {
   const isEmpty = editor.value?.isEmpty();
 
   if (!isEmpty) {
-    save(data, props.parentId);
+    save(data, props.parentId, noteTools.value);
   }
 }
 
