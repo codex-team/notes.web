@@ -51,7 +51,7 @@ interface UseNoteComposableState {
   /**
    * Creates/updates the note
    */
-  save: (content: NoteContent, parentId: NoteId | undefined, noteTools: EditorTool[]) => Promise<void>;
+  save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
 
   /**
    * Load note by custom hostname
