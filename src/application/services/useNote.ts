@@ -4,6 +4,7 @@ import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
+import { useAppState } from './useAppState';
 
 /**
  * Creates base structure for the empty note:
@@ -164,9 +165,10 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    *
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
-   * @param tools
    */
-  async function save(content: NoteContent, parentId: NoteId | undefined, tools: EditorTool[]): Promise<void> {
+  async function save(content: NoteContent, parentId: NoteId | undefined): Promise<void> {
+    const { userEditorTools } = useAppState();
+
     if (note.value === null) {
       throw new Error('Note is not loaded yet');
     }
@@ -174,8 +176,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * Format specified tools
      */
-    const specifiedNoteTools = tools.map((tool) => {
-      return { name: tool.name, id: tool.id };
+    const specifiedNoteTools = content.blocks.map((block) => {
+      return { name: block.type, id: (userEditorTools.value ?? []).find((tool) => tool.name === block.type)!.id };
     });
 
     if (currentId.value === null) {

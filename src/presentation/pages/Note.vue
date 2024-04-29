@@ -77,7 +77,7 @@ function noteChanged(data: NoteContent): void {
   const isEmpty = editor.value?.isEmpty();
 
   if (!isEmpty) {
-    save(data, props.parentId, noteTools.value);
+    save(data, props.parentId);
   }
 }
 
