@@ -16,8 +16,6 @@
         {{ t('note.unlink') }}
       </Button>
     </div>
-
-    <div>{{ noteTools }}</div>
     <Editor
       v-if="tools !== undefined"
       ref="editor"
