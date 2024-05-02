@@ -1,7 +1,23 @@
 <template>
   <div :class="$style['context-menu']">
-    <div :class="$style['context-menu-body']">
-      <slot />
+    <div
+      v-if="showSearch"
+      :class="$style['context-menu-search']"
+    >
+      <Input :class="$style['context-menu-input']" />
+      <div :class="$style['context-menu-wrapper']">
+        <div :class="$style['context-menu-delimiter']"></div>
+      </div>
+    </div>
+    <div :class="$style['context-menu-scrollable']">
+      <div
+        v-for="(item, index) in items"
+        :key="index"
+      >
+        <div :class="$style['context-menu-wrapper']">
+          {{ item.name }}
+        </div>
+      </div>
     </div>
     <div
       v-if="hasDelimiter"
@@ -11,29 +27,67 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import Input from '../input/Input.vue';
+
+interface Item {
   /**
-   * True if context menu should contain delimiter
+   * Item id
    */
-  hasDelimiter?: boolean;
-}>();
+  id: number;
+
+  /**
+   * Item name
+   */
+  name: string;
+}
+
+withDefaults(
+  defineProps<{
+    /**
+     * If true, displays the input field for the search
+     */
+    showSearch?: boolean;
+
+    /**
+     * Array of items for context menu
+     */
+    items: Item[];
+
+    /**
+     * True if context menu should contain delimiter
+     */
+    hasDelimiter?: boolean;
+  }>(),
+  { showSearch: false }
+);
 </script>
 
 <style module>
 .context-menu {
-  --h-padding: var(--spacing-ms);
-  --v-padding: var(--spacing-xs);
+  &-search {
+    margin-bottom: var(--spacing-very-x);
+  }
 
-  &-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  &-scrollable {
+    margin-bottom: var(--spacing-very-x);
+  }
+
+  &-wrapper {
+    padding-left: var(--spacing-xxs);
+    padding-right: var(--spacing-xxs);
+    padding-bottom: var(--spacing-very-x);
+    padding-top: var(--spacing-very-x);
   }
 
   &-delimiter {
     background: var(--base--border);
     align-self: stretch;
     height: var(--delimiter-height);
+    flex-shrink: 0;
+  }
+
+  &-input {
+    margin-bottom: var(--spacing-very-x);
   }
 }
 </style>

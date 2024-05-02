@@ -205,7 +205,11 @@
     </Section>
     <br />
     <Heading :level="3"> Context Menu </Heading>
-    <ContextMenu />
+    <ContextMenu
+      :show-search="true"
+      :items="contextMenuItems"
+    >
+    </ContextMenu>
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
     <Heading :level="3">Editor.js</Heading>
@@ -286,6 +290,14 @@ function setColorScheme(colorScheme: string) {
 const formSectionItems = [
   { id: 1, name: 'Vitaly' },
   { id: 2, name: 'Nickmel' },
+];
+
+/**
+ * Context menu items
+ */
+const contextMenuItems = [
+  { id: 1, name: 'Header 1' },
+  { id: 2, name: 'Header 2' },
 ];
 </script>
 
