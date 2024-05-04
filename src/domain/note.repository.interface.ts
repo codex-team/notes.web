@@ -1,4 +1,4 @@
-import type { Note, NoteContent, NoteId, NoteTools } from '@/domain/entities/Note';
+import type { Note, NoteContent, NoteId, NoteTool } from '@/domain/entities/Note';
 import type { NoteList } from './entities/NoteList';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type { NoteDTO } from './entities/NoteDTO';
@@ -35,17 +35,19 @@ export default interface NoteRepositoryInterface {
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in note
    * @param parentId - Id of the parent note. If undefined, then it's a root note
    */
-  createNote(content: NoteContent, noteTools: NoteTools[], parentId?: NoteId): Promise<Note>;
+  createNote(content: NoteContent, noteTools: NoteTool[], parentId?: NoteId): Promise<Note>;
 
   /**
    * Updates a content of existing note
    *
    * @param id - What note to update
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in note
    */
-  updateNoteContentAndTools(id: string, content: NoteContent, noteTools: NoteTools[]): Promise<void>;
+  updateNoteContentAndTools(id: string, content: NoteContent, noteTools: NoteTool[]): Promise<void>;
 
   /**
    * Unlink note from parent
