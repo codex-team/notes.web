@@ -12,7 +12,7 @@ export type NoteId = string;
 export type NoteContent = OutputData;
 
 /**
- * Tools that are used in the note
+ * Single tool used in note
  */
 export type NoteTool = {
   /**
