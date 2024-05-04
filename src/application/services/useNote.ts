@@ -191,7 +191,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     /**
-     * Format specified tools
+     * Resolve tools that are used in note
      */
     const specifiedNoteTools = await resolveToolsByContent(content);
 
