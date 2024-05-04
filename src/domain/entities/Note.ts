@@ -11,7 +11,7 @@ export type NoteId = string;
  */
 export type NoteContent = OutputData;
 
-export type NoteTools = {
+export type NoteTool = {
   /**
    * Name of certain editor tool
    */

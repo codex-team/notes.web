@@ -16,12 +16,14 @@ type DownloadedTools = EditorConfig['tools'];
  */
 export function useTools(noteTools: Ref<EditorTool[]>): {
   tools: Ref<DownloadedTools | undefined>;
+  allTools: Ref<EditorTool[] | undefined>;
 } {
   /**
    * User notes tools
    */
   const { userEditorTools } = useAppState();
   const tools = ref<DownloadedTools | undefined>();
+  const allTools = ref<EditorTool[] | undefined>();
 
   /**
    * Download all the user tools and return a map
@@ -63,20 +65,21 @@ export function useTools(noteTools: Ref<EditorTool[]>): {
   watch(
     [userEditorTools, noteTools],
     async () => {
-      const allTools = mergeTools(userEditorTools.value || [], noteTools.value);
+      allTools.value = mergeTools(userEditorTools.value || [], noteTools.value);
 
       /**
        * If tools are not loaded yet or empty, skip downloading their scripts
        */
-      if (allTools.length === 0) {
+      if (allTools.value.length === 0) {
         return;
       }
-      tools.value = await downloadTools(allTools);
+      tools.value = await downloadTools(allTools.value);
     },
     { immediate: true }
   );
 
   return {
     tools,
+    allTools,
   };
 }

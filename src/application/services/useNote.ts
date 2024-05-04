@@ -1,10 +1,11 @@
 import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
-import { useAppState } from './useAppState';
+import { useTools } from './useTools';
 
 /**
  * Creates base structure for the empty note:
@@ -52,6 +53,11 @@ interface UseNoteComposableState {
    * Creates/updates the note
    */
   save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
+
+  /**
+   * Returns list of tools used in note
+   */
+  resolveToolsByContent: (content: NoteContent) => Promise<NoteTool[]>;
 
   /**
    * Load note by custom hostname
@@ -161,14 +167,25 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
+   * Returns list of tools used in the note
+   *
+   * @param content - content of the note
+   */
+  async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
+    const { allTools } = useTools(noteTools);
+
+    return content.blocks.map((block) => {
+      return { name: block.type, id: (allTools.value ?? []).find((tool) => tool.name === block.type)!.id };
+    });
+  }
+
+  /**
    * Saves the note
    *
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
    */
   async function save(content: NoteContent, parentId: NoteId | undefined): Promise<void> {
-    const { userEditorTools } = useAppState();
-
     if (note.value === null) {
       throw new Error('Note is not loaded yet');
     }
@@ -176,9 +193,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * Format specified tools
      */
-    const specifiedNoteTools = content.blocks.map((block) => {
-      return { name: block.type, id: (userEditorTools.value ?? []).find((tool) => tool.name === block.type)!.id };
-    });
+    const specifiedNoteTools = await resolveToolsByContent(content);
 
     if (currentId.value === null) {
       /**
@@ -265,6 +280,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     noteTitle,
     canEdit,
     resolveHostname,
+    resolveToolsByContent,
     save,
     unlinkParent,
     parentNote,
