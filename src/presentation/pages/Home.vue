@@ -29,7 +29,7 @@
         </Button>
       </div>
       <div v-else>
-        <p>{{ $t('home.emptyNoteList') }}</p>
+        <p>{{ $t('note.emptyNoteList') }}</p>
       </div>
     </div>
 

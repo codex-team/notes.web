@@ -5,7 +5,7 @@
       <Heading :level="3">{{ title }}</Heading>
       <div :class="[$style['card__updatedAt'], 'text-ui-subtle']">{{ updatedAt }}</div>
     </div>
-    <slot name="button"></slot>
+    <slot></slot>
   </div>
 </template>
 
