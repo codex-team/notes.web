@@ -16,9 +16,7 @@
         :class="$style['context-menu__item']"
       >
         <div :class="$style['context-menu__body']">
-          <div>
-            {{ 'H1' }}
-          </div>
+          <Icon name="H1" />
           <div>
             {{ item.title }}
           </div>
@@ -30,6 +28,7 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
+import Icon from '../icon/Icon.vue';
 
 interface Item {
   /**
