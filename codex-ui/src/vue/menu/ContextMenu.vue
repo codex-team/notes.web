@@ -10,11 +10,19 @@
       </div>
     </div>
     <div :class="$style['context-menu__scrollable']">
-      <div>
-        {{ 'Hello' }}
-      </div>
-      <div>
-        {{ 'World' }}
+      <div
+        v-for="(item, index) in items"
+        :key="index"
+        :class="$style['context-menu__item']"
+      >
+        <div :class="$style['context-menu__body']">
+          <div>
+            {{ 'H1' }}
+          </div>
+          <div>
+            {{ 'Hello' }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -73,15 +81,30 @@ withDefaults(
   }
 
   &__sep-wrapper {
-    padding-left: var(--spacing-xxs);
+    padding-top: var(--spacing-very-x);
     padding-right: var(--spacing-xxs);
     padding-bottom: var(--spacing-very-x);
-    padding-top: var(--spacing-very-x);
+    padding-left: var(--spacing-xxs);
   }
 
   &__scrollable {
     display: grid;
     gap: var(--spacing-very-x);
+  }
+
+  &__item {
+    display: flex;
+    gap: var(--v-padding);
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s);
   }
 }
 </style>
