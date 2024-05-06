@@ -9,17 +9,25 @@
         <div :class="$style['context-menu__separator']" />
       </div>
     </div>
-    <div :class="$style['context-menu__scrollable']">
-      <div
-        v-for="(item, index) in items"
-        :key="index"
-        :class="$style['context-menu__item']"
-      >
+    <div
+      v-for="(item, index) in items"
+      :key="index"
+      :class="$style['context-menu__scrollable']"
+    >
+      <div :class="$style['context-menu__item']">
         <div :class="$style['context-menu__body']">
           <Icon name="H1" />
           <div>
             {{ item.title }}
           </div>
+        </div>
+      </div>
+      <div
+        v-if="hasSeparator"
+        :class="$style['context-menu__item']"
+      >
+        <div :class="$style['context-menu__sep-wrapper']">
+          <div :class="$style['context-menu__separator']" />
         </div>
       </div>
     </div>
@@ -32,14 +40,19 @@ import Icon from '../icon/Icon.vue';
 
 interface Item {
   /**
-   * Item id
+   * Type of the item
    */
-  id: number;
+  type?: string;
 
   /**
    * Item title
    */
   title: string;
+
+  /**
+   * The function that is called when click
+   */
+  onActive: void;
 }
 
 withDefaults(
@@ -57,7 +70,7 @@ withDefaults(
     /**
      * True if context menu should contain delimiter
      */
-    hasDelimiter?: boolean;
+    hasSeparator?: boolean;
   }>(),
   { showSearch: false }
 );

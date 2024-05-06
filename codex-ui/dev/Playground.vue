@@ -296,9 +296,14 @@ const formSectionItems = [
  * Context menu items
  */
 const contextMenuItems = [
-  { id: 1, title: 'Header 1' },
-  { id: 2, title: 'Header 2' },
+  { title: 'Header 1', onActive: doNothing },
+  { title: 'Header 2', onActive: doNothing },
 ];
+
+/**
+ * Simple function for example
+ */
+function doNothing(): void {}
 </script>
 
 <style module>
