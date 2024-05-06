@@ -20,7 +20,7 @@
             {{ 'H1' }}
           </div>
           <div>
-            {{ 'Hello' }}
+            {{ item.title }}
           </div>
         </div>
       </div>

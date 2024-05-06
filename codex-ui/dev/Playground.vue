@@ -296,8 +296,8 @@ const formSectionItems = [
  * Context menu items
  */
 const contextMenuItems = [
-  { id: 1, name: 'Header 1' },
-  { id: 2, name: 'Header 2' },
+  { id: 1, title: 'Header 1' },
+  { id: 2, title: 'Header 2' },
 ];
 </script>
 
