@@ -2,10 +2,10 @@
   <div :class="[$style.card, orientation === 'horizontal' ? $style['card--horizontal'] : '']">
     <div :class="$style['card__cover']"></div>
     <div :class="$style['card__footer']">
-      <Heading :level="3">{{ title }}</Heading>
+      <Heading :level="3">{{ subtitle }}</Heading>
       <div :class="[$style['card__updatedAt'], 'text-ui-subtle']">{{ updatedAt }}</div>
     </div>
-    <slot></slot>
+    <slot name="additional"></slot>
   </div>
 </template>
 
@@ -14,16 +14,8 @@ import { defineProps } from 'vue';
 import Heading from '../heading/Heading.vue';
 import type { CardOrientation } from './Card.types';
 
-/**
- * NoteListItem props, receive Note
- *
- * @param {string} title - Note title
- * @param {string} updatedAt - Last updated date of note
- * @param {string} buttonText - Button text
- * @param orientation - Orientation of card
- */
 defineProps<{
-  title: string;
+  subtitle: string;
   updatedAt: string;
   orientation: CardOrientation;
 }>();
@@ -54,11 +46,10 @@ defineProps<{
 
   &__cover {
     width: 100%;
-    height: 140px;
+    aspect-ratio: 222/140;
     border-radius: var(--radius-m);
     background-color: var(--base--bg-primary);
   }
-
   &__footer {
     width: 100%;
   }

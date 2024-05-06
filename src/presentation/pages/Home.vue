@@ -9,11 +9,11 @@
             :key="note.id"
           >
             <Card
-              :title="getTitle(note.content)"
+              :subtitle="getTitle(note.content)"
               :updated-at="formatShortDate(note.updatedAt)"
               orientation="horizontal"
             >
-              <template #button>
+              <template #additional>
                 <RouterLink :to="`/note/${note.id}`">
                   <Button>{{ $t('note.open') }}</Button>
                 </RouterLink>
@@ -25,7 +25,7 @@
           :class="$style.button"
           @click="loadMoreNotes"
         >
-          {{ $t('home.loadMore') }}
+          {{ $t('loadMore') }}
         </Button>
       </div>
       <div v-else>

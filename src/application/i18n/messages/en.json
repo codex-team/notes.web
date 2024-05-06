@@ -1,5 +1,6 @@
 {
   "appTitle": "NoteX",
+  "loadMore":"Load More",
   "auth": {
     "login": "Login",
     "logout": "Logout"
@@ -44,9 +45,6 @@
     "createChildNote": "Create child note"
   },
   "noteList": {
-    "buttons": {
-      "loadMoreNotes": "Load more notes"
-    },
     "emptyNoteList": "No Notes yet. Make your first note",
     "noteListItem": {
       "untitled": "Untitled"
@@ -54,8 +52,7 @@
   },
   "home": {
     "title": "Recent Notes",
-    "authText": "You are not logged in, log in to see your recent notes",
-    "loadMore":"Load More Notes"
+    "authText": "You are not logged in, log in to see your recent notes"
   },
   "errors": {
     "404": "Page not found",
