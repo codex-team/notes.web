@@ -4,25 +4,15 @@
       v-if="showSearch"
       :class="$style['context-menu__search']"
     >
-      <Input :class="$style['context-menu-input']" />
-      <div :class="$style['context-menu-wrapper']">
-        <div :class="$style['context-menu-delimiter']"></div>
-      </div>
+      <Input />
+      <div :class="$style['context-menu__delimiter']" />
     </div>
-    <div :class="$style['context-menu-scrollable']">
-      <div
-        v-for="(item, index) in items"
-        :key="index"
-      >
-        <div :class="$style['context-menu-wrapper']">
-          {{ item.title }}
-        </div>
-      </div>
+    <div>
+      {{ 'Hello' }}
     </div>
-    <div
-      v-if="hasDelimiter"
-      :class="$style['context-menu-delimiter']"
-    ></div>
+    <div>
+      {{ 'World' }}
+    </div>
   </div>
 </template>
 
@@ -64,30 +54,18 @@ withDefaults(
 
 <style module>
 .context-menu {
+  display: grid;
+  gap: var(--spacing-very-x);
+
   &__search {
-    margin-bottom: var(--spacing-very-x);
+    display: grid;
+    gap: var(--spacing-very-x);
   }
 
-  &-scrollable {
-    margin-bottom: var(--spacing-very-x);
-  }
-
-  &-wrapper {
-    padding-left: var(--spacing-xxs);
-    padding-right: var(--spacing-xxs);
-    padding-bottom: var(--spacing-very-x);
-    padding-top: var(--spacing-very-x);
-  }
-
-  &-delimiter {
+  &__delimiter {
     background: var(--base--border);
     align-self: stretch;
     height: var(--delimiter-height);
-    flex-shrink: 0;
-  }
-
-  &-input {
-    margin-bottom: var(--spacing-very-x);
   }
 }
 </style>
