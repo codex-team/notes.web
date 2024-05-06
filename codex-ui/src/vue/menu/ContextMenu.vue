@@ -5,13 +5,17 @@
       :class="$style['context-menu__search']"
     >
       <Input />
-      <div :class="$style['context-menu__delimiter']" />
+      <div :class="$style['context-menu__sep-wrapper']">
+        <div :class="$style['context-menu__separator']" />
+      </div>
     </div>
-    <div>
-      {{ 'Hello' }}
-    </div>
-    <div>
-      {{ 'World' }}
+    <div :class="$style['context-menu__scrollable']">
+      <div>
+        {{ 'Hello' }}
+      </div>
+      <div>
+        {{ 'World' }}
+      </div>
     </div>
   </div>
 </template>
@@ -62,10 +66,22 @@ withDefaults(
     gap: var(--spacing-very-x);
   }
 
-  &__delimiter {
+  &__separator {
     background: var(--base--border);
     align-self: stretch;
     height: var(--delimiter-height);
+  }
+
+  &__sep-wrapper {
+    padding-left: var(--spacing-xxs);
+    padding-right: var(--spacing-xxs);
+    padding-bottom: var(--spacing-very-x);
+    padding-top: var(--spacing-very-x);
+  }
+
+  &__scrollable {
+    display: grid;
+    gap: var(--spacing-very-x);
   }
 }
 </style>
