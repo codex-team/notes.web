@@ -2,7 +2,7 @@
   <div :class="$style['context-menu']">
     <div
       v-if="showSearch"
-      :class="$style['context-menu-search']"
+      :class="$style['context-menu__search']"
     >
       <Input :class="$style['context-menu-input']" />
       <div :class="$style['context-menu-wrapper']">
@@ -15,7 +15,7 @@
         :key="index"
       >
         <div :class="$style['context-menu-wrapper']">
-          {{ item.name }}
+          {{ item.title }}
         </div>
       </div>
     </div>
@@ -36,9 +36,9 @@ interface Item {
   id: number;
 
   /**
-   * Item name
+   * Item title
    */
-  name: string;
+  title: string;
 }
 
 withDefaults(
@@ -64,7 +64,7 @@ withDefaults(
 
 <style module>
 .context-menu {
-  &-search {
+  &__search {
     margin-bottom: var(--spacing-very-x);
   }
 
