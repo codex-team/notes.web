@@ -296,8 +296,8 @@ const formSectionItems = [
  * Context menu items
  */
 const contextMenuItems = [
-  { title: 'Header 1', onActive: doNothing },
-  { title: 'Header 2', onActive: doNothing },
+  { title: 'Header 1', icon: 'H1', onActive: doNothing },
+  { title: 'Header 2', icon: 'H1', onActive: doNothing },
 ];
 
 /**

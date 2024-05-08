@@ -16,7 +16,7 @@
     >
       <div :class="$style['context-menu__item']">
         <div :class="$style['context-menu__body']">
-          <Icon name="H1" />
+          <Icon :name="item.icon" />
           <div>
             {{ item.title }}
           </div>
@@ -45,6 +45,11 @@ interface Item {
   type?: string;
 
   /**
+   * Name of the item icon
+   */
+  icon: string;
+
+  /**
    * Item title
    */
   title: string;
@@ -52,7 +57,7 @@ interface Item {
   /**
    * The function that is called when click
    */
-  onActive: void;
+  onActive: () => void;
 }
 
 withDefaults(
