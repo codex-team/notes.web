@@ -78,6 +78,9 @@ withDefaults(
 
 <style module>
 .context-menu {
+  --h-padding: var(--spacing-ms);
+  --v-padding: var(--spacing-xs);
+
   display: grid;
   gap: var(--spacing-very-x);
 
@@ -107,10 +110,10 @@ withDefaults(
   &__item {
     display: flex;
     gap: var(--v-padding);
-    padding-top: 6px;
-    padding-bottom: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-top: var(--v-padding);
+    padding-bottom: var(--v-padding);
+    padding-left: var(--h-padding);
+    padding-right: var(--h-padding);
   }
 
   &__body {
