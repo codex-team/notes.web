@@ -92,6 +92,7 @@ withDefaults(
   &__search {
     display: grid;
     gap: var(--spacing-very-x);
+    width: max-content;
   }
 
   &__separator {
@@ -110,6 +111,7 @@ withDefaults(
   &__scrollable {
     display: grid;
     gap: var(--spacing-very-x);
+    width: max-content;
   }
 
   &__item {
