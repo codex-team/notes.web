@@ -1,6 +1,11 @@
 <template>
   <div :class="[$style.tab, `${$style.tab}--${state}`]">
-    <div v-if="showLeftSlot"></div>
+    <div v-if="showLeftSlot">
+      <slot />
+    </div>
+    <div :class="[$style['tab__center'], 'text-ui-base-medium']">
+      {{ name }}
+    </div>
   </div>
 </template>
 
@@ -31,6 +36,8 @@ withDefaults(
   }>(),
   {
     state: 'default',
+    showCross: false,
+    showLeftSlot: false
   }
 );
 </script>
@@ -38,17 +45,34 @@ withDefaults(
 <style module>
 .tab {
   width: max-content;
+  display: flex;
+  border-radius: var(--radius-m);
 
+  --bg: var(--base--bg-secondary);
+  --color: var(--classic-text-secondary);
+  --h-padding: var(--spacing-ms);
+  --v-padding: var(--spacing-xs);
+
+  /**
+   * States
+   */
   &--default {
-    background-color: var(--base--bg-secondary);
+    --bg: var(--base--bg-secondary);
+    --color: var(--base-text-secondary);
   }
 
   &--hover {
-    background-color: var(--base--bg-secondary-hover);
+    --bg: var(--base--bg-secondary-hover);
+    --color: var(--base-text-secondary);
   }
 
   &--current {
-    background-color: var(--base--bg-secondary-hover);
+    --bg: var(--base--bg-secondary-hover);
+    --color: var(--base--text-solid-foreground);
   }
+
+  padding: var(--v-padding) var(--h-padding) var(--v-padding) var(--h-padding);
+  background-color: var(--bg);
+  color: var(--color);
 }
 </style>

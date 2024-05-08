@@ -231,6 +231,14 @@
       </Row>
     </Section>
     <br>
+    <br />
+    <Heading :level="3"> Tab </Heading>
+    <Tab :name="'Home'"></Tab>
+    <br />
+    <Tab :name="'Home'" :state="'hover'"></Tab>
+    <br />
+    <Tab :name="'Home'" :state="'current'"></Tab>
+    <Heading :level="3"> Type Scale </Heading>
     <Heading :level="3">
       Type Scale
     </Heading>
@@ -257,7 +265,8 @@ import {
   ButtonStyle,
   Avatar,
   Switch,
-  RadioGroup
+  RadioGroup,
+  Tab
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
