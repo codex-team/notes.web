@@ -172,11 +172,28 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param content - content of the note
    */
   async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
-    const { allTools } = useTools(noteTools);
+    let { tools } = useTools(noteTools);
 
-    return content.blocks.map((block) => {
-      return { name: block.type, id: (allTools.value ?? []).find((tool) => tool.name === block.type)!.id };
+    if (tools.value === undefined) {
+      tools.value = [];
+    }
+
+    const usedNoteTools = content.blocks.map((block) => {
+
+      const blockTool = (tools.value as EditorTool[]).find((tool) => tool.name === block.type)
+
+      /**
+       * User can not add to content tool that is not in allTools
+       */
+      return { name: blockTool!.name, id: blockTool!.id };
     });
+
+    /**
+     * Remove duplicated note tools
+     */
+    const resolvedNoteTools = new Set(usedNoteTools);
+
+    return Array.from(resolvedNoteTools);
   }
 
   /**
