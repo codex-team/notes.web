@@ -17,9 +17,9 @@
       </Button>
     </div>
     <Editor
-      v-if="tools !== undefined"
+      v-if="toolsConnected !== undefined"
       ref="editor"
-      :tools="tools"
+      :tools="toolsConnected"
       :content="note.content"
       :read-only="!canEdit"
       @change="noteChanged"
@@ -59,7 +59,7 @@ const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = 
   id: noteId,
 });
 
-const { tools } = useTools(noteTools);
+const { toolsConnected } = useTools(noteTools);
 
 /**
  * Editor component reference
