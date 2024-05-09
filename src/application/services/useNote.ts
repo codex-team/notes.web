@@ -172,7 +172,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param content - content of the note
    */
   async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
-    let { tools } = useTools(noteTools);
+    const { tools } = useTools(noteTools);
 
     if (tools.value === undefined) {
       tools.value = [];
