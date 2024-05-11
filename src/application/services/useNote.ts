@@ -179,7 +179,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     const usedNoteTools = content.blocks.map((block) => {
-
       const blockTool = (tools.value as EditorTool[]).find((tool) => tool.name === block.type)
 
       /**
