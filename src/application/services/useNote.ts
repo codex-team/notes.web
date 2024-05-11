@@ -1,9 +1,11 @@
 import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
+import { useTools } from './useTools';
 
 /**
  * Creates base structure for the empty note:
@@ -51,6 +53,11 @@ interface UseNoteComposableState {
    * Creates/updates the note
    */
   save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
+
+  /**
+   * Returns list of tools used in note
+   */
+  resolveToolsByContent: (content: NoteContent) => Promise<NoteTool[]>;
 
   /**
    * Load note by custom hostname
@@ -160,6 +167,35 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
+   * Returns list of tools used in the note
+   *
+   * @param content - content of the note
+   */
+  async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
+    const { tools } = useTools(noteTools);
+
+    if (tools.value === undefined) {
+      tools.value = [];
+    }
+
+    const usedNoteTools = content.blocks.map((block) => {
+      const blockTool = (tools.value as EditorTool[]).find((tool) => tool.name === block.type);
+
+      /**
+       * User can not add to content tool that is not in allTools
+       */
+      return { name: blockTool!.name, id: blockTool!.id };
+    });
+
+    /**
+     * Remove duplicated note tools
+     */
+    const resolvedNoteTools = new Set(usedNoteTools);
+
+    return Array.from(resolvedNoteTools);
+  }
+
+  /**
    * Saves the note
    *
    * @param content - Note content (Editor.js data)
@@ -170,11 +206,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       throw new Error('Note is not loaded yet');
     }
 
+    /**
+     * Resolve tools that are used in note
+     */
+    const specifiedNoteTools = await resolveToolsByContent(content);
+
     if (currentId.value === null) {
       /**
        * @todo try-catch domain errors
        */
-      const noteCreated = await noteService.createNote(content, parentId);
+      const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
 
       /**
        * Replace the current route with note id
@@ -189,7 +230,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
-    await noteService.updateNoteContent(currentId.value, content);
+    await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
     note.value = { ...note.value, content };
   }
 
@@ -255,6 +296,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     noteTitle,
     canEdit,
     resolveHostname,
+    resolveToolsByContent,
     save,
     unlinkParent,
     parentNote,

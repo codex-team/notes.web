@@ -2,6 +2,7 @@ import type NoteRepository from '@/domain/note.repository.interface';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type { NoteDTO } from './entities/NoteDTO';
+import type { NoteTool } from '@/domain/entities/Note';
 
 /**
  * Note Service
@@ -47,10 +48,11 @@ export default class NoteService {
    * Creates a new note and returns it
    *
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in the note
    * @param parentId - Id of the parent note. If omitted, then it's a root note
    */
-  public async createNote(content: NoteContent, parentId?: NoteId): Promise<Note> {
-    return await this.noteRepository.createNote(content, parentId);
+  public async createNote(content: NoteContent, noteTools: NoteTool[], parentId?: NoteId): Promise<Note> {
+    return await this.noteRepository.createNote(content, noteTools, parentId);
   }
 
   /**
@@ -58,9 +60,10 @@ export default class NoteService {
    *
    * @param id - identifier of the note to update
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in the note
    */
-  public async updateNoteContent(id: string, content: NoteContent): Promise<void> {
-    return await this.noteRepository.updateNoteContent(id, content);
+  public async updateNoteContentAndTools(id: string, content: NoteContent, noteTools: NoteTool[]): Promise<void> {
+    return await this.noteRepository.updateNoteContentAndTools(id, content, noteTools);
   }
 
   /**
