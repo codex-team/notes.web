@@ -78,7 +78,7 @@ withDefaults(
   /**
    * States
    */
-  &__hover {
+  &:hover {
     --bg: var(--base--bg-secondary-hover);
     --color: var(--base-text-secondary);
   }
