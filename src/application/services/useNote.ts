@@ -173,8 +173,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    */
   async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
     const { tools } = useTools(noteTools);
-    const resolvedToolIds: NoteTool['id'][] = [];
-    const resolvedNoteTools: NoteTool[] = [];
+    const resolvedNoteTools = new Map();
 
     if (tools.value === undefined) {
       tools.value = [];
@@ -197,13 +196,10 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       /**
        * Check if tool with such id is already in resolvedNoteTools
        */
-      if (!resolvedToolIds.includes(tool.id)) {
-        resolvedNoteTools.push(tool);
-        resolvedToolIds.push(tool.id);
-      }
+      resolvedNoteTools.set(tool.id, tool);
     });
 
-    return resolvedNoteTools;
+    return Array.from(resolvedNoteTools.values());
   }
 
   /**
