@@ -46,6 +46,11 @@ interface UseNoteSettingsComposableState {
    */
   changeRole: (id: NoteId, userId: UserId, newRole: MemberRole) => Promise<void>;
 
+  /**
+   * Delete note by it's id
+   *
+   * @param id - Note id
+   */
   deleteNoteById: (id: NoteId) => Promise<void>;
 }
 
