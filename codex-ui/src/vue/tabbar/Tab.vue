@@ -13,7 +13,10 @@
       {{ name }}
     </div>
     <div v-if="showCross">
-      <slot name="right" />
+      <Icon
+        :name="'Cross'"
+        :class="[$style['tab__right']]"
+      />
     </div>
   </div>
 </template>
@@ -60,6 +63,7 @@ withDefaults(
 
 <style module>
 .tab {
+  min-height: var(--size-icon);
   width: max-content;
   display: flex;
   gap: var(--v-padding);
@@ -102,6 +106,11 @@ withDefaults(
       width: var(--size-icon);
       border-radius: var(--radius-s);
     }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

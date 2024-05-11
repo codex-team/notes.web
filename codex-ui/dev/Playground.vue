@@ -244,6 +244,11 @@
       :name="'Home'"
       :icon="'Plus'"
     />
+    <br />
+    <Tab
+      :name="'Home'"
+      :show-cross="true"
+    />
     <Heading :level="3"> Type Scale </Heading>
     <Heading :level="3">
       Type Scale
