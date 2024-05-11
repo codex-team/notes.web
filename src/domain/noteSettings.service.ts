@@ -101,8 +101,9 @@ export default class NoteService {
   }
 
   /**
+   * Delete note by it's id
    *
-   * @param id
+   * @param id - Note id
    */
   public async deleteNote(id: NoteId): Promise<void> {
     return await this.noteSettingsRepository.deleteNote(id);

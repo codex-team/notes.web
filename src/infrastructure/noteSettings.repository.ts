@@ -67,8 +67,9 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   }
 
   /**
+   * Delete note by it's id
    *
-   * @param id
+   * @param id - Note id
    */
   public async deleteNote(id: NoteId): Promise<void> {
     await this.transport.delete<boolean>(`/note/` + id);

@@ -117,6 +117,11 @@ export default function (): UseNoteSettingsComposableState {
     await noteSettingsService.patchMemberRoleByUserId(id, userId, newRole);
   };
 
+  /**
+   * Delete note by it's id
+   *
+   * @param id - Note id
+   */
   const deleteNoteById = async (id: NoteId): Promise<void> => {
     await noteSettingsService.deleteNote(id);
 

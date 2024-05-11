@@ -48,7 +48,7 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
-// import Team from '@/presentation/components/team/Team.vue';
+import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button } from 'codex-ui/vue';
 
 const { t } = useI18n();
