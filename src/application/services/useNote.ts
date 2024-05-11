@@ -173,6 +173,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    */
   async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
     const { tools } = useTools(noteTools);
+    const resolvedToolIds: NoteTool['id'][] = [];
+    const resolvedNoteTools: NoteTool[] = [];
 
     if (tools.value === undefined) {
       tools.value = [];
@@ -182,6 +184,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       const blockTool = (tools.value as EditorTool[]).find((tool) => tool.name === block.type);
 
       /**
+       * Return list of stringified objects for further elimination of duplicates using the Set
        * User can not add to content tool that is not in allTools
        */
       return { name: blockTool!.name, id: blockTool!.id };
@@ -190,9 +193,17 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * Remove duplicated note tools
      */
-    const resolvedNoteTools = new Set(usedNoteTools);
+    usedNoteTools.forEach((tool) => {
+      /**
+       * Check if tool with such id is already in resolvedNoteTools
+       */
+      if (!resolvedToolIds.includes(tool.id)) {
+        resolvedNoteTools.push(tool);
+        resolvedToolIds.push(tool.id);
+      }
+    });
 
-    return Array.from(resolvedNoteTools);
+    return resolvedNoteTools;
   }
 
   /**
