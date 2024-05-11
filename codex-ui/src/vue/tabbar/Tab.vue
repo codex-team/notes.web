@@ -69,6 +69,7 @@ withDefaults(
   gap: var(--v-padding);
   border-radius: var(--radius-m);
   cursor: pointer;
+  font-family: inherit;
 
   --bg: var(--base--bg-secondary);
   --color: var(--base-text-secondary);
@@ -90,11 +91,11 @@ withDefaults(
 
   padding: var(--v-padding) var(--h-padding) var(--v-padding) var(--h-padding);
   background-color: var(--bg);
-  color: var(--color);
 
   &__center {
     display: flex;
     align-items: center;
+    color: var(--color);
   }
 
   &__left {
