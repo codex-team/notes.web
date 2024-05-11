@@ -4,6 +4,7 @@ import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
+import { useRouter } from 'vue-router';
 
 /**
  * Note settings hook state
@@ -44,6 +45,13 @@ interface UseNoteSettingsComposableState {
    * @param newRole - new role
    */
   changeRole: (id: NoteId, userId: UserId, newRole: MemberRole) => Promise<void>;
+
+  /**
+   * Delete note by it's id
+   *
+   * @param id - Note id
+   */
+  deleteNoteById: (id: NoteId) => Promise<void>;
 }
 
 /**
@@ -54,6 +62,11 @@ export default function (): UseNoteSettingsComposableState {
    * NoteSettings ref
    */
   const noteSettings = ref<NoteSettings | null>(null);
+
+  /**
+   * Router instance used to replace the current route with note id
+   */
+  const router = useRouter();
 
   /**
    * Get note settings
@@ -109,11 +122,25 @@ export default function (): UseNoteSettingsComposableState {
     await noteSettingsService.patchMemberRoleByUserId(id, userId, newRole);
   };
 
+  /**
+   * Delete note by it's id
+   *
+   * @param id - Note id
+   */
+  const deleteNoteById = async (id: NoteId): Promise<void> => {
+    await noteSettingsService.deleteNote(id);
+
+    void router.push({
+      name: 'home',
+    });
+  };
+
   return {
     noteSettings,
     load,
     updateIsPublic,
     revokeHash,
     changeRole,
+    deleteNoteById,
   };
 }
