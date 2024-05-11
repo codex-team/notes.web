@@ -72,7 +72,7 @@ withDefaults(
   font-family: inherit;
 
   --bg: var(--base--bg-secondary);
-  --color: var(--base-text-secondary);
+  --color: var(--base--text-secondary);
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);
 
@@ -81,7 +81,7 @@ withDefaults(
    */
   &:hover {
     --bg: var(--base--bg-secondary-hover);
-    --color: var(--base-text-secondary);
+    --color: var(--base--text-secondary);
   }
 
   &__current {
