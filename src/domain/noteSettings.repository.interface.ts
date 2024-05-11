@@ -41,4 +41,6 @@ export default interface NoteSettingsRepositoryInterface {
    * @param newRole - new role
    */
   patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole>;
+
+  deleteNote(id: NoteId): Promise<void>;
 }

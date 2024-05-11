@@ -65,4 +65,12 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   public async patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole> {
     return await this.transport.patch<MemberRole>(`/note-settings/${id}/team`, { userId, newRole });
   }
+
+  /**
+   *
+   * @param id
+   */
+  public async deleteNote(id: NoteId): Promise<void> {
+    await this.transport.delete<boolean>(`/note/` + id);
+  }
 }

@@ -23,14 +23,20 @@
     </Section>
     {{ invitationLink }}
     <Button
-      :text="t('noteSettings.revokeHash')"
       type="primary"
       @click="regenerateHash"
-    />
+      >{{ t('noteSettings.revokeHash') }}</Button
+    >
     <Team
       :note-id="id"
       :team="noteSettings.team"
     />
+    <br />
+    <Button
+      type="destructive"
+      @click="deleteNote"
+      >{{ t('noteSettings.deleteNote') }}</Button
+    >
   </div>
   <div v-else>Loading...</div>
 </template>
@@ -38,13 +44,12 @@
 <script lang="ts" setup>
 import type { NoteId } from '@/domain/entities/Note';
 // import TextEdit from '@/presentation/components/form/TextEdit.vue';
-import Button from '@/presentation/components/button/Button.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
-import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch } from 'codex-ui/vue';
+// import Team from '@/presentation/components/team/Team.vue';
+import { Section, Row, Switch, Button } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -55,7 +60,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, updateIsPublic, revokeHash } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -68,6 +73,13 @@ loadSettings(props.id);
  */
 async function regenerateHash() {
   revokeHash(props.id);
+}
+
+/**
+ * Deletes the note complitely
+ */
+async function deleteNote() {
+  deleteNoteById(props.id);
 }
 
 /**

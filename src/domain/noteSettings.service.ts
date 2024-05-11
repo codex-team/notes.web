@@ -99,4 +99,12 @@ export default class NoteService {
   public async patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole> {
     return await this.noteSettingsRepository.patchMemberRoleByUserId(id, userId, newRole);
   }
+
+  /**
+   *
+   * @param id
+   */
+  public async deleteNote(id: NoteId): Promise<void> {
+    return await this.noteSettingsRepository.deleteNote(id);
+  }
 }
