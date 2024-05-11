@@ -233,11 +233,13 @@
     <br>
     <br />
     <Heading :level="3"> Tab </Heading>
-    <Tab :name="'Home'"></Tab>
-    <br />
-    <Tab :name="'Home'" :state="'hover'"></Tab>
-    <br />
     <Tab :name="'Home'" :state="'current'"></Tab>
+    <br />
+    <Tab :name="'Home'" :state="'current'" :showLeftSlot="true">
+      <template #left>
+        
+      </template>
+    </Tab>
     <Heading :level="3"> Type Scale </Heading>
     <Heading :level="3">
       Type Scale

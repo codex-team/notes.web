@@ -1,10 +1,16 @@
 <template>
-  <div :class="[$style.tab, `${$style.tab}--${state}`]">
-    <div v-if="showLeftSlot">
-      <slot />
+  <div :class="[$style.tab]">
+    <div
+      v-if="$slots.left_image"
+      :class="[$style['tab__left']]"
+    >
+      <slot name="left" :content="leftContent"/>
     </div>
     <div :class="[$style['tab__center'], 'text-ui-base-medium']">
       {{ name }}
+    </div>
+    <div v-if="showCross">
+      <slot name="right"/>
     </div>
   </div>
 </template>
@@ -35,7 +41,6 @@ withDefaults(
     state: TabState;
   }>(),
   {
-    state: 'default',
     showCross: false,
     showLeftSlot: false
   }
@@ -47,26 +52,22 @@ withDefaults(
   width: max-content;
   display: flex;
   border-radius: var(--radius-m);
+  cursor: pointer;
 
   --bg: var(--base--bg-secondary);
-  --color: var(--classic-text-secondary);
+  --color: var(--base-text-secondary);
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);
 
   /**
    * States
    */
-  &--default {
-    --bg: var(--base--bg-secondary);
-    --color: var(--base-text-secondary);
-  }
-
-  &--hover {
+  &__hover {
     --bg: var(--base--bg-secondary-hover);
     --color: var(--base-text-secondary);
   }
 
-  &--current {
+  &__current {
     --bg: var(--base--bg-secondary-hover);
     --color: var(--base--text-solid-foreground);
   }
@@ -74,5 +75,17 @@ withDefaults(
   padding: var(--v-padding) var(--h-padding) var(--v-padding) var(--h-padding);
   background-color: var(--bg);
   color: var(--color);
+
+  &__center {
+    display: flex;
+    align-items: center;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    height: var(--size-icon);
+    width: var(--size-icon);
+  }
 }
 </style>
