@@ -1,22 +1,26 @@
 <template>
   <div :class="[$style.tab]">
-    <div
-      v-if="$slots.left_image"
-      :class="[$style['tab__left']]"
-    >
-      <slot name="left" :content="leftContent"/>
+    <div v-if="src">
+      <img
+        :src="src"
+        :class="[$style['tab__left__image']]"
+      />
+    </div>
+    <div v-else-if="icon">
+      <Icon :name="icon" />
     </div>
     <div :class="[$style['tab__center'], 'text-ui-base-medium']">
       {{ name }}
     </div>
     <div v-if="showCross">
-      <slot name="right"/>
+      <slot name="right" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { TabState } from './Tab.types';
+import Icon from '../icon/Icon.vue';
 
 withDefaults(
   defineProps<{
@@ -31,18 +35,25 @@ withDefaults(
     showCross?: boolean;
 
     /**
-     * If true we have slot on the left
-     */
-    showLeftSlot?: boolean;
-
-    /**
      * Current tab state
      */
     state: TabState;
+
+    /**
+     * If we have image in the left slot
+     */
+    src?: string;
+
+    /**
+     * If we have icon in the left slot
+     */
+    icon?: string;
   }>(),
   {
+    state: 'default',
+    src: undefined,
+    icon: undefined,
     showCross: false,
-    showLeftSlot: false
   }
 );
 </script>
@@ -51,6 +62,7 @@ withDefaults(
 .tab {
   width: max-content;
   display: flex;
+  gap: var(--v-padding);
   border-radius: var(--radius-m);
   cursor: pointer;
 
@@ -84,8 +96,12 @@ withDefaults(
   &__left {
     display: flex;
     align-items: center;
-    height: var(--size-icon);
-    width: var(--size-icon);
+
+    &__image {
+      height: var(--size-icon);
+      width: var(--size-icon);
+      border-radius: var(--radius-s);
+    }
   }
 }
 </style>

@@ -233,13 +233,17 @@
     <br>
     <br />
     <Heading :level="3"> Tab </Heading>
-    <Tab :name="'Home'" :state="'current'"></Tab>
+    <Tab :name="'Home'" />
     <br />
-    <Tab :name="'Home'" :state="'current'" :showLeftSlot="true">
-      <template #left>
-        
-      </template>
-    </Tab>
+    <Tab
+      :name="'Home'"
+      :src="'../static/example-avatar.png'"
+    />
+    <br />
+    <Tab
+      :name="'Home'"
+      :icon="'Plus'"
+    />
     <Heading :level="3"> Type Scale </Heading>
     <Heading :level="3">
       Type Scale
@@ -268,7 +272,7 @@ import {
   Avatar,
   Switch,
   RadioGroup,
-  Tab
+  Tab,
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
