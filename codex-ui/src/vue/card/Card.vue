@@ -25,7 +25,7 @@ defineProps<{
 .card {
   display: flex;
   flex-direction: column;
-  width: 222px;
+  width: var(--card-width);
   align-items: flex-start;
   gap: var(--spacing-l);
   border-radius: var(--radius-m);
