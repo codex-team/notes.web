@@ -13,7 +13,7 @@ export enum Theme {
 }
 
 /**
- * Available color mode values
+ * Available color scheme values
  */
 export enum ColorScheme {
   Light = 'light',
@@ -38,10 +38,10 @@ const LOCAL_STORAGE_KEY_COLOR_SCHEME = 'color_scheme';
 /**
  * Apply theme to the body element
  *
- * @param theme – theme to apply
  * @param type – type of theme to apply
+ * @param theme – theme to apply
  */
-function applyTheme(theme: Theme, type: 'base' | 'accent'): void {
+function applyTheme(type: 'base' | 'accent', theme: Theme): void {
   const bodyEl = document.body;
 
   bodyEl.setAttribute(`theme-${type}`, theme);
@@ -92,9 +92,9 @@ export const useTheme = createSharedComposable(
      */
     const colorScheme = useLocalStorage<ColorScheme>(LOCAL_STORAGE_KEY_COLOR_SCHEME, ColorScheme.Dark);
 
-    applyTheme(themeBase.value, 'base');
+    applyTheme('base', themeBase.value);
 
-    applyTheme(themeAccent.value, 'accent');
+    applyTheme('accent', themeAccent.value);
 
     applyColorScheme(colorScheme.value);
 
@@ -106,7 +106,7 @@ export const useTheme = createSharedComposable(
     function setBaseTheme(value: Theme): void {
       themeBase.value = value;
 
-      applyTheme(value, 'base');
+      applyTheme('base', value);
     }
 
     /**
@@ -117,7 +117,7 @@ export const useTheme = createSharedComposable(
     function setAccentTheme(value: Theme): void {
       themeAccent.value = value;
 
-      applyTheme(value, 'accent');
+      applyTheme('accent', value);
     }
 
     /**

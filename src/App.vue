@@ -11,6 +11,9 @@ import Layout from '@/presentation/layouts/Layout.vue';
 import { onErrorCaptured } from 'vue';
 import { useTheme } from 'codex-ui/vue';
 
+/**
+ * Read theme from local storage and apply it
+ */
 useTheme();
 
 /**
