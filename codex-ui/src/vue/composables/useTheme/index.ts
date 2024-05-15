@@ -13,6 +13,11 @@ export enum Theme {
 }
 
 /**
+ * Type of theme
+ */
+export type ThemeType = 'base' | 'accent';
+
+/**
  * Available color scheme values
  */
 export enum ColorScheme {
@@ -41,7 +46,7 @@ const LOCAL_STORAGE_KEY_COLOR_SCHEME = 'color_scheme';
  * @param type – type of theme to apply
  * @param theme – theme to apply
  */
-function applyTheme(type: 'base' | 'accent', theme: Theme): void {
+function applyTheme(type: ThemeType, theme: Theme): void {
   const bodyEl = document.body;
 
   bodyEl.setAttribute(`theme-${type}`, theme);
