@@ -15,7 +15,7 @@ export enum Theme {
 /**
  * Available color mode values
  */
-export enum ColorMode {
+export enum ColorScheme {
   Light = 'light',
   Dark = 'dark',
 }
@@ -31,9 +31,9 @@ const LOCAL_STORAGE_KEY_THEME_BASE = 'theme_base';
 const LOCAL_STORAGE_KEY_THEME_ACCENT = 'theme_accent';
 
 /**
- * Local storage key for color mode value
+ * Local storage key for color scheme value
  */
-const LOCAL_STORAGE_KEY_COLOR_MODE = 'color_mode';
+const LOCAL_STORAGE_KEY_COLOR_SCHEME = 'color_scheme';
 
 /**
  * Apply theme to the body element
@@ -48,14 +48,14 @@ function applyTheme(theme: Theme, type: 'base' | 'accent'): void {
 }
 
 /**
- * Apply color mode to the body element
+ * Apply color scheme to the body element
  *
- * @param colorMode – color mode to apply
+ * @param value – color scheme to apply
  */
-function applyColorMode(colorMode: ColorMode): void {
+function applyColorScheme(value: ColorScheme): void {
   const bodyEl = document.body;
 
-  bodyEl.setAttribute('color-scheme', colorMode);
+  bodyEl.setAttribute('color-scheme', value);
 }
 
 /**
@@ -68,14 +68,14 @@ export const useTheme = createSharedComposable(
     themeBase: Ref<Theme>;
     /** Current accent theme value. 'classic' by default */
     themeAccent: Ref<Theme>;
-    /** Current color mode value. 'dark' by default */
-    colorMode: Ref<ColorMode>;
+    /** Current color scheme value. 'dark' by default */
+    colorScheme: Ref<ColorScheme>;
     /** Update base theme value */
     setBaseTheme: (value: Theme) => void;
     /** Update accent theme value */
     setAccentTheme: (value: Theme) => void;
-    /** Set color mode value */
-    setColorMode: (value: ColorMode) => void;
+    /** Set color scheme value */
+    setColorScheme: (value: ColorScheme) => void;
   } => {
     /**
      * Current base theme value. 'classic' by default
@@ -88,15 +88,15 @@ export const useTheme = createSharedComposable(
     const themeAccent = useLocalStorage<Theme>(LOCAL_STORAGE_KEY_THEME_ACCENT, Theme.Classic);
 
     /**
-     * Current color mode value. 'dark' by default
+     * Current color scheme value. 'dark' by default
      */
-    const colorMode = useLocalStorage<ColorMode>(LOCAL_STORAGE_KEY_COLOR_MODE, ColorMode.Dark);
+    const colorScheme = useLocalStorage<ColorScheme>(LOCAL_STORAGE_KEY_COLOR_SCHEME, ColorScheme.Dark);
 
     applyTheme(themeBase.value, 'base');
 
     applyTheme(themeAccent.value, 'accent');
 
-    applyColorMode(colorMode.value);
+    applyColorScheme(colorScheme.value);
 
     /**
      * Update base theme value
@@ -121,23 +121,23 @@ export const useTheme = createSharedComposable(
     }
 
     /**
-     * Set color mode value
+     * Set color scheme value
      *
-     * @param value - new color mode value
+     * @param value - new color scheme value
      */
-    function setColorMode(value: ColorMode): void {
-      colorMode.value = value;
+    function setColorScheme(value: ColorScheme): void {
+      colorScheme.value = value;
 
-      applyColorMode(value);
+      applyColorScheme(value);
     }
 
     return {
       themeBase,
       themeAccent,
-      colorMode,
+      colorScheme,
       setBaseTheme,
       setAccentTheme,
-      setColorMode,
+      setColorScheme,
     };
   }
 );

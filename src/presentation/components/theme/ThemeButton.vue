@@ -10,16 +10,16 @@
 import { IconReplace } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
 import Button from '@/presentation/components/button/Button.vue';
-import { useTheme, ColorMode } from 'codex-ui/vue';
+import { useTheme, ColorScheme } from 'codex-ui/vue';
 
 const { t } = useI18n();
-const { colorMode, setColorMode } = useTheme();
+const { colorScheme, setColorScheme } = useTheme();
 
 /**
  * Change theme from dark/light to light/dark
  */
 function changeTheme() {
-  setColorMode(colorMode.value === ColorMode.Light ? ColorMode.Dark : ColorMode.Light);
+  setColorScheme(colorScheme.value === ColorScheme.Light ? ColorScheme.Dark : ColorScheme.Light);
 }
 </script>
 
