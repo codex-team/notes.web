@@ -1,11 +1,11 @@
-import type ToolsRepository from '@/domain/tools.repository.interface';
+import type ToolsRepository from '@/domain/editorTools.repository.interface';
 import type { EditorConfigTools } from '@/domain/entities/EditorTool';
 import type EditorTool from '@/domain/entities/EditorTool';
 
 /**
  * Implication service for tools
  */
-export default class ToolsService {
+export default class EditorToolsService {
   /**
    * Facade for accessing tools data
    */
@@ -13,7 +13,6 @@ export default class ToolsService {
 
   /**
    * Service constructor
-   *
    * @param toolsRepository - repository instance
    */
   constructor(toolsRepository: ToolsRepository) {
@@ -21,11 +20,9 @@ export default class ToolsService {
   }
 
   /**
-   /**
-   * Returns note list
-   *
+   * Returns all editor tools
    * @param tools - tools which we need to load
-   * @returns { Promise<EditorConfigTools> } list of tools
+   * @returns list of tools
    */
   public async getTools(tools: EditorTool[]): Promise<EditorConfigTools> {
     return await this.repository.getTools(tools);

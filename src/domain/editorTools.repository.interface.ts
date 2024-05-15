@@ -4,7 +4,7 @@ import type { EditorConfigTools } from './entities/EditorTool';
 /**
  * Tools repository interface describes the methods
  */
-export default interface ToolsRepositoryInterface {
+export default interface EditorToolsRepositoryInterface {
   /**
    * Getting all editor tools
    */

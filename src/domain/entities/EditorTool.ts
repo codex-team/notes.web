@@ -42,7 +42,7 @@ export default interface EditorTool {
     /**
      * Tool URL in content delivery network
      */
-    cdn?: string;
+    cdn: string;
   };
 }
 
@@ -67,6 +67,6 @@ export type NewToolData = Omit<EditorTool, 'userId' | 'id'>;
 export type EditorConfigTool = ToolSettings | ToolConstructable;
 
 /**
- * Map loaded editor tools
+ * Tools map contains editor tools by name
  */
 export type EditorConfigTools = Record<string, EditorConfigTool>;

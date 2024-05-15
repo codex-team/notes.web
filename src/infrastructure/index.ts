@@ -10,8 +10,9 @@ import { UserStore } from '@/infrastructure/storage/user';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEvent';
-import { ToolsStore } from '@/infrastructure/storage/tools';
-import ToolsRepository from '@/infrastructure/tools.repository';
+import { EditorToolsStore } from '@/infrastructure/storage/editorTools.ts';
+import EditorToolsRepository from '@/infrastructure/editorTools.repository';
+import EditorToolsTransport from '@/infrastructure/transport/editorTools.transport';
 
 /**
  * Repositories
@@ -45,7 +46,7 @@ export interface Repositories {
   /**
    * Working with editor tools data
    */
-  tools: ToolsRepository;
+  editorTools: EditorToolsRepository;
 }
 
 /**
@@ -60,12 +61,13 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteStore = new NoteStore();
   const authStore = new AuthStore();
   const userStore = new UserStore();
-  const toolsStore = new ToolsStore();
+  const editorToolsStore = new EditorToolsStore();
 
   /**
    * Init transport
    */
   const notesApiTransport = new NotesApiTransport(noteApiUrl);
+  const editorToolsTransport = new EditorToolsTransport();
 
   /**
    * When we got authorized
@@ -107,7 +109,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
-  const toolsRepository = new ToolsRepository(toolsStore);
+  const editorToolsRepository = new EditorToolsRepository(editorToolsStore, editorToolsTransport);
 
   return {
     note: noteRepository,
@@ -115,6 +117,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     auth: authRepository,
     user: userRepository,
     marketplace: marketplaceRepository,
-    tools: toolsRepository,
+    editorTools: editorToolsRepository,
   };
 }
