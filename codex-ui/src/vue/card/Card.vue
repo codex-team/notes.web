@@ -1,11 +1,14 @@
 <template>
   <div :class="[$style.card, orientation === 'horizontal' ? $style['card--horizontal'] : '']">
     <div :class="$style['card__cover']"></div>
-    <div :class="$style['card__footer']">
-      <Heading :level="3">{{ subtitle }}</Heading>
+
+    <div :class="$style['card__body']">
+      <Heading :level="3">{{ title }}</Heading>
+
       <div :class="[$style['card__updatedAt'], 'text-ui-subtle']">{{ updatedAt }}</div>
     </div>
-    <slot name="additional"></slot>
+
+    <slot></slot>
   </div>
 </template>
 
@@ -15,17 +18,29 @@ import Heading from '../heading/Heading.vue';
 import type { CardOrientation } from './Card.types';
 
 defineProps<{
-  subtitle: string;
+  /**
+   * Card title
+   */
+  title: string;
+
+  /**
+   * Update date
+   */
   updatedAt: string;
+
+  /**
+   * Card orientation
+   */
   orientation: CardOrientation;
 }>();
 </script>
 
 <style module lang="postcss">
 .card {
+  --card-width: 222px;
+
   display: flex;
   flex-direction: column;
-  width: var(--card-width);
   align-items: flex-start;
   gap: var(--spacing-l);
   border-radius: var(--radius-m);
@@ -50,7 +65,8 @@ defineProps<{
     border-radius: var(--radius-m);
     background-color: var(--base--bg-primary);
   }
-  &__footer {
+
+  &__body {
     width: 100%;
   }
 }
