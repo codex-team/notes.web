@@ -1,22 +1,28 @@
 <template>
   <div :class="[$style.tab]">
-    <div v-if="src">
-      <img
-        :src="src"
-        :class="[$style['tab__left__image']]"
-      />
+    <div
+      v-if="picture || icon"
+      :class="[$style['tab__left']]"
+    >
+      <template v-if="picture">
+        <img
+          :src="picture"
+          :class="[$style['tab__image']]"
+        />
+      </template>
+      <template v-else-if="icon">
+        <Icon :name="icon" />
+      </template>
     </div>
-    <div v-else-if="icon">
-      <Icon :name="icon" />
-    </div>
+
     <div :class="[$style['tab__center'], 'text-ui-base-medium']">
       {{ name }}
     </div>
-    <div v-if="showCross">
-      <Icon
-        :name="'Cross'"
-        :class="[$style['tab__right']]"
-      />
+    <div
+      v-if="closable"
+      :class="[$style['tab__right']]"
+    >
+      <Icon :name="'Cross'" />
     </div>
   </div>
 </template>
@@ -35,7 +41,7 @@ withDefaults(
     /**
      * If true we have cross icon on the right
      */
-    showCross?: boolean;
+    closable?: boolean;
 
     /**
      * Current tab state
@@ -45,7 +51,7 @@ withDefaults(
     /**
      * If we have image in the left slot
      */
-    src?: string;
+    picture?: string;
 
     /**
      * If we have icon in the left slot
@@ -54,9 +60,9 @@ withDefaults(
   }>(),
   {
     state: 'default',
-    src: undefined,
+    picture: undefined,
     icon: undefined,
-    showCross: false,
+    closable: false,
   }
 );
 </script>
@@ -101,12 +107,12 @@ withDefaults(
   &__left {
     display: flex;
     align-items: center;
+  }
 
-    &__image {
-      height: var(--size-icon);
-      width: var(--size-icon);
-      border-radius: var(--radius-s);
-    }
+  &__image {
+    height: var(--size-icon);
+    width: var(--size-icon);
+    border-radius: var(--radius-s);
   }
 
   &__right {

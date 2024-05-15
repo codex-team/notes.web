@@ -237,17 +237,17 @@
     <br />
     <Tab
       :name="'Home'"
-      :src="'../static/example-avatar.png'"
+      :picture="'../static/example-avatar.png'"
     />
     <br />
     <Tab
-      :name="'Home'"
+      name="Home"
       :icon="'Plus'"
     />
     <br />
     <Tab
       :name="'Home'"
-      :show-cross="true"
+      :closable="true"
     />
     <Heading :level="3"> Type Scale </Heading>
     <Heading :level="3">

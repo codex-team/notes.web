@@ -1,4 +1,4 @@
 /**
  * The state of tab
  */
-export type TabState = 'default' | 'current';
+export type TabState = 'default' | 'active';
