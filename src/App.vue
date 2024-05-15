@@ -31,7 +31,7 @@ body {
 #app {
   min-height: 100%;
   background: var(--base--bg-primary);
-  color: var(--color-text-main);
+  color: var(--base--text-secondary);
   word-break: break-word;
   font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
