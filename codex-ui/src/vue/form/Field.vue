@@ -58,6 +58,4 @@ withDefaults(
 const model = defineModel();
 </script>
 
-<style module>
-
-</style>
+<style module></style>

@@ -1,6 +1,3 @@
 {
-  "eslint.workingDirectories": [
-    "./",
-    "./codex-ui"
-  ],
+  "eslint.workingDirectories": ["./", "./codex-ui"]
 }

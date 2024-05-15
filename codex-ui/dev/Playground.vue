@@ -157,7 +157,24 @@
     <Heading :level="3"> Icon </Heading>
 
     <Icon name="Checklist" /> <Icon name="Loader" />
-
+    <br />
+    <Heading :level="3">Switch</Heading>
+    on, default
+    <Switch value></Switch>
+    <br />
+    on, disabled
+    <Switch
+      value
+      disabled
+    ></Switch>
+    <br />
+    off, default
+    <Switch></Switch>
+    <br />
+    off, disabled
+    <Switch disabled></Switch>
+    <br />
+    <br />
     <Heading :level="3">Form Section</Heading>
 
     <Section
@@ -186,7 +203,7 @@
         </template>
       </Row>
     </Section>
-
+    <br />
     <Heading :level="3"> Type Scale </Heading>
     <TypeScale />
     <Heading :level="3">Editor.js</Heading>
@@ -208,6 +225,7 @@ import {
   ButtonSize,
   ButtonStyle,
   Avatar,
+  Switch,
   RadioGroup,
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';

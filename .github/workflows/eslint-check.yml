@@ -26,7 +26,7 @@ jobs:
         run: |
           yarn install
         working-directory: ./codex-ui
-      
+
       - name: Run ESLint on codex-ui
         run: yarn lint
         working-directory: ./codex-ui

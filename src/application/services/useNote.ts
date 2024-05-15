@@ -1,13 +1,11 @@
 import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
-
-/**
- * On new note creation, we use predefined structure of the Editor: header + paragraph
- * We call it NoteDraft
- */
-type NoteDraft = Pick<Note, 'content'>;
+import type { NoteDraft } from '@/domain/entities/NoteDraft';
+import type EditorTool from '@/domain/entities/EditorTool';
+import { useTools } from './useTools';
 
 /**
  * Creates base structure for the empty note:
@@ -47,9 +45,19 @@ interface UseNoteComposableState {
   note: Ref<Note | NoteDraft | null>;
 
   /**
+   * List of tools used in the note
+   */
+  noteTools: Ref<EditorTool[]>;
+
+  /**
    * Creates/updates the note
    */
   save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
+
+  /**
+   * Returns list of tools used in note
+   */
+  resolveToolsByContent: (content: NoteContent) => Promise<NoteTool[]>;
 
   /**
    * Load note by custom hostname
@@ -103,6 +111,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const note = ref<Note | NoteDraft | null>(currentId.value === null ? createDraft() : null);
 
   /**
+   * List of tools used in the note
+   */
+  const noteTools = ref<EditorTool[]>([]);
+
+  /**
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
@@ -149,7 +162,44 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
     note.value = response.note;
     canEdit.value = response.accessRights.canEdit;
+    noteTools.value = response.tools;
     parentNote.value = response.parentNote;
+  }
+
+  /**
+   * Returns list of tools used in the note
+   *
+   * @param content - content of the note
+   */
+  async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
+    const { tools } = useTools(noteTools);
+    const resolvedNoteTools = new Map();
+
+    if (tools.value === undefined) {
+      tools.value = [];
+    }
+
+    const usedNoteTools = content.blocks.map((block) => {
+      const blockTool = (tools.value as EditorTool[]).find((tool) => tool.name === block.type);
+
+      /**
+       * Return list of stringified objects for further elimination of duplicates using the Set
+       * User can not add to content tool that is not in allTools
+       */
+      return { name: blockTool!.name, id: blockTool!.id };
+    });
+
+    /**
+     * Remove duplicated note tools
+     */
+    usedNoteTools.forEach((tool) => {
+      /**
+       * Check if tool with such id is already in resolvedNoteTools
+       */
+      resolvedNoteTools.set(tool.id, tool);
+    });
+
+    return Array.from(resolvedNoteTools.values());
   }
 
   /**
@@ -163,11 +213,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       throw new Error('Note is not loaded yet');
     }
 
+    /**
+     * Resolve tools that are used in note
+     */
+    const specifiedNoteTools = await resolveToolsByContent(content);
+
     if (currentId.value === null) {
       /**
        * @todo try-catch domain errors
        */
-      const noteCreated = await noteService.createNote(content, parentId);
+      const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
 
       /**
        * Replace the current route with note id
@@ -182,7 +237,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
-    await noteService.updateNoteContent(currentId.value, content);
+    await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
     note.value = { ...note.value, content };
   }
 
@@ -244,9 +299,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   return {
     note,
+    noteTools,
     noteTitle,
     canEdit,
     resolveHostname,
+    resolveToolsByContent,
     save,
     unlinkParent,
     parentNote,

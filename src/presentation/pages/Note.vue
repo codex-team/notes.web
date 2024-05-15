@@ -8,6 +8,7 @@
       >
         {{ t('note.createChildNote') }}
       </Button>
+
       <Button
         v-if="parentNote != undefined"
         @click="unlinkButton"
@@ -15,11 +16,10 @@
         {{ t('note.unlink') }}
       </Button>
     </div>
-
     <Editor
-      v-if="userTools !== undefined"
+      v-if="toolsConnected !== undefined"
       ref="editor"
-      :tools="userTools"
+      :tools="toolsConnected"
       :content="note.content"
       :read-only="!canEdit"
       @change="noteChanged"
@@ -31,14 +31,13 @@
 import { ref, toRef, watch } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
-import { useUserTools } from '@/application/services/useUserTools.ts';
+import { useTools } from '@/application/services/useTools.ts';
 import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const { userTools } = useUserTools();
 
 const router = useRouter();
 
@@ -56,9 +55,11 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, save, noteTitle, canEdit, unlinkParent, parentNote } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = useNote({
   id: noteId,
 });
+
+const { toolsConnected } = useTools(noteTools);
 
 /**
  * Editor component reference

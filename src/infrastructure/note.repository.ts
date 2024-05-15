@@ -1,10 +1,11 @@
 import type NoteRepositoryInterface from '@/domain/note.repository.interface';
-import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type { Note, NoteContent, NoteId, NoteTool } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
 import type { NoteList } from '@/domain/entities/NoteList';
+import type { NoteDTO } from '@/domain/entities/NoteDTO';
 
 /**
  * Note repository
@@ -39,9 +40,7 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote }} - Note instance, NoteAccessRights instance
    * and parent note, if exists
    */
-  public async getNoteById(
-    id: string
-  ): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }> {
+  public async getNoteById(id: string): Promise<NoteDTO> {
     /**
      * Get note data from API
      */
@@ -74,13 +73,15 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in note
    * @param parentId - Id of the parent note. If undefined, then it's a root note
    *
    * @todo API should return Note
    */
-  public async createNote(content: NoteContent, parentId?: NoteId): Promise<Note> {
+  public async createNote(content: NoteContent, noteTools: NoteTool[], parentId?: NoteId): Promise<Note> {
     const response = await this.transport.post<{ id: NoteId }>('/note', {
       content,
+      tools: noteTools,
       parentId,
     });
 
@@ -99,10 +100,12 @@ export default class NoteRepository implements NoteRepositoryInterface {
    *
    * @param id - What note to update
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in note
    */
-  public async updateNoteContent(id: string, content: NoteContent): Promise<void> {
+  public async updateNoteContentAndTools(id: string, content: NoteContent, noteTools: NoteTool[]): Promise<void> {
     await this.transport.patch(`/note/${id}`, {
       content,
+      tools: noteTools,
     });
   }
 

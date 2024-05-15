@@ -1,6 +1,7 @@
-import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type { Note, NoteContent, NoteId, NoteTool } from '@/domain/entities/Note';
 import type { NoteList } from './entities/NoteList';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
+import type { NoteDTO } from './entities/NoteDTO';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -13,7 +14,7 @@ export default interface NoteRepositoryInterface {
    * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - Returns a Note, NoteAccessRights and parent note (if exists) by id
    * @throws NotFoundError
    */
-  getNoteById(publicId: string): Promise<{ note: Note; accessRights: NoteAccessRights; parentNote: Note | undefined }>;
+  getNoteById(publicId: string): Promise<NoteDTO>;
 
   /**
    * Returns a Note and NoteAccessRights by hostname
@@ -34,17 +35,19 @@ export default interface NoteRepositoryInterface {
    * Creates a new note
    *
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in note
    * @param parentId - Id of the parent note. If undefined, then it's a root note
    */
-  createNote(content: NoteContent, parentId?: NoteId): Promise<Note>;
+  createNote(content: NoteContent, noteTools: NoteTool[], parentId?: NoteId): Promise<Note>;
 
   /**
    * Updates a content of existing note
    *
    * @param id - What note to update
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in note
    */
-  updateNoteContent(id: string, content: NoteContent): Promise<void>;
+  updateNoteContentAndTools(id: string, content: NoteContent, noteTools: NoteTool[]): Promise<void>;
 
   /**
    * Unlink note from parent
