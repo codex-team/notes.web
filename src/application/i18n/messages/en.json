@@ -28,6 +28,7 @@
     "publish": "Publish Note",
     "revokeHash": "Revoke",
     "deleteNote": "Delete",
+    "noteDeleteConfirmation": "Do you really want to delete this note?",
     "team": {
       "title": "Collaborators",
       "caption": "Who can access the Note even if it’s not published",
