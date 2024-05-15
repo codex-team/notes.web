@@ -1593,7 +1593,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^10.3.0":
+"@vueuse/core@npm:^10.3.0, @vueuse/core@npm:^10.9.0":
   version: 10.9.0
   resolution: "@vueuse/core@npm:10.9.0"
   dependencies:
@@ -1984,6 +1984,7 @@ __metadata:
     "@editorjs/editorjs": ^2.29.1
     "@types/node": ^20.11.15
     "@vitejs/plugin-vue": ^5.0.3
+    "@vueuse/core": ^10.9.0
     eslint: ^8.51.0
     eslint-config-codex: ^1.9.1
     postcss-apply: ^0.12.0

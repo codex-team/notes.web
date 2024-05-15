@@ -77,11 +77,12 @@ const tabs = computed<Tab[]>(() => {
 <style scoped lang="postcss">
 .header {
   padding: var(--spacing-ms) var(--spacing-l);
-  background-color: var(--color-bg-header);
+  background-color: var(--base--bg-primary);
   display: flex;
   align-items: center;
   width: 100%;
   max-width: 100%;
+  border-bottom: 1px solid var(--base--border);
 
   &__plus {
     margin-left: var(--spacing-ms);

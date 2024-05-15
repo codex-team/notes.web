@@ -52,7 +52,7 @@ defineExpose({
 </script>
 
 <style lang="postcss">
-@import '../../styles/typography.pcss';
+@import '../../../styles/typography.pcss';
 
 .ce-header {
   color: var(--base--text);
