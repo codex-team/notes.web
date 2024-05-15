@@ -1186,6 +1186,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/web-bluetooth@npm:^0.0.20":
+  version: 0.0.20
+  resolution: "@types/web-bluetooth@npm:0.0.20"
+  checksum: d6d61da683e876e8995ac57e2e5229d829d0f536deb3568d4430898fc626ebcb7e065fe7f655ac6a5205702f7f7049e6335abe689cd5291241eef6e39e8a4371
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/eslint-plugin@npm:^6.8.0":
   version: 6.8.0
   resolution: "@typescript-eslint/eslint-plugin@npm:6.8.0"
@@ -1752,10 +1759,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vueuse/core@npm:^10.9.0":
+  version: 10.9.0
+  resolution: "@vueuse/core@npm:10.9.0"
+  dependencies:
+    "@types/web-bluetooth": ^0.0.20
+    "@vueuse/metadata": 10.9.0
+    "@vueuse/shared": 10.9.0
+    vue-demi: ">=0.14.7"
+  checksum: 6d26660e4e88e2e6b34f84cb832d919d296a198e6c7f8ef93fb5d0442b53ba3872c617c1144190328992b44dde33a8e249b3182ac35128d460a457488a6df940
+  languageName: node
+  linkType: hard
+
 "@vueuse/metadata@npm:10.5.0":
   version: 10.5.0
   resolution: "@vueuse/metadata@npm:10.5.0"
   checksum: 8db966e86a7a3233d1c36c4aa46510b555f211a40899ab89cfd5f09280e6b325014722185bf0dbb9806b0ca5aff5c1217ded108aef79cd07c72800c573c4fc4a
+  languageName: node
+  linkType: hard
+
+"@vueuse/metadata@npm:10.9.0":
+  version: 10.9.0
+  resolution: "@vueuse/metadata@npm:10.9.0"
+  checksum: e381d3134e1a5965e157503ddb1187f671316386ab0c779d3fc1b9c91d6658086c417414f4642554382ac43fd800d7565f5f25824b678433f937a917e931387e
   languageName: node
   linkType: hard
 
@@ -1765,6 +1791,15 @@ __metadata:
   dependencies:
     vue-demi: ">=0.14.6"
   checksum: 8ec1b6e18ccdff2940efbee943539831ce54d59294bb1b1e309c82a845035807ee6b11cca29c3eca2df321e79136b13650399c54cde366212e8b2c69c4befb48
+  languageName: node
+  linkType: hard
+
+"@vueuse/shared@npm:10.9.0":
+  version: 10.9.0
+  resolution: "@vueuse/shared@npm:10.9.0"
+  dependencies:
+    vue-demi: ">=0.14.7"
+  checksum: e6fc1e04aa63ead37694b5543cacd8c1b55ade5ce7416699302a4db5e5c3c083b7ecda9156445e07a477eb86664740d368a03584b55859dbe0cf0abbec3e21ab
   languageName: node
   linkType: hard
 
@@ -2149,6 +2184,7 @@ __metadata:
     "@editorjs/editorjs": ^2.29.1
     "@types/node": ^20.11.15
     "@vitejs/plugin-vue": ^5.0.3
+    "@vueuse/core": ^10.9.0
     eslint: ^8.51.0
     eslint-config-codex: ^1.9.1
     postcss-apply: ^0.12.0
@@ -5859,6 +5895,22 @@ __metadata:
     vue-demi-fix: bin/vue-demi-fix.js
     vue-demi-switch: bin/vue-demi-switch.js
   checksum: 424b1f340d5111fc4d4a0f8042c14ae836ba983bc968773a6d955d6846202d7e6f951993ac1525be8732b0cfe0c81d94ab88f427c97bfa86ead08db06491279b
+  languageName: node
+  linkType: hard
+
+"vue-demi@npm:>=0.14.7":
+  version: 0.14.7
+  resolution: "vue-demi@npm:0.14.7"
+  peerDependencies:
+    "@vue/composition-api": ^1.0.0-rc.1
+    vue: ^3.0.0-0 || ^2.6.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+  bin:
+    vue-demi-fix: bin/vue-demi-fix.js
+    vue-demi-switch: bin/vue-demi-switch.js
+  checksum: 6819b1cd52355047ae899d7cdfa32f1b00e806e6c67455601d33ab0226f3172c48a5f6c3d547cb7fa32925b3b7100448bf18f98ea4d5f8bc4b9d28ae005a805d
   languageName: node
   linkType: hard
 

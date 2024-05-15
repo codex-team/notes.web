@@ -8,3 +8,4 @@ export * from './components/editor';
 export * from './components/icon';
 export * from './components/radio';
 export * from './components/switch';
+export * from './composables/useTheme';

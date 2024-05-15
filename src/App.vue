@@ -6,12 +6,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useColorMode } from '@vueuse/core';
 import Header from '@/presentation/components/header/Header.vue';
 import Layout from '@/presentation/layouts/Layout.vue';
 import { onErrorCaptured } from 'vue';
+import { useTheme } from 'codex-ui/vue';
 
-useColorMode();
+useTheme();
 
 /**
  * All errors inside the application
@@ -30,7 +30,7 @@ body {
 
 #app {
   min-height: 100%;
-  background: var(--color-bg);
+  background: var(--base--bg-primary);
   color: var(--color-text-main);
   word-break: break-word;
   font-family: 'Source Sans Pro', sans-serif;
