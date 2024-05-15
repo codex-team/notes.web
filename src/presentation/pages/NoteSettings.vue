@@ -79,7 +79,8 @@ async function regenerateHash() {
  * Deletes the note complitely
  */
 async function deleteNote() {
-  if (window.confirm(t('noteSettings.noteDeleteConfirmation'))) {
+  const isConfirmed = window.confirm(t('noteSettings.noteDeleteConfirmation'))
+  if (isConfirmed) {
     deleteNoteById(props.id);
   }
 }
