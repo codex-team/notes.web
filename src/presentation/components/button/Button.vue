@@ -118,12 +118,12 @@ function onClick(event: MouseEvent) {
   user-select: none;
 
   &--primary {
-    background: var(--color-bg-signal);
-    color: var(--color-text-contrast);
+    background: var(--accent--bg-primary);
+    color: var(--accent--text);
   }
 
   &--secondary {
-    background: var(--color-bg);
+    background: var(--accent--bg-secondary);
     color: var(--color-text-main);
   }
 

@@ -7,15 +7,15 @@
         { label: 'Light', value: 'light' },
         { label: 'Dark', value: 'dark' },
       ]"
-      value="dark"
+      :value="colorMode"
       name="color-scheme"
-      @change="($event) => setColorScheme($event.target.value)"
+      @change="($event) => setColorMode($event.target.value)"
     />
 
     <Heading :level="3">Base Theme</Heading>
     <RadioGroup
       name="base-theme"
-      value="classic"
+      :value="themeBase"
       :values="[
         { label: 'Classic', value: 'classic' },
         { label: 'Crimson', value: 'crimson' },
@@ -28,7 +28,7 @@
     <Heading :level="3">Accent Theme</Heading>
     <RadioGroup
       name="accent-theme"
-      value="classic"
+      :value="themeAccent"
       :values="[
         { label: 'Classic', value: 'classic' },
         { label: 'Crimson', value: 'crimson' },
@@ -229,6 +229,7 @@ import {
   RadioGroup,
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
+import { useTheme } from '../src/vue/composables/useTheme';
 
 const formFieldValue = ref('Heading');
 
@@ -250,32 +251,7 @@ const buttons = [
   ['large', 'disabled'],
 ];
 
-/**
- * Set the base color
- *
- * @param color - The base color to set
- */
-function setBaseTheme(color: string) {
-  document.body.setAttribute('theme-base', color);
-}
-
-/**
- * Set the accent color
- *
- * @param color - The accent color to set
- */
-function setAccentTheme(color: string) {
-  document.body.setAttribute('theme-accent', color);
-}
-
-/**
- * Set the color scheme
- *
- * @param colorScheme - The color scheme to set('light' | 'dark')
- */
-function setColorScheme(colorScheme: string) {
-  document.body.setAttribute('color-scheme', colorScheme);
-}
+const { themeBase, themeAccent, colorMode, setBaseTheme, setAccentTheme, setColorMode } = useTheme();
 
 /**
  * Form section items elements
