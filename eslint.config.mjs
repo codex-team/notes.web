@@ -6,6 +6,7 @@ export default [
   ...CodeX,
   {
     name: 'notex.api',
+    files: ['src/**/*'],
     rules: {
       'n/no-missing-import': ['off'],
       'n/no-unpublished-import': ['error', {
