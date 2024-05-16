@@ -9,7 +9,6 @@ import type { NoteDTO } from './entities/NoteDTO';
 export default interface NoteRepositoryInterface {
   /**
    * Returns a Note, NoteAccessRights and parent note if exists by id
-   *
    * @param publicId - Note id
    * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - Returns a Note, NoteAccessRights and parent note (if exists) by id
    * @throws NotFoundError
@@ -18,7 +17,6 @@ export default interface NoteRepositoryInterface {
 
   /**
    * Returns a Note and NoteAccessRights by hostname
-   *
    * @param hostname - Custom hostname
    * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
    */
@@ -26,14 +24,12 @@ export default interface NoteRepositoryInterface {
 
   /**
    * Returns a list of notes
-   *
    * @param page - number of pages
    */
   getNoteList(page: number): Promise<NoteList>;
 
   /**
    * Creates a new note
-   *
    * @param content - Note content (Editor.js data)
    * @param noteTools - Tools that are used in note
    * @param parentId - Id of the parent note. If undefined, then it's a root note
@@ -42,7 +38,6 @@ export default interface NoteRepositoryInterface {
 
   /**
    * Updates a content of existing note
-   *
    * @param id - What note to update
    * @param content - Note content (Editor.js data)
    * @param noteTools - Tools that are used in note

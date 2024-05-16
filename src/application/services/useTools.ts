@@ -11,7 +11,6 @@ type DownloadedTools = EditorConfig['tools'];
 
 /**
  * Service for load editor tools
- *
  * @param noteTools - note tools
  */
 export function useTools(noteTools: Ref<EditorTool[]>): {
@@ -27,7 +26,6 @@ export function useTools(noteTools: Ref<EditorTool[]>): {
 
   /**
    * Download all the user tools and return a map
-   *
    * @param toolsList - tools data
    */
   async function downloadTools(toolsList: EditorTool[]): Promise<DownloadedTools> {
@@ -48,7 +46,6 @@ export function useTools(noteTools: Ref<EditorTool[]>): {
 
   /**
    * Merge two arrays of tools, removing duplicates
-   *
    * @param toolsA – first array of tools
    * @param toolsB – second array of tools
    */

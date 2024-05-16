@@ -15,7 +15,6 @@ interface UseMarketplaceComposable {
 
   /**
    * Add new tool to the marketplace
-   *
    * @param tool - tool data
    */
   addTool: (tool: NewToolData) => Promise<void>;
@@ -30,7 +29,6 @@ export default function (): UseMarketplaceComposable {
 
   /**
    * Create a list of tools with information, if they are installed by the user
-   *
    * @param tools - list of all tools
    * @param userTools - list of user tools
    */
@@ -38,7 +36,7 @@ export default function (): UseMarketplaceComposable {
     return tools.map((tool) => {
       return {
         ...tool,
-        isInstalled: userTools.some((userTool) => userTool.id === tool.id),
+        isInstalled: userTools.some(userTool => userTool.id === tool.id),
       };
     });
   };
@@ -77,7 +75,6 @@ export default function (): UseMarketplaceComposable {
 
   /**
    * Add new tool to the marketplace
-   *
    * @param tool - tool data
    */
   const addTool = async (tool: NewToolData): Promise<void> => {

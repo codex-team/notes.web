@@ -7,7 +7,7 @@
       :value="value"
       :checked="checked"
       :name="name"
-    />
+    >
     <label
       v-if="$slots.default"
       :for="id"

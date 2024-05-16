@@ -40,7 +40,6 @@ export default class AuthorizableTransport extends Transport {
 
   /**
    * Constructor for notes api transport
-   *
    * @param baseUrl - Base URL
    * @param options - Transport options
    */
@@ -50,7 +49,6 @@ export default class AuthorizableTransport extends Transport {
 
   /**
    * Authorize transport
-   *
    * @param accessToken - JWT to send with the authorization header
    */
   public authorize(accessToken: string): void {
@@ -72,7 +70,6 @@ export default class AuthorizableTransport extends Transport {
 
   /**
    * Gets specific resource
-   *
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
    * @param params - Additional params to tune request
@@ -85,7 +82,6 @@ export default class AuthorizableTransport extends Transport {
 
   /**
    * Make POST request to update some resource
-   *
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
    * @param params - Additional params to tune request
@@ -98,7 +94,6 @@ export default class AuthorizableTransport extends Transport {
 
   /**
    * Make DELETE request to remove some resource
-   *
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
    * @param params - Additional params to tune request
@@ -111,7 +106,6 @@ export default class AuthorizableTransport extends Transport {
 
   /**
    * Make PATCH request to update some resource
-   *
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
    * @param params - Additional params to tune request
@@ -124,7 +118,6 @@ export default class AuthorizableTransport extends Transport {
 
   /**
    * If authorization process is not finished yet, enqueue request and wait for authorization
-   *
    * @param params - Additional params passed to tune request
    */
   private async waitForAuth(params?: AuthorizableRequestParams): Promise<void> {

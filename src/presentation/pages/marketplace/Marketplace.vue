@@ -11,7 +11,7 @@
     <Button
       link="/marketplace/add"
       :text="$t('marketplace.addTool')"
-    ></Button>
+    />
   </div>
 </template>
 

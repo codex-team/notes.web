@@ -9,7 +9,7 @@
         withBackground ? $style['form-section-body-wrapper--with-background'] : '',
       ]"
     >
-      <slot></slot>
+      <slot />
     </div>
     <div :class="[$style['form-section-caption'], 'text-ui-subtle']">
       {{ caption }}

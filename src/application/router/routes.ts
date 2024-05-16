@@ -29,7 +29,7 @@ const routes: RouteRecordRaw[] = [
     name: 'note',
     path: '/note/:id',
     component: Note,
-    props: (route) => ({
+    props: route => ({
       id: String(route.params.id),
     }),
   },
@@ -44,7 +44,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/note/:id/new',
     component: Note,
-    props: (route) => ({
+    props: route => ({
       id: null,
       parentId: String(route.params.id),
     }),
@@ -61,7 +61,7 @@ const routes: RouteRecordRaw[] = [
     name: 'note_settings',
     path: '/note/:id/settings',
     component: NoteSettings,
-    props: (route) => ({
+    props: route => ({
       id: String(route.params.id),
     }),
   },

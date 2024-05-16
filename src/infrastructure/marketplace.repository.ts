@@ -14,7 +14,6 @@ export default class MarketplaceRepository implements MarketplaceRepositoryInter
 
   /**
    * Repository constructor
-   *
    * @param notesApiTransport - notes api transport instance
    */
   constructor(notesApiTransport: NotesApiTransport) {
@@ -35,7 +34,6 @@ export default class MarketplaceRepository implements MarketplaceRepositoryInter
 
   /**
    * Add new tool to the marketplace
-   *
    * @param tool - tool data
    */
   public async addTool(tool: NewToolData): Promise<EditorTool> {

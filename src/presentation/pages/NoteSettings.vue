@@ -38,7 +38,9 @@
       >{{ t('noteSettings.deleteNote') }}</Button
     >
   </div>
-  <div v-else>Loading...</div>
+  <div v-else>
+    Loading...
+  </div>
 </template>
 
 <script lang="ts" setup>

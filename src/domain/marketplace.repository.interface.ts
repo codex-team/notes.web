@@ -12,7 +12,6 @@ export default interface MarketplaceRepositoryInterface {
 
   /**
    * Add new tool to the marketplace
-   *
    * @param tool - tool data
    */
   addTool: (tool: NewToolData) => Promise<EditorTool>;

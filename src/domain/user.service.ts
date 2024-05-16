@@ -15,7 +15,6 @@ export default class UserService {
 
   /**
    * Service constructor
-   *
    * @param eventBus - Common domain event bus
    * @param userRepository - repository instance
    */
@@ -49,7 +48,6 @@ export default class UserService {
 
   /**
    * Adds a tool to the user
-   *
    * @param id - tool id
    */
   public async addTool(id: string): Promise<void> {
@@ -58,7 +56,6 @@ export default class UserService {
 
   /**
    * Removes a tool from the user
-   *
    * @param id - tool id
    */
   public async removeTool(id: string): Promise<void> {

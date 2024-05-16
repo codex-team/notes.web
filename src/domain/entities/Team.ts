@@ -9,7 +9,7 @@ export enum MemberRole {
   /**
    * Team member can read and write notes
    */
-  Write = 1,
+  Write = 1
 }
 
 /**
