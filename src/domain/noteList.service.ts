@@ -9,7 +9,6 @@ export default class NoteListService {
 
   /**
    * Note service constructor
-   *
    * @param repository - note repository
    */
   constructor(repository: NoteRepository) {
@@ -18,9 +17,8 @@ export default class NoteListService {
 
   /**
    * Returns note list
-   *
    * @param page - number of current pages
-   * @returns { Promise<NoteList> } list of notes
+   * @returns list of notes
    */
   public async getNoteList(page: number): Promise<NoteList> {
     return await this.repository.getNoteList(page);

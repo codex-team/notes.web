@@ -34,7 +34,7 @@
       <div
         v-if="hasDelimiter"
         :class="$style['row__delimiter']"
-      ></div>
+      />
     </div>
   </div>
 </template>

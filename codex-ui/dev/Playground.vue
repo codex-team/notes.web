@@ -1,7 +1,11 @@
 <template>
   <div :class="$style.playground">
-    <Heading :level="1">Playground</Heading>
-    <Heading :level="3">Color Scheme</Heading>
+    <Heading :level="1">
+      Playground
+    </Heading>
+    <Heading :level="3">
+      Color Scheme
+    </Heading>
     <RadioGroup
       :values="[
         { label: 'Light', value: 'light' },
@@ -12,7 +16,9 @@
       @change="($event) => setColorScheme($event.target.value)"
     />
 
-    <Heading :level="3">Base Theme</Heading>
+    <Heading :level="3">
+      Base Theme
+    </Heading>
     <RadioGroup
       name="base-theme"
       :value="themeBase"
@@ -25,7 +31,9 @@
       @change="($event) => setBaseTheme($event.target.value)"
     />
 
-    <Heading :level="3">Accent Theme</Heading>
+    <Heading :level="3">
+      Accent Theme
+    </Heading>
     <RadioGroup
       name="accent-theme"
       :value="themeAccent"
@@ -38,7 +46,9 @@
       @change="($event) => setAccentTheme($event.target.value)"
     />
 
-    <Heading :level="3">Buttons</Heading>
+    <Heading :level="3">
+      Buttons
+    </Heading>
     <div :class="$style.buttons">
       <div
         v-for="(button, index) in buttons"
@@ -54,32 +64,36 @@
       </div>
     </div>
 
-    <Heading :level="3"> Input </Heading>
+    <Heading :level="3">
+      Input
+    </Heading>
     <Input
       value="Enter email"
       size="small"
     />
-    <br />
-    <br />
+    <br>
+    <br>
     <Input
       value="Enter email"
       size="medium"
     />
-    <br />
-    <br />
+    <br>
+    <br>
     <Input
       value="Enter email"
       size="large"
     />
-    <br />
-    <br />
+    <br>
+    <br>
     <Input
       value="Enter email"
       size="large"
       disabled
     />
 
-    <Heading :level="3">Form Field</Heading>
+    <Heading :level="3">
+      Form Field
+    </Heading>
     <Field
       v-model="formFieldValue"
       :value="formFieldValue"
@@ -87,7 +101,7 @@
       caption="Will be visible in Tools list"
       size="small"
     />
-    <br />
+    <br>
     <Field
       v-model="formFieldValue"
       :value="formFieldValue"
@@ -95,7 +109,7 @@
       caption="Will be visible in Tools list"
       size="medium"
     />
-    <br />
+    <br>
     <Field
       v-model="formFieldValue"
       :value="formFieldValue"
@@ -104,13 +118,17 @@
       size="large"
     />
 
-    <Heading :level="3">Avatar</Heading>
+    <Heading :level="3">
+      Avatar
+    </Heading>
     <Avatar
       src="../static/example-avatar.png"
       username="Vitaly"
     />
 
-    <Heading :level="3">Row</Heading>
+    <Heading :level="3">
+      Row
+    </Heading>
 
     <Row
       title="Title"
@@ -128,8 +146,9 @@
         <Button
           size="small"
           :style="'secondary'"
-          >Edit</Button
         >
+          Edit
+        </Button>
       </template>
     </Row>
 
@@ -149,33 +168,40 @@
         <Button
           size="small"
           :style="'secondary'"
-          >Edit</Button
         >
+          Edit
+        </Button>
       </template>
     </Row>
 
-    <Heading :level="3"> Icon </Heading>
+    <Heading :level="3">
+      Icon
+    </Heading>
 
     <Icon name="Checklist" /> <Icon name="Loader" />
-    <br />
-    <Heading :level="3">Switch</Heading>
+    <br>
+    <Heading :level="3">
+      Switch
+    </Heading>
     on, default
-    <Switch value></Switch>
-    <br />
+    <Switch value />
+    <br>
     on, disabled
     <Switch
       value
       disabled
-    ></Switch>
-    <br />
+    />
+    <br>
     off, default
-    <Switch></Switch>
-    <br />
+    <Switch />
+    <br>
     off, disabled
-    <Switch disabled></Switch>
-    <br />
-    <br />
-    <Heading :level="3">Form Section</Heading>
+    <Switch disabled />
+    <br>
+    <br>
+    <Heading :level="3">
+      Form Section
+    </Heading>
 
     <Section
       title="List Name"
@@ -198,15 +224,20 @@
           <Button
             size="small"
             :style="'secondary'"
-            >Can View</Button
           >
+            Can View
+          </Button>
         </template>
       </Row>
     </Section>
-    <br />
-    <Heading :level="3"> Type Scale </Heading>
+    <br>
+    <Heading :level="3">
+      Type Scale
+    </Heading>
     <TypeScale />
-    <Heading :level="3">Editor.js</Heading>
+    <Heading :level="3">
+      Editor.js
+    </Heading>
     <Editor :tools="{}" />
   </div>
 </template>
@@ -226,7 +257,7 @@ import {
   ButtonStyle,
   Avatar,
   Switch,
-  RadioGroup,
+  RadioGroup
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -257,8 +288,10 @@ const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setCo
  * Form section items elements
  */
 const formSectionItems = [
-  { id: 1, name: 'Vitaly' },
-  { id: 2, name: 'Nickmel' },
+  { id: 1,
+    name: 'Vitaly' },
+  { id: 2,
+    name: 'Nickmel' },
 ];
 </script>
 

@@ -16,7 +16,6 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
 
   /**
    * Repository constructor
-   *
    * @param store - stores user data
    * @param notesApiTransport - notes api transport instance
    */
@@ -67,7 +66,6 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
 
   /**
    * Adds a tool to the user
-   *
    * @param id - tool id
    */
   public async addTool(id: string): Promise<void> {
@@ -80,7 +78,6 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
 
   /**
    * Removes a tool from the user
-   *
    * @param id - tool id
    */
   public async removeTool(id: string): Promise<void> {

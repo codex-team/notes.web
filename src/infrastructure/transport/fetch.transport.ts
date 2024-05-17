@@ -22,7 +22,6 @@ export default class FetchTransport {
 
   /**
    * Fetch constructor
-   *
    * @param baseUrl - Base URL
    * @param options - Transport options
    */
@@ -33,7 +32,6 @@ export default class FetchTransport {
 
   /**
    * Gets specific resource
-   *
    * @template Response - Response data type
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
@@ -55,7 +53,6 @@ export default class FetchTransport {
 
   /**
    * Make POST request to update some resource
-   *
    * @template Response - Response data type
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
@@ -77,7 +74,6 @@ export default class FetchTransport {
 
   /**
    * Make DELETE request to remove some resource
-   *
    * @template Response - Response data type
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
@@ -96,7 +92,6 @@ export default class FetchTransport {
 
   /**
    * Make PATCH request to update some resource
-   *
    * @param endpoint - API endpoint
    * @param payload - JSON POST data body
    */
@@ -120,7 +115,6 @@ export default class FetchTransport {
 
   /**
    * Check response for errors
-   *
    * @param response - Response object
    * @param endpoint - API endpoint used for logging
    * @throws Error
@@ -140,7 +134,6 @@ export default class FetchTransport {
     /**
      * The 'ok' read-only property of the Response interface contains a Boolean
      * stating whether the response was successful (status in the range 200-299) or not
-     *
      * @see https://developer.mozilla.org/en-US/docs/Web/API/Response/ok
      */
     if (response.ok) {

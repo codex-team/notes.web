@@ -1,6 +1,5 @@
 /**
  * Api successfully response type
- *
  * @template Payload - Response payload type
  */
 export type ApiSuccessfulResponse<Payload> = Payload;

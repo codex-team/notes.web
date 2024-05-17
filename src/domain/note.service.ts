@@ -15,7 +15,6 @@ export default class NoteService {
 
   /**
    * Note Service constructor
-   *
    * @param noteRepository - Note repository instance
    */
   constructor(noteRepository: NoteRepository) {
@@ -24,10 +23,9 @@ export default class NoteService {
 
   /**
    * Returns a note and accessRights by its id
-   *
    * @param id - Note identifier
    * @throws NotFoundError
-   * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote: Note | undefined }} - note data, accessRights data
+   * @returns - note data, accessRights data
    * and parent note data if exists
    */
   public async getNoteById(id: string): Promise<NoteDTO> {
@@ -36,9 +34,8 @@ export default class NoteService {
 
   /**
    * Get note and accessRights by hostname
-   *
    * @param hostname - Custom hostname linked with a note
-   * @returns {{ note: Note, accessRights: NoteAccessRights }} - note data and accessRights data
+   * @returns - note data and accessRights data
    */
   public async getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     return await this.noteRepository.getNoteByHostname(hostname);
@@ -46,7 +43,6 @@ export default class NoteService {
 
   /**
    * Creates a new note and returns it
-   *
    * @param content - Note content (Editor.js data)
    * @param noteTools - Tools that are used in the note
    * @param parentId - Id of the parent note. If omitted, then it's a root note
@@ -57,7 +53,6 @@ export default class NoteService {
 
   /**
    * Updates a content of existing note
-   *
    * @param id - identifier of the note to update
    * @param content - Note content (Editor.js data)
    * @param noteTools - Tools that are used in the note
@@ -68,7 +63,6 @@ export default class NoteService {
 
   /**
    * Unlink note from parent
-   *
    * @param id - Note identifier
    */
   public async unlinkParent(id: NoteId): Promise<void> {

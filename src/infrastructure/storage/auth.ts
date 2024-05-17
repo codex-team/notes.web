@@ -23,7 +23,6 @@ export default class AuthStorage {
 
   /**
    * Save refresh token
-   *
    * @param refreshToken - refresh token to save
    */
   public setRefreshToken(refreshToken: string): void {

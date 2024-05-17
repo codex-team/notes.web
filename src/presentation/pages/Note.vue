@@ -1,5 +1,7 @@
 <template>
-  <div v-if="note === null">Loading...</div>
+  <div v-if="note === null">
+    Loading...
+  </div>
   <div v-else>
     <div>
       <Button

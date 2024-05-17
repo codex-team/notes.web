@@ -33,7 +33,7 @@ const { isEmpty, refresh } = useEditor({
   content: props.content,
   isReadOnly: props.readOnly,
   tools: props.tools ?? {},
-  onChange: (data) => emit('change', data),
+  onChange: data => emit('change', data),
 });
 
 defineExpose({

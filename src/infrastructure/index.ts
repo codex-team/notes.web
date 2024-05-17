@@ -43,7 +43,6 @@ export interface Repositories {
 
 /**
  * Init repositories
- *
  * @param noteApiUrl - Note API url
  * @param eventBus - Common domain event bus
  */

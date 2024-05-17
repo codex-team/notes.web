@@ -38,7 +38,9 @@
       >{{ t('noteSettings.deleteNote') }}</Button
     >
   </div>
-  <div v-else>Loading...</div>
+  <div v-else>
+    Loading...
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -79,7 +81,11 @@ async function regenerateHash() {
  * Deletes the note complitely
  */
 async function deleteNote() {
-  deleteNoteById(props.id);
+  const isConfirmed = window.confirm(t('noteSettings.noteDeleteConfirmation'));
+
+  if (isConfirmed) {
+    deleteNoteById(props.id);
+  }
 }
 
 /**

@@ -22,7 +22,6 @@ export const layouts = {
 
 /**
  * useLayout hook is setting current Layout
- *
  * @returns Layout template was got by meta
  */
 export default function (): ShallowRef<Component> {

@@ -39,7 +39,6 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
 
   /**
    * Subscribe to store changes
-   *
    * @param callback - callback that will be called on store change. Accepts changed property and its new data
    */
   public subscribe(callback: PropChangeCallback<StoreData>): void {
@@ -58,7 +57,6 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
   /**
    * Function called when store data is changed.
    * Notifies subscribers about data change.
-   *
    * @param prop - changed property
    * @param newValue - new value of changed property
    */
