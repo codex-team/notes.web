@@ -94,7 +94,6 @@ interface UseNoteComposableOptions {
 
 /**
  * Application service for working with the specific Note
- *
  * @param options - note service options
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
@@ -151,7 +150,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   /**
    * Load note by id
-   *
    * @param id - Note identifier got from composable argument
    */
   async function load(id: NoteId): Promise<void> {
@@ -168,7 +166,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   /**
    * Returns list of tools used in the note
-   *
    * @param content - content of the note
    */
   async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
@@ -180,13 +177,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     const usedNoteTools = content.blocks.map((block) => {
-      const blockTool = (tools.value as EditorTool[]).find((tool) => tool.name === block.type);
+      const blockTool = (tools.value as EditorTool[]).find(tool => tool.name === block.type);
 
       /**
        * Return list of stringified objects for further elimination of duplicates using the Set
        * User can not add to content tool that is not in allTools
        */
-      return { name: blockTool!.name, id: blockTool!.id };
+      return { name: blockTool!.name,
+        id: blockTool!.id };
     });
 
     /**
@@ -204,7 +202,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   /**
    * Saves the note
-   *
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
    */
@@ -238,7 +235,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
-    note.value = { ...note.value, content };
+    note.value = { ...note.value,
+      content };
   }
 
   /**

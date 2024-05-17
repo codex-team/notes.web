@@ -59,7 +59,6 @@ export const usePostMessage = createSharedComposable((): UsePostMessageComposabl
 
   /**
    * Adds listener if it doesn't exist and saves a callback
-   *
    * @param callback - Callback to be called when a message is received
    */
   function on(callback: Callback): number {
@@ -76,7 +75,6 @@ export const usePostMessage = createSharedComposable((): UsePostMessageComposabl
 
   /**
    * Removes callback by id
-   *
    * @param callbackId - id of callback to be removed
    */
   function off(callbackId: number): void {

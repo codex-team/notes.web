@@ -17,14 +17,12 @@ interface UseNoteSettingsComposableState {
 
   /**
    * Load note settings
-   *
    * @param id - note id
    */
   load: (id: NoteId) => Promise<void>;
 
   /**
    * Update field isPublic in note settings
-   *
    * @param id - note id
    * @param newIsPublicValue - new value for isPublic field
    */
@@ -32,14 +30,12 @@ interface UseNoteSettingsComposableState {
 
   /**
    * Revoke invitation hash
-   *
    * @param id - note id
    */
   revokeHash: (id: NoteId) => Promise<void>;
 
   /**
    * Patch team member role by user and note id
-   *
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
    * @param newRole - new role
@@ -70,7 +66,6 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Get note settings
-   *
    * @param id - Note id
    */
   const load = async (id: NoteId): Promise<void> => {
@@ -79,7 +74,6 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Update field isPublic in note settings
-   *
    * @param id - Note id
    * @param newIsPublicValue - new isPublic
    */
@@ -96,7 +90,6 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Revoke invitation hash
-   *
    * @param id - Note id
    */
   const revokeHash = async (id: NoteId): Promise<void> => {
@@ -106,13 +99,13 @@ export default function (): UseNoteSettingsComposableState {
      * Check if note setting is not empty
      */
     if (noteSettings.value) {
-      noteSettings.value = { ...noteSettings.value, invitationHash };
+      noteSettings.value = { ...noteSettings.value,
+        invitationHash };
     }
   };
 
   /**
    * Patch team member role by user and note id
-   *
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
    * @param newRole - new role

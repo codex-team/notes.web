@@ -13,8 +13,7 @@
         <RoleSelect
           :note-id="noteId"
           :team-member="member"
-        >
-        </RoleSelect>
+        />
       </template>
 
       <template #left>
@@ -26,7 +25,7 @@
         <div
           v-else
           class="mock"
-        ></div>
+        />
       </template>
     </Row>
   </Section>

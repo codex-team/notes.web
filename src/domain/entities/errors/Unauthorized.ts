@@ -6,7 +6,6 @@ import DomainError from './Base';
 export default class UnauthorizedError extends DomainError {
   /**
    * Constructor for unauthorized error
-   *
    * @param message - Error message
    */
   constructor(message: string = 'Unauthorized') {

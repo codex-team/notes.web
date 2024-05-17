@@ -1,6 +1,5 @@
 /**
  * Loads script by specified url
- *
  * @param src - script source url
  */
 export function loadScript(src: string): Promise<Event> {

@@ -15,7 +15,7 @@
       :name="name"
       :placeholder="placeholder"
       @input="onChange"
-    />
+    >
     <slot />
   </div>
 </template>

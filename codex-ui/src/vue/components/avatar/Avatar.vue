@@ -4,7 +4,7 @@
     :alt="`Avatar of ${username}`"
     :class="$style.avatar"
     referrerpolicy="no-referrer"
-  />
+  >
 </template>
 
 <script setup lang="ts">

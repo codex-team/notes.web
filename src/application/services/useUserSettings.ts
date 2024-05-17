@@ -21,7 +21,6 @@ interface UseUserSettingsComposableState {
 export function useUserSettings(): UseUserSettingsComposableState {
   /**
    * Add tool to the user settings
-   *
    * @param id - Tool identifier
    */
   async function addTool(id: string): Promise<void> {
@@ -30,7 +29,6 @@ export function useUserSettings(): UseUserSettingsComposableState {
 
   /**
    * Remove tool from the user settings
-   *
    * @param id - Tool identifier
    */
   async function removeTool(id: string): Promise<void> {
