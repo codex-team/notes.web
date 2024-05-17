@@ -8,15 +8,14 @@
             v-for="note in noteList.items"
             :key="note.id"
           >
-            <Card
-              :title="getTitle(note.content)"
-              :updated-at="formatShortDate(note.updatedAt)"
-              orientation="horizontal"
-            >
-              <RouterLink :to="`/note/${note.id}`">
-                <Button>{{ $t('note.open') }}</Button>
-              </RouterLink>
-            </Card>
+            <RouterLink :to="`/note/${note.id}`">
+              <Card
+                :title="getTitle(note.content)"
+                :subtitle="formatShortDate(note.updatedAt)"
+                orientation="horizontal"
+              >
+              </Card>
+            </RouterLink>
           </div>
         </div>
 

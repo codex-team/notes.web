@@ -7,9 +7,9 @@
         { label: 'Light', value: 'light' },
         { label: 'Dark', value: 'dark' },
       ]"
-      :value="colorMode"
+      :value="colorScheme"
       name="color-scheme"
-      @change="($event) => setColorMode($event.target.value)"
+      @change="($event) => setColorScheme($event.target.value)"
     />
 
     <Heading :level="3">Base Theme</Heading>
@@ -251,7 +251,7 @@ const buttons = [
   ['large', 'disabled'],
 ];
 
-const { themeBase, themeAccent, colorMode, setBaseTheme, setAccentTheme, setColorMode } = useTheme();
+const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setColorScheme } = useTheme();
 
 /**
  * Form section items elements

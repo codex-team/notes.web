@@ -5,10 +5,8 @@
     <div :class="$style['card__body']">
       <Heading :level="3">{{ title }}</Heading>
 
-      <div :class="[$style['card__updatedAt'], 'text-ui-subtle']">{{ updatedAt }}</div>
+      <div :class="[$style['card__subtitle'], 'text-ui-subtle']">{{ subtitle }}</div>
     </div>
-
-    <slot></slot>
   </div>
 </template>
 
@@ -17,22 +15,31 @@ import { defineProps } from 'vue';
 import Heading from '../heading/Heading.vue';
 import type { CardOrientation } from './Card.types';
 
-defineProps<{
-  /**
-   * Card title
-   */
-  title: string;
+withDefaults(
+  defineProps<{
+    /**
+     * Card title
+     */
+    title: string;
 
-  /**
-   * Update date
-   */
-  updatedAt: string;
+    /**
+     * Card subtitle.
+     * Text displayed below (or left to) the title
+     */
+    subtitle?: string;
 
-  /**
-   * Card orientation
-   */
-  orientation: CardOrientation;
-}>();
+    /**
+     * Card variety.
+     * Card can be vertically oriented (image, body and footer are positioned in vertical direction)
+     * and horizontally oriented (elements are positioned in horizontal direction)
+     */
+    orientation: CardOrientation;
+  }>(),
+  {
+    subtitle: '',
+    orientation: 'vertical',
+  }
+);
 </script>
 
 <style module lang="postcss">
