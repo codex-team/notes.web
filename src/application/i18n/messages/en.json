@@ -1,5 +1,6 @@
 {
   "appTitle": "NoteX",
+  "loadMore":"Load More",
   "auth": {
     "login": "Login",
     "logout": "Logout"
@@ -41,12 +42,11 @@
   "note": {
     "new": "New Note",
     "unlink": "Unlink from parent",
+    "untitled": "Untitled",
+    "open": "Open",
     "createChildNote": "Create child note"
   },
   "noteList": {
-    "buttons": {
-      "loadMoreNotes": "Load more notes"
-    },
     "emptyNoteList": "No Notes yet. Make your first note",
     "noteListItem": {
       "untitled": "Untitled"
