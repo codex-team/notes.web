@@ -3,19 +3,19 @@
     <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
       <div v-if="noteList">
-        <div :class="[$style.noteList]">
-          <div
+        <div :class="$style['note-list']">
+          <RouterLink
             v-for="note in noteList.items"
             :key="note.id"
+            :to="`/note/${note.id}`"
           >
-            <RouterLink :to="`/note/${note.id}`">
-              <Card
-                :title="getTitle(note.content)"
-                :subtitle="note.updatedAt ? formatShortDate(note.updatedAt) : ''"
-                orientation="horizontal"
-              />
-            </RouterLink>
-          </div>
+            <Card
+            :class="$style['note-list__card']"
+              :title="getTitle(note.content)"
+              :subtitle="note.updatedAt ? formatShortDate(note.updatedAt) : ''"
+              orientation="vertical"
+            />
+          </RouterLink>
         </div>
 
         <Button
@@ -60,11 +60,17 @@ useHead({
 <style lang="postcss" module>
 @import '@/presentation/styles/typography.pcss';
 
-.noteList {
+.note-list {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(265px, auto); 
   flex-direction: column;
   gap: var(--spacing-m);
+
+  &__card {
+    height: 100%;
+  }
 }
 
 .button {
