@@ -19,9 +19,9 @@
           :class="[$style['context_menu__def-item']]"
         >
           <div :class="$style['context_menu__body']">
-            <Icon 
-              v-if="item.icon !== undefined" 
-              :name="item.icon" 
+            <Icon
+              v-if="item.icon !== undefined"
+              :name="item.icon"
             />
             <div>
               {{ item.title }}
