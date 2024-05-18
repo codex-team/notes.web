@@ -3,6 +3,9 @@
  */
 export type ContextMenuItems = DefaultItem | SeparatorItem;
 
+/**
+ * Interface representing default context menu item
+ */
 export interface DefaultItem {
   /**
    * Type of the item
@@ -12,7 +15,7 @@ export interface DefaultItem {
   /**
    * Name of the item icon
    */
-  icon: string;
+  icon?: string;
 
   /**
    * Primary text of the menu item
@@ -26,7 +29,7 @@ export interface DefaultItem {
 }
 
 /**
- * It is used to separate default items
+ * Interface representing separator for separating default items
  */
 export interface SeparatorItem {
   /**

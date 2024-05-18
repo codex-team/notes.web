@@ -19,7 +19,9 @@
           :class="[$style['context_menu__def-item']]"
         >
           <div :class="$style['context_menu__body']">
-            <Icon :name="item.icon" />
+            <div v-if="item.icon !== undefined">
+              <Icon :name="item.icon" />
+            </div>
             <div>
               {{ item.title }}
             </div>
@@ -39,7 +41,7 @@
 <script setup lang="ts">
 import Input from '../input/Input.vue';
 import Icon from '../icon/Icon.vue';
-import { ContextMenuItems } from './ContextMenuTypes.types';
+import type { ContextMenuItems } from './ContextMenuTypes.types.ts';
 
 withDefaults(
   defineProps<{
