@@ -5,7 +5,7 @@
       :class="$style['context-menu__search']"
     >
       <Input />
-      <div :class="$style['context-menu__item']">
+      <div :class="$style['context-menu__sep-item']">
         <div :class="$style['context-menu__separator']" />
       </div>
     </div>
@@ -13,7 +13,7 @@
       <div
         v-for="(item, index) in items"
         :key="index"
-        :class="$style['context-menu__item']"
+        :class="$style['context-menu__def-item']"
       >
         <div
           v-if="item.type === 'default'"
@@ -26,8 +26,10 @@
         </div>
         <div
           v-if="item.type === 'separator'"
-          :class="$style['context-menu__separator']"
-        />
+          :class="$style['context-menu__sep-item']"
+        >
+          <div :class="$style['context-menu__separator']" />
+        </div>
       </div>
     </div>
   </div>
@@ -74,27 +76,30 @@ withDefaults(
     height: var(--delimiter-height);
   }
 
-  &__scrollable {
-    display: grid;
-    gap: var(--spacing-very-x);
-  }
-
-  &__item {
-    gap: var(--v-padding);
+  &__sep-item {
     padding-top: var(--spacing-very-x);
     padding-right: var(--spacing-xxs);
     padding-bottom: var(--spacing-very-x);
     padding-left: var(--spacing-xxs);
   }
 
-  &__body {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-s);
+  &__scrollable {
+    display: grid;
+    gap: var(--spacing-very-x);
+  }
+
+  &__def-item {
+    gap: var(--v-padding);
     padding-top: var(--v-padding);
     padding-bottom: var(--v-padding);
     padding-left: var(--h-padding);
     padding-right: var(--h-padding);
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s);
   }
 }
 </style>
