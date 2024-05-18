@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import Input from '../input/Input.vue';
 import Icon from '../icon/Icon.vue';
-import { Item } from './ContextMenuTypes.types';
+import { ContextMenuItems } from './ContextMenuTypes.types';
 
 withDefaults(
   defineProps<{
@@ -48,7 +48,7 @@ withDefaults(
     /**
      * Array of items for context menu
      */
-    items: Item[];
+    items: ContextMenuItems[];
   }>(),
   { showSearch: false }
 );

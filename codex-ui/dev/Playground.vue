@@ -292,12 +292,12 @@ const formSectionItems = [
   { id: 2, name: 'Nickmel' },
 ];
 
-import { Item } from '../src/vue';
+import type { ContextMenuItems } from '../src/vue';
 
 /**
  * Context menu items
  */
-const contextMenuItems: Item[] = [
+const contextMenuItems: ContextMenuItems[] = [
   { type: 'default', title: 'Header 1', icon: 'H1', onActivate: doNothing },
   { type: 'default', title: 'Header 2', icon: 'H1', onActivate: doNothing },
   { type: 'separator' },

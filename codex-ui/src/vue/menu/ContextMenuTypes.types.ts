@@ -1,7 +1,7 @@
 /**
- * The size of the input
+ * Type of the context menu items - may be default or separator
  */
-export type Item = DefaultItem | SeparatorItem;
+export type ContextMenuItems = DefaultItem | SeparatorItem;
 
 export interface DefaultItem {
   /**
@@ -15,7 +15,7 @@ export interface DefaultItem {
   icon: string;
 
   /**
-   * Item title
+   * Primary text of the menu item
    */
   title: string;
 
@@ -25,6 +25,9 @@ export interface DefaultItem {
   onActivate: () => void;
 }
 
+/**
+ * It is used to separate default items
+ */
 export interface SeparatorItem {
   /**
    * Type of the item
