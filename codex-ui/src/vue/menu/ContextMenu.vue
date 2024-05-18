@@ -90,10 +90,16 @@ withDefaults(
 
   &__def-item {
     gap: var(--v-padding);
+    border-radius: var(--radius-m);
     padding-top: var(--v-padding);
     padding-bottom: var(--v-padding);
     padding-left: var(--h-padding);
     padding-right: var(--h-padding);
+  }
+
+  &__def-item:hover {
+    background-color: var(--base--bg-secondary-hover);
+    cursor: pointer;
   }
 
   &__body {
