@@ -60,7 +60,7 @@ const message = computed(() => {
 
 .code {
   @apply --text-heading-3;
-  border-right: 1px solid var(--color-text-main);
+  border-right: 1px solid var(--base--border);
   padding-right: var(--spacing-ms);
   margin-right: var(--spacing-ms);
   line-height: 110%;

@@ -15,7 +15,6 @@ export default class AuthService {
 
   /**
    * Service constructor
-   *
    * @param eventBus - Common domain event bus
    * @param authRepository - Auth repository instance
    */
@@ -49,7 +48,6 @@ export default class AuthService {
 
   /**
    * Called after oauth to accept session
-   *
    * @param accessToken - token got from backend. Used to access protected resources
    * @param refreshToken - token got from backend. Used to refresh access token
    */

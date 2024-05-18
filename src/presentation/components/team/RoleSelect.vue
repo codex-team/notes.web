@@ -39,7 +39,7 @@ const props = defineProps<{
 
 const selectedRole = ref(MemberRole[props.teamMember.role]);
 
-const roleOptions = computed(() => Object.values(MemberRole).filter((value) => typeof value === 'string'));
+const roleOptions = computed(() => Object.values(MemberRole).filter(value => typeof value === 'string'));
 
 const { changeRole } = useNoteSettings();
 

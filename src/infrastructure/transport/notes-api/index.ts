@@ -17,14 +17,12 @@ interface NotexApiRequestParams extends AuthorizableRequestParams {}
 export default class NotesApiTransport extends AuthorizableTransport {
   /**
    * Constructor for notes api transport
-   *
    * @param baseUrl - Base URL
    */
   constructor(baseUrl: string) {
     super(baseUrl, {
       /**
        * Method for creating an Error based on Notes API response
-       *
        * @param status - HTTP status
        * @param payload - Response JSON payload
        */
@@ -62,7 +60,6 @@ export default class NotesApiTransport extends AuthorizableTransport {
 
   /**
    * Make GET request to the NoteX API
-   *
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
    * @param params - Additional params to tune request
@@ -75,7 +72,6 @@ export default class NotesApiTransport extends AuthorizableTransport {
 
   /**
    * Make POST request to the NoteX API
-   *
    * @param endpoint - API endpoint
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request
@@ -88,7 +84,6 @@ export default class NotesApiTransport extends AuthorizableTransport {
 
   /**
    * Make DELETE request to the NoteX API
-   *
    * @param endpoint - API endpoint
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request
@@ -101,7 +96,6 @@ export default class NotesApiTransport extends AuthorizableTransport {
 
   /**
    * Make PATCH request to the NoteX API
-   *
    * @param endpoint - API endpoint
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request

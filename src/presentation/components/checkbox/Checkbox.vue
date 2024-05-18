@@ -7,7 +7,7 @@
       :disabled="disabled"
       class="checkbox"
       @input="onClick"
-    />
+    >
     <label :for="id">{{ label }}</label>
   </div>
 </template>

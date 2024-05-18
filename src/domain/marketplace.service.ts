@@ -13,7 +13,6 @@ export default class MarketplaceService {
 
   /**
    * Service constructor
-   *
    * @param marketplaceRepository - repository instance
    */
   constructor(marketplaceRepository: MarketplaceRepository) {
@@ -29,7 +28,6 @@ export default class MarketplaceService {
 
   /**
    * Add new tool to the marketplace
-   *
    * @param tool - tool data
    */
   public async addTool(tool: NewToolData): Promise<EditorTool> {

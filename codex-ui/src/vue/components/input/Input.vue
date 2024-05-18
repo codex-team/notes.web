@@ -3,7 +3,7 @@
     v-model="model"
     :class="[$style.input, `${$style.input}--${size}`, 'text-ui-base']"
     :disabled="props.disabled"
-  />
+  >
 </template>
 
 <script setup lang="ts">

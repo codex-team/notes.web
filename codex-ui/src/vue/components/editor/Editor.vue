@@ -33,7 +33,7 @@ const { isEmpty, refresh } = useEditor({
   content: props.content,
   isReadOnly: props.readOnly,
   tools: props.tools ?? {},
-  onChange: (data) => emit('change', data),
+  onChange: data => emit('change', data),
 });
 
 defineExpose({
@@ -52,7 +52,7 @@ defineExpose({
 </script>
 
 <style lang="postcss">
-@import '../../styles/typography.pcss';
+@import '../../../styles/typography.pcss';
 
 .ce-header {
   color: var(--base--text);

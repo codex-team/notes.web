@@ -4,6 +4,7 @@ import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
+import { useRouter } from 'vue-router';
 
 /**
  * Note settings hook state
@@ -16,14 +17,12 @@ interface UseNoteSettingsComposableState {
 
   /**
    * Load note settings
-   *
    * @param id - note id
    */
   load: (id: NoteId) => Promise<void>;
 
   /**
    * Update field isPublic in note settings
-   *
    * @param id - note id
    * @param newIsPublicValue - new value for isPublic field
    */
@@ -31,19 +30,24 @@ interface UseNoteSettingsComposableState {
 
   /**
    * Revoke invitation hash
-   *
    * @param id - note id
    */
   revokeHash: (id: NoteId) => Promise<void>;
 
   /**
    * Patch team member role by user and note id
-   *
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
    * @param newRole - new role
    */
   changeRole: (id: NoteId, userId: UserId, newRole: MemberRole) => Promise<void>;
+
+  /**
+   * Delete note by it's id
+   *
+   * @param id - Note id
+   */
+  deleteNoteById: (id: NoteId) => Promise<void>;
 }
 
 /**
@@ -56,8 +60,12 @@ export default function (): UseNoteSettingsComposableState {
   const noteSettings = ref<NoteSettings | null>(null);
 
   /**
+   * Router instance used to replace the current route with note id
+   */
+  const router = useRouter();
+
+  /**
    * Get note settings
-   *
    * @param id - Note id
    */
   const load = async (id: NoteId): Promise<void> => {
@@ -66,7 +74,6 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Update field isPublic in note settings
-   *
    * @param id - Note id
    * @param newIsPublicValue - new isPublic
    */
@@ -83,7 +90,6 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Revoke invitation hash
-   *
    * @param id - Note id
    */
   const revokeHash = async (id: NoteId): Promise<void> => {
@@ -93,13 +99,13 @@ export default function (): UseNoteSettingsComposableState {
      * Check if note setting is not empty
      */
     if (noteSettings.value) {
-      noteSettings.value = { ...noteSettings.value, invitationHash };
+      noteSettings.value = { ...noteSettings.value,
+        invitationHash };
     }
   };
 
   /**
    * Patch team member role by user and note id
-   *
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
    * @param newRole - new role
@@ -109,11 +115,25 @@ export default function (): UseNoteSettingsComposableState {
     await noteSettingsService.patchMemberRoleByUserId(id, userId, newRole);
   };
 
+  /**
+   * Delete note by it's id
+   *
+   * @param id - Note id
+   */
+  const deleteNoteById = async (id: NoteId): Promise<void> => {
+    await noteSettingsService.deleteNote(id);
+
+    void router.push({
+      name: 'home',
+    });
+  };
+
   return {
     noteSettings,
     load,
     updateIsPublic,
     revokeHash,
     changeRole,
+    deleteNoteById,
   };
 }

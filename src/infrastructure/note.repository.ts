@@ -1,5 +1,5 @@
 import type NoteRepositoryInterface from '@/domain/note.repository.interface';
-import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
+import type { Note, NoteContent, NoteId, NoteTool } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type NoteStorage from '@/infrastructure/storage/note.js';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
@@ -23,7 +23,6 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
   /**
    * Note repository constructor
-   *
    * @param noteStorage - note storage instance
    * @param notesApiTransport - notes api transport instance
    */
@@ -34,10 +33,9 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
   /**
    * Get note by id
-   *
    * @param id - Note identifier
    * @throws NotFoundError
-   * @returns {{ note: Note, accessRights: NoteAccessRights, parentNote }} - Note instance, NoteAccessRights instance
+   * @returns - Note instance, NoteAccessRights instance
    * and parent note, if exists
    */
   public async getNoteById(id: string): Promise<NoteDTO> {
@@ -49,9 +47,8 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
   /**
    * Get note by hostname
-   *
    * @param hostname - Custom hostname linked with one Note
-   * @returns {{ note: Note, accessRights: NoteAccessRights }} - Note instance and NoteAccessRights instance
+   * @returns - Note instance and NoteAccessRights instance
    */
   public async getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     /**
@@ -62,7 +59,6 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
   /**
    * Gets note list
-   *
    * @param page - number of pages to get
    */
   public async getNoteList(page: number): Promise<NoteList> {
@@ -71,15 +67,15 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
   /**
    * Creates a new note
-   *
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in note
    * @param parentId - Id of the parent note. If undefined, then it's a root note
-   *
    * @todo API should return Note
    */
-  public async createNote(content: NoteContent, parentId?: NoteId): Promise<Note> {
+  public async createNote(content: NoteContent, noteTools: NoteTool[], parentId?: NoteId): Promise<Note> {
     const response = await this.transport.post<{ id: NoteId }>('/note', {
       content,
+      tools: noteTools,
       parentId,
     });
 
@@ -93,19 +89,19 @@ export default class NoteRepository implements NoteRepositoryInterface {
 
   /**
    * Updates a content of existing note
-   *
    * @param id - What note to update
    * @param content - Note content (Editor.js data)
+   * @param noteTools - Tools that are used in note
    */
-  public async updateNoteContent(id: string, content: NoteContent): Promise<void> {
+  public async updateNoteContentAndTools(id: string, content: NoteContent, noteTools: NoteTool[]): Promise<void> {
     await this.transport.patch(`/note/${id}`, {
       content,
+      tools: noteTools,
     });
   }
 
   /**
    * Unlink note from parent
-   *
    * @param id - Child note id
    */
   public async unlinkParent(id: NoteId): Promise<void> {

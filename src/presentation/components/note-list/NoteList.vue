@@ -9,7 +9,9 @@
         @click="router.push('/note/' + note.id)"
       />
     </div>
-    <button @click="loadMoreNotes">{{ $t('noteList.buttons.loadMoreNotes') }}</button>
+    <button @click="loadMoreNotes">
+      {{ $t('noteList.buttons.loadMoreNotes') }}
+    </button>
   </div>
 
   <div v-else>

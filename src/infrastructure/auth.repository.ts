@@ -14,7 +14,6 @@ export default class AuthRepository implements AuthRepositoryInterface {
 
   /**
    * Repository constructor
-   *
    * @param authStorage - stores refresh token
    * @param notesApiTransport - notes api transport instance
    */

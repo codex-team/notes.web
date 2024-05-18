@@ -2,7 +2,7 @@
   <span
     :class="$style['icon']"
     v-html="iconSource"
-  ></span>
+  />
 </template>
 
 <script lang="ts" setup>

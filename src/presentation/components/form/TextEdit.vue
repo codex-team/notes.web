@@ -15,7 +15,7 @@
       :name="name"
       :placeholder="placeholder"
       @input="onChange"
-    />
+    >
     <slot />
   </div>
 </template>
@@ -68,8 +68,8 @@ const onChange = (event: Event) => {
 
   input {
     border: var(--spacing-very-x) var(--color-white) solid;
-    background: var(--color-bg);
-    color: var(--color-text-contrast);
+    background: var(--base--bg-secondary);
+    color: var(--accent--text);
     height: var(--size-icon);
     padding-left: var(--spacing-ms);
     text-decoration: none;

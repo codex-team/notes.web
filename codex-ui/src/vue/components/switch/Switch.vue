@@ -3,7 +3,7 @@
     :class="[$style.switch, disabled ? $style[`switch--disabled`] : '', switchValue ? $style[`switch--on`] : '']"
     v-on="disabled === false ? { click: changeValue } : {}"
   >
-    <div :class="$style[`switch__ellipse`]"></div>
+    <div :class="$style[`switch__ellipse`]" />
   </div>
 </template>
 
@@ -20,7 +20,8 @@ const props = withDefaults(
      */
     disabled?: boolean;
   }>(),
-  { value: false, disabled: false }
+  { value: false,
+    disabled: false }
 );
 
 const switchValue = defineModel({ default: true });

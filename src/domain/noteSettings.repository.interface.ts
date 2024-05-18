@@ -9,7 +9,6 @@ import type { MemberRole } from './entities/Team';
 export default interface NoteSettingsRepositoryInterface {
   /**
    * Returns setting for a note with passed id
-   *
    * @param  id - note  id
    * @throws Will throw an error if id is not found.
    * @returns NoteSettings - NoteSettings instance
@@ -18,7 +17,6 @@ export default interface NoteSettingsRepositoryInterface {
 
   /**
    * Updates note settings
-   *
    * @param id - note id
    * @param data - note settings data with new values
    * @returns updated note settings
@@ -27,7 +25,6 @@ export default interface NoteSettingsRepositoryInterface {
 
   /**
    * Revoke invitation hash
-   *
    * @param id - note id
    * @returns updated note settings
    */
@@ -35,10 +32,16 @@ export default interface NoteSettingsRepositoryInterface {
 
   /**
    * Patch team member role by user and note id
-   *
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
    * @param newRole - new role
    */
   patchMemberRoleByUserId(id: NoteId, userId: UserId, newRole: MemberRole): Promise<MemberRole>;
+
+  /**
+   * Delete note by it's id
+   *
+   * @param id - Note id
+   */
+  deleteNote(id: NoteId): Promise<void>;
 }
