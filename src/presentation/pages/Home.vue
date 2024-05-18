@@ -1,8 +1,34 @@
 <template>
-  <div :class="$style.page">
+  <div>
     <h1>{{ $t('home.title') }}</h1>
     <div v-if="user">
-      <NoteList />
+      <div v-if="noteList">
+        <div :class="[$style.noteList]">
+          <div
+            v-for="note in noteList.items"
+            :key="note.id"
+          >
+            <RouterLink :to="`/note/${note.id}`">
+              <Card
+                :title="getTitle(note.content)"
+                :subtitle="note.updatedAt ? formatShortDate(note.updatedAt) : ''"
+                orientation="horizontal"
+              />
+            </RouterLink>
+          </div>
+        </div>
+
+        <Button
+          :class="$style.button"
+          @click="loadMoreNotes"
+        >
+          {{ $t('loadMore') }}
+        </Button>
+      </div>
+
+      <div v-else>
+        <p>{{ $t('note.emptyNoteList') }}</p>
+      </div>
     </div>
 
     <div v-else>
@@ -15,10 +41,13 @@
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
-import NoteList from '@/presentation/components/note-list/NoteList.vue';
-
+import useNoteList from '@/application/services/useNoteList';
+import { getTitle } from '@/infrastructure/utils/note';
+import { formatShortDate } from '@/infrastructure/utils/date';
+import { Button, Card } from 'codex-ui/vue';
 const { user } = useAppState();
 const { t } = useI18n();
+const { noteList, loadMoreNotes } = useNoteList();
 
 /**
  * Changing the title in the browser
@@ -31,8 +60,19 @@ useHead({
 <style lang="postcss" module>
 @import '@/presentation/styles/typography.pcss';
 
-h2 {
-  @apply --text-heading-2;
+.noteList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+}
+
+.button {
+  margin-top: var(--spacing-l);
+}
+
+h1 {
+  @apply --text-heading-1;
 }
 
 p {

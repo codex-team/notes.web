@@ -53,6 +53,7 @@ const style = computed(() => {
   outline: 0;
   font-family: inherit;
   cursor: pointer;
+  word-break: keep-all;
 
   --padding: 0 0;
   --radius: 0;
