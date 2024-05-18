@@ -231,12 +231,13 @@
       </Row>
     </Section>
     <br>
-    <Heading :level="3"> Context Menu </Heading>
+    <Heading :level="3">
+      Context Menu
+    </Heading>
     <ContextMenu
       :show-search="true"
       :items="contextMenuItems"
-    >
-    </ContextMenu>
+    />
     <Heading :level="3">
       Type Scale
     </Heading>
@@ -264,10 +265,11 @@ import {
   Avatar,
   Switch,
   RadioGroup,
-  ContextMenu,
+  ContextMenu
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
+import type { ContextMenuItems } from '../src/vue';
 
 const formFieldValue = ref('Heading');
 
@@ -301,16 +303,31 @@ const formSectionItems = [
     name: 'Nickmel' },
 ];
 
-import type { ContextMenuItems } from '../src/vue';
-
 /**
- * Context menu items
+ * Items for searching in the context menu
  */
 const contextMenuItems: ContextMenuItems[] = [
-  { type: 'default', title: 'Header 1', icon: 'H1', onActivate: doNothing },
-  { type: 'default', title: 'Header 2', icon: 'H1', onActivate: doNothing },
-  { type: 'separator' },
-  { type: 'default', title: 'Header 3', icon: 'H1', onActivate: doNothing },
+  {
+    type: 'default',
+    title: 'Header 1',
+    icon: 'H1',
+    onActivate: doNothing,
+  },
+  {
+    type: 'default',
+    title: 'Header 2',
+    icon: 'H1',
+    onActivate: doNothing,
+  },
+  {
+    type: 'separator',
+  },
+  {
+    type: 'default',
+    title: 'Header 3',
+    icon: 'H1',
+    onActivate: doNothing,
+  },
 ];
 
 /**
