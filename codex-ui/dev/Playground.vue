@@ -328,6 +328,11 @@ const contextMenuItems: ContextMenuItems[] = [
     icon: 'H1',
     onActivate: doNothing,
   },
+  {
+    type: 'default',
+    title: 'Header 3',
+    onActivate: doNothing,
+  },
 ];
 
 /**

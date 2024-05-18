@@ -102,6 +102,7 @@ withDefaults(
   &__body {
     display: flex;
     align-items: center;
+    min-height: var(--size-icon);
     gap: var(--spacing-s);
   }
 }
