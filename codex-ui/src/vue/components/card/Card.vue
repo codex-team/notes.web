@@ -7,6 +7,8 @@
 
       <div :class="[$style['card__subtitle'], 'text-ui-subtle']">{{ subtitle }}</div>
     </div>
+
+    <slot></slot>
   </div>
 </template>
 
