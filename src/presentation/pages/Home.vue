@@ -11,10 +11,9 @@
             <RouterLink :to="`/note/${note.id}`">
               <Card
                 :title="getTitle(note.content)"
-                :subtitle="formatShortDate(note.updatedAt)"
+                :subtitle="note.updatedAt ? formatShortDate(note.updatedAt) : ''"
                 orientation="horizontal"
-              >
-              </Card>
+              />
             </RouterLink>
           </div>
         </div>
@@ -42,11 +41,10 @@
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
-import { Card } from 'codex-ui/vue';
 import useNoteList from '@/application/services/useNoteList';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
-import { Button } from 'codex-ui/vue';
+import { Button, Card } from 'codex-ui/vue';
 const { user } = useAppState();
 const { t } = useI18n();
 const { noteList, loadMoreNotes } = useNoteList();

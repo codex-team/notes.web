@@ -1,14 +1,18 @@
 <template>
   <div :class="[$style.card, orientation === 'horizontal' ? $style['card--horizontal'] : '']">
-    <div :class="$style['card__cover']"></div>
+    <div :class="$style['card__cover']" />
 
     <div :class="$style['card__body']">
-      <Heading :level="3">{{ title }}</Heading>
+      <Heading :level="3">
+        {{ title }}
+      </Heading>
 
-      <div :class="[$style['card__subtitle'], 'text-ui-subtle']">{{ subtitle }}</div>
+      <div :class="[$style['card__subtitle'], 'text-ui-subtle']">
+        {{ subtitle }}
+      </div>
     </div>
 
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
