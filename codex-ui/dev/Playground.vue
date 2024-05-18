@@ -231,20 +231,21 @@
       </Row>
     </Section>
     <br>
-    <br />
-    <Heading :level="3"> Tab </Heading>
+    <Heading :level="3">
+      Tab
+    </Heading>
     <Tab :name="'Home'" />
-    <br />
+    <br>
     <Tab
       :name="'Home'"
       :picture="'../static/example-avatar.png'"
     />
-    <br />
+    <br>
     <Tab
       name="Home"
       :icon="'Plus'"
     />
-    <br />
+    <br>
     <Tab
       :name="'Home'"
       :closable="true"
