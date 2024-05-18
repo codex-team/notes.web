@@ -29,7 +29,7 @@
           v-if="item.type === 'separator'"
           :class="$style['context_menu__sep-item']"
         >
-          <div :class="$style['context_menu__separator']"></div>
+          <div :class="$style['context_menu__separator']" />
         </div>
       </template>
     </div>
@@ -78,10 +78,7 @@ withDefaults(
   }
 
   &__sep-item {
-    padding-top: var(--spacing-very-x);
-    padding-right: var(--spacing-xxs);
-    padding-bottom: var(--spacing-very-x);
-    padding-left: var(--spacing-xxs);
+    padding: var(--spacing-very-x) var(--spacing-xxs);
   }
 
   &__scrollable {
@@ -92,10 +89,7 @@ withDefaults(
   &__def-item {
     gap: var(--v-padding);
     border-radius: var(--radius-m);
-    padding-top: var(--v-padding);
-    padding-bottom: var(--v-padding);
-    padding-left: var(--h-padding);
-    padding-right: var(--h-padding);
+    padding: var(--v-padding) var(--h-padding);
   }
 
   &__def-item:hover {
