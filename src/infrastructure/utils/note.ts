@@ -2,7 +2,6 @@ import { type OutputData } from '@editorjs/editorjs';
 import { useI18n } from 'vue-i18n';
 /**
  * Get the title of the note
- *
  * @param content - content of the note
  * @returns the title of the note
  */
