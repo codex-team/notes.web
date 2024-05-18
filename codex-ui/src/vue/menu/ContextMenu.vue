@@ -1,36 +1,37 @@
 <template>
-  <div :class="$style['context-menu']">
+  <div :class="$style['context_menu']">
     <div
       v-if="showSearch"
-      :class="$style['context-menu__search']"
+      :class="$style['context_menu__search']"
     >
       <Input />
-      <div :class="$style['context-menu__sep-item']">
-        <div :class="$style['context-menu__separator']" />
+      <div :class="$style['context_menu__sep-item']">
+        <div :class="$style['context_menu__separator']" />
       </div>
     </div>
-    <div :class="$style['context-menu__scrollable']">
-      <div
+    <div :class="$style['context_menu__scrollable']">
+      <template
         v-for="(item, index) in items"
         :key="index"
-        :class="$style['context-menu__def-item']"
       >
         <div
           v-if="item.type === 'default'"
-          :class="$style['context-menu__body']"
+          :class="[$style['context_menu__def-item']]"
         >
-          <Icon :name="item.icon" />
-          <div>
-            {{ item.title }}
+          <div :class="$style['context_menu__body']">
+            <Icon :name="item.icon" />
+            <div>
+              {{ item.title }}
+            </div>
           </div>
         </div>
         <div
           v-if="item.type === 'separator'"
-          :class="$style['context-menu__sep-item']"
+          :class="$style['context_menu__sep-item']"
         >
-          <div :class="$style['context-menu__separator']" />
+          <div :class="$style['context_menu__separator']"></div>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -57,7 +58,7 @@ withDefaults(
 </script>
 
 <style module>
-.context-menu {
+.context_menu {
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);
 
