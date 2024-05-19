@@ -57,7 +57,7 @@ withDefaults(
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-l);
+  gap: var(--spacing-ml);
   border-radius: var(--radius-m);
   padding: var(--spacing-ml);
   background-color: var(--base--bg-secondary);
