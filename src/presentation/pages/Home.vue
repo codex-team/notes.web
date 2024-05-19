@@ -4,38 +4,25 @@
       {{ $t('home.title') }}
     </Heading>
 
-    <div v-if="user">
-      <div v-if="noteList">
-        <div :class="$style['note-list']">
-          <RouterLink
-            v-for="note in noteList.items"
-            :key="note.id"
-            :to="`/note/${note.id}`"
-          >
-            <Card
-            :class="$style['note-list__card']"
-              :title="getTitle(note.content)"
-              :subtitle="note.updatedAt ? formatShortDate(note.updatedAt) : ''"
-              orientation="vertical"
-            />
-          </RouterLink>
-        </div>
-
-        <Button
-          :class="$style.button"
-          @click="loadMoreNotes"
-        >
-          {{ $t('loadMore') }}
-        </Button>
-      </div>
-
-      <div v-else>
-        <p>{{ $t('note.emptyNoteList') }}</p>
-      </div>
+    <div v-if="!user">
+      <p>{{ $t('home.authText') }}</p>
     </div>
 
-    <div v-else>
-      <p>{{ $t('home.authText') }}</p>
+    <div v-if="user && !noteList">
+      <p>{{ $t('note.emptyNoteList') }}</p>
+    </div>
+
+    <div v-if="noteList">
+      <div :class="$style['note-list']">
+        <RouterLink v-for="note in noteList.items" :key="note.id" :to="`/note/${note.id}`">
+          <Card :class="$style['note-list__card']" :title="getTitle(note.content)" :subtitle="getSubtitle(note)"
+            orientation="vertical" />
+        </RouterLink>
+      </div>
+
+      <Button :class="$style.button" @click="loadMoreNotes">
+        {{ $t('loadMore') }}
+      </Button>
     </div>
   </div>
 </template>
@@ -49,6 +36,8 @@ import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
 import { Button, Card } from 'codex-ui/vue';
 import { Heading } from 'codex-ui/vue';
+import { Note } from '@/domain/entities/Note';
+
 const { user } = useAppState();
 const { t } = useI18n();
 const { noteList, loadMoreNotes } = useNoteList();
@@ -59,6 +48,19 @@ const { noteList, loadMoreNotes } = useNoteList();
 useHead({
   title: t('home.title'),
 });
+
+/**
+ * Returns card subtitle text
+ * @param note - Note entity
+ */
+function getSubtitle(note: Note): string | undefined{
+  if (note.updatedAt === undefined) {
+    return;
+  }
+
+  return t('home.updated') + ' ' + formatShortDate(note.updatedAt);
+}
+
 </script>
 
 <style lang="postcss" module>
@@ -74,9 +76,9 @@ useHead({
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: minmax(252px, auto); 
+  grid-auto-rows: minmax(213px, auto); 
   flex-direction: column;
-  gap: var(--spacing-m);
+  gap: var(--spacing-ml);
 
   &__card {
     height: 100%;

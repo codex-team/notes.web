@@ -4,7 +4,7 @@
 
     <div :class="$style['card__body']">
       <div
-        :class="['text-ui-base-bold', 'line-clamp-3 ', $style['card__title']]"
+        :class="['text-ui-base-bold', 'line-clamp-1 ', $style['card__title']]"
         :title="title"
       >
         {{ title }}

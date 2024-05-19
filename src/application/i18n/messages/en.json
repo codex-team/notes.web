@@ -53,6 +53,7 @@
     }
   },
   "home": {
+    "updated": "Updated",
     "title": "Recents",
     "authText": "You are not logged in, log in to see your recent notes"
   },
