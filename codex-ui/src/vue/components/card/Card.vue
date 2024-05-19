@@ -3,9 +3,9 @@
     <div :class="$style['card__cover']" />
 
     <div :class="$style['card__body']">
-      <Heading :level="3">
+      <div :class="['text-ui-base-bold', $style['card__title']]">
         {{ title }}
-      </Heading>
+      </div>
 
       <div :class="[$style['card__subtitle'], 'text-ui-subtle']">
         {{ subtitle }}
@@ -81,6 +81,10 @@ withDefaults(
 
   &__body {
     width: 100%;
+  }
+
+  &__title {
+    color: var(--base--text);
   }
 }
 </style>

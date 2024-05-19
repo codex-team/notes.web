@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>{{ $t('home.title') }}</h1>
+    <Heading :level="1" :class="$style['home__heading']">
+      {{ $t('home.title') }}
+    </Heading>
+
     <div v-if="user">
       <div v-if="noteList">
         <div :class="$style['note-list']">
@@ -45,6 +48,7 @@ import useNoteList from '@/application/services/useNoteList';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
 import { Button, Card } from 'codex-ui/vue';
+import { Heading } from 'codex-ui/vue';
 const { user } = useAppState();
 const { t } = useI18n();
 const { noteList, loadMoreNotes } = useNoteList();
@@ -59,6 +63,12 @@ useHead({
 
 <style lang="postcss" module>
 @import '@/presentation/styles/typography.pcss';
+
+.home {
+  &__heading {
+    margin: var(--spacing-xxl) 0;
+  }
+}
 
 .note-list {
   width: 100%;
