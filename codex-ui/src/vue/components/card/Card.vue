@@ -3,7 +3,10 @@
     <div :class="$style['card__cover']" />
 
     <div :class="$style['card__body']">
-      <div :class="['text-ui-base-bold', $style['card__title']]">
+      <div
+        :class="['text-ui-base-bold', 'line-clamp-3 ', $style['card__title']]"
+        :title="title"
+      >
         {{ title }}
       </div>
 
@@ -18,7 +21,6 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import Heading from '../heading/Heading.vue';
 import type { CardOrientation } from './Card.types';
 
 withDefaults(
@@ -57,7 +59,7 @@ withDefaults(
   align-items: flex-start;
   gap: var(--spacing-l);
   border-radius: var(--radius-m);
-  padding: var(--spacing-m);
+  padding: var(--spacing-ml);
   background-color: var(--base--bg-secondary);
 
   &--horizontal {

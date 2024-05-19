@@ -74,7 +74,7 @@ useHead({
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: minmax(265px, auto); 
+  grid-auto-rows: minmax(252px, auto); 
   flex-direction: column;
   gap: var(--spacing-m);
 
