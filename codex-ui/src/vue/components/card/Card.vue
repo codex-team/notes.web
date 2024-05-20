@@ -81,10 +81,6 @@ withDefaults(
     background-color: var(--base--bg-primary);
   }
 
-  &__body {
-    width: 100%;
-  }
-
   &__title {
     color: var(--base--text);
   }
