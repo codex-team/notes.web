@@ -32,6 +32,7 @@
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
     "@hawk.so/vite-plugin": "^1.0.2",
     "@types/node": "^20.10.7",
     "@vitejs/plugin-vue": "^4.1.0",
