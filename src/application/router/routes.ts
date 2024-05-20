@@ -1,4 +1,5 @@
 import Home from '@/presentation/pages/Home.vue';
+import Join from '@/presentation/pages/Join.vue';
 import Note from '@/presentation/pages/Note.vue';
 import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
@@ -57,10 +58,19 @@ const routes: RouteRecordRaw[] = [
     path: `/settings/`,
     component: Settings,
   },
+
   {
     name: 'note_settings',
     path: '/note/:id/settings',
     component: NoteSettings,
+    props: (route) => ({
+      id: String(route.params.id),
+    }),
+  },
+
+  {
+    path: '/join/:id',
+    component: Join,
     props: (route) => ({
       id: String(route.params.id),
     }),

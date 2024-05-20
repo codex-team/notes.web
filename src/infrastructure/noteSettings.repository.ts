@@ -2,6 +2,7 @@ import type NoteSettingsRepositoryInterface from '@/domain/noteSettings.reposito
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { NoteId } from '@/domain/entities/Note';
+import type { TeamMember } from '@/domain/entities/TeamMember';
 
 /**
  * Note settings repository
@@ -50,5 +51,15 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
    */
   public async regenerateInvitationHash(id: NoteId): Promise<NoteSettings> {
     return await this.transport.patch<NoteSettings>(`/note-settings/${id}/invitation-hash`);
+  }
+
+  /**
+   * Join team with hash
+   *
+   * @param hash - hash
+   * @returns {}
+   */
+  public async joinNoteByInvitationHash(hash: string): Promise<TeamMember> {
+    return await this.transport.post(`/join/${hash}`, { hash });
   }
 }

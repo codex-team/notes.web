@@ -1,5 +1,6 @@
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
+import type { TeamMember } from './entities/TeamMember';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -30,4 +31,11 @@ export default interface NoteSettingsRepositoryInterface {
    * @returns updated note settings
    */
   regenerateInvitationHash(id: NoteId): Promise<NoteSettings>;
+
+  /**
+   * Join note by hash
+   *
+   * @param hash - hash
+   */
+  joinNoteByInvitationHash(hash: string): Promise<TeamMember>;
 }

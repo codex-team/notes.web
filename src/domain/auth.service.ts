@@ -11,7 +11,7 @@ export default class AuthService {
   /**
    * Facade for accessing auth data
    */
-  private readonly repository: AuthRepository;
+  public readonly repository: AuthRepository;
 
   /**
    * Service constructor

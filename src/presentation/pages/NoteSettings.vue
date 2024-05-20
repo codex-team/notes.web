@@ -31,6 +31,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onMounted } from 'vue';
 import type { NoteId } from '@/domain/entities/Note';
 import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import Button from '@/presentation/components/button/Button.vue';
@@ -39,7 +40,6 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
 
 const { t } = useI18n();
 
@@ -56,8 +56,9 @@ const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
 
-load(props.id);
-
+onMounted(() => {
+  load(props.id);
+});
 /**
  * Button click handler
  */

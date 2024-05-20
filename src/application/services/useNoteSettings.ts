@@ -1,7 +1,10 @@
 import { ref, type Ref } from 'vue';
+import { useRouter } from 'vue-router';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
+import { authService } from '@/domain';
+import type { TeamMember } from '@/domain/entities/TeamMember';
 
 /**
  * Note settings hook state
@@ -33,16 +36,26 @@ interface UseNoteSettingsComposableState {
    * @param id - note id
    */
   revokeHash: (id: NoteId) => Promise<void>;
+
+  /**
+   * Join note by hash
+   *
+   * @param hash - hash
+   * @returns string
+   */
+  joinNote: (hash: string) => Promise<TeamMember>;
 }
 
 /**
  * Application service for working with the Note settings
  */
 export default function (): UseNoteSettingsComposableState {
+  const router = useRouter();
   /**
    * NoteSettings ref
    */
   const noteSettings = ref<NoteSettings | null>(null);
+  const teamMember = ref<TeamMember | null>(null);
 
   /**
    * Get note settings
@@ -79,10 +92,21 @@ export default function (): UseNoteSettingsComposableState {
     }
   };
 
+  const joinNote = async (hash: string): Promise<TeamMember> => {
+    if (!authService.repository.hasSession()) {
+      void router.push('/');
+    }
+
+    teamMember.value = await noteSettingsService.joinNoteTeam(hash);
+
+    return teamMember.value as TeamMember;
+  };
+
   return {
     noteSettings,
     load,
     update,
     revokeHash,
+    joinNote,
   };
 }

@@ -2,6 +2,7 @@ import type NoteSettingsRepository from '@/domain/noteSettings.repository.interf
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
+import type { TeamMember } from './entities/TeamMember';
 
 /**
  * Note Service
@@ -81,6 +82,25 @@ export default class NoteService {
         throw new Error(`404 Not Found: We couldn't find ${id} note.`);
       }
 
+      throw error;
+    }
+
+    return result;
+  }
+
+  /**
+   * Join team by hash
+   *
+   * @param hash
+   *
+   * @returns { TeamMember }
+   */
+  public async joinNoteTeam(hash: string): Promise<TeamMember> {
+    let result;
+
+    try {
+      result = this.noteSettingsRepository.joinNoteByInvitationHash(hash);
+    } catch (error) {
       throw error;
     }
 
