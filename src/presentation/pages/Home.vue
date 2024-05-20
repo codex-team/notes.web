@@ -76,7 +76,6 @@ function getSubtitle(note: Note): string | undefined{
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: minmax(213px, auto); 
   flex-direction: column;
   gap: var(--spacing-ml);
 
