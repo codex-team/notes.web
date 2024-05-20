@@ -91,7 +91,7 @@ export default class NoteService {
   /**
    * Join team by hash
    *
-   * @param hash
+   * @param hash - hash key
    *
    * @returns { TeamMember }
    */

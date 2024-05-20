@@ -132,7 +132,7 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
   /**
    * Initializes editorjs instance
    *
-   * @param data
+   * @param data - editor output content
    */
   async function mountEditor(data?: OutputData): Promise<void> {
     try {
