@@ -27,8 +27,8 @@ export default class AuthService {
     if (this.repository.hasSession()) {
       this.repository
         .restoreSession()
-        .then(async (session) => {
-          await this.acceptSession(session.accessToken, session.refreshToken);
+        .then((session) => {
+          this.acceptSession(session.accessToken, session.refreshToken);
         })
         .catch(async (error) => {
           if (error instanceof UnauthorizedError && error.message === 'Session is not valid') {
@@ -51,13 +51,15 @@ export default class AuthService {
    * @param accessToken - token got from backend. Used to access protected resources
    * @param refreshToken - token got from backend. Used to refresh access token
    */
-  public async acceptSession(accessToken: string, refreshToken: string): Promise<void> {
+  public acceptSession(accessToken: string, refreshToken: string): void {
     this.eventBus.dispatchEvent(
       new AuthCompletedEvent({
         accessToken,
         refreshToken,
       })
     );
+
+    return;
   }
 
   /**
