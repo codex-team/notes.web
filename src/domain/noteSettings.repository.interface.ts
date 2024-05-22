@@ -40,7 +40,6 @@ export default interface NoteSettingsRepositoryInterface {
 
   /**
    * Delete note by it's id
-   *
    * @param id - Note id
    */
   deleteNote(id: NoteId): Promise<void>;

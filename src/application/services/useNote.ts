@@ -57,7 +57,7 @@ interface UseNoteComposableState {
   /**
    * Returns list of tools used in note
    */
-  resolveToolsByContent: (content: NoteContent) => Promise<NoteTool[]>;
+  resolveToolsByContent: (content: NoteContent) => NoteTool[];
 
   /**
    * Load note by custom hostname
@@ -168,7 +168,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Returns list of tools used in the note
    * @param content - content of the note
    */
-  async function resolveToolsByContent(content: NoteContent): Promise<NoteTool[]> {
+  function resolveToolsByContent(content: NoteContent): NoteTool[] {
     const { tools } = useTools(noteTools);
     const resolvedNoteTools = new Map();
 
@@ -197,7 +197,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       resolvedNoteTools.set(tool.id, tool);
     });
 
-    return Array.from(resolvedNoteTools.values());
+    return Array.from(resolvedNoteTools.values()) as NoteTool[];
   }
 
   /**
@@ -213,7 +213,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * Resolve tools that are used in note
      */
-    const specifiedNoteTools = await resolveToolsByContent(content);
+    const specifiedNoteTools = resolveToolsByContent(content);
 
     if (currentId.value === null) {
       /**

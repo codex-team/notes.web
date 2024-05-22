@@ -28,8 +28,15 @@
     }
   },
   "include": [
-    "src",
+    "src/**/*.ts",
+    "src/**/*.vue",
     "vite.config.ts",
     ".eslint.config.mjs"
+  ],
+  "exclude": [
+    "node_modules",
+    "codex-ui",
+    "eslint.config.mjs",
+    "postcss.config.js",
   ]
 }

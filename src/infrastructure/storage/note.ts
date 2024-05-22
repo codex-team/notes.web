@@ -9,7 +9,7 @@ export default class NoteStorage {
    * @param publicId - Note publicId
    * @returns - Note data
    */
-  public async getNoteById(publicId: string): Promise<Note | null> {
+  public getNoteById(publicId: string): Note | null {
     console.log('Get note by publicId', publicId);
 
     return null;
@@ -20,7 +20,7 @@ export default class NoteStorage {
    * @param hostname - Custom hostname
    * @returns - Note data
    */
-  public async getNoteByHostname(hostname: string): Promise<Note | null> {
+  public getNoteByHostname(hostname: string): Note | null {
     console.log('Get note by hostname', hostname);
 
     return null;
@@ -30,7 +30,7 @@ export default class NoteStorage {
    * Insert note
    * @param note - note to insert
    */
-  public async insertNote(note: Note): Promise<void> {
+  public insertNote(note: Note): void {
     console.log('Insert note', note);
 
     return;
