@@ -7,10 +7,4 @@
     "eslint.config.mjs",
     "postcss.config.js",
   ],
-  "exclude": [
-    "node_modules",
-    "codex-ui",
-    "eslint.config.mjs",
-    "postcss.config.js",
-  ]
 }

@@ -24,7 +24,7 @@ const props = withDefaults(
     disabled: false }
 );
 
-const switchValue = defineModel({ default: true });
+const switchValue = defineModel<boolean>({ default: true });
 
 switchValue.value = props.value;
 
