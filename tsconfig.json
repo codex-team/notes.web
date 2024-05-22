@@ -27,16 +27,4 @@
       "codex-ui/vue": ["../codex-ui/dist/types/vue/index.d.ts"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.vue",
-    "vite.config.ts",
-    ".eslint.config.mjs"
-  ],
-  "exclude": [
-    "node_modules",
-    "codex-ui",
-    "eslint.config.mjs",
-    "postcss.config.js",
-  ]
 }
