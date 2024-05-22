@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Heading :level="1" :class="$style['home__heading']">
+    <Heading
+      :level="1"
+      :class="$style['home__heading']"
+    >
       {{ $t('home.title') }}
     </Heading>
 
@@ -14,16 +17,24 @@
 
     <div v-if="noteList">
       <div :class="$style['note-list']">
-        <RouterLink v-for="note in noteList.items" :key="note.id" :to="`/note/${note.id}`">
-          <Card 
-            :class="$style['note-list__card']" 
-            :title="getTitle(note.content)" 
+        <RouterLink
+          v-for="note in noteList.items"
+          :key="note.id"
+          :to="`/note/${note.id}`"
+        >
+          <Card
+            :class="$style['note-list__card']"
+            :title="getTitle(note.content)"
             :subtitle="getSubtitle(note)"
-            orientation="vertical" />
+            orientation="vertical"
+          />
         </RouterLink>
       </div>
 
-      <Button :class="$style.button" @click="loadMoreNotes">
+      <Button
+        :class="$style.button"
+        @click="loadMoreNotes"
+      >
         {{ $t('loadMore') }}
       </Button>
     </div>
@@ -37,8 +48,7 @@ import { useAppState } from '@/application/services/useAppState';
 import useNoteList from '@/application/services/useNoteList';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
-import { Button, Card } from 'codex-ui/vue';
-import { Heading } from 'codex-ui/vue';
+import { Button, Card, Heading } from 'codex-ui/vue';
 import { Note } from '@/domain/entities/Note';
 
 const { user } = useAppState();
@@ -54,9 +64,10 @@ useHead({
 
 /**
  * Returns card subtitle text
+ *
  * @param note - Note entity
  */
-function getSubtitle(note: Note): string | undefined{
+function getSubtitle(note: Note): string | undefined {
   if (note.updatedAt === undefined) {
     return;
   }
