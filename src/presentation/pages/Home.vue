@@ -9,7 +9,7 @@
     </div>
 
     <div v-if="user && noteList?.items.length === 0">
-      <p>{{ $t('note.emptyNoteList') }}</p>
+      <p>{{ $t('noteList.emptyNoteList') }}</p>
     </div>
 
     <div v-if="noteList">
