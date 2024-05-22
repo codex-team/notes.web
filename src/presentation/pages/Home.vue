@@ -8,7 +8,7 @@
       <p>{{ $t('home.authText') }}</p>
     </div>
 
-    <div v-if="user && !noteList">
+    <div v-if="user && noteList?.items.length === 0">
       <p>{{ $t('note.emptyNoteList') }}</p>
     </div>
 
