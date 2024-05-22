@@ -17,19 +17,22 @@ const props = defineProps<{
   level: number;
 }>();
 </script>
+<style module lang="postcss">
+@import '@/styles/typography.pcss';
 
-<style module>
-@import '@/styles/mixins/typography.pcss';
+.heading {
+  color: var(--base--text);
+}
 
 h1.heading {
-  @apply --text-heading-1;
+  @apply --text-h1;
 }
 
 h2.heading {
-  @apply --text-heading-2;
+  @apply --text-h2;
 }
 
 h3.heading {
-  @apply --text-heading-3;
+  @apply --text-h3;
 }
 </style>
