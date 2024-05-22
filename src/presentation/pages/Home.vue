@@ -15,7 +15,10 @@
     <div v-if="noteList">
       <div :class="$style['note-list']">
         <RouterLink v-for="note in noteList.items" :key="note.id" :to="`/note/${note.id}`">
-          <Card :class="$style['note-list__card']" :title="getTitle(note.content)" :subtitle="getSubtitle(note)"
+          <Card 
+            :class="$style['note-list__card']" 
+            :title="getTitle(note.content)" 
+            :subtitle="getSubtitle(note)"
             orientation="vertical" />
         </RouterLink>
       </div>
