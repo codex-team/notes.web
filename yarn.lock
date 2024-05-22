@@ -4576,6 +4576,7 @@ __metadata:
   resolution: "notes.web@workspace:."
   dependencies:
     "@codexteam/icons": ^0.3.0
+    "@eslint/eslintrc": ^3.1.0
     "@eslint/js": ^9.3.0
     "@hawk.so/javascript": ^3.0.2
     "@hawk.so/vite-plugin": ^1.0.2

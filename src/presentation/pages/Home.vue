@@ -66,6 +66,8 @@ useHead({
  * Returns card subtitle text
  *
  * @param note - Note entity
+ *
+ * @returns {string | undefined}
  */
 function getSubtitle(note: Note): string | undefined {
   if (note.updatedAt === undefined) {
