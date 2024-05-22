@@ -881,6 +881,9 @@ __metadata:
 "@eslint/eslintrc@npm:^3.1.0":
   version: 3.1.0
   resolution: "@eslint/eslintrc@npm:3.1.0"
+"@eslint/eslintrc@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@eslint/eslintrc@npm:3.1.0"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.3.2
@@ -892,6 +895,7 @@ __metadata:
     minimatch: ^3.1.2
     strip-json-comments: ^3.1.1
   checksum: b0a9bbd98c8b9e0f4d975b042ff9b874dde722b20834ea2ff46551c3de740d4f10f56c449b790ef34d7f82147cbddfc22b004a43cc885dbc2664bb134766b5e4
+  checksum: b0a9bbd98c8b9e0f4d975b042ff9b874dde722b20834ea2ff46551c3de740d4f10f56c449b790ef34d7f82147cbddfc22b004a43cc885dbc2664bb134766b5e4
   languageName: node
   linkType: hard
 
@@ -902,6 +906,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint/js@npm:9.3.0, @eslint/js@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "@eslint/js@npm:9.3.0"
+  checksum: 5af317c8bcfef660efc17624b825c71bac16770f8866bfdc2922e1fcc2010af96e4f896e91724b81550e5dba6db6983c221b5be9a1294c9e727dee9ada15c9f8
+  languageName: node
+  linkType: hard
+
+"@eslint/js@npm:^9.1.1":
 "@eslint/js@npm:9.3.0, @eslint/js@npm:^9.3.0":
   version: 9.3.0
   resolution: "@eslint/js@npm:9.3.0"
@@ -980,6 +992,10 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@humanwhocodes/retry@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@humanwhocodes/retry@npm:0.3.0"
+  checksum: 4349cb8b60466a000e945fde8f8551cefb01ebba22ead4a92ac7b145f67f5da6b52e5a1e0c53185d732d0a49958ac29327934a4a5ac1d0bc20efb4429a4f7bf7
 "@humanwhocodes/retry@npm:^0.3.0":
   version: 0.3.0
   resolution: "@humanwhocodes/retry@npm:0.3.0"
@@ -3288,13 +3304,19 @@ __metadata:
 "eslint@npm:^9.3.0":
   version: 9.3.0
   resolution: "eslint@npm:9.3.0"
+"eslint@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "eslint@npm:9.3.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.6.1
     "@eslint/eslintrc": ^3.1.0
     "@eslint/js": 9.3.0
+    "@eslint/eslintrc": ^3.1.0
+    "@eslint/js": 9.3.0
     "@humanwhocodes/config-array": ^0.13.0
     "@humanwhocodes/module-importer": ^1.0.1
+    "@humanwhocodes/retry": ^0.3.0
     "@humanwhocodes/retry": ^0.3.0
     "@nodelib/fs.walk": ^1.2.8
     ajv: ^6.12.4
@@ -3325,6 +3347,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
+  checksum: c6d1eb8b4b064470a99f0d927b0d2b88f1947d7e871761b43b84e6c9b6464db4f6ebbb868f7196a45d2589978b09919a8807d200e3b1640d0a9cd245c9504707
   checksum: c6d1eb8b4b064470a99f0d927b0d2b88f1947d7e871761b43b84e6c9b6464db4f6ebbb868f7196a45d2589978b09919a8807d200e3b1640d0a9cd245c9504707
   languageName: node
   linkType: hard
@@ -4577,6 +4600,7 @@ __metadata:
   dependencies:
     "@codexteam/icons": ^0.3.0
     "@eslint/js": ^9.3.0
+    "@eslint/js": ^9.3.0
     "@hawk.so/javascript": ^3.0.2
     "@hawk.so/vite-plugin": ^1.0.2
     "@types/node": ^20.10.7
@@ -4600,7 +4624,9 @@ __metadata:
     postcss-preset-env: ^9.0.0
     prettier: 3.2.5
     typescript: ^5.4.5
+    typescript: ^5.4.5
     typescript-cookie: ^1.0.6
+    typescript-eslint: ^7.9.0
     typescript-eslint: ^7.9.0
     unhead: ^1.8.3
     vite: ^4.4.9
@@ -5998,6 +6024,7 @@ __metadata:
   linkType: hard
 
 "typescript-eslint@npm:^7.9.0":
+"typescript-eslint@npm:^7.9.0":
   version: 7.9.0
   resolution: "typescript-eslint@npm:7.9.0"
   dependencies:
@@ -6014,6 +6041,7 @@ __metadata:
   linkType: hard
 
 "typescript@npm:^5.3.3, typescript@npm:^5.4.5":
+"typescript@npm:^5.3.3, typescript@npm:^5.4.5":
   version: 5.4.5
   resolution: "typescript@npm:5.4.5"
   bin:
@@ -6023,6 +6051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.4.5#~builtin<compat/typescript>":
 "typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.4.5#~builtin<compat/typescript>":
   version: 5.4.5
   resolution: "typescript@patch:typescript@npm%3A5.4.5#~builtin<compat/typescript>::version=5.4.5&hash=29ae49"
