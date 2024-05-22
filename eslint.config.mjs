@@ -33,6 +33,9 @@ export default [
       'n/no-unsupported-features/node-builtins': ['error', {
         version: '>=22.1.0',
       }],
+      'n/no-extraneous-import': ['error', {
+        allowModules: ['@editorjs/editorjs'],
+      }],
       '@typescript-eslint/naming-convention': ['error', {
         selector: 'property',
         format: ['camelCase'],
