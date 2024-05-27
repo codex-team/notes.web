@@ -54,10 +54,9 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   }
 
   /**
-   * Join team with hash
+   * Join team with invitation hash
    *
-   * @param hash - hash
-   * @returns {}
+   * @param hash - invitation hash
    */
   public async joinNoteByInvitationHash(hash: string): Promise<TeamMember> {
     return await this.transport.post(`/join/${hash}`, { hash });

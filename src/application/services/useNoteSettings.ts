@@ -92,7 +92,12 @@ export default function (): UseNoteSettingsComposableState {
     }
   };
 
-  const joinNote = async (hash: string): Promise<TeamMember> => {
+  /**
+   * Join notex team when authenticated
+   *
+   * @param hash - invitation hash
+   */
+  async function joinNote(hash: string): Promise<TeamMember> {
     if (!authService.repository.hasSession()) {
       void router.push('/');
     }
@@ -100,7 +105,7 @@ export default function (): UseNoteSettingsComposableState {
     teamMember.value = await noteSettingsService.joinNoteTeam(hash);
 
     return teamMember.value as TeamMember;
-  };
+  }
 
   return {
     noteSettings,

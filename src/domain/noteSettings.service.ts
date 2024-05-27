@@ -3,6 +3,7 @@ import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
 import type { TeamMember } from './entities/TeamMember';
+import UnauthorizedError from './entities/errors/Unauthorized';
 
 /**
  * Note Service
@@ -89,9 +90,9 @@ export default class NoteService {
   }
 
   /**
-   * Join team by hash
+   * Join team by invitation key
    *
-   * @param hash - hash key
+   * @param hash - invitation key
    *
    * @returns { TeamMember }
    */
@@ -99,8 +100,12 @@ export default class NoteService {
     let result;
 
     try {
-      result = this.noteSettingsRepository.joinNoteByInvitationHash(hash);
+      result = await this.noteSettingsRepository.joinNoteByInvitationHash(hash);
     } catch (error) {
+      if (error instanceof UnauthorizedError) {
+        throw new Error(`Authorization required to view this resource`);
+      }
+
       throw error;
     }
 

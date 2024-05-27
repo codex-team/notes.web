@@ -35,7 +35,7 @@ export default interface NoteSettingsRepositoryInterface {
   /**
    * Join note by hash
    *
-   * @param hash - hash key
+   * @param hash - invitation hash
    */
   joinNoteByInvitationHash(hash: string): Promise<TeamMember>;
 }
