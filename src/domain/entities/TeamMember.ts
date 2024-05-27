@@ -3,22 +3,22 @@
  */
 export interface TeamMember {
   /**
-   * team member id
+   * unique id of the team
    */
   id: number;
 
   /**
-   * team member noteId
+   * Note(noteId) associated with the team
    */
   noteId: number;
 
   /**
-   * team member userid
+   * User(userId) of the user associated with the team
    */
   userId: string;
 
   /**
-   * team member role
+   * role of the team member e.g either READ(0) or WRITE(1) role
    */
   role: string;
 }

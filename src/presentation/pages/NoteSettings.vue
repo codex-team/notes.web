@@ -56,6 +56,9 @@ const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
 
+/**
+ * Load notesettings as the notes mount
+ */
 onMounted(() => {
   load(props.id);
 });
