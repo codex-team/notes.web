@@ -156,7 +156,7 @@ export function useEditor({ id, content, isReadOnly, onChange }: UseEditorParams
   }
 
   /**
-   * Reinitializes editor instance with new data
+   * Reinitialized editor instance with new data
    *
    * @param data - new data to be displayed in editor
    */

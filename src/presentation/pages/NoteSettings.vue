@@ -57,7 +57,7 @@ const invitationLink = computed(
 );
 
 /**
- * Load notesettings as the notes mount
+ * Load note-settings information fetched immediately the component mount the DOM
  */
 onMounted(() => {
   load(props.id);

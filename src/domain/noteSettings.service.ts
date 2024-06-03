@@ -93,7 +93,6 @@ export default class NoteService {
    * Join team by invitation key
    *
    * @param hash - invitation key
-   *
    * @returns { TeamMember }
    */
   public async joinNoteTeam(hash: string): Promise<TeamMember> {

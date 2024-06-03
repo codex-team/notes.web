@@ -11,7 +11,7 @@ export default class AuthService {
   /**
    * Facade for accessing auth data
    */
-  public readonly repository: AuthRepository;
+  private readonly repository: AuthRepository;
 
   /**
    * Service constructor
@@ -49,7 +49,7 @@ export default class AuthService {
 
   /**
    * Called after oauth to accept session
-   *
+   * @todo - to be implemented as an auth guard at router level
    * @param accessToken - token got from backend. Used to access protected resources
    * @param refreshToken - token got from backend. Used to refresh access token
    */
@@ -72,6 +72,10 @@ export default class AuthService {
      * Event to notify all listeners about logout
      */
     this.eventBus.dispatchEvent(new AuthLogoutEvent());
+  }
+
+  public  checkForLogin():boolean{
+    return this.repository.hasSession();
   }
 
   /**

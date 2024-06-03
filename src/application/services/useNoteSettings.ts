@@ -3,9 +3,8 @@ import { useRouter } from 'vue-router';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
-import { authService } from '@/domain';
 import type { TeamMember } from '@/domain/entities/TeamMember';
-
+import { authService } from '@/domain';
 /**
  * Note settings hook state
  */
@@ -94,13 +93,10 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Join notex team when authenticated
-   *
-   * @todo - to be implemented as an auth guard at router level
-   *
    * @param hash - invitation hash
    */
   async function joinNote(hash: string): Promise<TeamMember> {
-    if (!authService.repository.hasSession()) {
+    if (!authService.checkForLogin()) {
       void router.push('/');
     }
 
