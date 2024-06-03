@@ -8,5 +8,6 @@ export * from './components/editor';
 export * from './components/icon';
 export * from './components/radio';
 export * from './components/switch';
+export * from './components/checkbox';
 export * from './components/card';
 export * from './composables/useTheme';
