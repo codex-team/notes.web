@@ -93,10 +93,11 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Join notex team when authenticated
+   *
    * @param hash - invitation hash
    */
   async function joinNote(hash: string): Promise<TeamMember> {
-    if (!authService.checkForLogin()) {
+    if (!authService.isAuthorized()) {
       void router.push('/');
     }
 
