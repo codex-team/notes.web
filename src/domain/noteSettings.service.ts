@@ -101,10 +101,6 @@ export default class NoteService {
     try {
       result = await this.noteSettingsRepository.joinNoteByInvitationHash(hash);
     } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        throw new Error(`Authorization required to view this resource`);
-      }
-
       throw error;
     }
 
