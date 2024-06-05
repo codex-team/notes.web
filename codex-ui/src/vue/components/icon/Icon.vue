@@ -1,8 +1,10 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <span
     :class="$style['icon']"
     v-html="iconSource"
   />
+  <!-- eslint-disable vue/no-v-html -->
 </template>
 
 <script lang="ts" setup>

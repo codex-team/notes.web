@@ -34,12 +34,12 @@ interface UseEditorParams {
 
 /**
  * Handles Editor.js instance creation
- *
  * @param params - Editor.js params
  */
 export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEditorParams): {
   isEmpty: Ref<boolean>;
-  refresh: (data: OutputData) => void;
+
+  refresh: (data: OutputData) => Promise<void>;
 } {
   /**
    * Editor instance
@@ -55,16 +55,14 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
   /**
    * Checks if the editor is empty
    * Uses EditorJS API:
-   *  - blocks.getById()
-   *  - block.isEmpty()
-   *
+   * - blocks.getById()
+   * - block.isEmpty()
    * @todo implement "isEmpty" method in the EditorJS API
-   *
    * @param data - saved data
    * @param api - EditorJS API
    */
   function checkIsEmpty(data: OutputData, api: API): boolean {
-    const blockIds = data.blocks.map((block) => block.id);
+    const blockIds = data.blocks.map(block => block.id);
 
     return blockIds.reduce((acc, blockId) => {
       if (blockId === undefined) {
@@ -83,7 +81,6 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
 
   /**
    * Function called on every change of the editor
-   *
    * @param api - EditorJS API
    */
   async function handleChange(api: API): Promise<void> {
@@ -99,7 +96,6 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
 
   /**
    * Initializes editorjs instance
-   *
    * @param data - Displayed content for Editor.js
    */
   async function mountEditor(data?: OutputData): Promise<void> {
@@ -110,7 +106,9 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
         tools: {
           ...tools,
         },
-        onChange: handleChange,
+        onChange(api: API) {
+          void handleChange(api);
+        },
         readOnly: isReadOnly,
       });
 
@@ -122,7 +120,6 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
 
   /**
    * Reinitialized editor instance with new data
-   *
    * @param data - new data to be displayed in editor
    */
   async function refresh(data?: OutputData): Promise<void> {

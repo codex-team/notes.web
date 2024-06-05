@@ -55,7 +55,7 @@ withDefaults(
   }
 );
 
-const model = defineModel();
+const model = defineModel<string>();
 </script>
 
 <style module></style>

@@ -35,7 +35,7 @@ defineProps<{
   name?: string;
 }>();
 
-const model = defineModel();
+const model = defineModel<string | undefined>();
 </script>
 
 <style lang="postcss" module>
