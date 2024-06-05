@@ -33,7 +33,7 @@ export default [
         version: '>=22.1.0',
       }],
       'n/no-extraneous-import': ['error', {
-        allowModules: ['@editorjs/editorjs', 'typescript-eslint', 'vue-eslint-parser'],
+        allowModules: ['@editorjs/editorjs'],
       }],
 
       /**
