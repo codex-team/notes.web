@@ -35,8 +35,6 @@ export default class AuthService {
             console.warn('❌ Auth session expired');
 
             await this.logout();
-
-            return;
           }
 
           throw error;
@@ -58,8 +56,6 @@ export default class AuthService {
         refreshToken,
       })
     );
-
-    return;
   }
 
   /**

@@ -14,6 +14,9 @@ export default [
       '@typescript-eslint': TsPlugin,
     },
 
+    /**
+     * This are the options for typescript files
+     */
     languageOptions: {
       parser: TsParser,
       parserOptions: {
@@ -35,20 +38,12 @@ export default [
       'n/no-extraneous-import': ['error', {
         allowModules: ['@editorjs/editorjs'],
       }],
-
-      /**
-       * @todo get rid of this rule ignores and solve all eslint errors occured
-       */
-      // '@typescript-eslint/no-unsafe-assignment': ['off'],
-      // '@typescript-eslint/no-unsafe-argument': ['off'],
-      // '@typescript-eslint/no-unsafe-return': ['off'],
-      // '@typescript-eslint/no-unsafe-call': ['off'],
-      // '@typescript-eslint/no-unsafe-member-access': ['off'],
-      // 'jsdoc/require-param-type': ['off'],
-      // 'jsdoc/informative-docs': ['off'],
-      // 'jsdoc/require-jsdoc': ['off'],
     },
   },
+
+  /**
+   * This override of the options for vue files
+   */
   {
     languageOptions: {
       parser: VueParser,
@@ -70,6 +65,10 @@ export default [
       'n/no-unsupported-features/node-builtins': ['error', {
         version: '>=22.1.0',
       }],
+
+      /**
+       * @todo get rid of this rule ignores and solve all eslint errors occured
+       */
       'jsdoc/require-param-type': ['off'],
       'jsdoc/informative-docs': ['off'],
       'jsdoc/require-jsdoc': ['off'],

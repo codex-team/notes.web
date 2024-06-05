@@ -26,6 +26,9 @@ export default [
       '@typescript-eslint': TsPlugin,
     },
 
+    /**
+     * This are the options for typescript files
+     */
     languageOptions: {
       parser: TsParser,
       parserOptions: {
@@ -69,6 +72,10 @@ export default [
       'jsdoc/require-jsdoc': ['off'],
     },
   },
+
+  /**
+   * This override of the options for vue files
+   */
   {
     languageOptions: {
       parser: VueParser,
