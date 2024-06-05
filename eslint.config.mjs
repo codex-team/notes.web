@@ -21,7 +21,7 @@ export default [
   ...compat.extends('.architecture.eslintrc'),
   {
     name: 'ts-notex.web',
-    ignores: ['codex-ui/**/*', '*.pcss', '*.otf', 'eslint.config.mjs', 'postcss.config.js'],
+    ignores: ['codex-ui/**/*', '*.pcss', '*.otf', 'eslint.config.mjs'],
     plugins: {
       '@typescript-eslint': TsPlugin,
     },
