@@ -38,7 +38,7 @@ export default [
     rules: {
       'n/no-missing-import': ['off'],
       'n/no-unpublished-import': ['error', {
-        allowModules: ['vitest', 'postgres-migrations', 'eslint-import-resolver-alias', 'eslint-config-codex'],
+        allowModules: ['vitest', 'postgres-migrations', 'eslint-config-codex'],
         ignoreTypeImport: true,
       }],
       'n/no-unsupported-features/node-builtins': ['error', {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import postcssNested from 'postcss-nested';
 import postcssPresetEnv from 'postcss-preset-env';
 import postcssApply from 'postcss-apply';

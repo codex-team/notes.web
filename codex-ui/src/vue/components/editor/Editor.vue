@@ -39,6 +39,8 @@ const { isEmpty, refresh } = useEditor({
 defineExpose({
   /**
    * Returns the isEmpty attribute
+   *
+   * @returns {boolean}
    */
   isEmpty() {
     return isEmpty.value;
