@@ -3,7 +3,6 @@
     :class="[
       $style.tab,
       'text-ui-base-medium',
-      isActive && $style['tab--active']
     ]"
   >
     <div
