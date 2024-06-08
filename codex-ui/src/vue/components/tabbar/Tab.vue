@@ -11,7 +11,13 @@
         >
       </template>
       <template v-else-if="icon">
-        <Icon :name="icon" />
+        <div :class="[$style['tab__icon']]">
+          <Icon
+            :name="icon"
+            :width="20"
+            :height="20"
+          />
+        </div>
       </template>
     </div>
 
@@ -79,8 +85,6 @@ withDefaults(
 
   --bg: var(--base--bg-secondary);
   --color: var(--base--text-secondary);
-  --h-padding: var(--spacing-ms);
-  --v-padding: var(--spacing-xs);
 
   /**
    * States
@@ -113,6 +117,11 @@ withDefaults(
     height: var(--size-icon);
     width: var(--size-icon);
     border-radius: var(--radius-s);
+  }
+
+  &__icon {
+    height: var(--size-icon);
+    width: var(--size-icon);
   }
 
   &__right {
