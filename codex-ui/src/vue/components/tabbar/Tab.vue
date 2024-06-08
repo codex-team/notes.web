@@ -3,22 +3,22 @@
     :class="[
       $style.tab,
       'text-ui-base-medium',
+      isActive && $style['tab--active']
     ]"
   >
     <div
       :class="[
         $style['tab__body'],
-        isActive && $style['tab__body--active']
       ]"
     >
       <template v-if="picture">
         <img
           :src="picture"
-          :class="[$style['tab__body__image']]"
+          :class="[$style['tab__body-image']]"
         >
       </template>
       <template v-else-if="icon">
-        <div :class="[$style['tab__body__icon']]">
+        <div :class="[$style['tab__body-icon']]">
           <Icon
             :name="icon"
             :width="20"
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { tabActiveState } from './Tab.types';
+import { TabActiveState } from './Tab.types';
 import Icon from '../icon/Icon.vue';
 
 withDefaults(
@@ -54,7 +54,7 @@ withDefaults(
     /**
      * Current tab state
      */
-    isActive: tabActiveState;
+    isActive: TabActiveState;
 
     /**
      * Link to image to be displayed in the left slot, else undefined
@@ -77,11 +77,13 @@ withDefaults(
 
 <style module>
 .tab {
+  padding: var(--v-padding) 0;
+  position: relative;
+  display: inline-block;
+  width: max-content;
+
   &__body {
-    position: relative;
     min-height: var(--size-icon);
-    display: inline-block;
-    width: max-content;
     display: flex;
     gap: var(--v-padding);
     border-radius: var(--radius-m);
@@ -102,32 +104,32 @@ withDefaults(
       --bg: var(--base--bg-secondary-hover);
     }
 
-    &__image {
+    &-image {
       height: var(--size-icon);
       width: var(--size-icon);
       border-radius: var(--radius-s);
     }
 
-    &__icon {
+    &-icon {
       height: var(--size-icon);
       width: var(--size-icon);
     }
+  }
 
-    &--active {
-      --bg: var(--base--bg-secondary-hover);
-      --color: var(--base--text);
+  &--active .tab__body {
+    --bg: var(--base--bg-secondary-hover);
+    --color: var(--base--text);
 
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 0;
-        bottom: calc(-1 * var(--spacing-xs));
-        width: 100%;
-        height: var(--spacing-very-x);
-        background-color: var(--accent--solid);
-        border-radius: var(--radius-s) var(--radius-s) 0 0;
-      }
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: var(--spacing-very-x);
+      background-color: var(--accent--solid);
+      border-radius: var(--radius-s) var(--radius-s) 0 0;
     }
   }
 }
