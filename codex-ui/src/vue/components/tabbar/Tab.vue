@@ -16,7 +16,7 @@
     </div>
 
     <div :class="[$style['tab__center'], 'text-ui-base-medium']">
-      {{ name }}
+      {{ title }}
     </div>
     <div
       v-if="closable"
@@ -36,7 +36,7 @@ withDefaults(
     /**
      * Name of the tab item
      */
-    name: string;
+    title: string;
 
     /**
      * If true we have cross icon on the right
