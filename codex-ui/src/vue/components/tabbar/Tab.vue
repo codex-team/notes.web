@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { TabState } from './Tab.types';
+import { IsActive } from './Tab.types';
 import Icon from '../icon/Icon.vue';
 
 withDefaults(
@@ -46,20 +46,20 @@ withDefaults(
     /**
      * Current tab state
      */
-    state: TabState;
+    isActive: IsActive;
 
     /**
-     * If we have image in the left slot
+     * Link to image to be displayed in the left slot, else undefined
      */
     picture?: string;
 
     /**
-     * If we have icon in the left slot
+     * Name of the icon to be diplayed in the left slot, else undefined
      */
     icon?: string;
   }>(),
   {
-    state: 'default',
+    isActive: false,
     picture: undefined,
     icon: undefined,
     closable: false,
