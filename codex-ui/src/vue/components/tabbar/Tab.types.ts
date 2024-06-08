@@ -1,4 +1,4 @@
 /**
  * The state of tab
  */
-export type IsActive = boolean;
+export type tabActiveState = boolean;

@@ -250,6 +250,12 @@
       :title="'Home'"
       :closable="true"
     />
+    <br>
+    <Tab
+      :title="'Home'"
+      :closable="true"
+      :is-active="true"
+    />
     <Heading :level="3">
       Type Scale
     </Heading>
