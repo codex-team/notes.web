@@ -1,8 +1,7 @@
 <template>
-  <div :class="[$style.tab]">
-    <div
+  <div :class="[$style.tab, 'text-ui-base-medium']">
+    <template
       v-if="picture || icon"
-      :class="[$style['tab__left']]"
     >
       <template v-if="picture">
         <img
@@ -19,17 +18,14 @@
           />
         </div>
       </template>
-    </div>
+    </template>
 
-    <div :class="[$style['tab__center'], 'text-ui-base-medium']">
-      {{ title }}
-    </div>
-    <div
+    {{ title }}
+    <template
       v-if="closable"
-      :class="[$style['tab__right']]"
     >
       <Icon :name="'Cross'" />
-    </div>
+    </template>
   </div>
 </template>
 
@@ -102,17 +98,6 @@ withDefaults(
   padding: var(--v-padding) var(--h-padding) var(--v-padding) var(--h-padding);
   background-color: var(--bg);
 
-  &__center {
-    display: flex;
-    align-items: center;
-    color: var(--color);
-  }
-
-  &__left {
-    display: flex;
-    align-items: center;
-  }
-
   &__image {
     height: var(--size-icon);
     width: var(--size-icon);
@@ -122,11 +107,6 @@ withDefaults(
   &__icon {
     height: var(--size-icon);
     width: var(--size-icon);
-  }
-
-  &__right {
-    display: flex;
-    align-items: center;
   }
 }
 </style>
