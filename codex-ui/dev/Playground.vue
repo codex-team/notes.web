@@ -250,7 +250,9 @@
       :name="'Home'"
       :closable="true"
     />
-    <Heading :level="3"> Type Scale </Heading>
+    <Heading :level="3">
+      Type Scale
+    </Heading>
     <Heading :level="3">
       Type Scale
     </Heading>
@@ -278,7 +280,7 @@ import {
   Avatar,
   Switch,
   RadioGroup,
-  Tab,
+  Tab
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';

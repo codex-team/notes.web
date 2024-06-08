@@ -8,7 +8,7 @@
         <img
           :src="picture"
           :class="[$style['tab__image']]"
-        />
+        >
       </template>
       <template v-else-if="icon">
         <Icon :name="icon" />
