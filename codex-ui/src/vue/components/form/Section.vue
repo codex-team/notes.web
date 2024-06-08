@@ -57,9 +57,6 @@ withDefaults(
   flex-direction: column;
   gap: var(--spacing-xs);
 
-  --h-padding: var(--spacing-m);
-  --v-padding: var(--spacing-xs);
-
   &--small {
     --h-padding: var(--spacing-s);
   }

@@ -66,9 +66,6 @@ defineProps<{
 
 <style module lang="postcss">
 .row {
-  --h-padding: var(--spacing-ms);
-  --v-padding: var(--spacing-xs);
-
   padding-left: var(--h-padding);
   display: flex;
   gap: var(--h-padding);
