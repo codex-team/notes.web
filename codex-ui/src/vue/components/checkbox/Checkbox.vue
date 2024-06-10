@@ -3,16 +3,20 @@
     :class="[$style.checkbox, disabled ? $style[`checkbox--disabled`] : '', checkboxValue ? $style[`checkbox--on`] : '']"
     v-on="disabled === false ? { click: changeValue } : {}"
   >
-    <svg class="checkmark"
-         xmlns="http://www.w3.org/2000/svg"
-         width="20"
-         height="20"
-         viewBox="0 0 20 20"
-         fill="none">
-      <path d="M5.99998 9.5L8.8823 12.6705C8.96165 12.7578 9.09892 12.7578 9.17828 12.6705L14.3333 7"
-            stroke="#F5F5F5"
-            stroke-width="1.6"
-            stroke-linecap="round" />
+    <svg
+      class="checkmark"
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+    >
+      <path
+        d="M5.99998 9.5L8.8823 12.6705C8.96165 12.7578 9.09892 12.7578 9.17828 12.6705L14.3333 7"
+        stroke="#F5F5F5"
+        stroke-width="1.6"
+        stroke-linecap="round"
+      />
     </svg>
   </div>
 </template>
@@ -30,7 +34,8 @@ const props = withDefaults(
      */
     disabled?: boolean;
   }>(),
-  { value: false, disabled: false }
+  { value: false,
+    disabled: false }
 );
 
 const checkboxValue = defineModel({ default: true });
