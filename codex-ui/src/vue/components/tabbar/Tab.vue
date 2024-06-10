@@ -36,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import { TabActiveState } from './Tab.types';
 import Icon from '../icon/Icon.vue';
 
 withDefaults(
@@ -54,7 +53,7 @@ withDefaults(
     /**
      * Current tab state
      */
-    isActive: TabActiveState;
+    isActive: boolean;
 
     /**
      * Link to image to be displayed in the left slot, else undefined
