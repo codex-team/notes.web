@@ -232,6 +232,34 @@
     </Section>
     <br>
     <Heading :level="3">
+      Tab
+    </Heading>
+    <Tab :title="'Home'" />
+    <br>
+    <Tab
+      :title="'Home'"
+      :picture="'../static/example-avatar.png'"
+    />
+    <br>
+    <Tab
+      title="Home"
+      :icon="'Plus'"
+    />
+    <br>
+    <Tab
+      :title="'Home'"
+      :closable="true"
+    />
+    <br>
+    <Tab
+      :title="'Home'"
+      :closable="true"
+      :is-active="true"
+    />
+    <Heading :level="3">
+      Type Scale
+    </Heading>
+    <Heading :level="3">
       Type Scale
     </Heading>
     <TypeScale />
@@ -257,7 +285,8 @@ import {
   ButtonStyle,
   Avatar,
   Switch,
-  RadioGroup
+  RadioGroup,
+  Tab
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
