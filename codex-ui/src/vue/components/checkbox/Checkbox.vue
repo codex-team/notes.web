@@ -38,7 +38,7 @@ const props = withDefaults(
     disabled: false }
 );
 
-const checkboxValue = defineModel({ default: true });
+const checkboxValue = defineModel<boolean>({ default: true });
 
 checkboxValue.value = props.value;
 
