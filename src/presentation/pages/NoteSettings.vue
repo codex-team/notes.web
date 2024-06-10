@@ -25,18 +25,20 @@
     <Button
       type="primary"
       @click="regenerateHash"
-      >{{ t('noteSettings.revokeHash') }}</Button
     >
+      {{ t('noteSettings.revokeHash') }}
+    </Button>
     <Team
       :note-id="id"
       :team="noteSettings.team"
     />
-    <br />
+    <br>
     <Button
       type="destructive"
       @click="deleteNote"
-      >{{ t('noteSettings.deleteNote') }}</Button
     >
+      {{ t('noteSettings.deleteNote') }}
+    </Button>
   </div>
   <div v-else>
     Loading...

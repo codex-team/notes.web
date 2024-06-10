@@ -42,5 +42,5 @@ const props = defineProps<{
  */
 const id = computed(() => `radio-${props.name ?? 'unknown'}-${props.value}`);
 
-const model = defineModel();
+const model = defineModel<string>();
 </script>
