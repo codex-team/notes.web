@@ -16,6 +16,9 @@ const routes: RouteRecordRaw[] = [
     name: 'home',
     path: '/',
     component: Home,
+    meta: {
+      pageTitle: 'Home',
+    },
     beforeEnter: () => {
       // Custom hostname should return page instead of homepage
       if (!import.meta.env.DEV && location.hostname != websiteHostname) {
@@ -29,6 +32,9 @@ const routes: RouteRecordRaw[] = [
     name: 'note',
     path: '/note/:id',
     component: Note,
+    meta: {
+      pageTitle: 'Note',
+    },
     props: route => ({
       id: String(route.params.id),
     }),
@@ -40,6 +46,9 @@ const routes: RouteRecordRaw[] = [
     props: {
       id: null,
     },
+    meta: {
+      pageTitle: 'New note',
+    },
   },
   {
     path: '/note/:id/new',
@@ -48,14 +57,23 @@ const routes: RouteRecordRaw[] = [
       id: null,
       parentId: String(route.params.id),
     }),
+    meta: {
+      pageTitle: 'New note',
+    },
   },
   {
     path: '/view/',
     component: Landing,
+    meta: {
+      pageTitle: 'Landing',
+    },
   },
   {
     path: `/settings/`,
     component: Settings,
+    meta: {
+      pageTitle: 'User settings',
+    },
   },
   {
     name: 'note_settings',
@@ -64,15 +82,24 @@ const routes: RouteRecordRaw[] = [
     props: route => ({
       id: String(route.params.id),
     }),
+    meta: {
+      pageTitle: 'Note Settings',
+    },
   },
   {
     path: `/marketplace`,
     component: Marketplace,
+    meta: {
+      pageTitle: 'Marketplace',
+    },
   },
   {
     name: 'newTool',
     path: `/marketplace/add`,
     component: AddTool,
+    meta: {
+      pageTitle: 'Add tool',
+    },
   },
   /**
    * 404 page
@@ -82,6 +109,7 @@ const routes: RouteRecordRaw[] = [
     component: ErrorPage,
     meta: {
       layout: 'fullpage',
+      pageTitle: 'Not found',
     },
     props: {
       code: 404,

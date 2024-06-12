@@ -16,6 +16,6 @@ declare module 'vue-router' {
     /**
      * Short text description of the route's page
      */
-    pageTitle?: string;
+    pageTitle: string;
   }
 }

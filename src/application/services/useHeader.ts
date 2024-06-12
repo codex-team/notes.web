@@ -1,5 +1,5 @@
 import type { ComputedRef } from 'vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { AppStateController } from '@/domain';
 import type { Page, PageList } from '@/domain/entities/Page';
@@ -57,6 +57,11 @@ export default function (): useHeaderComposableState {
 
   onMounted(() => {
     getOpenedPages();
+  });
+
+  watch(route, (currentRoute, _) => {
+    addPage({ title: currentRoute.meta.pageTitle,
+      url: currentRoute.path });
   });
 
   /**
