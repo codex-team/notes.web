@@ -5,8 +5,10 @@ import NotesApiTransport from '@/infrastructure/transport/notes-api';
 import AuthRepository from '@/infrastructure/auth.repository';
 import AuthStore from '@/infrastructure/storage/auth';
 import UserRepository from '@/infrastructure/user.repository';
+import WorkspaceRepository from '@/infrastructure/workspace.repository';
 import MarketplaceRepository from '@/infrastructure/marketplace.repository';
 import { UserStore } from '@/infrastructure/storage/user';
+import { PageStore } from '@/infrastructure/storage/page';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEvent';
@@ -39,6 +41,8 @@ export interface Repositories {
    * Working with editor tools data
    */
   marketplace: MarketplaceRepository;
+
+  workspace: WorkspaceRepository;
 }
 
 /**
@@ -53,6 +57,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteStore = new NoteStore();
   const authStore = new AuthStore();
   const userStore = new UserStore();
+  const pageStore = new PageStore();
 
   /**
    * Init transport
@@ -99,6 +104,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
+  const workspaceRepository = new WorkspaceRepository(pageStore);
 
   return {
     note: noteRepository,
@@ -106,5 +112,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     auth: authRepository,
     user: userRepository,
     marketplace: marketplaceRepository,
+    workspace: workspaceRepository,
   };
 }

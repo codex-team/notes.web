@@ -12,5 +12,10 @@ declare module 'vue-router' {
      * Layout like component wrapper
      */
     layout?: keyof typeof layouts;
+
+    /**
+     * Short text description of the route's page
+     */
+    pageTitle?: string;
   }
 }
