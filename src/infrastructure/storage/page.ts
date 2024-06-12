@@ -1,4 +1,4 @@
-import type { Page, PageList } from '@/domain/entities/Page';
+import type { Page, PageList } from '@/domain/entities/page';
 import { SubscribableStore } from './abstract/subscribable';
 
 export type TabStoreData = {

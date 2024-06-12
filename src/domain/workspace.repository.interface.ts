@@ -1,4 +1,4 @@
-import type { Page, PageList } from './entities/Page';
+import type { Page, PageList } from './entities/page';
 
 export default interface WorkspaceRepositoryInterface {
   getOpenedPages: () => PageList | null;

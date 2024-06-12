@@ -1,6 +1,6 @@
 import type { PageStore, TabStoreData } from './storage/page';
 import type WorkspaceRepositoryInterface from '@/domain/workspace.repository.interface';
-import type { Page, PageList } from '@/domain/entities/Page';
+import type { Page, PageList } from '@/domain/entities/page';
 import Repository from './repository';
 
 export default class WorkspaceRepository extends Repository<PageStore, TabStoreData> implements WorkspaceRepositoryInterface {

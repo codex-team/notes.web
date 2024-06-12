@@ -1,5 +1,5 @@
 import type WorkspaceRepository from '@/domain/workspace.repository.interface';
-import type { Page, PageList } from './entities/Page';
+import type { Page, PageList } from './entities/page';
 
 export default class WorkspaceService {
   private readonly repository: WorkspaceRepository;
