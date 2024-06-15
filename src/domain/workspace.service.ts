@@ -20,7 +20,7 @@ export default class WorkspaceService {
     this.repository.deleteOpenedPage(page);
   }
 
-  public patchPage(page: Page): void {
-    this.repository.patchPage(page);
+  public patchOpenedPage(page: Page): void {
+    this.repository.patchOpenedPage(page);
   }
 }

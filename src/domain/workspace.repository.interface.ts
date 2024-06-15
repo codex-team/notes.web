@@ -7,5 +7,5 @@ export default interface WorkspaceRepositoryInterface {
 
   deleteOpenedPage: (page: Page) => void;
 
-  patchPage: (page: Page) => void;
+  patchOpenedPage: (page: Page) => void;
 }

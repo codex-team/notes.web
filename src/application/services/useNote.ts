@@ -2,10 +2,11 @@ import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, wat
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type { NoteTool } from '@/domain/entities/Note';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { useTools } from './useTools';
+import useHeader from './useHeader';
 
 /**
  * Creates base structure for the empty note:
@@ -97,6 +98,7 @@ interface UseNoteComposableOptions {
  * @param options - note service options
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
+  const { patchOpenedPage } = useHeader();
   /**
    * Current note identifier
    */
@@ -118,6 +120,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
+
+  const route = useRoute();
 
   const limitCharsForNoteTitle = 50;
 
@@ -294,6 +298,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
     void load(newId);
   });
+
+  watch(noteTitle, currentNoteTitle => [
+    patchOpenedPage({
+      title: currentNoteTitle,
+      url: route.path,
+    }),
+  ]);
 
   return {
     note,

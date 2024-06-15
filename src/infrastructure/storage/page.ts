@@ -23,7 +23,7 @@ export class PageStore extends SubscribableStore<TabStoreData> {
     this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == page.url));
   }
 
-  public patchPage(page: Page): void {
+  public patchOpenedPage(page: Page): void {
     this.data.openedPages = this.data.openedPages.map((currentPage) => {
       if (currentPage.url == page.url) {
         currentPage.title = page.title;
