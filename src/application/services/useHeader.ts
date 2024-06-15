@@ -1,10 +1,11 @@
 import type { ComputedRef } from 'vue';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, toRef, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { AppStateController } from '@/domain';
 import type { Page, PageList } from '@/domain/entities/Page';
 import type { TabList } from '@/domain/entities/Tab';
 import { workspaceService } from '@/domain/index';
+import useNote from './useNote';
 
 interface useHeaderComposableState {
   getOpenedPages: () => void;
@@ -20,6 +21,16 @@ interface useHeaderComposableState {
 
 export default function (): useHeaderComposableState {
   const route = useRoute();
+
+  let noteTitle = ref<string | undefined>(undefined);
+
+  if (route.meta.pageTitle === 'New note') {
+    if (typeof route.params.id === 'string') {
+      const noteId = toRef(route.params.id);
+
+      noteTitle = useNote({ id: noteId }).noteTitle;
+    }
+  }
 
   const openedPages = ref<PageList | null>(null);
 
@@ -65,9 +76,16 @@ export default function (): useHeaderComposableState {
     getOpenedPages();
   });
 
-  watch(route, (currentRoute, _) => {
+  watch(route, (currentRoute) => {
     addPage({ title: currentRoute.meta.pageTitle,
       url: currentRoute.path });
+  });
+
+  watch(noteTitle, (currentNoteTitle) => {
+    if (currentNoteTitle !== undefined) {
+      patchPage({ title: currentNoteTitle,
+        url: route.path });
+    }
   });
 
   /**
