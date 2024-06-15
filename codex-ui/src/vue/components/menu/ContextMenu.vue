@@ -4,7 +4,7 @@
       v-if="showSearch"
       :class="$style['context_menu__search']"
     >
-      <Input />
+      <Input :class="$style['context_menu__input']"/>
       <div :class="$style['context_menu__sep-item']">
         <div :class="$style['context_menu__separator']" />
       </div>
@@ -68,6 +68,10 @@ withDefaults(
   display: grid;
   width: max-content;
   gap: var(--spacing-very-x);
+
+  &__input {
+    height: 32px;
+  }
 
   &__search {
     display: grid;
