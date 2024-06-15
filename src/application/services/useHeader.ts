@@ -6,6 +6,7 @@ import type { Page } from '@/domain/entities/Page';
 import type { TabList } from '@/domain/entities/Tab';
 import { workspaceService } from '@/domain/index';
 import useNote from './useNote';
+import { notEmpty } from '@/infrastructure/utils/empty';
 
 interface useHeaderComposableState {
   getOpenedPages: () => void;
@@ -89,7 +90,7 @@ export default function (): useHeaderComposableState {
       };
     });
 
-    if (pages !== undefined && pages !== null) {
+    if (notEmpty(pages)) {
       activeTabs.push(...pages);
     }
 
