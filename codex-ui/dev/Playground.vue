@@ -257,9 +257,6 @@
       :is-active="true"
     />
     <Heading :level="3">
-      Type Scale
-    </Heading>
-    <Heading :level="3">
       Context Menu
     </Heading>
     <ContextMenu
