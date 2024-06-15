@@ -7,7 +7,9 @@ import ErrorPage from '@/presentation/pages/Error.vue';
 import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
 
@@ -33,7 +35,7 @@ const routes: RouteRecordRaw[] = [
     path: '/note/:id',
     component: Note,
     meta: {
-      pageTitle: 'Note',
+      pageTitle: t('note.new'),
     },
     props: route => ({
       id: String(route.params.id),
@@ -47,7 +49,7 @@ const routes: RouteRecordRaw[] = [
       id: null,
     },
     meta: {
-      pageTitle: 'New note',
+      pageTitle: t('note.new'),
     },
   },
   {
@@ -58,21 +60,21 @@ const routes: RouteRecordRaw[] = [
       parentId: String(route.params.id),
     }),
     meta: {
-      pageTitle: 'New note',
+      pageTitle: t('note.new'),
     },
   },
   {
     path: '/view/',
     component: Landing,
     meta: {
-      pageTitle: 'Landing',
+      pageTitle: t('appTitle'),
     },
   },
   {
     path: `/settings/`,
     component: Settings,
     meta: {
-      pageTitle: 'User settings',
+      pageTitle: t('userSettings.title'),
     },
   },
   {
@@ -83,14 +85,14 @@ const routes: RouteRecordRaw[] = [
       id: String(route.params.id),
     }),
     meta: {
-      pageTitle: 'Note Settings',
+      pageTitle: t('noteSettings.title'),
     },
   },
   {
     path: `/marketplace`,
     component: Marketplace,
     meta: {
-      pageTitle: 'Marketplace',
+      pageTitle: t('marketplace.title'),
     },
   },
   {
@@ -98,7 +100,7 @@ const routes: RouteRecordRaw[] = [
     path: `/marketplace/add`,
     component: AddTool,
     meta: {
-      pageTitle: 'Add tool',
+      pageTitle: t('marketplace.addTool'),
     },
   },
   /**
@@ -109,7 +111,7 @@ const routes: RouteRecordRaw[] = [
     component: ErrorPage,
     meta: {
       layout: 'fullpage',
-      pageTitle: 'Not found',
+      pageTitle: t('errors.404'),
     },
     props: {
       code: 404,
