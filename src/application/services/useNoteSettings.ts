@@ -44,7 +44,6 @@ interface UseNoteSettingsComposableState {
 
   /**
    * Delete note by it's id
-   *
    * @param id - Note id
    */
   deleteNoteById: (id: NoteId) => Promise<void>;
@@ -117,7 +116,6 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Delete note by it's id
-   *
    * @param id - Note id
    */
   const deleteNoteById = async (id: NoteId): Promise<void> => {

@@ -59,7 +59,7 @@ export default function (): UseMarketplaceComposable {
    */
   watch(
     userEditorTools,
-    async (newValue) => {
+    (newValue) => {
       /**
        * Check if user tools are not loaded yet
        */

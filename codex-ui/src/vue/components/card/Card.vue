@@ -3,9 +3,12 @@
     <div :class="$style['card__cover']" />
 
     <div :class="$style['card__body']">
-      <Heading :level="3">
+      <div
+        :class="['text-ui-base-bold', 'line-clamp-1 ', $style['card__title']]"
+        :title="title"
+      >
         {{ title }}
-      </Heading>
+      </div>
 
       <div :class="[$style['card__subtitle'], 'text-ui-subtle']">
         {{ subtitle }}
@@ -18,7 +21,6 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import Heading from '../heading/Heading.vue';
 import type { CardOrientation } from './Card.types';
 
 withDefaults(
@@ -55,9 +57,9 @@ withDefaults(
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-l);
+  gap: var(--spacing-ml);
   border-radius: var(--radius-m);
-  padding: var(--spacing-m);
+  padding: var(--spacing-ml);
   background-color: var(--base--bg-secondary);
 
   &--horizontal {
@@ -79,8 +81,8 @@ withDefaults(
     background-color: var(--base--bg-primary);
   }
 
-  &__body {
-    width: 100%;
+  &__title {
+    color: var(--base--text);
   }
 }
 </style>

@@ -20,6 +20,7 @@ useTheme();
  * All errors inside the application
  */
 onErrorCaptured((error) => {
+  /* eslint-disable-next-line no-console */
   console.error(error.message);
 });
 </script>

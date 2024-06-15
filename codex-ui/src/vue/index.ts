@@ -9,5 +9,6 @@ export * from './components/icon';
 export * from './components/radio';
 export * from './components/switch';
 export * from './components/card';
+export * from './components/tabbar';
 export * from './composables/useTheme';
 export * from './components/menu';

@@ -9,7 +9,7 @@ export enum Theme {
   Crimson = 'crimson',
   Grass = 'grass',
   Red = 'red',
-  Violet = 'violet',
+  Violet = 'violet'
 }
 
 /**
@@ -22,7 +22,7 @@ export type ThemeScope = 'base' | 'accent';
  */
 export enum ColorScheme {
   Light = 'light',
-  Dark = 'dark',
+  Dark = 'dark'
 }
 
 /**
@@ -42,7 +42,6 @@ const LOCAL_STORAGE_KEY_COLOR_SCHEME = 'color_scheme';
 
 /**
  * Apply theme to the body element
- *
  * @param type – type of theme to apply
  * @param theme – theme to apply
  */
@@ -54,7 +53,6 @@ function applyTheme(type: ThemeScope, theme: Theme): void {
 
 /**
  * Apply color scheme to the body element
- *
  * @param value – color scheme to apply
  */
 function applyColorScheme(value: ColorScheme): void {
@@ -105,7 +103,6 @@ export const useTheme = createSharedComposable(
 
     /**
      * Update base theme value
-     *
      * @param value - new theme value
      */
     function setBaseTheme(value: Theme): void {
@@ -116,7 +113,6 @@ export const useTheme = createSharedComposable(
 
     /**
      * Update accent theme value
-     *
      * @param value - new theme value
      */
     function setAccentTheme(value: Theme): void {
@@ -127,7 +123,6 @@ export const useTheme = createSharedComposable(
 
     /**
      * Set color scheme value
-     *
      * @param value - new color scheme value
      */
     function setColorScheme(value: ColorScheme): void {
