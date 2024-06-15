@@ -65,17 +65,18 @@ withDefaults(
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);
 
-  display: grid;
-  width: max-content;
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-very-x);
-
-  &__input {
-    height: 32px;
-  }
+  width: min-content;
 
   &__search {
     display: grid;
     gap: var(--spacing-very-x);
+  }
+
+  &__input {
+    height: 32px;
   }
 
   &__separator {
@@ -90,6 +91,7 @@ withDefaults(
 
   &__scrollable {
     display: grid;
+    width: max-content;
     gap: var(--spacing-very-x);
   }
 
