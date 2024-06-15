@@ -1,25 +1,25 @@
-import type { Page, PageList } from '@/domain/entities/Page';
+import type { Page } from '@/domain/entities/Page';
 import { SubscribableStore } from './abstract/subscribable';
 
 export type TabStoreData = {
   /**
    * Array of tabs to be stored
    */
-  openedPages: PageList;
+  openedPages: Page[];
 };
 
 export class PageStore extends SubscribableStore<TabStoreData> {
-  public getOpenedPages(): PageList | null {
+  public getOpenedPages(): Page[] | null {
     return this.data.openedPages;
   }
 
-  public addPage(page: Page): Page {
+  public addOpenedPage(page: Page): Page {
     this.data.openedPages = [...this.data.openedPages, page];
 
     return page;
   }
 
-  public deletePage(page: Page): void {
+  public deleteOpenedPage(page: Page): void {
     this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == page.url));
   }
 

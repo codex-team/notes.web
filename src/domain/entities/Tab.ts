@@ -1,3 +1,5 @@
+import type { Page } from './Page';
+
 export interface Tab {
   /**
    * Text to be displayed in tab
@@ -5,9 +7,9 @@ export interface Tab {
   title: string;
 
   /**
-   * Url where tab redirects on click
+   * Function of deleting page from page list or undefind if tab is not closable
    */
-  crossable: boolean;
+  onClose?: (page: Page) => void;
 
   isActive: boolean;
 };

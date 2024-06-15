@@ -2,7 +2,7 @@ import type { ComputedRef } from 'vue';
 import { computed, onMounted, ref, toRef, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { AppStateController } from '@/domain';
-import type { Page, PageList } from '@/domain/entities/Page';
+import type { Page } from '@/domain/entities/Page';
 import type { TabList } from '@/domain/entities/Tab';
 import { workspaceService } from '@/domain/index';
 import useNote from './useNote';
@@ -10,9 +10,9 @@ import useNote from './useNote';
 interface useHeaderComposableState {
   getOpenedPages: () => void;
 
-  addPage: (page: Page) => void;
+  addOpenedPage: (page: Page) => void;
 
-  deletePage: (page: Page) => void;
+  deleteOpenedPage: (page: Page) => void;
 
   patchPage: (page: Page) => void;
 
@@ -32,40 +32,18 @@ export default function (): useHeaderComposableState {
     }
   }
 
-  const openedPages = ref<PageList | null>(null);
-
-  const tabs = computed<TabList>(() => {
-    let activeTabs = [{
-      title: 'Home',
-      crossable: false,
-      isActive: route.path === '/',
-    }];
-
-    const pages = openedPages.value?.map((page) => {
-      return {
-        title: page.title,
-        crossable: true,
-        isActive: route.path === page.url,
-      };
-    });
-
-    if (pages !== undefined && pages !== null) {
-      activeTabs.push(...pages);
-    }
-
-    return activeTabs;
-  });
+  const openedPages = ref<Page[] | null>(null);
 
   const getOpenedPages = (): void => {
     openedPages.value = workspaceService.getOpenedPages();
   };
 
-  const addPage = (page: Page): void => {
-    workspaceService.addPage(page);
+  const addOpenedPage = (page: Page): void => {
+    workspaceService.addOpenedPage(page);
   };
 
-  const deletePage = (page: Page): void => {
-    workspaceService.deletePage(page);
+  const deleteOpenedPage = (page: Page): void => {
+    workspaceService.deleteOpenedPage(page);
   };
 
   const patchPage = (page: Page): void => {
@@ -77,7 +55,7 @@ export default function (): useHeaderComposableState {
   });
 
   watch(route, (currentRoute) => {
-    addPage({ title: currentRoute.meta.pageTitle,
+    addOpenedPage({ title: currentRoute.meta.pageTitle,
       url: currentRoute.path });
   });
 
@@ -91,16 +69,37 @@ export default function (): useHeaderComposableState {
   /**
    * Subscribe to user changes in the App State
    */
-  AppStateController.openedPages((prop: 'openedPages', value: PageList | null) => {
+  AppStateController.openedPages((prop: 'openedPages', value: Page[] | null) => {
     if (prop === 'openedPages') {
-      openedPages.value = value as PageList;
+      openedPages.value = value as Page[];
     }
+  });
+
+  const tabs = computed<TabList>(() => {
+    let activeTabs = [{
+      title: 'Home',
+      isActive: route.path === '/',
+    }];
+
+    const pages = openedPages.value?.map((page) => {
+      return {
+        title: page.title,
+        onClose: deleteOpenedPage,
+        isActive: route.path === page.url,
+      };
+    });
+
+    if (pages !== undefined && pages !== null) {
+      activeTabs.push(...pages);
+    }
+
+    return activeTabs;
   });
 
   return {
     getOpenedPages,
-    addPage,
-    deletePage,
+    addOpenedPage,
+    deleteOpenedPage,
     patchPage,
     tabs,
   };

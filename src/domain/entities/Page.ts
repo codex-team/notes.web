@@ -9,5 +9,3 @@ export interface Page {
    */
   url: string;
 }
-
-export type PageList = Page[];
