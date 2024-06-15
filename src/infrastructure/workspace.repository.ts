@@ -19,4 +19,8 @@ export default class WorkspaceRepository extends Repository<PageStore, TabStoreD
   public deletePage(page: Page): void {
     return this.store.deletePage(page);
   }
+
+  public patchPage(page: Page): void {
+    return this.store.patchPage(page);
+  }
 }

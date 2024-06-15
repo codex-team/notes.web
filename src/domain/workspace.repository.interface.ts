@@ -6,4 +6,6 @@ export default interface WorkspaceRepositoryInterface {
   addPage: (page: Page) => Page;
 
   deletePage: (page: Page) => void;
+
+  patchPage: (page: Page) => void;
 }

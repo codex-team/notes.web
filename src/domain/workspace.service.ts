@@ -19,4 +19,8 @@ export default class WorkspaceService {
   public deletePage(page: Page): void {
     this.repository.deletePage(page);
   }
+
+  public patchPage(page: Page): void {
+    this.repository.patchPage(page);
+  }
 }

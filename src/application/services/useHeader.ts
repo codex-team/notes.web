@@ -9,9 +9,11 @@ import { workspaceService } from '@/domain/index';
 interface useHeaderComposableState {
   getOpenedPages: () => void;
 
-  addPage: (tab: Page) => void;
+  addPage: (page: Page) => void;
 
-  deletePage: (tab: Page) => void;
+  deletePage: (page: Page) => void;
+
+  patchPage: (page: Page) => void;
 
   tabs: ComputedRef<TabList>;
 };
@@ -55,6 +57,10 @@ export default function (): useHeaderComposableState {
     workspaceService.deletePage(page);
   };
 
+  const patchPage = (page: Page): void => {
+    workspaceService.patchPage(page);
+  };
+
   onMounted(() => {
     getOpenedPages();
   });
@@ -77,6 +83,7 @@ export default function (): useHeaderComposableState {
     getOpenedPages,
     addPage,
     deletePage,
+    patchPage,
     tabs,
   };
 }
