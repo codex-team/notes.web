@@ -4,7 +4,7 @@
       v-if="showSearch"
       :class="$style['context_menu__search']"
     >
-      <Input :class="$style['context_menu__input']"/>
+      <Input :class="$style['context_menu__input']" />
       <div :class="$style['context_menu__sep-item']">
         <div :class="$style['context_menu__separator']" />
       </div>

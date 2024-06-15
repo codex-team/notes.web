@@ -291,12 +291,11 @@ import {
   Switch,
   RadioGroup,
   Tab,
-  ContextMenu
+  ContextMenu,
+  ContextMenuItems
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
-import type { ContextMenuItems } from '../src/vue';
-
 const formFieldValue = ref('Heading');
 
 /**
