@@ -74,7 +74,7 @@ const editor = ref<typeof Editor | undefined>(undefined);
  * @param data - editor data
  */
 function noteChanged(data: NoteContent): void {
-  const isEmpty = editor.value?.isEmpty();
+  const isEmpty = Boolean(editor.value?.isEmpty());
 
   if (!isEmpty) {
     save(data, props.parentId);

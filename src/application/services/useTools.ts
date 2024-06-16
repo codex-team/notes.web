@@ -10,6 +10,11 @@ import type { EditorConfig } from '@editorjs/editorjs';
 type DownloadedTools = EditorConfig['tools'];
 
 /**
+ * Upload editor tool
+ */
+type UploadedTool = keyof DownloadedTools;
+
+/**
  * Service for load editor tools
  * @param noteTools - note tools
  */
@@ -38,7 +43,7 @@ export function useTools(noteTools: Ref<EditorTool[]>): {
 
       await loadScript(tool.source.cdn);
 
-      downloadedTools[tool.name] = window[tool.exportName as keyof typeof window];
+      downloadedTools[tool.name] = window[tool.exportName as keyof typeof window] as UploadedTool;
     }
 
     return downloadedTools;
