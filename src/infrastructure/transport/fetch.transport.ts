@@ -169,7 +169,7 @@ export default class FetchTransport {
       /**
        * In case if we are waiting for binary data, we need to parse response as Blob
        */
-      payload = isBlob === true ? await response.blob() : await response.json();
+      payload = isBlob === true ? await response.blob() : await response.json() as JSONValue;
     } catch (error) {
       throw new Error(`The response is not valid JSON (requesting ${endpoint})`);
     }
