@@ -126,7 +126,7 @@ export default class FetchTransport {
      * Try to parse error data. If it is not valid JSON, throw error
      */
     try {
-      payload = await response.json();
+      payload = await response.json() as JSONValue;
     } catch (error) {
       throw new Error(`The response is not valid JSON (requesting ${endpoint})`);
     }
