@@ -14,26 +14,7 @@
         v-for="(item, index) in items"
         :key="index"
       >
-        <div
-          v-if="item.type === 'default'"
-          :class="[$style['context_menu__def-item']]"
-        >
-          <div :class="$style['context_menu__body']">
-            <Icon
-              v-if="item.icon !== undefined"
-              :name="item.icon"
-            />
-            <div>
-              {{ item.title }}
-            </div>
-          </div>
-        </div>
-        <div
-          v-if="item.type === 'separator'"
-          :class="$style['context_menu__sep-item']"
-        >
-          <div :class="$style['context_menu__separator']" />
-        </div>
+        <ContextMenuItem :item="item" />
       </template>
     </div>
   </div>
@@ -41,8 +22,8 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
-import Icon from '../icon/Icon.vue';
 import type { ContextMenuItems } from './ContextMenuTypes.types.ts';
+import ContextMenuItem from './ContextMenuItem.vue';
 
 withDefaults(
   defineProps<{
@@ -93,24 +74,6 @@ withDefaults(
     display: grid;
     width: max-content;
     gap: var(--spacing-very-x);
-  }
-
-  &__def-item {
-    gap: var(--v-padding);
-    border-radius: var(--radius-m);
-    padding: var(--v-padding) var(--h-padding);
-  }
-
-  &__def-item:hover {
-    background-color: var(--base--bg-secondary-hover);
-    cursor: pointer;
-  }
-
-  &__body {
-    display: flex;
-    align-items: center;
-    min-height: var(--size-icon);
-    gap: var(--spacing-s);
   }
 }
 </style>
