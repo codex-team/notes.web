@@ -5,7 +5,7 @@ import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
-import { useTools } from './useTools';
+import useMergedTools from './useMergedTools';
 
 /**
  * Creates base structure for the empty note:
@@ -169,7 +169,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param content - content of the note
    */
   function resolveToolsByContent(content: NoteContent): NoteTool[] {
-    const { tools } = useTools(noteTools);
+    const { tools } = useMergedTools(noteTools);
     const resolvedNoteTools = new Map();
 
     if (tools.value === undefined) {
@@ -177,7 +177,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     const usedNoteTools = content.blocks.map((block) => {
-      const blockTool = (tools.value as EditorTool[]).find(tool => tool.name === block.type);
+      const blockTool = (tools.value).find(tool => tool.name === block.type);
 
       /**
        * Return list of stringified objects for further elimination of duplicates using the Set
