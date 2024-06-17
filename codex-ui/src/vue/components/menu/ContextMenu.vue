@@ -45,7 +45,7 @@ withDefaults(
 
 </script>
 
-<style module>
+<style lang="postcss" module>
 .context-menu {
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);

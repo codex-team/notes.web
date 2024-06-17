@@ -4,7 +4,10 @@
       v-if="item.type === 'default'"
       :class="[$style['item__default']]"
     >
-      <div :class="$style['item__body']">
+      <div
+        :class="$style['item__body']"
+        @click="item.onActivate"
+      >
         <Icon
           v-if="item.icon !== undefined"
           :name="item.icon"
