@@ -1,15 +1,15 @@
 <template>
-  <div :class="$style['context_menu']">
+  <div :class="$style['context-menu']">
     <div
       v-if="showSearch"
-      :class="$style['context_menu__search']"
+      :class="$style['context-menu__search']"
     >
-      <Input :class="$style['context_menu__input']" />
-      <div :class="$style['context_menu__sep-item']">
-        <div :class="$style['context_menu__separator']" />
+      <Input :class="$style['context-menu__input']" />
+      <div :class="$style['context-menu__sep-item']">
+        <div :class="$style['context-menu__separator']" />
       </div>
     </div>
-    <div :class="$style['context_menu__scrollable']">
+    <div :class="$style['context-menu__scrollable']">
       <template
         v-for="(item, index) in items"
         :key="index"
@@ -42,7 +42,7 @@ withDefaults(
 </script>
 
 <style module>
-.context_menu {
+.context-menu {
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);
 
