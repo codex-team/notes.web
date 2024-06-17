@@ -61,7 +61,7 @@ withDefaults(
   }
 
   &__input {
-    height: 32px;
+    padding: var(--v-padding) var(--h-padding);
   }
 
   &__scrollable {
