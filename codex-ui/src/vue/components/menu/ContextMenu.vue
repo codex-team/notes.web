@@ -5,9 +5,7 @@
       :class="$style['context-menu__search']"
     >
       <Input :class="$style['context-menu__input']" />
-      <div :class="$style['context-menu__sep-item']">
-        <div :class="$style['context-menu__separator']" />
-      </div>
+      <ContextMenuItem :item="separator" />
     </div>
     <div :class="$style['context-menu__scrollable']">
       <template
@@ -25,6 +23,11 @@ import Input from '../input/Input.vue';
 import type { ContextMenuItems } from './ContextMenuTypes.types.ts';
 import ContextMenuItem from './ContextMenuItem.vue';
 
+/**
+ * Separator for search container
+ */
+const separator: ContextMenuItems = { type: 'separator' };
+
 withDefaults(
   defineProps<{
     /**
@@ -39,6 +42,7 @@ withDefaults(
   }>(),
   { showSearch: false }
 );
+
 </script>
 
 <style module>
@@ -58,16 +62,6 @@ withDefaults(
 
   &__input {
     height: 32px;
-  }
-
-  &__separator {
-    align-self: stretch;
-    background: var(--base--border);
-    height: var(--delimiter-height);
-  }
-
-  &__sep-item {
-    padding: var(--spacing-very-x) var(--spacing-xxs);
   }
 
   &__scrollable {
