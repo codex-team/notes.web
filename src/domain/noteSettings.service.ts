@@ -2,8 +2,7 @@ import type NoteSettingsRepository from '@/domain/noteSettings.repository.interf
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
-import type { TeamMember } from './entities/TeamMember';
-import UnauthorizedError from './entities/errors/Unauthorized';
+import type { TeamMember } from '@/domain/entities/TeamMember.ts';
 
 /**
  * Note Service
@@ -101,10 +100,6 @@ export default class NoteService {
     try {
       result = await this.noteSettingsRepository.joinNoteByInvitationHash(hash);
     } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        throw new Error(`Authorization required to view this resource`);
-      }
-
       throw error;
     }
 

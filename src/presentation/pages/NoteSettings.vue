@@ -58,6 +58,7 @@ const invitationLink = computed(
 
 /**
  * Load note-settings information fetched immediately the component mount the DOM
+ * for other components to note-settings information
  */
 onMounted(() => {
   load(props.id);
@@ -79,7 +80,7 @@ function onClick() {
  * Regenerate invitation hash
  */
 async function regenerateHash() {
-  revokeHash(props.id);
+  await revokeHash(props.id);
 }
 
 /**
