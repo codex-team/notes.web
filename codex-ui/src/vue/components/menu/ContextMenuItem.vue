@@ -40,9 +40,6 @@ defineProps<{
 
 <style lang="postcss" module>
 .item {
-  --h-padding: var(--spacing-ms);
-  --v-padding: var(--spacing-xs);
-
   &__separator {
     padding: var(--spacing-very-x) var(--spacing-xxs);
   }

@@ -46,9 +46,6 @@ withDefaults(
 
 <style lang="postcss" module>
 .context-menu {
-  --h-padding: var(--spacing-ms);
-  --v-padding: var(--spacing-xs);
-
   display: flex;
   flex-direction: column;
   gap: var(--spacing-very-x);
