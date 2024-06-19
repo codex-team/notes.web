@@ -1,8 +1,8 @@
 <template>
-  <div :class="[$style['field'], `${$style.field}--${size}`]">
+  <div :class="[$style['input'], `${$style.input}--${size}`]">
     <input
       v-model="model"
-      :class="[$style['field__wrapper'], 'text-ui-base']"
+      :class="[$style['input__wrapper'], 'text-ui-base']"
       :disabled="props.disabled"
     >
   </div>
@@ -44,7 +44,7 @@ onMounted(() => {
 </script>
 
 <style module>
-.field {
+.input {
   display: flex;
   background-color: var(--base--bg-secondary);
 
