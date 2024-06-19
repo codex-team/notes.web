@@ -1,9 +1,11 @@
 <template>
-  <input
-    v-model="model"
-    :class="[$style.input, `${$style.input}--${size}`, 'text-ui-base']"
-    :disabled="props.disabled"
-  >
+  <div :class="[$style['field'], `${$style.field}--${size}`]">
+    <input
+      v-model="model"
+      :class="[$style['field__wrapper'], 'text-ui-base']"
+      :disabled="props.disabled"
+    >
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -41,14 +43,24 @@ onMounted(() => {
 });
 </script>
 
-<style lang="postcss" module>
-.input {
+<style module>
+.field {
+  display: flex;
   background-color: var(--base--bg-secondary);
-  border: 0;
-  outline: 0;
-  color: var(--base--text);
-  font-size: inherit;
-  font-family: inherit;
+
+  &__wrapper {
+    flex: 1;
+    background-color: var(--base--bg-secondary);
+    border: 0;
+    outline: 0;
+    color: var(--base--text);
+    font-size: inherit;
+    font-family: inherit;
+
+    &[disabled] {
+      color: var(--base--text-secondary);
+    }
+  }
 
   --padding: 0 0;
 
@@ -68,10 +80,6 @@ onMounted(() => {
   &--large {
     --padding: var(--spacing-m) var(--spacing-l);
     --radius: var(--radius-ml);
-  }
-
-  &[disabled] {
-    color: var(--base--text-secondary);
   }
 
   padding: var(--padding);
