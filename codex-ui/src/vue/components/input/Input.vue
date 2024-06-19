@@ -1,5 +1,8 @@
 <template>
   <div :class="[$style['input'], `${$style.input}--${size}`]">
+    <div v-if="icon">
+      <Icon :name="icon" />
+    </div>
     <input
       v-model="model"
       :class="[$style['input__wrapper'], 'text-ui-base']"
@@ -11,6 +14,7 @@
 <script setup lang="ts">
 import { onMounted, defineModel } from 'vue';
 import { InputSize } from './Input.types';
+import Icon from '../icon/Icon.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -28,11 +32,17 @@ const props = withDefaults(
      * Whether the input is disabled
      */
     disabled?: boolean;
+
+    /**
+     * Name of the input icon
+     */
+    icon?: string;
   }>(),
   {
     value: '',
     size: 'medium',
     disabled: false,
+    icon: undefined,
   }
 );
 
@@ -46,7 +56,10 @@ onMounted(() => {
 <style module>
 .input {
   display: flex;
+  border: 0;
+  outline: 0;
   background-color: var(--base--bg-secondary);
+  gap: var(--v-padding);
 
   &__wrapper {
     flex: 1;
