@@ -1,7 +1,7 @@
 <template>
   <div :class="$style['item']">
     <div
-      v-if="item.type === 'default'"
+      v-if="item.type === 'default' || !item.type"
       :class="[$style['item__default']]"
     >
       <div

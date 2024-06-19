@@ -8,9 +8,9 @@ export type ContextMenuItems = DefaultItem | SeparatorItem;
  */
 export interface DefaultItem {
   /**
-   * Type of the item
+   * Type of the item, may be omitted if the item is default
    */
-  type: 'default';
+  type?: 'default';
 
   /**
    * Name of the item icon

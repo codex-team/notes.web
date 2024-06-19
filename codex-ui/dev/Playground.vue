@@ -339,7 +339,6 @@ const contextMenuItems: ContextMenuItems[] = [
     onActivate: doNothing,
   },
   {
-    type: 'default',
     title: 'Header 2',
     icon: 'H1',
     onActivate: doNothing,
