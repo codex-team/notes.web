@@ -28,8 +28,9 @@
       </template>
       {{ title }}
       <Icon
-        v-if="closable"
+        v-if="onClose !== undefined"
         :name="'Cross'"
+        @click="onClose && onClose()"
       />
     </div>
   </div>
@@ -48,7 +49,7 @@ withDefaults(
     /**
      * If true we have cross icon on the right
      */
-    closable?: boolean;
+    onClose?: () => void;
 
     /**
      * Current tab state
@@ -69,7 +70,7 @@ withDefaults(
     isActive: false,
     picture: undefined,
     icon: undefined,
-    closable: false,
+    closable: undefined,
   }
 );
 </script>

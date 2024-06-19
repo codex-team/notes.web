@@ -8,7 +8,7 @@ export default class WorkspaceService {
     this.repository = workspaceRepository;
   };
 
-  public getOpenedPages(): Page[] | null {
+  public getOpenedPages(): Page[] {
     return this.repository.getOpenedPages();
   }
 

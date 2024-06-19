@@ -8,7 +8,7 @@ export default class WorkspaceRepository extends Repository<PageStore, TabStoreD
     super(store);
   }
 
-  public getOpenedPages(): Page[] | null {
+  public getOpenedPages(): Page[] {
     return this.store.getOpenedPages();
   };
 

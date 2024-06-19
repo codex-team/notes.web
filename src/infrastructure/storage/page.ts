@@ -9,7 +9,7 @@ export type TabStoreData = {
 };
 
 export class PageStore extends SubscribableStore<TabStoreData> {
-  public getOpenedPages(): Page[] | null {
+  public getOpenedPages(): Page[] {
     return this.data.openedPages;
   }
 
