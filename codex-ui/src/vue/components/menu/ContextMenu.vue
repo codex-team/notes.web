@@ -8,12 +8,11 @@
       <ContextMenuItem :item="separator" />
     </div>
     <div :class="$style['context-menu__scrollable']">
-      <template
+      <ContextMenuItem
         v-for="(item, index) in items"
         :key="index"
-      >
-        <ContextMenuItem :item="item" />
-      </template>
+        :item="item"
+      />
     </div>
   </div>
 </template>

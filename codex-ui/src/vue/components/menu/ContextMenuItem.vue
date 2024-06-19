@@ -38,7 +38,7 @@ defineProps<{
 }>();
 </script>
 
-<style module>
+<style lang="postcss" module>
 .item {
   --h-padding: var(--spacing-ms);
   --v-padding: var(--spacing-xs);
