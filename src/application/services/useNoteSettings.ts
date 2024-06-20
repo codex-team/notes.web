@@ -96,6 +96,7 @@ export default function (): UseNoteSettingsComposableState {
 
   /**
    * Join notex team when authenticated
+   *
    * @param hash - invitation hash
    */
   async function joinNote(hash: string): Promise<TeamMember> {
