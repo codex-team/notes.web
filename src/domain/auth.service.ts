@@ -76,16 +76,6 @@ export default class AuthService {
 
   /**
    * Checks whether user is authorized or not
-<<<<<<< HEAD
-   */
-  public isAuthorized(): boolean {
-    return this.repository.hasSession();
-  }
-
-  /**
-   * Checks whether user is authorized or not
-=======
->>>>>>> 25c33a1 (fix on PR #203)
    */
   public isAuthorized(): boolean {
     return this.repository.hasSession();
