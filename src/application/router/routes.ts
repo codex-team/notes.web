@@ -72,7 +72,7 @@ const routes: RouteRecordRaw[] = [
     name: 'join',
     path: '/join/:id',
     component: Join,
-    props: (route) => ({
+    props: route => ({
       id: String(route.params.id),
     }),
     beforeEnter: async (to, from, next) => {

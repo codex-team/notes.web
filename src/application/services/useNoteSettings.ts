@@ -2,11 +2,11 @@ import { ref, type Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
-import { noteSettingsService } from '@/domain';
+import { authService, noteSettingsService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
-import { TeamMember } from '@/domain/entities/TeamMember';
-
+import type { TeamMember } from '@/domain/entities/TeamMember';
+import useAuth from './useAuth';
 
 /**
  * Note settings hook state
@@ -49,6 +49,13 @@ interface UseNoteSettingsComposableState {
    * @param id - Note id
    */
   deleteNoteById: (id: NoteId) => Promise<void>;
+
+  /**
+   * Join note by hash
+   * @param hash - invitation hash
+   * @returns {TeamMember}
+   */
+  joinNote: (hash: string) => Promise<TeamMember | null>;
 }
 
 /**
@@ -65,6 +72,8 @@ export default function (): UseNoteSettingsComposableState {
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
+
+  const route = useRoute();
 
   /**
    * Get note settings
@@ -129,6 +138,26 @@ export default function (): UseNoteSettingsComposableState {
     });
   };
 
+  async function joinNote(hash: string): Promise<TeamMember> {
+    if (!authService.isAuthorized()) {
+      void router.push('/');
+      void router.push('/');
+
+      if (route.path === '/') {
+        void useAuth().showGoogleAuthPopup();
+        // setTimeout(() => {
+        //
+        // //router.push({ name: 'join', params: { id: hash }})
+        // }, 4000)
+      }
+    }
+
+    teamMember.value = await noteSettingsService.joinNoteTeam(hash);
+    teamMember.value = await noteSettingsService.joinNoteTeam(hash);
+
+    return teamMember.value as TeamMember;
+  }
+
   return {
     noteSettings,
     load,
@@ -136,5 +165,6 @@ export default function (): UseNoteSettingsComposableState {
     revokeHash,
     changeRole,
     deleteNoteById,
+    joinNote,
   };
 }

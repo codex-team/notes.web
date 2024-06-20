@@ -53,7 +53,6 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
 
   /**
    * Join team with invitation hash
-   *
    * @param hash - invitation hash
    */
   public async joinNoteByInvitationHash(hash: string): Promise<TeamMember> {

@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import type { NoteId } from '@/domain/entities/Note';
 // import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
@@ -71,24 +71,9 @@ const invitationLink = computed(
 );
 
 /**
- * Load note-settings information fetched immediately the component mount the DOM
- * for other components to note-settings information
- */
-onMounted(() => {
-  load(props.id);
-});
-/**
  * Button click handler
  */
-function onClick() {
-  if (!noteSettings.value) {
-    throw new Error('Note settings is not loaded');
-  }
-  update(props.id, {
-    isPublic: noteSettings.value.isPublic,
-    customHostname: noteSettings.value.customHostname,
-  });
-}
+
 loadSettings(props.id);
 
 /**

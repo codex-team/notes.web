@@ -88,10 +88,7 @@ export default class NoteService {
 
   /**
    * Join team by invitation key
-   *
    * @param hash - hash key
-   *
-   * @returns { TeamMember }
    */
   public async joinNoteTeam(hash: string): Promise<TeamMember> {
     let result;
@@ -104,7 +101,8 @@ export default class NoteService {
 
     return result;
   }
-    /*
+
+  /*
    * Patch team member role by user and note id
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
