@@ -2,7 +2,11 @@ import type NoteSettingsRepository from '@/domain/noteSettings.repository.interf
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
+<<<<<<< HEAD
 import type { TeamMember } from './entities/TeamMember';
+=======
+import type { TeamMember } from '@/domain/entities/TeamMember.ts';
+>>>>>>> 25c33a1 (fix on PR #203)
 
 /**
  * Note Service
