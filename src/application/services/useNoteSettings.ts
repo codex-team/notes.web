@@ -3,9 +3,10 @@ import { useRoute, useRouter } from 'vue-router';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
-import type { TeamMember } from '@/domain/entities/TeamMember';
-import { authService } from '@/domain';
-import useAuth from '@/application/services/useAuth.ts';
+import type { UserId } from '@/domain/entities/User';
+import type { MemberRole } from '@/domain/entities/Team';
+import { TeamMember } from '@/domain/entities/TeamMember';
+
 
 /**
  * Note settings hook state
@@ -18,41 +19,42 @@ interface UseNoteSettingsComposableState {
 
   /**
    * Load note settings
-   *
    * @param id - note id
    */
   load: (id: NoteId) => Promise<void>;
 
   /**
-   * Update note settings
-   *
+   * Update field isPublic in note settings
    * @param id - note id
-   * @param data - note settings data with new values
+   * @param newIsPublicValue - new value for isPublic field
    */
-  update: (id: NoteId, data: Partial<NoteSettings>) => Promise<void>;
+  updateIsPublic: (id: NoteId, newIsPublicValue: boolean) => Promise<void>;
 
   /**
    * Revoke invitation hash
-   *
    * @param id - note id
    */
   revokeHash: (id: NoteId) => Promise<void>;
 
   /**
-   * Join note by hash
-   *
-   * @param hash - invitation hash
-   * @returns string
+   * Patch team member role by user and note id
+   * @param id - Note id
+   * @param userId - id of the user whose role is to be changed
+   * @param newRole - new role
    */
-  joinNote: (hash: string) => Promise<TeamMember | null>;
+  changeRole: (id: NoteId, userId: UserId, newRole: MemberRole) => Promise<void>;
+
+  /**
+   * Delete note by it's id
+   * @param id - Note id
+   */
+  deleteNoteById: (id: NoteId) => Promise<void>;
 }
 
 /**
  * Application service for working with the Note settings
  */
 export default function (): UseNoteSettingsComposableState {
-  const route = useRoute();
-  const router = useRouter();
   /**
    * NoteSettings ref
    */
@@ -60,8 +62,12 @@ export default function (): UseNoteSettingsComposableState {
   const teamMember = ref<TeamMember | null>(null);
 
   /**
+   * Router instance used to replace the current route with note id
+   */
+  const router = useRouter();
+
+  /**
    * Get note settings
-   *
    * @param id - Note id
    */
   const load = async (id: NoteId): Promise<void> => {
@@ -69,18 +75,23 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
-   * Update note settings
-   *
+   * Update field isPublic in note settings
    * @param id - Note id
-   * @param data - Note settings data with new values
+   * @param newIsPublicValue - new isPublic
    */
-  const update = async (id: NoteId, data: Partial<NoteSettings>): Promise<void> => {
-    noteSettings.value = await noteSettingsService.patchNoteSettingsByNoteId(id, data);
-  };
+  async function updateIsPublic(id: NoteId, newIsPublicValue: boolean): Promise<void> {
+    const { isPublic } = await noteSettingsService.patchNoteSettingsByNoteId(id, { isPublic: newIsPublicValue });
+
+    /**
+     * If note settings were not loaded till this moment for some reason, do nothing
+     */
+    if (noteSettings.value) {
+      noteSettings.value.isPublic = isPublic;
+    }
+  }
 
   /**
    * Revoke invitation hash
-   *
    * @param id - Note id
    */
   const revokeHash = async (id: NoteId): Promise<void> => {
@@ -90,38 +101,40 @@ export default function (): UseNoteSettingsComposableState {
      * Check if note setting is not empty
      */
     if (noteSettings.value) {
-      noteSettings.value = { ...noteSettings.value, invitationHash };
+      noteSettings.value = { ...noteSettings.value,
+        invitationHash };
     }
   };
 
   /**
-   * Join notex team when authenticated
-   *
-   * @param hash - invitation hash
+   * Patch team member role by user and note id
+   * @param id - Note id
+   * @param userId - id of the user whose role is to be changed
+   * @param newRole - new role
+   * @returns updated note settings
    */
-  async function joinNote(hash: string): Promise<TeamMember> {
-    if (!authService.isAuthorized()) {
-      void router.push('/');
+  const changeRole = async (id: NoteId, userId: UserId, newRole: MemberRole): Promise<void> => {
+    await noteSettingsService.patchMemberRoleByUserId(id, userId, newRole);
+  };
 
-      if (route.path === '/') {
-        void useAuth().showGoogleAuthPopup();
-        // setTimeout(() => {
-        //
-        // //router.push({ name: 'join', params: { id: hash }})
-        // }, 4000)
-      }
-    }
+  /**
+   * Delete note by it's id
+   * @param id - Note id
+   */
+  const deleteNoteById = async (id: NoteId): Promise<void> => {
+    await noteSettingsService.deleteNote(id);
 
-    teamMember.value = await noteSettingsService.joinNoteTeam(hash);
-
-    return teamMember.value;
-  }
+    void router.push({
+      name: 'home',
+    });
+  };
 
   return {
     noteSettings,
     load,
-    update,
+    updateIsPublic,
     revokeHash,
-    joinNote,
+    changeRole,
+    deleteNoteById,
   };
 }

@@ -35,9 +35,11 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/v* ]]; then
             echo "VITE_API_URL=${{ vars.NOTES_API_URL_PRODUCTION }}" >> .env
             echo "VITE_GOOGLE_OAUTH_URL=${{ vars.NOTES_GOOGLE_OAUTH_URL_PRODUCTION }}" >> .env
+            echo "VITE_HAWK_TOKEN=${{ secrets.VITE_HAWK_TOKEN }}" >> .env
           else
             echo "VITE_API_URL=${{ vars.NOTES_API_URL_STAGE }}" >> .env
             echo "VITE_GOOGLE_OAUTH_URL=${{ vars.NOTES_GOOGLE_OAUTH_URL_STAGE }}" >> .env
+            echo "VITE_HAWK_TOKEN=${{ secrets.VITE_HAWK_TOKEN }}" >> .env
           fi
 
       - name: Login to GitHub Container Registry

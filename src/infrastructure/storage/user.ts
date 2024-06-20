@@ -30,7 +30,6 @@ export class UserStore extends SubscribableStore<UserStoreData> {
 
   /**
    * Sets user data
-   *
    * @param user - data to set
    */
   public setUser(user: User): void {
@@ -43,6 +42,7 @@ export class UserStore extends SubscribableStore<UserStoreData> {
   public removeUser(): void {
     this.data.user = null;
   }
+
   /**
    * Array of tools
    */
@@ -52,7 +52,6 @@ export class UserStore extends SubscribableStore<UserStoreData> {
 
   /**
    * Set editor tools that are used in notes creation
-   *
    * @param editorTools - editor plugins
    */
   public setUserEditorTools(editorTools: EditorTool[]): void {
@@ -61,7 +60,6 @@ export class UserStore extends SubscribableStore<UserStoreData> {
 
   /**
    * Adds a tool to the user
-   *
    * @param editorTool - tool to add
    */
   public addEditorTool(editorTool: EditorTool): void {
@@ -70,10 +68,9 @@ export class UserStore extends SubscribableStore<UserStoreData> {
 
   /**
    * Removes a tool from the user
-   *
    * @param id - tool id
    */
   public removeEditorTool(id: EditorTool['id']): void {
-    this.data.editorTools = this.data.editorTools.filter((tool) => tool.id !== id);
+    this.data.editorTools = this.data.editorTools.filter(tool => tool.id !== id);
   }
 }

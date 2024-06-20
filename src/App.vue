@@ -6,17 +6,21 @@
 </template>
 
 <script lang="ts" setup>
-import { useColorMode } from '@vueuse/core';
 import Header from '@/presentation/components/header/Header.vue';
 import Layout from '@/presentation/layouts/Layout.vue';
 import { onErrorCaptured } from 'vue';
+import { useTheme } from 'codex-ui/vue';
 
-useColorMode();
+/**
+ * Read theme from local storage and apply it
+ */
+useTheme();
 
 /**
  * All errors inside the application
  */
 onErrorCaptured((error) => {
+  /* eslint-disable-next-line no-console */
   console.error(error.message);
 });
 </script>
@@ -30,8 +34,8 @@ body {
 
 #app {
   min-height: 100%;
-  background: var(--color-bg);
-  color: var(--color-text-main);
+  background: var(--base--bg-primary);
+  color: var(--base--text-secondary);
   word-break: break-word;
   font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -1,45 +1,59 @@
 <template>
   <h1>Note settings</h1>
   <div v-if="noteSettings">
-    <TextEdit
+    <!-- Hidden for now -->
+    <!-- <TextEdit
       v-model:value="noteSettings.customHostname"
       name="customHostname"
       :title="t('noteSettings.customHostname')"
       :placeholder="t('noteSettings.hostnamePlaceholder')"
-    />
-    <Checkbox
-      v-model:checked="noteSettings.isPublic"
-      :label="t('noteSettings.isPublic')"
-    />
+    /> -->
+    <Section
+      :title="t('noteSettings.availabilityTitle')"
+      :caption="t('noteSettings.availabilityCaption')"
+    >
+      <Row :title="t('noteSettings.publish')">
+        <template #right>
+          <Switch
+            v-model="isPublic"
+            @click="changeAccess"
+          />
+        </template>
+      </Row>
+    </Section>
     {{ invitationLink }}
     <Button
-      :text="t('noteSettings.revokeHash')"
       type="primary"
       @click="regenerateHash"
+    >
+      {{ t('noteSettings.revokeHash') }}
+    </Button>
+    <Team
+      :note-id="id"
+      :team="noteSettings.team"
     />
-    <div class="control__button">
-      <Button
-        class="header__plus"
-        text="Save"
-        type="primary"
-        :icon="IconSave"
-        @click.passive="onClick"
-      />
-    </div>
+    <br>
+    <Button
+      type="destructive"
+      @click="deleteNote"
+    >
+      {{ t('noteSettings.deleteNote') }}
+    </Button>
   </div>
-  <div v-else>Loading...</div>
+  <div v-else>
+    Loading...
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, onMounted } from 'vue';
 import type { NoteId } from '@/domain/entities/Note';
-import TextEdit from '@/presentation/components/form/TextEdit.vue';
-import Button from '@/presentation/components/button/Button.vue';
-import { IconSave } from '@codexteam/icons';
+// import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
-import Checkbox from '@/presentation/components/checkbox/Checkbox.vue';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import Team from '@/presentation/components/team/Team.vue';
+import { Section, Row, Switch, Button } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -50,7 +64,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { load, noteSettings, update, revokeHash } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -75,12 +89,38 @@ function onClick() {
     customHostname: noteSettings.value.customHostname,
   });
 }
+loadSettings(props.id);
 
 /**
  * Regenerate invitation hash
  */
 async function regenerateHash() {
   await revokeHash(props.id);
+}
+
+/**
+ * Deletes the note complitely
+ */
+async function deleteNote() {
+  const isConfirmed = window.confirm(t('noteSettings.noteDeleteConfirmation'));
+
+  if (isConfirmed) {
+    deleteNoteById(props.id);
+  }
+}
+
+/**
+ * Current value of isPublic field
+ */
+const isPublic = computed(() => {
+  return noteSettings.value?.isPublic;
+});
+
+/**
+ * Change isPublic property
+ */
+async function changeAccess() {
+  updateIsPublic(props.id, !noteSettings.value!.isPublic);
 }
 
 /**

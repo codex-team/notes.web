@@ -1,3 +1,4 @@
+import type EditorTool from '@/domain/entities/EditorTool';
 import type { Note } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights.ts';
 
@@ -7,4 +8,6 @@ import type NoteAccessRights from '@/domain/entities/NoteAccessRights.ts';
 export type GetNoteResponsePayload = {
   note: Note;
   accessRights: NoteAccessRights;
+  parentNote: Note | undefined;
+  tools: EditorTool[];
 };

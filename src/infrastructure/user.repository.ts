@@ -16,7 +16,6 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
 
   /**
    * Repository constructor
-   *
    * @param store - stores user data
    * @param notesApiTransport - notes api transport instance
    */
@@ -27,7 +26,7 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   }
 
   /**
-   *
+   * Returns data of the current user
    */
   public async loadUser(): Promise<void> {
     const response = await this.transport.get<User>('/user/myself');
@@ -41,11 +40,14 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   public getUser(): User | null {
     return this.store.getUser();
   }
+
   /**
    * Removes user data from the storage
    */
-  public async removeUser(): Promise<void> {
+  public removeUser(): void {
     this.store.removeUser();
+
+    return;
   }
 
   /**
@@ -66,7 +68,6 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
 
   /**
    * Adds a tool to the user
-   *
    * @param id - tool id
    */
   public async addTool(id: string): Promise<void> {
@@ -79,7 +80,6 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
 
   /**
    * Removes a tool from the user
-   *
    * @param id - tool id
    */
   public async removeTool(id: string): Promise<void> {

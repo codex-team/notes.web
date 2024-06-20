@@ -47,7 +47,7 @@ defineProps<Tab>();
     width: var(--size-icon);
     margin-right: -7px;
     flex-shrink: 0;
-    color: var(--color-text-main);
+    color: var(--base--text-secondary);
     opacity: 30%;
   }
 }

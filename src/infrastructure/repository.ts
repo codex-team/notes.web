@@ -7,14 +7,12 @@ import { SubscribableStore, type PropChangeCallback } from './storage/abstract/s
 export default abstract class Repository<Store, StoreData> {
   /**
    *  Creates repository instance
-   *
    * @param store - store used by repository. Subscribable storage could be watched by App State
    */
   constructor(protected readonly store: Store) {}
 
   /**
    * Subscribe to store changes
-   *
    * @param callback - callback that will be called on store change. Accepts new store data
    */
   public setStoreChangeCallback(callback: PropChangeCallback<StoreData>): void {

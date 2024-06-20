@@ -1,15 +1,27 @@
 <template>
-  <div v-if="note === null">Loading...</div>
+  <div v-if="note === null">
+    Loading...
+  </div>
   <div v-else>
     <div>
       <Button
-        text="Add child note"
-        @click.passive="createChildNote"
-      />
-    </div>
+        v-if="props.id != null"
+        @click="createChildNote"
+      >
+        {{ t('note.createChildNote') }}
+      </Button>
 
+      <Button
+        v-if="parentNote != undefined"
+        @click="unlinkButton"
+      >
+        {{ t('note.unlink') }}
+      </Button>
+    </div>
     <Editor
+      v-if="loadedTools !== undefined"
       ref="editor"
+      :tools="loadedTools"
       :content="note.content"
       :read-only="!canEdit"
       @change="noteChanged"
@@ -19,13 +31,13 @@
 
 <script lang="ts" setup>
 import { ref, toRef, watch } from 'vue';
-import { Button } from 'codex-ui/vue';
-import Editor from '@/presentation/components/editor/Editor.vue';
+import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 
 const { t } = useI18n();
 
@@ -45,9 +57,11 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, save, noteTitle, canEdit } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = useNote({
   id: noteId,
 });
+
+const { loadedTools } = useLoadedTools(noteTools);
 
 /**
  * Editor component reference
@@ -75,6 +89,17 @@ function createChildNote(): void {
     throw new Error('Note is Empty');
   }
   router.push(`/note/${props.id}/new`);
+}
+
+/**
+ * Unlink note from parent
+ */
+function unlinkButton(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+
+  unlinkParent();
 }
 
 watch(

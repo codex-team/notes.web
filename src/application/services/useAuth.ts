@@ -46,9 +46,9 @@ export default function useAuth(): UseOAuthComposableState {
       off(callbackId);
     }
 
-    callbackId = on(async (event) => {
+    callbackId = on((event) => {
       if ('accessToken' in event.data && 'refreshToken' in event.data) {
-        await authService.acceptSession(event.data.accessToken, event.data.refreshToken);
+        authService.acceptSession(event.data.accessToken, event.data.refreshToken);
 
         off(callbackId as number);
       }

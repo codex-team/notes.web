@@ -2,8 +2,8 @@
   <div :class="$style.typescale">
     <div
       v-for="sample in samples"
-      :class="$style.row"
       :key="sample.label"
+      :class="$style['ts-row']"
     >
       <div :class="[$style.label]">
         {{ sample.label }}
@@ -34,17 +34,17 @@ const samples = [
   },
   {
     label: 'P',
-    text: "Workspace in classic editors is made of a single contenteditable element, used to create different HTML markups. Editor.js workspace consists of separate Blocks: paragraphs, headings, images, lists, quotes, etc. Each of them is an independent contenteditable element (or more complex structure) provided by Plugin and united by Editor's Core.",
+    text: 'Workspace in classic editors is made of a single contenteditable element, used to create different HTML markups. Editor.js workspace consists of separate Blocks: paragraphs, headings, images, lists, quotes, etc. Each of them is an independent contenteditable element (or more complex structure) provided by Plugin and united by Editor\'s Core.',
     class: 'text-p',
   },
   {
     label: 'Blockquote',
-    text: "Workspace in classic editors is made of a single contenteditable element, used to create different HTML markups. Editor.js workspace consists of separate Blocks: paragraphs, headings, images, lists, quotes, etc. Each of them is an independent contenteditable element (or more complex structure) provided by Plugin and united by Editor's Core.",
+    text: 'Workspace in classic editors is made of a single contenteditable element, used to create different HTML markups. Editor.js workspace consists of separate Blocks: paragraphs, headings, images, lists, quotes, etc. Each of them is an independent contenteditable element (or more complex structure) provided by Plugin and united by Editor\'s Core.',
     class: 'text-blockquote',
   },
   {
     label: 'Monospaced',
-    text: "const themeSecondaryBgColor = getCSSVariable('--tg-theme-secondary-bg-color')",
+    text: 'const themeSecondaryBgColor = getCSSVariable(\'--tg-theme-secondary-bg-color\')',
     class: 'text-monospaced',
   },
   {
@@ -91,7 +91,7 @@ const samples = [
 .typescale {
 }
 
-.row {
+.ts-row {
   display: grid;
   gap: var(--spacing-xl);
   grid-template-columns: 120px 3fr;

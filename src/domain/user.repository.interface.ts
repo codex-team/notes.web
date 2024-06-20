@@ -18,7 +18,7 @@ export default interface UserRepositoryInterface {
   /**
    * Removes user data from the storage
    */
-  removeUser: () => Promise<void>;
+  removeUser: () => void;
 
   /**
    * Loads and store editor tools from user extensions
@@ -32,14 +32,12 @@ export default interface UserRepositoryInterface {
 
   /**
    * Adds a tool to the user
-   *
    * @param id - tool id
    */
   addTool: (id: string) => Promise<void>;
 
   /**
    * Removes a tool from the user (marketplace mock)
-   *
    * @param id - tool id
    */
   removeTool: (id: string) => Promise<void>;

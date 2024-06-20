@@ -15,7 +15,6 @@ export default class AuthService {
 
   /**
    * Service constructor
-   *
    * @param eventBus - Common domain event bus
    * @param authRepository - Auth repository instance
    */
@@ -28,16 +27,14 @@ export default class AuthService {
     if (this.repository.hasSession()) {
       this.repository
         .restoreSession()
-        .then(async (session) => {
-          await this.acceptSession(session.accessToken, session.refreshToken);
+        .then((session) => {
+          this.acceptSession(session.accessToken, session.refreshToken);
         })
         .catch(async (error) => {
           if (error instanceof UnauthorizedError && error.message === 'Session is not valid') {
             console.warn('❌ Auth session expired');
 
             await this.logout();
-
-            return;
           }
 
           throw error;
@@ -49,11 +46,10 @@ export default class AuthService {
 
   /**
    * Called after oauth to accept session
-   *
    * @param accessToken - token got from backend. Used to access protected resources
    * @param refreshToken - token got from backend. Used to refresh access token
    */
-  public async acceptSession(accessToken: string, refreshToken: string): Promise<void> {
+  public acceptSession(accessToken: string, refreshToken: string): void {
     this.eventBus.dispatchEvent(
       new AuthCompletedEvent({
         accessToken,

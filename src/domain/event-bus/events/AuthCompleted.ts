@@ -11,7 +11,6 @@ export const AUTH_COMPLETED_EVENT_NAME = 'auth-completed';
 export class AuthCompletedEvent extends CustomEvent<AuthSession | null> {
   /**
    * Constructor options
-   *
    * @param payload - Auth session if user is authorized or null if not
    */
   constructor(payload: AuthSession | null) {

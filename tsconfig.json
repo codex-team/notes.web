@@ -27,5 +27,4 @@
       "codex-ui/vue": ["../codex-ui/dist/types/vue/index.d.ts"]
     }
   },
-  "include": ["src", "vite.config.ts"]
 }

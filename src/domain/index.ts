@@ -6,6 +6,7 @@ import MarketplaceService from '@/domain/marketplace.service';
 import { init as initRepositories } from '@/infrastructure';
 import EventBus from './event-bus';
 import NoteListService from './noteList.service';
+import EditorToolsService from '@/domain/editorTools.service';
 
 /**
  * Get API url from environment
@@ -26,6 +27,7 @@ const repositories = initRepositories(apiUrl, eventBus);
  * Init services
  */
 const noteService = new NoteService(repositories.note);
+const editorToolsService = new EditorToolsService(repositories.editorTools);
 const noteListService = new NoteListService(repositories.note);
 const noteSettingsService = new NoteSettingsService(repositories.noteSettings);
 const authService = new AuthService(eventBus, repositories.auth);
@@ -42,4 +44,12 @@ export const AppStateController = {
     repositories.user.setStoreChangeCallback(callback),
 };
 
-export { noteService, noteListService, noteSettingsService, authService, userService, marketplaceService };
+export {
+  editorToolsService,
+  noteService,
+  noteListService,
+  noteSettingsService,
+  authService,
+  userService,
+  marketplaceService
+};

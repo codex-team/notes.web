@@ -46,7 +46,6 @@ export default defineConfig({
     modules: {
       /**
        * Disable CSS Modules hash and add a custom prefix (to allow users customizing the styles)
-       *
        * @example _button_1yxsp_2 -> .cdx-button
        */
       generateScopedName: 'cdx-[local]',
@@ -54,6 +53,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       '@/': '/src/',
     },
   },
