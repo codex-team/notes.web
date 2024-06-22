@@ -10,4 +10,5 @@ export * from './components/radio';
 export * from './components/switch';
 export * from './components/card';
 export * from './components/tabbar';
+export * from './components/menu';
 export * from './composables/useTheme';

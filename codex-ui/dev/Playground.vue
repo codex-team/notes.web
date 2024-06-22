@@ -257,8 +257,9 @@
       :is-active="true"
     />
     <Heading :level="3">
-      Type Scale
+      Vertical Menu
     </Heading>
+    <VerticalMenu />
     <Heading :level="3">
       Type Scale
     </Heading>
@@ -286,7 +287,8 @@ import {
   Avatar,
   Switch,
   RadioGroup,
-  Tab
+  Tab,
+  VerticalMenu
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
