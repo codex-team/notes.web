@@ -1,8 +1,11 @@
 <template>
   <div
     :class="$style['vertical-menu-item']"
+    :style="{ '--level': props.level }"
   >
-    {{ props.title }}
+    <div :class="$style['vertical-menu-item__container']">
+      {{ props.title }}
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -18,11 +21,18 @@ const props = withDefaults(
      */
     title: string;
   }>(),
-  { level: 1 }
+  { level: 0 }
 );
 </script>
 <style module>
 .vertical-menu-item {
+  --menuIndent: calc(var(--level) * var(--spacing-ms));
+
   gap: var(--spacing-ms);
+  padding: 0 0 0 var(--menuIndent);
+
+  &__container {
+    padding: var(--spacing-s) var(--spacing-ml);
+  }
 }
 </style>

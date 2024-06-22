@@ -3,6 +3,14 @@
     :class="$style['vertical-menu']"
   >
     <VerticalMenuItem title="CodeX" />
+    <VerticalMenuItem
+      title="Workflow"
+      :level="1"
+    />
+    <VerticalMenuItem
+      title="Workflow"
+      :level="2"
+    />
   </div>
 </template>
 <script lang="ts" setup>
