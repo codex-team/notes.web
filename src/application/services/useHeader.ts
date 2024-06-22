@@ -1,6 +1,6 @@
 import type { ComputedRef } from 'vue';
-import { computed, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { AppStateController } from '@/domain';
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import type { TabList } from '@/domain/entities/Tab';
@@ -18,6 +18,7 @@ interface useHeaderComposableState {
 };
 
 export default function (): useHeaderComposableState {
+  const router = useRouter();
   const route = useRoute();
 
   const openedPages = ref<OpenedPage[] | null>(null);
@@ -34,9 +35,14 @@ export default function (): useHeaderComposableState {
     workspaceService.patchOpenedPage(page);
   };
 
-  watch(route, (currentRoute, prevRoute) => {
-    console.log('new route!!!!!!!!!');
-    console.log(currentRoute, prevRoute);
+  router.beforeEach((currentRoute, prevRoute) => {
+    if (prevRoute.path === '/new') {
+      deleteOpenedPage({
+        title: 'New note',
+        url: '/new',
+      });
+    }
+
     addOpenedPage({ title: currentRoute.meta.pageTitle,
       url: currentRoute.path });
   });

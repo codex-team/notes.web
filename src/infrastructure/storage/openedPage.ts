@@ -21,17 +21,11 @@ export class PageStore extends SubscribableStore<TabStoreData> {
       this.data.openedPages.push(page);
     }
 
-    console.log('added');
-    console.log(this.data.openedPages);
-
     return page;
   }
 
   public deleteOpenedPage(page: OpenedPage): void {
     this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == page.url));
-
-    console.log('deleted');
-    console.log(this.data.openedPages);
   }
 
   public patchOpenedPage(page: OpenedPage): void {
@@ -39,9 +33,6 @@ export class PageStore extends SubscribableStore<TabStoreData> {
       if (currentPage.url == page.url) {
         currentPage.title = page.title;
       }
-
-      console.log('patched');
-      console.log(this.data.openedPages);
 
       return { title: currentPage.title,
         url: currentPage.url };
