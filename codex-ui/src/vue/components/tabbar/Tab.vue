@@ -28,9 +28,9 @@
       </template>
       {{ title }}
       <Icon
-        v-if="onClose !== undefined"
+        v-if="$props.onClose !== undefined"
         :name="'Cross'"
-        @click="onClose && onClose()"
+        @click="$props.onClose && $props.onClose($props)"
       />
     </div>
   </div>
@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
+import type { TabParams } from './Tab.types';
 
 withDefaults(
   defineProps<{
@@ -49,12 +50,12 @@ withDefaults(
     /**
      * If true we have cross icon on the right
      */
-    onClose?: () => void;
+    onClose?: (tab: TabParams) => void;
 
     /**
      * Current tab state
      */
-    isActive: boolean;
+    isActive?: boolean;
 
     /**
      * Link to image to be displayed in the left slot, else undefined
@@ -65,12 +66,15 @@ withDefaults(
      * Name of the icon to be diplayed in the left slot, else undefined
      */
     icon?: string;
+
+    url: string;
   }>(),
   {
     isActive: false,
     picture: undefined,
     icon: undefined,
     closable: undefined,
+    onClose: undefined,
   }
 );
 </script>
