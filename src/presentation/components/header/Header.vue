@@ -6,7 +6,7 @@
       :url="tab.url"
       :is-active="tab.isActive"
       :title="tab.title"
-      :on-close="closeHeaderTab"
+      :on-close="(tab.title !== 'Home') ? closeHeaderTab : undefined"
       @click="$router.push(tab.url)"
     />
     <Button

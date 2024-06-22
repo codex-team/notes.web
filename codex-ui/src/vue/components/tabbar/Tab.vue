@@ -67,6 +67,9 @@ withDefaults(
      */
     icon?: string;
 
+    /**
+     * When user clicks on tab he will be redirect according to this url
+     */
     url: string;
   }>(),
   {
