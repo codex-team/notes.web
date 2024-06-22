@@ -34,15 +34,24 @@ import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 const { user } = useAppState();
 
 const { tabs, deleteOpenedPage } = useHeader();
 
-const closeHeaderTab = (tab: TabParams): void => {
+function closeHeaderTab(tab: TabParams) {
   deleteOpenedPage({
     title: tab.title,
     url: tab.url,
   });
+
+  if (tabs.value.length === 0) {
+    router.push('/');
+  } else {
+    router.push(tabs.value[tabs.value.length - 1].url);
+  }
 };
 
 </script>

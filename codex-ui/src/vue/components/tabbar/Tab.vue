@@ -30,7 +30,7 @@
       <Icon
         v-if="$props.onClose !== undefined"
         :name="'Cross'"
-        @click="$props.onClose && $props.onClose($props)"
+        @click.stop="$props.onClose && $props.onClose($props)"
       />
     </div>
   </div>
