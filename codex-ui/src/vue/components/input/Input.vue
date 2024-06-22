@@ -1,8 +1,9 @@
 <template>
   <div :class="[$style['input'], `${$style.input}--${size}`]">
-    <div v-if="icon">
-      <Icon :name="icon" />
-    </div>
+    <Icon
+      v-if="icon"
+      :name="icon"
+    />
     <input
       v-model="model"
       :class="[$style['input__wrapper'], 'text-ui-base']"
@@ -60,6 +61,7 @@ onMounted(() => {
   outline: 0;
   background-color: var(--base--bg-secondary);
   gap: var(--v-padding);
+  align-items: center;
 
   &__wrapper {
     flex: 1;
