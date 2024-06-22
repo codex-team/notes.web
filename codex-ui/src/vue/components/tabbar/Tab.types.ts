@@ -25,7 +25,7 @@ export interface TabParams {
   icon?: string;
 
   /**
-   *
+   * When tab is clicked user would be redirected according to this url
    */
   url: string;
 };
