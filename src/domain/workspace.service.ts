@@ -1,5 +1,5 @@
 import type WorkspaceRepository from '@/domain/workspace.repository.interface';
-import type { Page } from './entities/Page';
+import type { OpenedPage } from './entities/OpenedPage';
 
 export default class WorkspaceService {
   private readonly repository: WorkspaceRepository;
@@ -8,15 +8,15 @@ export default class WorkspaceService {
     this.repository = workspaceRepository;
   };
 
-  public addOpenedPage(page: Page): Page {
+  public addOpenedPage(page: OpenedPage): OpenedPage {
     return this.repository.addOpenedPage(page);
   }
 
-  public deleteOpenedPage(page: Page): void {
+  public deleteOpenedPage(page: OpenedPage): void {
     this.repository.deleteOpenedPage(page);
   }
 
-  public patchOpenedPage(page: Page): void {
+  public patchOpenedPage(page: OpenedPage): void {
     this.repository.patchOpenedPage(page);
   }
 }

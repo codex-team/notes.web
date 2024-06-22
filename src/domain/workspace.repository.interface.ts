@@ -1,9 +1,9 @@
-import type { Page } from './entities/Page';
+import type { OpenedPage } from './entities/OpenedPage';
 
 export default interface WorkspaceRepositoryInterface {
-  addOpenedPage: (page: Page) => Page;
+  addOpenedPage: (page: OpenedPage) => OpenedPage;
 
-  deleteOpenedPage: (page: Page) => void;
+  deleteOpenedPage: (page: OpenedPage) => void;
 
-  patchOpenedPage: (page: Page) => void;
+  patchOpenedPage: (page: OpenedPage) => void;
 }

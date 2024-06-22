@@ -1,6 +1,6 @@
-import type { PageStore, TabStoreData } from './storage/page';
+import type { PageStore, TabStoreData } from './storage/openedPage';
 import type WorkspaceRepositoryInterface from '@/domain/workspace.repository.interface';
-import type { Page } from '@/domain/entities/Page';
+import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import Repository from './repository';
 
 export default class WorkspaceRepository extends Repository<PageStore, TabStoreData> implements WorkspaceRepositoryInterface {
@@ -8,15 +8,15 @@ export default class WorkspaceRepository extends Repository<PageStore, TabStoreD
     super(store);
   }
 
-  public addOpenedPage(page: Page): Page {
+  public addOpenedPage(page: OpenedPage): OpenedPage {
     return this.store.addOpenedPage(page);
   }
 
-  public deleteOpenedPage(page: Page): void {
+  public deleteOpenedPage(page: OpenedPage): void {
     return this.store.deleteOpenedPage(page);
   }
 
-  public patchOpenedPage(page: Page): void {
+  public patchOpenedPage(page: OpenedPage): void {
     return this.store.patchOpenedPage(page);
   }
 }

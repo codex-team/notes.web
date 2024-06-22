@@ -2,17 +2,17 @@ import type { ComputedRef } from 'vue';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { AppStateController } from '@/domain';
-import type { Page } from '@/domain/entities/Page';
+import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import type { TabList } from '@/domain/entities/Tab';
 import { workspaceService } from '@/domain/index';
 import { notEmpty } from '@/infrastructure/utils/empty';
 
 interface useHeaderComposableState {
-  addOpenedPage: (page: Page) => void;
+  addOpenedPage: (page: OpenedPage) => void;
 
-  deleteOpenedPage: (page: Page) => void;
+  deleteOpenedPage: (page: OpenedPage) => void;
 
-  patchOpenedPage: (page: Page) => void;
+  patchOpenedPage: (page: OpenedPage) => void;
 
   tabs: ComputedRef<TabList>;
 };
@@ -20,17 +20,17 @@ interface useHeaderComposableState {
 export default function (): useHeaderComposableState {
   const route = useRoute();
 
-  const openedPages = ref<Page[] | null>(null);
+  const openedPages = ref<OpenedPage[] | null>(null);
 
-  const addOpenedPage = (page: Page): void => {
+  const addOpenedPage = (page: OpenedPage): void => {
     workspaceService.addOpenedPage(page);
   };
 
-  const deleteOpenedPage = (page: Page): void => {
+  const deleteOpenedPage = (page: OpenedPage): void => {
     workspaceService.deleteOpenedPage(page);
   };
 
-  const patchOpenedPage = (page: Page): void => {
+  const patchOpenedPage = (page: OpenedPage): void => {
     workspaceService.patchOpenedPage(page);
   };
 
@@ -44,9 +44,9 @@ export default function (): useHeaderComposableState {
   /**
    * Subscribe to user changes in the App State
    */
-  AppStateController.openedPages((prop: 'openedPages', value: Page[] | null) => {
+  AppStateController.openedPages((prop: 'openedPages', value: OpenedPage[] | null) => {
     if (prop === 'openedPages') {
-      openedPages.value = value as Page[];
+      openedPages.value = value as OpenedPage[];
     }
   });
 

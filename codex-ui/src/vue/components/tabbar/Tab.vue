@@ -73,7 +73,6 @@ withDefaults(
     isActive: false,
     picture: undefined,
     icon: undefined,
-    closable: undefined,
     onClose: undefined,
   }
 );

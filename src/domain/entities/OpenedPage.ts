@@ -1,4 +1,4 @@
-export interface Page {
+export interface OpenedPage {
   /**
    * Text to be displayed in tab
    */

@@ -1,11 +1,11 @@
-import type { Page } from '@/domain/entities/Page';
+import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import { SubscribableStore } from './abstract/subscribable';
 
 export type TabStoreData = {
   /**
    * Array of tabs to be stored
    */
-  openedPages: Page[];
+  openedPages: OpenedPage[];
 };
 
 export class PageStore extends SubscribableStore<TabStoreData> {
@@ -14,7 +14,7 @@ export class PageStore extends SubscribableStore<TabStoreData> {
     this.data.openedPages = [];
   }
 
-  public addOpenedPage(page: Page): Page {
+  public addOpenedPage(page: OpenedPage): OpenedPage {
     const uniquePageUrls = this.data.openedPages.map(currentPage => currentPage.url);
 
     if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
@@ -27,14 +27,14 @@ export class PageStore extends SubscribableStore<TabStoreData> {
     return page;
   }
 
-  public deleteOpenedPage(page: Page): void {
+  public deleteOpenedPage(page: OpenedPage): void {
     this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == page.url));
 
     console.log('deleted');
     console.log(this.data.openedPages);
   }
 
-  public patchOpenedPage(page: Page): void {
+  public patchOpenedPage(page: OpenedPage): void {
     this.data.openedPages = this.data.openedPages.map((currentPage) => {
       if (currentPage.url == page.url) {
         currentPage.title = page.title;

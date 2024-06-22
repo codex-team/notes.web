@@ -24,6 +24,9 @@ export interface TabParams {
    */
   icon?: string;
 
+  /**
+   *
+   */
   url: string;
 };
 

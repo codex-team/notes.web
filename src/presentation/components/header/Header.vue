@@ -6,8 +6,8 @@
       :url="tab.url"
       :is-active="tab.isActive"
       :title="tab.title"
-      @click="$router.push(tab.url)"
       :on-close="closeHeaderTab"
+      @click="$router.push(tab.url)"
     />
     <Button
       class="header__plus"
@@ -27,19 +27,13 @@
 
 <script lang="ts" setup>
 import { IconPlus } from '@codexteam/icons';
-// import { useI18n } from 'vue-i18n';
 import { Tab } from 'codex-ui/vue';
 import type { TabParams } from '@/domain/entities/Tab';
 import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
-// import { useRouter } from 'vue-router';
-// import { computed } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
-
-// const { t } = useI18n();
-// const { currentRoute } = useRouter();
 const { user } = useAppState();
 
 const { tabs, deleteOpenedPage } = useHeader();
