@@ -8,10 +8,6 @@ export default class WorkspaceService {
     this.repository = workspaceRepository;
   };
 
-  public getOpenedPages(): Page[] {
-    return this.repository.getOpenedPages();
-  }
-
   public addOpenedPage(page: Page): Page {
     return this.repository.addOpenedPage(page);
   }

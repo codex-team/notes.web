@@ -1,5 +1,5 @@
 import type { ComputedRef } from 'vue';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { AppStateController } from '@/domain';
 import type { Page } from '@/domain/entities/Page';
@@ -8,8 +8,6 @@ import { workspaceService } from '@/domain/index';
 import { notEmpty } from '@/infrastructure/utils/empty';
 
 interface useHeaderComposableState {
-  getOpenedPages: () => void;
-
   addOpenedPage: (page: Page) => void;
 
   deleteOpenedPage: (page: Page) => void;
@@ -24,10 +22,6 @@ export default function (): useHeaderComposableState {
 
   const openedPages = ref<Page[] | null>(null);
 
-  const getOpenedPages = (): void => {
-    openedPages.value = workspaceService.getOpenedPages();
-  };
-
   const addOpenedPage = (page: Page): void => {
     workspaceService.addOpenedPage(page);
   };
@@ -40,11 +34,9 @@ export default function (): useHeaderComposableState {
     workspaceService.patchOpenedPage(page);
   };
 
-  onMounted(() => {
-    getOpenedPages();
-  });
-
-  watch(route, (currentRoute) => {
+  watch(route, (currentRoute, prevRoute) => {
+    console.log('new route!!!!!!!!!');
+    console.log(currentRoute, prevRoute);
     addOpenedPage({ title: currentRoute.meta.pageTitle,
       url: currentRoute.path });
   });
@@ -61,6 +53,7 @@ export default function (): useHeaderComposableState {
   const tabs = computed<TabList>(() => {
     let activeTabs = [{
       title: 'Home',
+      url: '/',
       isActive: route.path === '/',
     }];
 
@@ -68,6 +61,7 @@ export default function (): useHeaderComposableState {
       return {
         title: page.title,
         onClose: deleteOpenedPage,
+        url: page.url,
         isActive: route.path === page.url,
       };
     });
@@ -80,7 +74,6 @@ export default function (): useHeaderComposableState {
   });
 
   return {
-    getOpenedPages,
     addOpenedPage,
     deleteOpenedPage,
     patchOpenedPage,

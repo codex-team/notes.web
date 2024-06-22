@@ -2,16 +2,13 @@
   <div class="header">
     <Tab
       v-for="tab in tabs"
-      :key="tab.title"
+      :key="tab.url"
+      :url="tab.url"
       :is-active="tab.isActive"
       :title="tab.title"
+      @click="$router.push(tab.url)"
+      :on-close="closeHeaderTab"
     />
-    <!-- <div
-      v-for="tab in tabs"
-      :is-active="tab.isActive"
-      :title="tab.title"
-    /> -->
-    <!-- <Tabs :tabs="tabs" /> -->
     <Button
       class="header__plus"
       link="/new"
@@ -31,9 +28,8 @@
 <script lang="ts" setup>
 import { IconPlus } from '@codexteam/icons';
 // import { useI18n } from 'vue-i18n';
-import Tab from '../../../../codex-ui/src/vue/components/tabbar/Tab.vue';
-// import { TabList } from '@/domain/entities/Tab';
-// import Tabs from '@/presentation/components/tabs/Tabs.vue';
+import { Tab } from 'codex-ui/vue';
+import type { TabParams } from '@/domain/entities/Tab';
 import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
@@ -46,47 +42,15 @@ import useHeader from '@/application/services/useHeader';
 // const { currentRoute } = useRouter();
 const { user } = useAppState();
 
-const { tabs } = useHeader();
+const { tabs, deleteOpenedPage } = useHeader();
 
-// const tabs = computed<TabList>(() => {
-//   const availableTabs = [
-//     {
-//       title: t('header.buttons.home'),
-//       path: '/',
-//       icon: IconPicture,
-//       isActive: currentRoute.value.name === 'home',
-//       isPinned: true,
-//     },
-//   ];
+const closeHeaderTab = (tab: TabParams): void => {
+  deleteOpenedPage({
+    title: tab.title,
+    url: tab.url,
+  });
+};
 
-//   /**
-//    * Show inactive settings tab when we are on note view
-//    */
-//   if (currentRoute.value.name === 'note') {
-//     availableTabs.push({
-//       title: t('header.buttons.noteSettings'),
-//       path: currentRoute.value.path + '/settings',
-//       icon: IconMenu,
-//       isActive: false,
-//       isPinned: true,
-//     });
-//   }
-
-//   /**
-//    * Show active settings tab when we are on settings itself
-//    */
-//   if (currentRoute.value.name === 'settings') {
-//     availableTabs.push({
-//       title: t('header.buttons.noteSettings'),
-//       path: currentRoute.value.path,
-//       icon: IconMenu,
-//       isActive: true,
-//       isPinned: true,
-//     });
-//   }
-
-//   return availableTabs;
-// });
 </script>
 
 <style scoped lang="postcss">

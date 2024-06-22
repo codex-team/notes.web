@@ -9,18 +9,29 @@ export type TabStoreData = {
 };
 
 export class PageStore extends SubscribableStore<TabStoreData> {
-  public getOpenedPages(): Page[] {
-    return this.data.openedPages;
+  constructor() {
+    super();
+    this.data.openedPages = [];
   }
 
   public addOpenedPage(page: Page): Page {
-    this.data.openedPages = [...this.data.openedPages, page];
+    const uniquePageUrls = this.data.openedPages.map(currentPage => currentPage.url);
+
+    if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
+      this.data.openedPages.push(page);
+    }
+
+    console.log('added');
+    console.log(this.data.openedPages);
 
     return page;
   }
 
   public deleteOpenedPage(page: Page): void {
     this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == page.url));
+
+    console.log('deleted');
+    console.log(this.data.openedPages);
   }
 
   public patchOpenedPage(page: Page): void {
@@ -28,6 +39,9 @@ export class PageStore extends SubscribableStore<TabStoreData> {
       if (currentPage.url == page.url) {
         currentPage.title = page.title;
       }
+
+      console.log('patched');
+      console.log(this.data.openedPages);
 
       return { title: currentPage.title,
         url: currentPage.url };
