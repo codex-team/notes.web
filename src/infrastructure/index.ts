@@ -8,7 +8,7 @@ import UserRepository from '@/infrastructure/user.repository';
 import WorkspaceRepository from '@/infrastructure/workspace.repository';
 import MarketplaceRepository from '@/infrastructure/marketplace.repository';
 import { UserStore } from '@/infrastructure/storage/user';
-import { PageStore } from '@/infrastructure/storage/openedPage';
+import { OpenedPagesStore } from '@/infrastructure/storage/openedPage';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEvent';
@@ -42,6 +42,9 @@ export interface Repositories {
    */
   marketplace: MarketplaceRepository;
 
+  /**
+   * Working with all pages user is currently using
+   */
   workspace: WorkspaceRepository;
 }
 
@@ -57,7 +60,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteStore = new NoteStore();
   const authStore = new AuthStore();
   const userStore = new UserStore();
-  const pageStore = new PageStore();
+  const openedPagesStore = new OpenedPagesStore();
 
   /**
    * Init transport
@@ -104,7 +107,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
-  const workspaceRepository = new WorkspaceRepository(pageStore);
+  const workspaceRepository = new WorkspaceRepository(openedPagesStore);
 
   return {
     note: noteRepository,
