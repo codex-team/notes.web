@@ -259,7 +259,7 @@
     <Heading :level="3">
       Vertical Menu
     </Heading>
-    <VerticalMenu />
+    <VerticalMenu :items="verticalMenuItems" />
     <Heading :level="3">
       Type Scale
     </Heading>
@@ -288,7 +288,8 @@ import {
   Switch,
   RadioGroup,
   Tab,
-  VerticalMenu
+  VerticalMenu,
+  VerticalMenuItems
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -323,6 +324,32 @@ const formSectionItems = [
     name: 'Vitaly' },
   { id: 2,
     name: 'Nickmel' },
+];
+
+/**
+ * Items for displaing in vertical menu
+ */
+const verticalMenuItems: VerticalMenuItems[] = [
+  {
+    title: 'CodeX',
+    level: 1,
+  },
+  {
+    title: 'Workflow',
+    level: 2,
+  },
+  {
+    title: 'Engineering Strategy',
+    level: 2,
+  },
+  {
+    title: 'SSH Keys',
+    level: 3,
+  },
+  {
+    title: 'Admission Campaign 2022',
+    level: 2,
+  },
 ];
 </script>
 

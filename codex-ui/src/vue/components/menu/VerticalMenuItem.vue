@@ -17,16 +17,16 @@ const props = withDefaults(
     level: number;
 
     /**
-     * Item title
+     * Primary text of the menu item
      */
     title: string;
   }>(),
-  { level: 0 }
+  { level: 1 }
 );
 </script>
 <style module>
 .vertical-menu-item {
-  --menuIndent: calc(var(--level) * var(--spacing-ms));
+  --menuIndent: calc((var(--level) - 1) * var(--spacing-ms));
 
   gap: var(--spacing-ms);
   padding: 0 0 0 var(--menuIndent);
