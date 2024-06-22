@@ -28,5 +28,6 @@ defineProps<{
   padding: var(--spacing-ms);
   gap: var(--spacing-very-x);
   background-color: var(--base--bg-secondary);
+  width: max-content;
 }
 </style>
