@@ -138,21 +138,20 @@ export default function (): UseNoteSettingsComposableState {
     });
   };
 
+  /**
+   * Join note by hash
+   * @param hash - invitation hash
+   * @returns {TeamMember}
+   */
   async function joinNote(hash: string): Promise<TeamMember> {
     if (!authService.isAuthorized()) {
-      void router.push('/');
       void router.push('/');
 
       if (route.path === '/') {
         void useAuth().showGoogleAuthPopup();
-        // setTimeout(() => {
-        //
-        // //router.push({ name: 'join', params: { id: hash }})
-        // }, 4000)
       }
     }
 
-    teamMember.value = await noteSettingsService.joinNoteTeam(hash);
     teamMember.value = await noteSettingsService.joinNoteTeam(hash);
 
     return teamMember.value as TeamMember;
