@@ -84,13 +84,13 @@ async function regenerateHash() {
 }
 
 /**
- * Deletes the note complitely
+ * Deletes the note completely
  */
 async function deleteNote() {
   const isConfirmed = window.confirm(t('noteSettings.noteDeleteConfirmation'));
 
   if (isConfirmed) {
-    deleteNoteById(props.id);
+    await deleteNoteById(props.id);
   }
 }
 
@@ -105,7 +105,7 @@ const isPublic = computed(() => {
  * Change isPublic property
  */
 async function changeAccess() {
-  updateIsPublic(props.id, !noteSettings.value!.isPublic);
+  await updateIsPublic(props.id, !noteSettings.value);
 }
 
 /**

@@ -1,17 +1,17 @@
 import { ref, type Ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
-import { authService, noteSettingsService } from '@/domain';
+import { noteSettingsService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
 import type { TeamMember } from '@/domain/entities/TeamMember';
-import useAuth from './useAuth';
 
 /**
  * Note settings hook state
  */
 interface UseNoteSettingsComposableState {
+
   /**
    * NoteSettings ref
    */
@@ -45,7 +45,7 @@ interface UseNoteSettingsComposableState {
   changeRole: (id: NoteId, userId: UserId, newRole: MemberRole) => Promise<void>;
 
   /**
-   * Delete note by it's id
+   * Delete note by its id
    * @param id - Note id
    */
   deleteNoteById: (id: NoteId) => Promise<void>;
@@ -66,14 +66,11 @@ export default function (): UseNoteSettingsComposableState {
    * NoteSettings ref
    */
   const noteSettings = ref<NoteSettings | null>(null);
-  const teamMember = ref<TeamMember | null>(null);
 
   /**
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
-
-  const route = useRoute();
 
   /**
    * Get note settings
@@ -142,18 +139,8 @@ export default function (): UseNoteSettingsComposableState {
    * Join note by hash
    * @param hash - invitation hash
    */
-  async function joinNote(hash: string): Promise<TeamMember> {
-    if (!authService.isAuthorized()) {
-      void router.push('/');
-
-      if (route.path === '/') {
-        void useAuth().showGoogleAuthPopup();
-      }
-    }
-
-    teamMember.value = await noteSettingsService.joinNoteTeam(hash);
-
-    return teamMember.value as TeamMember;
+  async function joinNote(hash: string): Promise<void> {
+    await noteSettingsService.joinNoteTeam(hash);
   }
 
   return {

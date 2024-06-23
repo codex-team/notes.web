@@ -91,15 +91,7 @@ export default class NoteService {
    * @param hash - hash key
    */
   public async joinNoteTeam(hash: string): Promise<TeamMember> {
-    let result;
-
-    try {
-      result = await this.noteSettingsRepository.joinNoteByInvitationHash(hash);
-    } catch (error) {
-      throw error;
-    }
-
-    return result;
+    return await this.noteSettingsRepository.joinNoteByInvitationHash(hash);
   }
 
   /*
@@ -113,7 +105,7 @@ export default class NoteService {
   }
 
   /**
-   * Delete note by it's id
+   * Delete note by its id
    * @param id - Note id
    */
   public async deleteNote(id: NoteId): Promise<void> {

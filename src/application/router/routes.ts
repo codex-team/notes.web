@@ -8,7 +8,6 @@ import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
 import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
-import useNoteSettings from '@/application/services/useNoteSettings.ts';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -75,15 +74,6 @@ const routes: RouteRecordRaw[] = [
     props: route => ({
       id: String(route.params.id),
     }),
-    beforeEnter: async (to, from, next) => {
-      const noteSettings = await useNoteSettings().joinNote(to.params.id as string);
-
-      if (noteSettings?.id != null) {
-        next();
-      } else {
-        next('/');
-      }
-    },
   },
   {
     path: `/marketplace`,
