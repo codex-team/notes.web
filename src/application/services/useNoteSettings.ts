@@ -5,7 +5,6 @@ import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
-import type { TeamMember } from '@/domain/entities/TeamMember';
 
 /**
  * Note settings hook state
@@ -53,9 +52,8 @@ interface UseNoteSettingsComposableState {
   /**
    * Join note by hash
    * @param hash - invitation hash
-   * @returns {TeamMember}
    */
-  joinNote: (hash: string) => Promise<TeamMember | null>;
+  joinNote: (hash: string) => Promise<void>;
 }
 
 /**

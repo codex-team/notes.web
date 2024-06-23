@@ -1,8 +1,6 @@
 <template>
   <h1>Team</h1>
-  <Section>
-    {{ message }}
-  </Section>
+  <Section :title="t(message)" />
 </template>
 
 <script lang="ts" setup>
@@ -16,10 +14,10 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const { t } = useI18n();
 
-const message = ref(null);
+const message = ref<string>('');
 
 async function checkJoinEligibility() {
-  useNoteSettings().joinNote(route.params.id)
+  useNoteSettings().joinNote(route.params.id as string)
     .then(() => {})
     .catch(err => message.value = err.message);
 }
