@@ -127,7 +127,7 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
-   * Delete note by it's id
+   * Delete note by its id
    * @param id - Note id
    */
   const deleteNoteById = async (id: NoteId): Promise<void> => {
@@ -141,7 +141,6 @@ export default function (): UseNoteSettingsComposableState {
   /**
    * Join note by hash
    * @param hash - invitation hash
-   * @returns {TeamMember}
    */
   async function joinNote(hash: string): Promise<TeamMember> {
     if (!authService.isAuthorized()) {
