@@ -308,8 +308,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    console.log('conttene', currentNoteTitle);
-
     patchOpenedPage({
       title: currentNoteTitle,
       url: route.path,
