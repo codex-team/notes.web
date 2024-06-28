@@ -43,6 +43,8 @@ export class OpenedPagesStore extends SubscribableStore<TabStoreData> {
    * @param page - page that had beed opened by user
    */
   public patchOpenedPage(page: OpenedPage): void {
+    console.log('patcheddd');
+
     this.data.openedPages = this.data.openedPages.map((currentPage) => {
       if (currentPage.url == page.url) {
         currentPage.title = page.title;

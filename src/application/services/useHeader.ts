@@ -86,6 +86,7 @@ export default function (): useHeaderComposableState {
     if (prop === 'openedPages') {
       openedPages.value = value as OpenedPage[];
     }
+    console.log('opened pages updated', openedPages.value![openedPages.value!.length - 1]);
   });
 
   const tabs = computed<TabList>(() => {

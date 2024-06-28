@@ -225,14 +225,22 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        */
       const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
 
+      note.value = { ...note.value,
+        content };
+
       /**
        * Replace the current route with note id
        */
-      void router.replace({
+      await router.replace({
         name: 'note',
         params: {
           id: noteCreated.id,
         },
+      });
+
+      patchOpenedPage({
+        title: noteTitle.value,
+        url: route.path,
       });
 
       return;
@@ -299,12 +307,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     void load(newId);
   });
 
-  watch(noteTitle, currentNoteTitle => [
+  watch(noteTitle, (currentNoteTitle) => {
+    console.log('conttene', currentNoteTitle);
+
     patchOpenedPage({
       title: currentNoteTitle,
       url: route.path,
-    }),
-  ]);
+    });
+  });
 
   return {
     note,
