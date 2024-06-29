@@ -12,6 +12,9 @@ import { OpenedPagesStore } from '@/infrastructure/storage/openedPage';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEvent';
+import { EditorToolsStore } from '@/infrastructure/storage/editorTools.ts';
+import EditorToolsRepository from '@/infrastructure/editorTools.repository';
+import EditorToolsTransport from '@/infrastructure/transport/editorTools.transport';
 
 /**
  * Repositories
@@ -38,9 +41,14 @@ export interface Repositories {
   user: UserRepository;
 
   /**
-   * Working with editor tools data
+   * Working with marketplace tools data
    */
   marketplace: MarketplaceRepository;
+
+  /**
+   * Working with editor tools data
+   */
+  editorTools: EditorToolsRepository;
 
   /**
    * Working with all pages user is currently using
@@ -60,12 +68,14 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteStore = new NoteStore();
   const authStore = new AuthStore();
   const userStore = new UserStore();
+  const editorToolsStore = new EditorToolsStore();
   const openedPagesStore = new OpenedPagesStore();
 
   /**
    * Init transport
    */
   const notesApiTransport = new NotesApiTransport(noteApiUrl);
+  const editorToolsTransport = new EditorToolsTransport();
 
   /**
    * When we got authorized
@@ -107,6 +117,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const authRepository = new AuthRepository(authStore, notesApiTransport);
   const userRepository = new UserRepository(userStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
+  const editorToolsRepository = new EditorToolsRepository(editorToolsStore, editorToolsTransport);
   const workspaceRepository = new WorkspaceRepository(openedPagesStore);
 
   return {
@@ -115,6 +126,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     auth: authRepository,
     user: userRepository,
     marketplace: marketplaceRepository,
+    editorTools: editorToolsRepository,
     workspace: workspaceRepository,
   };
 }

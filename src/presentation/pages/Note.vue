@@ -19,9 +19,9 @@
       </Button>
     </div>
     <Editor
-      v-if="toolsConnected !== undefined"
+      v-if="loadedTools !== undefined"
       ref="editor"
-      :tools="toolsConnected"
+      :tools="loadedTools"
       :content="note.content"
       :read-only="!canEdit"
       @change="noteChanged"
@@ -33,11 +33,11 @@
 import { ref, toRef, watch } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
-import { useTools } from '@/application/services/useTools.ts';
 import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 
 const { t } = useI18n();
 
@@ -61,7 +61,7 @@ const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = 
   id: noteId,
 });
 
-const { toolsConnected } = useTools(noteTools);
+const { loadedTools } = useLoadedTools(noteTools);
 
 /**
  * Editor component reference
