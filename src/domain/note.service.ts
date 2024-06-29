@@ -68,4 +68,35 @@ export default class NoteService {
   public async unlinkParent(id: NoteId): Promise<void> {
     return await this.noteRepository.unlinkParent(id);
   }
+
+  /**
+   * Set new parent for the note
+   * @param id - Note id
+   * @param parentURL - link to the new parent note
+   */
+  public async setParent(id: NoteId, parentURL: string): Promise<void> {
+    // Regex matches any characters between '/note/' and the next slash or end of string
+    const regex = /\/note\/([^/]+)/;
+
+    const matches = parentURL.match(regex);
+
+    if (matches === null) {
+      throw new Error('Invalid parent URL');
+    }
+
+    // Extracts the ID from the URL. The ID is matches[1] as matches[0] is the full match
+    const parentId = matches[1];
+
+    const noteIdPattern = /^[a-zA-Z0-9-_]{10}$/;
+
+    if (!noteIdPattern.test(parentId)) {
+      throw new Error('Invalid parent ID');
+    }
+
+    const isUpdated = await this.noteRepository.setParent(id, parentId);
+
+    if (!isUpdated) {
+      throw new Error('Parent was not updated');
+    }
+  }
 }
