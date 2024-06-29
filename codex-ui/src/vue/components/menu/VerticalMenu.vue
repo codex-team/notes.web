@@ -14,13 +14,13 @@
 </template>
 <script lang="ts" setup>
 import VerticalMenuItem from './VerticalMenuItem.vue';
-import type { VerticalMenuItems } from './VerticalMenuTypes.types.ts';
+import type { VerticalMenuItem as Item } from './VerticalMenuTypes.types.ts';
 
 defineProps<{
   /**
    * Array of items for vertical menu
    */
-  items: VerticalMenuItems[];
+  items: Item[];
 }>();
 </script>
 <style module>

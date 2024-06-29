@@ -1,7 +1,7 @@
 /**
  * Type representing vertical menu item
  */
-export type VerticalMenuItems = {
+export type VerticalMenuItem = {
   /**
    * Primary text of the menu item
    */

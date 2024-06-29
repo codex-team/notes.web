@@ -298,7 +298,7 @@ import {
   ContextMenu,
   ContextMenuItems,
   VerticalMenu,
-  VerticalMenuItems
+  VerticalMenuItem
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -373,7 +373,7 @@ function doNothing(): void {}
 /**
  * Items for displaing in vertical menu
  */
-const verticalMenuItems: VerticalMenuItems[] = [
+const verticalMenuItems: VerticalMenuItem[] = [
   {
     title: 'CodeX',
     level: 1,
