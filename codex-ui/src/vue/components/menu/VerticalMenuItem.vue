@@ -1,6 +1,7 @@
 <template>
   <div
-    :class="$style['vertical-menu-item']"
+    :class="[$style['vertical-menu-item'],
+             props.isActive && $style['vertical-menu-item--active']]"
     :style="{ '--level': props.level }"
   >
     <div :class="$style['vertical-menu-item__container']">
@@ -20,8 +21,16 @@ const props = withDefaults(
      * Primary text of the menu item
      */
     title: string;
+
+    /**
+     * Current item state
+     */
+    isActive?: boolean;
   }>(),
-  { level: 1 }
+  {
+    level: 1,
+    isActive: false,
+  }
 );
 </script>
 <style module>
@@ -33,6 +42,19 @@ const props = withDefaults(
 
   &__container {
     padding: var(--spacing-s) var(--spacing-ml);
+
+    &:hover {
+      background-color: var(--base--bg-secondary-hover);
+      border-radius: var(--radius-m);
+    }
+
+    &--active .vertical-menu-item__container {
+      background-color: var(--base--bg-secondary-hover);
+
+      &::after {
+        border-left: 3px solid var(--accent--solid);
+      }
+    }
   }
 }
 </style>

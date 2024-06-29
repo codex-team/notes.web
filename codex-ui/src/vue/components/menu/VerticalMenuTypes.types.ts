@@ -11,4 +11,9 @@ export type VerticalMenuItems = {
    * Level of the vertical item
    */
   level: number;
+
+  /**
+   * Current item state
+   */
+  isActive?: boolean;
 };

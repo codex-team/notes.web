@@ -345,6 +345,7 @@ const verticalMenuItems: VerticalMenuItems[] = [
   {
     title: 'SSH Keys',
     level: 3,
+    isActive: true,
   },
   {
     title: 'Admission Campaign 2022',
