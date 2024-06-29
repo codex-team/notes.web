@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: Home,
     meta: {
-      pageTitle: 'Home',
+      pageTitleI18n: 'pages.home',
     },
     beforeEnter: () => {
       // Custom hostname should return page instead of homepage
@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
     path: '/note/:id',
     component: Note,
     meta: {
-      pageTitle: 'Note',
+      pageTitleI18n: 'pages.note',
     },
     props: route => ({
       id: String(route.params.id),
@@ -47,7 +47,7 @@ const routes: RouteRecordRaw[] = [
       id: null,
     },
     meta: {
-      pageTitle: 'New note',
+      pageTitleI18n: 'pages.newNote',
     },
   },
   {
@@ -58,21 +58,21 @@ const routes: RouteRecordRaw[] = [
       parentId: String(route.params.id),
     }),
     meta: {
-      pageTitle: 'New note',
+      pageTitleI18n: 'pages.newNote',
     },
   },
   {
     path: '/view/',
     component: Landing,
     meta: {
-      pageTitle: 'Landing',
+      pageTitleI18n: 'pages.landing',
     },
   },
   {
     path: `/settings/`,
     component: Settings,
     meta: {
-      pageTitle: 'User settings',
+      pageTitleI18n: 'pages.userSettings',
     },
   },
   {
@@ -83,14 +83,14 @@ const routes: RouteRecordRaw[] = [
       id: String(route.params.id),
     }),
     meta: {
-      pageTitle: 'Note Settings',
+      pageTitleI18n: 'pages.noteSettings',
     },
   },
   {
     path: `/marketplace`,
     component: Marketplace,
     meta: {
-      pageTitle: 'Marketplace',
+      pageTitleI18n: 'pages.marketplace',
     },
   },
   {
@@ -98,7 +98,7 @@ const routes: RouteRecordRaw[] = [
     path: `/marketplace/add`,
     component: AddTool,
     meta: {
-      pageTitle: 'Add tool',
+      pageTitleI18n: 'pages.addTool',
     },
   },
   /**
@@ -109,7 +109,7 @@ const routes: RouteRecordRaw[] = [
     component: ErrorPage,
     meta: {
       layout: 'fullpage',
-      pageTitle: 'Not found',
+      pageTitleI18n: 'pages.notFound',
     },
     props: {
       code: 404,

@@ -40,12 +40,17 @@ export class OpenedPagesStore extends SubscribableStore<TabStoreData> {
   /**
    * Function for updating title of the opened page when user updated it
    * e.g. user updated note's first text block, page title should be patched
-   * @param url
-   * @param page - page that had beed opened by user
+   * @param url - url of the page, that should be updated
+   * @param page - new data for opened page with certain url
    */
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
-    const tabToUpdateIndex = this.data.openedPages.findIndex(currentPage => currentPage.url === url);
+    this.data.openedPages = this.data.openedPages.map((currentPage) => {
+      if (currentPage.url == page.url) {
+        currentPage.title = page.title;
+      }
 
-    this.data.openedPages[tabToUpdateIndex] = page;
+      return { title: currentPage.title,
+        url: currentPage.url };
+    });
   }
 }

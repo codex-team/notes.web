@@ -5,6 +5,7 @@ import { AppStateController } from '@/domain';
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import type { TabList } from '@/domain/entities/Tab';
 import { workspaceService } from '@/domain/index';
+import { useI18n } from 'vue-i18n';
 import { notEmpty } from '@/infrastructure/utils/empty';
 
 interface useHeaderComposableState {
@@ -37,6 +38,7 @@ interface useHeaderComposableState {
 export default function (): useHeaderComposableState {
   const router = useRouter();
   const route = useRoute();
+  const { t } = useI18n();
 
   const openedPages = ref<OpenedPage[] | null>(null);
 
@@ -77,7 +79,7 @@ export default function (): useHeaderComposableState {
       deleteOpenedPageByUrl('/new');
     }
 
-    addOpenedPage({ title: currentRoute.meta.pageTitle,
+    addOpenedPage({ title: t(currentRoute.meta.pageTitleI18n),
       url: currentRoute.path });
   });
 
