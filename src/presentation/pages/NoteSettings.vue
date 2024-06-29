@@ -28,6 +28,18 @@
     >
       {{ t('noteSettings.revokeHash') }}
     </Button>
+    <Field
+      v-model="parentURL"
+      :title="t('noteSettings.parentNote')"
+      size="medium"
+      :caption="t('noteSettings.parentNoteCaption')"
+    />
+    <Button
+      type="primary"
+      @click="setParentButton"
+    >
+      {{ t('noteSettings.setParent') }}
+    </Button>
     <Team
       :note-id="id"
       :team="noteSettings.team"
@@ -51,9 +63,9 @@ import type { NoteId } from '@/domain/entities/Note';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Field } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -64,11 +76,16 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById } = useNoteSettings();
+const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
+
+/**
+ * URL of the parent note. Used to set and display the parent note
+ */
+const parentURL = ref<string>('');
 
 loadSettings(props.id);
 
@@ -88,6 +105,13 @@ async function deleteNote() {
   if (isConfirmed) {
     deleteNoteById(props.id);
   }
+}
+
+/**
+ * Update parent button click handler
+ */
+async function setParentButton() {
+  await setParent(props.id, parentURL.value);
 }
 
 /**
