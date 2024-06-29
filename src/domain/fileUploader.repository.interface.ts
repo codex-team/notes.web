@@ -15,7 +15,7 @@ export default interface FileUploaderRepositoryInterface {
   /**
    * Load file data
    * @param key - file key on server side
-   * @param noteId - identifier of note, which consists this file
+   * @param noteId - identifier of note, which contains this file
    */
   load: (key: string, noteId: Note['id']) => Promise<Blob>;
 }
