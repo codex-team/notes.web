@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[$style['vertical-menu-item'],
-             props.isActive && $style['vertical-menu-item--active']]"
+             isActive && $style['vertical-menu-item--active']]"
     :style="{ '--level': props.level }"
   >
     <div
