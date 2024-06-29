@@ -57,9 +57,6 @@
     "title": "Recents",
     "authText": "You are not logged in, log in to see your recent notes"
   },
-  "join": {
-    "title": "Join team"
-  },
   "errors": {
     "404": "Page not found",
     "500": "Unknown error happened",

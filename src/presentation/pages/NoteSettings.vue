@@ -70,10 +70,6 @@ const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
 
-/**
- * Button click handler
- */
-
 loadSettings(props.id);
 
 /**
@@ -105,7 +101,7 @@ const isPublic = computed(() => {
  * Change isPublic property
  */
 async function changeAccess() {
-  await updateIsPublic(props.id, !noteSettings.value);
+  await updateIsPublic(props.id, !noteSettings.value!.isPublic);
 }
 
 /**
