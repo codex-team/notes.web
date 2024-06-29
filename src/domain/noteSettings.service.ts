@@ -1,4 +1,5 @@
 import type NoteSettingsRepository from '@/domain/noteSettings.repository.interface';
+import type NoteRepository from '@/domain/note.repository.interface';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
@@ -8,18 +9,25 @@ import type { MemberRole } from './entities/Team';
 /**
  * Note Service
  */
-export default class NoteService {
+export default class NoteSettingsService {
   /**
-   * Note repository
+   * Note settings repository
    */
   private readonly noteSettingsRepository: NoteSettingsRepository;
 
   /**
-   * Note Service constructor
-   * @param noteSettingsRepository - Note repository instance
+   * Note repository
    */
-  constructor(noteSettingsRepository: NoteSettingsRepository) {
+  private readonly noteRepository: NoteRepository;
+
+  /**
+   * Note Service constructor
+   * @param noteSettingsRepository - Note settings repository instance
+   * @param noteRepository - Note repository instance
+   */
+  constructor(noteSettingsRepository: NoteSettingsRepository, noteRepository: NoteRepository) {
     this.noteSettingsRepository = noteSettingsRepository;
+    this.noteRepository = noteRepository;
   }
 
   /**
