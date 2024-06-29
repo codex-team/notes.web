@@ -58,19 +58,18 @@ onMounted(() => {
 .input {
   display: flex;
   border: 0;
-  outline: 0;
   background-color: var(--base--bg-secondary);
   gap: var(--v-padding);
   align-items: center;
 
   &__wrapper {
     flex: 1;
-    background-color: var(--base--bg-secondary);
     border: 0;
     outline: 0;
     color: var(--base--text);
     font-size: inherit;
     font-family: inherit;
+    background-color: inherit;
 
     &[disabled] {
       color: var(--base--text-secondary);
