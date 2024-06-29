@@ -4,7 +4,9 @@
              props.isActive && $style['vertical-menu-item--active']]"
     :style="{ '--level': props.level }"
   >
-    <div :class="$style['vertical-menu-item__container']">
+    <div
+      :class="[$style['vertical-menu-item__container']]"
+    >
       {{ props.title }}
     </div>
   </div>
@@ -47,14 +49,13 @@ const props = withDefaults(
       background-color: var(--base--bg-secondary-hover);
       border-radius: var(--radius-m);
     }
-
-    &--active .vertical-menu-item__container {
-      background-color: var(--base--bg-secondary-hover);
-
-      &::after {
-        border-left: 3px solid var(--accent--solid);
-      }
-    }
   }
+
+  &--active .vertical-menu-item__container {
+    background-color: var(--base--bg-secondary-hover);
+    border-left: 3px solid var(--accent--solid);
+    border-radius: var(--radius-m);
+  }
+
 }
 </style>

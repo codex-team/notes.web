@@ -8,6 +8,7 @@
       :item="item"
       :title="item.title"
       :level="item.level"
+      :is-active="item.isActive"
     />
   </div>
 </template>
