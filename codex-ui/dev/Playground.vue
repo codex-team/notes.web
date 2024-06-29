@@ -235,31 +235,31 @@
       Tab
     </Heading>
     <Tab
-      :title="'Home'"
-      :url="'/'"
-    />
-    <br>
-    <Tab
-      :url="'/'"
-      :title="'Home'"
-      :picture="'../static/example-avatar.png'"
-    />
-    <br>
-    <Tab
-      :url="'/'"
       title="Home"
-      :icon="'Plus'"
+      url="/"
     />
     <br>
     <Tab
-      :url="'/'"
-      :title="'Home'"
+      url="/"
+      title="Home"
+      picture="../static/example-avatar.png"
+    />
+    <br>
+    <Tab
+      url="/"
+      title="Home"
+      icon="Plus"
+    />
+    <br>
+    <Tab
+      url="/"
+      title="Home"
       :closable="true"
     />
     <br>
     <Tab
-      :url="'/'"
-      :title="'Home'"
+      url="/"
+      title="Home"
       :closable="true"
       :is-active="true"
     />
