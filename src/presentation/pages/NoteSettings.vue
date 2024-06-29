@@ -130,7 +130,7 @@ async function changeAccess() {
  * Construct the parent note URL. If the parent note is not set, return an empty string
  *
  * @param id - id of the  note
- * @returns URL of the parent note
+ * @returns {string} URL of the parent note
  */
 function getParentURL(id: NoteId | undefined): string {
   if (parentNote.value === undefined) {
