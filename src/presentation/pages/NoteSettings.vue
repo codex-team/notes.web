@@ -63,7 +63,7 @@ import type { NoteId } from '@/domain/entities/Note';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button, Field } from 'codex-ui/vue';
 
@@ -86,8 +86,6 @@ const invitationLink = computed(
  * URL of the parent note. Used to set and display the parent note
  */
 const parentURL = ref<string>('');
-
-loadSettings(props.id);
 
 /**
  * Regenerate invitation hash
@@ -129,10 +127,30 @@ async function changeAccess() {
 }
 
 /**
+ * Construct the parent note URL. If the parent note is not set, return an empty string
+ *
+ * @param id - id of the  note
+ * @returns URL of the parent note
+ */
+function getParentURL(id: NoteId | undefined): string {
+  if (parentNote.value === undefined) {
+    return '';
+  }
+  const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
+
+  return `${websiteHostname}/note/${id}`;
+}
+
+/**
  * Changing the title in the browser
  */
 useHead({
   title: t('noteSettings.title'),
+});
+
+onMounted(async () => {
+  await loadSettings(props.id);
+  parentURL.value = getParentURL(parentNote.value?.id);
 });
 </script>
 
