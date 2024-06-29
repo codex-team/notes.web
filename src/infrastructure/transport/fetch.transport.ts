@@ -1,4 +1,5 @@
 import type JSONValue from '@/infrastructure/transport/types/JSONValue';
+import type MaybeJSONValueOrBlob from '@/infrastructure/transport/types/MaybeJSONValueOrBlob';
 
 /**
  * Additional options for fetch transport
@@ -35,8 +36,9 @@ export default class FetchTransport {
    * @template Response - Response data type
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
+   * @param isBlob - expected response type is binary
    */
-  public async get(endpoint: string, data?: JSONValue): Promise<JSONValue> {
+  public async get<IsBlob extends boolean = false>(endpoint: string, data?: JSONValue, isBlob?: IsBlob): Promise<MaybeJSONValueOrBlob<IsBlob>> {
     const resourceUrl = new URL(this.baseUrl + endpoint);
 
     if (data !== undefined) {
@@ -48,17 +50,24 @@ export default class FetchTransport {
       headers: this.headers,
     });
 
-    return this.parseResponse(response, endpoint);
+    return this.parseResponse(response, endpoint, isBlob);
   }
 
   /**
    * Make POST request to update some resource
    * @template Response - Response data type
    * @param endpoint - API endpoint
-   * @param payload - JSON POST data body
+   * @param payload - JSON or form POST data body
    */
-  public async post(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
-    this.headers.set('Content-Type', 'application/json');
+  public async post(endpoint: string, payload?: JSONValue | FormData): Promise<JSONValue> {
+    /**
+     * In case if passed payload is form data, we need to have auto generated Content-Type for multipar/form-data with boundary
+     */
+    if (payload instanceof FormData) {
+      this.headers.delete('Content-Type');
+    } else {
+      this.headers.set('Content-Type', 'application/json');
+    }
 
     /**
      * Send payload as body to allow Fastify accept it
@@ -117,16 +126,20 @@ export default class FetchTransport {
    * Check response for errors
    * @param response - Response object
    * @param endpoint - API endpoint used for logging
+   * @param isBlob - expected response type is binary
    * @throws Error
    */
-  private async parseResponse(response: Response, endpoint: string): Promise<JSONValue> {
+  private async parseResponse<IsBlob extends boolean = false>(response: Response, endpoint: string, isBlob?: IsBlob): Promise<MaybeJSONValueOrBlob<IsBlob>> {
     let payload;
 
     /**
-     * Try to parse error data. If it is not valid JSON, throw error
+     * Try to parse error data. If it is not valid JSON or Blob, throw error
      */
     try {
-      payload = await response.json();
+      /**
+       * In case if we are waiting for binary data, we need to parse response as Blob
+       */
+      payload = isBlob !== undefined && isBlob === true ? await response.blob() : await response.json();
     } catch (error) {
       throw new Error(`The response is not valid JSON (requesting ${endpoint})`);
     }

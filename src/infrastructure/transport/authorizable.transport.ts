@@ -1,6 +1,7 @@
 import Transport from '@/infrastructure/transport';
 import type { FetchTransportOptions } from './fetch.transport';
 import type JSONValue from './types/JSONValue';
+import type MaybeJSONValueOrBlob from './types/MaybeJSONValueOrBlob';
 
 /**
  * Additional options for authorizable transport
@@ -72,21 +73,22 @@ export default class AuthorizableTransport extends Transport {
    * Gets specific resource
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
+   * @param isBlob - expected response type is binary
    * @param params - Additional params to tune request
    */
-  public async get(endpoint: string, data?: JSONValue, params?: AuthorizableRequestParams): Promise<JSONValue> {
+  public async get<IsBlob extends boolean = false>(endpoint: string, data?: JSONValue, isBlob?: IsBlob, params?: AuthorizableRequestParams): Promise<MaybeJSONValueOrBlob<IsBlob>> {
     await this.waitForAuth(params);
 
-    return super.get(endpoint, data);
+    return super.get(endpoint, data, isBlob);
   }
 
   /**
    * Make POST request to update some resource
    * @param endpoint - API endpoint
-   * @param payload - JSON POST data body
+   * @param payload - JSON or form POST data body
    * @param params - Additional params to tune request
    */
-  public async post(endpoint: string, payload?: JSONValue, params?: AuthorizableRequestParams): Promise<JSONValue> {
+  public async post(endpoint: string, payload?: JSONValue | FormData, params?: AuthorizableRequestParams): Promise<JSONValue> {
     await this.waitForAuth(params);
 
     return super.post(endpoint, payload);

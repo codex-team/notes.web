@@ -13,6 +13,7 @@ import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEven
 import { EditorToolsStore } from '@/infrastructure/storage/editorTools.ts';
 import EditorToolsRepository from '@/infrastructure/editorTools.repository';
 import EditorToolsTransport from '@/infrastructure/transport/editorTools.transport';
+import FileUploaderRepository from './fileUploader.repository';
 
 /**
  * Repositories
@@ -47,6 +48,11 @@ export interface Repositories {
    * Working with editor tools data
    */
   editorTools: EditorToolsRepository;
+
+  /**
+   * Working with files data
+   */
+  fileUploader: FileUploaderRepository;
 }
 
 /**
@@ -110,6 +116,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const userRepository = new UserRepository(userStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
   const editorToolsRepository = new EditorToolsRepository(editorToolsStore, editorToolsTransport);
+  const fileUploaderRepository = new FileUploaderRepository(notesApiTransport);
 
   return {
     note: noteRepository,
@@ -118,5 +125,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     user: userRepository,
     marketplace: marketplaceRepository,
     editorTools: editorToolsRepository,
+    fileUploader: fileUploaderRepository,
   };
 }

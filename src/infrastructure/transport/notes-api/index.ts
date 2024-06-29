@@ -62,10 +62,11 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * Make GET request to the NoteX API
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
+   * @param isBlob - expected response type is binary
    * @param params - Additional params to tune request
    */
-  public async get<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
-    const response = await super.get(endpoint, data, params);
+  public async get<Payload>(endpoint: string, data?: JSONValue, isBlob?: boolean, params?: NotexApiRequestParams): Promise<Payload> {
+    const response = await super.get(endpoint, data, isBlob, params);
 
     return response as Payload;
   }
@@ -76,7 +77,7 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request
    */
-  public async post<Payload>(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Payload> {
+  public async post<Payload>(endpoint: string, data?: JSONValue | FormData, params?: NotexApiRequestParams): Promise<Payload> {
     const response = await super.post(endpoint, data, params);
 
     return response as Payload;
