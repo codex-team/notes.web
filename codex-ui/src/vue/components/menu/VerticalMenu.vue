@@ -25,6 +25,8 @@ defineProps<{
 </script>
 <style module>
 .vertical-menu {
+  display: flex;
+  flex-direction: column;
   border-radius: var(--radius-m);
   padding: var(--spacing-ms);
   gap: var(--spacing-very-x);
