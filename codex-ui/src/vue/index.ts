@@ -12,3 +12,4 @@ export * from './components/card';
 export * from './components/tabbar';
 export * from './components/menu';
 export * from './composables/useTheme';
+export * from './components/menu';
