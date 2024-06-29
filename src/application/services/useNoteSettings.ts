@@ -47,6 +47,13 @@ interface UseNoteSettingsComposableState {
    * @param id - Note id
    */
   deleteNoteById: (id: NoteId) => Promise<void>;
+
+  /**
+   * Set parent for the note
+   * @param id - Child note id
+   * @param newParentURL - New parent note URL
+   */
+  setParent: (id: NoteId, newParentURL: string) => Promise<void>;
 }
 
 /**
@@ -126,6 +133,22 @@ export default function (): UseNoteSettingsComposableState {
     });
   };
 
+  /**
+   * Set parent for the note
+   * @param id - Child note id
+   * @param newParentURL - New parent note URL
+   */
+  const setParent = async (id: NoteId, newParentURL: string): Promise<void> => {
+    try {
+      await noteSettingsService.setParent(id, newParentURL);
+    } catch (error) {
+      if (error instanceof Error) {
+        window.alert(error.message);
+      }
+      throw error;
+    }
+  };
+
   return {
     noteSettings,
     load,
@@ -133,5 +156,6 @@ export default function (): UseNoteSettingsComposableState {
     revokeHash,
     changeRole,
     deleteNoteById,
+    setParent,
   };
 }
