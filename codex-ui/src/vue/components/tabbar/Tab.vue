@@ -50,6 +50,7 @@ withDefaults(
     /**
      * Function to be called on close of the tab or undefined
      */
+    /* eslint-disable-next-line no-unused-vars */
     onClose?: (tab: TabParams) => void;
 
     /**

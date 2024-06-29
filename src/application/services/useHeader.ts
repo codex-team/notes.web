@@ -94,7 +94,7 @@ export default function (): useHeaderComposableState {
 
   const tabs = computed<TabList>(() => {
     let activeTabs = [{
-      title: 'Home',
+      title: t('pages.home'),
       url: '/',
       isActive: route.path === '/',
     }];
