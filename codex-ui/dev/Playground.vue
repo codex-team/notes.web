@@ -296,7 +296,7 @@ import {
   RadioGroup,
   Tab,
   ContextMenu,
-  ContextMenuItems,
+  ContextMenuItem,
   VerticalMenu,
   VerticalMenuItem
 } from '../src/vue';
@@ -337,7 +337,7 @@ const formSectionItems = [
 /**
  * Items for searching in the context menu
  */
-const contextMenuItems: ContextMenuItems[] = [
+const contextMenuItems: ContextMenuItem[] = [
   {
     type: 'default',
     title: 'Header 1',

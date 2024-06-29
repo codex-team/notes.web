@@ -19,13 +19,13 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
-import type { ContextMenuItems } from './ContextMenuTypes.types.ts';
+import type { ContextMenuItem as Item } from './ContextMenuTypes.types.ts';
 import ContextMenuItem from './ContextMenuItem.vue';
 
 /**
  * Separator for search container
  */
-const separator: ContextMenuItems = { type: 'separator' };
+const separator: Item = { type: 'separator' };
 
 withDefaults(
   defineProps<{
@@ -37,7 +37,7 @@ withDefaults(
     /**
      * Array of items for context menu
      */
-    items: ContextMenuItems[];
+    items: Item[];
   }>(),
   { showSearch: false }
 );

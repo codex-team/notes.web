@@ -1,7 +1,7 @@
 /**
  * Type of the context menu items - may be default or separator
  */
-export type ContextMenuItems = DefaultItem | SeparatorItem;
+export type ContextMenuItem = DefaultItem | SeparatorItem;
 
 /**
  * Interface representing default context menu item
