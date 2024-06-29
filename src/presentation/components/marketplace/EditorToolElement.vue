@@ -1,30 +1,59 @@
 <template>
-  <li>
-    <div class="marketplace__tool">
-      {{ tool.title }}
+  <Card
+    :title="tool.title"
+    subtitle="
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus odio non lectus maximus suscipit. Morbi vehicula neque eget augue mollis porta. Sed cursus auctor nisi a iaculis."
+    orientation="horizontal"
+    src="https://sun9-50.userapi.com/c844720/v844720274/194ada/1HCPufLxhzY.jpg"
+  >
+    <div class="buttons">
       <Button
-        v-if="canBeUninstalled"
+        v-if="
+          canBeUninstalled"
         :disabled="tool.isDefault"
-        :text="t('marketplace.uninstallTool')"
-        @click="removeTool(tool.id)"
-      />
+        :icon="isLoading ? 'Loader' : undefined"
+        @click="onRemoveTool(tool.id)"
+      >
+        {{ t('marketplace.uninstallTool') }}
+      </Button>
       <Button
         v-if="canBeInstalled"
-        :text="t('marketplace.installTool')"
         type="transparent"
-        @click="addTool(tool.id)"
-      />
+        :icon="isLoading ? 'Loader' : undefined"
+        @click="onAddTool(tool.id)"
+      >
+        {{ t('marketplace.installTool') }}
+      </Button>
     </div>
-  </li>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
 import { useUserSettings } from '@/application/services/useUserSettings';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
-import Button from '../button/Button.vue';
+import { computed, ref } from 'vue';
+import { Button, Card } from 'codex-ui/vue';
+
 const { addTool, removeTool } = useUserSettings();
+
+const isLoading = ref(false);
+
+const onRemoveTool = async (toolId: string) => {
+  isLoading.value = true;
+
+  await removeTool(toolId);
+
+  isLoading.value = false;
+};
+
+const onAddTool = async (toolId: string) => {
+  isLoading.value = true;
+
+  await addTool(toolId);
+
+  isLoading.value = false;
+};
 
 const { t } = useI18n();
 
@@ -37,9 +66,9 @@ const canBeInstalled = computed(() => !props.tool.isDefault && !props.tool.isIns
 </script>
 
 <style scoped lang="postcss">
-.marketplace__tool {
+.buttons {
+  min-width: 100px;
   display: flex;
-  align-items: center;
-  gap: var(--spacing-very-x);
+  justify-content: flex-end;
 }
 </style>

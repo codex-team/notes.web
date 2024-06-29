@@ -1,13 +1,24 @@
 <template>
-  <div>
-    <h1>{{ $t('marketplace.title') }}</h1>
-    <h2>{{ $t('marketplace.listOfTools') }}</h2>
-    <ul
-      v-for="tool in tools"
-      :key="tool.id"
+  <div class="marketplace">
+    <Heading
+      :level="1"
     >
-      <EditorToolElement :tool="tool" />
-    </ul>
+      {{ $t('marketplace.title') }}
+    </Heading>
+    <Heading
+      :level="2"
+      class="marketplace__subheader"
+    >
+      {{ $t('marketplace.listOfTools') }}
+    </Heading>
+    <div class="toolCards">
+      <template
+        v-for="tool in tools"
+        :key="tool.id"
+      >
+        <EditorToolElement :tool="tool" />
+      </template>
+    </div>
     <Button
       link="/marketplace/add"
       :text="$t('marketplace.addTool')"
@@ -19,6 +30,7 @@
 import useMarketplace from '@/application/services/useMarketplace';
 import EditorToolElement from '@/presentation/components/marketplace/EditorToolElement.vue';
 import Button from '@/presentation/components/button/Button.vue';
+import { Heading } from 'codex-ui/vue';
 
 const { tools } = useMarketplace();
 </script>
@@ -28,5 +40,23 @@ const { tools } = useMarketplace();
 
 h1 {
   @apply --text-heading-1;
+}
+
+.marketplace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  margin: var(--spacing-l) 0;
+
+  &__subheader {
+    margin-bottom: var(--spacing-l);
+  }
+}
+
+.toolCards {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: var(--spacing-s);
 }
 </style>

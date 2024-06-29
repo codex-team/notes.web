@@ -62,6 +62,13 @@ Add the following "path" to the "tsconfig.json"
 
 ```
 
+## Build Design System
+Build the design system to be able to use the codex-ui/styles import
+
+```
+yarn build
+```
+
 ## Access CSS variables
 
 1. Import `codex-ui/styles` somewhere in App
