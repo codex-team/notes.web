@@ -44,10 +44,10 @@ const props = withDefaults(
 
   &__container {
     padding: var(--spacing-s) var(--spacing-ml);
+    border-radius: var(--radius-m);
 
     &:hover {
       background-color: var(--base--bg-secondary-hover);
-      border-radius: var(--radius-m);
     }
   }
 
