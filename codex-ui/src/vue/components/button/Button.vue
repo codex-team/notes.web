@@ -7,7 +7,7 @@
       v-if="icon"
       :name="icon"
     />
-    <slot v-else="!icon" />
+    <slot v-else />
   </button>
 </template>
 
@@ -36,12 +36,13 @@ const props = withDefaults(
     /**
      * Name of the center icon. Uses in case only icon should be displayed
      */
-    icon?: string
+    icon?: string;
   }>(),
   {
     size: 'medium',
     style: 'primary',
     disabled: false,
+    icon: undefined,
   }
 );
 

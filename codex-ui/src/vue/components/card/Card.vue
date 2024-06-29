@@ -1,6 +1,9 @@
 <template>
   <div :class="[$style.card, orientation === 'horizontal' ? $style['card--horizontal'] : '']">
-    <div :class="$style['card__cover']" :style="`background: url(${src})`" />
+    <div
+      :class="$style['card__cover']"
+      :style="`background: url(${src})`"
+    />
 
     <div :class="$style['card__body']">
       <div
@@ -35,8 +38,7 @@ withDefaults(
      * Card can be vertically oriented (image, body and footer are positioned in vertical direction)
      * and horizontally oriented (elements are positioned in horizontal direction)
      */
-     orientation: CardOrientation;
-
+    orientation: CardOrientation;
 
     /**
      * Card subtitle.
@@ -52,6 +54,7 @@ withDefaults(
   {
     subtitle: '',
     orientation: 'vertical',
+    src: '',
   }
 );
 </script>
@@ -79,8 +82,6 @@ withDefaults(
       height: 100px;
     }
   }
-
-
 
   &__cover {
     flex-shrink: 0;
