@@ -265,6 +265,7 @@
     <ContextMenu
       :show-search="true"
       :items="contextMenuItems"
+      :search-icon="'Search'"
     />
     <Heading :level="3">
       Type Scale
