@@ -1,7 +1,7 @@
 import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
-import type { NoteId } from '@/domain/entities/Note';
-import { noteSettingsService } from '@/domain';
+import type { NoteId, Note } from '@/domain/entities/Note';
+import { noteSettingsService, noteService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
 import { useRouter } from 'vue-router';
@@ -14,6 +14,16 @@ interface UseNoteSettingsComposableState {
    * NoteSettings ref
    */
   noteSettings: Ref<NoteSettings | null>;
+
+  /**
+   * Instance of the current note, undefined if not loaded
+   */
+  note: Ref<Note | undefined>;
+
+  /**
+   * Instance of the parent note, undefined if there is no parent note
+   */
+  parentNote: Ref<Note | undefined>;
 
   /**
    * Load note settings
@@ -66,6 +76,16 @@ export default function (): UseNoteSettingsComposableState {
   const noteSettings = ref<NoteSettings | null>(null);
 
   /**
+   * Instance of the current note, undefined if not loaded
+   */
+  const note = ref<Note | undefined>(undefined);
+
+  /**
+   * Instance of the parent note, undefined if there is no parent note
+   */
+  const parentNote = ref<Note | undefined>(undefined);
+
+  /**
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
@@ -76,6 +96,10 @@ export default function (): UseNoteSettingsComposableState {
    */
   const load = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
+    const response = await noteService.getNoteById(id);
+
+    note.value = response.note;
+    parentNote.value = response.parentNote;
   };
 
   /**
@@ -140,7 +164,7 @@ export default function (): UseNoteSettingsComposableState {
    */
   const setParent = async (id: NoteId, newParentURL: string): Promise<void> => {
     try {
-      await noteSettingsService.setParent(id, newParentURL);
+      await noteService.setParent(id, newParentURL);
     } catch (error) {
       if (error instanceof Error) {
         window.alert(error.message);
@@ -150,6 +174,8 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   return {
+    note,
+    parentNote,
     noteSettings,
     load,
     updateIsPublic,
