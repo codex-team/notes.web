@@ -260,8 +260,12 @@
       :is-active="true"
     />
     <Heading :level="3">
-      Type Scale
+      Context Menu
     </Heading>
+    <ContextMenu
+      :show-search="true"
+      :items="contextMenuItems"
+    />
     <Heading :level="3">
       Type Scale
     </Heading>
@@ -289,11 +293,12 @@ import {
   Avatar,
   Switch,
   RadioGroup,
-  Tab
+  Tab,
+  ContextMenu,
+  ContextMenuItems
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
-
 const formFieldValue = ref('Heading');
 
 /**
@@ -325,6 +330,42 @@ const formSectionItems = [
   { id: 2,
     name: 'Nickmel' },
 ];
+
+/**
+ * Items for searching in the context menu
+ */
+const contextMenuItems: ContextMenuItems[] = [
+  {
+    type: 'default',
+    title: 'Header 1',
+    icon: 'H1',
+    onActivate: doNothing,
+  },
+  {
+    title: 'Header 2',
+    icon: 'H1',
+    onActivate: doNothing,
+  },
+  {
+    type: 'separator',
+  },
+  {
+    type: 'default',
+    title: 'Header 3',
+    icon: 'H1',
+    onActivate: doNothing,
+  },
+  {
+    type: 'default',
+    title: 'Header 3',
+    onActivate: doNothing,
+  },
+];
+
+/**
+ * Simple function for example
+ */
+function doNothing(): void {}
 </script>
 
 <style module>
