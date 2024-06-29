@@ -73,10 +73,15 @@ export default function (): useHeaderComposableState {
    */
   router.beforeEach((currentRoute, prevRoute) => {
     /**
-     * If we are created new note we should replace 'New Note' tab with tab with actual note title
+     * Check if previous route exists
      */
-    if (prevRoute.path === '/new') {
-      deleteOpenedPageByUrl('/new');
+    if (prevRoute.meta.pageTitleI18n !== undefined) {
+      /**
+       * If we are created new note we should replace 'New Note' tab with tab with actual note title
+       */
+      if (t(prevRoute.meta.pageTitleI18n) === t('pages.newNote')) {
+        deleteOpenedPageByUrl(route.path);
+      }
     }
 
     addOpenedPage({ title: t(currentRoute.meta.pageTitleI18n),
