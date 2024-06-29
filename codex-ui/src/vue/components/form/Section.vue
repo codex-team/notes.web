@@ -26,7 +26,7 @@ withDefaults(
      * Form section title
      * Will be displayed as a heading
      */
-    title: string;
+    title?: string;
 
     /**
      * Additional description of the embedded field
@@ -44,6 +44,7 @@ withDefaults(
     withBackground?: boolean;
   }>(),
   {
+    title: '',
     caption: '',
     size: 'medium',
     withBackground: true,
