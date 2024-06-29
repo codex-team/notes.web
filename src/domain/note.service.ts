@@ -3,7 +3,7 @@ import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type { NoteDTO } from './entities/NoteDTO';
 import type { NoteTool } from '@/domain/entities/Note';
-
+import { extractNoteId } from '@/infrastructure/utils/note';
 /**
  * Note Service
  */
@@ -75,24 +75,7 @@ export default class NoteService {
    * @param parentURL - link to the new parent note
    */
   public async setParent(id: NoteId, parentURL: string): Promise<void> {
-    // Regex matches any characters between '/note/' and the next slash or end of string
-    const regex = /\/note\/([^/]+)/;
-
-    const matches = parentURL.match(regex);
-
-    if (matches === null) {
-      throw new Error('Invalid parent URL');
-    }
-
-    // Extracts the ID from the URL. The ID is matches[1] as matches[0] is the full match
-    const parentId = matches[1];
-
-    const noteIdPattern = /^[a-zA-Z0-9-_]{10}$/;
-
-    if (!noteIdPattern.test(parentId)) {
-      throw new Error('Invalid parent ID');
-    }
-
+    const parentId = extractNoteId(parentURL);
     const isUpdated = await this.noteRepository.setParent(id, parentId);
 
     if (!isUpdated) {
