@@ -15,17 +15,18 @@ interface useHeaderComposableState {
   addOpenedPage: (page: OpenedPage) => void;
 
   /**
-   * Funciton for deleting record about opened page, when user closes page
-   * @param page - page that had been closed
+   * Function for deleting record about opened page, when user closes page
+   * @param url - url of closed page
    */
-  deleteOpenedPage: (page: OpenedPage) => void;
+  deleteOpenedPageByUrl: (url: OpenedPage['url']) => void;
 
   /**
    * Function for updating title of the opened page when user updated it
    * e.g. user updated note's first text block, page title should be patched
-   * @param page - page that had beed opened by user
+   * @param url - url of the page, that should be updated
+   * @param page - new data for opened page with certain url
    */
-  patchOpenedPage: (page: OpenedPage) => void;
+  patchOpenedPageByUrl: (url: OpenedPage['url'], page: OpenedPage) => void;
 
   /**
    * There would be stored all formatted tabs for tabbar inside header
@@ -43,36 +44,37 @@ export default function (): useHeaderComposableState {
    * Function for adding record to opened pages storage when user opens new page
    * @param page - page that had beed opened by user
    */
-  const addOpenedPage = (page: OpenedPage): void => {
+  function addOpenedPage(page: OpenedPage): void {
     workspaceService.addOpenedPage(page);
   };
 
   /**
-   * Funciton for deleting record about opened page, when user closes page
-   * @param page - page that had been closed
+   * Function for deleting record about opened page, when user closes page
+   * @param url - url of closed page
    */
-  const deleteOpenedPage = (page: OpenedPage): void => {
-    workspaceService.deleteOpenedPage(page);
+  function deleteOpenedPageByUrl(url: OpenedPage['url']): void {
+    workspaceService.deleteOpenedPageByUrl(url);
   };
 
   /**
    * Function for updating title of the opened page when user updated it
    * e.g. user updated note's first text block, page title should be patched
-   * @param page - page that had beed opened by user
+   * @param url - url of the page, that should be updated
+   * @param page - new data for opened page with certain url
    */
-  const patchOpenedPage = (page: OpenedPage): void => {
-    workspaceService.patchOpenedPage(page);
+  function patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
+    workspaceService.patchOpenedPageByUrl(url, page);
   };
 
   /**
    * Hook for adding new page to storage when user changes route
    */
   router.beforeEach((currentRoute, prevRoute) => {
+    /**
+     * If we are created new note we should replace 'New Note' tab with tab with actual note title
+     */
     if (prevRoute.path === '/new') {
-      deleteOpenedPage({
-        title: 'New note',
-        url: '/new',
-      });
+      deleteOpenedPageByUrl('/new');
     }
 
     addOpenedPage({ title: currentRoute.meta.pageTitle,
@@ -98,7 +100,7 @@ export default function (): useHeaderComposableState {
     const pages = openedPages.value?.map((page) => {
       return {
         title: page.title,
-        onClose: deleteOpenedPage,
+        onClose: deleteOpenedPageByUrl,
         url: page.url,
         isActive: route.path === page.url,
       };
@@ -113,8 +115,8 @@ export default function (): useHeaderComposableState {
 
   return {
     addOpenedPage,
-    deleteOpenedPage,
-    patchOpenedPage,
+    deleteOpenedPageByUrl,
+    patchOpenedPageByUrl,
     tabs,
   };
 }

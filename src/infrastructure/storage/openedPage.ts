@@ -31,25 +31,21 @@ export class OpenedPagesStore extends SubscribableStore<TabStoreData> {
 
   /**
    * Funciton for deleting record about opened page, when user closes page
-   * @param page - page that had been closed
+   * @param url - url of closed page
    */
-  public deleteOpenedPage(page: OpenedPage): void {
-    this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == page.url));
+  public deleteOpenedPageByUrl(url: OpenedPage['url']): void {
+    this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == url));
   }
 
   /**
    * Function for updating title of the opened page when user updated it
    * e.g. user updated note's first text block, page title should be patched
+   * @param url
    * @param page - page that had beed opened by user
    */
-  public patchOpenedPage(page: OpenedPage): void {
-    this.data.openedPages = this.data.openedPages.map((currentPage) => {
-      if (currentPage.url == page.url) {
-        currentPage.title = page.title;
-      }
+  public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
+    const tabToUpdateIndex = this.data.openedPages.findIndex(currentPage => currentPage.url === url);
 
-      return { title: currentPage.title,
-        url: currentPage.url };
-    });
+    this.data.openedPages[tabToUpdateIndex] = page;
   }
 }

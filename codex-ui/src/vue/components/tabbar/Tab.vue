@@ -28,9 +28,9 @@
       </template>
       {{ title }}
       <Icon
-        v-if="$props.onClose !== undefined"
-        :name="'Cross'"
-        @click.stop="$props.onClose && $props.onClose($props)"
+        v-if="onClose !== undefined"
+        name="Cross"
+        @click.stop="onClose && onClose($props)"
       />
     </div>
   </div>
@@ -48,7 +48,7 @@ withDefaults(
     title: string;
 
     /**
-     * If true we have cross icon on the right
+     * Function to be called on close of the tab or undefined
      */
     onClose?: (tab: TabParams) => void;
 

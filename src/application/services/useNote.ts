@@ -98,7 +98,7 @@ interface UseNoteComposableOptions {
  * @param options - note service options
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
-  const { patchOpenedPage } = useHeader();
+  const { patchOpenedPageByUrl } = useHeader();
   /**
    * Current note identifier
    */
@@ -238,10 +238,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         },
       });
 
-      patchOpenedPage({
-        title: noteTitle.value,
-        url: route.path,
-      });
+      patchOpenedPageByUrl(
+        route.path,
+        {
+          title: noteTitle.value,
+          url: route.path,
+        });
 
       return;
     }
@@ -308,10 +310,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    patchOpenedPage({
-      title: currentNoteTitle,
-      url: route.path,
-    });
+    patchOpenedPageByUrl(
+      route.path,
+      {
+        title: currentNoteTitle,
+        url: route.path,
+      });
   });
 
   return {

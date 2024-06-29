@@ -39,13 +39,10 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const { user } = useAppState();
 
-const { tabs, deleteOpenedPage } = useHeader();
+const { tabs, deleteOpenedPageByUrl } = useHeader();
 
 function closeHeaderTab(tab: TabParams) {
-  deleteOpenedPage({
-    title: tab.title,
-    url: tab.url,
-  });
+  deleteOpenedPageByUrl(tab.url);
 
   if (tabs.value.length === 0) {
     router.push('/');
