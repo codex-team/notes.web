@@ -264,9 +264,6 @@
       :items="contextMenuItems"
     />
     <Heading :level="3">
-      Context Menu
-    </Heading>
-    <Heading :level="3">
       Vertical Menu
     </Heading>
     <VerticalMenu :items="verticalMenuItems" />
