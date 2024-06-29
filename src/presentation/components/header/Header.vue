@@ -44,6 +44,10 @@ const { tabs, deleteOpenedPageByUrl } = useHeader();
 function closeHeaderTab(tab: TabParams) {
   deleteOpenedPageByUrl(tab.url);
 
+  /**
+   * When tab is closed we should open previous page
+   * When all tabs are closed we should open home page
+   */
   if (tabs.value.length === 0) {
     router.push('/');
   } else {
