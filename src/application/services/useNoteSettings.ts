@@ -78,12 +78,12 @@ export default function (): UseNoteSettingsComposableState {
   /**
    * Instance of the current note, undefined if not loaded
    */
-  const note = ref<Note | undefined>(undefined);
+  const note = ref<Note | undefined>();
 
   /**
    * Instance of the parent note, undefined if there is no parent note
    */
-  const parentNote = ref<Note | undefined>(undefined);
+  const parentNote = ref<Note | undefined>();
 
   /**
    * Router instance used to replace the current route with note id

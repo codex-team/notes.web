@@ -133,12 +133,13 @@ async function changeAccess() {
  * @returns {string} URL of the parent note
  */
 function getParentURL(id: NoteId | undefined): string {
-  if (parentNote.value === undefined) {
-    return '';
-  }
-  const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
+  if (parentNote.value !== undefined) {
+    const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
 
-  return `${websiteHostname}/note/${id}`;
+    return `${websiteHostname}/note/${id}`;
+  }
+
+  return '';
 }
 
 /**
