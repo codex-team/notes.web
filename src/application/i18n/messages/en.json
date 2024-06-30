@@ -33,6 +33,7 @@
     "parentNote": "Parent note",
     "parentNoteCaption": "Access settings will be inherited",
     "setParent": "Set as parent",
+    "parentNotePlaceholder": "Paste a link here",
     "team": {
       "title": "Collaborators",
       "caption": "Who can access the Note even if it’s not published",

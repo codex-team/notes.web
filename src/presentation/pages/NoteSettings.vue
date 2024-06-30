@@ -144,7 +144,7 @@ function getParentURL(id: NoteId | undefined): string {
     return `${websiteHostname}/note/${id}`;
   }
 
-  return 'Paste a link here';
+  return t('noteSettings.parentNotePlaceholder');
 }
 
 /**
