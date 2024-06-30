@@ -1,6 +1,7 @@
 /**
  * Dict with mimetypes and their extensions
  */
+/* eslint-disable @typescript-eslint/naming-convention */
 const FileMimeType = {
   'audio/x-mpeg': 'mpega',
   'application/postscript': 'ps',
@@ -136,7 +137,7 @@ const FileMimeType = {
   'model/vrml': 'wrl',
   'application/wspolicy+xml': 'wspolicy',
   'application/x-compress': 'z',
-  'application/zip': 'zip'
+  'application/zip': 'zip',
 };
 
 /**

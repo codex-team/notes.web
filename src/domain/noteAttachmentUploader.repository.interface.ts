@@ -1,4 +1,4 @@
-import { Note } from "./entities/Note";
+import type { Note } from './entities/Note';
 
 /**
  * File uploader for note attachments repository interface describes the methods

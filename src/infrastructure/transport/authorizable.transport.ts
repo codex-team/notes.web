@@ -86,11 +86,11 @@ export default class AuthorizableTransport extends Transport {
    * @param data - data to be sent url encoded
    * @param params - Additional params to tune request
    */
-    public async getBlob(endpoint: string, data?: JSONValue, params?: AuthorizableRequestParams): Promise<Blob> {
-      await this.waitForAuth(params);
+  public async getBlob(endpoint: string, data?: JSONValue, params?: AuthorizableRequestParams): Promise<Blob> {
+    await this.waitForAuth(params);
 
-      return super.getBlob(endpoint, data);
-    }
+    return super.getBlob(endpoint, data);
+  }
 
   /**
    * Make POST request to update some resource

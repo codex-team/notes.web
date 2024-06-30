@@ -1,8 +1,8 @@
 import type NotesApiTransport from './transport/notes-api';
 import generateHash from './utils/hash';
 import getExtensionByMimetype from './utils/mimetypes';
-import NoteAttachmentUploaderRepositoryInterface from '@/domain/noteAttachmentUploader.repository.interface';
-import { Note } from '@/domain/entities/Note';
+import type NoteAttachmentUploaderRepositoryInterface from '@/domain/noteAttachmentUploader.repository.interface';
+import type { Note } from '@/domain/entities/Note';
 
 /**
  * Facade for interacting with files, which are note attachments
@@ -33,15 +33,15 @@ export default class NoteAttachmentUploaderRepository implements NoteAttachmentU
     /**
      * Generate filename for form data
      */
-    const fileName = generateHash()
+    const fileName = generateHash();
     /**
      * Get file mime type and define extension by it
      */
     const mimeType = fileData.type;
-    const fileExtension = getExtensionByMimetype(mimeType)
+    const fileExtension = getExtensionByMimetype(mimeType);
 
     if (fileExtension === null) {
-      throw new Error('Mimetype of passed file is not supported')
+      throw new Error('Mimetype of passed file is not supported');
     }
 
     form.set('file', fileData, `${fileName}.${fileExtension}`);
