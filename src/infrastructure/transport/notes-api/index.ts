@@ -76,7 +76,7 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent url encoded
    * @param params - Additional params to tune request
    */
-  public async getBlob(endpoint: string, data?: JSONValue, params?: NotexApiRequestParams): Promise<Blob> {
+  public async getBlob(endpoint: string, data?: Record<string, string>, params?: NotexApiRequestParams): Promise<Blob> {
     return await super.getBlob(endpoint, data, params);
   }
 

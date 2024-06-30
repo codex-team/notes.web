@@ -56,11 +56,11 @@ export default class FetchTransport {
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
    */
-  public async getBlob(endpoint: string, data?: JSONValue): Promise<Blob> {
+  public async getBlob(endpoint: string, data?: Record<string, string>): Promise<Blob> {
     const resourceUrl = new URL(this.baseUrl + endpoint);
 
     if (data !== undefined) {
-      resourceUrl.search = new URLSearchParams(data as Record<string, string>).toString();
+      resourceUrl.search = new URLSearchParams(data).toString();
     }
 
     const response = await fetch(resourceUrl.toString(), {
