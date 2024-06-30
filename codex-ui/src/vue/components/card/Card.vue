@@ -1,6 +1,9 @@
 <template>
   <div :class="[$style.card, orientation === 'horizontal' ? $style['card--horizontal'] : '']">
-    <div :class="$style['card__cover']" />
+    <div
+      :class="$style['card__cover']"
+      :style="`background: url(${src})`"
+    />
 
     <div :class="$style['card__body']">
       <div
@@ -31,21 +34,27 @@ withDefaults(
     title: string;
 
     /**
+     * Card variety.
+     * Card can be vertically oriented (image, body and footer are positioned in vertical direction)
+     * and horizontally oriented (elements are positioned in horizontal direction)
+     */
+    orientation: CardOrientation;
+
+    /**
      * Card subtitle.
      * Text displayed below (or left to) the title
      */
     subtitle?: string;
 
     /**
-     * Card variety.
-     * Card can be vertically oriented (image, body and footer are positioned in vertical direction)
-     * and horizontally oriented (elements are positioned in horizontal direction)
+     * Cover image source
      */
-    orientation: CardOrientation;
+    src?: string;
   }>(),
   {
     subtitle: '',
     orientation: 'vertical',
+    src: '',
   }
 );
 </script>
@@ -75,10 +84,12 @@ withDefaults(
   }
 
   &__cover {
+    flex-shrink: 0;
     width: 100%;
     aspect-ratio: 222/140;
     border-radius: var(--radius-m);
     background-color: var(--base--bg-primary);
+    background-size: cover;
   }
 
   &__title {
