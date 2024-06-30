@@ -35,7 +35,11 @@ interface useHeaderComposableState {
   tabs: ComputedRef<TabList>;
 };
 
-export default function (): useHeaderComposableState {
+/**
+ * Function for composing data for header
+ * @returns data used in header and functions for composing data used in header
+ */
+export default function useHeader(): useHeaderComposableState {
   const router = useRouter();
   const route = useRoute();
   const { t } = useI18n();
