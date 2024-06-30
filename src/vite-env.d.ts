@@ -17,5 +17,10 @@ declare module 'vue-router' {
      * Short text description of the route's page
      */
     pageTitleI18n: string;
+
+    /**
+     * Should we close the tab if we left the route
+     */
+    discardTabOnLeave?: boolean
   }
 }

@@ -48,6 +48,7 @@ const routes: RouteRecordRaw[] = [
     },
     meta: {
       pageTitleI18n: 'pages.newNote',
+      discardTabOnLeave: true,
     },
   },
   {
@@ -59,6 +60,7 @@ const routes: RouteRecordRaw[] = [
     }),
     meta: {
       pageTitleI18n: 'pages.newNote',
+      discardTabOnLeave: true,
     },
   },
   {

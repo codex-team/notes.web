@@ -27,8 +27,7 @@
 
 <script lang="ts" setup>
 import { IconPlus } from '@codexteam/icons';
-import { Tab } from 'codex-ui/vue';
-import type { TabParams } from '@/domain/entities/Tab';
+import { Tab, TabParams } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';

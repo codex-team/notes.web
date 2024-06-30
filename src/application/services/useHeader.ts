@@ -73,15 +73,10 @@ export default function (): useHeaderComposableState {
    */
   router.beforeEach((currentRoute, prevRoute) => {
     /**
-     * Check if previous route exists
+     * If we are created new note we should replace 'New Note' tab with tab with actual note title
      */
-    if (prevRoute.meta.pageTitleI18n !== undefined) {
-      /**
-       * If we are created new note we should replace 'New Note' tab with tab with actual note title
-       */
-      if (t(prevRoute.meta.pageTitleI18n) === t('pages.newNote')) {
-        deleteOpenedPageByUrl(route.path);
-      }
+    if (prevRoute.meta.discardTabOnLeave === true) {
+      deleteOpenedPageByUrl(route.path);
     }
 
     addOpenedPage({ title: t(currentRoute.meta.pageTitleI18n),
@@ -97,7 +92,13 @@ export default function (): useHeaderComposableState {
     }
   });
 
+  /**
+   * Tabs are computed dynamically on every change of the openedPages
+   */
   const tabs = computed<TabList>(() => {
+    /**
+     * Home page is always in tabs
+     */
     let activeTabs = [{
       title: t('pages.home'),
       url: '/',
