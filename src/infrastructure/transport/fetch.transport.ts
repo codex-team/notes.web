@@ -1,5 +1,4 @@
 import type JSONValue from '@/infrastructure/transport/types/JSONValue';
-import type MaybeJSONValueOrBlob from '@/infrastructure/transport/types/MaybeJSONValueOrBlob';
 
 /**
  * Additional options for fetch transport
@@ -36,9 +35,8 @@ export default class FetchTransport {
    * @template Response - Response data type
    * @param endpoint - API endpoint
    * @param data - data to be sent url encoded
-   * @param isBlob - expected response type is binary
    */
-  public async get<IsBlob extends boolean = false>(endpoint: string, data?: JSONValue, isBlob?: IsBlob): Promise<MaybeJSONValueOrBlob<IsBlob>> {
+  public async get(endpoint: string, data?: JSONValue): Promise<JSONValue> {
     const resourceUrl = new URL(this.baseUrl + endpoint);
 
     if (data !== undefined) {
@@ -50,7 +48,27 @@ export default class FetchTransport {
       headers: this.headers,
     });
 
-    return this.parseResponse(response, endpoint, isBlob);
+    return this.parseResponse(response, endpoint);
+  }
+
+  /**
+   * Gets specific resource in binary
+   * @param endpoint - API endpoint
+   * @param data - data to be sent url encoded
+   */
+  public async getBlob(endpoint: string, data?: JSONValue): Promise<Blob> {
+    const resourceUrl = new URL(this.baseUrl + endpoint);
+
+    if (data !== undefined) {
+      resourceUrl.search = new URLSearchParams(data as Record<string, string>).toString();
+    }
+
+    const response = await fetch(resourceUrl.toString(), {
+      method: 'GET',
+      headers: this.headers,
+    });
+
+    return this.parseResponse(response, endpoint, true);
   }
 
   /**
@@ -129,7 +147,7 @@ export default class FetchTransport {
    * @param isBlob - expected response type is binary
    * @throws Error
    */
-  private async parseResponse<IsBlob extends boolean = false>(response: Response, endpoint: string, isBlob?: IsBlob): Promise<MaybeJSONValueOrBlob<IsBlob>> {
+  private async parseResponse<IsBlob extends boolean = false>(response: Response, endpoint: string, isBlob?: IsBlob): Promise<IsBlob extends true ? Blob : JSONValue> {
     let payload;
 
     /**
@@ -139,7 +157,7 @@ export default class FetchTransport {
       /**
        * In case if we are waiting for binary data, we need to parse response as Blob
        */
-      payload = isBlob !== undefined && isBlob === true ? await response.blob() : await response.json();
+      payload = isBlob ? await response.blob() : await response.json();
     } catch (error) {
       throw new Error(`The response is not valid JSON (requesting ${endpoint})`);
     }
