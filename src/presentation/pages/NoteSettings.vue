@@ -34,6 +34,7 @@
       size="medium"
       :caption="t('noteSettings.parentNoteCaption')"
       :disabled="parentNote != undefined"
+      :placeholder="t('noteSettings.parentNotePlaceholder')"
       @input="setParentDebounced"
     />
     <Team
@@ -60,6 +61,7 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
+import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button, Field } from 'codex-ui/vue';
 
@@ -101,21 +103,14 @@ async function deleteNote() {
   }
 }
 
-let timeoutId: number | null = null;
-
 /**
  * Set parent note with debounce
  */
-async function setParentDebounced(): Promise<void> {
-  if (timeoutId !== null) {
-    clearTimeout(timeoutId);
-  }
-
-  timeoutId = window.setTimeout(async () => {
+const setParentDebounced = useDebounceFn(async () => {
+  if (parentURL.value !== '') {
     await setParent(props.id, parentURL.value);
-    timeoutId = null;
-  }, 1000);
-}
+  }
+}, 1000);
 
 /**
  * Current value of isPublic field
@@ -144,7 +139,7 @@ function getParentURL(id: NoteId | undefined): string {
     return `${websiteHostname}/note/${id}`;
   }
 
-  return t('noteSettings.parentNotePlaceholder');
+  return '';
 }
 
 /**
