@@ -1,11 +1,12 @@
+import type { RouteRecordRaw } from 'vue-router';
 import Home from '@/presentation/pages/Home.vue';
+import Join from '@/presentation/pages/Join.vue';
 import Note from '@/presentation/pages/Note.vue';
 import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
 import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
-import type { RouteRecordRaw } from 'vue-router';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
@@ -61,6 +62,15 @@ const routes: RouteRecordRaw[] = [
     name: 'note_settings',
     path: '/note/:id/settings',
     component: NoteSettings,
+    props: route => ({
+      id: String(route.params.id),
+    }),
+  },
+
+  {
+    name: 'join',
+    path: '/join/:id',
+    component: Join,
     props: route => ({
       id: String(route.params.id),
     }),

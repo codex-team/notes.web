@@ -1,5 +1,5 @@
 import type { NoteList } from '@/domain/entities/NoteList';
-import { noteListService } from '@/domain/index';
+import { noteListService } from '@/domain';
 import type { Ref } from 'vue';
 import { onMounted, ref } from 'vue';
 

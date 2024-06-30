@@ -46,12 +46,12 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import type { NoteId } from '@/domain/entities/Note';
 // import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
 import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button } from 'codex-ui/vue';
 
@@ -76,17 +76,17 @@ loadSettings(props.id);
  * Regenerate invitation hash
  */
 async function regenerateHash() {
-  revokeHash(props.id);
+  await revokeHash(props.id);
 }
 
 /**
- * Deletes the note complitely
+ * Deletes the note completely
  */
 async function deleteNote() {
   const isConfirmed = window.confirm(t('noteSettings.noteDeleteConfirmation'));
 
   if (isConfirmed) {
-    deleteNoteById(props.id);
+    await deleteNoteById(props.id);
   }
 }
 
@@ -101,7 +101,7 @@ const isPublic = computed(() => {
  * Change isPublic property
  */
 async function changeAccess() {
-  updateIsPublic(props.id, !noteSettings.value!.isPublic);
+  await updateIsPublic(props.id, !noteSettings.value!.isPublic);
 }
 
 /**

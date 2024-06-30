@@ -1,5 +1,6 @@
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
+import type { TeamMember } from './entities/TeamMember';
 import type { UserId } from './entities/User';
 import type { MemberRole } from './entities/Team';
 
@@ -31,6 +32,11 @@ export default interface NoteSettingsRepositoryInterface {
   regenerateInvitationHash(id: NoteId): Promise<NoteSettings>;
 
   /**
+   * Join note by hash
+   * @param hash - invitation hash
+   */
+  joinNoteByInvitationHash(hash: string): Promise<TeamMember>;
+  /*
    * Patch team member role by user and note id
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed

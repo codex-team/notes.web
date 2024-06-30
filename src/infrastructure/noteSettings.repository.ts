@@ -2,6 +2,7 @@ import type NoteSettingsRepositoryInterface from '@/domain/noteSettings.reposito
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { NoteId } from '@/domain/entities/Note';
+import type { TeamMember } from '@/domain/entities/TeamMember';
 import type { MemberRole } from '@/domain/entities/Team';
 import type { UserId } from '@/domain/entities/User';
 
@@ -51,6 +52,14 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   }
 
   /**
+   * Join team with invitation hash
+   * @param hash - invitation hash
+   */
+  public async joinNoteByInvitationHash(hash: string): Promise<TeamMember> {
+    return await this.transport.post(`/join/${hash}`, { hash });
+  }
+
+  /*
    * Patch team member role by user and note id
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed

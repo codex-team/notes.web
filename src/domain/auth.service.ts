@@ -71,6 +71,13 @@ export default class AuthService {
   }
 
   /**
+   * Checks whether user is authorized or not
+   */
+  public isAuthorized(): boolean {
+    return this.repository.hasSession();
+  }
+
+  /**
    * We know that current user is not authorized.
    *
    * Tells the app to continue working in anonymous mode

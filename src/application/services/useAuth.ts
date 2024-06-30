@@ -3,7 +3,7 @@ import { authService } from '@/domain';
 
 interface UseOAuthComposableState {
   /**
-   * Shows a popup window with google authorization
+   * Shows a popup window with Google authorization
    */
   showGoogleAuthPopup: () => void;
   /**
@@ -29,7 +29,7 @@ export default function useAuth(): UseOAuthComposableState {
   const { on, off } = usePostMessage();
 
   /**
-   * Shows a popup window with google authorization
+   * Shows a popup window with Google authorization
    */
   function showGoogleAuthPopup(): void {
     /**

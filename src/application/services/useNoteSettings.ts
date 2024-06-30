@@ -1,15 +1,16 @@
 import { ref, type Ref } from 'vue';
+import { useRouter } from 'vue-router';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { noteSettingsService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
-import { useRouter } from 'vue-router';
 
 /**
  * Note settings hook state
  */
 interface UseNoteSettingsComposableState {
+
   /**
    * NoteSettings ref
    */
@@ -43,10 +44,16 @@ interface UseNoteSettingsComposableState {
   changeRole: (id: NoteId, userId: UserId, newRole: MemberRole) => Promise<void>;
 
   /**
-   * Delete note by it's id
+   * Delete note by its id
    * @param id - Note id
    */
   deleteNoteById: (id: NoteId) => Promise<void>;
+
+  /**
+   * Join note by hash
+   * @param hash - invitation hash
+   */
+  joinNote: (hash: string) => Promise<void>;
 }
 
 /**
@@ -115,7 +122,7 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
-   * Delete note by it's id
+   * Delete note by its id
    * @param id - Note id
    */
   const deleteNoteById = async (id: NoteId): Promise<void> => {
@@ -126,6 +133,14 @@ export default function (): UseNoteSettingsComposableState {
     });
   };
 
+  /**
+   * Join note by hash
+   * @param hash - invitation hash
+   */
+  async function joinNote(hash: string): Promise<void> {
+    await noteSettingsService.joinNoteTeam(hash);
+  }
+
   return {
     noteSettings,
     load,
@@ -133,5 +148,6 @@ export default function (): UseNoteSettingsComposableState {
     revokeHash,
     changeRole,
     deleteNoteById,
+    joinNote,
   };
 }

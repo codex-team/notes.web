@@ -2,6 +2,7 @@ import type NoteSettingsRepository from '@/domain/noteSettings.repository.interf
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
+import type { TeamMember } from '@/domain/entities/TeamMember.ts';
 import type { UserId } from './entities/User';
 import type { MemberRole } from './entities/Team';
 
@@ -86,6 +87,14 @@ export default class NoteService {
   }
 
   /**
+   * Join team by invitation key
+   * @param hash - hash key
+   */
+  public async joinNoteTeam(hash: string): Promise<TeamMember> {
+    return await this.noteSettingsRepository.joinNoteByInvitationHash(hash);
+  }
+
+  /*
    * Patch team member role by user and note id
    * @param id - Note id
    * @param userId - id of the user whose role is to be changed
@@ -96,7 +105,7 @@ export default class NoteService {
   }
 
   /**
-   * Delete note by it's id
+   * Delete note by its id
    * @param id - Note id
    */
   public async deleteNote(id: NoteId): Promise<void> {

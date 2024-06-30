@@ -180,7 +180,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       const blockTool = (tools.value).find(tool => tool.name === block.type);
 
       /**
-       * Return list of stringified objects for further elimination of duplicates using the Set
+       * Return list of stringifies objects for further elimination of duplicates using the Set
        * User can not add to content tool that is not in allTools
        */
       return { name: blockTool!.name,
