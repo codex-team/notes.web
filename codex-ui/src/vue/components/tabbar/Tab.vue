@@ -56,7 +56,7 @@ withDefaults(
     /**
      * If true we have cross icon on the right
      */
-    closable: boolean;
+    closable?: boolean;
 
     /**
      * Current tab state
