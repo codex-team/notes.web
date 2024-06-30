@@ -23,7 +23,7 @@
   </template>
 </template>
 <script lang="ts" setup>
-import type { VerticalMenuItem as Item } from './VerticalMenuTypes.types.ts';
+import type { VerticalMenuItem as Item } from './VerticalMenuTypes.types.js';
 
 const props = withDefaults(
   defineProps<{

@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import VerticalMenuItem from './VerticalMenuItem.vue';
-import type { VerticalMenuItem as Item } from './VerticalMenuTypes.types.ts';
+import type { VerticalMenuItem as Item } from './VerticalMenuTypes.types';
 
 defineProps<{
   /**
