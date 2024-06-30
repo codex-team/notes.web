@@ -28,9 +28,9 @@
       </template>
       {{ title }}
       <Icon
-        v-if="onClose !== undefined"
+        v-if="closable === true"
         name="Cross"
-        @click.stop="onClose && onClose($props)"
+        @click.stop="$emit('close')"
       />
     </div>
   </div>
@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
-import type { TabParams } from './Tab.types';
 
 withDefaults(
   defineProps<{
@@ -48,10 +47,9 @@ withDefaults(
     title: string;
 
     /**
-     * Function to be called on close of the tab or undefined
+     * If true we have cross icon on the right
      */
-    /* eslint-disable-next-line no-unused-vars */
-    onClose?: (tab: TabParams) => void;
+    closable: boolean;
 
     /**
      * Current tab state
@@ -67,17 +65,12 @@ withDefaults(
      * Name of the icon to be diplayed in the left slot, else undefined
      */
     icon?: string;
-
-    /**
-     * When user clicks on tab he will be redirect according to this url
-     */
-    url: string;
   }>(),
   {
     isActive: false,
     picture: undefined,
     icon: undefined,
-    onClose: undefined,
+    closable: false,
   }
 );
 </script>
