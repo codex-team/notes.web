@@ -139,7 +139,7 @@ function getParentURL(id: NoteId | undefined): string {
     return `${websiteHostname}/note/${id}`;
   }
 
-  return '';
+  return 'Paste a link here';
 }
 
 /**
