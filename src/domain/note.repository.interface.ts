@@ -55,5 +55,5 @@ export default interface NoteRepositoryInterface {
    * @param id  - Child note id
    * @param parentNoteId - New parent note id
    */
-  setParent(id: NoteId, parentNoteId: NoteId): Promise<boolean>;
+  setParent(id: NoteId, parentNoteId: NoteId): Promise<Note>;
 }
