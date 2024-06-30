@@ -1,9 +1,9 @@
-import type { OpenedPagesStore, TabStoreData } from './storage/openedPage';
+import type { OpenedPagesStore, OpenedPagesStoreData } from './storage/openedPage';
 import type WorkspaceRepositoryInterface from '@/domain/workspace.repository.interface';
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import Repository from './repository';
 
-export default class WorkspaceRepository extends Repository<OpenedPagesStore, TabStoreData> implements WorkspaceRepositoryInterface {
+export default class WorkspaceRepository extends Repository<OpenedPagesStore, OpenedPagesStoreData> implements WorkspaceRepositoryInterface {
   /**
    * Initialization of opened pages storage
    * @param store - storage where all information about opened pages is stored

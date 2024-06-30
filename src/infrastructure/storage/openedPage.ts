@@ -1,7 +1,7 @@
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import { SubscribableStore } from './abstract/subscribable';
 
-export type TabStoreData = {
+export type OpenedPagesStoreData = {
   /**
    * Array of tabs to be stored
    */
@@ -11,7 +11,7 @@ export type TabStoreData = {
 /**
  * Class to store all pages that are currently opened in workspace
  */
-export class OpenedPagesStore extends SubscribableStore<TabStoreData> {
+export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
   constructor() {
     super();
     this.data.openedPages = [];
