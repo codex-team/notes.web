@@ -1,4 +1,4 @@
-import Tab from './Tab.vue';
+import type Tab from './Tab.vue';
 import type { TabParams } from './Tab.types';
 
-export { Tab, TabParams };
+export type { Tab, TabParams };
