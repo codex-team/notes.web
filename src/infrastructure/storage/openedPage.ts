@@ -25,7 +25,10 @@ export class OpenedPagesStore extends SubscribableStore<TabStoreData> {
     const uniquePageUrls = this.data.openedPages.map(currentPage => currentPage.url);
 
     if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
-      this.data.openedPages.push(page);
+      this.data.openedPages = [
+        ...this.data.openedPages,
+        page,
+      ];
     }
   }
 
