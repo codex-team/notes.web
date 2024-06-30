@@ -169,7 +169,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param content - content of the note
    */
   function resolveToolsByContent(content: NoteContent): NoteTool[] {
-    const { tools } = useMergedTools(noteTools);
+    const { mergedTools: tools } = useMergedTools(noteTools);
     const resolvedNoteTools = new Map();
 
     if (tools.value === undefined) {
