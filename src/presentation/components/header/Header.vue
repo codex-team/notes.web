@@ -3,10 +3,10 @@
     <Tab
       v-for="tab in tabs"
       :key="tab.url"
-      :url="tab.url"
       :is-active="tab.isActive"
       :title="tab.title"
-      :on-close="(tab.title !== 'Home') ? closeHeaderTab : undefined"
+      :closable="(tab.title !== 'Home') ? true : false"
+      @close="closeHeaderTab(tab.url)"
       @click="$router.push(tab.url)"
     />
     <Button
@@ -27,7 +27,8 @@
 
 <script lang="ts" setup>
 import { IconPlus } from '@codexteam/icons';
-import { Tab, TabParams } from 'codex-ui/vue';
+import { Tab } from 'codex-ui/vue';
+import { TabParams } from '@/domain/entities/Tab';
 import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
@@ -40,8 +41,8 @@ const { user } = useAppState();
 
 const { tabs, deleteOpenedPageByUrl } = useHeader();
 
-function closeHeaderTab(tab: TabParams) {
-  deleteOpenedPageByUrl(tab.url);
+function closeHeaderTab(url: TabParams['url']) {
+  deleteOpenedPageByUrl(url);
 
   /**
    * When tab is closed we should open previous page
