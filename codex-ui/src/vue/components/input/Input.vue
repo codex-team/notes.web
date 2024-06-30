@@ -61,12 +61,14 @@ onMounted(() => {
   background-color: var(--base--bg-secondary);
   gap: var(--v-padding);
   align-items: center;
+  width: 100%;
 
   &__wrapper {
     flex: 1;
     border: 0;
     outline: 0;
     color: var(--base--text);
+    width: inherit;
     font-size: inherit;
     font-family: inherit;
     background-color: inherit;
