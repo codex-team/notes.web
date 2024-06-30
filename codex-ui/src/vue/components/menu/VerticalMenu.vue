@@ -7,8 +7,8 @@
       :key="index"
       :item="item"
       :title="item.title"
-      :level="item.level"
       :is-active="item.isActive"
+      :items="item.items"
     />
   </div>
 </template>

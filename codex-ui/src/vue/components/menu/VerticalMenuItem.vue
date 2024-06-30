@@ -8,10 +8,22 @@
       :class="[$style['vertical-menu-item__container']]"
     >
       {{ props.title }}
+      <div v-if="items && items.length > 0">
+        <VerticalMenuItem
+          v-for="(childItem, index) in items"
+          :key="index"
+          :title="childItem.title"
+          :is-active="childItem.isActive"
+          :items="childItem.items"
+          :level="level + 1"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import type { VerticalMenuItem as Item } from './VerticalMenuTypes.types.ts';
+
 const props = withDefaults(
   defineProps<{
     /**
@@ -28,10 +40,16 @@ const props = withDefaults(
      * Current item state
      */
     isActive?: boolean;
+
+    /**
+     * List of child elements for current element
+     */
+    items?: Item[];
   }>(),
   {
     level: 1,
     isActive: false,
+    items: undefined,
   }
 );
 </script>

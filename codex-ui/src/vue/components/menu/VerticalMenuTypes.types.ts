@@ -8,12 +8,12 @@ export type VerticalMenuItem = {
   title: string;
 
   /**
-   * Level of the vertical item
-   */
-  level: number;
-
-  /**
    * Current item state
    */
   isActive?: boolean;
+
+  /**
+   * List of child elements for current element
+   */
+  items?: VerticalMenuItem[];
 };

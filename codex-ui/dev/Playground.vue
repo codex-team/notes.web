@@ -376,24 +376,23 @@ function doNothing(): void {}
 const verticalMenuItems: VerticalMenuItem[] = [
   {
     title: 'CodeX',
-    level: 1,
-  },
-  {
-    title: 'Workflow',
-    level: 2,
-  },
-  {
-    title: 'Engineering Strategy',
-    level: 2,
-  },
-  {
-    title: 'SSH Keys',
-    level: 3,
-    isActive: true,
-  },
-  {
-    title: 'Admission Campaign 2022',
-    level: 2,
+    items: [
+      {
+        title: 'Workflow',
+      },
+      {
+        title: 'Enineering Strategy',
+        items: [
+          {
+            title: 'SSH Keys',
+            isActive: true,
+          },
+        ],
+      },
+      {
+        title: 'Admission Campaign 2022',
+      },
+    ],
   },
 ];
 </script>
