@@ -3,7 +3,7 @@ import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type { NoteDTO } from './entities/NoteDTO';
 import type { NoteTool } from '@/domain/entities/Note';
-
+import { extractNoteId } from '@/infrastructure/utils/note';
 /**
  * Note Service
  */
@@ -67,5 +67,17 @@ export default class NoteService {
    */
   public async unlinkParent(id: NoteId): Promise<void> {
     return await this.noteRepository.unlinkParent(id);
+  }
+
+  /**
+   * Set new parent for the note
+   * @param id - Note id
+   * @param parentURL - link to the new parent note
+   */
+  public async setParentByUrl(id: NoteId, parentURL: string): Promise<Note> {
+    const parentId = extractNoteId(parentURL);
+    const parentNote = await this.noteRepository.setParent(id, parentId);
+
+    return parentNote;
   }
 }
