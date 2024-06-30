@@ -33,6 +33,7 @@
       :title="t('noteSettings.parentNote')"
       size="medium"
       :caption="t('noteSettings.parentNoteCaption')"
+      :disabled="parentNote !== undefined"
     />
     <Button
       type="primary"
