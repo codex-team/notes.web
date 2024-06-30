@@ -21,6 +21,6 @@ declare module 'vue-router' {
     /**
      * Should we close the tab if we left the route
      */
-    discardTabOnLeave?: boolean
+    discardTabOnLeave?: boolean;
   }
 }
