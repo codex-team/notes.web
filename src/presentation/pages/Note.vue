@@ -26,8 +26,6 @@
       :read-only="!canEdit"
       @change="noteChanged"
     />
-    {{ isToolsLoaded }}
-    {{ Object.keys(loadedTools ?? {}).length }}
   </div>
 </template>
 
