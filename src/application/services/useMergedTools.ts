@@ -17,7 +17,8 @@ function useMergedTools(tools: Ref<EditorTool[]>): {
    * User notes tools
    */
   const { userEditorTools } = useAppState();
-  const mergedTools = ref<EditorTool[] | undefined>();
+
+  const mergedTools = ref<EditorTool[]>([]);
 
   /**
    * Merge two arrays of tools, removing duplicates
@@ -43,7 +44,7 @@ function useMergedTools(tools: Ref<EditorTool[]>): {
   );
 
   return {
-    tools,
+    tools: mergedTools,
   };
 }
 
