@@ -46,7 +46,7 @@ export default interface NoteRepositoryInterface {
 
   /**
    * Unlink note from parent
-   * @param id - Id of the note to uinlink
+   * @param id - Id of the note to unlink
    */
   unlinkParent(id: NoteId): Promise<void>;
 
