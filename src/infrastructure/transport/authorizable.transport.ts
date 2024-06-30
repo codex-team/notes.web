@@ -81,12 +81,24 @@ export default class AuthorizableTransport extends Transport {
   }
 
   /**
-   * Make POST request to update some resource
+   * Gets specific resource in binary
    * @param endpoint - API endpoint
-   * @param payload - JSON POST data body
+   * @param data - data to be sent url encoded
    * @param params - Additional params to tune request
    */
-  public async post(endpoint: string, payload?: JSONValue, params?: AuthorizableRequestParams): Promise<JSONValue> {
+  public async getBlob(endpoint: string, data?: Record<string, string>, params?: AuthorizableRequestParams): Promise<Blob> {
+    await this.waitForAuth(params);
+
+    return super.getBlob(endpoint, data);
+  }
+
+  /**
+   * Make POST request to update some resource
+   * @param endpoint - API endpoint
+   * @param payload - JSON or form POST data body
+   * @param params - Additional params to tune request
+   */
+  public async post(endpoint: string, payload?: JSONValue | FormData, params?: AuthorizableRequestParams): Promise<JSONValue> {
     await this.waitForAuth(params);
 
     return super.post(endpoint, payload);
