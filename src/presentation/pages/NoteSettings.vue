@@ -1,13 +1,17 @@
 <template>
-  <h1>Note settings</h1>
   <div v-if="noteSettings">
-    <!-- Hidden for now -->
-    <!-- <TextEdit
-      v-model:value="noteSettings.customHostname"
-      name="customHostname"
-      :title="t('noteSettings.customHostname')"
-      :placeholder="t('noteSettings.hostnamePlaceholder')"
-    /> -->
+    <div class="note-settings__header">
+      <Heading
+        :level="1"
+      >
+        Heading
+      </Heading>
+      <Heading
+        :level="2"
+      >
+        SubHeader
+      </Heading>
+    </div>
     <Section
       :title="t('noteSettings.availabilityTitle')"
       :caption="t('noteSettings.availabilityCaption')"
@@ -63,7 +67,7 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Field } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Field, Heading } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -153,16 +157,22 @@ onMounted(async () => {
   await loadSettings(props.id);
   parentURL.value = getParentURL(parentNote.value?.id);
 });
+
 </script>
 
-<style scoped>
-.control__button {
-  padding: var(--spacing-xxs) var(--spacing-ms);
-  align-items: center;
-  display: flex;
-  justify-content: flex-start;
-  gap: var(--spacing-very-x);
-  cursor: pointer;
-  user-select: none;
+<style setup lang="postcss" scoped>
+@import '@/presentation/styles/typography.pcss';
+
+h1 {
+  @apply --text-heading-1;
+}
+
+.note-settings {
+  border: 2px solid red;
+
+  &__header {
+    padding-left: var(--h-padding);
+    padding-right: var(--h-padding);
+  }
 }
 </style>
