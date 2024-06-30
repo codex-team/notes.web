@@ -1,7 +1,7 @@
 import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
-import type { NoteId } from '@/domain/entities/Note';
-import { noteSettingsService } from '@/domain';
+import type { NoteId, Note } from '@/domain/entities/Note';
+import { noteSettingsService, noteService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
 import { useRouter } from 'vue-router';
@@ -14,6 +14,11 @@ interface UseNoteSettingsComposableState {
    * NoteSettings ref
    */
   noteSettings: Ref<NoteSettings | null>;
+
+  /**
+   * Instance of the parent note, undefined if there is no parent note
+   */
+  parentNote: Ref<Note | undefined>;
 
   /**
    * Load note settings
@@ -47,6 +52,13 @@ interface UseNoteSettingsComposableState {
    * @param id - Note id
    */
   deleteNoteById: (id: NoteId) => Promise<void>;
+
+  /**
+   * Set parent for the note
+   * @param id - Child note id
+   * @param newParentURL - New parent note URL
+   */
+  setParent: (id: NoteId, newParentURL: string) => Promise<void>;
 }
 
 /**
@@ -59,6 +71,11 @@ export default function (): UseNoteSettingsComposableState {
   const noteSettings = ref<NoteSettings | null>(null);
 
   /**
+   * Instance of the parent note, undefined if there is no parent note
+   */
+  const parentNote = ref<Note | undefined>();
+
+  /**
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
@@ -69,6 +86,9 @@ export default function (): UseNoteSettingsComposableState {
    */
   const load = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
+    const response = await noteService.getNoteById(id);
+
+    parentNote.value = response.parentNote;
   };
 
   /**
@@ -126,12 +146,30 @@ export default function (): UseNoteSettingsComposableState {
     });
   };
 
+  /**
+   * Set parent for the note
+   * @param id - Child note id
+   * @param newParentURL - New parent note URL
+   */
+  const setParent = async (id: NoteId, newParentURL: string): Promise<void> => {
+    try {
+      parentNote.value = await noteService.setParentByUrl(id, newParentURL);
+    } catch (error) {
+      if (error instanceof Error) {
+        window.alert(error.message);
+      }
+      throw error;
+    }
+  };
+
   return {
+    parentNote,
     noteSettings,
     load,
     updateIsPublic,
     revokeHash,
     changeRole,
     deleteNoteById,
+    setParent,
   };
 }

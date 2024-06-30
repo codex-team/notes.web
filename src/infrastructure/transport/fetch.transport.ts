@@ -52,13 +52,40 @@ export default class FetchTransport {
   }
 
   /**
+   * Gets specific resource in binary
+   * @param endpoint - API endpoint
+   * @param data - data to be sent url encoded
+   */
+  public async getBlob(endpoint: string, data?: Record<string, string>): Promise<Blob> {
+    const resourceUrl = new URL(this.baseUrl + endpoint);
+
+    if (data !== undefined) {
+      resourceUrl.search = new URLSearchParams(data).toString();
+    }
+
+    const response = await fetch(resourceUrl.toString(), {
+      method: 'GET',
+      headers: this.headers,
+    });
+
+    return this.parseResponse(response, endpoint, true);
+  }
+
+  /**
    * Make POST request to update some resource
    * @template Response - Response data type
    * @param endpoint - API endpoint
-   * @param payload - JSON POST data body
+   * @param payload - JSON or form POST data body
    */
-  public async post(endpoint: string, payload?: JSONValue): Promise<JSONValue> {
-    this.headers.set('Content-Type', 'application/json');
+  public async post(endpoint: string, payload?: JSONValue | FormData): Promise<JSONValue> {
+    /**
+     * In case if passed payload is form data, we need to have auto generated Content-Type for multipar/form-data with boundary
+     */
+    if (payload instanceof FormData) {
+      this.headers.delete('Content-Type');
+    } else {
+      this.headers.set('Content-Type', 'application/json');
+    }
 
     /**
      * Send payload as body to allow Fastify accept it
@@ -117,16 +144,20 @@ export default class FetchTransport {
    * Check response for errors
    * @param response - Response object
    * @param endpoint - API endpoint used for logging
+   * @param isBlob - expected response type is binary
    * @throws Error
    */
-  private async parseResponse(response: Response, endpoint: string): Promise<JSONValue> {
+  private async parseResponse<IsBlob extends boolean = false>(response: Response, endpoint: string, isBlob?: IsBlob): Promise<IsBlob extends true ? Blob : JSONValue> {
     let payload;
 
     /**
-     * Try to parse error data. If it is not valid JSON, throw error
+     * Try to parse error data. If it is not valid JSON or Blob, throw error
      */
     try {
-      payload = await response.json();
+      /**
+       * In case if we are waiting for binary data, we need to parse response as Blob
+       */
+      payload = isBlob === true ? await response.blob() : await response.json();
     } catch (error) {
       throw new Error(`The response is not valid JSON (requesting ${endpoint})`);
     }

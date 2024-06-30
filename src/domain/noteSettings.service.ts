@@ -8,15 +8,15 @@ import type { MemberRole } from './entities/Team';
 /**
  * Note Service
  */
-export default class NoteService {
+export default class NoteSettingsService {
   /**
-   * Note repository
+   * Note settings repository
    */
   private readonly noteSettingsRepository: NoteSettingsRepository;
 
   /**
    * Note Service constructor
-   * @param noteSettingsRepository - Note repository instance
+   * @param noteSettingsRepository - Note settings repository instance
    */
   constructor(noteSettingsRepository: NoteSettingsRepository) {
     this.noteSettingsRepository = noteSettingsRepository;

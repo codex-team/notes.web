@@ -100,6 +100,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="small"
+      placeholder="Placeholder"
     />
     <br>
     <Field
@@ -108,6 +109,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="medium"
+      placeholder="Placeholder"
     />
     <br>
     <Field
@@ -116,6 +118,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="large"
+      placeholder="Placeholder"
     />
 
     <Heading :level="3">

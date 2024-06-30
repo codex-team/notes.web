@@ -15,6 +15,7 @@ import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEven
 import { EditorToolsStore } from '@/infrastructure/storage/editorTools.ts';
 import EditorToolsRepository from '@/infrastructure/editorTools.repository';
 import EditorToolsTransport from '@/infrastructure/transport/editorTools.transport';
+import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository';
 
 /**
  * Repositories
@@ -49,6 +50,11 @@ export interface Repositories {
    * Working with editor tools data
    */
   editorTools: EditorToolsRepository;
+
+  /**
+   * Working with note attachments
+   */
+  noteAttachmentUploader: NoteAttachmentUploaderRepository;
 
   /**
    * Working with all pages user is currently using
@@ -118,6 +124,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const userRepository = new UserRepository(userStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
   const editorToolsRepository = new EditorToolsRepository(editorToolsStore, editorToolsTransport);
+  const noteAttachmentUploaderRepository = new NoteAttachmentUploaderRepository(notesApiTransport);
   const workspaceRepository = new WorkspaceRepository(openedPagesStore);
 
   return {
@@ -127,6 +134,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     user: userRepository,
     marketplace: marketplaceRepository,
     editorTools: editorToolsRepository,
+    noteAttachmentUploader: noteAttachmentUploaderRepository,
     workspace: workspaceRepository,
   };
 }

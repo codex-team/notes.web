@@ -28,6 +28,15 @@
     >
       {{ t('noteSettings.revokeHash') }}
     </Button>
+    <Field
+      v-model="parentURL"
+      :title="t('noteSettings.parentNote')"
+      size="medium"
+      :caption="t('noteSettings.parentNoteCaption')"
+      :disabled="parentNote != undefined"
+      :placeholder="t('noteSettings.parentNotePlaceholder')"
+      @input="setParentDebounced"
+    />
     <Team
       :note-id="id"
       :team="noteSettings.team"
@@ -51,9 +60,10 @@ import type { NoteId } from '@/domain/entities/Note';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
+import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Field } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -64,13 +74,16 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById } = useNoteSettings();
+const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
 );
 
-loadSettings(props.id);
+/**
+ * URL of the parent note. Used to set and display the parent note
+ */
+const parentURL = ref<string>('');
 
 /**
  * Regenerate invitation hash
@@ -91,6 +104,15 @@ async function deleteNote() {
 }
 
 /**
+ * Set parent note with debounce
+ */
+const setParentDebounced = useDebounceFn(async () => {
+  if (parentURL.value !== '') {
+    await setParent(props.id, parentURL.value);
+  }
+}, 1000);
+
+/**
  * Current value of isPublic field
  */
 const isPublic = computed(() => {
@@ -105,10 +127,31 @@ async function changeAccess() {
 }
 
 /**
+ * Construct the parent note URL. If the parent note is not set, return an empty string
+ *
+ * @param id - id of the  note
+ * @returns {string} URL of the parent note
+ */
+function getParentURL(id: NoteId | undefined): string {
+  if (parentNote.value !== undefined) {
+    const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
+
+    return `${websiteHostname}/note/${id}`;
+  }
+
+  return '';
+}
+
+/**
  * Changing the title in the browser
  */
 useHead({
   title: t('noteSettings.title'),
+});
+
+onMounted(async () => {
+  await loadSettings(props.id);
+  parentURL.value = getParentURL(parentNote.value?.id);
 });
 </script>
 
