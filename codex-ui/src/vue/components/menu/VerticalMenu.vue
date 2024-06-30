@@ -5,7 +5,7 @@
     <VerticalMenuItem
       v-for="(item, index) in items"
       :key="index"
-      :item="item"
+      :class="$style['vertical-menu']"
       :title="item.title"
       :is-active="item.isActive"
       :items="item.items"
@@ -23,7 +23,7 @@ defineProps<{
   items: Item[];
 }>();
 </script>
-<style module>
+<style lang="postcss" module>
 .vertical-menu {
   display: flex;
   flex-direction: column;

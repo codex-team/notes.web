@@ -53,7 +53,7 @@ const props = withDefaults(
   }
 );
 </script>
-<style module>
+<style lang="postcss" module>
 .vertical-menu-item {
   --menuIndent: calc((var(--level) - 1) * var(--spacing-ms));
 
