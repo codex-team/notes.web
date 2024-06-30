@@ -28,7 +28,7 @@
       </template>
       {{ title }}
       <Icon
-        v-if="closable === true"
+        v-if="closable"
         name="Cross"
         @click.stop="$emit('close')"
       />
