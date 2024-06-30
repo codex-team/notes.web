@@ -74,12 +74,16 @@ export default class NoteService {
    * @param id - Note id
    * @param parentURL - link to the new parent note
    */
-  public async setParentByUrl(id: NoteId, parentURL: string): Promise<void> {
+  public async setParentByUrl(id: NoteId, parentURL: string): Promise<Note> {
     const parentId = extractNoteId(parentURL);
     const isParentSet = await this.noteRepository.setParent(id, parentId);
 
     if (!isParentSet) {
       throw new Error('Parent was not set');
     }
+
+    const { note: parenNote } = await this.noteRepository.getNoteById(parentId);
+
+    return parenNote;
   }
 }
