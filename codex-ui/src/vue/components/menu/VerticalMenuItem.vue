@@ -8,18 +8,18 @@
       :class="[$style['vertical-menu-item__container']]"
     >
       {{ props.title }}
-      <div v-if="items && items.length > 0">
-        <VerticalMenuItem
-          v-for="(childItem, index) in items"
-          :key="index"
-          :title="childItem.title"
-          :is-active="childItem.isActive"
-          :items="childItem.items"
-          :level="level + 1"
-        />
-      </div>
     </div>
   </div>
+  <template v-if="items && items.length > 0">
+    <VerticalMenuItem
+      v-for="(childItem, index) in items"
+      :key="index"
+      :title="childItem.title"
+      :is-active="childItem.isActive"
+      :items="childItem.items"
+      :level="level + 1"
+    />
+  </template>
 </template>
 <script lang="ts" setup>
 import type { VerticalMenuItem as Item } from './VerticalMenuTypes.types.ts';
@@ -27,7 +27,7 @@ import type { VerticalMenuItem as Item } from './VerticalMenuTypes.types.ts';
 const props = withDefaults(
   defineProps<{
     /**
-     * Level of the vertical item
+     * Level of the each vertical item
      */
     level: number;
 
