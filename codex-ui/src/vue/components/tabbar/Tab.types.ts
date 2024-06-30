@@ -1,13 +1,13 @@
 export interface TabParams {
   /**
-   * Text to be displayed in tab
+   * Name of the tab item
    */
   title: string;
 
   /**
-   * Function of deleting the tab from tabbar or undefind if tab is not closable
+   * If true we have cross icon on the right
    */
-  onClose?: (tab: TabParams) => void;
+  closable: boolean;
 
   /**
    * Current tab state
@@ -23,11 +23,6 @@ export interface TabParams {
    * Name of the icon to be diplayed in the left slot, else undefined
    */
   icon?: string;
-
-  /**
-   * On click on tab user will be redirected according to this url
-   */
-  url: string;
 };
 
 export type TabList = TabParams[];

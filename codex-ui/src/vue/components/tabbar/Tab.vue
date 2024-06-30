@@ -39,6 +39,13 @@
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
 
+defineEmits([
+  /**
+   * This emit will be triggered when cross is pressed
+   */
+  'close',
+]);
+
 withDefaults(
   defineProps<{
     /**

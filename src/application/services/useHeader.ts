@@ -3,7 +3,6 @@ import { computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { AppStateController } from '@/domain';
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
-import type { TabList } from '@/domain/entities/Tab';
 import { workspaceService } from '@/domain/index';
 import { useI18n } from 'vue-i18n';
 import { notEmpty } from '@/infrastructure/utils/empty';
@@ -30,9 +29,9 @@ interface useHeaderComposableState {
   patchOpenedPageByUrl: (url: OpenedPage['url'], page: OpenedPage) => void;
 
   /**
-   * There would be stored all formatted tabs for tabbar inside header
+   * There would be stored all currently opened pages
    */
-  tabs: ComputedRef<TabList>;
+  currentOpenedPages: ComputedRef<OpenedPage[]>;
 };
 
 /**
@@ -97,38 +96,32 @@ export default function useHeader(): useHeaderComposableState {
   });
 
   /**
-   * Tabs are computed dynamically on every change of the openedPages
+   * Home page is always opened
    */
-  const tabs = computed<TabList>(() => {
-    /**
-     * Home page is always in tabs
-     */
-    let activeTabs = [{
+  const currentOpenedPages = computed<OpenedPage[]>(() => {
+    const activePages = [{
       title: t('pages.home'),
       url: '/',
-      isActive: route.path === '/',
     }];
 
     const pages = openedPages.value?.map((page) => {
       return {
         title: page.title,
-        onClose: deleteOpenedPageByUrl,
         url: page.url,
-        isActive: route.path === page.url,
       };
     });
 
     if (notEmpty(pages)) {
-      activeTabs.push(...pages);
+      activePages.push(...pages);
     }
 
-    return activeTabs;
+    return activePages;
   });
 
   return {
     addOpenedPage,
     deleteOpenedPageByUrl,
     patchOpenedPageByUrl,
-    tabs,
+    currentOpenedPages,
   };
 }

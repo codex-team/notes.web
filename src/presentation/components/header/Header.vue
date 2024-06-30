@@ -1,13 +1,13 @@
 <template>
   <div class="header">
     <Tab
-      v-for="tab in tabs"
-      :key="tab.url"
-      :is-active="tab.isActive"
-      :title="tab.title"
-      :closable="(tab.title !== 'Home') ? true : false"
-      @close="closeHeaderTab(tab.url)"
-      @click="$router.push(tab.url)"
+      v-for="page in currentOpenedPages"
+      :key="page.url"
+      :is-active="page.url === route.path"
+      :title="page.title"
+      :closable="page.title !== 'Home'"
+      @close="closeHeaderTab(page.url)"
+      @click="router.push(page.url)"
     />
     <Button
       class="header__plus"
@@ -28,30 +28,30 @@
 <script lang="ts" setup>
 import { IconPlus } from '@codexteam/icons';
 import { Tab } from 'codex-ui/vue';
-import { TabParams } from '@/domain/entities/Tab';
 import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 const { user } = useAppState();
 
-const { tabs, deleteOpenedPageByUrl } = useHeader();
+const { currentOpenedPages, deleteOpenedPageByUrl } = useHeader();
 
-function closeHeaderTab(url: TabParams['url']) {
+function closeHeaderTab(url: string) {
   deleteOpenedPageByUrl(url);
 
   /**
    * When tab is closed we should open previous page
    * When all tabs are closed we should open home page
    */
-  if (tabs.value.length === 0) {
+  if (currentOpenedPages.value.length === 0) {
     router.push('/');
   } else {
-    router.push(tabs.value[tabs.value.length - 1].url);
+    router.push(currentOpenedPages.value[currentOpenedPages.value.length - 1].url);
   }
 };
 
