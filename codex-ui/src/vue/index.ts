@@ -10,6 +10,6 @@ export * from './components/radio';
 export * from './components/switch';
 export * from './components/card';
 export * from './components/tabbar';
-export * from './components/contextMenu';
-export * from './components/verticalMenu';
+export * from './components/context-menu';
+export * from './components/vertical-menu';
 export * from './composables/useTheme';
