@@ -5,7 +5,6 @@
     <VerticalMenuItem
       v-for="(item, index) in items"
       :key="index"
-      :class="$style['vertical-menu']"
       :title="item.title"
       :is-active="item.isActive"
       :items="item.items"
