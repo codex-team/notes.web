@@ -26,7 +26,7 @@ const repositories = initRepositories(apiUrl, eventBus);
 /**
  * Init services
  */
-const noteService = new NoteService(repositories.note);
+const noteService = new NoteService(repositories.note, repositories.noteAttachmentUploader);
 const editorToolsService = new EditorToolsService(repositories.editorTools);
 const noteListService = new NoteListService(repositories.note);
 const noteSettingsService = new NoteSettingsService(repositories.noteSettings);

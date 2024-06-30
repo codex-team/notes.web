@@ -52,7 +52,7 @@ interface UseNoteComposableState {
   /**
    * Creates/updates the note
    */
-  save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
+  save: (content: NoteContent, notePicture: Blob | null, parentId: NoteId | undefined) => Promise<void>;
 
   /**
    * Returns list of tools used in note
@@ -205,7 +205,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
    */
-  async function save(content: NoteContent, parentId: NoteId | undefined): Promise<void> {
+  async function save(content: NoteContent, notePicture: Blob | null, parentId: NoteId | undefined): Promise<void> {
     if (note.value === null) {
       throw new Error('Note is not loaded yet');
     }
@@ -235,6 +235,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
+
+
+    console.log(notePicture && await noteService.uploadAttachment(currentId.value, notePicture))
     note.value = { ...note.value,
       content };
   }

@@ -3,6 +3,7 @@ import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type { NoteDTO } from './entities/NoteDTO';
 import type { NoteTool } from '@/domain/entities/Note';
+import type NoteAttachmentUploaderRepository from '@/domain/noteAttachmentUploader.repository.interface';
 
 /**
  * Note Service
@@ -13,12 +14,15 @@ export default class NoteService {
    */
   private readonly noteRepository: NoteRepository;
 
+  private readonly noteAttachmentRepository: NoteAttachmentUploaderRepository
+
   /**
    * Note Service constructor
    * @param noteRepository - Note repository instance
    */
-  constructor(noteRepository: NoteRepository) {
+  constructor(noteRepository: NoteRepository, noteAttachmentRepository: NoteAttachmentUploaderRepository) {
     this.noteRepository = noteRepository;
+    this.noteAttachmentRepository = noteAttachmentRepository;
   }
 
   /**
@@ -39,6 +43,10 @@ export default class NoteService {
    */
   public async getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     return await this.noteRepository.getNoteByHostname(hostname);
+  }
+
+  public async uploadAttachment(id: string, data: Blob): Promise<string> {
+    return await this.noteAttachmentRepository.upload(id, data);
   }
 
   /**

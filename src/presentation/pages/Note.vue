@@ -26,6 +26,7 @@
       :read-only="!canEdit"
       @change="noteChanged"
     />
+    <div id="note-clone"></div>
   </div>
 </template>
 
@@ -38,6 +39,7 @@ import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
+import { makeElementScreenshot } from '@/infrastructure/utils/screenshot'
 
 const { t } = useI18n();
 
@@ -73,11 +75,23 @@ const editor = ref<typeof Editor | undefined>(undefined);
  *
  * @param data - editor data
  */
-function noteChanged(data: NoteContent): void {
+async function noteChanged(data: NoteContent): Promise<void> {
   const isEmpty = editor.value?.isEmpty();
 
+  const clonedEditor = document.getElementById('editorjs')?.cloneNode(true)
+
+  if (clonedEditor !== undefined) {
+    document.getElementById('note-clone')!.appendChild(clonedEditor);
+  }
+
+  const picture = await makeElementScreenshot({
+    width: 1280,
+    elementId: 'note-clone',
+    height: 720
+  })
+
   if (!isEmpty) {
-    save(data, props.parentId);
+    save(data, picture, props.parentId);
   }
 }
 
@@ -126,4 +140,10 @@ watch(noteTitle, () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+#note-clone {
+  display: none;
+  padding: 0;
+  background: var(--base--bg-primary);
+}
+</style>
