@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
-import type { ContextMenuItem } from './ContextMenuTypes.types.js';
+import type { ContextMenuItem } from './ContextMenu.types.js';
 
 defineProps<{
   /**

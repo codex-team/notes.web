@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
-import type { ContextMenuItem as Item } from './ContextMenuTypes.types.ts';
+import type { ContextMenuItem as Item } from './ContextMenu.types';
 import ContextMenuItem from './ContextMenuItem.vue';
 
 /**

@@ -1,4 +1,4 @@
 import ContextMenu from './ContextMenu.vue';
-export * from './ContextMenuTypes.types.js';
+export * from './ContextMenu.types.js';
 
 export { ContextMenu };

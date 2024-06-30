@@ -1,4 +1,4 @@
 import VerticalMenu from './VerticalMenu.vue';
-export * from './VerticalMenuTypes.types.js';
+export * from './VerticalMenu.types.js';
 
 export { VerticalMenu };
