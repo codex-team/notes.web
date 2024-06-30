@@ -31,7 +31,7 @@
     "deleteNote": "Delete",
     "noteDeleteConfirmation": "Do you really want to delete this note?",
     "parentNote": "Parent note",
-    "parentNoteCaption": "Access settings wiil be inherited",
+    "parentNoteCaption": "Access settings will be inherited",
     "setParent": "Set as parent",
     "team": {
       "title": "Collaborators",
