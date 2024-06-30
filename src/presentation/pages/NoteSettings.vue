@@ -33,14 +33,9 @@
       :title="t('noteSettings.parentNote')"
       size="medium"
       :caption="t('noteSettings.parentNoteCaption')"
-      :disabled="parentNote !== undefined"
+      :disabled="parentNote != undefined"
+      @input="setParentDebounced"
     />
-    <Button
-      type="primary"
-      @click="setParentButton"
-    >
-      {{ t('noteSettings.setParent') }}
-    </Button>
     <Team
       :note-id="id"
       :team="noteSettings.team"
@@ -106,11 +101,20 @@ async function deleteNote() {
   }
 }
 
+let timeoutId: number | null = null;
+
 /**
- * Update parent button click handler
+ * Set parent note with debounce
  */
-async function setParentButton() {
-  await setParent(props.id, parentURL.value);
+async function setParentDebounced(): Promise<void> {
+  if (timeoutId !== null) {
+    clearTimeout(timeoutId);
+  }
+
+  timeoutId = window.setTimeout(async () => {
+    await setParent(props.id, parentURL.value);
+    timeoutId = null;
+  }, 1000);
 }
 
 /**
