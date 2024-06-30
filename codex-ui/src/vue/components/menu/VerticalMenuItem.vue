@@ -1,7 +1,8 @@
 <template>
   <div
     :class="[$style['vertical-menu-item'],
-             isActive && $style['vertical-menu-item--active']]"
+             isActive && $style['vertical-menu-item--active'],
+             'text-ui-base-medium']"
     :style="{ '--level': props.level }"
   >
     <div
@@ -57,6 +58,7 @@ const props = withDefaults(
 .vertical-menu-item {
   --menuIndent: calc((var(--level) - 1) * var(--spacing-ms));
 
+  cursor: pointer;
   gap: var(--spacing-ms);
   padding: 0 0 0 var(--menuIndent);
 
@@ -71,7 +73,7 @@ const props = withDefaults(
 
   &--active .vertical-menu-item__container {
     background-color: var(--base--bg-secondary-hover);
-    border-left: 3px solid var(--accent--solid);
+    box-shadow: inset 3px 0 0 var(--accent--solid);
     border-radius: var(--radius-m);
   }
 
