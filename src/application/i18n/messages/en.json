@@ -30,6 +30,10 @@
     "revokeHash": "Revoke",
     "deleteNote": "Delete",
     "noteDeleteConfirmation": "Do you really want to delete this note?",
+    "parentNote": "Parent note",
+    "parentNoteCaption": "Access settings will be inherited",
+    "setParent": "Set as parent",
+    "parentNotePlaceholder": "Paste a link here",
     "team": {
       "title": "Collaborators",
       "caption": "Who can access the Note even if it’s not published",
@@ -87,5 +91,16 @@
       },
       "add": "Add"
     }
+  },
+  "pages": {
+    "home": "Home",
+    "note": "Note",
+    "newNote": "New note",
+    "landing": "landing",
+    "userSettings": "User settings",
+    "noteSettings": "Note settings",
+    "marketplace": "Marketplace",
+    "addTool": "Add tool",
+    "notFound": "Not found"
   }
 }

@@ -7,7 +7,7 @@ import { init as initRepositories } from '@/infrastructure';
 import EventBus from './event-bus';
 import NoteListService from './noteList.service';
 import EditorToolsService from '@/domain/editorTools.service';
-
+import WorkspaceService from './workspace.service';
 /**
  * Get API url from environment
  */
@@ -28,6 +28,7 @@ const repositories = initRepositories(apiUrl, eventBus);
  */
 const noteService = new NoteService(repositories.note);
 const editorToolsService = new EditorToolsService(repositories.editorTools);
+const workspaceService = new WorkspaceService(repositories.workspace);
 const noteListService = new NoteListService(repositories.note);
 const noteSettingsService = new NoteSettingsService(repositories.noteSettings);
 const authService = new AuthService(eventBus, repositories.auth);
@@ -42,6 +43,10 @@ export const AppStateController = {
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   user: (callback: Parameters<typeof repositories.user.setStoreChangeCallback>[0]) =>
     repositories.user.setStoreChangeCallback(callback),
+
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  openedPages: (callback: Parameters<typeof repositories.workspace.setStoreChangeCallback>[0]) =>
+    repositories.workspace.setStoreChangeCallback(callback),
 };
 
 export {
@@ -51,5 +56,6 @@ export {
   noteSettingsService,
   authService,
   userService,
-  marketplaceService
+  marketplaceService,
+  workspaceService
 };

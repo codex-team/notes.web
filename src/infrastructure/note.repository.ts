@@ -107,4 +107,17 @@ export default class NoteRepository implements NoteRepositoryInterface {
   public async unlinkParent(id: NoteId): Promise<void> {
     await this.transport.delete(`/note/${id}/relation`);
   }
+
+  /**
+   * Set parent for the note
+   * @param id  - Child note id
+   * @param parentNoteId - New parent note id
+   */
+  public async setParent(id: NoteId, parentNoteId: NoteId): Promise<Note> {
+    const response = await this.transport.post<{ parentNote: Note }>(`/note/${id}/relation`, {
+      parentNoteId,
+    });
+
+    return response.parentNote;
+  }
 }

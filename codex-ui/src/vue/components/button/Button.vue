@@ -1,15 +1,20 @@
 <template>
   <button
-    :class="[$style.button, `${$style.button}--${size}`, `${$style.button}--${style}`, 'text-ui-base-medium']"
+    :class="[$style.button, `${$style.button}--${size}`, `${$style.button}--${style}`, 'text-ui-base-medium', icon && `${$style.button}--with-icon`]"
     :theme-accent="style === 'destructive' ? 'red' : undefined"
   >
-    <slot />
+    <Icon
+      v-if="icon"
+      :name="icon"
+    />
+    <slot v-else />
   </button>
 </template>
 
 <script setup lang="ts">
 import { computed, defineProps } from 'vue';
 import type { ButtonSize, ButtonStyle } from './Button.types';
+import Icon from '../icon/Icon.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -27,11 +32,17 @@ const props = withDefaults(
      * Whether the button is disabled
      */
     disabled?: boolean;
+
+    /**
+     * Name of the center icon. Uses in case only icon should be displayed
+     */
+    icon?: string;
   }>(),
   {
     size: 'medium',
     style: 'primary',
     disabled: false,
+    icon: undefined,
   }
 );
 
@@ -56,6 +67,7 @@ const style = computed(() => {
   word-break: keep-all;
 
   --padding: 0 0;
+  --padding-icon: 0 0;
   --radius: 0;
   --color: var(--accent--text-solid-foreground);
   --bg: var(--accent--solid);
@@ -67,16 +79,19 @@ const style = computed(() => {
    */
   &--small {
     --padding: var(--spacing-xxs) var(--spacing-s);
+    --padding-icon: var(--spacing-xxs);
     --radius: var(--radius-m);
   }
 
   &--medium {
     --padding: var(--spacing-s) var(--spacing-m);
+    --padding-icon: var(--spacing-s);
     --radius: var(--radius-m);
   }
 
   &--large {
     --padding: var(--spacing-m) var(--spacing-l);
+    --padding-icon: var(--spacing-m);
     --radius: var(--radius-ml);
   }
 
@@ -115,5 +130,13 @@ const style = computed(() => {
   &:hover {
     background-color: var(--bg-hover);
   }
+
+  &--with-icon {
+    padding: var(--padding-icon);
+  }
+}
+
+.button.button--with-icon {
+  line-height: 0;
 }
 </style>

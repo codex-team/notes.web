@@ -103,6 +103,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="small"
+      placeholder="Placeholder"
     />
     <br>
     <Field
@@ -111,6 +112,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="medium"
+      placeholder="Placeholder"
     />
     <br>
     <Field
@@ -119,6 +121,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="large"
+      placeholder="Placeholder"
     />
 
     <Heading :level="3">
@@ -237,25 +240,27 @@
     <Heading :level="3">
       Tab
     </Heading>
-    <Tab :title="'Home'" />
-    <br>
     <Tab
-      :title="'Home'"
-      :picture="'../static/example-avatar.png'"
+      title="Home"
     />
     <br>
     <Tab
       title="Home"
-      :icon="'Plus'"
+      picture="../static/example-avatar.png"
     />
     <br>
     <Tab
-      :title="'Home'"
+      title="Home"
+      icon="Plus"
+    />
+    <br>
+    <Tab
+      title="Home"
       :closable="true"
     />
     <br>
     <Tab
-      :title="'Home'"
+      title="Home"
       :closable="true"
       :is-active="true"
     />
@@ -267,6 +272,10 @@
       :items="contextMenuItems"
       :search-icon="'Search'"
     />
+    <Heading :level="3">
+      Vertical Menu
+    </Heading>
+    <VerticalMenu :items="verticalMenuItems" />
     <Heading :level="3">
       Type Scale
     </Heading>
@@ -296,7 +305,9 @@ import {
   RadioGroup,
   Tab,
   ContextMenu,
-  ContextMenuItems
+  ContextMenuItem,
+  VerticalMenu,
+  VerticalMenuItem
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -335,7 +346,7 @@ const formSectionItems = [
 /**
  * Items for searching in the context menu
  */
-const contextMenuItems: ContextMenuItems[] = [
+const contextMenuItems: ContextMenuItem[] = [
   {
     type: 'default',
     title: 'Header 1',
@@ -367,6 +378,32 @@ const contextMenuItems: ContextMenuItems[] = [
  * Simple function for example
  */
 function doNothing(): void {}
+
+/**
+ * Items for displaing in vertical menu
+ */
+const verticalMenuItems: VerticalMenuItem[] = [
+  {
+    title: 'CodeX',
+    items: [
+      {
+        title: 'Workflow',
+      },
+      {
+        title: 'Enineering Strategy',
+        items: [
+          {
+            title: 'SSH Keys',
+            isActive: true,
+          },
+        ],
+      },
+      {
+        title: 'Admission Campaign 2022',
+      },
+    ],
+  },
+];
 </script>
 
 <style module>

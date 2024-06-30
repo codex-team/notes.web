@@ -4,10 +4,7 @@
       v-if="showSearch"
       :class="$style['context-menu__search']"
     >
-      <Input
-        :class="$style['context-menu__input']"
-        :icon="searchIcon"
-      />
+      <Input :class="$style['context-menu__input']" />
       <ContextMenuItem :item="separator" />
     </div>
     <div :class="$style['context-menu__scrollable']">
@@ -22,13 +19,13 @@
 
 <script setup lang="ts">
 import Input from '../input/Input.vue';
-import type { ContextMenuItems } from './ContextMenuTypes.types.ts';
+import type { ContextMenuItem as Item } from './ContextMenu.types';
 import ContextMenuItem from './ContextMenuItem.vue';
 
 /**
  * Separator for search container
  */
-const separator: ContextMenuItems = { type: 'separator' };
+const separator: Item = { type: 'separator' };
 
 withDefaults(
   defineProps<{
@@ -40,17 +37,9 @@ withDefaults(
     /**
      * Array of items for context menu
      */
-    items: ContextMenuItems[];
-
-    /**
-     * Icon displayed in ipnut
-     */
-    searchIcon?: string;
+    items: Item[];
   }>(),
-  {
-    showSearch: false,
-    searchIcon: undefined,
-  }
+  { showSearch: false }
 );
 
 </script>

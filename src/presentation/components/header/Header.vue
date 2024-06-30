@@ -1,6 +1,14 @@
 <template>
   <div class="header">
-    <Tabs :tabs="tabs" />
+    <Tab
+      v-for="page in currentOpenedPages"
+      :key="page.url"
+      :is-active="page.url === route.path"
+      :title="page.title"
+      :closable="page.title !== 'Home'"
+      @close="closeHeaderTab(page.url)"
+      @click="router.push(page.url)"
+    />
     <Button
       class="header__plus"
       link="/new"
@@ -18,60 +26,35 @@
 </template>
 
 <script lang="ts" setup>
-import { IconPicture, IconPlus, IconMenu } from '@codexteam/icons';
-import { useI18n } from 'vue-i18n';
-import type Tab from '@/presentation/components/tabs/types/Tab';
-import Tabs from '@/presentation/components/tabs/Tabs.vue';
+import { IconPlus } from '@codexteam/icons';
+import { Tab } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
 import LoginButton from './HeaderLoginButton.vue';
 import UserPanel from './HeaderUser.vue';
-import { useRouter } from 'vue-router';
-import { computed } from 'vue';
 import { useAppState } from '@/application/services/useAppState';
+import useHeader from '@/application/services/useHeader';
+import { useRouter, useRoute } from 'vue-router';
 
-const { t } = useI18n();
-const { currentRoute } = useRouter();
+const router = useRouter();
+const route = useRoute();
 const { user } = useAppState();
 
-const tabs = computed<Tab[]>(() => {
-  const availableTabs = [
-    {
-      title: t('header.buttons.home'),
-      path: '/',
-      icon: IconPicture,
-      isActive: currentRoute.value.name === 'home',
-      isPinned: true,
-    },
-  ];
+const { currentOpenedPages, deleteOpenedPageByUrl } = useHeader();
+
+function closeHeaderTab(url: string) {
+  deleteOpenedPageByUrl(url);
 
   /**
-   * Show inactive settings tab when we are on note view
+   * When tab is closed we should open previous page
+   * When all tabs are closed we should open home page
    */
-  if (currentRoute.value.name === 'note') {
-    availableTabs.push({
-      title: t('header.buttons.noteSettings'),
-      path: currentRoute.value.path + '/settings',
-      icon: IconMenu,
-      isActive: false,
-      isPinned: true,
-    });
+  if (currentOpenedPages.value.length === 0) {
+    router.push('/');
+  } else {
+    router.push(currentOpenedPages.value[currentOpenedPages.value.length - 1].url);
   }
+};
 
-  /**
-   * Show active settings tab when we are on settings itself
-   */
-  if (currentRoute.value.name === 'settings') {
-    availableTabs.push({
-      title: t('header.buttons.noteSettings'),
-      path: currentRoute.value.path,
-      icon: IconMenu,
-      isActive: true,
-      isPinned: true,
-    });
-  }
-
-  return availableTabs;
-});
 </script>
 
 <style scoped lang="postcss">

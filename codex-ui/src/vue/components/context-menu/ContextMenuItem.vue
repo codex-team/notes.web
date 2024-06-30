@@ -28,13 +28,13 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
-import type { ContextMenuItems } from './ContextMenuTypes.types.js';
+import type { ContextMenuItem } from './ContextMenu.types';
 
 defineProps<{
   /**
    * Context menu item, can be default or separator
    */
-  item: ContextMenuItems;
+  item: ContextMenuItem;
 }>();
 </script>
 
