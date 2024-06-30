@@ -114,10 +114,10 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param parentNoteId - New parent note id
    */
   public async setParent(id: NoteId, parentNoteId: NoteId): Promise<boolean> {
-    const response = await this.transport.patch<{ isUpdated: boolean }>(`/note/${id}/relation`, {
+    const response = await this.transport.post<{ isCreated: boolean }>(`/note/${id}/relation`, {
       parentNoteId,
     });
 
-    return response.isUpdated;
+    return response.isCreated;
   }
 }
