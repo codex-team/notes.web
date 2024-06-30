@@ -237,25 +237,27 @@
     <Heading :level="3">
       Tab
     </Heading>
-    <Tab :title="'Home'" />
-    <br>
     <Tab
-      :title="'Home'"
-      :picture="'../static/example-avatar.png'"
+      title="Home"
     />
     <br>
     <Tab
       title="Home"
-      :icon="'Plus'"
+      picture="../static/example-avatar.png"
     />
     <br>
     <Tab
-      :title="'Home'"
+      title="Home"
+      icon="Plus"
+    />
+    <br>
+    <Tab
+      title="Home"
       :closable="true"
     />
     <br>
     <Tab
-      :title="'Home'"
+      title="Home"
       :closable="true"
       :is-active="true"
     />

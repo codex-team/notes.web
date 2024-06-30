@@ -5,8 +5,10 @@ import NotesApiTransport from '@/infrastructure/transport/notes-api';
 import AuthRepository from '@/infrastructure/auth.repository';
 import AuthStore from '@/infrastructure/storage/auth';
 import UserRepository from '@/infrastructure/user.repository';
+import WorkspaceRepository from '@/infrastructure/workspace.repository';
 import MarketplaceRepository from '@/infrastructure/marketplace.repository';
 import { UserStore } from '@/infrastructure/storage/user';
+import { OpenedPagesStore } from '@/infrastructure/storage/openedPage';
 import type EventBus from '@/domain/event-bus';
 import { AUTH_COMPLETED_EVENT_NAME, type AuthCompletedEvent } from '@/domain/event-bus/events/AuthCompleted';
 import { AUTH_LOGOUT_EVENT_NAME } from '@/domain/event-bus/events/AuthLogoutEvent';
@@ -53,6 +55,11 @@ export interface Repositories {
    * Working with note attachments
    */
   noteAttachmentUploader: NoteAttachmentUploaderRepository;
+
+  /**
+   * Working with all pages user is currently using
+   */
+  workspace: WorkspaceRepository;
 }
 
 /**
@@ -68,6 +75,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const authStore = new AuthStore();
   const userStore = new UserStore();
   const editorToolsStore = new EditorToolsStore();
+  const openedPagesStore = new OpenedPagesStore();
 
   /**
    * Init transport
@@ -117,6 +125,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
   const editorToolsRepository = new EditorToolsRepository(editorToolsStore, editorToolsTransport);
   const noteAttachmentUploaderRepository = new NoteAttachmentUploaderRepository(notesApiTransport);
+  const workspaceRepository = new WorkspaceRepository(openedPagesStore);
 
   return {
     note: noteRepository,
@@ -126,5 +135,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     marketplace: marketplaceRepository,
     editorTools: editorToolsRepository,
     noteAttachmentUploader: noteAttachmentUploaderRepository,
+    workspace: workspaceRepository,
   };
 }

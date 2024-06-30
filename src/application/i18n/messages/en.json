@@ -91,5 +91,16 @@
       },
       "add": "Add"
     }
+  },
+  "pages": {
+    "home": "Home",
+    "note": "Note",
+    "newNote": "New note",
+    "landing": "landing",
+    "userSettings": "User settings",
+    "noteSettings": "Note settings",
+    "marketplace": "Marketplace",
+    "addTool": "Add tool",
+    "notFound": "Not found"
   }
 }

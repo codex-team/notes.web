@@ -29,7 +29,8 @@
       {{ title }}
       <Icon
         v-if="closable"
-        :name="'Cross'"
+        name="Cross"
+        @click.stop="$emit('close')"
       />
     </div>
   </div>
@@ -37,6 +38,13 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
+
+defineEmits([
+  /**
+   * This emit will be triggered when cross is pressed
+   */
+  'close',
+]);
 
 withDefaults(
   defineProps<{
@@ -53,7 +61,7 @@ withDefaults(
     /**
      * Current tab state
      */
-    isActive: boolean;
+    isActive?: boolean;
 
     /**
      * Link to image to be displayed in the left slot, else undefined
