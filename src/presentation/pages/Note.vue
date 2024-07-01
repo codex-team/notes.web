@@ -63,8 +63,6 @@ const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = 
 
 const { loadedTools } = useLoadedTools(noteTools);
 
-watch(loadedTools, () => console.log(loadedTools.value));
-
 /**
  * Check if tools are loaded and if they are not empty
  * Means we can render the editor
