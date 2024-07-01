@@ -11,7 +11,7 @@ function useMergedTools(tools: Ref<EditorTool[]>): {
   /**
    * Connected user and connectable tools
    */
-  tools: Ref<EditorTool[]>;
+  mergedTools: Ref<EditorTool[]>;
 } {
   /**
    * User notes tools
@@ -44,7 +44,7 @@ function useMergedTools(tools: Ref<EditorTool[]>): {
   );
 
   return {
-    tools: mergedTools,
+    mergedTools,
   };
 }
 

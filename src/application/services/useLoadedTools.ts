@@ -14,7 +14,7 @@ export function useLoadedTools(tools: Ref<EditorTool[]>): {
    */
   loadedTools: Ref<EditorConfigTools | undefined>;
 } {
-  const { tools: mergedTools } = useMergedTools(tools);
+  const { mergedTools } = useMergedTools(tools);
   const loadedTools = ref<EditorConfigTools | undefined>();
 
   watch(
