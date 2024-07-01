@@ -16,7 +16,7 @@ export function getTitle(content: OutputData): string {
   if (firstNoteBlock.data.text == '') {
     return t('note.untitled');
   } else {
-    return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+    return firstNoteBlock.data?.text?.slice?.(0, limitCharsForNoteTitle);
   }
 }
 
