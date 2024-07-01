@@ -2,10 +2,11 @@ import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, wat
 import { noteService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type { NoteTool } from '@/domain/entities/Note';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
 import useMergedTools from './useMergedTools';
+import useHeader from './useHeader';
 
 /**
  * Creates base structure for the empty note:
@@ -52,7 +53,7 @@ interface UseNoteComposableState {
   /**
    * Creates/updates the note
    */
-  save: (content: NoteContent, notePicture: Blob | null, parentId: NoteId | undefined) => Promise<void>;
+  save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
 
   /**
    * Returns list of tools used in note
@@ -97,6 +98,7 @@ interface UseNoteComposableOptions {
  * @param options - note service options
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
+  const { patchOpenedPageByUrl } = useHeader();
   /**
    * Current note identifier
    */
@@ -118,6 +120,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
+
+  const route = useRoute();
 
   const limitCharsForNoteTitle = 50;
 
@@ -205,7 +209,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
    */
-  async function save(content: NoteContent, notePicture: Blob | null, parentId: NoteId | undefined): Promise<void> {
+  async function save(content: NoteContent, parentId: NoteId | undefined): Promise<void> {
     if (note.value === null) {
       throw new Error('Note is not loaded yet');
     }
@@ -221,23 +225,30 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        */
       const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
 
+      note.value = { ...note.value,
+        content };
+
       /**
        * Replace the current route with note id
        */
-      void router.replace({
+      await router.replace({
         name: 'note',
         params: {
           id: noteCreated.id,
         },
       });
 
+      patchOpenedPageByUrl(
+        route.path,
+        {
+          title: noteTitle.value,
+          url: route.path,
+        });
+
       return;
     }
 
     await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
-
-
-    console.log(notePicture && await noteService.uploadAttachment(currentId.value, notePicture))
     note.value = { ...note.value,
       content };
   }
@@ -296,6 +307,15 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     void load(newId);
+  });
+
+  watch(noteTitle, (currentNoteTitle) => {
+    patchOpenedPageByUrl(
+      route.path,
+      {
+        title: currentNoteTitle,
+        url: route.path,
+      });
   });
 
   return {
