@@ -11,10 +11,15 @@
       :icon="IconPlus"
     />
     <div class="header__right">
-      <LoginButton v-if="!user" />
-      <UserPanel
+      <Tabbar
+        v-if="!user"
+        :tabs="authTab"
+        @click="showLoginPopup"
+      />
+      <Tabbar
         v-else
-        :user="user"
+        :tabs="userTab"
+        @click="(tab) => router.push(tab.id)"
       />
     </div>
   </div>
@@ -24,16 +29,18 @@
 import { IconPlus } from '@codexteam/icons';
 import { Tabbar, TabParams } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
-import LoginButton from './HeaderLoginButton.vue';
-import UserPanel from './HeaderUser.vue';
+// import LoginButton from './HeaderLoginButton.vue';
+// import UserPanel from './HeaderUser.vue';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
 import { useRouter, useRoute } from 'vue-router';
-import { computed } from 'vue';
+import { computed, watch, ref } from 'vue';
+import useAuth from '@/application/services/useAuth';
 
 const router = useRouter();
 const route = useRoute();
 const { user } = useAppState();
+const { showGoogleAuthPopup } = useAuth();
 
 const { currentOpenedPages, deleteOpenedPageByUrl } = useHeader();
 
@@ -45,6 +52,34 @@ const tabs = computed(() => currentOpenedPages.value.map((page): TabParams => {
     isActive: page.url === route.path,
   };
 }));
+
+const authTab: TabParams[] = [{
+  id: 'login',
+  title: 'Login',
+  icon: 'User',
+}];
+
+const userTab = ref([{
+  id: '/settings',
+  title: 'Settings',
+  picture: user.value?.photo,
+}]);
+
+/**
+ * Immediate user is null and his photo is undefined
+ * we need to patch user photo, when user is loaded
+ */
+watch(user, () => {
+  userTab.value[0].picture = user.value?.photo;
+},
+{ immediate: true });
+
+/**
+ * Shows Google Authentication in a popup
+ */
+function showLoginPopup() {
+  showGoogleAuthPopup();
+}
 
 function closeHeaderTab(url: string) {
   deleteOpenedPageByUrl(url);
