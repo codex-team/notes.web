@@ -1,5 +1,5 @@
 export type * from './Tab.types';
 import Tab from './Tab.vue';
-import Tabbar from './Tabbar.vue';
+import TabBar from './TabBar.vue';
 
-export { Tab, Tabbar };
+export { Tab, TabBar };

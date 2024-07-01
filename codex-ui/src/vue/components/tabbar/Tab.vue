@@ -155,7 +155,7 @@ withDefaults(
   }
 
   &--active {
-    min-width: var(--min-width);
+    min-width: max-content;
   }
 
   &--active .tab__body {
