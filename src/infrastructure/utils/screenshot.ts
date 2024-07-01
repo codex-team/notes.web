@@ -1,22 +1,21 @@
 import html2canvas from 'html2canvas'
 
-interface Params {
-  elementId: string,
-  height: number
-  width: number
-}
-
-export async function makeElementScreenshot(params: Params): Promise<Blob | null> {
-  const { elementId, height, width } = params;
+/**
+ * Make html element screenshot
+ * @param elementId - id of element, which have to be screenshooted
+ * @returns binary image data
+ */
+export async function makeElementScreenshot(elementId: string): Promise<Blob | null> {
   const element = document.getElementById(elementId);
 
+  /**
+   * Return null if element not found
+   */
   if (element === null) {
     return null;
   }
 
-  const canvas = await html2canvas(element, {height, width, onclone: function (clonedDoc) {
-    clonedDoc.getElementById(elementId)!.style.display = 'block';
-}});
+  const canvas = await html2canvas(element);
 
   return new Promise((resolve) => {
     canvas.toBlob((data) => resolve(data), 'image/png')

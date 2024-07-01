@@ -7,6 +7,7 @@ import { init as initRepositories } from '@/infrastructure';
 import EventBus from './event-bus';
 import NoteListService from './noteList.service';
 import EditorToolsService from '@/domain/editorTools.service';
+import NoteAttachmentUploaderService from './noteAttachmentUploader.service';
 
 /**
  * Get API url from environment
@@ -33,6 +34,7 @@ const noteSettingsService = new NoteSettingsService(repositories.noteSettings);
 const authService = new AuthService(eventBus, repositories.auth);
 const userService = new UserService(eventBus, repositories.user);
 const marketplaceService = new MarketplaceService(repositories.marketplace);
+const noteAttachmentService = new NoteAttachmentUploaderService(repositories.noteAttachmentUploader);
 
 /**
  * App State — is a read-only combination of app Stores.
@@ -51,5 +53,6 @@ export {
   noteSettingsService,
   authService,
   userService,
-  marketplaceService
+  marketplaceService,
+  noteAttachmentService
 };

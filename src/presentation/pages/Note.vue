@@ -40,6 +40,7 @@ import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot'
+import useNoteSettings from '@/application/services/useNoteSettings';
 
 const { t } = useI18n();
 
@@ -63,6 +64,8 @@ const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = 
   id: noteId,
 });
 
+const { updateCover } = useNoteSettings()
+
 const { loadedTools } = useLoadedTools(noteTools);
 
 /**
@@ -78,20 +81,43 @@ const editor = ref<typeof Editor | undefined>(undefined);
 async function noteChanged(data: NoteContent): Promise<void> {
   const isEmpty = editor.value?.isEmpty();
 
-  const clonedEditor = document.getElementById('editorjs')?.cloneNode(true)
+  let updatedNoteCover: Blob | null = null;
 
-  if (clonedEditor !== undefined) {
-    document.getElementById('note-clone')!.appendChild(clonedEditor);
+  /**
+   * Get html element with note
+   */
+  const editorElement = document.getElementById('editorjs');
+
+  /**
+   * If it does not exist, we can not do screenshot
+   */
+  if (editorElement !== null) {
+    /**
+     * Screenshot height
+     */
+    const clonedEditorNode = editorElement.cloneNode(true);
+
+    /**
+     * Insert cloned note to element, which will be screenshoted
+     */
+    document.getElementById('note-clone')?.appendChild(clonedEditorNode);
+
+    updatedNoteCover = await makeElementScreenshot('note-clone');
+    /**
+     * Remove copied note from the div for screenshots
+     */
+    document.getElementById('note-clone')?.removeChild(clonedEditorNode)
   }
 
-  const picture = await makeElementScreenshot({
-    width: 1280,
-    elementId: 'note-clone',
-    height: 720
-  })
-
   if (!isEmpty) {
-    save(data, picture, props.parentId);
+    await save(data, updatedNoteCover, props.parentId);
+    /**
+     * In case if we do not have note id, we can change its cover, and we need successful data for cover
+     * We need to do it after saving in case of note creation
+     */
+    if (updatedNoteCover !== null && props.id !== null) {
+      updateCover(props.id, updatedNoteCover)
+    }
   }
 }
 
@@ -142,8 +168,11 @@ watch(noteTitle, () => {
 
 <style scoped>
 #note-clone {
-  display: none;
-  padding: 0;
   background: var(--base--bg-primary);
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 700px;
+  height: 900px;
 }
 </style>

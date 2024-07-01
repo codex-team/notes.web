@@ -1,7 +1,7 @@
 import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
-import { noteSettingsService } from '@/domain';
+import { noteAttachmentService, noteSettingsService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
 import { useRouter } from 'vue-router';
@@ -47,6 +47,13 @@ interface UseNoteSettingsComposableState {
    * @param id - Note id
    */
   deleteNoteById: (id: NoteId) => Promise<void>;
+
+  /**
+   * Update note cover
+   * @param id - note id
+   * @param data - picture binary data
+   */
+  updateCover: (id: NoteId, data: Blob) => Promise<void>
 }
 
 /**
@@ -126,7 +133,26 @@ export default function (): UseNoteSettingsComposableState {
     });
   };
 
+  /**
+   * Update note cover pisture
+   * @param id - note id
+   * @param data - picture binary data
+   */
+  const updateCover = async (id: NoteId, data: Blob): Promise<void> => {
+    const key = await noteAttachmentService.upload(id, data)
+
+    const { cover } = await noteSettingsService.patchNoteSettingsByNoteId(id, { cover: key })
+
+    if (noteSettings.value) {
+      noteSettings.value = {
+        ...noteSettings.value,
+        cover
+      };
+    }
+  }
+
   return {
+    updateCover,
     noteSettings,
     load,
     updateIsPublic,
