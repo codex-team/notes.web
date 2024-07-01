@@ -1,8 +1,22 @@
 <template>
   <div :class="$style.playground">
-    <Heading :level="1">
-      Playground
-    </Heading>
+    <div :class="$style.header">
+      <div :class="$style.logo">
+        CodeX UI
+      </div>
+      <Tabbar
+        :class="$style.headerRight"
+        :tabs="[{
+          title: 'Figma',
+          id: 'figma-button',
+          picture: 'https://cdn.svgporn.com/logos/figma.svg',
+          link: 'https://www.figma.com/design/YmJc2Vqmev25xZgXic5bjL/CodeX-Design-System?node-id=1288-953&t=PhdeYMJcGnLqT4js-0'
+        }]"
+      />
+    </div>
+    <div :class="$style.body">
+      Playground content will be pasted here...
+    </div>
     <Heading :level="3">
       Color Scheme
     </Heading>
@@ -478,7 +492,26 @@ const verticalMenuItems: VerticalMenuItem[] = [
   background-color: var(--base--bg-primary);
   color: var(--base--text);
   min-height: 100%;
-  padding: 20px;
+}
+.header {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--base--border);
+  padding: var(--spacing-xs) var(--spacing-m);
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 var(--spacing-xs);
+}
+
+.body {
+  padding: var(--spacing-l);
 }
 
 .buttons {

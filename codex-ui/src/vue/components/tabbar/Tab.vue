@@ -1,6 +1,8 @@
 <template>
-  <div
+  <component
+    :is="link !== undefined ? 'a' : 'div'"
     ref="tabElement"
+    :href="link"
     :class="[
       $style.tab,
       'text-ui-base-medium',
@@ -37,11 +39,12 @@
         @click.stop="$emit('close')"
       />
     </div>
-  </div>
+  </component>
 </template>
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
+import { TabParams } from './Tab.types';
 
 defineEmits([
   /**
@@ -51,37 +54,7 @@ defineEmits([
 ]);
 
 withDefaults(
-  defineProps<{
-    /**
-     * Unique tab identifier
-     */
-    id: string;
-
-    /**
-     * Name of the tab item
-     */
-    title: string;
-
-    /**
-     * If true we have cross icon on the right
-     */
-    closable?: boolean;
-
-    /**
-     * Current tab state
-     */
-    isActive?: boolean;
-
-    /**
-     * Link to image to be displayed in the left slot, else undefined
-     */
-    picture?: string;
-
-    /**
-     * Name of the icon to be diplayed in the left slot, else undefined
-     */
-    icon?: string;
-  }>(),
+  defineProps<TabParams>(),
   {
     isActive: false,
     picture: undefined,
@@ -99,6 +72,7 @@ withDefaults(
   position: relative;
   display: inline-block;
   min-width: var(--min-width);
+  text-decoration: none;
 
   max-width: max-content;
 

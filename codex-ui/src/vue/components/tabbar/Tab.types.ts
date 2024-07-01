@@ -28,6 +28,11 @@ export interface TabParams {
    * Name of the icon to be diplayed in the left slot, else undefined
    */
   icon?: string;
+
+  /**
+   * If passed, tab will be presented as an hyperlink
+   */
+  link?: string;
 };
 
 export type TabList = TabParams[];
