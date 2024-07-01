@@ -21,6 +21,11 @@ interface UseNoteSettingsComposableState {
   parentNote: Ref<Note | undefined>;
 
   /**
+   * Title of the note
+   */
+  noteTitle: Ref<string>;
+
+  /**
    * Load note settings
    * @param id - note id
    */
@@ -75,6 +80,8 @@ export default function (): UseNoteSettingsComposableState {
    */
   const parentNote = ref<Note | undefined>();
 
+  const noteTitle = ref('Note');
+
   /**
    * Router instance used to replace the current route with note id
    */
@@ -87,8 +94,14 @@ export default function (): UseNoteSettingsComposableState {
   const load = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
     const response = await noteService.getNoteById(id);
+    const firstNoteBlock = response.note.content.blocks[0];
+    const limitCharsForNoteTitle = 50;
 
     parentNote.value = response.parentNote;
+
+    if (firstNoteBlock !== null && Boolean(firstNoteBlock.data.text)) {
+      noteTitle.value = firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+    }
   };
 
   /**
@@ -164,6 +177,7 @@ export default function (): UseNoteSettingsComposableState {
 
   return {
     parentNote,
+    noteTitle,
     noteSettings,
     load,
     updateIsPublic,
