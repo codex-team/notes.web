@@ -1,68 +1,76 @@
 <template>
   <div
     v-if="noteSettings"
+    class="note-settings"
   >
-    <div class="note-settings">
-      <div
-        class="note-settings__page-header"
+    <div
+      class="note-settings__page-header"
+    >
+      <Heading
+        :level="1"
       >
-        <Heading
-          :level="1"
-        >
-          {{ $t('noteSettings.title') }}
-        </Heading>
-        <Heading
-          :level="2"
-          class="note-settings__subheading"
-        >
-          {{ noteTitle }}
-        </Heading>
-      </div>
-      <div class="form">
-        <Field
-          v-model="parentURL"
-          :title="t('noteSettings.parentNote')"
-          size="medium"
-          :caption="t('noteSettings.parentNoteCaption')"
-          :disabled="parentNote !== undefined"
-          :placeholder="t('noteSettings.parentNotePlaceholder')"
-          @input="setParentDebounced"
+        {{ $t('noteSettings.title') }}
+      </Heading>
+      <Heading
+        :level="2"
+        class="note-settings__subheading"
+      >
+        {{ noteTitle }}
+      </Heading>
+    </div>
+    <div class="form">
+      <Field
+        v-model="parentURL"
+        :title="t('noteSettings.parentNote')"
+        size="large"
+        :caption="t('noteSettings.parentNoteCaption')"
+        :disabled="parentNote !== undefined"
+        :placeholder="t('noteSettings.parentNotePlaceholder')"
+        @input="setParentDebounced"
+      />
+      <Section
+        :title="t('noteSettings.availabilityTitle')"
+        :caption="t('noteSettings.availabilityCaption')"
+      >
+        <Row :title="t('noteSettings.availabilityRowTitle')">
+          <template #right>
+            <Switch
+              v-model="isPublic"
+              @click="changeAccess"
+            />
+          </template>
+        </Row>
+      </Section>
+      <div>
+        <Team
+          :note-id="id"
+          :team="noteSettings.team"
         />
         <Section
-          :title="t('noteSettings.availabilityTitle')"
-          :caption="t('noteSettings.availabilityCaption')"
+          :title="t('noteSettings.inviteCollaboratorTitle')"
+          :caption="t('noteSettings.inviteCollaboratorCaption')"
         >
-          <Row :title="t('noteSettings.publish')">
+          <Row :title="invitationLink">
             <template #right>
-              <Switch
-                v-model="isPublic"
-                @click="changeAccess"
-              />
+              <Button
+                :size="'small'"
+                :style="'secondary'"
+                @click="regenerateHash"
+              >
+                {{ t('noteSettings.revokeHashButton') }}
+              </Button>
             </template>
           </Row>
         </Section>
-        <div>
-          {{ invitationLink }}
-          <Button
-            type="primary"
-            @click="regenerateHash"
-          >
-            {{ t('noteSettings.revokeHash') }}
-          </Button>
-          <Team
-            :note-id="id"
-            :team="noteSettings.team"
-          />
-          <br>
-          <Button
-            type="destructive"
-            @click="deleteNote"
-          >
-            {{ t('noteSettings.deleteNote') }}
-          </Button>
-        </div>
         <br>
+        <Button
+          :style="'destructive'"
+          @click="deleteNote"
+        >
+          {{ t('noteSettings.deleteNote') }}
+        </Button>
       </div>
+      <br>
     </div>
   </div>
   <div v-else>
