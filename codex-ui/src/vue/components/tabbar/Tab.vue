@@ -33,8 +33,8 @@
       <Icon
         v-if="closable && isActive"
         name="Cross"
-        @click.stop="$emit('close')"
         :class="$style['tab__body-cross']"
+        @click.stop="$emit('close')"
       />
     </div>
   </div>
@@ -42,15 +42,6 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
-import { ref, computed } from 'vue';
-
-const tabElement = ref<HTMLDivElement | null>(null);
-
-const minWidth = 58;
-
-const isNarrow = computed(() => {
-  return (tabElement.value?.clientWidth! > minWidth);
-});
 
 defineEmits([
   /**
