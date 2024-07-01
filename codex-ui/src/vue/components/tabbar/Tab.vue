@@ -100,7 +100,6 @@ withDefaults(
   padding: var(--v-padding) 0;
   position: relative;
   display: inline-block;
-  width: auto;
   min-width: var(--min-width);
 
   max-width: max-content;
@@ -147,6 +146,10 @@ withDefaults(
       white-space: nowrap;
       line-clamp: 1;
     }
+  }
+
+  &--active {
+    min-width: max-content;
   }
 
   &--active .tab__body {

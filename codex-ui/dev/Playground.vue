@@ -402,12 +402,12 @@ const defaultTabs = [
   },
   {
     title: 'New note',
-    identifier: '/',
+    identifier: '/new',
     closable: true,
   },
   {
     title: 'User settings',
-    identifier: '/',
+    identifier: '/settings',
     closable: true,
     isActive: true,
   },
