@@ -4,6 +4,7 @@
              isActive && $style['vertical-menu-item--active'],
              'text-ui-base-medium']"
     :style="{ '--level': props.level }"
+    @click="itemClicked"
   >
     <div
       :class="[$style['vertical-menu-item__container']]"
@@ -15,44 +16,37 @@
     <VerticalMenuItem
       v-for="(childItem, index) in items"
       :key="index"
-      :title="childItem.title"
-      :is-active="childItem.isActive"
-      :items="childItem.items"
+      v-bind="childItem"
       :level="level + 1"
     />
   </template>
 </template>
 <script lang="ts" setup>
-import type { VerticalMenuItem as Item } from './VerticalMenu.types';
+import type { VerticalMenuItem } from './VerticalMenu.types';
 
 const props = withDefaults(
-  defineProps<{
+  defineProps<VerticalMenuItem & {
     /**
-     * Level of the each vertical item
+     * Indentation level of the menu item
      */
-    level: number;
-
-    /**
-     * Primary text of the menu item
-     */
-    title: string;
-
-    /**
-     * Current item state
-     */
-    isActive?: boolean;
-
-    /**
-     * List of child elements for current element
-     */
-    items?: Item[];
+    level?: number;
   }>(),
   {
     level: 1,
     isActive: false,
     items: undefined,
+    onActivate: undefined,
   }
 );
+
+/**
+ * Fires a callback when the item is clicked
+ */
+function itemClicked(): void {
+  if (props.onActivate) {
+    props.onActivate();
+  }
+}
 </script>
 <style lang="postcss" module>
 .vertical-menu-item {

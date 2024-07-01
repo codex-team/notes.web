@@ -14,12 +14,17 @@
   <script type="module">
     import { createApp, h } from 'vue';
     import Playground from './Playground.vue';
+    import { createRouter, createWebHashHistory } from 'vue-router';
+    import routes from './routes';
 
-    createApp({
-      render() {
-        return h(Playground);
-      },
-    }).mount('#app');
+    const router = createRouter({
+      history: createWebHashHistory(),
+      routes,
+    });
+
+    createApp(Playground)
+      .use(router)
+      .mount('#app');
   </script>
   <style>
     body {

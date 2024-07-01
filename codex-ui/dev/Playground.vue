@@ -15,7 +15,14 @@
       />
     </div>
     <div :class="$style.body">
-      Playground content will be pasted here...
+      <div :class="$style.aside">
+        <VerticalMenu
+          :items="pages"
+        />
+      </div>
+      <div :class="$style.content">
+        <router-view />
+      </div>
     </div>
     <Heading :level="3">
       Color Scheme
@@ -318,7 +325,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import {
   Button,
   Heading,
@@ -343,6 +350,82 @@ import {
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
+
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
+const pages = computed(() => [
+  {
+    title: 'Theming',
+    items: [
+      {
+        title: 'Color Scheme',
+        onActivate: () => router.push('/theming/color-scheme'),
+        isActive: route.path === '/theming/color-scheme',
+      },
+      {
+        title: 'Base and Accent use cases',
+        onActivate: () => router.push('/theming/base-and-accent'),
+        isActive: route.path === '/theming/base-and-accent',
+      },
+    ],
+  },
+  {
+    title: 'Components',
+    items: [
+      {
+        title: 'Button',
+        onActivate: () => router.push('/components/button'),
+        isActive: route.path === '/components/button',
+      },
+      {
+        title: 'Input',
+        onActivate: () => router.push('/components/input'),
+        isActive: route.path === '/components/input',
+      },
+      {
+        title: 'Field',
+        onActivate: () => router.push('/components/field'),
+        isActive: route.path === '/components/field',
+      },
+      {
+        title: 'Section',
+      },
+      {
+        title: 'Icon',
+      },
+      {
+        title: 'Row',
+      },
+      {
+        title: 'Avatar',
+      },
+      {
+        title: 'Switch',
+      },
+      {
+        title: 'RadioGroup',
+      },
+      {
+        title: 'Tab',
+      },
+      {
+        title: 'ContextMenu',
+      },
+      {
+        title: 'VerticalMenu',
+      },
+      {
+        title: 'TypeScale',
+      },
+      {
+        title: 'Editor',
+      },
+    ],
+  },
+]);
+
 const formFieldValue = ref('Heading');
 
 /**
@@ -512,6 +595,9 @@ const verticalMenuItems: VerticalMenuItem[] = [
 
 .body {
   padding: var(--spacing-l);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-xxl);
 }
 
 .buttons {
