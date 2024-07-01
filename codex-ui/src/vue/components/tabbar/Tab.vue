@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="tabElement"
     :class="[
       $style.tab,
       'text-ui-base-medium',
@@ -26,10 +27,13 @@
           />
         </div>
       </template>
-      {{ title }}
+      <div :class="[$style['tab__body-text']]">
+        {{ title }}
+      </div>
       <Icon
-        v-if="closable"
+        v-if="closable && isActive"
         name="Cross"
+        :class="$style['tab__body-cross']"
         @click.stop="$emit('close')"
       />
     </div>
@@ -48,6 +52,11 @@ defineEmits([
 
 withDefaults(
   defineProps<{
+    /**
+     * Unique tab identifier
+     */
+    id: string;
+
     /**
      * Name of the tab item
      */
@@ -84,10 +93,17 @@ withDefaults(
 
 <style module>
 .tab {
+  --tab-text-max-width: 200px;
+  --min-width: calc(var(--h-padding) * 2 + var(--size-icon));
   padding: var(--v-padding) 0;
   position: relative;
   display: inline-block;
-  width: max-content;
+  min-width: var(--min-width);
+
+  max-width: max-content;
+
+  flex: 1;
+  flex-shrink: 1;
 
   &__body {
     min-height: var(--size-icon);
@@ -95,6 +111,7 @@ withDefaults(
     gap: var(--v-padding);
     border-radius: var(--radius-m);
     cursor: pointer;
+    max-width: 100%;
     font-family: inherit;
 
     padding: var(--v-padding) var(--h-padding);
@@ -121,6 +138,25 @@ withDefaults(
       height: var(--size-icon);
       width: var(--size-icon);
     }
+
+    &-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-clamp: 1;
+      max-width: var(--tab-text-max-width);
+    }
+
+    &-cross {
+      &:hover {
+        background: var(--base--bg-secondary);
+        border-radius: var(--radius-s);
+      }
+    }
+  }
+
+  &--active {
+    min-width: max-content;
   }
 
   &--active .tab__body {

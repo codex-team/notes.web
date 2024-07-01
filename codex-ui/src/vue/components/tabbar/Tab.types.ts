@@ -1,5 +1,10 @@
 export interface TabParams {
   /**
+   * Unique tab identifier
+   */
+  id: string;
+
+  /**
    * Name of the tab item
    */
   title: string;

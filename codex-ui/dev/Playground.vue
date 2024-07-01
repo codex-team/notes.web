@@ -238,28 +238,48 @@
       Tab
     </Heading>
     <Tab
+      id="/"
       title="Home"
     />
     <br>
     <Tab
+      id="/"
       title="Home"
       picture="../static/example-avatar.png"
     />
     <br>
     <Tab
+      id="/"
       title="Home"
       icon="Plus"
     />
     <br>
     <Tab
+      id="/"
       title="Home"
       :closable="true"
     />
     <br>
     <Tab
+      id="/"
       title="Home"
       :closable="true"
       :is-active="true"
+    />
+    <Heading :level="3">
+      Tabbar
+    </Heading>
+    <Heading :level="4">
+      Tabbar default
+    </Heading>
+    <Tabbar
+      :tabs="defaultTabs"
+    />
+    <Heading :level="4">
+      Tabbar without crosses
+    </Heading>
+    <Tabbar
+      :tabs="tabsWithoutCrossState"
     />
     <Heading :level="3">
       Context Menu
@@ -303,7 +323,9 @@ import {
   ContextMenu,
   ContextMenuItem,
   VerticalMenu,
-  VerticalMenuItem
+  VerticalMenuItem,
+  Tabbar,
+  TabParams
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -369,6 +391,55 @@ const contextMenuItems: ContextMenuItem[] = [
     onActivate: doNothing,
   },
 ];
+
+/**
+ * Tabs for example usage of tabbar
+ */
+const defaultTabs = [
+  {
+    title: 'Home',
+    id: '/',
+    picture: '../static/example-avatar.png',
+  },
+  {
+    title: 'New note',
+    id: '/new',
+    closable: true,
+  },
+  {
+    title: 'User settings',
+    id: '/settings',
+    closable: true,
+    isActive: true,
+  },
+];
+
+const tabsWithoutCrossState: TabParams[] = [
+  {
+    title: 'Home',
+    id: '/',
+  },
+  {
+    title: 'New note',
+    id: '/',
+    closable: true,
+  },
+  {
+    title: 'User settings',
+    id: '/',
+    closable: true,
+    isActive: true,
+  },
+];
+
+for (let _ = 0; _ < 15; ++_) {
+  tabsWithoutCrossState.push({
+    title: 'Marketplace',
+    id: '/marketplace',
+    closable: true,
+    icon: 'Plus',
+  });
+}
 
 /**
  * Simple function for example
