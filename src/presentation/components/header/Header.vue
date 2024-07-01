@@ -11,10 +11,9 @@
       :icon="IconPlus"
     />
     <div class="header__right">
-      <LoginButton v-if="!user" />
-      <UserPanel
-        v-else
-        :user="user"
+      <Tabbar
+        :tabs="userTab"
+        @click="(tab) => {userTabClicked(tab)}"
       />
     </div>
   </div>
@@ -24,16 +23,16 @@
 import { IconPlus } from '@codexteam/icons';
 import { Tabbar, TabParams } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
-import LoginButton from './HeaderLoginButton.vue';
-import UserPanel from './HeaderUser.vue';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
 import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
+import useAuth from '@/application/services/useAuth';
 
 const router = useRouter();
 const route = useRoute();
 const { user } = useAppState();
+const { showGoogleAuthPopup } = useAuth();
 
 const { currentOpenedPages, deleteOpenedPageByUrl } = useHeader();
 
@@ -45,6 +44,41 @@ const tabs = computed(() => currentOpenedPages.value.map((page): TabParams => {
     isActive: page.url === route.path,
   };
 }));
+
+const userTab = computed<TabParams[]>(() => {
+  if (!user.value) {
+    return [{
+      id: 'login',
+      title: 'Login',
+      icon: 'User',
+    }];
+  } else {
+    return [{
+      id: '/settings',
+      title: 'Settings',
+      picture: user.value?.photo,
+    }];
+  }
+});
+
+/**
+ * Handles click of the user tab
+ *
+ * @param tab - information of userTab
+ */
+function userTabClicked(tab: TabParams) {
+  if (!user.value) {
+    /**
+     * Shows Google Authentication in a popup
+     */
+    showGoogleAuthPopup();
+  } else {
+    /**
+     * Shows user settings page
+     */
+    router.push(tab.id);
+  }
+}
 
 function closeHeaderTab(url: string) {
   deleteOpenedPageByUrl(url);
