@@ -93,24 +93,22 @@ async function noteChanged(data: NoteContent): Promise<void> {
    */
   const editorElement = document.getElementById('editorjs');
 
-  /**
-   * If it does not exist, we can not do screenshot
-   */
-  if (editorElement !== null) {
-    updatedNoteCover = await makeElementScreenshot(editorElement, {
-      background: 'var(--base--bg-primary)',
-      width: '700px',
-      height: '800px',
-      overflow: 'hidden',
-    });
-  }
-
   if (!isEmpty) {
     await save(data, props.parentId);
     /**
      * In case if we do not have note id, we can change its cover, and we need successful data for cover
      * We need to do it after saving in case of note creation
      */
+    if (editorElement !== null) {
+      updatedNoteCover = await makeElementScreenshot(editorElement, {
+        background: 'var(--base--bg-primary)',
+        display: 'flex',
+        justifyContent: 'center',
+        width: '1200px',
+        height: '900px',
+        paddingTop: '100px',
+      });
+    }
     if (updatedNoteCover !== null && props.id !== null) {
       updateCover(props.id, updatedNoteCover);
     }
