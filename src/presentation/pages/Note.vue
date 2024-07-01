@@ -180,5 +180,6 @@ watch(noteTitle, () => {
   left: -9999px;
   width: 700px;
   height: 900px;
+  overflow: hidden;
 }
 </style>
