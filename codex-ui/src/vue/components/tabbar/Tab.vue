@@ -1,5 +1,8 @@
 <template>
-  <div
+  <component
+    :is="link !== undefined ? 'a' : 'div'"
+    ref="tabElement"
+    :href="link"
     :class="[
       $style.tab,
       'text-ui-base-medium',
@@ -26,45 +29,32 @@
           />
         </div>
       </template>
-      {{ title }}
+      <div :class="[$style['tab__body-text']]">
+        {{ title }}
+      </div>
       <Icon
-        v-if="closable"
-        :name="'Cross'"
+        v-if="closable && isActive"
+        name="Cross"
+        :class="$style['tab__body-cross']"
+        @click.stop="$emit('close')"
       />
     </div>
-  </div>
+  </component>
 </template>
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
+import { TabParams } from './Tab.types';
+
+defineEmits([
+  /**
+   * This emit will be triggered when cross is pressed
+   */
+  'close',
+]);
 
 withDefaults(
-  defineProps<{
-    /**
-     * Name of the tab item
-     */
-    title: string;
-
-    /**
-     * If true we have cross icon on the right
-     */
-    closable?: boolean;
-
-    /**
-     * Current tab state
-     */
-    isActive: boolean;
-
-    /**
-     * Link to image to be displayed in the left slot, else undefined
-     */
-    picture?: string;
-
-    /**
-     * Name of the icon to be diplayed in the left slot, else undefined
-     */
-    icon?: string;
-  }>(),
+  defineProps<TabParams>(),
   {
     isActive: false,
     picture: undefined,
@@ -76,10 +66,18 @@ withDefaults(
 
 <style module>
 .tab {
+  --tab-text-max-width: 200px;
+  --min-width: calc(var(--h-padding) * 2 + var(--size-icon));
   padding: var(--v-padding) 0;
   position: relative;
   display: inline-block;
-  width: max-content;
+  min-width: var(--min-width);
+  text-decoration: none;
+
+  max-width: max-content;
+
+  flex: 1;
+  flex-shrink: 1;
 
   &__body {
     min-height: var(--size-icon);
@@ -87,6 +85,7 @@ withDefaults(
     gap: var(--v-padding);
     border-radius: var(--radius-m);
     cursor: pointer;
+    max-width: 100%;
     font-family: inherit;
 
     padding: var(--v-padding) var(--h-padding);
@@ -113,6 +112,25 @@ withDefaults(
       height: var(--size-icon);
       width: var(--size-icon);
     }
+
+    &-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-clamp: 1;
+      max-width: var(--tab-text-max-width);
+    }
+
+    &-cross {
+      &:hover {
+        background: var(--base--bg-secondary);
+        border-radius: var(--radius-s);
+      }
+    }
+  }
+
+  &--active {
+    min-width: max-content;
   }
 
   &--active .tab__body {

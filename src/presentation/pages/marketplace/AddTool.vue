@@ -1,44 +1,59 @@
 <template>
-  <div>
+  <div class="container">
     <h1>{{ $t('marketplace.addTool') }}</h1>
-    <TextEdit
-      v-model:value="toolName"
-      name="toolName"
+    <Section
       :title="$t('marketplace.newTool.name.label')"
-      :placeholder="$t('marketplace.newTool.name.placeholder')"
-    />
-    <TextEdit
-      v-model:value="toolCdn"
-      name="toolCdn"
+      :caption="$t('marketplace.newTool.name.caption')"
+    >
+      <Input
+        v-model:model-value="toolName"
+        size="small"
+        :placeholder="$t('marketplace.newTool.name.placeholder')"
+      />
+    </Section>
+    <Section
       :title="$t('marketplace.newTool.cdn.label')"
-      :placeholder="$t('marketplace.newTool.cdn.placeholder')"
-    />
-    <TextEdit
-      v-model:value="toolTitle"
-      name="toolTitle"
+      :caption="$t('marketplace.newTool.cdn.caption')"
+    >
+      <Input
+        v-model:model-value="toolCdn"
+        name="toolCdn"
+        :placeholder="$t('marketplace.newTool.cdn.placeholder')"
+      />
+    </Section>
+    <Section
       :title="$t('marketplace.newTool.title.label')"
-      :placeholder="$t('marketplace.newTool.title.placeholder')"
-    />
-    <TextEdit
-      v-model:value="toolExport"
-      name="toolExport"
+      :caption="$t('marketplace.newTool.title.caption')"
+    >
+      <Input
+        v-model:model-value="toolTitle"
+        name="toolTitle"
+        :placeholder="$t('marketplace.newTool.title.placeholder')"
+      />
+    </Section>
+    <Section
       :title="$t('marketplace.newTool.exportName.label')"
-      :placeholder="$t('marketplace.newTool.exportName.placeholder')"
-    />
+      :caption="$t('marketplace.newTool.exportName.caption')"
+    >
+      <Input
+        v-model:model-value="toolExport"
+        name="toolExport"
+        :placeholder="$t('marketplace.newTool.exportName.placeholder')"
+      />
+    </Section>
     <Button
-      :text="$t('marketplace.newTool.add')"
       type="primary"
-      :icon="IconPlus"
+      class="add-tool-button"
       @click.passive="onClick"
-    />
+    >
+      {{ $t('marketplace.newTool.add') }}
+    </Button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { IconPlus } from '@codexteam/icons';
 import useMarketplace from '@/application/services/useMarketplace';
-import TextEdit from '@/presentation/components/form/TextEdit.vue';
-import Button from '@/presentation/components/button/Button.vue';
+import { Section, Input, Button } from 'codex-ui/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -67,4 +82,14 @@ function onClick() {
 }
 </script>
 
-<style setup lang="postcss" scoped></style>
+<style setup lang="postcss" scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+}
+
+.add-tool-button {
+  width: max-content;
+}
+</style>

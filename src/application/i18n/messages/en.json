@@ -30,6 +30,10 @@
     "revokeHash": "Revoke",
     "deleteNote": "Delete",
     "noteDeleteConfirmation": "Do you really want to delete this note?",
+    "parentNote": "Parent note",
+    "parentNoteCaption": "Access settings will be inherited",
+    "setParent": "Set as parent",
+    "parentNotePlaceholder": "Paste a link here",
     "team": {
       "title": "Collaborators",
       "caption": "Who can access the Note even if it’s not published",
@@ -70,22 +74,40 @@
     "addTool": "Add Tool",
     "newTool": {
       "title": {
-        "placeholder": "Enter tool title",
-        "label": "Title"
+        "placeholder": "Payment Widget",
+        "label": "Title",
+        "caption":"Will be visible in Editor Toolbox"
       },
       "name": {
-        "placeholder": "Enter tool name",
-        "label": "Name"
+        "placeholder": "payment",
+        "label": "Name",
+        "caption":"Will be used as a block type in saved data"
+
       },
       "exportName": {
-        "placeholder": "Enter tool export name",
-        "label": "Export Name"
+        "placeholder": "PaymentTool",
+        "label": "Export Name",
+        "caption":"Global (window) variable that the tool exports in its UMD script"
+
       },
       "cdn": {
-        "placeholder": "Enter tool CDN link",
-        "label": "CDN"
+        "placeholder": "https://cdn.jsdelivr.net/npm/@editorjs/payment@2.3.0/dist/payment.umd.min.js",
+        "label": "CDN",
+        "caption":"Direct link to the tool’s UMD bundle"
+
       },
-      "add": "Add"
+      "add": "Add tool"
     }
+  },
+  "pages": {
+    "home": "Home",
+    "note": "Note",
+    "newNote": "New note",
+    "landing": "landing",
+    "userSettings": "User settings",
+    "noteSettings": "Note settings",
+    "marketplace": "Marketplace",
+    "addTool": "Add tool",
+    "notFound": "Not found"
   }
 }

@@ -1,8 +1,22 @@
 <template>
   <div :class="$style.playground">
-    <Heading :level="1">
-      Playground
-    </Heading>
+    <div :class="$style.header">
+      <div :class="$style.logo">
+        CodeX UI
+      </div>
+      <Tabbar
+        :class="$style.headerRight"
+        :tabs="[{
+          title: 'Figma',
+          id: 'figma-button',
+          picture: 'https://cdn.svgporn.com/logos/figma.svg',
+          link: 'https://www.figma.com/design/YmJc2Vqmev25xZgXic5bjL/CodeX-Design-System?node-id=1288-953&t=PhdeYMJcGnLqT4js-0'
+        }]"
+      />
+    </div>
+    <div :class="$style.body">
+      Playground content will be pasted here...
+    </div>
     <Heading :level="3">
       Color Scheme
     </Heading>
@@ -100,6 +114,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="small"
+      placeholder="Placeholder"
     />
     <br>
     <Field
@@ -108,6 +123,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="medium"
+      placeholder="Placeholder"
     />
     <br>
     <Field
@@ -116,6 +132,7 @@
       title="Title"
       caption="Will be visible in Tools list"
       size="large"
+      placeholder="Placeholder"
     />
 
     <Heading :level="3">
@@ -234,27 +251,49 @@
     <Heading :level="3">
       Tab
     </Heading>
-    <Tab :title="'Home'" />
-    <br>
     <Tab
-      :title="'Home'"
-      :picture="'../static/example-avatar.png'"
-    />
-    <br>
-    <Tab
+      id="/"
       title="Home"
-      :icon="'Plus'"
     />
     <br>
     <Tab
-      :title="'Home'"
+      id="/"
+      title="Home"
+      picture="../static/example-avatar.png"
+    />
+    <br>
+    <Tab
+      id="/"
+      title="Home"
+      icon="Plus"
+    />
+    <br>
+    <Tab
+      id="/"
+      title="Home"
       :closable="true"
     />
     <br>
     <Tab
-      :title="'Home'"
+      id="/"
+      title="Home"
       :closable="true"
       :is-active="true"
+    />
+    <Heading :level="3">
+      Tabbar
+    </Heading>
+    <Heading :level="4">
+      Tabbar default
+    </Heading>
+    <Tabbar
+      :tabs="defaultTabs"
+    />
+    <Heading :level="4">
+      Tabbar without crosses
+    </Heading>
+    <Tabbar
+      :tabs="tabsWithoutCrossState"
     />
     <Heading :level="3">
       Context Menu
@@ -263,6 +302,10 @@
       :show-search="true"
       :items="contextMenuItems"
     />
+    <Heading :level="3">
+      Vertical Menu
+    </Heading>
+    <VerticalMenu :items="verticalMenuItems" />
     <Heading :level="3">
       Type Scale
     </Heading>
@@ -292,7 +335,11 @@ import {
   RadioGroup,
   Tab,
   ContextMenu,
-  ContextMenuItems
+  ContextMenuItem,
+  VerticalMenu,
+  VerticalMenuItem,
+  Tabbar,
+  TabParams
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -331,7 +378,7 @@ const formSectionItems = [
 /**
  * Items for searching in the context menu
  */
-const contextMenuItems: ContextMenuItems[] = [
+const contextMenuItems: ContextMenuItem[] = [
   {
     type: 'default',
     title: 'Header 1',
@@ -360,9 +407,84 @@ const contextMenuItems: ContextMenuItems[] = [
 ];
 
 /**
+ * Tabs for example usage of tabbar
+ */
+const defaultTabs = [
+  {
+    title: 'Home',
+    id: '/',
+    picture: '../static/example-avatar.png',
+  },
+  {
+    title: 'New note',
+    id: '/new',
+    closable: true,
+  },
+  {
+    title: 'User settings',
+    id: '/settings',
+    closable: true,
+    isActive: true,
+  },
+];
+
+const tabsWithoutCrossState: TabParams[] = [
+  {
+    title: 'Home',
+    id: '/',
+  },
+  {
+    title: 'New note',
+    id: '/',
+    closable: true,
+  },
+  {
+    title: 'User settings',
+    id: '/',
+    closable: true,
+    isActive: true,
+  },
+];
+
+for (let _ = 0; _ < 15; ++_) {
+  tabsWithoutCrossState.push({
+    title: 'Marketplace',
+    id: '/marketplace',
+    closable: true,
+    icon: 'Plus',
+  });
+}
+
+/**
  * Simple function for example
  */
 function doNothing(): void {}
+
+/**
+ * Items for displaing in vertical menu
+ */
+const verticalMenuItems: VerticalMenuItem[] = [
+  {
+    title: 'CodeX',
+    items: [
+      {
+        title: 'Workflow',
+      },
+      {
+        title: 'Enineering Strategy',
+        items: [
+          {
+            title: 'SSH Keys',
+            isActive: true,
+          },
+        ],
+      },
+      {
+        title: 'Admission Campaign 2022',
+      },
+    ],
+  },
+];
 </script>
 
 <style module>
@@ -370,7 +492,26 @@ function doNothing(): void {}
   background-color: var(--base--bg-primary);
   color: var(--base--text);
   min-height: 100%;
-  padding: 20px;
+}
+.header {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--base--border);
+  padding: var(--spacing-xs) var(--spacing-m);
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 var(--spacing-xs);
+}
+
+.body {
+  padding: var(--spacing-l);
 }
 
 .buttons {

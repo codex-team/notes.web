@@ -10,6 +10,7 @@
       :size="size"
       :disabled="disabled"
       :value="value"
+      :placeholder="placeholder"
     />
   </Section>
 </template>
@@ -46,12 +47,18 @@ withDefaults(
      * Input value
      */
     value?: string;
+
+    /**
+     * Input placeholder
+     */
+    placeholder?: string;
   }>(),
   {
     caption: '',
     size: 'medium',
     disabled: false,
     value: '',
+    placeholder: '',
   }
 );
 

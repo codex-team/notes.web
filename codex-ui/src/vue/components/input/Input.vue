@@ -49,6 +49,7 @@ onMounted(() => {
   color: var(--base--text);
   font-size: inherit;
   font-family: inherit;
+  box-sizing: border-box;
 
   --padding: 0 0;
 

@@ -19,7 +19,7 @@
       </Button>
     </div>
     <Editor
-      v-if="loadedTools !== undefined"
+      v-if="isToolsLoaded"
       ref="editor"
       :tools="loadedTools"
       :content="note.content"
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRef, watch } from 'vue';
+import { ref, toRef, watch, computed } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
@@ -67,6 +67,12 @@ const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = 
 const { updateCover } = useNoteSettings()
 
 const { loadedTools } = useLoadedTools(noteTools);
+
+/**
+ * Check if tools are loaded and if they are not empty
+ * Means we can render the editor
+ */
+const isToolsLoaded = computed(() => loadedTools.value ? Object.keys(loadedTools.value).length > 0 : false);
 
 /**
  * Editor component reference

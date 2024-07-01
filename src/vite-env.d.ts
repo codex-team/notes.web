@@ -12,5 +12,15 @@ declare module 'vue-router' {
      * Layout like component wrapper
      */
     layout?: keyof typeof layouts;
+
+    /**
+     * Short text description of the route's page
+     */
+    pageTitleI18n: string;
+
+    /**
+     * Should we close the tab if we left the route
+     */
+    discardTabOnLeave?: boolean;
   }
 }
