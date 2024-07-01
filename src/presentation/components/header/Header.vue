@@ -12,14 +12,8 @@
     />
     <div class="header__right">
       <Tabbar
-        v-if="!user"
-        :tabs="authTab"
-        @click="showLoginPopup"
-      />
-      <Tabbar
-        v-else
         :tabs="userTab"
-        @click="(tab) => router.push(tab.id)"
+        @click="(tab) => {userTabClicked(tab)}"
       />
     </div>
   </div>
@@ -29,12 +23,10 @@
 import { IconPlus } from '@codexteam/icons';
 import { Tabbar, TabParams } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
-// import LoginButton from './HeaderLoginButton.vue';
-// import UserPanel from './HeaderUser.vue';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
 import { useRouter, useRoute } from 'vue-router';
-import { computed, watch, ref } from 'vue';
+import { computed, watch, Ref, ref } from 'vue';
 import useAuth from '@/application/services/useAuth';
 
 const router = useRouter();
@@ -53,32 +45,49 @@ const tabs = computed(() => currentOpenedPages.value.map((page): TabParams => {
   };
 }));
 
-const authTab: TabParams[] = [{
-  id: 'login',
-  title: 'Login',
-  icon: 'User',
-}];
+const userTab: Ref<TabParams[]> = ref([]);
 
-const userTab = ref([{
-  id: '/settings',
-  title: 'Settings',
-  picture: user.value?.photo,
-}]);
-
-/**
- * Immediate user is null and his photo is undefined
- * we need to patch user photo, when user is loaded
- */
 watch(user, () => {
-  userTab.value[0].picture = user.value?.photo;
+  /**
+   * If user logouts tab becomes login tab
+   */
+  if (!user.value) {
+    userTab.value = [{
+      id: 'login',
+      title: 'Login',
+      icon: 'User',
+    }];
+  } else {
+    /**
+     * When user logins tab becomes user settings tab
+     */
+    userTab.value = [{
+      id: '/settings',
+      title: 'Settings',
+      picture: user.value?.photo,
+    }];
+  };
+  console.log('tab: ', userTab.value, 'user: ', user.value);
 },
 { immediate: true });
 
 /**
- * Shows Google Authentication in a popup
+ * Handles click of the user tab
+ *
+ * @param tab - information of userTab
  */
-function showLoginPopup() {
-  showGoogleAuthPopup();
+function userTabClicked(tab: TabParams) {
+  if (!user.value) {
+    /**
+     * Shows Google Authentication in a popup
+     */
+    showGoogleAuthPopup();
+  } else {
+    /**
+     * Shows user settings page
+     */
+    router.push(tab.id);
+  }
 }
 
 function closeHeaderTab(url: string) {
