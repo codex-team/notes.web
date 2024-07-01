@@ -432,7 +432,7 @@ const tabsWithoutCrossState: TabParams[] = [
   },
 ];
 
-for (let _ = 0; _ < 30; ++_) {
+for (let _ = 0; _ < 15; ++_) {
   tabsWithoutCrossState.push({
     title: 'Marketplace',
     id: '/marketplace',
