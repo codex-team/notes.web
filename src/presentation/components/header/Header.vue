@@ -26,7 +26,7 @@ import Button from '@/presentation/components/button/Button.vue';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
 import { useRouter, useRoute } from 'vue-router';
-import { computed, watch, Ref, ref } from 'vue';
+import { computed } from 'vue';
 import useAuth from '@/application/services/useAuth';
 
 const router = useRouter();
@@ -45,30 +45,21 @@ const tabs = computed(() => currentOpenedPages.value.map((page): TabParams => {
   };
 }));
 
-const userTab: Ref<TabParams[]> = ref([]);
-
-watch(user, () => {
-  /**
-   * If user logouts tab becomes login tab
-   */
+const userTab = computed<TabParams[]>(() => {
   if (!user.value) {
-    userTab.value = [{
+    return [{
       id: 'login',
       title: 'Login',
       icon: 'User',
     }];
   } else {
-    /**
-     * When user logins tab becomes user settings tab
-     */
-    userTab.value = [{
+    return [{
       id: '/settings',
       title: 'Settings',
       picture: user.value?.photo,
     }];
-  };
-},
-{ immediate: true });
+  }
+});
 
 /**
  * Handles click of the user tab
