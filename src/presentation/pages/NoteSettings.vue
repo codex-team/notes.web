@@ -1,57 +1,69 @@
 <template>
-  <div v-if="noteSettings">
-    <div class="note-settings__header">
-      <Heading
-        :level="1"
+  <div
+    v-if="noteSettings"
+  >
+    <div class="note-settings">
+      <div
+        class="note-settings__header"
+        style="border: 1px solid red;"
       >
-        Heading
-      </Heading>
-      <Heading
-        :level="2"
-      >
-        SubHeader
-      </Heading>
-    </div>
-    <Section
-      :title="t('noteSettings.availabilityTitle')"
-      :caption="t('noteSettings.availabilityCaption')"
-    >
-      <Row :title="t('noteSettings.publish')">
-        <template #right>
-          <Switch
-            v-model="isPublic"
-            @click="changeAccess"
+        <Heading
+          :level="1"
+        >
+          Heading
+        </Heading>
+        <Heading
+          :level="2"
+        >
+          {{ noteTitle }}
+        </Heading>
+      </div>
+      <div class="form">
+        <Field
+          v-model="parentURL"
+          :title="t('noteSettings.parentNote')"
+          size="medium"
+          :caption="t('noteSettings.parentNoteCaption')"
+          :disabled="parentNote != undefined"
+          :placeholder="t('noteSettings.parentNotePlaceholder')"
+          @input="setParentDebounced"
+        />
+        <Section
+          :title="t('noteSettings.availabilityTitle')"
+          :caption="t('noteSettings.availabilityCaption')"
+        >
+          <Row :title="t('noteSettings.publish')">
+            <template #right>
+              <Switch
+                v-model="isPublic"
+                @click="changeAccess"
+              />
+            </template>
+          </Row>
+        </Section>
+        <div>
+          {{ invitationLink }}
+          <Button
+            type="primary"
+            @click="regenerateHash"
+          >
+            {{ t('noteSettings.revokeHash') }}
+          </Button>
+          <Team
+            :note-id="id"
+            :team="noteSettings.team"
           />
-        </template>
-      </Row>
-    </Section>
-    {{ invitationLink }}
-    <Button
-      type="primary"
-      @click="regenerateHash"
-    >
-      {{ t('noteSettings.revokeHash') }}
-    </Button>
-    <Field
-      v-model="parentURL"
-      :title="t('noteSettings.parentNote')"
-      size="medium"
-      :caption="t('noteSettings.parentNoteCaption')"
-      :disabled="parentNote != undefined"
-      :placeholder="t('noteSettings.parentNotePlaceholder')"
-      @input="setParentDebounced"
-    />
-    <Team
-      :note-id="id"
-      :team="noteSettings.team"
-    />
-    <br>
-    <Button
-      type="destructive"
-      @click="deleteNote"
-    >
-      {{ t('noteSettings.deleteNote') }}
-    </Button>
+          <br>
+          <Button
+            type="destructive"
+            @click="deleteNote"
+          >
+            {{ t('noteSettings.deleteNote') }}
+          </Button>
+        </div>
+        <br>
+      </div>
+    </div>
   </div>
   <div v-else>
     Loading...
@@ -78,7 +90,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent } = useNoteSettings();
+const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent, noteTitle } = useNoteSettings();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -167,12 +179,22 @@ h1 {
   @apply --text-heading-1;
 }
 
-.note-settings {
-  border: 2px solid red;
+.note-settings{
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-l);
+  margin: var(--spacing-xxl) var(--spacing-ml);
 
   &__header {
     padding-left: var(--h-padding);
     padding-right: var(--h-padding);
   }
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+  margin: var(--spacing-xxl) 0;
 }
 </style>
