@@ -26,7 +26,7 @@
       :read-only="!canEdit"
       @change="noteChanged"
     />
-    <div id="note-clone"></div>
+    <div id="note-clone" />
   </div>
 </template>
 
@@ -39,7 +39,7 @@ import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
-import { makeElementScreenshot } from '@/infrastructure/utils/screenshot'
+import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 
 const { t } = useI18n();
@@ -64,7 +64,7 @@ const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = 
   id: noteId,
 });
 
-const { updateCover } = useNoteSettings()
+const { updateCover } = useNoteSettings();
 
 const { loadedTools } = useLoadedTools(noteTools);
 
@@ -112,7 +112,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
     /**
      * Remove copied note from the div for screenshots
      */
-    document.getElementById('note-clone')?.removeChild(clonedEditorNode)
+    document.getElementById('note-clone')?.removeChild(clonedEditorNode);
   }
 
   if (!isEmpty) {
@@ -122,7 +122,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
      * We need to do it after saving in case of note creation
      */
     if (updatedNoteCover !== null && props.id !== null) {
-      updateCover(props.id, updatedNoteCover)
+      updateCover(props.id, updatedNoteCover);
     }
   }
 }

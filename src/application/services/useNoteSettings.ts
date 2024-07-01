@@ -58,7 +58,7 @@ interface UseNoteSettingsComposableState {
    * @param id - note id
    * @param data - picture binary data
    */
-  updateCover: (id: NoteId, data: Blob) => Promise<void>
+  updateCover: (id: NoteId, data: Blob) => Promise<void>;
 
   /**
    * Set parent for the note
@@ -159,17 +159,17 @@ export default function (): UseNoteSettingsComposableState {
    * @param data - picture binary data
    */
   const updateCover = async (id: NoteId, data: Blob): Promise<void> => {
-    const key = await noteAttachmentService.upload(id, data)
+    const key = await noteAttachmentService.upload(id, data);
 
-    const { cover } = await noteSettingsService.patchNoteSettingsByNoteId(id, { cover: key })
+    const { cover } = await noteSettingsService.patchNoteSettingsByNoteId(id, { cover: key });
 
     if (noteSettings.value) {
       noteSettings.value = {
         ...noteSettings.value,
-        cover
+        cover,
       };
     }
-  }
+  };
 
   /**
    * Set parent for the note

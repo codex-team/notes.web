@@ -1,4 +1,4 @@
-import html2canvas from 'html2canvas'
+import html2canvas from 'html2canvas';
 
 /**
  * Make html element screenshot
@@ -18,7 +18,7 @@ export async function makeElementScreenshot(elementId: string): Promise<Blob | n
   const canvas = await html2canvas(element);
 
   return new Promise((resolve) => {
-    canvas.toBlob((data) => resolve(data), 'image/png')
-    }
-  )
+    canvas.toBlob(data => resolve(data), 'image/png');
+  }
+  );
 }

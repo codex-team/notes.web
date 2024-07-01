@@ -78,15 +78,15 @@ export default class FetchTransport {
    * @param payload - JSON or form POST data body
    */
   public async post(endpoint: string, payload?: JSONValue | FormData): Promise<JSONValue> {
-    const isFormData = payload !== undefined && payload instanceof FormData
+    const isFormData = payload !== undefined && payload instanceof FormData;
 
-      /**
+    /**
      * In case if passed payload is form data, we need to have auto generated Content-Type for multipar/form-data with boundary
      */
     if (!isFormData) {
       this.headers.set('Content-Type', 'application/json');
     } else {
-      this.headers.delete('Content-Type')
+      this.headers.delete('Content-Type');
     }
 
     /**

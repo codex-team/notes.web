@@ -1,5 +1,5 @@
-import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository.interface';
-import { NoteId } from './entities/Note';
+import type NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository.interface';
+import type { NoteId } from './entities/Note';
 
 /**
  * Service for working with note attachments
@@ -25,7 +25,7 @@ export default class NoteAttachmentUploaderService {
     return await this.repository.upload(noteId, data);
   }
 
-    /**
+  /**
    * Load note attachment data
    * @param noteId - indentifier for note to get attachment
    * @param key - file key on server side
