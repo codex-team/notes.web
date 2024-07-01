@@ -67,7 +67,6 @@ watch(user, () => {
       picture: user.value?.photo,
     }];
   };
-  console.log('tab: ', userTab.value, 'user: ', user.value);
 },
 { immediate: true });
 
