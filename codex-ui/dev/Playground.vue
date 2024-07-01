@@ -1,9 +1,12 @@
 <template>
   <div :class="$style.playground">
     <div :class="$style.header">
-      <div :class="$style.logo">
+      <a
+        :class="$style.logo"
+        href="/dev/index.html"
+      >
         CodeX UI
-      </div>
+      </a>
       <Tabbar
         :class="$style.headerRight"
         :tabs="[{
@@ -27,15 +30,6 @@
     <Heading :level="3">
       Color Scheme
     </Heading>
-    <RadioGroup
-      :values="[
-        { label: 'Light', value: 'light' },
-        { label: 'Dark', value: 'dark' },
-      ]"
-      :value="colorScheme"
-      name="color-scheme"
-      @change="($event) => setColorScheme($event.target.value)"
-    />
 
     <Heading :level="3">
       Base Theme
@@ -591,6 +585,8 @@ const verticalMenuItems: VerticalMenuItem[] = [
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 0 var(--spacing-xs);
+  text-decoration: none;
+  color: var(--base--text);
 }
 
 .body {
