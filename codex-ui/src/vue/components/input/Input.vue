@@ -10,7 +10,7 @@
     <input
       ref="textInput"
       v-model="model"
-      :class="[$style['input__semantic'], 'text-ui-base']"
+      :class="[$style['input__editable-zone'], 'text-ui-base']"
       :disabled="props.disabled"
     >
   </div>
@@ -76,7 +76,7 @@ onMounted(() => {
   width: 100%;
   cursor: text;
 
-  &__semantic {
+  &__editable-zone {
     flex: 1;
     border: 0;
     outline: 0;
