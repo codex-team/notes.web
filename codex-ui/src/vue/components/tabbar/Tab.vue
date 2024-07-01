@@ -31,9 +31,10 @@
         {{ title }}
       </div>
       <Icon
-        v-if="closable && isNarrow"
+        v-if="closable && isActive"
         name="Cross"
         @click.stop="$emit('close')"
+        :class="$style['tab__body-cross']"
       />
     </div>
   </div>
@@ -101,6 +102,7 @@ withDefaults(
 
 <style module>
 .tab {
+  --tab-text-max-width: 200px;
   --min-width: calc(var(--h-padding) * 2 + var(--size-icon));
   padding: var(--v-padding) 0;
   position: relative;
@@ -151,6 +153,14 @@ withDefaults(
       text-overflow: ellipsis;
       white-space: nowrap;
       line-clamp: 1;
+      max-width: var(--tab-text-max-width);
+    }
+
+    &-cross {
+      &:hover {
+        background: var(--base--bg-secondary);
+        border-radius: var(--radius-s);
+      }
     }
   }
 

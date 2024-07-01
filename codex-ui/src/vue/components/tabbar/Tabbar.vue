@@ -29,7 +29,6 @@ defineProps<{
 .tabbar {
   --min-width: calc(var(--v-padding) * 2 + var(--size-icon));
   display: flex;
-  grid-template-columns: repeat(auto-fit, minmax(var(--min-width), auto));
   padding: 0px var(--v-padding);
   width: 100%;
   min-height: var(--size-icon);
