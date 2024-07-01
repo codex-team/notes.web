@@ -66,7 +66,6 @@ interface UseNoteSettingsComposableState {
    * @param newParentURL - New parent note URL
    */
   setParent: (id: NoteId, newParentURL: string) => Promise<void>;
-
 }
 
 /**

@@ -34,5 +34,8 @@ export default interface NoteSettings {
    */
   team: Team;
 
+  /**
+   * Note cover image id
+   */
   cover: string;
 }
