@@ -4,6 +4,7 @@ import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
 import type { UserId } from './entities/User';
 import type { MemberRole } from './entities/Team';
+import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository.interface';
 
 /**
  * Note Service
@@ -14,12 +15,15 @@ export default class NoteSettingsService {
    */
   private readonly noteSettingsRepository: NoteSettingsRepository;
 
+  private readonly noteAttachmentRepository: NoteAttachmentUploaderRepository;
+
   /**
    * Note Service constructor
    * @param noteSettingsRepository - Note settings repository instance
    */
-  constructor(noteSettingsRepository: NoteSettingsRepository) {
+  constructor(noteSettingsRepository: NoteSettingsRepository, noteAttachmentRepository: NoteAttachmentUploaderRepository) {
     this.noteSettingsRepository = noteSettingsRepository;
+    this.noteAttachmentRepository = noteAttachmentRepository;
   }
 
   /**
@@ -62,6 +66,17 @@ export default class NoteSettingsService {
     }
 
     return result;
+  }
+
+  /**
+   * Update note cover picture
+   * @param id - note id
+   * @param data - picture binary data
+   */
+  public async updateCover(id: NoteId, data: Blob): Promise<NoteSettings> {
+    const key = await this.noteAttachmentRepository.upload(id, data);
+
+    return await this.patchNoteSettingsByNoteId(id, { cover: key });
   }
 
   /**

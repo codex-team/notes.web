@@ -1,7 +1,7 @@
 import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
 import type { NoteId, Note } from '@/domain/entities/Note';
-import { noteSettingsService, noteService, noteAttachmentService } from '@/domain';
+import { noteSettingsService, noteService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
 import { useRouter } from 'vue-router';
@@ -159,9 +159,7 @@ export default function (): UseNoteSettingsComposableState {
    * @param data - picture binary data
    */
   const updateCover = async (id: NoteId, data: Blob): Promise<void> => {
-    const key = await noteAttachmentService.upload(id, data);
-
-    const { cover } = await noteSettingsService.patchNoteSettingsByNoteId(id, { cover: key });
+    const { cover } = await noteSettingsService.updateCover(id, data)
 
     if (noteSettings.value) {
       noteSettings.value = {
