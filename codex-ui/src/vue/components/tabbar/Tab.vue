@@ -61,6 +61,11 @@ defineEmits([
 withDefaults(
   defineProps<{
     /**
+     * Unique tab identifier
+     */
+    id: string;
+
+    /**
      * Name of the tab item
      */
     title: string;
@@ -96,7 +101,7 @@ withDefaults(
 
 <style module>
 .tab {
-  --min-width: calc(var(--v-padding) * 2 + var(--size-icon));
+  --min-width: calc(var(--h-padding) * 2 + var(--size-icon));
   padding: var(--v-padding) 0;
   position: relative;
   display: inline-block;
@@ -113,6 +118,7 @@ withDefaults(
     gap: var(--v-padding);
     border-radius: var(--radius-m);
     cursor: pointer;
+    max-width: 100%;
     font-family: inherit;
 
     padding: var(--v-padding) var(--h-padding);
@@ -149,7 +155,7 @@ withDefaults(
   }
 
   &--active {
-    min-width: max-content;
+    min-width: var(--min-width);
   }
 
   &--active .tab__body {

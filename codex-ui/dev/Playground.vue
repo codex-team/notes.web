@@ -238,25 +238,30 @@
       Tab
     </Heading>
     <Tab
+      id="/"
       title="Home"
     />
     <br>
     <Tab
+      id="/"
       title="Home"
       picture="../static/example-avatar.png"
     />
     <br>
     <Tab
+      id="/"
       title="Home"
       icon="Plus"
     />
     <br>
     <Tab
+      id="/"
       title="Home"
       :closable="true"
     />
     <br>
     <Tab
+      id="/"
       title="Home"
       :closable="true"
       :is-active="true"
@@ -275,12 +280,6 @@
     </Heading>
     <Tabbar
       :tabs="tabsWithoutCrossState"
-    />
-    <Heading :level="4">
-      Tabbar overflow scrollable
-    </Heading>
-    <Tabbar
-      :tabs="tabsOverflow"
     />
     <Heading :level="3">
       Context Menu
@@ -325,7 +324,8 @@ import {
   ContextMenuItem,
   VerticalMenu,
   VerticalMenuItem,
-  Tabbar
+  Tabbar,
+  TabParams
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -398,34 +398,35 @@ const contextMenuItems: ContextMenuItem[] = [
 const defaultTabs = [
   {
     title: 'Home',
-    identifier: '/',
+    id: '/',
+    picture: '../static/example-avatar.png',
   },
   {
     title: 'New note',
-    identifier: '/new',
+    id: '/new',
     closable: true,
   },
   {
     title: 'User settings',
-    identifier: '/settings',
+    id: '/settings',
     closable: true,
     isActive: true,
   },
 ];
 
-const tabsWithoutCrossState = [
+const tabsWithoutCrossState: TabParams[] = [
   {
     title: 'Home',
-    identifier: '/',
+    id: '/',
   },
   {
     title: 'New note',
-    identifier: '/',
+    id: '/',
     closable: true,
   },
   {
     title: 'User settings',
-    identifier: '/',
+    id: '/',
     closable: true,
     isActive: true,
   },
@@ -434,36 +435,12 @@ const tabsWithoutCrossState = [
 for (let _ = 0; _ < 30; ++_) {
   tabsWithoutCrossState.push({
     title: 'Marketplace',
-    identifier: '/marketplace',
+    id: '/marketplace',
     closable: true,
+    icon: 'Plus',
   });
 }
 
-const tabsOverflow = [
-  {
-    title: 'Home',
-    identifier: '/',
-  },
-  {
-    title: 'New note',
-    identifier: '/',
-    closable: true,
-  },
-  {
-    title: 'User settings',
-    identifier: '/',
-    closable: true,
-    isActive: true,
-  },
-];
-
-for (let _ = 0; _ < 50; ++_) {
-  tabsOverflow.push({
-    title: 'Marketplace',
-    identifier: '/marketplace',
-    closable: true,
-  });
-}
 /**
  * Simple function for example
  */

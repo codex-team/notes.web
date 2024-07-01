@@ -2,12 +2,10 @@
   <div class="tabbar">
     <Tab
       v-for="tab in tabs"
-      :key="tab.identifier"
-      :is-active="tab.isActive"
-      :title="tab.title"
-      :closable="tab.closable"
-      @close="$emit('tabDiscard', tab.identifier)"
-      @click="$emit('tabClicked', tab.identifier)"
+      :key="tab.id"
+      v-bind="tab"
+      @close="$emit('discard', tab)"
+      @click="$emit('click', tab)"
     />
   </div>
 </template>
@@ -17,10 +15,8 @@ import { TabList, TabParams } from './Tab.types';
 import Tab from './Tab.vue';
 
 defineEmits<{
-  /* eslint-disable-next-line no-unused-vars */
-  (e: 'tabDiscard', identifier: TabParams['identifier']): void;
-  /* eslint-disable-next-line no-unused-vars */
-  (e: 'tabClicked', identifier: TabParams['identifier']): void;
+  click: [tab: TabParams];
+  discard: [tab: TabParams];
 }>();
 
 defineProps<{
@@ -36,7 +32,7 @@ defineProps<{
   grid-template-columns: repeat(auto-fit, minmax(var(--min-width), auto));
   padding: 0px var(--v-padding);
   width: 100%;
-  height: 44px;
+  min-height: var(--size-icon);
   border-radius: var(--radius-ml);
   gap: var(--spacing-xs);
 
