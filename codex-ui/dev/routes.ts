@@ -4,6 +4,7 @@ import ColorScheme from './pages/theming/ColorScheme.vue';
 import BaseAndAccent from './pages/theming/BaseAndAccent.vue';
 import Button from './pages/components/Button.vue';
 import Input from './pages/components/Input.vue';
+import type { Component } from 'vue';
 
 /**
  * Vue router routes list
@@ -11,23 +12,23 @@ import Input from './pages/components/Input.vue';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: Index,
+    component: Index as Component,
   },
   {
     path: '/theming/color-scheme',
-    component: ColorScheme,
+    component: ColorScheme as Component,
   },
   {
     path: '/theming/base-and-accent',
-    component: BaseAndAccent,
+    component: BaseAndAccent as Component,
   },
   {
     path: '/components/button',
-    component: Button,
+    component: Button as Component,
   },
   {
     path: '/components/input',
-    component: Input,
+    component: Input as Component,
   },
 ];
 
