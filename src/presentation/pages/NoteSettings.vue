@@ -4,16 +4,16 @@
   >
     <div class="note-settings">
       <div
-        class="note-settings__header"
-        style="border: 1px solid red;"
+        class="note-settings__page-header"
       >
         <Heading
           :level="1"
         >
-          Heading
+          {{ $t('noteSettings.title') }}
         </Heading>
         <Heading
           :level="2"
+          class="note-settings__subheading"
         >
           {{ noteTitle }}
         </Heading>
@@ -185,9 +185,16 @@ h1 {
   gap: var(--spacing-l);
   margin: var(--spacing-xxl) var(--spacing-ml);
 
-  &__header {
+  &__page-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
     padding-left: var(--h-padding);
     padding-right: var(--h-padding);
+  }
+
+  &__subheading {
+    color: var(--text-secondary);
   }
 }
 
