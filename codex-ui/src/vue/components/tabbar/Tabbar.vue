@@ -30,9 +30,7 @@ defineProps<{
   --min-width: calc(var(--v-padding) * 2 + var(--size-icon));
   display: flex;
   padding: 0px var(--v-padding);
-  width: 100%;
   min-height: var(--size-icon);
-  border-radius: var(--radius-ml);
   gap: var(--spacing-xs);
 
   overflow-x: auto;
