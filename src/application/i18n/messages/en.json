@@ -26,7 +26,7 @@
     "invitationHashPlaceholder": "It will generate a new invitation hash...",
     "availabilityTitle": "Availability",
     "availabilityCaption": "Should the Note be available by its URL for people who knows it?",
-    "publish": "Publish Note",
+    "publish": "Note is published",
     "revokeHash": "Revoke",
     "deleteNote": "Delete",
     "noteDeleteConfirmation": "Do you really want to delete this note?",

@@ -24,7 +24,7 @@
           :title="t('noteSettings.parentNote')"
           size="medium"
           :caption="t('noteSettings.parentNoteCaption')"
-          :disabled="parentNote != undefined"
+          :disabled="parentNote !== undefined"
           :placeholder="t('noteSettings.parentNotePlaceholder')"
           @input="setParentDebounced"
         />
@@ -174,10 +174,6 @@ onMounted(async () => {
 
 <style setup lang="postcss" scoped>
 @import '@/presentation/styles/typography.pcss';
-
-h1 {
-  @apply --text-heading-1;
-}
 
 .note-settings{
   display: flex;
