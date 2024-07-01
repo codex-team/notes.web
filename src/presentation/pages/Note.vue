@@ -104,7 +104,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
     const clonedEditorNode = editorElement.cloneNode(true);
 
     /**
-     * Insert cloned note to element, which will be screenshoted
+     * Insert cloned note to element, which we want to be a screenshot
      */
     document.getElementById('note-clone')?.appendChild(clonedEditorNode);
 

@@ -2,7 +2,7 @@ import html2canvas from 'html2canvas';
 
 /**
  * Make html element screenshot
- * @param elementId - id of element, which have to be screenshooted
+ * @param elementId - id of element, which we want to be screenshot
  * @returns binary image data
  */
 export async function makeElementScreenshot(elementId: string): Promise<Blob | null> {

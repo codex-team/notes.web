@@ -154,7 +154,7 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
-   * Update note cover pisture
+   * Update note cover picture
    * @param id - note id
    * @param data - picture binary data
    */
