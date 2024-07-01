@@ -58,6 +58,7 @@ withDefaults(
     size: 'medium',
     disabled: false,
     value: '',
+    placeholder: '',
   }
 );
 
