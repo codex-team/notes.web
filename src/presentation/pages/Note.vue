@@ -26,7 +26,6 @@
       :read-only="!canEdit"
       @change="noteChanged"
     />
-    <div id="note-clone" />
   </div>
 </template>
 
@@ -98,21 +97,12 @@ async function noteChanged(data: NoteContent): Promise<void> {
    * If it does not exist, we can not do screenshot
    */
   if (editorElement !== null) {
-    /**
-     * Screenshot height
-     */
-    const clonedEditorNode = editorElement.cloneNode(true);
-
-    /**
-     * Insert cloned note to element, which we want to be a screenshot
-     */
-    document.getElementById('note-clone')?.appendChild(clonedEditorNode);
-
-    updatedNoteCover = await makeElementScreenshot('note-clone');
-    /**
-     * Remove copied note from the div for screenshots
-     */
-    document.getElementById('note-clone')?.removeChild(clonedEditorNode);
+    updatedNoteCover = await makeElementScreenshot(editorElement, {
+      background: 'var(--base--bg-primary)',
+      width: '700px',
+      height: '800px',
+      overflow: 'hidden',
+    });
   }
 
   if (!isEmpty) {
@@ -173,13 +163,4 @@ watch(noteTitle, () => {
 </script>
 
 <style scoped>
-#note-clone {
-  background: var(--base--bg-primary);
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-  width: 700px;
-  height: 900px;
-  overflow: hidden;
-}
 </style>

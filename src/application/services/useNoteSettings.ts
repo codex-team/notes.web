@@ -159,7 +159,7 @@ export default function (): UseNoteSettingsComposableState {
    * @param data - picture binary data
    */
   const updateCover = async (id: NoteId, data: Blob): Promise<void> => {
-    const { cover } = await noteSettingsService.updateCover(id, data)
+    const { cover } = await noteSettingsService.updateCover(id, data);
 
     if (noteSettings.value) {
       noteSettings.value = {

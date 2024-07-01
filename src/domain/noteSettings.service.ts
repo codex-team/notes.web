@@ -4,7 +4,7 @@ import type { NoteId } from './entities/Note';
 import NotFoundError from './entities/errors/NotFound';
 import type { UserId } from './entities/User';
 import type { MemberRole } from './entities/Team';
-import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository.interface';
+import type NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository.interface';
 
 /**
  * Note Service
@@ -20,6 +20,7 @@ export default class NoteSettingsService {
   /**
    * Note Service constructor
    * @param noteSettingsRepository - Note settings repository instance
+   * @param noteAttachmentRepository - Repository to work with note attachments
    */
   constructor(noteSettingsRepository: NoteSettingsRepository, noteAttachmentRepository: NoteAttachmentUploaderRepository) {
     this.noteSettingsRepository = noteSettingsRepository;
