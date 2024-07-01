@@ -80,6 +80,9 @@ export default function (): UseNoteSettingsComposableState {
    */
   const parentNote = ref<Note | undefined>();
 
+  /**
+   * Title of the note. 'Note' if current note is empty
+   */
   const noteTitle = ref('Note');
 
   /**
