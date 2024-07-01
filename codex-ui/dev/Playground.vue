@@ -290,6 +290,10 @@
       :items="contextMenuItems"
     />
     <Heading :level="3">
+      Vertical Menu
+    </Heading>
+    <VerticalMenu :items="verticalMenuItems" />
+    <Heading :level="3">
       Type Scale
     </Heading>
     <TypeScale />
@@ -318,7 +322,9 @@ import {
   RadioGroup,
   Tab,
   ContextMenu,
-  ContextMenuItems,
+  ContextMenuItem,
+  VerticalMenu,
+  VerticalMenuItem,
   Tabbar
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
@@ -358,7 +364,7 @@ const formSectionItems = [
 /**
  * Items for searching in the context menu
  */
-const contextMenuItems: ContextMenuItems[] = [
+const contextMenuItems: ContextMenuItem[] = [
   {
     type: 'default',
     title: 'Header 1',
@@ -462,6 +468,32 @@ for (let _ = 0; _ < 50; ++_) {
  * Simple function for example
  */
 function doNothing(): void {}
+
+/**
+ * Items for displaing in vertical menu
+ */
+const verticalMenuItems: VerticalMenuItem[] = [
+  {
+    title: 'CodeX',
+    items: [
+      {
+        title: 'Workflow',
+      },
+      {
+        title: 'Enineering Strategy',
+        items: [
+          {
+            title: 'SSH Keys',
+            isActive: true,
+          },
+        ],
+      },
+      {
+        title: 'Admission Campaign 2022',
+      },
+    ],
+  },
+];
 </script>
 
 <style module>
