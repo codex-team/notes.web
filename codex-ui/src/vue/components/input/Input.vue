@@ -1,10 +1,14 @@
 <template>
-  <div :class="[$style['input'], `${$style.input}--${size}`]">
+  <div
+    :class="[$style['input'], `${$style.input}--${size}`]"
+    @click="focusInput"
+  >
     <Icon
       v-if="icon"
       :name="icon"
     />
     <input
+      ref="textInput"
       v-model="model"
       :class="[$style['input__styled'], 'text-ui-base']"
       :disabled="props.disabled"
@@ -13,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, defineModel } from 'vue';
+import { onMounted, defineModel, ref } from 'vue';
 import { InputSize } from './Input.types';
 import Icon from '../icon/Icon.vue';
 
@@ -49,6 +53,14 @@ const props = withDefaults(
 
 const model = defineModel<string>();
 
+const textInput = ref<HTMLInputElement | null>(null);
+
+const focusInput = () => {
+  if (textInput.value) {
+    textInput.value.focus();
+  }
+};
+
 onMounted(() => {
   model.value = props.value;
 });
@@ -62,6 +74,7 @@ onMounted(() => {
   gap: var(--v-padding);
   align-items: center;
   width: 100%;
+  cursor: text;
 
   &__styled {
     flex: 1;
