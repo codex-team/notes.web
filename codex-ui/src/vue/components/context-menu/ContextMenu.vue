@@ -61,6 +61,7 @@ withDefaults(
 
   &__input {
     padding: var(--v-padding) var(--h-padding);
+    color: var(--base--text-secondary)
   }
 
   &__scrollable {
