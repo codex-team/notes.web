@@ -16,4 +16,9 @@ export type VerticalMenuItem = {
    * List of child elements for current element
    */
   items?: VerticalMenuItem[];
+
+  /**
+   * Callback fired when the item is clicked
+   */
+  onActivate?: () => void;
 };

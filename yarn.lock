@@ -2136,6 +2136,7 @@ __metadata:
     vite-plugin-css-injected-by-js: ^3.3.1
     vue: ^3.4.16
     vue-eslint-parser: 9.4.2
+    vue-router: ^4.4.0
     vue-tsc: latest
   languageName: unknown
   linkType: soft
@@ -5918,6 +5919,17 @@ __metadata:
   peerDependencies:
     vue: ^3.2.0
   checksum: c5093ddb5349b47814f1df032a64dd5ee70f34c792a2108fdc5324fcd544ac66f218be69c4b98e9762655f3e591c12ffa542c193897bbfb98e6e4a2b994e312a
+  languageName: node
+  linkType: hard
+
+"vue-router@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "vue-router@npm:4.4.0"
+  dependencies:
+    "@vue/devtools-api": ^6.5.1
+  peerDependencies:
+    vue: ^3.2.0
+  checksum: 33b351cc140d1769193e326d77d2bf0fd9d0fd8b871cad848b6c73df0a6d3b7c8fec5657dbe45d7ad486a003033f3b2957e8b0adc9ae06b51cb129054cebb427
   languageName: node
   linkType: hard
 
