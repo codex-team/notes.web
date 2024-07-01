@@ -267,18 +267,18 @@
       :is-active="true"
     />
     <Heading :level="3">
-      TabBar
+      Tabbar
     </Heading>
     <Heading :level="4">
-      TabBar default
+      Tabbar default
     </Heading>
-    <TabBar
+    <Tabbar
       :tabs="defaultTabs"
     />
     <Heading :level="4">
-      TabBar without crosses
+      Tabbar without crosses
     </Heading>
-    <TabBar
+    <Tabbar
       :tabs="tabsWithoutCrossState"
     />
     <Heading :level="3">
@@ -324,7 +324,7 @@ import {
   ContextMenuItem,
   VerticalMenu,
   VerticalMenuItem,
-  TabBar,
+  Tabbar,
   TabParams
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
