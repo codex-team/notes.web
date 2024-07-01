@@ -6,7 +6,7 @@
     />
     <input
       v-model="model"
-      :class="[$style['input__wrapper'], 'text-ui-base']"
+      :class="[$style['input__styled'], 'text-ui-base']"
       :disabled="props.disabled"
     >
   </div>
@@ -63,7 +63,7 @@ onMounted(() => {
   align-items: center;
   width: 100%;
 
-  &__wrapper {
+  &__styled {
     flex: 1;
     border: 0;
     outline: 0;
