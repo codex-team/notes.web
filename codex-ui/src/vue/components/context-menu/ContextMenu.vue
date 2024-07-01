@@ -4,7 +4,10 @@
       v-if="showSearch"
       :class="$style['context-menu__search']"
     >
-      <Input :class="$style['context-menu__input']" />
+      <Input
+        :class="$style['context-menu__input']"
+        icon="Search"
+      />
       <ContextMenuItem :item="separator" />
     </div>
     <div :class="$style['context-menu__scrollable']">
