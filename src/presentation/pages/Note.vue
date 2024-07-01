@@ -116,7 +116,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
   }
 
   if (!isEmpty) {
-    await save(data, updatedNoteCover, props.parentId);
+    await save(data, props.parentId);
     /**
      * In case if we do not have note id, we can change its cover, and we need successful data for cover
      * We need to do it after saving in case of note creation
