@@ -63,9 +63,15 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
+import useHeader from '@/application/services/useHeader';
 import { Section, Row, Switch, Button, Field } from 'codex-ui/vue';
+import { useRoute } from 'vue-router';
 
 const { t } = useI18n();
+
+const { deleteNoteRelatedPages } = useHeader();
+
+const route = useRoute();
 
 const props = defineProps<{
   /**
@@ -101,6 +107,8 @@ async function deleteNote() {
   if (isConfirmed) {
     deleteNoteById(props.id);
   }
+
+  deleteNoteRelatedPages(route.path);
 }
 
 /**

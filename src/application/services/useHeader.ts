@@ -6,6 +6,7 @@ import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import { workspaceService } from '@/domain/index';
 import { useI18n } from 'vue-i18n';
 import { notEmpty } from '@/infrastructure/utils/empty';
+import type { NoteId } from '@/domain/entities/Note';
 
 interface useHeaderComposableState {
   /**
@@ -27,6 +28,13 @@ interface useHeaderComposableState {
    * @param page - new data for opened page with certain url
    */
   patchOpenedPageByUrl: (url: OpenedPage['url'], page: OpenedPage) => void;
+
+  /**
+   * Delete related to note pages (note and noteSettings)
+   * Used on note deletion
+   * @param id - id of currenly deleted note
+   */
+  deleteNoteRelatedPages: (id: NoteId) => void;
 
   /**
    * There would be stored all currently opened pages
@@ -69,6 +77,15 @@ export default function useHeader(): useHeaderComposableState {
    */
   function patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
     workspaceService.patchOpenedPageByUrl(url, page);
+  };
+
+  /**
+   * Delete related to note pages (note and noteSettings)
+   * Used on note deletion
+   * @param id - id of currenly deleted note
+   */
+  function deleteNoteRelatedPages(id: NoteId): void {
+    workspaceService.deleteNoteRelatedPages(id);
   };
 
   /**
@@ -122,6 +139,7 @@ export default function useHeader(): useHeaderComposableState {
     addOpenedPage,
     deleteOpenedPageByUrl,
     patchOpenedPageByUrl,
+    deleteNoteRelatedPages,
     currentOpenedPages,
   };
 }
