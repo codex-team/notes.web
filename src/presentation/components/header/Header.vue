@@ -3,7 +3,7 @@
     <Tab
       v-for="page in currentOpenedPages"
       :key="page.url"
-      :identifier=page.url
+      :id=page.url
       :is-active="page.url === route.path"
       :title="page.title"
       :closable="page.title !== 'Home'"
