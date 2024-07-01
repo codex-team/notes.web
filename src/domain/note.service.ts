@@ -3,8 +3,7 @@ import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type { NoteDTO } from './entities/NoteDTO';
 import type { NoteTool } from '@/domain/entities/Note';
-import type NoteAttachmentUploaderRepository from '@/domain/noteAttachmentUploader.repository.interface';
-
+import { extractNoteId } from '@/infrastructure/utils/note';
 /**
  * Note Service
  */
@@ -14,15 +13,12 @@ export default class NoteService {
    */
   private readonly noteRepository: NoteRepository;
 
-  private readonly noteAttachmentRepository: NoteAttachmentUploaderRepository
-
   /**
    * Note Service constructor
    * @param noteRepository - Note repository instance
    */
-  constructor(noteRepository: NoteRepository, noteAttachmentRepository: NoteAttachmentUploaderRepository) {
+  constructor(noteRepository: NoteRepository) {
     this.noteRepository = noteRepository;
-    this.noteAttachmentRepository = noteAttachmentRepository;
   }
 
   /**
@@ -43,10 +39,6 @@ export default class NoteService {
    */
   public async getNoteByHostname(hostname: string): Promise<{ note: Note; accessRights: NoteAccessRights }> {
     return await this.noteRepository.getNoteByHostname(hostname);
-  }
-
-  public async uploadAttachment(id: string, data: Blob): Promise<string> {
-    return await this.noteAttachmentRepository.upload(id, data);
   }
 
   /**
@@ -75,5 +67,17 @@ export default class NoteService {
    */
   public async unlinkParent(id: NoteId): Promise<void> {
     return await this.noteRepository.unlinkParent(id);
+  }
+
+  /**
+   * Set new parent for the note
+   * @param id - Note id
+   * @param parentURL - link to the new parent note
+   */
+  public async setParentByUrl(id: NoteId, parentURL: string): Promise<Note> {
+    const parentId = extractNoteId(parentURL);
+    const parentNote = await this.noteRepository.setParent(id, parentId);
+
+    return parentNote;
   }
 }
