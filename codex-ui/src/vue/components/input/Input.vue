@@ -80,6 +80,7 @@ onMounted(() => {
     flex: 1;
     border: 0;
     outline: 0;
+    padding: 0;
     color: var(--base--text);
     width: inherit;
     font-size: inherit;
