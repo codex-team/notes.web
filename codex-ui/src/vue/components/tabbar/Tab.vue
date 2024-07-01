@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="tabElement"
     :class="[
       $style.tab,
       'text-ui-base-medium',
@@ -26,9 +27,11 @@
           />
         </div>
       </template>
-      {{ title }}
+      <div :class="[$style['tab__body-text']]">
+        {{ title }}
+      </div>
       <Icon
-        v-if="closable"
+        v-if="closable && isNarrow"
         name="Cross"
         @click.stop="$emit('close')"
       />
@@ -38,6 +41,15 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
+import { ref, computed } from 'vue';
+
+const tabElement = ref<HTMLDivElement | null>(null);
+
+const minWidth = 58;
+
+const isNarrow = computed(() => {
+  return (tabElement.value?.clientWidth! > minWidth);
+});
 
 defineEmits([
   /**
@@ -84,10 +96,17 @@ withDefaults(
 
 <style module>
 .tab {
+  --min-width: calc(var(--v-padding) * 2 + var(--size-icon));
   padding: var(--v-padding) 0;
   position: relative;
   display: inline-block;
-  width: max-content;
+  width: auto;
+  min-width: var(--min-width);
+
+  max-width: max-content;
+
+  flex: 1;
+  flex-shrink: 1;
 
   &__body {
     min-height: var(--size-icon);
@@ -120,6 +139,13 @@ withDefaults(
     &-icon {
       height: var(--size-icon);
       width: var(--size-icon);
+    }
+
+    &-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-clamp: 1;
     }
   }
 

@@ -262,6 +262,27 @@
       :is-active="true"
     />
     <Heading :level="3">
+      Tabbar
+    </Heading>
+    <Heading :level="4">
+      Tabbar default
+    </Heading>
+    <Tabbar
+      :tabs="defaultTabs"
+    />
+    <Heading :level="4">
+      Tabbar without crosses
+    </Heading>
+    <Tabbar
+      :tabs="tabsWithoutCrossState"
+    />
+    <Heading :level="4">
+      Tabbar overflow scrollable
+    </Heading>
+    <Tabbar
+      :tabs="tabsOverflow"
+    />
+    <Heading :level="3">
       Context Menu
     </Heading>
     <ContextMenu
@@ -297,7 +318,8 @@ import {
   RadioGroup,
   Tab,
   ContextMenu,
-  ContextMenuItems
+  ContextMenuItems,
+  Tabbar
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -364,6 +386,78 @@ const contextMenuItems: ContextMenuItems[] = [
   },
 ];
 
+/**
+ * Tabs for example usage of tabbar
+ */
+const defaultTabs = [
+  {
+    title: 'Home',
+    identifier: '/',
+  },
+  {
+    title: 'New note',
+    identifier: '/',
+    closable: true,
+  },
+  {
+    title: 'User settings',
+    identifier: '/',
+    closable: true,
+    isActive: true,
+  },
+];
+
+const tabsWithoutCrossState = [
+  {
+    title: 'Home',
+    identifier: '/',
+  },
+  {
+    title: 'New note',
+    identifier: '/',
+    closable: true,
+  },
+  {
+    title: 'User settings',
+    identifier: '/',
+    closable: true,
+    isActive: true,
+  },
+];
+
+for (let _ = 0; _ < 30; ++_) {
+  tabsWithoutCrossState.push({
+    title: 'Marketplace',
+    identifier: '/marketplace',
+    closable: true,
+  });
+}
+
+const tabsOverflow = [
+  {
+    title: 'Home',
+    identifier: '/',
+  },
+  {
+    title: 'New note',
+    identifier: '/',
+    closable: true,
+  },
+  {
+    title: 'User settings',
+    identifier: '/',
+    closable: true,
+    isActive: true,
+  },
+];
+
+for (let _ = 0; _ < 50; ++_) {
+  tabsOverflow.push({
+    title: 'Marketplace',
+    identifier: '/marketplace',
+    closable: true,
+  });
+}
 /**
  * Simple function for example
  */
