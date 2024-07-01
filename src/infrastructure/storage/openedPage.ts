@@ -48,7 +48,7 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
    */
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
     this.data.openedPages = this.data.openedPages.map((currentPage) => {
-      if (currentPage.url == page.url) {
+      if (currentPage.url == url) {
         currentPage.title = page.title;
       }
 
@@ -65,6 +65,6 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
   public deletePagesBySubstring(substring: string): void {
     const regexp = new RegExp(`/*${substring}*`);
 
-    this.data.openedPages = this.data.openedPages.filter(currentPage => (currentPage.title.match(regexp) !== null));
+    this.data.openedPages = this.data.openedPages.filter(currentPage => (currentPage.url.match(regexp) !== null));
   }
 }
