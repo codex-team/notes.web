@@ -74,6 +74,7 @@
 import type { NoteId } from '@/domain/entities/Note';
 // import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
+import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
@@ -90,7 +91,10 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent, noteTitle } = useNoteSettings();
+const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent } = useNoteSettings();
+const { noteTitle } = useNote({
+  id: props.id,
+});
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
