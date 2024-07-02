@@ -9,7 +9,6 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Checkbox } from '../../../src/vue';
 
 </script>
 
