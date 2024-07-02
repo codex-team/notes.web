@@ -1,7 +1,7 @@
 import type { NoteList } from '@/domain/entities/NoteList';
 import { noteListService } from '@/domain/index';
 import type { Ref } from 'vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 /**
  * Note list hook state
@@ -59,6 +59,23 @@ export default function (): UseNoteListComposableState {
    */
   onMounted(async () => {
     await load(1);
+  });
+
+  /**
+   * Clear binary data
+   * @todo - move this logic to the separate service
+   */
+  onUnmounted(() => {
+    if (noteList.value === null || noteList.value.items === undefined) {
+      return;
+    }
+    for (const note of noteList.value.items) {
+      if (note.cover === null) {
+        continue;
+      }
+      // eslint-disable-next-line n/no-unsupported-features/node-builtins
+      URL.revokeObjectURL(note.cover);
+    }
   });
 
   return {
