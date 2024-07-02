@@ -1,5 +1,6 @@
 import type { NoteList } from '@/domain/entities/NoteList';
 import { noteListService } from '@/domain/index';
+import { isEmpty } from '@/infrastructure/utils/empty';
 import type { Ref } from 'vue';
 import { onMounted, onUnmounted, ref } from 'vue';
 
@@ -66,7 +67,7 @@ export default function (): UseNoteListComposableState {
    * @todo - move this logic to the separate service
    */
   onUnmounted(() => {
-    if (noteList.value === null || noteList.value.items === undefined) {
+    if (isEmpty(noteList.value) || isEmpty(noteList.value.items)) {
       return;
     }
     for (const note of noteList.value.items) {

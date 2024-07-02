@@ -52,6 +52,9 @@ export default class NoteListService {
       try {
         const imageData = await this.noteAttachmentRepository.load(note.id, note.cover);
 
+        /**
+         * Make url from blob data
+         */
         // eslint-disable-next-line n/no-unsupported-features/node-builtins
         objUrl = URL.createObjectURL(imageData);
       } catch {

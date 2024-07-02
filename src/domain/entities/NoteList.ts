@@ -1,5 +1,8 @@
 import type { Note } from './Note';
 
+/**
+ * Note list item need to contain cover to show
+ */
 type NoteListItem = Note & {
   cover: string | null;
 };
