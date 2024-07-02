@@ -18,7 +18,7 @@
             {{ title }}
           </div>
 
-          <div :class="[$style['row__subtle'], 'text-ui-subtle']">
+          <div class="text-ui-subtle">
             {{ subtitle }}
           </div>
         </div>

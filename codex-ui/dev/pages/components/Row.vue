@@ -8,7 +8,7 @@
 
   <Row
     title="Nickmel"
-    subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+    subtitle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
     :has-delimiter="true"
   >
     <template #left>
@@ -29,7 +29,7 @@
 
   <Row
     title="Vitaly"
-    subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+    subtitle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
     label="Time Sensitive"
   >
     <template #left>
