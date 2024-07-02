@@ -150,6 +150,11 @@ const pages = computed(() => [
         onActivate: () => router.push('/components/editor'),
         isActive: route.path === '/components/editor',
       },
+      {
+        title: 'NoteHeader',
+        onActivate: () => router.push('/components/note-header'),
+        isActive: route.path === '/components/note-header',
+      },
     ],
   },
 ]);
