@@ -2,7 +2,6 @@ import type { OpenedPagesStore, OpenedPagesStoreData } from './storage/openedPag
 import type WorkspaceRepositoryInterface from '@/domain/workspace.repository.interface';
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import Repository from './repository';
-import type { NoteId } from '@/domain/entities/Note';
 
 export default class WorkspaceRepository extends Repository<OpenedPagesStore, OpenedPagesStoreData> implements WorkspaceRepositoryInterface {
   /**
@@ -38,13 +37,4 @@ export default class WorkspaceRepository extends Repository<OpenedPagesStore, Op
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
     return this.store.patchOpenedPageByUrl(url, page);
   }
-
-  /**
-   * Delete related to note pages (note and noteSettings)
-   * Used on note deletion
-   * @param id - id of currenly deleted note
-   */
-  public deleteNoteRelatedPages(id: NoteId): void {
-    return this.store.deletePagesBySubstring(id);
-  };
 }

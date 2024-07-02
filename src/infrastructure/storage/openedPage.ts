@@ -56,15 +56,4 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
         url: currentPage.url };
     });
   }
-
-  /**
-   * Deletes all pages with title that contains substring
-   * e.g. deletes pages of the note and noteSettings with noteId passed
-   * @param substring - string whose occurrence is checked in page titles
-   */
-  public deletePagesBySubstring(substring: string): void {
-    const regexp = new RegExp(`/*${substring}*`);
-
-    this.data.openedPages = this.data.openedPages.filter(currentPage => (currentPage.url.match(regexp) !== null));
-  }
 }

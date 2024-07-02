@@ -1,6 +1,5 @@
 import type WorkspaceRepository from '@/domain/workspace.repository.interface';
 import type { OpenedPage } from './entities/OpenedPage';
-import type { NoteId } from '@/domain/entities/Note';
 
 export default class WorkspaceService {
   private readonly repository: WorkspaceRepository;
@@ -37,14 +36,5 @@ export default class WorkspaceService {
    */
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
     this.repository.patchOpenedPageByUrl(url, page);
-  }
-
-  /**
-   * Delete related to note pages (note and noteSettings)
-   * Used on note deletion
-   * @param id - id of currenly deleted note
-   */
-  public deleteNoteRelatedPages(id: NoteId): void {
-    this.repository.deleteNoteRelatedPages(id);
   }
 }
