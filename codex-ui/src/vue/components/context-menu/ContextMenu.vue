@@ -7,6 +7,7 @@
       <Input
         :class="$style['context-menu__input']"
         icon="Search"
+        placeholder="Search"
       />
       <ContextMenuItem :item="separator" />
     </div>
@@ -61,7 +62,6 @@ withDefaults(
 
   &__input {
     padding: var(--v-padding) var(--h-padding);
-    color: var(--base--text-secondary)
   }
 
   &__scrollable {

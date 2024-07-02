@@ -5,6 +5,7 @@
   >
     <Icon
       v-if="icon"
+      :style="{ color: 'var(--base--text-secondary)' }"
       :name="icon"
     />
     <input
@@ -12,6 +13,7 @@
       v-model="model"
       :class="[$style['input__editable-zone'], 'text-ui-base']"
       :disabled="props.disabled"
+      :placeholder="placeholder"
     >
   </div>
 </template>
@@ -42,12 +44,18 @@ const props = withDefaults(
      * Name of the input icon
      */
     icon?: string;
+
+    /**
+     * Text to be displayed in an empty field
+     */
+    placeholder?: string;
   }>(),
   {
     value: '',
     size: 'medium',
     disabled: false,
     icon: undefined,
+    placeholder: '',
   }
 );
 
@@ -75,6 +83,10 @@ onMounted(() => {
   align-items: center;
   width: 100%;
   cursor: text;
+
+  ::placeholder{
+    color: var(--base--text-secondary);
+  }
 
   &__editable-zone {
     flex: 1;

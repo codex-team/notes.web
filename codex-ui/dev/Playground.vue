@@ -68,28 +68,28 @@
       Input
     </Heading>
     <Input
-      value="Enter email"
+      placeholder="Enter email"
       size="small"
       icon="Plus"
     />
     <br>
     <br>
     <Input
-      value="Enter email"
+      placeholder="Enter email"
       size="medium"
       icon="Plus"
     />
     <br>
     <br>
     <Input
-      value="Enter email"
+      placeholder="Enter email"
       size="large"
       icon="Plus"
     />
     <br>
     <br>
     <Input
-      value="Enter email"
+      placeholder="Enter email"
       size="large"
       disabled
     />
