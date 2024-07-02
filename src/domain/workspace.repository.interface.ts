@@ -20,4 +20,5 @@ export default interface WorkspaceRepositoryInterface {
    * @param page - new data for opened page with certain url
    */
   patchOpenedPageByUrl: (url: OpenedPage['url'], page: OpenedPage) => void;
+
 }
