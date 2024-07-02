@@ -12,6 +12,10 @@
 <script setup lang="ts">
 
 defineProps<{
+  /**
+   * Fieldset title
+   * Will be displayed as a heading of the fieldset
+   */
   title: string;
 }>();
 
