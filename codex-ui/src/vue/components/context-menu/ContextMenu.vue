@@ -67,14 +67,24 @@ const filteredItems = computed(() => {
     return props.items;
   }
 
-  return props.items.filter((item) => {
-    if (item.type === 'separator' || item.type === 'message') {
+  const searchedItems = props.items.filter((item) => {
+    if (item.type === 'message') {
       return false;
+    } else if (item.type === 'separator') {
+      return true;
     } else {
       return item.title.toLowerCase().includes(
         searchTerm.value.toLowerCase());
     }
   });
+
+  if (searchedItems.length > 0) {
+    return searchedItems[0].type === 'separator'
+      ? searchedItems.slice(1)
+      : searchedItems;
+  }
+
+  return searchedItems;
 });
 
 /**
