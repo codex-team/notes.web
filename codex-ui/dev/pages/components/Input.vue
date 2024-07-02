@@ -7,19 +7,19 @@
   </PageHeader>
   <div class="inputs">
     <Input
-      value="Enter email"
+      placeholder="Enter email"
       size="small"
     />
     <Input
-      value="Enter email"
+      placeholder="Enter email"
       size="medium"
     />
     <Input
-      value="Enter email"
+      placeholder="Enter email"
       size="large"
     />
     <Input
-      value="Enter email"
+      placeholder="Enter email"
       size="large"
       disabled
     />
