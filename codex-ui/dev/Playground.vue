@@ -210,13 +210,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import {
   Button,
   Heading,
   Editor,
-  Input,
-  Field,
   Section,
   Icon,
   Row,
@@ -237,6 +235,9 @@ import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 const pages = computed(() => [
+  {
+    title: 'TypeScale',
+  },
   {
     title: 'Theming',
     items: [
@@ -261,9 +262,69 @@ const pages = computed(() => [
         isActive: route.path === '/components/button',
       },
       {
+        title: 'Container',
+        onActivate: () => router.push('/components/container'),
+        isActive: route.path === '/components/container',
+      },
+      {
+        title: 'Icon',
+        onActivate: () => router.push('/components/icon'),
+        isActive: route.path === '/components/icon',
+      },
+      {
         title: 'Input',
         onActivate: () => router.push('/components/input'),
         isActive: route.path === '/components/input',
+      },
+      {
+        title: 'Row',
+        onActivate: () => router.push('/components/row'),
+        isActive: route.path === '/components/row',
+      },
+      {
+        title: 'Avatar',
+        onActivate: () => router.push('/components/avatar'),
+        isActive: route.path === '/components/avatar',
+      },
+      {
+        title: 'Tabbar',
+        onActivate: () => router.push('/components/tabbar'),
+        isActive: route.path === '/components/tabbar',
+      },
+      {
+        title: 'Checkbox',
+        onActivate: () => router.push('/components/checkbox'),
+        isActive: route.path === '/components/checkbox',
+      },
+      {
+        title: 'Switch',
+        onActivate: () => router.push('/components/switch'),
+        isActive: route.path === '/components/switch',
+      },
+      {
+        title: 'Popover',
+        onActivate: () => router.push('/components/popover'),
+        isActive: route.path === '/components/popover',
+      },
+      {
+        title: 'ContextMenu',
+        onActivate: () => router.push('/components/context-menu'),
+        isActive: route.path === '/components/context-menu',
+      },
+      {
+        title: 'VerticalMenu',
+        onActivate: () => router.push('/components/vertical-menu'),
+        isActive: route.path === '/components/vertical-menu',
+      },
+      {
+        title: 'Select',
+        onActivate: () => router.push('/components/select'),
+        isActive: route.path === '/components/select',
+      },
+      {
+        title: 'Card',
+        onActivate: () => router.push('/components/card'),
+        isActive: route.path === '/components/card',
       },
       {
         title: 'Form Field',
@@ -272,36 +333,13 @@ const pages = computed(() => [
       },
       {
         title: 'Section',
-      },
-      {
-        title: 'Icon',
-      },
-      {
-        title: 'Row',
-      },
-      {
-        title: 'Avatar',
-      },
-      {
-        title: 'Switch',
-      },
-      {
-        title: 'RadioGroup',
-      },
-      {
-        title: 'Tab',
-      },
-      {
-        title: 'ContextMenu',
-      },
-      {
-        title: 'VerticalMenu',
-      },
-      {
-        title: 'TypeScale',
+        onActivate: () => router.push('/components/section'),
+        isActive: route.path === '/components/section',
       },
       {
         title: 'Editor',
+        onActivate: () => router.push('/components/editor'),
+        isActive: route.path === '/components/editor',
       },
     ],
   },
