@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 import Button from '../button/Button.vue';
 
 // defineProps<{
@@ -29,8 +29,11 @@ const lastEdit = computed(() => 'Севодня');
 </script>
 <style module lang="postcss">
 .note-header {
+  width: 100%;
   display: flex;
   height: min-content;
+  justify-content: space-between;
+  padding: var(--spacing-s) var(--spacing-m);
 
   &__left {
     display: flex;
@@ -40,11 +43,17 @@ const lastEdit = computed(() => 'Севодня');
 
   &__right {
     display: flex;
+    gap: var(--spacing-s);
   }
 
   &__button {
+    padding: var(--spacing-xs);
     color: var(--base--text-secondary);
     background-color: var(--base--bg-secondary);
+
+    &:hover {
+      background-color: var(--base--bg-secondary-hover);
+    }
   }
 }
 </style>

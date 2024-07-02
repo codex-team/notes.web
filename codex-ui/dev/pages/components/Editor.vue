@@ -6,6 +6,8 @@
     </template>
   </PageHeader>
 
+  <NoteHeader />
+
   <Editor :tools="{}" />
 </template>
 
