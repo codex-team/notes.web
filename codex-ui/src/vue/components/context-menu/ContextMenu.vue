@@ -4,7 +4,11 @@
       v-if="showSearch"
       :class="$style['context-menu__search']"
     >
-      <Input :class="$style['context-menu__input']" />
+      <Input
+        size="small"
+        icon="Search"
+        placeholder="Search"
+      />
       <ContextMenuItem :item="separator" />
     </div>
     <div :class="$style['context-menu__scrollable']">
@@ -54,10 +58,6 @@ withDefaults(
   &__search {
     display: grid;
     gap: var(--spacing-very-x);
-  }
-
-  &__input {
-    padding: var(--v-padding) var(--h-padding);
   }
 
   &__scrollable {
