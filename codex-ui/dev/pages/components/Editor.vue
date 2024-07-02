@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Editor } from '../../../src/vue';
+import { Editor, NoteHeader } from '../../../src/vue';
 
 </script>
 

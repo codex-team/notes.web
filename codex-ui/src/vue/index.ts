@@ -12,4 +12,5 @@ export * from './components/card';
 export * from './components/tabbar';
 export * from './components/context-menu';
 export * from './components/vertical-menu';
+export * from './components/note-header';
 export * from './composables/useTheme';
