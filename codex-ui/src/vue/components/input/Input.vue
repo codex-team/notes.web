@@ -1,14 +1,26 @@
 <template>
-  <input
-    v-model="model"
-    :class="[$style.input, `${$style.input}--${size}`, 'text-ui-base']"
-    :disabled="props.disabled"
+  <div
+    :class="[$style['input'], `${$style.input}--${size}`]"
+    @click="focusInput"
   >
+    <Icon
+      v-if="icon"
+      :name="icon"
+    />
+    <input
+      ref="textInput"
+      v-model="model"
+      :class="[$style['input__editable-zone'], 'text-ui-base']"
+      :disabled="props.disabled"
+      :placeholder="placeholder"
+    >
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, defineModel } from 'vue';
+import { onMounted, defineModel, ref } from 'vue';
 import { InputSize } from './Input.types';
+import Icon from '../icon/Icon.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -26,30 +38,72 @@ const props = withDefaults(
      * Whether the input is disabled
      */
     disabled?: boolean;
+
+    /**
+     * Name of the input icon
+     */
+    icon?: string;
+
+    /**
+     * Text to be displayed in an empty field
+     */
+    placeholder?: string;
   }>(),
   {
     value: '',
     size: 'medium',
     disabled: false,
+    icon: undefined,
+    placeholder: '',
   }
 );
 
 const model = defineModel<string>();
+
+const textInput = ref<HTMLInputElement | null>(null);
+
+const focusInput = () => {
+  if (textInput.value) {
+    textInput.value.focus();
+  }
+};
 
 onMounted(() => {
   model.value = props.value;
 });
 </script>
 
-<style lang="postcss" module>
+<style module>
 .input {
-  background-color: var(--base--bg-secondary);
+  display: flex;
   border: 0;
-  outline: 0;
-  color: var(--base--text);
-  font-size: inherit;
-  font-family: inherit;
+  background-color: var(--base--bg-secondary);
+  gap: var(--v-padding);
+  align-items: center;
+  width: 100%;
+  cursor: text;
   box-sizing: border-box;
+  color: var(--base--text-secondary);
+
+  ::placeholder{
+    color: var(--base--text-secondary);
+  }
+
+  &__editable-zone {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    color: var(--base--text);
+    width: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: inherit;
+
+    &[disabled] {
+      color: var(--base--text-secondary);
+    }
+  }
 
   --padding: 0 0;
 
@@ -57,7 +111,7 @@ onMounted(() => {
    * Sizes
    */
   &--small {
-    --padding: var(--spacing-xxs) var(--spacing-s);
+    --padding: var(--spacing-xs) var(--spacing-ms);
     --radius: var(--radius-m);
   }
 
@@ -69,10 +123,6 @@ onMounted(() => {
   &--large {
     --padding: var(--spacing-m) var(--spacing-l);
     --radius: var(--radius-ml);
-  }
-
-  &[disabled] {
-    color: var(--base--text-secondary);
   }
 
   padding: var(--padding);
