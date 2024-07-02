@@ -18,7 +18,9 @@
       />
     </div>
     <div :class="$style.body">
-      <div :class="$style.aside">
+      <div
+        :class="$style.aside"
+      >
         <VerticalMenu
           :items="pages"
         />
@@ -61,14 +63,19 @@ const pages = computed(() => [
     title: 'Theming',
     items: [
       {
-        title: 'Color Scheme',
-        onActivate: () => router.push('/theming/color-scheme'),
-        isActive: route.path === '/theming/color-scheme',
-      },
-      {
         title: 'Base and Accent use cases',
         onActivate: () => router.push('/theming/base-and-accent'),
         isActive: route.path === '/theming/base-and-accent',
+      },
+      {
+        title: 'Themes',
+        onActivate: () => router.push('/theming/themes'),
+        isActive: route.path === '/theming/themes',
+      },
+      {
+        title: 'Color Scheme',
+        onActivate: () => router.push('/theming/color-scheme'),
+        isActive: route.path === '/theming/color-scheme',
       },
     ],
   },
