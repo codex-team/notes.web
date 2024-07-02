@@ -5,7 +5,7 @@
     </Heading>
   </div>
   <Fieldset :title="t('userSettings.general')">
-    <div :class="$style['page-header__general-fields']">
+    <div :class="$style['general-fields']">
       <Section
         :title="t('userSettings.name')"
         :caption="t('userSettings.nameCaption')"
@@ -119,11 +119,11 @@ async function uninstallClicked(toolId: string) {
     font-weight: 700;
     line-height: 46.2px;
   }
+}
 
-  &__general-fields {
-    display: grid;
-    gap: var(--spacing-xxl);
-  }
+.general-fields {
+  display: grid;
+  gap: var(--spacing-xxl);
 }
 
 .marketplace {
