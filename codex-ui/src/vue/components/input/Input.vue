@@ -116,7 +116,7 @@ onMounted(() => {
    * Sizes
    */
   &--small {
-    --padding: var(--spacing-xxs) var(--spacing-s);
+    --padding: var(--spacing-xs) var(--spacing-ms);
     --radius: var(--radius-m);
   }
 

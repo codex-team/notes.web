@@ -5,7 +5,7 @@
       :class="$style['context-menu__search']"
     >
       <Input
-        :class="$style['context-menu__input']"
+        size="small"
         icon="Search"
         placeholder="Search"
       />
@@ -58,10 +58,6 @@ withDefaults(
   &__search {
     display: grid;
     gap: var(--spacing-very-x);
-  }
-
-  &__input {
-    padding: var(--v-padding) var(--h-padding);
   }
 
   &__scrollable {
