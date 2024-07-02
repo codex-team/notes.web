@@ -30,9 +30,11 @@
         </template>
       </Row>
     </Section>
-    <Button>
-      button
-    </Button>
+    <div>
+      <Button>
+        button
+      </Button>
+    </div>
   </Fieldset>
 </template>
 

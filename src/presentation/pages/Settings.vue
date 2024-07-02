@@ -1,5 +1,23 @@
 <template>
-  <h1>{{ t('userSettings.title') }}</h1>
+  <div :class="$style['page-header']">
+    <h1>{{ t('userSettings.title') }}</h1>
+  </div>
+  <Fieldset title="General">
+    <div :class="$style['page-header__general-fields']">
+      <Section
+        title="name"
+        :caption="t('userSettings.nameCaption')"
+      >
+        <Row :title="user?.name!" />
+      </Section>
+      <Section
+        title="email"
+        :caption="t('userSettings.emailCaption')"
+      >
+        <Row :title="user?.email!" />
+      </Section>
+    </div>
+  </Fieldset>
   <h2>{{ t('userSettings.userEditorTools') }}:</h2>
   <ul
     v-for="tool in userEditorTools"
@@ -32,7 +50,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import Button from '../components/button/Button.vue';
+import { Button, Fieldset, Section, Row } from 'codex-ui/vue';
 import { IconUnlink } from '@codexteam/icons';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
@@ -42,7 +60,7 @@ import { useAppState } from '@/application/services/useAppState';
 import { useHead } from 'unhead';
 import useHeader from '@/application/services/useHeader';
 
-const { userEditorTools } = useAppState();
+const { user, userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
@@ -83,6 +101,23 @@ async function uninstallClicked(toolId: string) {
 
 <style scoped lang="postcss" module>
 @import '@/presentation/styles/typography.pcss';
+
+.page-header {
+  padding: 0 var(--h-padding);
+  gap: var(--spacing-s);
+  color: var(--base--text);
+
+  h1 {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 46.2px;
+  }
+
+  &__general-fields {
+    display: grid;
+    gap: var(--spacing-xxl);
+  }
+}
 
 .marketplace {
   margin-top: var(--spacing-l);
