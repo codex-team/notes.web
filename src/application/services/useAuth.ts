@@ -1,6 +1,5 @@
 import { usePostMessage } from './usePostMessage';
 import { authService } from '@/domain';
-import useHeader from '@/application/services/useHeader';
 
 interface UseOAuthComposableState {
   /**
@@ -21,8 +20,6 @@ export default function useAuth(): UseOAuthComposableState {
    * Google OAuth URL
    */
   const loginUrl = import.meta.env.VITE_GOOGLE_OAUTH_URL;
-
-  const { deleteOpenedPageByUrl } = useHeader();
 
   /**
    * Id of the postMessage callback
@@ -62,11 +59,6 @@ export default function useAuth(): UseOAuthComposableState {
    */
   async function logout(): Promise<void> {
     await authService.logout();
-
-    /**
-     * Delete user settings
-     */
-    deleteOpenedPageByUrl('/settings');
   }
 
   return {
