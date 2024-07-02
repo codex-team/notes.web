@@ -12,7 +12,7 @@
       :key="size"
     >
       <code>{{ size }}</code>
-      <span>{{ value }}px</span>
+      <span>{{ value !== '' ? value + 'px' : '' }}</span>
     </template>
   </div>
 </template>
@@ -31,10 +31,14 @@ const sizes = [
   ['--spacing-l', 20],
   ['--spacing-xl', 30],
   ['--spacing-xxl', 40],
+  ['', ''],
   ['--size-icon', 20],
   ['--size-avatar', 30],
+  ['', ''],
   ['--layout-content-width', 700],
+  ['', ''],
   ['--delimiter-height', 1],
+  ['', ''],
   ['--radius-s', 4],
   ['--radius-m', 8],
   ['--radius-ml', 12],
