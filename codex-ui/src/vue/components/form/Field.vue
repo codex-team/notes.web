@@ -2,12 +2,10 @@
   <Section
     :title="title"
     :caption="caption"
-    :size="size"
     :with-background="false"
   >
     <Input
       v-model="model"
-      :size="size"
       :disabled="disabled"
       :value="value"
       :placeholder="placeholder"
@@ -16,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { FieldSize } from './Section.types';
 import Input from '../input/Input.vue';
 import { defineModel } from 'vue';
 import Section from './Section.vue';
@@ -32,11 +29,6 @@ withDefaults(
      * Additional description of the embedded field
      */
     caption?: string;
-
-    /**
-     * The size of the form field and input
-     */
-    size?: FieldSize;
 
     /**
      * Whether the form field is disabled
@@ -55,7 +47,6 @@ withDefaults(
   }>(),
   {
     caption: '',
-    size: 'medium',
     disabled: false,
     value: '',
     placeholder: '',

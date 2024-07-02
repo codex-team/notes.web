@@ -38,8 +38,28 @@
   --radius-l: 16px;
 
   /**
-   * Padding
+   * Controls dimensions
+   * "medium" is used by default
    */
-  --h-padding: var(--spacing-ms);
+  --v-padding: var(--spacing-s);
+  --h-padding: var(--spacing-m);
+  --radius-field: var(--radius-m);
+}
+
+[data-dimensions="small"] {
   --v-padding: var(--spacing-xs);
+  --h-padding: var(--spacing-ms);
+  --radius-field: var(--radius-s);
+}
+
+[data-dimensions="medium"] {
+  --v-padding: var(--spacing-s);
+  --h-padding: var(--spacing-m);
+  --radius-field: var(--radius-m);
+}
+
+[data-dimensions="large"] {
+  --v-padding: var(--spacing-m);
+  --h-padding: var(--spacing-l);
+  --radius-field: var(--radius-ml);
 }

@@ -43,9 +43,19 @@ const router = useRouter();
 const route = useRoute();
 const pages = computed(() => [
   {
-    title: 'TypeScale',
-    onActivate: () => router.push('/type-scale'),
-    isActive: route.path === '/type-scale',
+    title: 'Base concepts',
+    items: [
+      {
+        title: 'TypeScale',
+        onActivate: () => router.push('/type-scale'),
+        isActive: route.path === '/type-scale',
+      },
+      {
+        title: 'Controls Dimensions',
+        onActivate: () => router.push('/controls-dimensions'),
+        isActive: route.path === '/controls-dimensions',
+      },
+    ],
   },
   {
     title: 'Theming',
@@ -183,7 +193,9 @@ const pages = computed(() => [
 .body {
   padding: var(--spacing-l);
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: var(--spacing-xxl);
+  max-width: 1200px;
+
 }
 </style>

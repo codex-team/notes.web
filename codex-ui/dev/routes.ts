@@ -1,7 +1,8 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { Component } from 'vue';
 import Index from './pages/Index.vue';
-import TypeScale from './pages/TypeScale.vue';
+import TypeScale from './pages/base-concepts/TypeScale.vue';
+import ControlsDimensions from './pages/base-concepts/ControlsDimensions.vue';
 import ColorScheme from './pages/theming/ColorScheme.vue';
 import BaseAndAccent from './pages/theming/BaseAndAccent.vue';
 import Button from './pages/components/Button.vue';
@@ -34,6 +35,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/type-scale',
     component: TypeScale as Component,
+  },
+  {
+    path: '/controls-dimensions',
+    component: ControlsDimensions as Component,
   },
   {
     path: '/theming/color-scheme',
