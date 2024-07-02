@@ -5,7 +5,6 @@
   >
     <Icon
       v-if="icon"
-      :style="{ color: 'var(--base--text-secondary)' }"
       :name="icon"
     />
     <input
@@ -83,6 +82,8 @@ onMounted(() => {
   align-items: center;
   width: 100%;
   cursor: text;
+  box-sizing: border-box;
+  color: var(--base--text-secondary);
 
   ::placeholder{
     color: var(--base--text-secondary);
@@ -103,12 +104,6 @@ onMounted(() => {
       color: var(--base--text-secondary);
     }
   }
-  border: 0;
-  outline: 0;
-  color: var(--base--text);
-  font-size: inherit;
-  font-family: inherit;
-  box-sizing: border-box;
 
   --padding: 0 0;
 
