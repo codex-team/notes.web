@@ -1,10 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router';
+import type { Component } from 'vue';
 import Index from './pages/Index.vue';
 import ColorScheme from './pages/theming/ColorScheme.vue';
 import BaseAndAccent from './pages/theming/BaseAndAccent.vue';
 import Button from './pages/components/Button.vue';
 import Input from './pages/components/Input.vue';
-import type { Component } from 'vue';
+import Field from './pages/components/Field.vue';
 
 /**
  * Vue router routes list
@@ -29,6 +30,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/components/input',
     component: Input as Component,
+  },
+  {
+    path: '/components/field',
+    component: Field as Component,
   },
 ];
 

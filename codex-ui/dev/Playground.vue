@@ -28,115 +28,6 @@
       </div>
     </div>
     <Heading :level="3">
-      Color Scheme
-    </Heading>
-
-    <Heading :level="3">
-      Base Theme
-    </Heading>
-    <RadioGroup
-      name="base-theme"
-      :value="themeBase"
-      :values="[
-        { label: 'Classic', value: 'classic' },
-        { label: 'Crimson', value: 'crimson' },
-        { label: 'Red', value: 'red' },
-        { label: 'Violet', value: 'violet' },
-      ]"
-      @change="($event) => setBaseTheme($event.target.value)"
-    />
-
-    <Heading :level="3">
-      Accent Theme
-    </Heading>
-    <RadioGroup
-      name="accent-theme"
-      :value="themeAccent"
-      :values="[
-        { label: 'Classic', value: 'classic' },
-        { label: 'Crimson', value: 'crimson' },
-        { label: 'Red', value: 'red' },
-        { label: 'Violet', value: 'violet' },
-      ]"
-      @change="($event) => setAccentTheme($event.target.value)"
-    />
-
-    <Heading :level="3">
-      Buttons
-    </Heading>
-    <div :class="$style.buttons">
-      <div
-        v-for="(button, index) in buttons"
-        :key="button[0] + index"
-      >
-        <Button
-          :size="button[0] as ButtonSize"
-          :style="button[1] as ButtonStyle"
-          :disabled="button[1] === 'disabled'"
-        >
-          Button
-        </Button>
-      </div>
-    </div>
-
-    <Heading :level="3">
-      Input
-    </Heading>
-    <Input
-      value="Enter email"
-      size="small"
-    />
-    <br>
-    <br>
-    <Input
-      value="Enter email"
-      size="medium"
-    />
-    <br>
-    <br>
-    <Input
-      value="Enter email"
-      size="large"
-    />
-    <br>
-    <br>
-    <Input
-      value="Enter email"
-      size="large"
-      disabled
-    />
-
-    <Heading :level="3">
-      Form Field
-    </Heading>
-    <Field
-      v-model="formFieldValue"
-      :value="formFieldValue"
-      title="Title"
-      caption="Will be visible in Tools list"
-      size="small"
-      placeholder="Placeholder"
-    />
-    <br>
-    <Field
-      v-model="formFieldValue"
-      :value="formFieldValue"
-      title="Title"
-      caption="Will be visible in Tools list"
-      size="medium"
-      placeholder="Placeholder"
-    />
-    <br>
-    <Field
-      v-model="formFieldValue"
-      :value="formFieldValue"
-      title="Title"
-      caption="Will be visible in Tools list"
-      size="large"
-      placeholder="Placeholder"
-    />
-
-    <Heading :level="3">
       Avatar
     </Heading>
     <Avatar
@@ -329,11 +220,8 @@ import {
   Section,
   Icon,
   Row,
-  ButtonSize,
-  ButtonStyle,
   Avatar,
   Switch,
-  RadioGroup,
   Tab,
   ContextMenu,
   ContextMenuItem,
@@ -343,7 +231,6 @@ import {
   TabParams
 } from '../src/vue';
 import TypeScale from './TypeScale.vue';
-import { useTheme } from '../src/vue/composables/useTheme';
 
 import { useRouter, useRoute } from 'vue-router';
 
@@ -379,7 +266,7 @@ const pages = computed(() => [
         isActive: route.path === '/components/input',
       },
       {
-        title: 'Field',
+        title: 'Form Field',
         onActivate: () => router.push('/components/field'),
         isActive: route.path === '/components/field',
       },
@@ -419,28 +306,6 @@ const pages = computed(() => [
     ],
   },
 ]);
-
-const formFieldValue = ref('Heading');
-
-/**
- * Button samples in different states
- */
-const buttons = [
-  ['small'],
-  ['small', 'secondary'],
-  ['small', 'destructive'],
-  ['small', 'disabled'],
-  ['medium'],
-  ['medium', 'secondary'],
-  ['medium', 'destructive'],
-  ['medium', 'disabled'],
-  ['large'],
-  ['large', 'secondary'],
-  ['large', 'destructive'],
-  ['large', 'disabled'],
-];
-
-const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setColorScheme } = useTheme();
 
 /**
  * Form section items elements
@@ -594,11 +459,5 @@ const verticalMenuItems: VerticalMenuItem[] = [
   display: grid;
   grid-template-columns: auto 1fr;
   gap: var(--spacing-xxl);
-}
-
-.buttons {
-  display: grid;
-  gap: var(--spacing-xl);
-  grid-template-columns: repeat(4, 1fr);
 }
 </style>
