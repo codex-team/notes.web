@@ -6,6 +6,11 @@
     </template>
   </PageHeader>
 
+  If item has no <code>onActivate</code> property, it will be displayed as static item.
+
+  <br>
+  <br>
+
   <VerticalMenu :items="verticalMenuItems" />
 </template>
 
@@ -22,18 +27,26 @@ const verticalMenuItems: VerticalMenuItem[] = [
     items: [
       {
         title: 'Workflow',
+        // eslint-disable-next-line no-console
+        onActivate: () => console.log('Workflow'),
       },
       {
         title: 'Enineering Strategy',
+        // eslint-disable-next-line no-console
+        onActivate: () => console.log('Enineering Strategy'),
         items: [
           {
             title: 'SSH Keys',
             isActive: true,
+            // eslint-disable-next-line no-console
+            onActivate: () => console.log('SSH Keys'),
           },
         ],
       },
       {
         title: 'Admission Campaign 2022',
+        // eslint-disable-next-line no-console
+        onActivate: () => console.log('Admission Campaign 2022'),
       },
     ],
   },
