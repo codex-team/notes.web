@@ -1,53 +1,77 @@
 <template>
-  <h1>Note settings</h1>
-  <div v-if="noteSettings">
-    <!-- Hidden for now -->
-    <!-- <TextEdit
-      v-model:value="noteSettings.customHostname"
-      name="customHostname"
-      :title="t('noteSettings.customHostname')"
-      :placeholder="t('noteSettings.hostnamePlaceholder')"
-    /> -->
-    <Section
-      :title="t('noteSettings.availabilityTitle')"
-      :caption="t('noteSettings.availabilityCaption')"
+  <div
+    v-if="noteSettings"
+    class="note-settings"
+  >
+    <div
+      class="note-settings__page-header"
     >
-      <Row :title="t('noteSettings.publish')">
-        <template #right>
-          <Switch
-            v-model="isPublic"
-            @click="changeAccess"
-          />
-        </template>
-      </Row>
-    </Section>
-    {{ invitationLink }}
-    <Button
-      type="primary"
-      @click="regenerateHash"
-    >
-      {{ t('noteSettings.revokeHash') }}
-    </Button>
-    <Field
-      v-model="parentURL"
-      :title="t('noteSettings.parentNote')"
-      size="medium"
-      :caption="t('noteSettings.parentNoteCaption')"
-      :disabled="parentNote != undefined"
-      :placeholder="t('noteSettings.parentNotePlaceholder')"
-      @input="setParentDebounced"
-    />
-    <Team
-      :note-id="id"
-      :team="noteSettings.team"
-    />
-    <br>
-    <Button
-      type="destructive"
-      @click="deleteNote"
-    >
-      {{ t('noteSettings.deleteNote') }}
-    </Button>
+      <Heading
+        :level="1"
+      >
+        {{ $t('noteSettings.title') }}
+      </Heading>
+      <Heading
+        :level="2"
+        class="note-settings__subheading"
+      >
+        {{ noteTitle }}
+      </Heading>
+    </div>
+    <div class="form">
+      <Field
+        v-model="parentURL"
+        :title="t('noteSettings.parentNote')"
+        size="large"
+        :caption="t('noteSettings.parentNoteCaption')"
+        :disabled="parentNote !== undefined"
+        :placeholder="t('noteSettings.parentNotePlaceholder')"
+        @input="setParentDebounced"
+      />
+      <Section
+        :title="t('noteSettings.availabilityTitle')"
+        :caption="t('noteSettings.availabilityCaption')"
+      >
+        <Row :title="t('noteSettings.availabilityRowTitle')">
+          <template #right>
+            <Switch
+              v-model="isPublic"
+              @click="changeAccess"
+            />
+          </template>
+        </Row>
+      </Section>
+      <div>
+        <Team
+          :note-id="id"
+          :team="noteSettings.team"
+        />
+        <Section
+          :title="t('noteSettings.inviteCollaboratorTitle')"
+          :caption="t('noteSettings.inviteCollaboratorCaption')"
+        >
+          <Row :title="invitationLink">
+            <template #right>
+              <Button
+                :size="'small'"
+                :style="'secondary'"
+                @click="regenerateHash"
+              >
+                {{ t('noteSettings.revokeHashButton') }}
+              </Button>
+            </template>
+          </Row>
+        </Section>
+        <br>
+        <Button
+          :style="'destructive'"
+          @click="deleteNote"
+        >
+          {{ t('noteSettings.deleteNote') }}
+        </Button>
+      </div>
+      <br>
+    </div>
   </div>
   <div v-else>
     Loading...
@@ -58,12 +82,13 @@
 import type { NoteId } from '@/domain/entities/Note';
 // import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
+import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Field } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Field, Heading } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -75,6 +100,9 @@ const props = defineProps<{
 }>();
 
 const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent } = useNoteSettings();
+const { noteTitle } = useNote({
+  id: props.id,
+});
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -153,16 +181,35 @@ onMounted(async () => {
   await loadSettings(props.id);
   parentURL.value = getParentURL(parentNote.value?.id);
 });
+
 </script>
 
-<style scoped>
-.control__button {
-  padding: var(--spacing-xxs) var(--spacing-ms);
-  align-items: center;
+<style setup lang="postcss" scoped>
+@import '@/presentation/styles/typography.pcss';
+
+.note-settings{
   display: flex;
-  justify-content: flex-start;
-  gap: var(--spacing-very-x);
-  cursor: pointer;
-  user-select: none;
+  flex-direction: column;
+  gap: var(--spacing-l);
+  margin: var(--spacing-xxl) var(--spacing-ml);
+
+  &__page-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+    padding-left: var(--h-padding);
+    padding-right: var(--h-padding);
+  }
+
+  &__subheading {
+    color: var(--text-secondary);
+  }
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+  margin: var(--spacing-xxl) 0;
 }
 </style>
