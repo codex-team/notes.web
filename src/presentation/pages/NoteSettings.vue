@@ -27,6 +27,21 @@
         :placeholder="t('noteSettings.parentNotePlaceholder')"
         @input="setParentDebounced"
       />
+      <Card
+        v-if="parentNote"
+        :title="parentNoteTitle"
+        :subtitle="parentNote.updatedAt"
+        orientation="horizontal"
+      >
+        <div class="button">
+          <Button
+            secondary
+            @click="unlinkParent"
+          >
+            {{ t('note.unlink') }}
+          </Button>
+        </div>
+      </Card>
       <Section
         :title="t('noteSettings.availabilityTitle')"
         :caption="t('noteSettings.availabilityCaption')"
@@ -86,7 +101,8 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Field, Heading } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Field, Heading, Card } from 'codex-ui/vue';
+import { getTitle } from '@/infrastructure/utils/note';
 
 const { t } = useI18n();
 
@@ -97,8 +113,8 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent } = useNoteSettings();
-const { noteTitle } = useNote({
+const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById } = useNoteSettings();
+const { noteTitle, parentNote, setParent, unlinkParent } = useNote({
   id: props.id,
 });
 
@@ -137,6 +153,14 @@ const setParentDebounced = useDebounceFn(async () => {
     await setParent(props.id, parentURL.value);
   }
 }, 1000);
+
+const parentNoteTitle = computed(() => {
+  if (parentNote.value === undefined) {
+    return '';
+  }
+
+  return getTitle(parentNote.value.content);
+});
 
 /**
  * Current value of isPublic field
@@ -209,5 +233,10 @@ onMounted(async () => {
   flex-direction: column;
   gap: var(--spacing-xxl);
   margin: var(--spacing-xxl) 0;
+}
+
+.button {
+  justify-content: flex-end; /* Выравнивание содержимого по правому краю */
+  flex-grow: 1; /* Занимает всё доступное пространство */
 }
 </style>
