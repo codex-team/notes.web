@@ -31,7 +31,6 @@
     <Field
       v-model="parentURL"
       :title="t('noteSettings.parentNote')"
-      size="medium"
       :caption="t('noteSettings.parentNoteCaption')"
       :disabled="parentNote != undefined"
       :placeholder="t('noteSettings.parentNotePlaceholder')"

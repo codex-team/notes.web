@@ -5,56 +5,97 @@
       Clickable component for action or navigation
     </template>
   </PageHeader>
+
+  <Heading :level="3">
+    By icon type
+  </Heading>
+
   <div class="buttons">
-    <template
-      v-for="(button, index) in buttons"
-      :key="`button-${index}`"
-    >
-      <div class="buttons__label text-ui-footnote">
-        {{ button[0] }} {{ button[1] }}
-      </div>
+    Default
+    <div class="buttons__showcase">
+      <Button>
+        Button
+      </Button>
+    </div>
+
+    With leading icon
+    <div class="buttons__showcase">
+      <Button icon="Plus">
+        Button
+      </Button>
+    </div>
+
+    With trailing iocn
+    <div class="buttons__showcase">
+      <Button trailing-icon="Loader">
+        Button
+      </Button>
+    </div>
+
+    With leading and trailing icon
+    <div class="buttons__showcase">
       <Button
-        :size="button[0] as ButtonSize"
-        :style="button[1] as ButtonStyle"
-        :disabled="button[1] === 'disabled'"
+        icon="Plus"
+        trailing-icon="Loader"
       >
         Button
       </Button>
-    </template>
+    </div>
+
+    With a standalone icon
+    <div class="buttons__showcase">
+      <Button
+        icon="Plus"
+      />
+    </div>
+  </div>
+
+  <Heading :level="3">
+    By style
+  </Heading>
+
+  <div class="buttons">
+    Primary
+    <div class="buttons__showcase">
+      <Button>
+        Button
+      </Button>
+    </div>
+
+    Secondary
+    <div class="buttons__showcase">
+      <Button secondary>
+        Button
+      </Button>
+    </div>
+
+    Destructive
+    <div class="buttons__showcase">
+      <Button destructive>
+        Button
+      </Button>
+    </div>
+
+    Disabled
+    <div class="buttons__showcase">
+      <Button disabled>
+        Button
+      </Button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Button, ButtonSize, ButtonStyle } from '../../../src/vue';
+import { Button, Heading } from '../../../src/vue';
 
-/**
- * Button samples in different states
- */
-const buttons = [
-  ['small'],
-  ['small', 'secondary'],
-  ['small', 'destructive'],
-  ['small', 'disabled'],
-  ['medium'],
-  ['medium', 'secondary'],
-  ['medium', 'destructive'],
-  ['medium', 'disabled'],
-  ['large'],
-  ['large', 'secondary'],
-  ['large', 'destructive'],
-  ['large', 'disabled'],
-];
 </script>
 
 <style scoped>
 .buttons {
   display: grid;
-  gap: var(--spacing-xl);
   grid-template-columns: repeat(2, max-content);
-
-  &__label {
-    margin-bottom: var(--spacing-xs);
-  }
+  gap: var(--spacing-l);
+  align-items: center;
 }
 </style>

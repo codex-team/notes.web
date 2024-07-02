@@ -6,36 +6,46 @@
     </template>
   </PageHeader>
   <div class="inputs">
+    Default
+    <Input />
+
+    With placeholder
     <Input
       placeholder="Enter email"
-      size="small"
     />
+
+    With value
     <Input
-      placeholder="Enter email"
-      size="medium"
+      :value="value"
     />
+
+    With icon
     <Input
-      placeholder="Enter email"
-      size="large"
+      placeholder="Search"
+      icon="Search"
     />
+    Disabled
     <Input
       placeholder="Enter email"
-      size="large"
       disabled
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import PageHeader from '../../components/PageHeader.vue';
 import { Input } from '../../../src/vue';
 
+const value = ref('mail@example.com');
 </script>
 
 <style scoped>
 .inputs {
+  max-width: max-content;
   display: grid;
   gap: var(--spacing-xl);
-  grid-template-columns: repeat(1, max-content);
+  grid-template-columns: auto repeat(1, max-content);
+  align-items: center;
 }
 </style>

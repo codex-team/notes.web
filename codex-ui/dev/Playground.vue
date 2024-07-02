@@ -18,7 +18,9 @@
       />
     </div>
     <div :class="$style.body">
-      <div :class="$style.aside">
+      <div
+        :class="$style.aside"
+      >
         <VerticalMenu
           :items="pages"
         />
@@ -196,6 +198,5 @@ const pages = computed(() => [
   grid-template-columns: auto minmax(0, 1fr);
   gap: var(--spacing-xxl);
   max-width: 1200px;
-
 }
 </style>

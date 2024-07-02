@@ -47,7 +47,7 @@ withDefaults(
 .form-section {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--v-padding);
 
   &-title,
   &-caption {
@@ -60,7 +60,6 @@ withDefaults(
 
   &-body-wrapper {
     &--with-background {
-      padding-block: var(--v-padding);
       border-radius: var(--radius-field);
       background-color: var(--base--bg-secondary);
     }
