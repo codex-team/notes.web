@@ -62,6 +62,9 @@ const props = withDefaults(
  */
 const searchTerm = ref('');
 
+/**
+ * Returns the list of menu context items found during the search
+ */
 const filteredItems = computed(() => {
   if (searchTerm.value === '') {
     return props.items;
