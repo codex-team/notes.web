@@ -1,6 +1,8 @@
 <template>
   <div :class="$style['page-header']">
-    <h1>{{ t('userSettings.title') }}</h1>
+    <Heading :level="1">
+      {{ t('userSettings.title') }}
+    </Heading>
   </div>
   <Fieldset title="General">
     <div :class="$style['page-header__general-fields']">
@@ -16,6 +18,11 @@
       >
         <Row :title="user?.email!" />
       </Section>
+      <div>
+        <Button destructive>
+          {{ t('auth.logout') }}
+        </Button>
+      </div>
     </div>
   </Fieldset>
   <h2>{{ t('userSettings.userEditorTools') }}:</h2>
@@ -50,7 +57,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { Button, Fieldset, Section, Row } from 'codex-ui/vue';
+import { Button, Fieldset, Section, Row, Heading } from 'codex-ui/vue';
 import { IconUnlink } from '@codexteam/icons';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
