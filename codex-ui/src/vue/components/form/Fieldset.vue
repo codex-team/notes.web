@@ -28,7 +28,7 @@ defineProps<{
   gap: var(--v-padding);
 
   &__title {
-    padding: var(--v-padding) var(--h-padding) ;
+    padding: var(--v-padding) var(--h-padding);
   }
 
   &__sections {
