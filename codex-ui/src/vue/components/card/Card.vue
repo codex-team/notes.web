@@ -7,7 +7,7 @@
   >
     <div
       :class="$style['card__cover']"
-      :style="`background: url(${src})`"
+      :style="`background-image: url(${src})`"
     />
 
     <div :class="$style['card__body']">
