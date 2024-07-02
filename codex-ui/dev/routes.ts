@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { Component } from 'vue';
 import Index from './pages/Index.vue';
+import TypeScale from './pages/TypeScale.vue';
 import ColorScheme from './pages/theming/ColorScheme.vue';
 import BaseAndAccent from './pages/theming/BaseAndAccent.vue';
 import Button from './pages/components/Button.vue';
@@ -20,6 +21,7 @@ import Switch from './pages/components/Switch.vue';
 import Tabbar from './pages/components/Tabbar.vue';
 import VerticalMenu from './pages/components/VerticalMenu.vue';
 import ContextMenu from './pages/components/ContextMenu.vue';
+import Editor from './pages/components/Editor.vue';
 
 /**
  * Vue router routes list
@@ -28,6 +30,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: Index as Component,
+  },
+  {
+    path: '/type-scale',
+    component: TypeScale as Component,
   },
   {
     path: '/theming/color-scheme',
@@ -102,8 +108,12 @@ const routes: RouteRecordRaw[] = [
     component: Popover as Component,
   },
   {
-    path: '/components/context-meny',
+    path: '/components/context-menu',
     component: ContextMenu as Component,
+  },
+  {
+    path: '/components/editor',
+    component: Editor as Component,
   },
 ];
 

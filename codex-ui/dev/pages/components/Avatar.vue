@@ -5,6 +5,11 @@
       A component for displaying user profile pictures
     </template>
   </PageHeader>
+
+  <Avatar
+    src="../static/example-avatar.png"
+    username="Vitaly"
+  />
 </template>
 
 <script setup lang="ts">

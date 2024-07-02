@@ -1,13 +1,16 @@
 <template>
   <div
-    :class="[$style['vertical-menu-item'],
-             isActive && $style['vertical-menu-item--active'],
-             'text-ui-base-medium']"
+    :class="[
+      $style['vertical-menu-item'],
+      isActive && $style['vertical-menu-item--active'],
+      onActivate === undefined && $style['vertical-menu-item--static'],
+      'text-ui-base-medium'
+    ]"
     :style="{ '--level': props.level }"
-    @click="itemClicked"
   >
     <div
       :class="[$style['vertical-menu-item__container']]"
+      @click="itemClicked"
     >
       {{ props.title }}
     </div>
@@ -52,17 +55,22 @@ function itemClicked(): void {
 .vertical-menu-item {
   --menuIndent: calc((var(--level) - 1) * var(--spacing-ms));
 
-  cursor: pointer;
   gap: var(--spacing-ms);
   padding: 0 0 0 var(--menuIndent);
 
   &__container {
+    cursor: pointer;
     padding: var(--spacing-s) var(--spacing-ml);
     border-radius: var(--radius-m);
+  }
 
-    &:hover {
-      background-color: var(--base--bg-secondary-hover);
-    }
+  &--static &__container {
+    cursor: default;
+    color: var(--base--text-secondary);
+  }
+
+  &:not(&--static) .vertical-menu-item__container:hover {
+    background-color: var(--base--bg-secondary-hover);
   }
 
   &--active .vertical-menu-item__container {
