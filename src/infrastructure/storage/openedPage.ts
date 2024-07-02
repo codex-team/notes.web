@@ -48,7 +48,7 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
    */
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
     this.data.openedPages = this.data.openedPages.map((currentPage) => {
-      if (currentPage.url == page.url) {
+      if (currentPage.url == url) {
         currentPage.title = page.title;
       }
 
