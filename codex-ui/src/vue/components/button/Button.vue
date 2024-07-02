@@ -1,32 +1,42 @@
 <template>
   <button
-    :class="[$style.button, `${$style.button}--${size}`, `${$style.button}--${style}`, 'text-ui-base-medium', icon && `${$style.button}--with-icon`]"
+    :class="[
+      $style.button,
+      `${$style.button}--${style}`,
+      iconType !== 'none' && `${$style.button}--icon-${iconType}`,
+
+      'text-ui-base-medium',
+    ]"
     :theme-accent="style === 'destructive' ? 'red' : undefined"
   >
     <Icon
       v-if="icon"
       :name="icon"
     />
-    <slot v-else />
+    <slot />
+    <Icon
+      v-if="trailingIcon"
+      :name="trailingIcon"
+    />
   </button>
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
-import type { ButtonSize, ButtonStyle } from './Button.types';
+import { computed, defineProps, useSlots } from 'vue';
 import Icon from '../icon/Icon.vue';
 
 const props = withDefaults(
   defineProps<{
     /**
-     * The size of the button
+     * Button is primary by default
+     * Add the secondary prop to make it secondary
      */
-    size?: ButtonSize;
+    secondary?: boolean;
 
     /**
-     * The style of the button
+     * Pass this attribue for negative actions
      */
-    style?: ButtonStyle;
+    destructive?: boolean;
 
     /**
      * Whether the button is disabled
@@ -37,14 +47,22 @@ const props = withDefaults(
      * Name of the center icon. Uses in case only icon should be displayed
      */
     icon?: string;
+
+    /**
+     * Name of the trailing icon. Uses in case icon should be displayed after the text
+     */
+    trailingIcon?: string;
   }>(),
   {
-    size: 'medium',
-    style: 'primary',
+    secondary: false,
+    destructive: false,
     disabled: false,
     icon: undefined,
+    trailingIcon: undefined,
   }
 );
+
+const slots = useSlots();
 
 /**
  * Button style: primary (default), secondary, destructive, disabled
@@ -54,46 +72,81 @@ const style = computed(() => {
     return 'disabled';
   }
 
-  return props.style;
+  if (props.secondary) {
+    return 'secondary';
+  }
+
+  if (props.destructive) {
+    return 'destructive';
+  }
+
+  return 'primary';
+});
+
+/**
+ * Return true if no text was passed via slot
+ */
+const isTextEmpty = computed(() => {
+  if (slots.default) {
+    const [firstChild] = slots.default();
+
+    const text = firstChild.children?.toString().trim();
+
+    return text ? text.length === 0 : true;
+  }
+
+  return true;
+});
+
+/**
+ * Icon type: none, leading, trailing, leadingTrailing, standalone
+ * Paddings will be adjusted based on this value
+ */
+const iconType = computed<'none' | 'leading' | 'trailing' | 'leadingTrailing' | 'standalone' >(() => {
+  if (isTextEmpty.value && props.icon) {
+    return 'standalone';
+  }
+
+  if (props.icon && props.trailingIcon) {
+    return 'leadingTrailing';
+  }
+
+  if (props.icon) {
+    return 'leading';
+  }
+
+  if (props.trailingIcon) {
+    return 'trailing';
+  }
+
+  return 'none';
 });
 </script>
 
-<style lang="postcss" module>
+<style module>
 .button {
+  --padding-left: var(--h-padding);
+  --padding-right: var(--h-padding);
+
+  --color: var(--accent--text-solid-foreground);
+  --bg: var(--accent--solid);
+  --bg-hover: var(--accent--solid-hover);
+  --border-color: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v-padding);
   border: 0;
   outline: 0;
   font-family: inherit;
   cursor: pointer;
   word-break: keep-all;
 
-  --padding: 0 0;
-  --padding-icon: 0 0;
-  --radius: 0;
-  --color: var(--accent--text-solid-foreground);
-  --bg: var(--accent--solid);
-  --bg-hover: var(--accent--solid-hover);
-  --border-color: transparent;
-
-  /**
-   * Sizes
-   */
-  &--small {
-    --padding: var(--spacing-xxs) var(--spacing-s);
-    --padding-icon: var(--spacing-xxs);
-    --radius: var(--radius-m);
-  }
-
-  &--medium {
-    --padding: var(--spacing-s) var(--spacing-m);
-    --padding-icon: var(--spacing-s);
-    --radius: var(--radius-m);
-  }
-
-  &--large {
-    --padding: var(--spacing-m) var(--spacing-l);
-    --padding-icon: var(--spacing-m);
-    --radius: var(--radius-ml);
-  }
+  padding: var(--v-padding) var(--padding-right) var(--v-padding) var(--padding-left);
+  border-radius: var(--radius-field);
+  background-color: var(--bg);
+  color: var(--color);
+  box-shadow: inset 0 0 0 1px var(--border-color);
 
   /**
    * Styles
@@ -121,22 +174,24 @@ const style = computed(() => {
     --bg-hover: var(--accent--solid-hover);
   }
 
-  padding: var(--padding);
-  border-radius: var(--radius);
-  background-color: var(--bg);
-  color: var(--color);
-  box-shadow: inset 0 0 0 1px var(--border-color);
+  &--icon {
+    &-leading {
+      --padding-left: var(--v-padding)
+    }
+
+    &-trailing {
+      --padding-right: var(--v-padding)
+    }
+
+    &-leadingTrailing,
+    &-standalone {
+      --padding-left: var(--v-padding);
+      --padding-right: var(--v-padding);
+    }
+  }
 
   &:hover {
     background-color: var(--bg-hover);
   }
-
-  &--with-icon {
-    padding: var(--padding-icon);
-  }
-}
-
-.button.button--with-icon {
-  line-height: 0;
 }
 </style>

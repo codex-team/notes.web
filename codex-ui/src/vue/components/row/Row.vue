@@ -18,8 +18,8 @@
             {{ title }}
           </div>
 
-          <div :class="[$style['row__subtle'], 'text-ui-subtle']">
-            {{ subtle }}
+          <div class="text-ui-subtle">
+            {{ subtitle }}
           </div>
         </div>
 
@@ -55,7 +55,7 @@ defineProps<{
   /**
    * Secondary text displayed below the title
    */
-  subtle?: string;
+  subtitle?: string;
 
   /**
    * True if row should contain delimiter
@@ -86,6 +86,7 @@ defineProps<{
     flex: 1;
     padding: var(--v-padding) var(--h-padding) var(--v-padding) 0;
     gap: var(--h-padding);
+    align-items: center;
   }
 
   &__delimiter {

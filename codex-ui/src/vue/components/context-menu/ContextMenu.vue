@@ -5,7 +5,6 @@
       :class="$style['context-menu__search']"
     >
       <Input
-        size="small"
         icon="Search"
         placeholder="Search"
       />

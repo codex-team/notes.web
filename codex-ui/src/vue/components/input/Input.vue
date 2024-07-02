@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[$style['input'], `${$style.input}--${size}`]"
+    :class="$style['input']"
     @click="focusInput"
   >
     <Icon
@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { onMounted, defineModel, ref } from 'vue';
-import { InputSize } from './Input.types';
 import Icon from '../icon/Icon.vue';
 
 const props = withDefaults(
@@ -28,11 +27,6 @@ const props = withDefaults(
      * The text to display on the input
      */
     value?: string;
-
-    /**
-     * The size of the input
-     */
-    size?: InputSize;
 
     /**
      * Whether the input is disabled
@@ -51,7 +45,6 @@ const props = withDefaults(
   }>(),
   {
     value: '',
-    size: 'medium',
     disabled: false,
     icon: undefined,
     placeholder: '',
@@ -76,7 +69,6 @@ onMounted(() => {
 <style module>
 .input {
   display: flex;
-  border: 0;
   background-color: var(--base--bg-secondary);
   gap: var(--v-padding);
   align-items: center;
@@ -107,25 +99,7 @@ onMounted(() => {
 
   --padding: 0 0;
 
-  /**
-   * Sizes
-   */
-  &--small {
-    --padding: var(--spacing-xs) var(--spacing-ms);
-    --radius: var(--radius-m);
-  }
-
-  &--medium {
-    --padding: var(--spacing-s) var(--spacing-m);
-    --radius: var(--radius-m);
-  }
-
-  &--large {
-    --padding: var(--spacing-m) var(--spacing-l);
-    --radius: var(--radius-ml);
-  }
-
-  padding: var(--padding);
-  border-radius: var(--radius);
+  padding: var(--v-padding) var(--h-padding);
+  border-radius: var(--radius-field);
 }
 </style>
