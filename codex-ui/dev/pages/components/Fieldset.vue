@@ -8,33 +8,31 @@
   <Fieldset
     title="Fieldset title"
   >
-    <div>
-      <Section title="section title">
-        <Row
-          label="label"
-          title="actual row title"
-          subtle="subtle"
-        >
-          <template #right>
-            <Button icon="Plus" />
-          </template>
-        </Row>
-      </Section>
-      <Section title="section title">
-        <Row
-          label="label"
-          title="actual row title"
-          subtle="subtle"
-        >
-          <template #right>
-            <Button icon="Plus" />
-          </template>
-        </Row>
-      </Section>
-      <Button>
-        button
-      </Button>
-    </div>
+    <Section title="section title">
+      <Row
+        label="label"
+        title="actual row title"
+        subtle="subtle"
+      >
+        <template #right>
+          <Button icon="Plus" />
+        </template>
+      </Row>
+    </Section>
+    <Section title="section title">
+      <Row
+        label="label"
+        title="actual row title"
+        subtle="subtle"
+      >
+        <template #right>
+          <Button icon="Plus" />
+        </template>
+      </Row>
+    </Section>
+    <Button>
+      button
+    </Button>
   </Fieldset>
 </template>
 
