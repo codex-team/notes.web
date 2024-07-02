@@ -6,7 +6,10 @@
     </template>
   </PageHeader>
 
-  <NoteHeader />
+  <NoteHeader
+    description="Last edit"
+    updated-at="Jul 2, 21:45"
+  />
 </template>
 
 <script setup lang="ts">

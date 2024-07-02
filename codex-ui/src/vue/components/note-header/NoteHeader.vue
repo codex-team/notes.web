@@ -1,6 +1,7 @@
 <template>
   <div
     :class="$style['note-header']"
+    :style="{ '--opacity': props.opacity }"
   >
     <div :class="$style['note-header__left']">
       {{ lastEdit }}
@@ -22,16 +23,37 @@
 import { computed } from 'vue';
 import Button from '../button/Button.vue';
 
-// defineProps<{
-// }>();
+const props = withDefaults(
+  defineProps<{
+    /**
+     * Explanatory caption for the date
+     */
+    description?: string;
 
-const lastEdit = computed(() => 'Севодня');
+    /**
+     * Date and time of last update
+     */
+    updatedAt: string;
+
+    /**
+     * Shows the transparency percentage of the component, from 0 to 1
+     */
+    opacity: number;
+  }>(),
+  {
+    description: '',
+    opacity: 1,
+  }
+);
+
+const lastEdit = computed(() => props.description + ' ' + props.updatedAt);
 </script>
 <style module lang="postcss">
 .note-header {
   width: 100%;
   display: flex;
   height: min-content;
+  opacity: var(--opacity);
   justify-content: space-between;
   padding: var(--spacing-s) var(--spacing-m);
 
@@ -53,6 +75,7 @@ const lastEdit = computed(() => 'Севодня');
 
     &:hover {
       background-color: var(--base--bg-secondary-hover);
+      color: var(--base--text-secondary-hover);
     }
   }
 }
