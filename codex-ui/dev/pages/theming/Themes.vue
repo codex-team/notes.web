@@ -6,38 +6,43 @@
     </template>
   </PageHeader>
 
-  <template
-    v-for="mode in ['Dark', 'Light']"
-    :key="mode"
-  >
-    <Heading :level="2">
-      {{ mode }} Mode
-    </Heading>
-    <div class="themes">
-      <template
-        v-for="theme in themes"
-        :key="theme"
-      >
-        {{ theme }}
+  <div class="themes">
+    <template
+      v-for="theme in themes"
+      :key="theme"
+    >
+      {{ theme }} <code>Dark</code>
 
-        <span
-          v-for="color in colors"
-          :key="color"
-          class="color"
-          :style="{
-            backgroundColor: `var(${color})`,
-            boxShadow: color === '--base--bg-primary' ? 'inset 0 0 0 1px var(--base--bg-secondary)' : 'none'
-          }"
-          :theme-base="theme.toLowerCase()"
-          :color-scheme="mode.toLowerCase()"
-        />
-      </template>
-    </div>
-  </template>
+      <span
+        v-for="color in colors"
+        :key="color"
+        class="color"
+        :style="{
+          backgroundColor: `var(${color})`,
+          boxShadow: color === '--base--bg-primary' ? 'inset 0 0 0 1px var(--base--bg-secondary)' : 'none'
+        }"
+        :theme-base="theme.toLowerCase()"
+        color-scheme="dark"
+      />
+
+      <span /> <code>Light</code>
+
+      <span
+        v-for="color in colors"
+        :key="color"
+        class="color"
+        :style="{
+          backgroundColor: `var(${color})`,
+          boxShadow: color === '--base--bg-primary' ? 'inset 0 0 0 1px var(--base--bg-secondary)' : 'none'
+        }"
+        :theme-base="theme.toLowerCase()"
+        color-scheme="light"
+      />
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { Heading } from '../../../src/vue';
 import PageHeader from '../../components/PageHeader.vue';
 
 const themes = [
@@ -68,7 +73,7 @@ const colors = [
 <style scoped>
 .themes {
   display: grid;
-  grid-template-columns: 150px repeat(v-bind(colors.length), auto);
+  grid-template-columns: 110px 90px  repeat(v-bind(colors.length), auto);
   gap: var(--spacing-m);
   flex-direction: column;
   width: max-content;
