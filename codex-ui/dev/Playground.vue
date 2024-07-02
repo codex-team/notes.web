@@ -146,6 +146,11 @@ const pages = computed(() => [
         isActive: route.path === '/components/section',
       },
       {
+        title: 'Fieldset',
+        onActivate: () => router.push('/components/fieldset'),
+        isActive: route.path === '/components/fieldset',
+      },
+      {
         title: 'Editor',
         onActivate: () => router.push('/components/editor'),
         isActive: route.path === '/components/editor',
