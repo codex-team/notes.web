@@ -4,16 +4,16 @@
       {{ t('userSettings.title') }}
     </Heading>
   </div>
-  <Fieldset title="General">
+  <Fieldset :title="t('userSettings.general')">
     <div :class="$style['page-header__general-fields']">
       <Section
-        title="name"
+        :title="t('userSettings.name')"
         :caption="t('userSettings.nameCaption')"
       >
         <Row :title="user?.name!" />
       </Section>
       <Section
-        title="email"
+        :title="t('userSettings.email')"
         :caption="t('userSettings.emailCaption')"
       >
         <Row :title="user?.email!" />
