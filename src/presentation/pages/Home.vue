@@ -26,6 +26,7 @@
             :class="$style['note-list__card']"
             :title="getTitle(note.content)"
             :subtitle="getSubtitle(note)"
+            :src="note.cover || undefined"
             orientation="vertical"
           />
         </RouterLink>

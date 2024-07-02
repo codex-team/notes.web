@@ -7,21 +7,20 @@
   </PageHeader>
 
   <Row
-    title="Title"
-    subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+    title="Nickmel"
+    subtitle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
     :has-delimiter="true"
   >
     <template #left>
       <Avatar
-        src="https://i.pravatar.cc/100"
+        src="https://i.pravatar.cc/50?u=1"
         username="Vitaly"
       />
     </template>
 
     <template #right>
       <Button
-        size="small"
-        :style="'secondary'"
+        secondary
       >
         Edit
       </Button>
@@ -29,21 +28,20 @@
   </Row>
 
   <Row
-    title="Title"
-    subtle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
+    title="Vitaly"
+    subtitle="This item is no longer detected near you. It was last seen near Pesochnaya Embankment, 14 литТ к2."
     label="Time Sensitive"
   >
     <template #left>
       <Avatar
-        src="https://i.pravatar.cc/100"
+        src="https://i.pravatar.cc/50?u=2"
         username="Vitaly"
       />
     </template>
 
     <template #right>
       <Button
-        size="small"
-        :style="'secondary'"
+        secondary
       >
         Edit
       </Button>

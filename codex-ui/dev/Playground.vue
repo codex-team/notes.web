@@ -18,7 +18,9 @@
       />
     </div>
     <div :class="$style.body">
-      <div :class="$style.aside">
+      <div
+        :class="$style.aside"
+      >
         <VerticalMenu
           :items="pages"
         />
@@ -43,22 +45,37 @@ const router = useRouter();
 const route = useRoute();
 const pages = computed(() => [
   {
-    title: 'TypeScale',
-    onActivate: () => router.push('/type-scale'),
-    isActive: route.path === '/type-scale',
+    title: 'Base concepts',
+    items: [
+      {
+        title: 'TypeScale',
+        onActivate: () => router.push('/type-scale'),
+        isActive: route.path === '/type-scale',
+      },
+      {
+        title: 'Controls Dimensions',
+        onActivate: () => router.push('/controls-dimensions'),
+        isActive: route.path === '/controls-dimensions',
+      },
+    ],
   },
   {
     title: 'Theming',
     items: [
       {
-        title: 'Color Scheme',
-        onActivate: () => router.push('/theming/color-scheme'),
-        isActive: route.path === '/theming/color-scheme',
-      },
-      {
         title: 'Base and Accent use cases',
         onActivate: () => router.push('/theming/base-and-accent'),
         isActive: route.path === '/theming/base-and-accent',
+      },
+      {
+        title: 'Themes',
+        onActivate: () => router.push('/theming/themes'),
+        isActive: route.path === '/theming/themes',
+      },
+      {
+        title: 'Color Scheme',
+        onActivate: () => router.push('/theming/color-scheme'),
+        isActive: route.path === '/theming/color-scheme',
       },
     ],
   },
@@ -146,6 +163,11 @@ const pages = computed(() => [
         isActive: route.path === '/components/section',
       },
       {
+        title: 'Fieldset',
+        onActivate: () => router.push('/components/fieldset'),
+        isActive: route.path === '/components/fieldset',
+      },
+      {
         title: 'Editor',
         onActivate: () => router.push('/components/editor'),
         isActive: route.path === '/components/editor',
@@ -188,7 +210,8 @@ const pages = computed(() => [
 .body {
   padding: var(--spacing-l);
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: var(--spacing-xxl);
+  max-width: 1200px;
 }
 </style>

@@ -5,7 +5,7 @@
       class="header__logo"
     >
       <img
-        src="@/../public/logo.svg"
+        src="/logo.svg"
       >
     </router-link>
     <Tabbar

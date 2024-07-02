@@ -48,7 +48,7 @@ export default defineConfig({
        * Disable CSS Modules hash and add a custom prefix (to allow users customizing the styles)
        * @example _button_1yxsp_2 -> .cdx-button
        */
-      generateScopedName: 'cdx-[local]',
+      generateScopedName: 'codex-[local]',
     },
   },
   resolve: {

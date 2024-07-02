@@ -7,7 +7,6 @@
     >
       <Input
         v-model:model-value="toolName"
-        size="small"
         :placeholder="$t('marketplace.newTool.name.placeholder')"
       />
     </Section>
