@@ -1,5 +1,6 @@
 <template>
   <div class="header">
+    <img src="@/../public/logo.svg">
     <Tabbar
       :tabs="tabs"
       @click="(tab) => router.push(tab.id)"
