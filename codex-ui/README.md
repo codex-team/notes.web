@@ -1,37 +1,10 @@
-# CodeX Design
+# CodeX UI
 
-- [x] Components import/export
-- [x] Styles import/export
-- [x] Create Vue and Style sub-packages
-- [x] Setup TypeScript support for Vue components
-- [x] Allow to use CSS mixins internally
-- [x] Separate styles form components and base styles
-- [x] Prepare props/event example
+The Design System forged in the fires of open-source development
+
 - [ ] Make tree-shaking work
-- [ ] Prepare hooks/composables example
-- [ ] Fix Eslint
-- [x] Improve DX for components debug
 - [ ] Test Web/React/Native implementations
 - [ ] Think about i18n
-
-## Project structure
-
-Subject to change
-
-```
-src/
-  styles/
-    mixins/
-      typography.pcss
-    index.pcss
-    colors.pcss
-  vue/
-    button/
-      Button.vue
-  react/
-  web/
-  js/
-```
 
 ## Access Vue components
 

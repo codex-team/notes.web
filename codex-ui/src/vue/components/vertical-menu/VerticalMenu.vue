@@ -5,9 +5,7 @@
     <VerticalMenuItem
       v-for="(item, index) in items"
       :key="index"
-      :title="item.title"
-      :is-active="item.isActive"
-      :items="item.items"
+      v-bind="item"
     />
   </div>
 </template>

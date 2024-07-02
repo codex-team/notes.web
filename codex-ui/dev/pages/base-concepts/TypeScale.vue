@@ -1,4 +1,11 @@
 <template>
+  <PageHeader>
+    Type Scale
+    <template #description>
+      All available text styles. All components uses only these styles.
+    </template>
+  </PageHeader>
+
   <div :class="$style.typescale">
     <div
       v-for="sample in samples"
@@ -16,6 +23,8 @@
 </template>
 
 <script setup lang="ts">
+import PageHeader from '../../components/PageHeader.vue';
+
 const samples = [
   {
     label: 'H1',
@@ -83,6 +92,7 @@ const samples = [
     class: 'text-ui-footnote',
   },
 ];
+
 </script>
 
 <style module>

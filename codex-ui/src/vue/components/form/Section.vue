@@ -1,5 +1,5 @@
 <template>
-  <div :class="[$style['form-section'], `${$style['form-section']}--${size}`]">
+  <div :class="$style['form-section']">
     <div :class="[$style['form-section-title'], 'text-ui-footnote']">
       {{ title }}
     </div>
@@ -18,8 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { FieldSize } from './Section.types';
-
 withDefaults(
   defineProps<{
     /**
@@ -34,18 +32,12 @@ withDefaults(
     caption?: string;
 
     /**
-     * The size of the form section
-     */
-    size?: FieldSize;
-
-    /**
      * True if there is a background in the component body
      */
     withBackground?: boolean;
   }>(),
   {
     caption: '',
-    size: 'medium',
     withBackground: true,
   }
 );
@@ -55,23 +47,10 @@ withDefaults(
 .form-section {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
-
-  &--small {
-    --h-padding: var(--spacing-s);
-  }
-
-  &--medium {
-    --h-padding: var(--spacing-m);
-  }
-
-  &--large {
-    --h-padding: var(--spacing-l);
-  }
+  gap: var(--v-padding);
 
   &-title,
   &-caption {
-    padding-top: var(--spacing-xs);
     padding-inline: var(--h-padding);
   }
 
@@ -81,8 +60,7 @@ withDefaults(
 
   &-body-wrapper {
     &--with-background {
-      padding-block: var(--v-padding);
-      border-radius: var(--radius-m);
+      border-radius: var(--radius-field);
       background-color: var(--base--bg-secondary);
     }
   }

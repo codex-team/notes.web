@@ -1,0 +1,54 @@
+[color-scheme='dark'] {
+  --pure--bg-primary: #000000;
+  --pure--bg-secondary: #0A0A0A;
+  --pure--bg-secondary-hover: #191919;
+  --pure--border: #1C1C1C;
+  --pure--solid-secondary: #16181B;
+  --pure--solid-hover: #AAB0BF;
+  --pure--solid: #FFFFFF;
+  --pure--text-secondary: #828282;
+  --pure--text: #ffffff;
+  --pure--text-solid-foreground: #000000;
+}
+
+[color-scheme='light'] {
+  --pure--bg-primary: #ffffff;
+  --pure--bg-secondary: #F9F9F9;
+  --pure--bg-secondary-hover: #F4F4F4;
+  --pure--border: #EAEAEA;
+  --pure--solid-secondary: #EAEAEA;
+  --pure--solid-hover: #3B3B3B;
+  --pure--solid: #000000;
+  --pure--text-secondary: #505050;
+  --pure--text: #000000;
+  --pure--text-solid-foreground: #ffffff;
+}
+
+/**
+ * Set up the colors for data-theme attribute
+ */
+[theme-base='pure'] {
+  --base--bg-primary: var(--pure--bg-primary);
+  --base--bg-secondary: var(--pure--bg-secondary);
+  --base--bg-secondary-hover: var(--pure--bg-secondary-hover);
+  --base--border: var(--pure--border);
+  --base--solid-secondary: var(--pure--solid-hover);
+  --base--solid-hover: var(--pure--solid-hover);
+  --base--solid: var(--pure--solid);
+  --base--text-secondary: var(--pure--text-secondary);
+  --base--text: var(--pure--text);
+  --base--text-solid-foreground: var(--pure--text-solid-foreground);
+}
+
+[theme-accent='pure'] {
+  --accent--bg-primary: var(--pure--bg-primary);
+  --accent--bg-secondary: var(--pure--bg-secondary);
+  --accent--bg-secondary-hover: var(--pure--bg-secondary-hover);
+  --accent--border: var(--pure--border);
+  --accent--solid-secondary: var(--pure--solid-secondary);
+  --accent--solid-hover: var(--pure--solid-hover);
+  --accent--solid: var(--pure--solid);
+  --accent--text-secondary: var(--pure--text-secondary);
+  --accent--text: var(--pure--text);
+  --accent--text-solid-foreground: var(--pure--text-solid-foreground);
+}

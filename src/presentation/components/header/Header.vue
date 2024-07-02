@@ -1,5 +1,13 @@
 <template>
   <div class="header">
+    <router-link
+      to="/"
+      class="header__logo"
+    >
+      <img
+        src="@/../public/logo.svg"
+      >
+    </router-link>
     <Tabbar
       :tabs="tabs"
       @click="(tab) => router.push(tab.id)"
@@ -106,6 +114,12 @@ function closeHeaderTab(url: string) {
   max-width: 100%;
   border-bottom: 1px solid var(--base--border);
   overflow: hidden;
+
+  &__logo {
+    display: flex;
+    justify-content: center;
+    padding: 0 var(--spacing-xl);
+  }
 
   &__right {
     margin-left: auto;
