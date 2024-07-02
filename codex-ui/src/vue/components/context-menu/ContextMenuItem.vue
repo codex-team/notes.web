@@ -23,6 +23,13 @@
     >
       <div :class="$style['item__line']" />
     </div>
+    <div
+      v-if="item.type === 'message'"
+      :class="[$style['item__default'],
+               $style['item__default--no-hover']]"
+    >
+      {{ item.message }}
+    </div>
   </div>
 </template>
 
@@ -54,9 +61,13 @@ defineProps<{
     gap: var(--v-padding);
     border-radius: var(--radius-m);
     padding: var(--v-padding) var(--h-padding);
+
+    &--no-hover {
+      cursor: default;
+    }
   }
 
-  &__default:hover {
+  .item__default:not(.item__default--no-hover):hover {
     background-color: var(--base--bg-secondary-hover);
     cursor: pointer;
   }
