@@ -57,6 +57,11 @@ const pages = computed(() => [
         onActivate: () => router.push('/controls-dimensions'),
         isActive: route.path === '/controls-dimensions',
       },
+      {
+        title: 'Sizes',
+        onActivate: () => router.push('/sizes'),
+        isActive: route.path === '/sizes',
+      },
     ],
   },
   {
@@ -76,6 +81,11 @@ const pages = computed(() => [
         title: 'Color Scheme',
         onActivate: () => router.push('/theming/color-scheme'),
         isActive: route.path === '/theming/color-scheme',
+      },
+      {
+        title: 'Colors',
+        onActivate: () => router.push('/theming/colors'),
+        isActive: route.path === '/theming/colors',
       },
     ],
   },

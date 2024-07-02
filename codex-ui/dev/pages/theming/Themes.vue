@@ -37,11 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import { RadioGroup, Row, Heading } from '../../../src/vue';
-import { ColorScheme, useTheme } from '../../../src/vue/composables/useTheme';
+import { Heading } from '../../../src/vue';
 import PageHeader from '../../components/PageHeader.vue';
-
-const { colorScheme, setColorScheme } = useTheme();
 
 const themes = [
   'Graphite',
