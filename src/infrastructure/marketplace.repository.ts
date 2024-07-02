@@ -3,6 +3,10 @@ import type NotesApiTransport from './transport/notes-api';
 import type EditorTool from '@/domain/entities/EditorTool';
 import type { NewToolData } from '@/domain/entities/EditorTool';
 
+interface AddEditorToolDto extends Omit<EditorTool, 'cover'> {
+  cover?: File;
+}
+
 /**
  * Facade for the marketplace data
  */
@@ -37,7 +41,25 @@ export default class MarketplaceRepository implements MarketplaceRepositoryInter
    * @param tool - tool data
    */
   public async addTool(tool: NewToolData): Promise<EditorTool> {
-    const res = await this.transport.post<{ data: EditorTool }>('/editor-tools/add-tool', tool);
+    const data = new FormData();
+
+    data.append('name', tool.name);
+    data.append('title', tool.title);
+    data.append('exportName', tool.exportName);
+
+    if (tool.description !== undefined) {
+      data.append('description', tool.description);
+    }
+
+    if (tool.source !== undefined) {
+      data.append('source', JSON.stringify(tool.source));
+    }
+
+    if (tool.cover !== undefined) {
+      data.append('cover', tool.cover);
+    }
+
+    const res = await this.transport.post<{ data: AddEditorToolDto }, { data: EditorTool }>('/editor-tools/add-tool', data);
 
     return res.data;
   }

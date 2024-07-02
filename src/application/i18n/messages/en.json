@@ -116,7 +116,7 @@
 
       },
       "cdn": {
-        "placeholder": "https://cdn.jsdelivr.net/npm/@editorjs/payment@2.3.0/dist/payment.umd.min.js",
+        "placeholder": "https:\/\/cdn.jsdelivr.net\/npm\/{'@'}editorjs/payment{'@'}2.3.0\/dist\/payment.umd.min.js",
         "label": "CDN",
         "caption":"Direct link to the tool’s UMD bundle"
 

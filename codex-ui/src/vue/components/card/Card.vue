@@ -100,6 +100,10 @@ withDefaults(
     width: var(--card-width);
   }
 
+  &__body {
+    flex-grow: 1;
+  }
+
   &__cover {
     flex-shrink: 0;
     width: 100%;
