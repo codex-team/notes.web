@@ -63,7 +63,7 @@ const pages = computed(() => [
     title: 'Theming',
     items: [
       {
-        title: 'Base and Accent use cases',
+        title: 'Base and Accent',
         onActivate: () => router.push('/theming/base-and-accent'),
         isActive: route.path === '/theming/base-and-accent',
       },

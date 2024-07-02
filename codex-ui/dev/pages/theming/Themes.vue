@@ -44,7 +44,8 @@ import PageHeader from '../../components/PageHeader.vue';
 const { colorScheme, setColorScheme } = useTheme();
 
 const themes = [
-  'Classic',
+  'Graphite',
+  'Sky',
   'Grass',
   'Red',
   'Crimson',
@@ -81,7 +82,7 @@ const colors = [
 .color {
   width: 48px;
   height: 38px;
-  border-radius: var(--radius-s);
+  border-radius: var(--radius-field);
   display: block;
 }
 </style>

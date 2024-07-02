@@ -157,15 +157,16 @@ const iconType = computed<'none' | 'leading' | 'trailing' | 'leadingTrailing' | 
   }
 
   &--secondary {
-    --bg: var(--accent--bg-secondary);
-    --bg-hover: var(--accent--bg-secondary-hover);
-    --border-color: var(--accent--border);
+    --bg: var(--base--bg-secondary);
+    --bg-hover: var(--base--bg-secondary-hover);
+    --border-color: var(--base--border);
+    --color: var(--base--text);
   }
 
   &--disabled {
-    --bg: var(--accent--bg-secondary);
-    --bg-hover: var(--accent--bg-secondary);
-    --color: var(--accent--text-secondary);
+    --bg: var(--base--bg-secondary);
+    --bg-hover: var(--base--bg-secondary);
+    --color: var(--base--text-secondary);
     cursor: not-allowed;
   }
 
