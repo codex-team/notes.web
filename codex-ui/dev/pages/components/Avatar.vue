@@ -7,7 +7,7 @@
   </PageHeader>
 
   <Avatar
-    src="../static/example-avatar.png"
+    src="https://i.pravatar.cc/300"
     username="Vitaly"
   />
 </template>

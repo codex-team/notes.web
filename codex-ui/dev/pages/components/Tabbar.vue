@@ -18,7 +18,7 @@
   <Tab
     id="/"
     title="Home"
-    picture="../static/example-avatar.png"
+    picture="https://i.pravatar.cc/50"
   />
   <br>
   <Tab
@@ -68,7 +68,7 @@ const defaultTabs = [
   {
     title: 'Home',
     id: '/',
-    picture: '../static/example-avatar.png',
+    picture: 'https://i.pravatar.cc/50',
   },
   {
     title: 'New note',

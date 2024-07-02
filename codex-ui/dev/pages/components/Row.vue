@@ -13,7 +13,7 @@
   >
     <template #left>
       <Avatar
-        src="../static/example-avatar.png"
+        src="https://i.pravatar.cc/100"
         username="Vitaly"
       />
     </template>
@@ -35,7 +35,7 @@
   >
     <template #left>
       <Avatar
-        src="../static/example-avatar.png"
+        src="https://i.pravatar.cc/100"
         username="Vitaly"
       />
     </template>

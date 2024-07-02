@@ -31,7 +31,7 @@
     >
       <template #left>
         <Avatar
-          src="../static/example-avatar.png"
+          src="https://i.pravatar.cc/50"
           :username="item.name"
         />
       </template>
