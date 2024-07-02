@@ -1,12 +1,16 @@
 <template>
   <div
-    :class="[$style['vertical-menu-item'],
-             isActive && $style['vertical-menu-item--active'],
-             'text-ui-base-medium']"
+    :class="[
+      $style['vertical-menu-item'],
+      isActive && $style['vertical-menu-item--active'],
+      onActivate === undefined && $style['vertical-menu-item--static'],
+      'text-ui-base-medium'
+    ]"
     :style="{ '--level': props.level }"
   >
     <div
       :class="[$style['vertical-menu-item__container']]"
+      @click="itemClicked"
     >
       {{ props.title }}
     </div>
@@ -15,60 +19,58 @@
     <VerticalMenuItem
       v-for="(childItem, index) in items"
       :key="index"
-      :title="childItem.title"
-      :is-active="childItem.isActive"
-      :items="childItem.items"
+      v-bind="childItem"
       :level="level + 1"
     />
   </template>
 </template>
 <script lang="ts" setup>
-import type { VerticalMenuItem as Item } from './VerticalMenu.types';
+import type { VerticalMenuItem } from './VerticalMenu.types';
 
 const props = withDefaults(
-  defineProps<{
+  defineProps<VerticalMenuItem & {
     /**
-     * Level of the each vertical item
+     * Indentation level of the menu item
      */
-    level: number;
-
-    /**
-     * Primary text of the menu item
-     */
-    title: string;
-
-    /**
-     * Current item state
-     */
-    isActive?: boolean;
-
-    /**
-     * List of child elements for current element
-     */
-    items?: Item[];
+    level?: number;
   }>(),
   {
     level: 1,
     isActive: false,
     items: undefined,
+    onActivate: undefined,
   }
 );
+
+/**
+ * Fires a callback when the item is clicked
+ */
+function itemClicked(): void {
+  if (props.onActivate) {
+    props.onActivate();
+  }
+}
 </script>
 <style lang="postcss" module>
 .vertical-menu-item {
   --menuIndent: calc((var(--level) - 1) * var(--spacing-ms));
 
-  cursor: pointer;
   gap: var(--spacing-ms);
   padding: 0 0 0 var(--menuIndent);
 
   &__container {
+    cursor: pointer;
     padding: var(--spacing-s) var(--spacing-ml);
     border-radius: var(--radius-m);
+  }
 
-    &:hover {
-      background-color: var(--base--bg-secondary-hover);
-    }
+  &--static &__container {
+    cursor: default;
+    color: var(--base--text-secondary);
+  }
+
+  &:not(&--static) .vertical-menu-item__container:hover {
+    background-color: var(--base--bg-secondary-hover);
   }
 
   &--active .vertical-menu-item__container {

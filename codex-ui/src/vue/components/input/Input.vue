@@ -103,6 +103,12 @@ onMounted(() => {
       color: var(--base--text-secondary);
     }
   }
+  border: 0;
+  outline: 0;
+  color: var(--base--text);
+  font-size: inherit;
+  font-family: inherit;
+  box-sizing: border-box;
 
   --padding: 0 0;
 

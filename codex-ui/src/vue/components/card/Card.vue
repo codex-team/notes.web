@@ -1,5 +1,10 @@
 <template>
-  <div :class="[$style.card, orientation === 'horizontal' ? $style['card--horizontal'] : '']">
+  <div
+    :class="[
+      $style.card,
+      $style['card--' + orientation]
+    ]"
+  >
     <div
       :class="$style['card__cover']"
       :style="`background: url(${src})`"
@@ -76,11 +81,16 @@ withDefaults(
     flex-direction: row;
     gap: var(--spacing-l);
     align-items: center;
+    box-sizing: border-box;
 
     .card__cover {
       width: 150px;
       height: 100px;
     }
+  }
+
+  &--vertical {
+    width: var(--card-width);
   }
 
   &__cover {

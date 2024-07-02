@@ -112,6 +112,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       layout: 'fullpage',
       pageTitleI18n: 'pages.notFound',
+      discardTabOnLeave: true,
     },
     props: {
       code: 404,

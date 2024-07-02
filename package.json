@@ -23,6 +23,7 @@
     "@vueuse/core": "^10.3.0",
     "codex-ui": "workspace:^",
     "dayjs": "^1.11.10",
+    "html2canvas": "^1.4.1",
     "jwt-decode": "^3.1.2",
     "nanoid": "^5.0.7",
     "normalize.css": "^8.0.1",

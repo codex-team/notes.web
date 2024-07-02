@@ -54,6 +54,13 @@ interface UseNoteSettingsComposableState {
   deleteNoteById: (id: NoteId) => Promise<void>;
 
   /**
+   * Update note cover
+   * @param id - note id
+   * @param data - picture binary data
+   */
+  updateCover: (id: NoteId, data: Blob) => Promise<void>;
+
+  /**
    * Set parent for the note
    * @param id - Child note id
    * @param newParentURL - New parent note URL
@@ -147,6 +154,22 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
+   * Update note cover picture
+   * @param id - note id
+   * @param data - picture binary data
+   */
+  const updateCover = async (id: NoteId, data: Blob): Promise<void> => {
+    const { cover } = await noteSettingsService.updateCover(id, data);
+
+    if (noteSettings.value) {
+      noteSettings.value = {
+        ...noteSettings.value,
+        cover,
+      };
+    }
+  };
+
+  /**
    * Set parent for the note
    * @param id - Child note id
    * @param newParentURL - New parent note URL
@@ -163,6 +186,7 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   return {
+    updateCover,
     parentNote,
     noteSettings,
     load,

@@ -22,7 +22,7 @@ export default class NoteAttachmentUploaderRepository implements NoteAttachmentU
 
   /**
    * Upload file data as note attachment
-   * @param noteId - indentifier for note to make attachment
+   * @param noteId - identifier for note to make attachment
    * @param fileData - file binary data
    * @returns key, by which we can load it from api
    */
@@ -43,7 +43,7 @@ export default class NoteAttachmentUploaderRepository implements NoteAttachmentU
 
   /**
    * Load note attachment data
-   * @param noteId - indentifier for note to get attachment
+   * @param noteId - identifier for note to get attachment
    * @param key - file key on server side
    * @returns file binary data
    */

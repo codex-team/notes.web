@@ -10,13 +10,15 @@ export function getTitle(content: OutputData): string {
   const firstNoteBlock = content.blocks[0];
   const { t } = useI18n();
 
+  const text: string | undefined = firstNoteBlock.data.text;
+
   /**
    *  If the heading is empty, return 'Untitled'
    */
-  if (firstNoteBlock.data.text == '') {
+  if (text === undefined || text.trim() === '') {
     return t('note.untitled');
   } else {
-    return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+    return text?.slice?.(0, limitCharsForNoteTitle);
   }
 }
 

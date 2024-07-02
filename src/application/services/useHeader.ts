@@ -99,10 +99,7 @@ export default function useHeader(): useHeaderComposableState {
    * Home page is always opened
    */
   const currentOpenedPages = computed<OpenedPage[]>(() => {
-    const activePages = [{
-      title: t('pages.home'),
-      url: '/',
-    }];
+    const activePages = [];
 
     const pages = openedPages.value?.map((page) => {
       return {
