@@ -5,22 +5,29 @@
       :class="$style['context-menu__search']"
     >
       <Input
+        v-model="searchTerm"
         icon="Search"
         placeholder="Search"
       />
       <ContextMenuItem :item="separator" />
     </div>
     <div :class="$style['context-menu__scrollable']">
-      <ContextMenuItem
-        v-for="(item, index) in items"
-        :key="index"
-        :item="item"
-      />
+      <template v-if="filteredItems.length > 0">
+        <ContextMenuItem
+          v-for="(item, index) in filteredItems"
+          :key="index"
+          :item="item"
+        />
+      </template>
+      <template v-else>
+        <ContextMenuItem :item="messageItem" />
+      </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import Input from '../input/Input.vue';
 import type { ContextMenuItem as Item } from './ContextMenu.types';
 import ContextMenuItem from './ContextMenuItem.vue';
@@ -30,7 +37,7 @@ import ContextMenuItem from './ContextMenuItem.vue';
  */
 const separator: Item = { type: 'separator' };
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     /**
      * If true, displays the input field for the search
@@ -41,9 +48,42 @@ withDefaults(
      * Array of items for context menu
      */
     items: Item[];
+
+    /**
+     * Message what occurs as a result of the search
+     */
+    message: string;
   }>(),
   { showSearch: false }
 );
+
+/**
+ * User entered word for search
+ */
+const searchTerm = ref('');
+
+const filteredItems = computed(() => {
+  if (searchTerm.value === '') {
+    return props.items;
+  }
+
+  return props.items.filter((item) => {
+    if (item.type === 'separator' || item.type === 'message') {
+      return false;
+    } else {
+      return item.title.toLowerCase().includes(
+        searchTerm.value.toLowerCase());
+    }
+  });
+});
+
+/**
+ * Message for displaying in context menu if result of search is empty
+ */
+const messageItem: Item = {
+  type: 'message',
+  message: props.message,
+};
 
 </script>
 
