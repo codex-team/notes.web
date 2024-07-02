@@ -22,7 +22,6 @@
       <Field
         v-model="parentURL"
         :title="t('noteSettings.parentNote')"
-        size="large"
         :caption="t('noteSettings.parentNoteCaption')"
         :disabled="parentNote !== undefined"
         :placeholder="t('noteSettings.parentNotePlaceholder')"
@@ -53,8 +52,7 @@
           <Row :title="invitationLink">
             <template #right>
               <Button
-                :size="'small'"
-                :style="'secondary'"
+                secondary
                 @click="regenerateHash"
               >
                 {{ t('noteSettings.revokeHashButton') }}
@@ -64,7 +62,7 @@
         </Section>
         <br>
         <Button
-          :style="'destructive'"
+          destructive
           @click="deleteNote"
         >
           {{ t('noteSettings.deleteNote') }}
