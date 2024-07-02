@@ -18,9 +18,7 @@
       />
     </div>
     <div :class="$style.body">
-      <div
-        :class="$style.aside"
-      >
+      <div :class="$style.aside">
         <VerticalMenu
           :items="pages"
         />

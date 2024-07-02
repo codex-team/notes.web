@@ -65,7 +65,7 @@ const formSectionItems = [
   {
     id: 2,
     name: 'Nickmel',
-    picture: 'https://i.pravatar.cc/60',
+    picture: 'https://i.pravatar.cc/50?u=2',
     subtitle: 'DevOps engineer',
   },
 ];
