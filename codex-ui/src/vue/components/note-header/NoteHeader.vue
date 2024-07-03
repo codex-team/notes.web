@@ -33,7 +33,7 @@ const props = withDefaults(
     /**
      * Date and time of last update
      */
-    updatedAt: string;
+    lastUpdate?: string;
 
     /**
      * Shows the transparency percentage of the component, from 0 to 1
@@ -42,6 +42,7 @@ const props = withDefaults(
   }>(),
   {
     description: '',
+    updatedAt:'',
     opacity: 1,
   }
 );

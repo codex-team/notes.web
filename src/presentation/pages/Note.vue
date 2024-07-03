@@ -1,4 +1,9 @@
 <template>
+  <NoteHeader
+    :opacity="note ? 1 : 0"
+    description="Last edit"
+    :last-update="note && note.hasOwnProperty('updatedAt') ? note.updatedAt : undefined"
+  />
   <div v-if="note === null">
     Loading...
   </div>
@@ -31,15 +36,17 @@
 
 <script lang="ts" setup>
 import { ref, toRef, watch, computed } from 'vue';
-import { Button, Editor } from 'codex-ui/vue';
+import { Button, Editor, NoteHeader } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
-import { NoteContent } from '@/domain/entities/Note';
+import { Note, NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
+import { formatShortDate } from '@/infrastructure/utils/date';
+import { NoteDraft } from '@/domain/entities/NoteDraft';
 
 const { t } = useI18n();
 
@@ -134,6 +141,20 @@ function unlinkButton(): void {
   }
 
   unlinkParent();
+}
+
+/**
+ * Returns card subtitle text
+ *
+ * @param newNote - Note entity
+ * @returns {string | undefined}
+ */
+function getLastUpdate(newNote: Note): string | undefined {
+  if (newNote.updatedAt === undefined) {
+    return '';
+  }
+
+  return formatShortDate(newNote.updatedAt);
 }
 
 watch(

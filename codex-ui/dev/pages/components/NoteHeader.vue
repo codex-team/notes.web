@@ -8,7 +8,7 @@
 
   <NoteHeader
     description="Last edit"
-    updated-at="Jul 2, 21:45"
+    last-update="Jul 2, 21:45"
   />
 </template>
 
