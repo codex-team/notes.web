@@ -113,8 +113,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-
-const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, parentNote, setParent } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
@@ -123,13 +122,6 @@ const { noteTitle, unlinkParent } = useNote({
  * URL of the parent note. Used to set and display the parent note
  */
 const parentURL = ref<string>('');
-
-/**
- * Regenerate invitation hash
- */
-async function regenerateHash() {
-  revokeHash(props.id);
-}
 
 /**
  * Deletes the note complitely
@@ -245,6 +237,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: var(--v-padding);
+}
 
 .fieldset{
   display: flex;
