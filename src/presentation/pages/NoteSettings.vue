@@ -19,14 +19,35 @@
       </Heading>
     </div>
     <div class="form">
-      <Field
-        v-model="parentURL"
+      <Section
         :title="t('noteSettings.parentNote')"
         :caption="t('noteSettings.parentNoteCaption')"
-        :disabled="parentNote !== undefined"
-        :placeholder="t('noteSettings.parentNotePlaceholder')"
-        @input="setParentDebounced"
-      />
+        :with-background="false"
+      >
+        <div class="change-parent">
+          <Input
+            v-model="parentURL"
+            data-dimensions="large"
+            :disabled="parentNote !== undefined"
+            :placeholder="t('noteSettings.parentNotePlaceholder')"
+            @input="setParentDebounced"
+          />
+          <Card
+            v-if="parentNote"
+            :title="parentNoteTitle"
+            :subtitle="formatShortDate(parentNote.createdAt!)"
+            orientation="horizontal"
+          >
+            <Button
+              secondary
+              @click="handleUnlinkParentClick"
+            >
+              {{ t('note.unlink') }}
+            </Button>
+          </Card>
+        </div>
+      </Section>
+
       <Section
         :title="t('noteSettings.availabilityTitle')"
         :caption="t('noteSettings.availabilityCaption')"
@@ -78,7 +99,6 @@
 
 <script lang="ts" setup>
 import type { NoteId } from '@/domain/entities/Note';
-// import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
@@ -86,7 +106,9 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Field, Heading } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Heading, Card, Input } from 'codex-ui/vue';
+import { getTitle } from '@/infrastructure/utils/note';
+import { formatShortDate } from '@/infrastructure/utils/date';
 
 const { t } = useI18n();
 
@@ -97,8 +119,8 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, parentNote, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, setParent } = useNoteSettings();
-const { noteTitle } = useNote({
+const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, parentNote, setParent } = useNoteSettings();
+const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
 
@@ -130,6 +152,15 @@ async function deleteNote() {
 }
 
 /**
+ * Unlink parent note and clear the parentURL field
+ */
+async function handleUnlinkParentClick() {
+  parentURL.value = '';
+  parentNote.value = undefined;
+  unlinkParent();
+}
+
+/**
  * Set parent note with debounce
  */
 const setParentDebounced = useDebounceFn(async () => {
@@ -137,6 +168,14 @@ const setParentDebounced = useDebounceFn(async () => {
     await setParent(props.id, parentURL.value);
   }
 }, 1000);
+
+const parentNoteTitle = computed(() => {
+  if (parentNote.value === undefined) {
+    return '';
+  }
+
+  return getTitle(parentNote.value.content);
+});
 
 /**
  * Current value of isPublic field
@@ -209,5 +248,12 @@ onMounted(async () => {
   flex-direction: column;
   gap: var(--spacing-xxl);
   margin: var(--spacing-xxl) 0;
+}
+
+.change-parent{
+  display: flex;
+  flex-direction: column;
+  gap: var(--v-padding);
+
 }
 </style>

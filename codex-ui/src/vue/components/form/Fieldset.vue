@@ -25,6 +25,7 @@ defineProps<{
 @import url('@/styles/typography.pcss');
 
 .fieldset {
+  display: grid;
   gap: var(--v-padding);
 
   &__title {
@@ -32,6 +33,7 @@ defineProps<{
   }
 
   &__sections {
+    display: grid;
     gap: var(--spacing-xl);
   }
 }

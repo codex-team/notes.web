@@ -48,7 +48,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, unlinkParent } = useNote({
   id: noteId,
 });
 

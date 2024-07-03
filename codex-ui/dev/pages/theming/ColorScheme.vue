@@ -5,21 +5,33 @@
       All themes has two color schemes: light and dark
     </template>
   </PageHeader>
-  <RadioGroup
-    :values="[
-      { label: 'Light', value: 'light' },
-      { label: 'Dark', value: 'dark' },
-    ]"
-    :value="colorScheme"
-    name="color-scheme"
-    @change="(event: Event) => setColorScheme((event.target as HTMLInputElement).value as ColorScheme)"
-  />
+
+  <Container data-dimensions="large">
+    <Row
+      v-for="mode in ['Dark', 'Light']"
+      :key="mode"
+      :title="mode"
+      :has-delimiter="mode !== 'Light'"
+      class="theme-row"
+      @click="setColorScheme(mode.toLowerCase() as ColorScheme)"
+    >
+      <template #left>
+        <Picture :name="`${mode}Theme`" />
+      </template>
+      <template
+        v-if="colorScheme === mode.toLowerCase()"
+        #right
+      >
+        <Icon name="Check" />
+      </template>
+    </Row>
+  </Container>
 </template>
 
 <script setup lang="ts">
-import { RadioGroup } from '../../../src/vue';
 import { ColorScheme, useTheme } from '../../../src/vue/composables/useTheme';
 import PageHeader from '../../components/PageHeader.vue';
+import { Row, Container, Icon, Picture } from '../../../src/vue';
 
 const { colorScheme, setColorScheme } = useTheme();
 </script>

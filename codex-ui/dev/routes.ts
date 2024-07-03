@@ -3,8 +3,10 @@ import type { Component } from 'vue';
 import Index from './pages/Index.vue';
 import TypeScale from './pages/base-concepts/TypeScale.vue';
 import ControlsDimensions from './pages/base-concepts/ControlsDimensions.vue';
+import Sizes from './pages/base-concepts/Sizes.vue';
 import BaseAndAccent from './pages/theming/BaseAndAccent.vue';
 import Themes from './pages/theming/Themes.vue';
+import Colors from './pages/theming/Colors.vue';
 import ColorScheme from './pages/theming/ColorScheme.vue';
 import Button from './pages/components/Button.vue';
 import Input from './pages/components/Input.vue';
@@ -15,6 +17,7 @@ import Checkbox from './pages/components/Checkbox.vue';
 import Container from './pages/components/Container.vue';
 import Fieldset from './pages/components/Fieldset.vue';
 import Icon from './pages/components/Icon.vue';
+import Picture from './pages/components/Picture.vue';
 import Popover from './pages/components/Popover.vue';
 import Row from './pages/components/Row.vue';
 import Section from './pages/components/Section.vue';
@@ -24,6 +27,7 @@ import Tabbar from './pages/components/Tabbar.vue';
 import VerticalMenu from './pages/components/VerticalMenu.vue';
 import ContextMenu from './pages/components/ContextMenu.vue';
 import Editor from './pages/components/Editor.vue';
+import ThemePreview from './pages/components/ThemePreview.vue';
 import NoteHeader from './pages/components/NoteHeader.vue';
 
 /**
@@ -43,8 +47,16 @@ const routes: RouteRecordRaw[] = [
     component: ControlsDimensions as Component,
   },
   {
+    path: '/sizes',
+    component: Sizes as Component,
+  },
+  {
     path: '/theming/themes',
     component: Themes as Component,
+  },
+  {
+    path: '/theming/colors',
+    component: Colors as Component,
   },
   {
     path: '/theming/color-scheme',
@@ -115,6 +127,10 @@ const routes: RouteRecordRaw[] = [
     component: Icon as Component,
   },
   {
+    path: '/components/picture',
+    component: Picture as Component,
+  },
+  {
     path: '/components/popover',
     component: Popover as Component,
   },
@@ -125,6 +141,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/components/editor',
     component: Editor as Component,
+  },
+  {
+    path: '/components/theme-preview',
+    component: ThemePreview as Component,
   },
 ];
 

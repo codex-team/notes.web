@@ -57,13 +57,18 @@ const pages = computed(() => [
         onActivate: () => router.push('/controls-dimensions'),
         isActive: route.path === '/controls-dimensions',
       },
+      {
+        title: 'Sizes',
+        onActivate: () => router.push('/sizes'),
+        isActive: route.path === '/sizes',
+      },
     ],
   },
   {
     title: 'Theming',
     items: [
       {
-        title: 'Base and Accent use cases',
+        title: 'Base and Accent',
         onActivate: () => router.push('/theming/base-and-accent'),
         isActive: route.path === '/theming/base-and-accent',
       },
@@ -76,6 +81,11 @@ const pages = computed(() => [
         title: 'Color Scheme',
         onActivate: () => router.push('/theming/color-scheme'),
         isActive: route.path === '/theming/color-scheme',
+      },
+      {
+        title: 'Colors',
+        onActivate: () => router.push('/theming/colors'),
+        isActive: route.path === '/theming/colors',
       },
     ],
   },
@@ -96,6 +106,16 @@ const pages = computed(() => [
         title: 'Icon',
         onActivate: () => router.push('/components/icon'),
         isActive: route.path === '/components/icon',
+      },
+      {
+        title: 'Picture',
+        onActivate: () => router.push('/components/picture'),
+        isActive: route.path === '/components/picture',
+      },
+      {
+        title: 'ThemePreview',
+        onActivate: () => router.push('/components/theme-preview'),
+        isActive: route.path === '/components/theme-preview',
       },
       {
         title: 'Input',

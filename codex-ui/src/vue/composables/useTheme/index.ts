@@ -5,11 +5,14 @@ import type { Ref } from 'vue';
  * Available themes for the application.
  */
 export enum Theme {
-  Classic = 'classic',
+  Graphite = 'graphite',
+  Sky = 'sky',
   Crimson = 'crimson',
   Grass = 'grass',
   Red = 'red',
-  Violet = 'violet'
+  Violet = 'violet',
+  Amber = 'amber',
+  Pure = 'pure'
 }
 
 /**
@@ -28,17 +31,17 @@ export enum ColorScheme {
 /**
  * Local storage key for base theme value
  */
-const LOCAL_STORAGE_KEY_THEME_BASE = 'theme_base';
+const LOCAL_STORAGE_KEY_THEME_BASE = 'theme-base';
 
 /**
  * Local storage key for accent theme value
  */
-const LOCAL_STORAGE_KEY_THEME_ACCENT = 'theme_accent';
+const LOCAL_STORAGE_KEY_THEME_ACCENT = 'theme-accent';
 
 /**
  * Local storage key for color scheme value
  */
-const LOCAL_STORAGE_KEY_COLOR_SCHEME = 'color_scheme';
+const LOCAL_STORAGE_KEY_COLOR_SCHEME = 'color-scheme';
 
 /**
  * Apply theme to the body element
@@ -67,9 +70,9 @@ function applyColorScheme(value: ColorScheme): void {
  */
 export const useTheme = createSharedComposable(
   (): {
-    /** Current base theme value. 'classic' by default */
+    /** Current base theme value. 'graphite' by default */
     themeBase: Ref<Theme>;
-    /** Current accent theme value. 'classic' by default */
+    /** Current accent theme value. 'sky' by default */
     themeAccent: Ref<Theme>;
     /** Current color scheme value. 'dark' by default */
     colorScheme: Ref<ColorScheme>;
@@ -81,14 +84,14 @@ export const useTheme = createSharedComposable(
     setColorScheme: (value: ColorScheme) => void;
   } => {
     /**
-     * Current base theme value. 'classic' by default
+     * Current base theme value. 'graphite' by default
      */
-    const themeBase = useLocalStorage<Theme>(LOCAL_STORAGE_KEY_THEME_BASE, Theme.Classic);
+    const themeBase = useLocalStorage<Theme>(LOCAL_STORAGE_KEY_THEME_BASE, Theme.Graphite);
 
     /**
-     * Current accent theme value. 'classic' by default
+     * Current accent theme value. 'sky' by default
      */
-    const themeAccent = useLocalStorage<Theme>(LOCAL_STORAGE_KEY_THEME_ACCENT, Theme.Classic);
+    const themeAccent = useLocalStorage<Theme>(LOCAL_STORAGE_KEY_THEME_ACCENT, Theme.Sky);
 
     /**
      * Current color scheme value. 'dark' by default
