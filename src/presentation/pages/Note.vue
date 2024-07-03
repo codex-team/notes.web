@@ -10,13 +10,6 @@
       >
         {{ t('note.createChildNote') }}
       </Button>
-
-      <Button
-        v-if="parentNote != undefined"
-        @click="unlinkButton"
-      >
-        {{ t('note.unlink') }}
-      </Button>
     </div>
     <Editor
       v-if="isToolsLoaded"
