@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Heading, Field, Container } from '../../../src/vue';
+import { Heading, Field } from '../../../src/vue';
 
 </script>
 
