@@ -5,6 +5,7 @@ import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
 import type { RouteRecordRaw } from 'vue-router';
+import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
 import MarketplacePage from '@/presentation/pages/marketplace/MarketplacePage.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
@@ -88,21 +89,31 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    name: 'marketplace',
+    name: 'marketplacePage',
     path: `/marketplace`,
     component: MarketplacePage,
+    redirect: '/marketplace/tools',
     meta: {
       pageTitleI18n: 'pages.marketplace',
     },
-  },
-  {
-    name: 'newTool',
-    path: `/marketplace/add`,
-    component: MarketplacePage,
-    meta: {
-      pageTitleI18n: 'pages.addTool',
+    children: [{
+      name: 'marketplace',
+      path: 'tools',
+      component: AddTool,
+      meta: {
+        pageTitleI18n: 'pages.marketplace',
+      },
     },
+    {
+      name: 'newTool',
+      path: `add`,
+      component: AddTool,
+      meta: {
+        pageTitleI18n: 'pages.addTool',
+      },
+    }],
   },
+
   /**
    * 404 page
    */

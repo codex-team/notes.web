@@ -2,22 +2,18 @@
   <ThreeColsLayout>
     <template #left-col>
       <VerticalMenu
-
         class="menu"
         :items="verticalMenuItems"
       />
     </template>
     <template #default>
-      <Marketplace v-if="route.path === '/marketplace'" />
-      <AddTool v-if="route.path === '/marketplace/add'" />
+      <router-view />
     </template>
   </ThreeColsLayout>
 </template>
 
 <script lang="ts" setup>
 import { VerticalMenu, type VerticalMenuItem } from 'codex-ui/vue';
-import Marketplace from './Marketplace.vue';
-import AddTool from './AddTool.vue';
 import { computed, Ref } from 'vue';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -32,8 +28,8 @@ const verticalMenuItems: Ref<VerticalMenuItem[]> = computed(() => [
 
   {
     title: 'Tools',
-    isActive: route.path === '/marketplace',
-    onActivate: () => router.push('/marketplace'),
+    isActive: route.path === '/marketplace/tools',
+    onActivate: () => router.push('/marketplace/tools'),
   },
   {
     title: 'Add your own tool',
