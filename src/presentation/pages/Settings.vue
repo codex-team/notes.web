@@ -68,7 +68,7 @@
             :key="theme"
             :title="theme"
             :has-delimiter="theme !== themes[themes.length - 1]"
-            :class="$style['container__appearance__theme-row']"
+            :class="$style['container__appearance-theme-row']"
             @click="setBaseTheme(theme.toLowerCase() as Theme)"
           >
             <template #left>
@@ -92,7 +92,7 @@
             :key="theme"
             :title="theme"
             :has-delimiter="theme !== themes[themes.length - 1]"
-            :class="$style['container__appearance__theme-row']"
+            :class="$style['container__appearance-theme-row']"
             @click="setAccentTheme(theme.toLowerCase() as Theme)"
           >
             <template #left>
