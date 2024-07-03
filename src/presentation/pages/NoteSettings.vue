@@ -156,6 +156,7 @@ async function deleteNote() {
  */
 async function handleUnlinkParentClick() {
   parentURL.value = '';
+  parentNote.value = undefined;
   unlinkParent();
 }
 
