@@ -19,29 +19,36 @@
       </Heading>
     </div>
     <div class="form">
-      <Field
-        v-model="parentURL"
+      <Section
         :title="t('noteSettings.parentNote')"
         :caption="t('noteSettings.parentNoteCaption')"
-        :disabled="parentNote !== undefined"
-        :placeholder="t('noteSettings.parentNotePlaceholder')"
-        @input="setParentDebounced"
-      />
-      <Card
-        v-if="parentNote"
-        :title="parentNoteTitle"
-        :subtitle="parentNote.updatedAt"
-        orientation="horizontal"
+        :with-background="false"
       >
-        <div class="button">
-          <Button
-            secondary
-            @click="handleUnlinkParentClick"
-          >
-            {{ t('note.unlink') }}
-          </Button>
-        </div>
-      </Card>
+        <Field
+          v-model="parentURL"
+
+          :disabled="parentNote !== undefined"
+          :placeholder="t('noteSettings.parentNotePlaceholder')"
+          @input="setParentDebounced"
+        />
+
+        <Card
+          v-if="parentNote"
+          :title="parentNoteTitle"
+          :subtitle="parentNote.updatedAt"
+          orientation="horizontal"
+        >
+          <div class="button">
+            <Button
+              secondary
+              @click="handleUnlinkParentClick"
+            >
+              {{ t('note.unlink') }}
+            </Button>
+          </div>
+        </Card>
+      </Section>
+
       <Section
         :title="t('noteSettings.availabilityTitle')"
         :caption="t('noteSettings.availabilityCaption')"
