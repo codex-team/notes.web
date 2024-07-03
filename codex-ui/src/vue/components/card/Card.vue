@@ -89,6 +89,10 @@ withDefaults(
     }
   }
 
+  &__subtitle {
+    color: var(--base--text-secondary);
+  }
+
   &--vertical {
     width: var(--card-width);
   }
