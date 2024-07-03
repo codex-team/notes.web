@@ -29,11 +29,11 @@
 
     <Fieldset :title="t('userSettings.editorTools')">
       <div
-        v-for="tool in userEditorTools"
-        :key="tool.id"
         :class="$style['container__editor-tools']"
       >
         <Card
+          v-for="tool in userEditorTools"
+          :key="tool.id"
           :title="tool.name"
           subtitle="Lorem ipsum, waiting for description setup..."
           src="https://sun9-50.userapi.com/c844720/v844720274/194ada/1HCPufLxhzY.jpg"
