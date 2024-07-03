@@ -77,6 +77,9 @@ const searchTerm = ref('');
  * Returns the list of menu context items found during the search
  */
 const filteredItems = computed(() => {
+  /**
+   * If the user has not entered anything, the filter is not applied
+   */
   if (searchTerm.value === '') {
     return props.items;
   }
@@ -95,17 +98,27 @@ const filteredItems = computed(() => {
     }
   });
 
-  /**
-   * Deletes separators if they are at the beginning or end of the returned array
-   */
-  if (searchedItems.length > 0) {
-    return searchedItems[0].type === 'separator'
-      ? searchedItems.slice(1)
-      : searchedItems;
+  return removeSeparators(searchedItems);
+});
+
+/**
+ * Deletes separators if they are at the beginning or end of the returned array
+ *
+ * @param items - filtered items array
+ * @returns { Item[] } - array without unnecessary separators
+ */
+function removeSeparators(items: Item[]): Item[] {
+  if (items.length > 0) {
+    if (items[0].type === 'separator') {
+      items = items.slice(1);
+    }
+    if (items[items.length - 1].type === 'separator') {
+      items = items.slice(0, items.length - 1);
+    }
   }
 
-  return searchedItems;
-});
+  return items;
+}
 
 /**
  * Message for displaying in context menu if result of search is empty
