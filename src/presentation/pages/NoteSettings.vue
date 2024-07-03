@@ -63,7 +63,7 @@
       </Section>
 
       <Fieldset
-        :title="'Add localization'"
+        :title="t('noteSettings.teamFormFieldSetTitle')"
       >
         <div class="fieldset">
           <Team

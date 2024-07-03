@@ -34,6 +34,7 @@
     "inviteCollaboratorCaption": "Send this link to someone you want to add as an editor or reader.",
     "revokeHashButton": "Revoke",
     "copyInviteLink": "Copy",
+    "teamFormFieldSetTitle": "Team",
     "deleteNote": "Delete",
     "noteDeleteConfirmation": "Do you really want to delete this note?",
     "parentNote": "Parent note",
