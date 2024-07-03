@@ -15,7 +15,9 @@
     subtitle="Card description"
     orientation="horizontal"
     src="https://via.placeholder.com/150"
-  />
+  >
+    <Button icon="Plus"/>
+  </Card>
 
   <Heading :level="2">
     Vertical card
@@ -26,12 +28,14 @@
     subtitle="Card description"
     orientation="vertical"
     src="https://via.placeholder.com/150"
-  />
+  >
+    <Button icon="Plus"/>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Card, Heading } from '../../../src/vue';
+import { Card, Heading, Button } from '../../../src/vue';
 
 </script>
 
