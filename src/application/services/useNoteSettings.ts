@@ -160,7 +160,7 @@ export default function (): UseNoteSettingsComposableState {
    * @param id - Child note id
    * @param newParentURL - New parent note URL
    */
-  const setParent = async (id: NoteId, newParentURL: string): Promise<void> => {
+  async function setParent(id: NoteId, newParentURL: string): Promise<void> {
     try {
       parentNote.value = await noteService.setParentByUrl(id, newParentURL);
     } catch (error) {
