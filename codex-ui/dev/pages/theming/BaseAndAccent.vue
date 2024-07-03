@@ -71,7 +71,7 @@ import { Theme, useTheme } from '../../../src/vue/composables/useTheme';
 const { themeBase, themeAccent, setBaseTheme, setAccentTheme } = useTheme();
 
 /**
- * To make themes iterable
+ * To make themes iterable because Theme is enum
  */
 const themes = Object.values(Theme);
 
