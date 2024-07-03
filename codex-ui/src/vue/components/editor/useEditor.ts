@@ -110,6 +110,8 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
           void handleChange(api);
         },
         readOnly: isReadOnly,
+        placeholder: 'Start typing...',
+        autofocus: true,
       });
 
       await editor?.isReady;

@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "@editorjs/editorjs": "^2.29.1",
+    "@editorjs/header": "^2.8.3",
     "vue": "^3.4.16"
   }
 }
