@@ -86,6 +86,9 @@ const filteredItems = computed(() => {
     return props.items;
   }
 
+  /**
+   * If the string entered by the user is included in some element, it will be returned
+   */
   const searchedItems = props.items.filter((item) => {
     if (item.type === 'message') {
       return false;
@@ -97,6 +100,9 @@ const filteredItems = computed(() => {
     }
   });
 
+  /**
+   * Deletes separators if they are at the beginning or end of the returned array
+   */
   if (searchedItems.length > 0) {
     return searchedItems[0].type === 'separator'
       ? searchedItems.slice(1)
