@@ -1,16 +1,18 @@
 <template>
   <div class="center-container">
-    <slot
-      name="block-left"
-      class="block-left"
-    />
+    <div class="block-left">
+      <slot
+        name="block-left"
+      />
+    </div>
     <div class="main-content">
       <slot class="default" />
     </div>
-    <slot
-      name="block-right"
-      class="block-right"
-    />
+    <div class="block-right">
+      <slot
+        name="block-right"
+      />
+    </div>
   </div>
 </template>
 
@@ -28,7 +30,7 @@
 }
 
 .main-content {
-  max-width: var(--layout-content-width);
+  width: var(--layout-content-width);
 }
 
 .block-left, .block-right{
