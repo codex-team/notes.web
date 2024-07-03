@@ -174,7 +174,6 @@ async function setCover(event: Event) {
 .container {
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-xxl) var(--spacing-ml);
   gap: var(--spacing-xxl);
 }
 

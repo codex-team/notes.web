@@ -4,9 +4,8 @@ import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
-import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
-import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
+import MarketplacePage from '@/presentation/pages/marketplace/MarketplacePage.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -89,8 +88,9 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    name: 'marketplace',
     path: `/marketplace`,
-    component: Marketplace,
+    component: MarketplacePage,
     meta: {
       pageTitleI18n: 'pages.marketplace',
     },
@@ -98,7 +98,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'newTool',
     path: `/marketplace/add`,
-    component: AddTool,
+    component: MarketplacePage,
     meta: {
       pageTitleI18n: 'pages.addTool',
     },
