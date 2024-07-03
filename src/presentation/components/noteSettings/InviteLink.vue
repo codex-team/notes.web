@@ -53,7 +53,11 @@ const invitationLink = computed(
  * Regenerate invitation hash
  */
 async function regenerateHash() {
-  revokeHash(props.id);
+  const isConfirmed = window.confirm(t('noteSettings.noteDeleteConfirmation'));
+
+  if (isConfirmed) {
+    revokeHash(props.id);
+  }
 }
 
 onMounted(async () => {
