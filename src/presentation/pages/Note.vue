@@ -1,6 +1,9 @@
 <template>
   <div>
-    <NoteHeader :id="props.id" />
+    <NoteHeader
+      :id="props.id"
+      :opacity="props.id ? 1 : 0"
+    />
     <div v-if="note === null">
       Loading...
     </div>

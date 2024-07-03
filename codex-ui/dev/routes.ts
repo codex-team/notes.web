@@ -126,10 +126,6 @@ const routes: RouteRecordRaw[] = [
     path: '/components/editor',
     component: Editor as Component,
   },
-  {
-    path: '/components/note-header',
-    component: NoteHeader as Component,
-  },
 ];
 
 export default routes;

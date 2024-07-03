@@ -4,7 +4,7 @@
     :style="{ '--opacity': props.opacity }"
   >
     <div :class="$style['note-header__left']">
-      {{ lastEdit }}
+      {{ updatedAt }}
     </div>
     <div :class="$style['note-header__right']">
       <Button
@@ -22,11 +22,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { toRef, ref, onMounted } from 'vue';
 import { Button } from 'codex-ui/vue';
 import { useRouter } from 'vue-router';
-
-const router = useRouter();
+import useNote from '@/application/services/useNote';
+import { formatShortDate } from '@/infrastructure/utils/date';
 
 const props = withDefaults(
   defineProps<{
@@ -51,6 +51,13 @@ const props = withDefaults(
   }
 );
 
+const noteId = toRef(props, 'id');
+const router = useRouter();
+const { load } = useNote({
+  id: noteId,
+});
+const updatedAt = ref('Last update ');
+
 /**
  * Create new child note
  */
@@ -71,7 +78,18 @@ function getNoteSettings(): void {
   router.push(`/note/${props.id}/settings`);
 }
 
-const lastEdit = computed(() => 'Севодня');
+onMounted(async () => {
+  let newNote;
+
+  if (props.id) {
+    newNote = await load(props.id);
+  }
+  const result = newNote?.updatedAt;
+
+  if (result) {
+    updatedAt.value = updatedAt.value + formatShortDate(result);
+  }
+});
 </script>
 <style module lang="postcss">
 .note-header {
