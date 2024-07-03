@@ -97,6 +97,8 @@
     "uninstallTool": "Uninstall",
     "installTool": "Install",
     "addTool": "Add Tool",
+    "userPerspective": "User perspective",
+    "technicalDetails": "Technical details",
     "newTool": {
       "title": {
         "placeholder": "Payment Widget",
@@ -109,6 +111,9 @@
         "caption":"Will be used as a block type in saved data"
 
       },
+      "picture": {
+        "label": "Picture"
+      },
       "exportName": {
         "placeholder": "PaymentTool",
         "label": "Export Name",
@@ -120,6 +125,11 @@
         "label": "CDN",
         "caption":"Direct link to the tool’s UMD bundle"
 
+      },
+      "description": {
+        "placeholder": "Add a payment button using Stripe",
+        "label": "Description",
+        "caption": "Will be visible in tools list"
       },
       "add": "Add tool"
     }

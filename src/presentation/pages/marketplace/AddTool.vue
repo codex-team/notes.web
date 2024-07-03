@@ -1,85 +1,106 @@
 <template>
   <div class="container">
-    <h1>{{ $t("marketplace.addTool") }}</h1>
-    <Section
-      :title="$t('marketplace.newTool.name.label')"
-      :caption="$t('marketplace.newTool.name.caption')"
-    >
-      <Input
-        v-model:model-value="toolName"
-        :placeholder="$t('marketplace.newTool.name.placeholder')"
-      />
-    </Section>
-    <Section
-      :title="$t('marketplace.newTool.name.label')"
-      :caption="$t('marketplace.newTool.name.caption')"
-    >
-      <Card
-        title="ABOBA"
-        subtitle="
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus odio non lectus maximus suscipit. Morbi vehicula neque eget augue mollis porta. Sed cursus auctor nisi a iaculis."
-        orientation="horizontal"
-        :icon="isLoading ? 'Loader' : undefined"
-        :src="localCover"
+    <span class="headings">
+      <Heading :level="1">
+        {{ $t("marketplace.addTool") }}
+      </Heading>
+      <p>Achieve any goal on your page</p>
+    </span>
+    <div class="section-group">
+      <Heading
+        :level="3"
+        class="headings"
       >
-        <input
-          id="marketplace-new-tool-cover"
-          type="file"
-          hidden
-          accept="image/*"
-          enctype="multipart/form-data"
-          @change="setCover($event)"
+        {{ $t("marketplace.userPerspective") }}
+      </Heading>
+      <div class="section">
+        <Section
+          :title="$t('marketplace.newTool.title.label')"
+          :caption="$t('marketplace.newTool.title.caption')"
         >
-        <label
-          for="marketplace-new-tool-cover"
-          class="add-cover-label"
+          <Input
+            v-model:model-value="toolTitle"
+            name="toolTitle"
+            :placeholder="$t('marketplace.newTool.title.placeholder')"
+          />
+        </Section>
+        <Section
+          :title="$t('marketplace.newTool.description.label')"
+          :caption="$t('marketplace.newTool.description.caption')"
         >
-          <Button class="add-cover-button"> Select file </Button>
-        </label>
-      </Card>
-    </Section>
-    <Section
-      :title="$t('marketplace.newTool.cdn.label')"
-      :caption="$t('marketplace.newTool.cdn.caption')"
-    >
-      <Input
-        v-model:model-value="toolCdn"
-        name="toolCdn"
-        :placeholder="$t('marketplace.newTool.cdn.placeholder')"
-      />
-    </Section>
-    <Section
-      :title="$t('marketplace.description.cdn.label')"
-      :caption="$t('marketplace.description.cdn.caption')"
-    >
-      <Input
-        v-model:model-value="description"
-        name="description"
-        :placeholder="$t('marketplace.description.cdn.placeholder')"
-      />
-    </Section>
-    <Section
-      :title="$t('marketplace.newTool.title.label')"
-      :caption="$t('marketplace.newTool.title.caption')"
-    >
-      <Input
-        v-model:model-value="toolTitle"
-        name="toolTitle"
-        :placeholder="$t('marketplace.newTool.title.placeholder')"
-      />
-    </Section>
-    <Section
-      :title="$t('marketplace.newTool.exportName.label')"
-      :caption="$t('marketplace.newTool.exportName.caption')"
-    >
-      <Input
-        v-model:model-value="toolExport"
-        name="toolExport"
-        :placeholder="$t('marketplace.newTool.exportName.placeholder')"
-      />
-    </Section>
+          <Input
+            v-model:model-value="description"
+            name="description"
+            :placeholder="$t('marketplace.newTool.description.placeholder')"
+          />
+        </Section>
+        <Section :title="$t('marketplace.newTool.picture.label')">
+          <Card
+            subtitle="A cool descriptive screenshot of the Tool's UI"
+            orientation="horizontal"
+            :icon="isLoading ? 'Loader' : undefined"
+            :src="localCover"
+          >
+            <input
+              id="marketplace-new-tool-cover"
+              type="file"
+              hidden
+              accept="image/*"
+              enctype="multipart/form-data"
+              @change="setCover($event)"
+            >
+            <label
+              for="marketplace-new-tool-cover"
+              class="add-cover-label"
+            >
+              <Button class="add-cover-button"> Select file </Button>
+            </label>
+          </Card>
+        </Section>
+      </div>
+    </div>
+    <div class="section-group">
+      <Heading
+        :level="3"
+        class="headings"
+      >
+        {{ $t("marketplace.technicalDetails") }}
+      </Heading>
+      <div class="section">
+        <Section
+          :title="$t('marketplace.newTool.name.label')"
+          :caption="$t('marketplace.newTool.name.caption')"
+        >
+          <Input
+            v-model:model-value="toolName"
+            size="small"
+            :placeholder="$t('marketplace.newTool.name.placeholder')"
+          />
+        </Section>
+        <Section
+          :title="$t('marketplace.newTool.cdn.label')"
+          :caption="$t('marketplace.newTool.cdn.caption')"
+        >
+          <Input
+            v-model:model-value="toolCdn"
+            name="toolCdn"
+            :placeholder="$t('marketplace.newTool.cdn.placeholder')"
+          />
+        </Section>
+        <Section
+          :title="$t('marketplace.newTool.exportName.label')"
+          :caption="$t('marketplace.newTool.exportName.caption')"
+        >
+          <Input
+            v-model:model-value="toolExport"
+            name="toolExport"
+            :placeholder="$t('marketplace.newTool.exportName.placeholder')"
+          />
+        </Section>
+      </div>
+    </div>
     <Button
-      type="primary"
+      type="submit"
       class="add-tool-button"
       @click.passive="onClick"
     >
@@ -90,7 +111,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus odio non 
 
 <script setup lang="ts">
 import useMarketplace from '@/application/services/useMarketplace';
-import { Section, Input, Button, Card } from 'codex-ui/vue';
+import { Section, Input, Button, Card, Heading } from 'codex-ui/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -151,6 +172,26 @@ async function setCover(event: Event) {
 
 <style setup lang="postcss" scoped>
 .container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-xxl) var(--spacing-ml);
+  gap: var(--spacing-xxl);
+}
+
+.headings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
+  padding-left: var(--h-padding);
+}
+
+.section-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v-padding);
+}
+
+.section {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxl);
