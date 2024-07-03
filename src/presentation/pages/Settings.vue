@@ -143,17 +143,6 @@ async function uninstallClicked(toolId: string) {
 .page-header {
   padding: 0 var(--h-padding);
   gap: var(--spacing-s);
-
-  h1 {
-    font-size: 42px;
-    font-weight: 700;
-    line-height: 46.2px;
-  }
-}
-
-.general-fields {
-  display: grid;
-  gap: var(--spacing-xxl);
 }
 
 .marketplace {
