@@ -29,6 +29,7 @@
     Adding the <code>[data-dimensions="{{ mode }}"]</code> attriubute
     <br>
     <br>
+    <br>
     <Field
       :title="`Field in the ${mode} mode`"
       caption="Watch paddings and radius"
@@ -42,7 +43,7 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Heading, Field } from '../../../src/vue';
+import { Heading, Field, Container } from '../../../src/vue';
 
 </script>
 
