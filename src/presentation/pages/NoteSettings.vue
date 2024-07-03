@@ -73,9 +73,9 @@
           <InviteLink
             :id="props.id"
           />
-          <br>
           <Button
             destructive
+            class="delete-button"
             @click="deleteNote"
           >
             {{ t('noteSettings.deleteNote') }}
@@ -99,7 +99,7 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Heading, Fieldset } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'codex-ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
@@ -244,4 +244,10 @@ onMounted(async () => {
   flex-direction: column;
   gap: var(--spacing-xl);
 }
+
+.delete-button{
+  width: auto; /* Или конкретная ширина, например, 200px */
+  align-self: flex-start; /* Для выравнивания кнопки в начале контейнера */
+}
+
 </style>

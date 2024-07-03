@@ -20,7 +20,7 @@
             icon="Copy"
             @click="copy(invitationLink)"
           >
-            Copy
+            {{ t('noteSettings.copyInviteLink') }}
           </Button>
         </div>
       </template>
