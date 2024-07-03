@@ -1,5 +1,8 @@
 <template>
-  <div :class="$style['context-menu']">
+  <div
+    ref="contextMenu"
+    :class="$style['context-menu']"
+  >
     <div
       v-if="showSearch"
       :class="$style['context-menu__search']"
@@ -11,7 +14,10 @@
       />
       <ContextMenuItem :item="separator" />
     </div>
-    <div :class="$style['context-menu__scrollable']">
+    <div
+      :class="$style['context-menu__scrollable']"
+      :style="fixWidth !== 0 ? { width: fixWidth } : {}"
+    >
       <template v-if="filteredItems.length > 0">
         <ContextMenuItem
           v-for="(item, index) in filteredItems"
@@ -27,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Input from '../input/Input.vue';
 import type { ContextMenuItem as Item } from './ContextMenu.types';
 import ContextMenuItem from './ContextMenuItem.vue';
@@ -56,6 +62,16 @@ const props = withDefaults(
   }>(),
   { showSearch: false }
 );
+
+const contextMenu = ref();
+let fixWidth = 0;
+
+/**
+ * Calculates the fixed width of the container after mounting
+ */
+onMounted(() => {
+  fixWidth = contextMenu.value.getBoundingClientRect().width;
+});
 
 /**
  * User entered word for search
