@@ -4,7 +4,7 @@
       <Heading :level="1">
         {{ $t("marketplace.addTool") }}
       </Heading>
-      <p>Achieve any goal on your page</p>
+      <p>{{ $t('marketplace.subtitle') }}</p>
     </span>
     <div class="section-group">
       <Heading
@@ -175,6 +175,7 @@ async function setCover(event: Event) {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxl);
+  width: var(--layout-content-width);
 }
 
 .headings {

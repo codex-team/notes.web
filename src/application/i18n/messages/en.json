@@ -94,6 +94,7 @@
   "marketplace": {
     "title": "Marketplace",
     "listOfTools": "Tools",
+    "subtitle": "Achieve any goal on your page",
     "uninstallTool": "Uninstall",
     "installTool": "Install",
     "addTool": "Add Tool",

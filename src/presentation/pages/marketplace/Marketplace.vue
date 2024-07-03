@@ -46,6 +46,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-m);
+  width: var(--layout-content-width);
 
   &__subheader {
     margin-bottom: var(--spacing-l);
