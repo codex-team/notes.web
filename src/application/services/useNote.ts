@@ -71,13 +71,6 @@ interface UseNoteComposableState {
   unlinkParent: () => Promise<void>;
 
   /**
-   * Set parent for the note
-   * @param id - Child note id
-   * @param newParentURL - New parent note URL
-   */
-  setParent: (id: NoteId, newParentURL: string) => Promise<void>;
-
-  /**
    * Defines if user can edit note
    */
   canEdit: Ref<boolean>;
@@ -278,21 +271,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
-   * Set parent for the note
-   * @param id - Child note id
-   * @param newParentURL - New parent note URL
-   */
-  const setParent = async (id: NoteId, newParentURL: string): Promise<void> => {
-    try {
-      parentNote.value = await noteService.setParentByUrl(id, newParentURL);
-    } catch (error) {
-      if (error instanceof Error) {
-        window.alert(error.message);
-      }
-    }
-  };
-
-  /**
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
@@ -349,7 +327,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     resolveToolsByContent,
     save,
     unlinkParent,
-    setParent,
     parentNote,
   };
 }

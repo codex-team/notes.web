@@ -119,8 +119,8 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById } = useNoteSettings();
-const { noteTitle, parentNote, setParent, unlinkParent } = useNote({
+const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, parentNote, setParent } = useNoteSettings();
+const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
 
