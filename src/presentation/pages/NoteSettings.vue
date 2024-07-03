@@ -61,34 +61,48 @@
           </template>
         </Row>
       </Section>
-      <div>
-        <Team
-          :note-id="id"
-          :team="noteSettings.team"
-        />
-        <Section
-          :title="t('noteSettings.inviteCollaboratorTitle')"
-          :caption="t('noteSettings.inviteCollaboratorCaption')"
-        >
-          <Row :title="invitationLink">
-            <template #right>
-              <Button
-                secondary
-                @click="regenerateHash"
-              >
-                {{ t('noteSettings.revokeHashButton') }}
-              </Button>
-            </template>
-          </Row>
-        </Section>
-        <br>
-        <Button
-          destructive
-          @click="deleteNote"
-        >
-          {{ t('noteSettings.deleteNote') }}
-        </Button>
-      </div>
+
+      <Fieldset
+        :title="'Add localization'"
+      >
+        <div class="fieldset">
+          <Team
+            :note-id="id"
+            :team="noteSettings.team"
+          />
+          <Section
+            :title="t('noteSettings.inviteCollaboratorTitle')"
+            :caption="t('noteSettings.inviteCollaboratorCaption')"
+          >
+            <Row :title="invitationLink">
+              <template #right>
+                <div class="fieldset__buttons">
+                  <Button
+                    icon="Replace"
+                    secondary
+                    @click="regenerateHash"
+                  >
+                    {{ t('noteSettings.revokeHashButton') }}
+                  </Button>
+                  <Button
+                    icon="Copy"
+                    @click="copy(parentURL)"
+                  >
+                    Copy
+                  </Button>
+                </div>
+              </template>
+            </Row>
+          </Section>
+          <br>
+          <Button
+            destructive
+            @click="deleteNote"
+          >
+            {{ t('noteSettings.deleteNote') }}
+          </Button>
+        </div>
+      </Fieldset>
       <br>
     </div>
   </div>
@@ -104,9 +118,9 @@ import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
-import { useDebounceFn } from '@vueuse/core';
+import { useDebounceFn, useClipboard } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Heading, Card, Input } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Heading, Fieldset } from 'codex-ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
 
@@ -123,6 +137,7 @@ const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNote
 const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
+const { copy } = useClipboard();
 
 const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
@@ -255,5 +270,15 @@ onMounted(async () => {
   flex-direction: column;
   gap: var(--v-padding);
 
+.fieldset{
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+
+  &__buttons{
+    display: flex;
+    flex-direction: row;
+    gap: var(--h-padding);
+  }
 }
 </style>
