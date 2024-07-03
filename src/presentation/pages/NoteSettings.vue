@@ -38,14 +38,12 @@
             :subtitle="formatShortDate(parentNote.createdAt!)"
             orientation="horizontal"
           >
-            <div class="change-parent__button">
-              <Button
-                secondary
-                @click="handleUnlinkParentClick"
-              >
-                {{ t('note.unlink') }}
-              </Button>
-            </div>
+            <Button
+              secondary
+              @click="handleUnlinkParentClick"
+            >
+              {{ t('note.unlink') }}
+            </Button>
           </Card>
         </div>
       </Section>
@@ -256,10 +254,5 @@ onMounted(async () => {
   flex-direction: column;
   gap: var(--v-padding);
 
-  &__button{
-    display: flex;
-    justify-content: flex-end;
-    flex-grow: 1;
-  }
 }
 </style>
