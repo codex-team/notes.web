@@ -3,8 +3,10 @@ import type { Component } from 'vue';
 import Index from './pages/Index.vue';
 import TypeScale from './pages/base-concepts/TypeScale.vue';
 import ControlsDimensions from './pages/base-concepts/ControlsDimensions.vue';
+import Sizes from './pages/base-concepts/Sizes.vue';
 import BaseAndAccent from './pages/theming/BaseAndAccent.vue';
 import Themes from './pages/theming/Themes.vue';
+import Colors from './pages/theming/Colors.vue';
 import ColorScheme from './pages/theming/ColorScheme.vue';
 import Button from './pages/components/Button.vue';
 import Input from './pages/components/Input.vue';
@@ -42,8 +44,16 @@ const routes: RouteRecordRaw[] = [
     component: ControlsDimensions as Component,
   },
   {
+    path: '/sizes',
+    component: Sizes as Component,
+  },
+  {
     path: '/theming/themes',
     component: Themes as Component,
+  },
+  {
+    path: '/theming/colors',
+    component: Colors as Component,
   },
   {
     path: '/theming/color-scheme',
