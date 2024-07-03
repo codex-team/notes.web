@@ -143,7 +143,6 @@ async function uninstallClicked(toolId: string) {
 .page-header {
   padding: 0 var(--h-padding);
   gap: var(--spacing-s);
-  color: var(--base--text);
 }
 
 .marketplace {

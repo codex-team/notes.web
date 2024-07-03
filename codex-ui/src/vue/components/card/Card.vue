@@ -92,6 +92,10 @@ withDefaults(
     flex: 1;
   }
 
+  &__subtitle {
+    color: var(--base--text-secondary);
+  }
+
   &--vertical {
     width: var(--card-width);
   }
