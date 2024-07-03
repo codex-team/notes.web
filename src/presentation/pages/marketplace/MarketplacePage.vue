@@ -49,5 +49,6 @@ const verticalMenuItems: Ref<VerticalMenuItem[]> = computed(() => [
 .menu {
   flex-shrink: 0;
   height: fit-content;
+  width: auto;
 }
 </style>

@@ -35,7 +35,7 @@
 }
 
 .block-left, .block-right{
-  max-width: var(--layout-block-width);
+  width: var(--layout-block-width);
   padding: 0 var(--spacing-ml);
 }
 </style>
