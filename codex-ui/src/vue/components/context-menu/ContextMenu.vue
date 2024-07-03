@@ -18,16 +18,11 @@
       :class="$style['context-menu__scrollable']"
       :style="fixWidth !== 0 ? { width: fixWidth } : {}"
     >
-      <template v-if="filteredItems.length > 0">
-        <ContextMenuItem
-          v-for="(item, index) in filteredItems"
-          :key="index"
-          :item="item"
-        />
-      </template>
-      <template v-else>
-        <ContextMenuItem :item="messageItem" />
-      </template>
+      <ContextMenuItem
+        v-for="(item, index) in filteredItems"
+        :key="index"
+        :item="item"
+      />
     </div>
   </div>
 </template>
@@ -98,27 +93,24 @@ const filteredItems = computed(() => {
     }
   });
 
-  return removeSeparators(searchedItems);
-});
+  /**
+   * Deleting useless separators
+   */
+  if (searchedItems.length > 0) {
+    let items = searchedItems;
 
-/**
- * Deletes separators if they are at the beginning or end of the returned array
- *
- * @param items - filtered items array
- * @returns { Item[] } - array without unnecessary separators
- */
-function removeSeparators(items: Item[]): Item[] {
-  if (items.length > 0) {
-    if (items[0].type === 'separator') {
-      items = items.slice(1);
+    if (searchedItems[0].type === 'separator') {
+      items = searchedItems.slice(1);
     }
-    if (items[items.length - 1].type === 'separator') {
-      items = items.slice(0, items.length - 1);
+    if (searchedItems[searchedItems.length - 1].type === 'separator') {
+      items = searchedItems.slice(0, searchedItems.length - 1);
     }
+
+    return items;
+  } else {
+    return messageItem;
   }
-
-  return items;
-}
+});
 
 /**
  * Message for displaying in context menu if result of search is empty
