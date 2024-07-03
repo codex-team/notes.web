@@ -20,10 +20,89 @@
           <Row :title="user?.email!" />
         </Section>
         <div>
-          <Button destructive>
+          <Button
+            destructive
+            @click="userLogout"
+          >
             {{ t('auth.logout') }}
           </Button>
         </div>
+      </div>
+    </Fieldset>
+
+    <Fieldset :title="t('userSettings.appearance.title')">
+      <div :class="$style['container__appearance']">
+        <Section
+          :title="t('userSettings.appearance.colorSheme.title')"
+          :caption="t('userSettings.appearance.colorSheme.caption')"
+        >
+          <Row
+            v-for="scheme in colorSchemes"
+            :key="scheme"
+            :title="scheme"
+            :has-delimiter="scheme !== colorSchemes[colorSchemes.length - 1]"
+            :class="$style['container__appearance__theme-row']"
+            @click="setColorScheme(scheme.toLowerCase() as ColorScheme)"
+          >
+            <template #left>
+              <Picture :name="`${scheme}Theme`" />
+            </template>
+            <template
+              v-if="colorScheme === scheme.toLowerCase()"
+              #right
+            >
+              <Icon name="Check" />
+            </template>
+          </Row>
+        </Section>
+
+        <Section
+          :title="t('userSettings.appearance.baseTheme.title')"
+          :caption="t('userSettings.appearance.baseTheme.caption')"
+        >
+          <Row
+            v-for="theme in themes"
+            :key="theme"
+            :title="theme"
+            :has-delimiter="theme !== themes[themes.length - 1]"
+            :class="$style['container__appearance__theme-row']"
+            @click="setBaseTheme(theme.toLowerCase() as Theme)"
+          >
+            <template #left>
+              <ThemePreview :theme="theme" />
+            </template>
+            <template
+              v-if="themeBase === theme.toLowerCase()"
+              #right
+            >
+              <Icon name="Check" />
+            </template>
+          </Row>
+        </Section>
+
+        <Section
+          :title="t('userSettings.appearance.accentTheme.title')"
+          :caption="t('userSettings.appearance.accentTheme.caption')"
+        >
+          <Row
+            v-for="theme in themes"
+            :key="theme"
+            :title="theme"
+            :has-delimiter="theme !== themes[themes.length - 1]"
+            :class="$style['container__appearance__theme-row']"
+            @click="setAccentTheme(theme.toLowerCase() as Theme)"
+          >
+            <template #left>
+              <ThemePreview :theme="theme" />
+            </template>
+            <template
+              v-if="themeAccent === theme.toLowerCase()"
+              #right
+            >
+              <Icon name="Check" />
+            </template>
+          </Row>
+        </Section>
       </div>
     </Fieldset>
 
@@ -48,13 +127,6 @@
     </Fieldset>
   </div>
 
-  <ThemeButton />
-  <Button
-    :text="t('auth.logout')"
-    type="primary"
-    @click="userLogout"
-  />
-
   <Button
     class="marketplace"
     :text="t('marketplace.title')"
@@ -65,15 +137,15 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { Button, Fieldset, Section, Row, Heading, Card } from 'codex-ui/vue';
+import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, Picture } from 'codex-ui/vue';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
 import { useUserSettings } from '@/application/services/useUserSettings';
-import ThemeButton from '@/presentation/components/theme/ThemeButton.vue';
 import { useAppState } from '@/application/services/useAppState';
 import { useHead } from 'unhead';
 import { ref } from 'vue';
 import useHeader from '@/application/services/useHeader';
+
 
 const { user, userEditorTools } = useAppState();
 const { t } = useI18n();
@@ -81,6 +153,17 @@ const router = useRouter();
 const { logout } = useAuth();
 const { removeTool } = useUserSettings();
 const { deleteOpenedPageByUrl } = useHeader();
+const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setColorScheme } = useTheme();
+
+/**
+ * To make themes iterable because Theme is enum
+ */
+const themes = Object.values(Theme);
+
+/**
+ * To make colorShemes iterable because colorSheme is enum
+ */
+const colorSchemes = Object.keys(ColorScheme);
 
 const isLoading = ref<boolean>(false);
 
@@ -138,20 +221,33 @@ async function uninstallClicked(toolId: string) {
     display: grid;
     gap: var(--v-padding);
   }
+
+  &__appearance {
+    display: grid;
+    gap: var(--spacing-xxl);
+
+    &__theme-row {
+      cursor: pointer;
+
+      &:first-of-type {
+        border-top-left-radius: var(--radius-field);
+        border-top-right-radius: var(--radius-field);
+      }
+
+      &:last-of-type {
+        border-bottom-left-radius: var(--radius-field);
+        border-bottom-right-radius: var(--radius-field);
+      }
+
+      &:hover {
+        background-color: var(--base--bg-secondary-hover);
+      }
+    }
+  }
 }
 
 .page-header {
   padding: var(--spacing-xxl) var(--h-padding) 0;
   gap: var(--spacing-s);
-}
-
-.marketplace {
-  margin-top: var(--spacing-l);
-}
-
-.tool {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-very-x);
 }
 </style>
