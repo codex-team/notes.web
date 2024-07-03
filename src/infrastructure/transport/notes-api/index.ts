@@ -5,6 +5,7 @@ import AuthorizableTransport from '@/infrastructure/transport/authorizable.trans
 import type JSONValue from '../types/JSONValue';
 import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
 import NotFoundError from '@/domain/entities/errors/NotFound';
+import type { FilesDto } from '../types/FileDto';
 
 /**
  * Additional params that could be specified for request to NoteX API
@@ -85,9 +86,36 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param endpoint - API endpoint
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request
+   * @param files - Files to be sent with request
    */
-  public async post<Response>(endpoint: string, data?: JSONValue | FormData, params?: NotexApiRequestParams): Promise<Response> {
-    const response = await super.post(endpoint, data, params);
+  public async post<Response>(endpoint: string, data?: Record<string, JSONValue | undefined>, params?: NotexApiRequestParams, files?: FilesDto): Promise<Response> {
+    let payload: FormData | Record<string, JSONValue | undefined> = data ?? {};
+
+    if (files) {
+      const multipartFormData = new FormData();
+
+      files.forEach((file) => {
+        if ('file' in file) {
+          multipartFormData.append(file.key, file.file);
+        } else {
+          multipartFormData.append(file.key, file.blob, file.fileName);
+        }
+      });
+
+      for (let key in data) {
+        const value = data[key];
+
+        if (value !== undefined) {
+          const isPrimitive = typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || value === null;
+
+          multipartFormData.append(key, isPrimitive ? String(value) : JSON.stringify(value));
+        }
+      }
+
+      payload = multipartFormData;
+    }
+
+    const response = await super.post(endpoint, payload, params);
 
     return response as Response;
   }

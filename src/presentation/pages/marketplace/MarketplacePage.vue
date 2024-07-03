@@ -1,6 +1,6 @@
 <template>
-  <DefaultLayout>
-    <template #block-left>
+  <ThreeColsLayout>
+    <template #left-col>
       <VerticalMenu
 
         class="menu"
@@ -11,7 +11,7 @@
       <Marketplace v-if="route.path === '/marketplace'" />
       <AddTool v-if="route.path === '/marketplace/add'" />
     </template>
-  </DefaultLayout>
+  </ThreeColsLayout>
 </template>
 
 <script lang="ts" setup>
@@ -19,7 +19,7 @@ import { VerticalMenu, type VerticalMenuItem } from 'codex-ui/vue';
 import Marketplace from './Marketplace.vue';
 import AddTool from './AddTool.vue';
 import { computed, Ref } from 'vue';
-import DefaultLayout from '../../layouts/Default.vue';
+import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();

@@ -1,104 +1,95 @@
 <template>
-  <div class="container">
-    <span class="headings">
-      <Heading :level="1">
-        {{ $t("marketplace.addTool") }}
-      </Heading>
-      <p>{{ $t('marketplace.subtitle') }}</p>
-    </span>
-    <div class="section-group">
-      <Heading
-        :level="3"
-        class="headings"
+  <div
+    class="container"
+    data-dimensions="large"
+  >
+    <PageHeading>
+      {{ $t("marketplace.addTool") }}
+      <template #description>
+        {{ $t('marketplace.subtitle') }}
+      </template>
+    </PageHeading>
+    <Fieldset
+      :title="$t('marketplace.userPerspective')"
+    >
+      <Section
+        :title="$t('marketplace.newTool.title.label')"
+        :caption="$t('marketplace.newTool.title.caption')"
       >
-        {{ $t("marketplace.userPerspective") }}
-      </Heading>
-      <div class="section">
-        <Section
-          :title="$t('marketplace.newTool.title.label')"
-          :caption="$t('marketplace.newTool.title.caption')"
+        <Input
+          v-model:model-value="toolTitle"
+          name="toolTitle"
+          :placeholder="$t('marketplace.newTool.title.placeholder')"
+        />
+      </Section>
+      <Section
+        :title="$t('marketplace.newTool.description.label')"
+        :caption="$t('marketplace.newTool.description.caption')"
+      >
+        <Input
+          v-model:model-value="description"
+          name="description"
+          :placeholder="$t('marketplace.newTool.description.placeholder')"
+        />
+      </Section>
+      <Section :title="$t('marketplace.newTool.picture.label')">
+        <Card
+          :subtitle="$t('marketplace.newTool.picture.description')"
+          orientation="horizontal"
+          :icon="isLoading ? 'Loader' : undefined"
+          :src="localCover"
         >
-          <Input
-            v-model:model-value="toolTitle"
-            name="toolTitle"
-            :placeholder="$t('marketplace.newTool.title.placeholder')"
-          />
-        </Section>
-        <Section
-          :title="$t('marketplace.newTool.description.label')"
-          :caption="$t('marketplace.newTool.description.caption')"
-        >
-          <Input
-            v-model:model-value="description"
-            name="description"
-            :placeholder="$t('marketplace.newTool.description.placeholder')"
-          />
-        </Section>
-        <Section :title="$t('marketplace.newTool.picture.label')">
-          <Card
-            subtitle="A cool descriptive screenshot of the Tool's UI"
-            orientation="horizontal"
-            :icon="isLoading ? 'Loader' : undefined"
-            :src="localCover"
+          <input
+            id="marketplace-new-tool-cover"
+            type="file"
+            hidden
+            accept="image/*"
+            enctype="multipart/form-data"
+            @change="setCover($event)"
           >
-            <input
-              id="marketplace-new-tool-cover"
-              type="file"
-              hidden
-              accept="image/*"
-              enctype="multipart/form-data"
-              @change="setCover($event)"
-            >
-            <label
-              for="marketplace-new-tool-cover"
-              class="add-cover-label"
-            >
-              <Button class="add-cover-button"> Select file </Button>
-            </label>
-          </Card>
-        </Section>
-      </div>
-    </div>
-    <div class="section-group">
-      <Heading
-        :level="3"
-        class="headings"
+          <label
+            for="marketplace-new-tool-cover"
+            class="add-cover-label"
+          >
+            <Button class="add-cover-button"> {{ $t('marketplace.selectFile') }}</Button>
+          </label>
+        </Card>
+      </Section>
+    </Fieldset>
+    <Fieldset
+      :title="$t('marketplace.technicalDetails')"
+    >
+      <Section
+        :title="$t('marketplace.newTool.name.label')"
+        :caption="$t('marketplace.newTool.name.caption')"
       >
-        {{ $t("marketplace.technicalDetails") }}
-      </Heading>
-      <div class="section">
-        <Section
-          :title="$t('marketplace.newTool.name.label')"
-          :caption="$t('marketplace.newTool.name.caption')"
-        >
-          <Input
-            v-model:model-value="toolName"
-            size="small"
-            :placeholder="$t('marketplace.newTool.name.placeholder')"
-          />
-        </Section>
-        <Section
-          :title="$t('marketplace.newTool.cdn.label')"
-          :caption="$t('marketplace.newTool.cdn.caption')"
-        >
-          <Input
-            v-model:model-value="toolCdn"
-            name="toolCdn"
-            :placeholder="$t('marketplace.newTool.cdn.placeholder')"
-          />
-        </Section>
-        <Section
-          :title="$t('marketplace.newTool.exportName.label')"
-          :caption="$t('marketplace.newTool.exportName.caption')"
-        >
-          <Input
-            v-model:model-value="toolExport"
-            name="toolExport"
-            :placeholder="$t('marketplace.newTool.exportName.placeholder')"
-          />
-        </Section>
-      </div>
-    </div>
+        <Input
+          v-model:model-value="toolName"
+          size="small"
+          :placeholder="$t('marketplace.newTool.name.placeholder')"
+        />
+      </Section>
+      <Section
+        :title="$t('marketplace.newTool.cdn.label')"
+        :caption="$t('marketplace.newTool.cdn.caption')"
+      >
+        <Input
+          v-model:model-value="toolCdn"
+          name="toolCdn"
+          :placeholder="$t('marketplace.newTool.cdn.placeholder')"
+        />
+      </Section>
+      <Section
+        :title="$t('marketplace.newTool.exportName.label')"
+        :caption="$t('marketplace.newTool.exportName.caption')"
+      >
+        <Input
+          v-model:model-value="toolExport"
+          name="toolExport"
+          :placeholder="$t('marketplace.newTool.exportName.placeholder')"
+        />
+      </Section>
+    </Fieldset>
     <Button
       type="submit"
       class="add-tool-button"
@@ -111,9 +102,11 @@
 
 <script setup lang="ts">
 import useMarketplace from '@/application/services/useMarketplace';
-import { Section, Input, Button, Card, Heading } from 'codex-ui/vue';
+import { Section, Input, Button, Card, Fieldset } from 'codex-ui/vue';
+import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { arrayBufferToBase64 } from '@/infrastructure/utils/buffer';
 
 const { addTool } = useMarketplace();
 const router = useRouter();
@@ -146,23 +139,18 @@ function onClick() {
   });
 }
 
+/**
+ * Set local cover image
+ *
+ * @param event - on change file event
+ */
 async function setCover(event: Event) {
   cover.value = (event.target as HTMLInputElement).files?.[0];
 
-  function arrayBufferToBase64(buffer: ArrayBuffer) {
-    var binary = '';
-    var bytes = new Uint8Array(buffer);
-    var len = bytes.byteLength;
-
-    for (var i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-
-    return btoa(binary);
-  }
-
   if (cover.value) {
     const buffer = await cover.value?.arrayBuffer();
+
+    // Works fine with jpeg too
     const src = `data:image/png;base64,${arrayBufferToBase64(buffer)}`;
 
     localCover.value = src;
@@ -176,25 +164,6 @@ async function setCover(event: Event) {
   flex-direction: column;
   gap: var(--spacing-xxl);
   width: var(--layout-content-width);
-}
-
-.headings {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-s);
-  padding-left: var(--h-padding);
-}
-
-.section-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--v-padding);
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxl);
 }
 
 .add-tool-button {

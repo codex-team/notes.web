@@ -1,5 +1,5 @@
 <template>
-  <Default>
+  <ThreeColsLayout>
     <Heading
       :level="1"
       :class="$style['home__heading']"
@@ -39,7 +39,7 @@
         {{ $t('loadMore') }}
       </Button>
     </div>
-  </Default>
+  </ThreeColsLayout>
 </template>
 
 <script setup lang="ts">
@@ -51,7 +51,7 @@ import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
 import { Button, Card, Heading } from 'codex-ui/vue';
 import { Note } from '@/domain/entities/Note';
-import Default from '@/presentation/layouts/Default.vue';
+import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 
 const { user } = useAppState();
 const { t } = useI18n();

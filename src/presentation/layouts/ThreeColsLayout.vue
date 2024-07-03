@@ -2,15 +2,15 @@
   <div class="center-container">
     <div class="block-left">
       <slot
-        name="block-left"
+        name="left-col"
       />
     </div>
     <div class="main-content">
-      <slot class="default" />
+      <slot />
     </div>
     <div class="block-right">
       <slot
-        name="block-right"
+        name="right-col"
       />
     </div>
   </div>
@@ -31,13 +31,11 @@
 
 .main-content {
   width: var(--layout-content-width);
+  padding: 0 var(--spacing-ml);
 }
 
 .block-left, .block-right{
   max-width: var(--layout-block-width);
-}
-
-.default {
   padding: 0 var(--spacing-ml);
 }
 </style>

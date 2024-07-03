@@ -27,16 +27,16 @@ export default class NoteAttachmentUploaderRepository implements NoteAttachmentU
    * @returns key, by which we can load it from api
    */
   public async upload(noteId: Note['id'], fileData: Blob): Promise<string> {
-    const form = new FormData();
-
     /**
      * Generate filename for form data
      */
     const fileName = generateHash();
 
-    form.set('file', fileData, fileName);
-
-    const res = await this.transport.post<{ key: string }>(`/upload/${noteId}`, form);
+    const res = await this.transport.post<{ key: string }>(`/upload/${noteId}`, {}, {}, [{
+      key: 'file',
+      blob: fileData,
+      fileName,
+    }]);
 
     return res.key;
   }

@@ -100,6 +100,7 @@
     "addTool": "Add Tool",
     "userPerspective": "User perspective",
     "technicalDetails": "Technical details",
+    "selectFile": "Select file",
     "newTool": {
       "title": {
         "placeholder": "Payment Widget",
@@ -113,7 +114,8 @@
 
       },
       "picture": {
-        "label": "Picture"
+        "label": "Picture",
+        "description": "A cool descriptive screenshot of the Tool's UI"
       },
       "exportName": {
         "placeholder": "PaymentTool",
