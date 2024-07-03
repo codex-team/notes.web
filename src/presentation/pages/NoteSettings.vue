@@ -24,29 +24,30 @@
         :caption="t('noteSettings.parentNoteCaption')"
         :with-background="false"
       >
-        <Field
-          v-model="parentURL"
-
-          :disabled="parentNote !== undefined"
-          :placeholder="t('noteSettings.parentNotePlaceholder')"
-          @input="setParentDebounced"
-        />
-
-        <Card
-          v-if="parentNote"
-          :title="parentNoteTitle"
-          :subtitle="parentNote.updatedAt"
-          orientation="horizontal"
-        >
-          <div class="button">
-            <Button
-              secondary
-              @click="handleUnlinkParentClick"
-            >
-              {{ t('note.unlink') }}
-            </Button>
-          </div>
-        </Card>
+        <div class="change-parent">
+          <Input
+            v-model="parentURL"
+            data-dimensions="large"
+            :disabled="parentNote !== undefined"
+            :placeholder="t('noteSettings.parentNotePlaceholder')"
+            @input="setParentDebounced"
+          />
+          <Card
+            v-if="parentNote"
+            :title="parentNoteTitle"
+            :subtitle="formatShortDate(parentNote.createdAt!)"
+            orientation="horizontal"
+          >
+            <div class="change-parent__button">
+              <Button
+                secondary
+                @click="handleUnlinkParentClick"
+              >
+                {{ t('note.unlink') }}
+              </Button>
+            </div>
+          </Card>
+        </div>
       </Section>
 
       <Section
@@ -100,7 +101,6 @@
 
 <script lang="ts" setup>
 import type { NoteId } from '@/domain/entities/Note';
-// import TextEdit from '@/presentation/components/form/TextEdit.vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
@@ -108,8 +108,9 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Field, Heading, Card } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Heading, Card, Input } from 'codex-ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
+import { formatShortDate } from '@/infrastructure/utils/date';
 
 const { t } = useI18n();
 
@@ -250,8 +251,15 @@ onMounted(async () => {
   margin: var(--spacing-xxl) 0;
 }
 
-.button {
-  justify-content: flex-end; /* Выравнивание содержимого по правому краю */
-  flex-grow: 1; /* Занимает всё доступное пространство */
+.change-parent{
+  display: flex;
+  flex-direction: column;
+  gap: var(--v-padding);
+
+  &__button{
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+  }
 }
 </style>
