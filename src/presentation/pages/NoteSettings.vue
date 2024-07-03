@@ -36,7 +36,7 @@
         <div class="button">
           <Button
             secondary
-            @click="unlinkParent"
+            @click="handleUnlinkParentClick"
           >
             {{ t('note.unlink') }}
           </Button>
@@ -143,6 +143,14 @@ async function deleteNote() {
   if (isConfirmed) {
     deleteNoteById(props.id);
   }
+}
+
+/**
+ * Unlink parent note and clear the parentURL field
+ */
+async function handleUnlinkParentClick() {
+  parentURL.value = '';
+  unlinkParent();
 }
 
 /**
