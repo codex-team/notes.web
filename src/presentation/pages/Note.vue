@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
 import { ref, toRef, watch, computed } from 'vue';
-import { Button, Editor, NoteHeader } from 'codex-ui/vue';
+import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
 import { Note, NoteContent } from '@/domain/entities/Note';
@@ -44,6 +44,7 @@ import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { formatShortDate } from '@/infrastructure/utils/date';
+import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 
 const { t } = useI18n();
 

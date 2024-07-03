@@ -20,5 +20,5 @@
       "vue": ["node_modules/vue"]
     }
   },
-  "include": ["src", "vite.config.ts", "dev"]
+  "include": ["src", "vite.config.ts", "dev", "../src/presentation/components/note-header"]
 }
