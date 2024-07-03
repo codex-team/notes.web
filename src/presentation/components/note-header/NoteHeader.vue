@@ -15,6 +15,7 @@
       <Button
         secondary
         icon="EtcHorisontal"
+        @click="getNoteSettings"
       />
     </div>
   </div>
@@ -58,6 +59,16 @@ function createChildNote(): void {
     throw new Error('Note is Empty');
   }
   router.push(`/note/${props.id}/new`);
+}
+
+/**
+ * Move to note settings
+ */
+function getNoteSettings(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/note/${props.id}/settings`);
 }
 
 const lastEdit = computed(() => 'Севодня');
