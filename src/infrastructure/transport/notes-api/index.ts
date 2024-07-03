@@ -86,7 +86,7 @@ export default class NotesApiTransport extends AuthorizableTransport {
    * @param data - data to be sent with request body
    * @param params - Additional params to tune request
    */
-  public async post<Payload, Response = Payload>(endpoint: string, data?: JSONValue | FormData, params?: NotexApiRequestParams): Promise<Response> {
+  public async post<Response>(endpoint: string, data?: JSONValue | FormData, params?: NotexApiRequestParams): Promise<Response> {
     const response = await super.post(endpoint, data, params);
 
     return response as Response;
