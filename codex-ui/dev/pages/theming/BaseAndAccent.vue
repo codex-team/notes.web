@@ -67,7 +67,9 @@
 import PageHeader from '../../components/PageHeader.vue';
 import { Heading, Row, Container, Icon } from '../../../src/vue';
 import { type Theme, useTheme } from '../../../src/vue/composables/useTheme';
+
 const { themeBase, themeAccent, setBaseTheme, setAccentTheme } = useTheme();
+
 const themes = [
   'Graphite',
   'Sky',
@@ -81,20 +83,25 @@ const themes = [
 </script>
 
 <style scoped>
+
 .theme-row {
   cursor: pointer;
+
   &:first-of-type {
     border-top-left-radius: var(--radius-field);
     border-top-right-radius: var(--radius-field);
   }
+
   &:last-of-type {
     border-bottom-left-radius: var(--radius-field);
     border-bottom-right-radius: var(--radius-field);
   }
+
   &:hover {
     background-color: var(--base--bg-secondary-hover);
   }
 }
+
 .theme-preview {
   width: 30px;
   height: 30px;
@@ -103,6 +110,7 @@ const themes = [
   display: flex;
   align-items: center;
   justify-content: center;
+
   &:before {
     content: '';
     display: block;
