@@ -27,28 +27,25 @@
       </div>
     </Fieldset>
 
-    <Fieldset title="Editor Tools">
+    <Fieldset :title="t('userSettings.editorTools')">
       <div
+        v-for="tool in userEditorTools"
+        :key="tool.id"
         :class="$style['container__editor-tools']"
       >
-        <template
-          v-for="tool in userEditorTools"
-          :key="tool.id"
+        <Card
+          :title="tool.name"
+          subtitle="Lorem ipsum, waiting for description setup..."
+          src="https://sun9-50.userapi.com/c844720/v844720274/194ada/1HCPufLxhzY.jpg"
+          orientation="horizontal"
         >
-          <Card
-            :title="tool.name"
-            subtitle="Lorem ipsum, waiting for description setup..."
-            src="https://sun9-50.userapi.com/c844720/v844720274/194ada/1HCPufLxhzY.jpg"
-            orientation="horizontal"
+          <Button
+            v-if="!tool.isDefault"
+            @click="uninstallClicked(tool.id)"
           >
-            <Button
-              v-if="!tool.isDefault"
-              @click="uninstallClicked(tool.id)"
-            >
-              {{ t('userSettings.uninstallEditorTool') }}
-            </Button>
-          </Card>
-        </template>
+            {{ t('userSettings.uninstallEditorTool') }}
+          </Button>
+        </Card>
       </div>
     </Fieldset>
   </div>
