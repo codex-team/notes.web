@@ -73,27 +73,10 @@
           <Section
             :title="t('noteSettings.inviteCollaboratorTitle')"
             :caption="t('noteSettings.inviteCollaboratorCaption')"
-          >
-            <Row :title="invitationLink">
-              <template #right>
-                <div class="fieldset__buttons">
-                  <Button
-                    icon="Replace"
-                    secondary
-                    @click="regenerateHash"
-                  >
-                    {{ t('noteSettings.revokeHashButton') }}
-                  </Button>
-                  <Button
-                    icon="Copy"
-                    @click="copy(parentURL)"
-                  >
-                    Copy
-                  </Button>
-                </div>
-              </template>
-            </Row>
-          </Section>
+          />
+          <InviteLink
+            :id="props.id"
+            />
           <br>
           <Button
             destructive
@@ -118,11 +101,12 @@ import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
-import { useDebounceFn, useClipboard } from '@vueuse/core';
+import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button, Heading, Fieldset } from 'codex-ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
+import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
 
 const { t } = useI18n();
 
@@ -133,15 +117,11 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
+
 const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
-const { copy } = useClipboard();
-
-const invitationLink = computed(
-  () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
-);
 
 /**
  * URL of the parent note. Used to set and display the parent note
@@ -274,11 +254,5 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
-
-  &__buttons{
-    display: flex;
-    flex-direction: row;
-    gap: var(--h-padding);
-  }
 }
 </style>
