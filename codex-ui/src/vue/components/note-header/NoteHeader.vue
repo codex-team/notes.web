@@ -8,12 +8,12 @@
     </div>
     <div :class="$style['note-header__right']">
       <Button
+        secondary
         icon="Plus"
-        :class="$style['note-header__button']"
       />
       <Button
+        secondary
         icon="EtcHorisontal"
-        :class="$style['note-header__button']"
       />
     </div>
   </div>
@@ -42,42 +42,30 @@ const props = withDefaults(
   }>(),
   {
     description: '',
-    updatedAt:'',
+    lastUpdate: '',
     opacity: 1,
   }
 );
 
-const lastEdit = computed(() => props.description + ' ' + props.updatedAt);
+const lastEdit = computed(() => props.description + ' ' + props.lastUpdate);
 </script>
 <style module lang="postcss">
 .note-header {
   width: 100%;
   display: flex;
+  align-items: center;
   height: min-content;
   opacity: var(--opacity);
   justify-content: space-between;
   padding: var(--spacing-s) var(--spacing-m);
 
   &__left {
-    display: flex;
-    align-items: center;
     color: var(--base--text-secondary);
   }
 
   &__right {
     display: flex;
     gap: var(--spacing-s);
-  }
-
-  &__button {
-    padding: var(--spacing-s);
-    color: var(--base--text-secondary);
-    background-color: var(--base--bg-secondary);
-
-    &:hover {
-      background-color: var(--base--bg-secondary-hover);
-      color: var(--base--text-secondary-hover);
-    }
   }
 }
 </style>

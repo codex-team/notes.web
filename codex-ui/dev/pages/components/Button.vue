@@ -83,7 +83,6 @@
       </Button>
     </div>
   </div>
-  <Button icon="Plus" />
 </template>
 
 <script setup lang="ts">
