@@ -40,7 +40,7 @@
 
   <Container data-dimensions="large">
     <Row
-      v-for="theme in themes"
+      v-for="theme in Theme"
       :key="theme"
       :title="theme"
       :has-delimiter="theme !== themes[themes.length - 1]"
@@ -66,20 +66,15 @@
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
 import { Heading, Row, Container, Icon } from '../../../src/vue';
-import { type Theme, useTheme } from '../../../src/vue/composables/useTheme';
+import { Theme, useTheme } from '../../../src/vue/composables/useTheme';
 
 const { themeBase, themeAccent, setBaseTheme, setAccentTheme } = useTheme();
 
-const themes = [
-  'Graphite',
-  'Sky',
-  'Grass',
-  'Red',
-  'Crimson',
-  'Violet',
-  'Amber',
-  'Pure',
-];
+/**
+ * To make themes iterable because Theme is enum
+ */
+const themes = Object.values(Theme);
+
 </script>
 
 <style scoped>
