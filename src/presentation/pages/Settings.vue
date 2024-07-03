@@ -4,7 +4,10 @@
       {{ t('userSettings.title') }}
     </Heading>
   </div>
-  <div :class="$style['container']" data-dimensions="large">
+  <div
+    :class="$style['container']"
+    data-dimensions="large"
+  >
     <Fieldset :title="t('userSettings.general')">
       <div :class="$style['container__general-fields']">
         <Section
@@ -41,7 +44,7 @@
             :key="scheme"
             :title="scheme"
             :has-delimiter="scheme !== colorSchemes[colorSchemes.length - 1]"
-            :class="$style['container__appearance__theme-row']"
+            :class="$style['container__appearance-theme-row']"
             @click="setColorScheme(scheme.toLowerCase() as ColorScheme)"
           >
             <template #left>
@@ -146,7 +149,6 @@ import { useHead } from 'unhead';
 import { ref } from 'vue';
 import useHeader from '@/application/services/useHeader';
 
-
 const { user, userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
@@ -226,7 +228,7 @@ async function uninstallClicked(toolId: string) {
     display: grid;
     gap: var(--spacing-xxl);
 
-    &__theme-row {
+    &-theme-row {
       cursor: pointer;
 
       &:first-of-type {
