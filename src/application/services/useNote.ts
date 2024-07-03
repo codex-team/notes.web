@@ -289,7 +289,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       if (error instanceof Error) {
         window.alert(error.message);
       }
-      throw error;
     }
   };
 
