@@ -17,18 +17,12 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { ThemePreview } from '../../../src/vue';
+import { ThemePreview, Theme } from '../../../src/vue';
 
-const themes = [
-  'Graphite',
-  'Sky',
-  'Grass',
-  'Red',
-  'Crimson',
-  'Violet',
-  'Amber',
-  'Pure',
-];
+/**
+ * To make themes iterable
+ */
+const themes = Object.values(Theme);
 
 </script>
 
