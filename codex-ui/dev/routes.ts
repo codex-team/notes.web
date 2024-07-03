@@ -17,6 +17,7 @@ import Checkbox from './pages/components/Checkbox.vue';
 import Container from './pages/components/Container.vue';
 import Fieldset from './pages/components/Fieldset.vue';
 import Icon from './pages/components/Icon.vue';
+import Picture from './pages/components/Picture.vue';
 import Popover from './pages/components/Popover.vue';
 import Row from './pages/components/Row.vue';
 import Section from './pages/components/Section.vue';
@@ -122,6 +123,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/components/icon',
     component: Icon as Component,
+  },
+  {
+    path: '/components/picture',
+    component: Picture as Component,
   },
   {
     path: '/components/popover',

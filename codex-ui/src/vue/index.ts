@@ -13,4 +13,5 @@ export * from './components/tabbar';
 export * from './components/container';
 export * from './components/context-menu';
 export * from './components/vertical-menu';
+export * from './components/picture';
 export * from './composables/useTheme';

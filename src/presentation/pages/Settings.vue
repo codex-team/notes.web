@@ -141,7 +141,7 @@ async function uninstallClicked(toolId: string) {
 }
 
 .page-header {
-  padding: 0 var(--h-padding);
+  padding: var(--spacing-xxl) var(--h-padding) 0;
   gap: var(--spacing-s);
 }
 
