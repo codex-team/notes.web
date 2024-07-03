@@ -9,7 +9,6 @@
   <ContextMenu
     :show-search="true"
     :items="contextMenuItems"
-    message="Nothing found"
   />
 </template>
 

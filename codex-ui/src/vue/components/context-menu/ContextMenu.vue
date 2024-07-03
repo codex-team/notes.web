@@ -54,11 +54,6 @@ const props = withDefaults(
      * Array of items for context menu
      */
     items: Item[];
-
-    /**
-     * Message what occurs as a result of the search
-     */
-    message: string;
   }>(),
   { showSearch: false }
 );
@@ -117,7 +112,7 @@ const filteredItems = computed(() => {
  */
 const messageItem: Item = {
   type: 'message',
-  message: props.message,
+  message: 'Nothing found',
 };
 
 </script>
