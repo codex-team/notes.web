@@ -246,8 +246,8 @@ onMounted(async () => {
 }
 
 .delete-button{
-  width: auto; /* Или конкретная ширина, например, 200px */
-  align-self: flex-start; /* Для выравнивания кнопки в начале контейнера */
+  width: auto;
+  align-self: flex-start;
 }
 
 </style>
