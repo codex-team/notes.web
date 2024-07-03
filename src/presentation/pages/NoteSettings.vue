@@ -70,13 +70,9 @@
             :note-id="id"
             :team="noteSettings.team"
           />
-          <Section
-            :title="t('noteSettings.inviteCollaboratorTitle')"
-            :caption="t('noteSettings.inviteCollaboratorCaption')"
-          />
           <InviteLink
             :id="props.id"
-            />
+          />
           <br>
           <Button
             destructive

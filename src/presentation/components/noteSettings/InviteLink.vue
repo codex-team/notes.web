@@ -1,32 +1,40 @@
 <template>
-  <Row :title="invitationLink">
-    <template #right>
-      <div class="buttons">
-        <Button
-          icon="Replace"
-          secondary
-          @click="regenerateHash"
+  <Section
+    :title="t('noteSettings.inviteCollaboratorTitle')"
+    :caption="t('noteSettings.inviteCollaboratorCaption')"
+  >
+    <Row :title="invitationLink">
+      <template #right>
+        <div
+          class="buttons"
+          data-dimensions="medium"
         >
-          {{ t('noteSettings.revokeHashButton') }}
-        </Button>
-        <Button
-          icon="Copy"
-          @click="copy(invitationLink)"
-        >
-          Copy
-        </Button>
-      </div>
-    </template>
-  </Row>
+          <Button
+            icon="Replace"
+            secondary
+            @click="regenerateHash"
+          >
+            {{ t('noteSettings.revokeHashButton') }}
+          </Button>
+          <Button
+            icon="Copy"
+            @click="copy(invitationLink)"
+          >
+            Copy
+          </Button>
+        </div>
+      </template>
+    </Row>
+  </Section>
 </template>
 
 <script setup lang="ts">
 import { useClipboard } from '@vueuse/core';
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, onMounted } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { useI18n } from 'vue-i18n';
-import { Button, Row } from 'codex-ui/vue';
+import { Button, Row, Section } from 'codex-ui/vue';
 
 const { t } = useI18n();
 
@@ -34,7 +42,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, revokeHash } = useNoteSettings();
+const { noteSettings, revokeHash, load: loadSettings } = useNoteSettings();
 const { copy } = useClipboard();
 
 const invitationLink = computed(
@@ -48,10 +56,13 @@ async function regenerateHash() {
   revokeHash(props.id);
 }
 
+onMounted(async () => {
+  await loadSettings(props.id);
+});
 </script>
 
 <style scoped lang="postcss">
-buttons{
+.buttons {
   display: flex;
   flex-direction: row;
   gap: var(--h-padding);
