@@ -10,6 +10,7 @@
       <Button
         secondary
         icon="Plus"
+        @click="createChildNote"
       />
       <Button
         secondary
@@ -22,18 +23,21 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Button } from 'codex-ui/vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const props = withDefaults(
   defineProps<{
     /**
-     * Explanatory caption for the date
+     * Null for new note, id for reading existing note
      */
-    description?: string;
+    id: string | null;
 
     /**
-     * Date and time of last update
+     * Parent note id, undefined for root note
      */
-    lastUpdate?: string;
+    parentId?: string;
 
     /**
      * Shows the transparency percentage of the component, from 0 to 1
@@ -41,13 +45,22 @@ const props = withDefaults(
     opacity: number;
   }>(),
   {
-    description: '',
-    lastUpdate: '',
+    parentId: undefined,
     opacity: 1,
   }
 );
 
-const lastEdit = computed(() => props.description + ' ' + props.lastUpdate);
+/**
+ * Create new child note
+ */
+function createChildNote(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/note/${props.id}/new`);
+}
+
+const lastEdit = computed(() => 'Севодня');
 </script>
 <style module lang="postcss">
 .note-header {

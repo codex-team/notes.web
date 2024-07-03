@@ -1,25 +1,10 @@
 <template>
   <div>
-    <NoteHeader />
+    <NoteHeader :id="props.id" />
     <div v-if="note === null">
       Loading...
     </div>
     <div v-else>
-      <div>
-        <Button
-          v-if="props.id != null"
-          @click="createChildNote"
-        >
-          {{ t('note.createChildNote') }}
-        </Button>
-
-        <Button
-          v-if="parentNote != undefined"
-          @click="unlinkButton"
-        >
-          {{ t('note.unlink') }}
-        </Button>
-      </div>
       <Editor
         v-if="isToolsLoaded"
         ref="editor"
@@ -34,21 +19,17 @@
 
 <script lang="ts" setup>
 import { ref, toRef, watch, computed } from 'vue';
-import { Button, Editor } from 'codex-ui/vue';
+import { Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
-import { useRouter } from 'vue-router';
-import { Note, NoteContent } from '@/domain/entities/Note';
+import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
-import { formatShortDate } from '@/infrastructure/utils/date';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 
 const { t } = useI18n();
-
-const router = useRouter();
 
 const props = defineProps<{
   /**
@@ -64,7 +45,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = useNote({
+const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
 
@@ -118,41 +99,6 @@ async function noteChanged(data: NoteContent): Promise<void> {
       updateCover(props.id, updatedNoteCover);
     }
   }
-}
-
-/**
- * Create new child note
- */
-function createChildNote(): void {
-  if (props.id === null) {
-    throw new Error('Note is Empty');
-  }
-  router.push(`/note/${props.id}/new`);
-}
-
-/**
- * Unlink note from parent
- */
-function unlinkButton(): void {
-  if (props.id === null) {
-    throw new Error('Note is Empty');
-  }
-
-  unlinkParent();
-}
-
-/**
- * Returns card subtitle text
- *
- * @param newNote - Note entity
- * @returns {string | undefined}
- */
-function getLastUpdate(newNote: Note): string | undefined {
-  if (newNote.updatedAt === undefined) {
-    return '';
-  }
-
-  return formatShortDate(newNote.updatedAt);
 }
 
 watch(
