@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
-import type { NoteId, Note } from '@/domain/entities/Note';
+import type { Note, NoteId } from '@/domain/entities/Note';
 import { noteSettingsService, noteService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
@@ -16,7 +16,7 @@ interface UseNoteSettingsComposableState {
   noteSettings: Ref<NoteSettings | null>;
 
   /**
-   * Instance of the parent note, undefined if there is no parent note
+   * Parent note, undefined if it's a root note
    */
   parentNote: Ref<Note | undefined>;
 
@@ -78,7 +78,9 @@ export default function (): UseNoteSettingsComposableState {
   const noteSettings = ref<NoteSettings | null>(null);
 
   /**
-   * Instance of the parent note, undefined if there is no parent note
+   * Parent note
+   *
+   * undefined by default
    */
   const parentNote = ref<Note | undefined>();
 
@@ -154,6 +156,21 @@ export default function (): UseNoteSettingsComposableState {
   };
 
   /**
+   * Set parent for the note
+   * @param id - Child note id
+   * @param newParentURL - New parent note URL
+   */
+  async function setParent(id: NoteId, newParentURL: string): Promise<void> {
+    try {
+      parentNote.value = await noteService.setParentByUrl(id, newParentURL);
+    } catch (error) {
+      if (error instanceof Error) {
+        window.alert(error.message);
+      }
+    }
+  };
+
+  /**
    * Update note cover picture
    * @param id - note id
    * @param data - picture binary data
@@ -169,24 +186,9 @@ export default function (): UseNoteSettingsComposableState {
     }
   };
 
-  /**
-   * Set parent for the note
-   * @param id - Child note id
-   * @param newParentURL - New parent note URL
-   */
-  const setParent = async (id: NoteId, newParentURL: string): Promise<void> => {
-    try {
-      parentNote.value = await noteService.setParentByUrl(id, newParentURL);
-    } catch (error) {
-      if (error instanceof Error) {
-        window.alert(error.message);
-      }
-      throw error;
-    }
-  };
-
   return {
     updateCover,
+    setParent,
     parentNote,
     noteSettings,
     load,
@@ -194,6 +196,5 @@ export default function (): UseNoteSettingsComposableState {
     revokeHash,
     changeRole,
     deleteNoteById,
-    setParent,
   };
 }

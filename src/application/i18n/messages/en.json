@@ -50,7 +50,7 @@
   },
   "note": {
     "new": "New Note",
-    "unlink": "Unlink from parent",
+    "unlink": "Unlink parent",
     "untitled": "Untitled",
     "open": "Open",
     "createChildNote": "Create child note"
