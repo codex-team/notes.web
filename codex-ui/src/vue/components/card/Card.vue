@@ -22,7 +22,6 @@
         {{ subtitle }}
       </div>
     </div>
-
     <slot />
   </div>
 </template>
@@ -87,6 +86,10 @@ withDefaults(
       width: 150px;
       height: 100px;
     }
+  }
+
+  &__body {
+    flex: 1;
   }
 
   &__subtitle {
