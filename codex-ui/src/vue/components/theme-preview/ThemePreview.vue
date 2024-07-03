@@ -16,23 +16,6 @@ defineProps<{
 </script>
 
 <style lang="postcss">
-.theme-row {
-  cursor: pointer;
-
-  &:first-of-type {
-    border-top-left-radius: var(--radius-field);
-    border-top-right-radius: var(--radius-field);
-  }
-
-  &:last-of-type {
-    border-bottom-left-radius: var(--radius-field);
-    border-bottom-right-radius: var(--radius-field);
-  }
-
-  &:hover {
-    background-color: var(--base--bg-secondary-hover);
-  }
-}
 
 .theme-preview {
   width: 30px;
