@@ -28,9 +28,7 @@
     </Fieldset>
 
     <Fieldset :title="t('userSettings.editorTools')">
-      <div
-        :class="$style['container__editor-tools']"
-      >
+      <div :class="$style['container__editor-tools']">
         <Card
           v-for="tool in userEditorTools"
           :key="tool.id"
