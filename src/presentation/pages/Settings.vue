@@ -4,7 +4,7 @@
       {{ t('userSettings.title') }}
     </Heading>
   </div>
-  <div :class="$style['container']">
+  <div :class="$style['container']" data-dimensions="large">
     <Fieldset :title="t('userSettings.general')">
       <div :class="$style['container__general-fields']">
         <Section
@@ -158,7 +158,7 @@ const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setCo
 /**
  * To make themes iterable because Theme is enum
  */
-const themes = Object.values(Theme);
+const themes = Object.keys(Theme);
 
 /**
  * To make colorShemes iterable because colorSheme is enum
