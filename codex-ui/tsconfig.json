@@ -20,4 +20,5 @@
       "vue": ["node_modules/vue"]
     }
   },
+  "include": ["src", "vite.config.ts", "dev"]
 }
