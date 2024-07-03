@@ -21,7 +21,22 @@
     "emailCaption": "Used for login",
     "name": "Name",
     "email": "Email",
-    "general": "General"
+    "general": "General",
+    "appearance": {
+      "title": "Appearance",
+      "colorSheme": {
+        "title": "Color sheme",
+        "caption": "Choose your side"
+      },
+      "baseTheme": {
+        "title": "Base theme",
+        "caption": "Main colors of the application"
+      },
+      "accentTheme" : {
+        "title": "Accent theme",
+        "caption": "Primary buttons and highlights"
+      }
+    }
   },
   "noteSettings": {
     "title": "Note Settings",
