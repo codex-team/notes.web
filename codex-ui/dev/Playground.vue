@@ -108,6 +108,11 @@ const pages = computed(() => [
         isActive: route.path === '/components/icon',
       },
       {
+        title: 'Picture',
+        onActivate: () => router.push('/components/picture'),
+        isActive: route.path === '/components/picture',
+      },
+      {
         title: 'Input',
         onActivate: () => router.push('/components/input'),
         isActive: route.path === '/components/input',
