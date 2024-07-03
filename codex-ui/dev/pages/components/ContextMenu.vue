@@ -9,7 +9,7 @@
   <ContextMenu
     :show-search="true"
     :items="contextMenuItems"
-    :message="'Noting found'"
+    :message="'Nothing found'"
   />
 </template>
 
