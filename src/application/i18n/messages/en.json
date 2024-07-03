@@ -14,7 +14,7 @@
   "userSettings": {
     "title": "User Settings",
     "changeTheme": "Change theme",
-    "userEditorTools": "User editor tools",
+    "editorTools": "Editor Tools",
     "uninstallEditorTool": "Uninstall",
     "toolUninstallConfirmation": "Do you really want to delete this tool?",
     "nameCaption": "Will be displayed in collaborators list",
