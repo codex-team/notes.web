@@ -1,36 +1,34 @@
 <template>
-  <NoteHeader
-    :opacity="note ? 1 : 0"
-    description="Last edit"
-    :last-update="note && note.hasOwnProperty('updatedAt') ? note.updatedAt : undefined"
-  />
-  <div v-if="note === null">
-    Loading...
-  </div>
-  <div v-else>
-    <div>
-      <Button
-        v-if="props.id != null"
-        @click="createChildNote"
-      >
-        {{ t('note.createChildNote') }}
-      </Button>
-
-      <Button
-        v-if="parentNote != undefined"
-        @click="unlinkButton"
-      >
-        {{ t('note.unlink') }}
-      </Button>
+  <div>
+    <NoteHeader />
+    <div v-if="note === null">
+      Loading...
     </div>
-    <Editor
-      v-if="isToolsLoaded"
-      ref="editor"
-      :tools="loadedTools"
-      :content="note.content"
-      :read-only="!canEdit"
-      @change="noteChanged"
-    />
+    <div v-else>
+      <div>
+        <Button
+          v-if="props.id != null"
+          @click="createChildNote"
+        >
+          {{ t('note.createChildNote') }}
+        </Button>
+
+        <Button
+          v-if="parentNote != undefined"
+          @click="unlinkButton"
+        >
+          {{ t('note.unlink') }}
+        </Button>
+      </div>
+      <Editor
+        v-if="isToolsLoaded"
+        ref="editor"
+        :tools="loadedTools"
+        :content="note.content"
+        :read-only="!canEdit"
+        @change="noteChanged"
+      />
+    </div>
   </div>
 </template>
 
@@ -46,7 +44,6 @@ import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { formatShortDate } from '@/infrastructure/utils/date';
-import { NoteDraft } from '@/domain/entities/NoteDraft';
 
 const { t } = useI18n();
 

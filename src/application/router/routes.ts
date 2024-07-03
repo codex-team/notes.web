@@ -33,6 +33,7 @@ const routes: RouteRecordRaw[] = [
     path: '/note/:id',
     component: Note,
     meta: {
+      layout: 'fullpage',
       pageTitleI18n: 'pages.note',
     },
     props: route => ({
