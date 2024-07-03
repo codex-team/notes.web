@@ -64,7 +64,6 @@ const lastEdit = computed(() => props.description + ' ' + props.lastUpdate);
   }
 
   &__right {
-    display: flex;
     gap: var(--spacing-s);
   }
 }
