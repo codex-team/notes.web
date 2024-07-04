@@ -4,6 +4,7 @@ import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
+import JoinPage from '@/presentation/pages/Join.vue';
 import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
@@ -101,6 +102,18 @@ const routes: RouteRecordRaw[] = [
     component: AddTool,
     meta: {
       pageTitleI18n: 'pages.addTool',
+    },
+  },
+  {
+    name: 'join',
+    path: '/join/:hash',
+    component: JoinPage,
+    props: route => ({
+      invitationHash: String(route.params.hash),
+    }),
+    meta: {
+      pageTitleI18n: 'pages.joinTeam',
+      discardTabOnLeave: true,
     },
   },
   /**
