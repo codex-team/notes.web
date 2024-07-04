@@ -27,7 +27,7 @@ export default class TeamRepository implements TeamRepositoryInterface {
   public async joinNoteTeamByHash(hash: InvitationHash): Promise<TeamMember | null> {
     let res: TeamMember | null = null;
 
-    res = await this.transport.post<TeamMember | null>('/join/' + hash, {});
+    res = await this.transport.post<TeamMember | null>({ endpoint: '/join/' + hash });
 
     return res;
   }
