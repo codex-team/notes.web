@@ -51,6 +51,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       pageTitleI18n: 'pages.newNote',
       discardTabOnLeave: true,
+      authGuard: true,
     },
   },
   {
@@ -63,6 +64,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       pageTitleI18n: 'pages.newNote',
       discardTabOnLeave: true,
+      authGuard: true,
     },
   },
   {
@@ -77,6 +79,7 @@ const routes: RouteRecordRaw[] = [
     component: Settings,
     meta: {
       pageTitleI18n: 'pages.userSettings',
+      authGuard: true,
     },
   },
   {
@@ -88,6 +91,7 @@ const routes: RouteRecordRaw[] = [
     }),
     meta: {
       pageTitleI18n: 'pages.noteSettings',
+      authGuard: true,
     },
   },
   {
@@ -104,6 +108,7 @@ const routes: RouteRecordRaw[] = [
       component: MarketplaceTools,
       meta: {
         pageTitleI18n: 'pages.marketplace',
+        authGuard: true,
       },
     },
     {
@@ -112,6 +117,7 @@ const routes: RouteRecordRaw[] = [
       component: AddTool,
       meta: {
         pageTitleI18n: 'pages.addTool',
+        authGuard: true,
       },
     }],
   },
@@ -125,18 +131,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       pageTitleI18n: 'pages.joinTeam',
       discardTabOnLeave: true,
-    },
-  },
-  {
-    name: 'join',
-    path: '/join/:hash',
-    component: JoinPage,
-    props: route => ({
-      invitationHash: String(route.params.hash),
-    }),
-    meta: {
-      pageTitleI18n: 'pages.joinTeam',
-      discardTabOnLeave: true,
+      authGuard: true,
     },
   },
 
