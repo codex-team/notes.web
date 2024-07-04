@@ -253,5 +253,4 @@ onMounted(async () => {
   width: auto;
   align-self: flex-start;
 }
-
 </style>
