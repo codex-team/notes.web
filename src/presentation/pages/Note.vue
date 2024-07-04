@@ -38,12 +38,12 @@
 
 <script lang="ts" setup>
 import { ref, toRef, watch, computed } from 'vue';
-import { Editor, Button } from 'codex-ui/vue';
+import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
+import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 import { formatShortDate } from '@/infrastructure/utils/date';
 import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
@@ -51,6 +51,8 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 
 const { t } = useI18n();
+
+const router = useRouter();
 
 const props = defineProps<{
   /**
@@ -65,7 +67,6 @@ const props = defineProps<{
 }>();
 
 const noteId = toRef(props, 'id');
-const router = useRouter();
 
 const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
