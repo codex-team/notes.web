@@ -19,6 +19,7 @@
   display: flex;
   align-items: center;
   opacity: var(--opacity);
+  transition: opacity 100ms;
   justify-content: space-between;
   padding: var(--spacing-s) var(--spacing-m);
 

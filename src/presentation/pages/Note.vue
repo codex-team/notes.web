@@ -1,7 +1,6 @@
 <template>
   <div>
     <NoteHeader
-      :id="id"
       :style="{ '--opacity': id ? 1 : 0 }"
     >
       <template #left>
