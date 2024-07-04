@@ -37,7 +37,7 @@ interface UseNoteSettingsComposableState {
    * Revoke invitation hash
    * @param id - note id
    */
-  revokeHash: (id: NoteId) => Promise<void>;
+  revokeHash: (id: NoteId) => Promise<string>;
 
   /**
    * Patch team member role by user and note id
@@ -120,7 +120,7 @@ export default function (): UseNoteSettingsComposableState {
    * Revoke invitation hash
    * @param id - Note id
    */
-  const revokeHash = async (id: NoteId): Promise<void> => {
+  const revokeHash = async (id: NoteId): Promise<string> => {
     const { invitationHash } = await noteSettingsService.regenerateInvitationHash(id);
 
     /**
@@ -130,6 +130,8 @@ export default function (): UseNoteSettingsComposableState {
       noteSettings.value = { ...noteSettings.value,
         invitationHash };
     }
+
+    return invitationHash;
   };
 
   /**

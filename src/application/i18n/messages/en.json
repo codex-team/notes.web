@@ -13,7 +13,6 @@
   },
   "userSettings": {
     "title": "User Settings",
-    "changeTheme": "Change theme",
     "editorTools": "Editor Tools",
     "uninstallEditorTool": "Uninstall",
     "toolUninstallConfirmation": "Do you really want to delete this tool?",
@@ -21,7 +20,28 @@
     "emailCaption": "Used for login",
     "name": "Name",
     "email": "Email",
-    "general": "General"
+    "general": "General",
+    "visitMarketplace": {
+      "title": "Add more tools",
+      "caption": "Discover new Blocks, Formattings and other tools to improve your pages",
+      "button": "View all tools",
+      "pictureName": "Hammer"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "colorSheme": {
+        "title": "Color sheme",
+        "caption": "Choose your side"
+      },
+      "baseTheme": {
+        "title": "Base theme",
+        "caption": "Main colors of the application"
+      },
+      "accentTheme" : {
+        "title": "Accent theme",
+        "caption": "Primary buttons and highlights"
+      }
+    }
   },
   "noteSettings": {
     "title": "Note Settings",
@@ -33,6 +53,9 @@
     "inviteCollaboratorTitle": "Invite a collaborator",
     "inviteCollaboratorCaption": "Send this link to someone you want to add as an editor or reader.",
     "revokeHashButton": "Revoke",
+    "revokeHashConfirmation": "Do you really want to revoke this link?",
+    "copyInviteLink": "Copy",
+    "teamFormFieldSetTitle": "Team",
     "deleteNote": "Delete",
     "noteDeleteConfirmation": "Do you really want to delete this note?",
     "parentNote": "Parent note",
@@ -53,7 +76,10 @@
     "unlink": "Unlink parent",
     "untitled": "Untitled",
     "open": "Open",
-    "createChildNote": "Create child note"
+    "createChildNote": "Create child note",
+    "editor": {
+      "placeholder": "Write something or press / to select a tool"
+    }
   },
   "noteList": {
     "emptyNoteList": "No Notes yet. Make your first note",
@@ -71,12 +97,24 @@
     "500": "Unknown error happened",
     "default": "Something went wrong"
   },
+  "join": {
+    "title": "Joining a note team...",
+    "messages": {
+      "linkExpired": "This join link has been expired",
+      "validationError": "Wrong invitation hash specified",
+      "unauthorized": "You must be authenticated to access this resource"
+    }
+  },
   "marketplace": {
     "title": "Marketplace",
     "listOfTools": "Tools",
+    "subtitle": "Achieve any goal on your page",
     "uninstallTool": "Uninstall",
     "installTool": "Install",
     "addTool": "Add Tool",
+    "userPerspective": "User perspective",
+    "technicalDetails": "Technical details",
+    "selectFile": "Select file",
     "newTool": {
       "title": {
         "placeholder": "Payment Widget",
@@ -89,6 +127,10 @@
         "caption":"Will be used as a block type in saved data"
 
       },
+      "picture": {
+        "label": "Picture",
+        "description": "A cool descriptive screenshot of the Tool's UI"
+      },
       "exportName": {
         "placeholder": "PaymentTool",
         "label": "Export Name",
@@ -96,10 +138,15 @@
 
       },
       "cdn": {
-        "placeholder": "https://cdn.jsdelivr.net/npm/@editorjs/payment@2.3.0/dist/payment.umd.min.js",
+        "placeholder": "https:\/\/cdn.jsdelivr.net\/npm\/{'@'}editorjs/payment{'@'}2.3.0\/dist\/payment.umd.min.js",
         "label": "CDN",
         "caption":"Direct link to the tool’s UMD bundle"
 
+      },
+      "description": {
+        "placeholder": "Add a payment button using Stripe",
+        "label": "Description",
+        "caption": "Will be visible in tools list"
       },
       "add": "Add tool"
     }
@@ -113,6 +160,7 @@
     "noteSettings": "Note settings",
     "marketplace": "Marketplace",
     "addTool": "Add tool",
-    "notFound": "Not found"
+    "notFound": "Not found",
+    "joinTeam": "Join"
   }
 }

@@ -1,6 +1,6 @@
 import { shallowRef, type ShallowRef, type Component, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import Default from '@/presentation/layouts/Default.vue';
+import Default from '@/presentation/layouts/ThreeColsLayout.vue';
 import Fullpage from '@/presentation/layouts/Fullpage.vue';
 
 /**

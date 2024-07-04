@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <ThreeColsLayout>
     <Heading
       :level="1"
       :class="$style['home__heading']"
@@ -39,7 +39,7 @@
         {{ $t('loadMore') }}
       </Button>
     </div>
-  </div>
+  </ThreeColsLayout>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +51,7 @@ import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
 import { Button, Card, Heading } from 'codex-ui/vue';
 import { Note } from '@/domain/entities/Note';
+import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 
 const { user } = useAppState();
 const { t } = useI18n();
@@ -81,11 +82,9 @@ function getSubtitle(note: Note): string | undefined {
 </script>
 
 <style lang="postcss" module>
-@import '@/presentation/styles/typography.pcss';
-
-.home {
+h1.home {
   &__heading {
-    margin: var(--spacing-xxl) 0;
+    margin-bottom: var(--spacing-xxl);
   }
 }
 
@@ -105,11 +104,4 @@ function getSubtitle(note: Note): string | undefined {
   margin-top: var(--spacing-l);
 }
 
-h1 {
-  @apply --text-heading-1;
-}
-
-p {
-  @apply --text-body;
-}
 </style>

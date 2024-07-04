@@ -36,6 +36,16 @@ export default interface EditorTool {
   isDefault?: boolean;
 
   /**
+   * Description of the tool
+   */
+  description?: string;
+
+  /**
+   * S3 key of the tool cover image
+   */
+  cover?: string;
+
+  /**
    * Source of the tool to get it's code
    */
   source: {
@@ -59,14 +69,26 @@ export interface EditorToolWithUserBinding extends EditorTool {
 /**
  * Tool creation attributes
  */
-export type NewToolData = Omit<EditorTool, 'userId' | 'id'>;
+export type NewToolData = Omit<EditorTool, 'userId' | 'id' | 'cover'> & {
+  cover?: File;
+};
 
 /**
- * Editor tool data structure
+ * Part of the editor.js config for connecting a particular tool
  */
-export type EditorConfigTool = ToolSettings | ToolConstructable;
+export type EditorjsConfigTool = ToolSettings | ToolConstructable;
 
 /**
- * Tools map contains editor tools by name
+ * Editor tool info alogn with its plugin's class ready to use
  */
-export type EditorConfigTools = Record<string, EditorConfigTool>;
+export interface EditorToolLoaded {
+  /**
+   * Tool class ready to use
+   */
+  class: EditorjsConfigTool;
+
+  /**
+   * NoteX Tool info
+   */
+  tool: EditorTool;
+}

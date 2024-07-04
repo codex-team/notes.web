@@ -20,10 +20,7 @@
       @click="setBaseTheme(theme.toLowerCase() as Theme)"
     >
       <template #left>
-        <div
-          class="theme-preview"
-          :theme-base="theme.toLowerCase()"
-        />
+        <ThemePreview :theme="theme" />
       </template>
       <template
         v-if="themeBase === theme.toLowerCase()"
@@ -40,7 +37,7 @@
 
   <Container data-dimensions="large">
     <Row
-      v-for="theme in Theme"
+      v-for="theme in themes"
       :key="theme"
       :title="theme"
       :has-delimiter="theme !== themes[themes.length - 1]"
@@ -48,10 +45,7 @@
       @click="setAccentTheme(theme.toLowerCase() as Theme)"
     >
       <template #left>
-        <div
-          class="theme-preview"
-          :theme-base="theme.toLowerCase()"
-        />
+        <ThemePreview :theme="theme" />
       </template>
       <template
         v-if="themeAccent === theme.toLowerCase()"
@@ -65,7 +59,7 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Heading, Row, Container, Icon } from '../../../src/vue';
+import { Heading, Row, Container, Icon, ThemePreview } from '../../../src/vue';
 import { Theme, useTheme } from '../../../src/vue/composables/useTheme';
 
 const { themeBase, themeAccent, setBaseTheme, setAccentTheme } = useTheme();
@@ -73,7 +67,7 @@ const { themeBase, themeAccent, setBaseTheme, setAccentTheme } = useTheme();
 /**
  * To make themes iterable because Theme is enum
  */
-const themes = Object.values(Theme);
+const themes = Object.keys(Theme);
 
 </script>
 

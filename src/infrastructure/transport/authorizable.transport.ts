@@ -1,6 +1,7 @@
 import Transport from '@/infrastructure/transport';
 import type { FetchTransportOptions } from './fetch.transport';
 import type JSONValue from './types/JSONValue';
+import type { POSTParamsAuthorizable } from './types/POSTParams';
 
 /**
  * Additional options for authorizable transport
@@ -94,14 +95,21 @@ export default class AuthorizableTransport extends Transport {
 
   /**
    * Make POST request to update some resource
-   * @param endpoint - API endpoint
-   * @param payload - JSON or form POST data body
-   * @param params - Additional params to tune request
+   * @param params - API endpoint, payload, files and authorization params
    */
-  public async post(endpoint: string, payload?: JSONValue | FormData, params?: AuthorizableRequestParams): Promise<JSONValue> {
+  public async post({
+    endpoint,
+    payload,
+    params,
+    files,
+  }: POSTParamsAuthorizable): Promise<JSONValue> {
     await this.waitForAuth(params);
 
-    return super.post(endpoint, payload);
+    return super.post({
+      endpoint,
+      payload,
+      files,
+    });
   }
 
   /**

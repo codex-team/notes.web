@@ -1,10 +1,9 @@
 <template>
   <Card
     :title="tool.title"
-    subtitle="
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus odio non lectus maximus suscipit. Morbi vehicula neque eget augue mollis porta. Sed cursus auctor nisi a iaculis."
+    :subtitle="tool.description"
     orientation="horizontal"
-    src="https://sun9-50.userapi.com/c844720/v844720274/194ada/1HCPufLxhzY.jpg"
+    :src="`http://localhost:9001/api/v1/buckets/editor-tool-covers/objects/download?preview=true&prefix=${tool.cover}&version_id=null`"
   >
     <div class="buttons">
       <Button

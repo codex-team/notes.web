@@ -36,12 +36,14 @@ export default class AuthRepository implements AuthRepositoryInterface {
    */
   public async restoreSession(): Promise<AuthSession> {
     return this.transport.post<AuthSession>(
-      '/auth',
       {
-        token: this.authStorage.getRefreshToken(),
-      },
-      {
-        skipAuthCheck: true,
+        endpoint: '/auth',
+        data: {
+          token: this.authStorage.getRefreshToken(),
+        },
+        params: {
+          skipAuthCheck: true,
+        },
       }
     );
   }

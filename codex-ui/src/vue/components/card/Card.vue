@@ -12,6 +12,7 @@
 
     <div :class="$style['card__body']">
       <div
+        v-if="title"
         :class="['text-ui-base-bold', 'line-clamp-1 ', $style['card__title']]"
         :title="title"
       >
@@ -35,7 +36,7 @@ withDefaults(
     /**
      * Card title
      */
-    title: string;
+    title?: string;
 
     /**
      * Card variety.
@@ -56,6 +57,7 @@ withDefaults(
     src?: string;
   }>(),
   {
+    title: '',
     subtitle: '',
     orientation: 'vertical',
     src: '',
@@ -72,7 +74,7 @@ withDefaults(
   align-items: flex-start;
   gap: var(--spacing-ml);
   border-radius: var(--radius-m);
-  padding: var(--spacing-ml);
+  padding: var(--v-padding) var(--h-padding);
   background-color: var(--base--bg-secondary);
 
   &--horizontal {
@@ -98,6 +100,10 @@ withDefaults(
 
   &--vertical {
     width: var(--card-width);
+  }
+
+  &__body {
+    flex-grow: 1;
   }
 
   &__cover {

@@ -1,6 +1,8 @@
 <template>
   <component :is="layout">
+    <slot name="block-left" />
     <slot />
+    <slot name="block-right" />
   </component>
 </template>
 

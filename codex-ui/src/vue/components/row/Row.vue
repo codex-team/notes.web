@@ -10,7 +10,10 @@
     <div :class="$style['row__body']">
       <div :class="$style['row__body-inner']">
         <div :class="$style['row__center']">
-          <div :class="[$style['row__label'], 'text-ui-footnote']">
+          <div
+            v-if="label"
+            :class="[$style['row__label'], 'text-ui-footnote']"
+          >
             {{ label }}
           </div>
 
@@ -18,7 +21,10 @@
             {{ title }}
           </div>
 
-          <div class="text-ui-subtle">
+          <div
+            v-if="subtitle"
+            class="text-ui-subtle"
+          >
             {{ subtitle }}
           </div>
         </div>
@@ -85,7 +91,7 @@ defineProps<{
     display: flex;
     flex: 1;
     padding: var(--v-padding) var(--h-padding) var(--v-padding) 0;
-    gap: var(--h-padding);
+    gap: var(--spacing-m);
     align-items: center;
   }
 

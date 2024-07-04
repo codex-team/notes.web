@@ -1,7 +1,7 @@
 /**
  * Type of the context menu items - may be default or separator
  */
-export type ContextMenuItem = DefaultItem | SeparatorItem;
+export type ContextMenuItem = DefaultItem | SeparatorItem | MessageItem;
 
 /**
  * Interface representing default context menu item
@@ -37,3 +37,18 @@ export interface SeparatorItem {
    */
   type: 'separator';
 }
+
+/**
+ * Interface representing message item in case if no items were found as a result of the search
+ */
+export interface MessageItem {
+  /**
+   * Type of the item
+   */
+  type: 'message';
+
+  /**
+   * Message what occurs as a result of the search
+   */
+  message: string;
+};

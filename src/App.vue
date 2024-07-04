@@ -1,13 +1,10 @@
 <template>
   <Header />
-  <Layout>
-    <router-view />
-  </Layout>
+  <router-view />
 </template>
 
 <script lang="ts" setup>
 import Header from '@/presentation/components/header/Header.vue';
-import Layout from '@/presentation/layouts/Layout.vue';
 import { onErrorCaptured } from 'vue';
 import { useTheme } from 'codex-ui/vue';
 

@@ -28,8 +28,6 @@ defineProps<Tab>();
 </script>
 
 <style scoped lang="postcss">
-@import '@/presentation/styles/typography.pcss';
-
 .tab {
   &--active {
     color: var(--color-text-heading);
