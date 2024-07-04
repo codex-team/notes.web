@@ -14,13 +14,19 @@
           :title="t('userSettings.name')"
           :caption="t('userSettings.nameCaption')"
         >
-          <Row :title="user?.name!" />
+          <Input
+            disabled
+            :placeholder="user?.name!"
+          />
         </Section>
         <Section
           :title="t('userSettings.email')"
           :caption="t('userSettings.emailCaption')"
         >
-          <Row :title="user?.email!" />
+          <Input
+            disabled
+            :placeholder="user?.email!"
+          />
         </Section>
         <div>
           <Button
@@ -126,21 +132,33 @@
             {{ t('userSettings.uninstallEditorTool') }}
           </Button>
         </Card>
+        <Container>
+          <Row
+            :title="t('userSettings.visitMarketplace.title')"
+            :subtitle="t('userSettings.visitMarketplace.caption')"
+          >
+            <template #left>
+              <Picture :name="t('userSettings.visitMarketplace.pictureName')" />
+            </template>
+            <template #right>
+              <Button
+                secondary
+                trailing-icon="ChevronRight"
+                @click="$router.push('/marketplace')"
+              >
+                {{ t('userSettings.visitMarketplace.button') }}
+              </Button>
+            </template>
+          </Row>
+        </Container>
       </div>
     </Fieldset>
   </div>
-
-  <Button
-    class="marketplace"
-    :text="t('marketplace.title')"
-    link="/marketplace"
-    type="primary"
-  />
 </template>
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, Picture } from 'codex-ui/vue';
+import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, Picture, Container, Input } from 'codex-ui/vue';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
 import { useUserSettings } from '@/application/services/useUserSettings';
