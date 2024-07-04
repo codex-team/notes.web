@@ -30,24 +30,28 @@
 
 <script setup lang="ts">
 import { useClipboard } from '@vueuse/core';
-import { computed, defineProps, onMounted } from 'vue';
+import { computed, defineProps, ref } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { useI18n } from 'vue-i18n';
 import { Button, Row, Section } from 'codex-ui/vue';
+import NoteSettings from '@/domain/entities/NoteSettings';
 
 const { t } = useI18n();
 
 const props = defineProps<{
   id: NoteId;
+  noteSettings: NoteSettings;
 }>();
 
-const { noteSettings, revokeHash, load: loadSettings } = useNoteSettings();
+const { revokeHash } = useNoteSettings();
 const { copy } = useClipboard();
 
 const invitationLink = computed(
-  () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
+  () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${invintationHash.value}`
 );
+
+const invintationHash = ref(props.noteSettings.invitationHash);
 
 /**
  * Regenerate invitation hash
@@ -56,13 +60,10 @@ async function regenerateHash() {
   const isConfirmed = window.confirm(t('noteSettings.revokeHashConfirmation'));
 
   if (isConfirmed) {
-    revokeHash(props.id);
+    invintationHash.value = await revokeHash(props.id);
   }
 }
 
-onMounted(async () => {
-  await loadSettings(props.id);
-});
 </script>
 
 <style scoped lang="postcss">
