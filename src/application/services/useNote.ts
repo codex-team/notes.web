@@ -283,7 +283,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     if (currentId.value !== null) {
       await load(currentId.value);
-      console.log(note.value);
     }
   });
 
@@ -304,10 +303,10 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      * we don't need to re-load it
      */
     if (prevId === null && newId !== null) {
+      await load(newId);
+
       return;
     }
-
-    await load(newId);
   });
 
   watch(noteTitle, (currentNoteTitle) => {
