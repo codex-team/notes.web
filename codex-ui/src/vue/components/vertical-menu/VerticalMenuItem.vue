@@ -75,8 +75,19 @@ function itemClicked(): void {
 
   &--active .vertical-menu-item__container {
     background-color: var(--base--bg-secondary-hover);
-    box-shadow: inset 3px 0 0 var(--accent--solid);
-    border-radius: var(--radius-m);
+
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      width: 5px;
+      top: var(--radius-m);
+      bottom: var(--radius-m);
+      border-radius: var(--radius-m);
+      background-color: var(--accent--solid);
+    }
   }
 
 }

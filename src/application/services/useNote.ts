@@ -1,12 +1,12 @@
 import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
-import { noteService } from '@/domain';
+import { noteService, editorToolsService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
-import useMergedTools from './useMergedTools';
 import useHeader from './useHeader';
+
 
 /**
  * Creates base structure for the empty note:
@@ -48,7 +48,7 @@ interface UseNoteComposableState {
   /**
    * List of tools used in the note
    */
-  noteTools: Ref<EditorTool[]>;
+  noteTools: Ref<EditorTool[] | undefined>;
 
   /**
    * Creates/updates the note
@@ -113,8 +113,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   /**
    * List of tools used in the note
+   * Undefined when note is not loaded yet
    */
-  const noteTools = ref<EditorTool[]>([]);
+  const noteTools = ref<EditorTool[] | undefined>(undefined);
 
   /**
    * Router instance used to replace the current route with note id
@@ -173,35 +174,22 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param content - content of the note
    */
   function resolveToolsByContent(content: NoteContent): NoteTool[] {
-    const { mergedTools: tools } = useMergedTools(noteTools);
-    const resolvedNoteTools = new Map();
+    const uniqueNoteTools = new Map<string, NoteTool>();
 
-    if (tools.value === undefined) {
-      tools.value = [];
-    }
+    content.blocks.forEach((block) => {
+      const toolClassAndInfo = editorToolsService.getToolByName(block.type);
 
-    const usedNoteTools = content.blocks.map((block) => {
-      const blockTool = (tools.value).find(tool => tool.name === block.type);
+      if (toolClassAndInfo === undefined) {
+        return;
+      }
 
-      /**
-       * Return list of stringified objects for further elimination of duplicates using the Set
-       * User can not add to content tool that is not in allTools
-       */
-      return { name: blockTool!.name,
-        id: blockTool!.id };
+      uniqueNoteTools.set(toolClassAndInfo.tool.id, {
+        id: toolClassAndInfo.tool.id,
+        name: toolClassAndInfo.tool.name,
+      });
     });
 
-    /**
-     * Remove duplicated note tools
-     */
-    usedNoteTools.forEach((tool) => {
-      /**
-       * Check if tool with such id is already in resolvedNoteTools
-       */
-      resolvedNoteTools.set(tool.id, tool);
-    });
-
-    return Array.from(resolvedNoteTools.values()) as NoteTool[];
+    return Array.from(uniqueNoteTools.values());
   }
 
   /**
@@ -219,6 +207,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
+    console.log('specifiedNoteTools', specifiedNoteTools);
     if (currentId.value === null) {
       /**
        * @todo try-catch domain errors

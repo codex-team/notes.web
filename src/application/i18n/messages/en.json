@@ -73,7 +73,10 @@
     "unlink": "Unlink parent",
     "untitled": "Untitled",
     "open": "Open",
-    "createChildNote": "Create child note"
+    "createChildNote": "Create child note",
+    "editor": {
+      "placeholder": "Write something or press / to select a tool"
+    }
   },
   "noteList": {
     "emptyNoteList": "No Notes yet. Make your first note",

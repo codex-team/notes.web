@@ -1,9 +1,9 @@
-import type { EditorConfigTool } from '@/domain/entities/EditorTool';
+import type { EditorToolLoaded } from '@/domain/entities/EditorTool';
 
 /**
  * Data store for editor tools
  */
-export type EditorToolsStoreData = Map<string, EditorConfigTool>;
+export type EditorToolsStoreData = Map<string, EditorToolLoaded>;
 
 /**
  * Editor tools storage
@@ -18,7 +18,7 @@ export class EditorToolsStore {
    * Creates storage instance
    */
   constructor() {
-    this.storage = new Map();
+    this.storage = new Map<string, EditorToolLoaded>();
   }
 
   /**
@@ -26,24 +26,26 @@ export class EditorToolsStore {
    * @param toolName - name of tool
    * @param editorTool - saved note
    */
-  public addTool(toolName: string, editorTool: EditorConfigTool): void {
-    this.storage.set(toolName, editorTool);
+  public addTool(toolName: string, toolClassAndData: EditorToolLoaded): void {
+    this.storage.set(toolName, toolClassAndData);
   }
 
   /**
    * Extract tool from storage
    * @param toolName - requisitioned tool name
    */
-  public getTool(toolName: string): EditorConfigTool | undefined {
+  public getTool(toolName: string): EditorToolLoaded | undefined {
     const tool = this.storage.get(toolName);
 
     return tool;
   }
 
   /**
-   * Extract tools from storage
+   * Return a loaded tool by name
+   *
+   * @param name - tool name. It is not unique in the system, but unique in the user's tools
    */
-  private getTools(): EditorToolsStoreData {
-    return this.storage;
+  public getToolByName(name: string): EditorToolLoaded | undefined {
+    return this.storage.get(name);
   }
 }

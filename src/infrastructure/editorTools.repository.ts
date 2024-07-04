@@ -1,9 +1,9 @@
 import Repository from './repository';
 import type EditorTool from '@/domain/entities/EditorTool';
-import type { EditorConfigTools } from '@/domain/entities/EditorTool';
 import type { EditorToolsStore, EditorToolsStoreData } from '@/infrastructure/storage/editorTools';
 import type EditorToolsRepositoryInterface from '@/domain/editorTools.repository.interface';
 import type EditorToolsTransport from '@/infrastructure/transport/editorTools.transport';
+import type { EditorToolLoaded } from '@/domain/entities/EditorTool';
 
 /**
  * Facade for editor tools
@@ -28,17 +28,18 @@ export default class EditorToolsRepository
   }
 
   /**
-   * Get stored tools, if tool not exists, download it
+   * Get stored tools plugins, if tool not exists, download it
+   *
    * @param tools - request list of tools
    */
-  public async getTools(tools: EditorTool[]): Promise<EditorConfigTools> {
-    const configTools: EditorConfigTools = {};
+  public async getToolsLoaded(tools: EditorTool[]): Promise<EditorToolLoaded[]> {
+    const configTools: EditorToolLoaded[] = [];
 
     for (const tool of tools) {
       const storedTool = this.store.getTool(tool.name);
 
       if (storedTool) {
-        configTools[tool.name] = storedTool;
+        configTools.push(storedTool);
       } else {
         try {
           const downloadedTool = await this.transport.downloadTool(tool);
@@ -47,8 +48,14 @@ export default class EditorToolsRepository
             continue;
           }
 
-          this.store.addTool(tool.name, downloadedTool);
-          configTools[tool.name] = downloadedTool;
+          const toolClassAndInfo = {
+            class: downloadedTool,
+            tool,
+          };
+
+          this.store.addTool(tool.name, toolClassAndInfo);
+
+          configTools.push(toolClassAndInfo);
         } catch (error) {
           throw new Error(`Failed to download ${tool.name}.`);
         }
@@ -56,5 +63,13 @@ export default class EditorToolsRepository
     }
 
     return configTools;
+  }
+
+  /**
+   * Returns a loaded tool by name
+   * @param name - tool name is not unique in the system, but unique in the user's tools
+   */
+  public getToolByName(name: string): EditorToolLoaded | undefined {
+    return this.store.getToolByName(name);
   }
 }

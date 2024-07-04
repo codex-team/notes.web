@@ -67,7 +67,7 @@ const { themeBase, themeAccent, setBaseTheme, setAccentTheme } = useTheme();
 /**
  * To make themes iterable because Theme is enum
  */
-const themes = Object.values(Theme);
+const themes = Object.keys(Theme);
 
 </script>
 
