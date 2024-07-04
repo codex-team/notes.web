@@ -1,3 +1,4 @@
+import type { NoteId } from './Note.js';
 import type { User } from './User.js';
 
 export enum MemberRole {
@@ -21,6 +22,11 @@ export interface TeamMember {
    * Team relation id
    */
   id: number;
+
+  /**
+   * User is in team of the note with such an id
+   */
+  noteId: NoteId;
 
   /**
    * Team member user
