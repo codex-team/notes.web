@@ -111,6 +111,7 @@ defineExpose({
     color: var(--base--text);
     border-color: var(--base--border);
     border-radius: var(--radius-m);
+    box-shadow: 0 3px 15px -3px rgb(13 20 33 / 0%);
   }
 
   .ce-popover-item {
@@ -220,11 +221,13 @@ defineExpose({
   }
 
   .ce-paragraph,
-  .cdx-nested-list__item {
+  .cdx-nested-list__item,
+  .cdx-list__item {
     line-height: inherit;
   }
 
-  .cdx-nested-list {
+  .cdx-nested-list,
+  .cdx-list {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -232,6 +235,15 @@ defineExpose({
 
   .cdx-nested-list__item {
     margin: 0;
+  }
+
+  .cdx-list {
+    padding-left: calc(var(--spacing-l) + var(--spacing-xxs));
+
+    &__item {
+      padding: 0;
+      padding-left: var(--spacing-very-x);
+    }
   }
 }
 
