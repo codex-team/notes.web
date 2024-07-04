@@ -111,6 +111,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const note = ref<Note | NoteDraft | null>(currentId.value === null ? createDraft() : null);
 
   /**
+   * Here we will store the content of the note on last save
+   */
+  const lastUpdateContent = ref<NoteContent | null>(null);
+
+  /**
    * List of tools used in the note
    * Undefined when note is not loaded yet
    */
@@ -129,7 +134,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Note Title identifier
    */
   const noteTitle = computed(() => {
-    const firstNoteBlock = note.value?.content.blocks[0];
+    const noteContent = lastUpdateContent.value ?? note.value?.content;
+
+    const firstNoteBlock = noteContent?.blocks[0];
 
     if (!firstNoteBlock || !Boolean(firstNoteBlock.data.text)) {
       return 'Note';
@@ -233,6 +240,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
+
+    /**
+     * Store just saved content in memory
+     */
+    lastUpdateContent.value = content;
   }
 
   /**
@@ -268,14 +280,22 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
   });
 
+  /**
+   * Reset note to the initial state
+   */
+  function resetNote(): void {
+    note.value = createDraft();
+    canEdit.value = true;
+    lastUpdateContent.value = null;
+  }
+
   watch(currentId, (newId, prevId) => {
     /**
      * One note is open, user clicks on "+" to create another new note
      * Clear existing note
      */
     if (newId === null) {
-      note.value = createDraft();
-      canEdit.value = true;
+      resetNote();
 
       return;
     }
