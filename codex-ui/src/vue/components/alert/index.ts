@@ -1,3 +1,3 @@
-import Alert from "./Alert.vue";
+import Alert from './Alert.vue';
 
-export { Alert }
+export { Alert };
