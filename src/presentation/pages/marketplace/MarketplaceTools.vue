@@ -34,8 +34,6 @@ const { tools } = useMarketplace();
 </script>
 
 <style setup lang="postcss" scoped>
-@import '@/presentation/styles/typography.pcss';
-
 .headings {
   padding: 0 var(--h-padding);
 }

@@ -82,8 +82,6 @@ function getSubtitle(note: Note): string | undefined {
 </script>
 
 <style lang="postcss" module>
-@import '@/presentation/styles/typography.pcss';
-
 h1.home {
   &__heading {
     margin-bottom: var(--spacing-xxl);
@@ -106,11 +104,4 @@ h1.home {
   margin-top: var(--spacing-l);
 }
 
-h1 {
-  @apply --text-heading-1;
-}
-
-p {
-  @apply --text-body;
-}
 </style>

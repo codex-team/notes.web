@@ -28,13 +28,5 @@
 </script>
 
 <style lang="postcss" scoped>
-@import '@/presentation/styles/typography.pcss';
 
-h1 {
-  @apply --text-heading-1;
-}
-
-p {
-  @apply --text-body;
-}
 </style>
