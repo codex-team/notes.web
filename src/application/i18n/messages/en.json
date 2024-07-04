@@ -13,7 +13,6 @@
   },
   "userSettings": {
     "title": "User Settings",
-    "changeTheme": "Change theme",
     "editorTools": "Editor Tools",
     "uninstallEditorTool": "Uninstall",
     "toolUninstallConfirmation": "Do you really want to delete this tool?",
@@ -22,6 +21,12 @@
     "name": "Name",
     "email": "Email",
     "general": "General",
+    "visitMarketplace": {
+      "title": "Add more tools",
+      "caption": "Discover new Blocks, Formattings and other tools to improve your pages",
+      "button": "View all tools",
+      "pictureName": "Hammer"
+    },
     "appearance": {
       "title": "Appearance",
       "colorSheme": {
