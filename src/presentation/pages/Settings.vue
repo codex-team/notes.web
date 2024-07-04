@@ -133,23 +133,25 @@
           </Button>
         </Card>
         <Container>
-          <Row
-            :title="t('userSettings.visitMarketplace.title')"
-            :subtitle="t('userSettings.visitMarketplace.caption')"
-          >
-            <template #left>
-              <Picture :name="t('userSettings.visitMarketplace.pictureName')" />
-            </template>
-            <template #right>
-              <Button
-                secondary
-                trailing-icon="ChevronRight"
-                @click="$router.push('/marketplace')"
-              >
-                {{ t('userSettings.visitMarketplace.button') }}
-              </Button>
-            </template>
-          </Row>
+          <div :class="$style['container__editor-tools-visit-marketplace']">
+            <Row
+              :title="t('userSettings.visitMarketplace.title')"
+              :subtitle="t('userSettings.visitMarketplace.caption')"
+            >
+              <template #left>
+                <Picture :name="t('userSettings.visitMarketplace.pictureName')" />
+              </template>
+              <template #right>
+                <Button
+                  secondary
+                  trailing-icon="ChevronRight"
+                  @click="$router.push('/marketplace')"
+                >
+                  {{ t('userSettings.visitMarketplace.button') }}
+                </Button>
+              </template>
+            </Row>
+          </div>
         </Container>
       </div>
     </Fieldset>
@@ -240,6 +242,10 @@ async function uninstallClicked(toolId: string) {
   &__editor-tools {
     display: grid;
     gap: var(--v-padding);
+
+    &-visit-marketplace {
+      padding: var(--v-padding) 0;
+    }
   }
 
   &__appearance {
