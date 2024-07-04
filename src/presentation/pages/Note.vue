@@ -70,7 +70,7 @@ const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
 
-const lastEdit = ref<string>('Last edit ');
+const lastEdit = ref<string>(t('note.defaultLastEdit'));
 
 /**
  * Create new child note
@@ -100,7 +100,7 @@ watch(note, () => {
     const updatedAt = note.value.updatedAt;
 
     if (typeof updatedAt === 'string') {
-      lastEdit.value = 'Last edit ' + formatShortDate(updatedAt);
+      lastEdit.value = t('note.lastEdit') + ' ' + formatShortDate(updatedAt);
     }
   }
 });
