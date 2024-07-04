@@ -43,6 +43,9 @@ const contextMenuItems: ContextMenuItem[] = [
     onActivate: console.log,
   },
   {
+    type: 'separator',
+  },
+  {
     type: 'default',
     title: 'Text',
     icon: 'Text',

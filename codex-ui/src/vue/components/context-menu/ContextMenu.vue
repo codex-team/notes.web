@@ -71,46 +71,62 @@ const searchTerm = ref('');
 /**
  * Returns the list of menu context items found during the search
  */
-const filteredItems = computed(() => {
+ const filteredItems = computed(() => {
+  const { items } = props;
+  const lowerCaseSearchTerm = searchTerm.value.toLowerCase();
+
   /**
    * If the user has not entered anything, the filter is not applied
    */
-  if (searchTerm.value === '') {
-    return props.items;
+  if (lowerCaseSearchTerm === '') {
+    return items;
   }
 
   /**
-   * If the string entered by the user is included in some element, it will be returned
+   * Check what item is separator
    */
-  const searchedItems = props.items.filter((item) => {
+  const isSeparator = (item: Item) => item.type === 'separator';
+
+  /**
+   * Checks if the element header contains the searched string
+   */
+  const includesSearchTerm = (item: Item) =>
+    (item.type === 'default' || !item.type) &&
+    item.title.toLowerCase().includes(lowerCaseSearchTerm);
+
+  /**
+   * Filtering items by search query
+   */
+  const searchedItems = items.filter((item) => {
     if (item.type === 'message') {
       return false;
-    } else if (item.type === 'separator') {
+    } else if (isSeparator(item)) {
       return true;
     } else {
-      return item.title.toLowerCase().includes(
-        searchTerm.value.toLowerCase());
+      return includesSearchTerm(item);
     }
   });
 
-  if (searchedItems.length > 0) {
-    if(searchedItems[0].type == 'separator') {
-      searchedItems.shift();
-    }
+  /**
+   * While the first element of the filtered array is a separator, remove it
+   */
+  while (searchedItems.length > 0 && isSeparator(searchedItems[0])) {
+    searchedItems.shift();
+  }
 
-    if(searchedItems.length == 0) {
-      searchedItems.push(messageItem)
-      return searchedItems;
-    }
+  /**
+   * While the last element of the filtered array is a separator, remove it
+   */
+  while (searchedItems.length > 0 && isSeparator(searchedItems[searchedItems.length - 1])) {
+    searchedItems.pop();
+  }
 
-    if(searchedItems[searchedItems.length - 1].type == 'separator') {
-      searchedItems.pop();
-    }
-
-    if(searchedItems.length == 0) {
-      searchedItems.push(messageItem)
-      return searchedItems;
-    }
+  /**
+   * If there are no elements in the filtered array, then nothing was found
+   * Returns the appropriate message
+   */
+  if (searchedItems.length === 0) {
+    searchedItems.push(messageItem);
   }
 
   return searchedItems;
