@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRef, ref, onMounted, watch } from 'vue';
+import { toRef, ref, watch } from 'vue';
 import { Button } from 'codex-ui/vue';
 import { useRouter } from 'vue-router';
 import useNote from '@/application/services/useNote';
@@ -78,6 +78,9 @@ function getNoteSettings(): void {
   router.push(`/note/${props.id}/settings`);
 }
 
+/**
+ * Loads the time when the note was last modified when opened
+ */
 watch(note, () => {
   if (note.value !== null && 'updatedAt' in note.value) {
     const updatedAt = note.value.updatedAt;
