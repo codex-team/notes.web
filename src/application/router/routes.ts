@@ -91,15 +91,15 @@ const routes: RouteRecordRaw[] = [
   },
   {
     name: 'marketplacePage',
-    path: `/marketplace`,
+    path: `/`,
     component: MarketplacePage,
-    redirect: '/marketplace/tools',
+    redirect: '/marketplace',
     meta: {
       pageTitleI18n: 'pages.marketplace',
     },
     children: [{
       name: 'marketplace',
-      path: 'tools',
+      path: 'marketplace',
       component: Marketplace,
       meta: {
         pageTitleI18n: 'pages.marketplace',
@@ -107,7 +107,7 @@ const routes: RouteRecordRaw[] = [
     },
     {
       name: 'newTool',
-      path: `add`,
+      path: `marketplace/add`,
       component: AddTool,
       meta: {
         pageTitleI18n: 'pages.addTool',

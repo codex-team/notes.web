@@ -28,8 +28,8 @@ const verticalMenuItems: Ref<VerticalMenuItem[]> = computed(() => [
 
   {
     title: 'Tools',
-    isActive: route.path === '/marketplace/tools',
-    onActivate: () => router.push('/marketplace/tools'),
+    isActive: route.path === '/marketplace',
+    onActivate: () => router.push('/marketplace'),
   },
   {
     title: 'Add your own tool',
