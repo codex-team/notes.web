@@ -1,8 +1,8 @@
 <template>
   <div>
     <NoteHeader
-      :id="props.id"
-      :style="{ '--opacity': props.id ? 1 : 0 }"
+      :id="id"
+      :style="{ '--opacity': id ? 1 : 0 }"
     >
       <template #left>
         {{ lastEdit }}
