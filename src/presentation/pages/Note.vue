@@ -4,7 +4,11 @@
       :style="{ '--opacity': id && note ? 1 : 0 }"
     >
       <template #left>
-        {{ lastEdit }}
+        {{
+          note && 'updatedAt' in note && note.updatedAt
+            ? t('note.lastEdit') + ' ' + formatShortDate(note.updatedAt)
+            : t('note.lastEdit') + ' ' + 'a few seconds ago'
+        }}
       </template>
       <template #right>
         <Button
@@ -71,8 +75,6 @@ const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
 
-const lastEdit = ref<string>(t('note.lastEdit') + ' ' + 'a few seconds ago');
-
 /**
  * Create new child note
  */
@@ -92,19 +94,6 @@ function redirectToNoteSettings(): void {
   }
   router.push(`/note/${props.id}/settings`);
 }
-
-/**
- * Loads the time when the note was last modified when opened
- */
-watch(note, () => {
-  if (note.value !== null && 'updatedAt' in note.value) {
-    const updatedAt = note.value.updatedAt;
-
-    if (typeof updatedAt === 'string') {
-      lastEdit.value = t('note.lastEdit') + ' ' + formatShortDate(updatedAt);
-    }
-  }
-});
 
 const { updateCover } = useNoteSettings();
 
