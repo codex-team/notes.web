@@ -86,15 +86,17 @@ const filteredItems = computed(() => {
    * Check what item is separator
    *
    * @param item - item of items array
+   * @returns {boolean} true if item is separator, false otherwise
    */
-  const isSeparator = (item: Item) => item.type === 'separator';
+  const isSeparator = (item: Item): boolean => item.type === 'separator';
 
   /**
    * Checks if the element header contains the searched string
    *
-   * @param item- item of items array
+   * @param item - item of items array
+   * @returns {boolean} true if header contains the searched string
    */
-  const includesSearchTerm = (item: Item) =>
+  const includesSearchTerm = (item: Item): boolean =>
     (item.type === 'default' || !item.type)
     && item.title.toLowerCase().includes(lowerCaseSearchTerm);
 
