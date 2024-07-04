@@ -2,8 +2,7 @@
   
   <transition name="fadeInBottom" >
     <div class="alert" :class="`alert--${alertType}`" >
-      <!-- imported icon testing purpose -->
-      <Icon name="Collapse"/>
+      <Icon name="Check"/>
       <span v-if="props.message">{{ message  }}</span>
       <slot />
     </div>
@@ -22,21 +21,16 @@ const props = withDefaults(
   /**
    * message to display
    */
-  message: string, 
+  message?: string, 
 
   /**
    * alert status 
    */
   type: 'success' | 'error' | 'warning' | 'default' | 'info'
 
-  /**
-   * where to position the alert on the screen
-   */
-  position: 'bottom-centera'
 }>(), {
   message: '', 
   type: 'default', 
-  position: 'bottom-center'
 }
 )
 
@@ -44,7 +38,6 @@ const props = withDefaults(
 /** determine alert status */
 const alertType = computed(() => {
   if(props.type === 'success'){
-    console.log('succ')
     return 'success'; 
   }
 
