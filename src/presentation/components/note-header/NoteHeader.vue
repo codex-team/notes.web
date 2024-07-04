@@ -1,7 +1,6 @@
 <template>
   <div
     :class="$style['note-header']"
-    :style="{ '--opacity': props.opacity }"
   >
     <div :class="$style['note-header__left']">
       {{ lastEdit }}
@@ -39,15 +38,9 @@ const props = withDefaults(
      * Parent note id, undefined for root note
      */
     parentId?: string;
-
-    /**
-     * Shows the transparency percentage of the component, from 0 to 1
-     */
-    opacity: number;
   }>(),
   {
     parentId: undefined,
-    opacity: 1,
   }
 );
 
