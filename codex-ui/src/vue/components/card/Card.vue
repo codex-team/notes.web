@@ -74,7 +74,7 @@ withDefaults(
   align-items: flex-start;
   gap: var(--spacing-ml);
   border-radius: var(--radius-m);
-  padding: var(--spacing-ml);
+  padding: var(--v-padding) var(--h-padding);
   background-color: var(--base--bg-secondary);
 
   &--horizontal {

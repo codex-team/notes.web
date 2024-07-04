@@ -229,8 +229,6 @@ async function uninstallClicked(toolId: string) {
 </script>
 
 <style scoped lang="postcss" module>
-@import '@/presentation/styles/typography.pcss';
-
 .container {
   display: grid;
   padding: var(--spacing-xxl) 0;

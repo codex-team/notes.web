@@ -1,46 +1,31 @@
 import Editor, { type OutputData, type API, type EditorConfig } from '@editorjs/editorjs';
-import type { Ref } from 'vue';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import type { MaybeRefOrGetter, Ref } from 'vue';
+import { onBeforeUnmount, ref, toValue, watch } from 'vue';
 
-/**
- * UseEditor composable params
- */
-interface UseEditorParams {
+interface UseEditorOptions {
   /**
-   * Host element id
-   */
-  id: string;
-
-  /**
-   * Editor initial content
-   */
-  content?: OutputData;
-
-  /**
-   * True if editor should not allow editing
-   */
-  isReadOnly?: boolean;
-
-  /**
-   * Handles content change in Editor
+   * Callback called on every change of the editor
+   * @param data - new editor content data
    */
   onChange?: (data: OutputData) => void;
-
-  /**
-   * Loaded user tools for Editor
-   */
-  tools: EditorConfig['tools'];
 }
 
 /**
- * Handles Editor.js instance creation
- * @param params - Editor.js params
+ * Return value of the useEditor composable
  */
-export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEditorParams): {
+interface UseEditorComposableState {
+  /**
+   * Attribute containing is-empty state.
+   */
   isEmpty: Ref<boolean>;
+}
 
-  refresh: (data: OutputData) => Promise<void>;
-} {
+/**
+ * Methods for working with the Editor.js instance
+ * @param editorConfig - reactive object with the editor configuration
+ * @param options - additional options of the  composable
+ */
+export function useEditor(editorConfig: MaybeRefOrGetter<EditorConfig>, options: UseEditorOptions): UseEditorComposableState {
   /**
    * Editor instance
    */
@@ -91,25 +76,37 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
      */
     isEmpty.value = checkIsEmpty(data, api);
 
-    onChange?.(data);
+    options.onChange?.(data);
+  }
+
+  /**
+   * Destroy the editor instance
+   */
+  function destroyEditor(): void {
+    if (editor === undefined || editor.destroy === undefined) {
+      return;
+    }
+
+    editor.destroy();
+    editor = undefined;
   }
 
   /**
    * Initializes editorjs instance
-   * @param data - Displayed content for Editor.js
    */
-  async function mountEditor(data?: OutputData): Promise<void> {
+  async function createEditor(): Promise<void> {
+    if (editor !== undefined) {
+      destroyEditor();
+    }
+
+    const config = toValue(editorConfig);
+
     try {
       editor = new Editor({
-        holder: id,
-        data: data,
-        tools: {
-          ...tools,
-        },
+        ...config,
         onChange(api: API) {
           void handleChange(api);
         },
-        readOnly: isReadOnly,
       });
 
       await editor?.isReady;
@@ -120,15 +117,9 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
 
   /**
    * Reinitialized editor instance with new data
-   * @param data - new data to be displayed in editor
    */
-  async function refresh(data?: OutputData): Promise<void> {
-    editor?.destroy();
-    await mountEditor(data);
-  }
-
-  onMounted(() => {
-    void mountEditor(content);
+  watch(editorConfig, () => {
+    void createEditor();
   });
 
   /**
@@ -141,6 +132,5 @@ export function useEditor({ id, content, isReadOnly, onChange, tools }: UseEdito
 
   return {
     isEmpty,
-    refresh,
   };
 }

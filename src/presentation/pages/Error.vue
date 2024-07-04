@@ -47,11 +47,7 @@ const message = computed(() => {
 </script>
 
 <style lang="postcss" module>
-@import '@/presentation/styles/typography.pcss';
-
 .error {
-  @apply --text-body;
-
   display: grid;
   grid-template-columns: auto 1fr;
   margin: auto;
@@ -59,7 +55,6 @@ const message = computed(() => {
 }
 
 .code {
-  @apply --text-heading-3;
   border-right: 1px solid var(--base--border);
   padding-right: var(--spacing-ms);
   margin-right: var(--spacing-ms);

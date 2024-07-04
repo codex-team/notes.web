@@ -103,11 +103,7 @@ function onClick(event: MouseEvent) {
 </script>
 
 <style lang="postcss">
-@import '@/presentation/styles/typography.pcss';
-
 .button {
-  @apply --text-small;
-
   border-radius: var(--radius-m);
   padding: var(--spacing-xxs) var(--spacing-ms);
   align-items: center;

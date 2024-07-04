@@ -74,11 +74,21 @@ export type NewToolData = Omit<EditorTool, 'userId' | 'id' | 'cover'> & {
 };
 
 /**
- * Editor tool data structure
+ * Part of the editor.js config for connecting a particular tool
  */
-export type EditorConfigTool = ToolSettings | ToolConstructable;
+export type EditorjsConfigTool = ToolSettings | ToolConstructable;
 
 /**
- * Tools map contains editor tools by name
+ * Editor tool info alogn with its plugin's class ready to use
  */
-export type EditorConfigTools = Record<string, EditorConfigTool>;
+export interface EditorToolLoaded {
+  /**
+   * Tool class ready to use
+   */
+  class: EditorjsConfigTool;
+
+  /**
+   * NoteX Tool info
+   */
+  tool: EditorTool;
+}

@@ -38,8 +38,11 @@ import {
   VerticalMenu,
   Tabbar
 } from '../src/vue';
+import { useTheme } from '../src/vue/composables/useTheme';
 
 import { useRouter, useRoute } from 'vue-router';
+
+useTheme();
 
 const router = useRouter();
 const route = useRoute();

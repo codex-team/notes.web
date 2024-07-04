@@ -48,7 +48,6 @@ const onClick = () => {
 </script>
 
 <style lang="postcss">
-@import '@/presentation/styles/typography.pcss';
 .checkbox {
   width: 20px;
   height: 20px;

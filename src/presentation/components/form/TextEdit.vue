@@ -53,11 +53,7 @@ const onChange = (event: Event) => {
 </script>
 
 <style lang="postcss">
-@import '@/presentation/styles/typography.pcss';
-
 .text__edit {
-  @apply --text-small;
-
   padding: var(--spacing-xxs) var(--spacing-ms);
   align-items: center;
   display: flex;

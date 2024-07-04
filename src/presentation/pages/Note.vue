@@ -12,27 +12,25 @@
       </Button>
     </div>
     <Editor
-      v-if="isToolsLoaded"
+      v-if="isEditorReady"
       ref="editor"
-      :tools="loadedTools"
-      :content="note.content"
-      :read-only="!canEdit"
+      v-bind="editorConfig"
       @change="noteChanged"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRef, watch, computed } from 'vue';
+import { ref, toRef, watch } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
+import { useNoteEditor } from '@/application/services/useNoteEditor';
 
 const { t } = useI18n();
 
@@ -58,13 +56,12 @@ const { note, noteTools, save, noteTitle, canEdit } = useNote({
 
 const { updateCover } = useNoteSettings();
 
-const { loadedTools } = useLoadedTools(noteTools);
-
-/**
- * Check if tools are loaded and if they are not empty
- * Means we can render the editor
- */
-const isToolsLoaded = computed(() => loadedTools.value ? Object.keys(loadedTools.value).length > 0 : false);
+const { isEditorReady, editorConfig } = useNoteEditor({
+  noteTools,
+  isDraftResolver: () => noteId.value === null,
+  noteContentResolver: () => note.value?.content,
+  canEdit,
+});
 
 /**
  * Editor component reference
@@ -123,8 +120,6 @@ watch(
   () => {
     /** If new child note is created, refresh editor with empty data */
     if (props.id === null) {
-      editor.value?.refresh();
-
       useHead({
         title: t('note.new'),
       });

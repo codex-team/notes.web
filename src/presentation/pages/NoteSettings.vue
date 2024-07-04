@@ -209,8 +209,6 @@ onMounted(async () => {
 </script>
 
 <style setup lang="postcss" scoped>
-@import '@/presentation/styles/typography.pcss';
-
 .note-settings{
   display: flex;
   flex-direction: column;
