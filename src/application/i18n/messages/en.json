@@ -91,6 +91,14 @@
     "500": "Unknown error happened",
     "default": "Something went wrong"
   },
+  "join": {
+    "title": "Joining a note team...",
+    "messages": {
+      "linkExpired": "This join link has been expired",
+      "validationError": "Wrong invitation hash specified",
+      "unauthorized": "You must be authenticated to access this resource"
+    }
+  },
   "marketplace": {
     "title": "Marketplace",
     "listOfTools": "Tools",
@@ -146,6 +154,7 @@
     "noteSettings": "Note settings",
     "marketplace": "Marketplace",
     "addTool": "Add tool",
-    "notFound": "Not found"
+    "notFound": "Not found",
+    "joinTeam": "Join"
   }
 }

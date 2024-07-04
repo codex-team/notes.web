@@ -8,6 +8,7 @@ import EventBus from './event-bus';
 import NoteListService from './noteList.service';
 import EditorToolsService from '@/domain/editorTools.service';
 import WorkspaceService from './workspace.service';
+import TeamService from './team.service';
 /**
  * Get API url from environment
  */
@@ -34,6 +35,7 @@ const noteSettingsService = new NoteSettingsService(repositories.noteSettings, r
 const authService = new AuthService(eventBus, repositories.auth);
 const userService = new UserService(eventBus, repositories.user);
 const marketplaceService = new MarketplaceService(repositories.marketplace);
+const teamService = new TeamService(repositories.team);
 
 /**
  * App State — is a read-only combination of app Stores.
@@ -57,5 +59,6 @@ export {
   authService,
   userService,
   marketplaceService,
-  workspaceService
+  workspaceService,
+  teamService
 };
