@@ -35,13 +35,12 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { useI18n } from 'vue-i18n';
 import { Button, Row, Section } from 'codex-ui/vue';
-import NoteSettings from '@/domain/entities/NoteSettings';
 
 const { t } = useI18n();
 
 const props = defineProps<{
   id: NoteId;
-  noteSettings: NoteSettings;
+  invintationHash: string;
 }>();
 
 const { revokeHash } = useNoteSettings();
@@ -51,7 +50,7 @@ const invitationLink = computed(
   () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${invintationHash.value}`
 );
 
-const invintationHash = ref(props.noteSettings.invitationHash);
+const invintationHash = ref(props.invintationHash);
 
 /**
  * Regenerate invitation hash

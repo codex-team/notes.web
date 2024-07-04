@@ -75,7 +75,7 @@
           />
           <InviteLink
             :id="props.id"
-            :note-settings="noteSettings"
+            :invintation-hash="noteSettings.invitationHash"
           />
           <Button
             destructive
