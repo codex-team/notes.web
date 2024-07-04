@@ -1,11 +1,10 @@
 <template>
-  <Heading :level="1">
+  <div :class="$style['message']">
     {{ message }}
-  </Heading>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { Heading } from 'codex-ui/vue';
 import { useRouter } from 'vue-router';
 import { ref, watch } from 'vue';
 import useTeam from '@/application/services/useTeam';
@@ -33,30 +32,45 @@ const message = ref(t('join.title'));
 const teamMember = ref<TeamMember | null>(null);
 
 async function handleJoin(): Promise<void> {
-  /**
-   * Check if user is authorized
-   */
-  if (user.value !== null) {
+  try {
     teamMember.value = await joinNoteTeamByHash(props.invitationHash);
-    /**
-     * Check if we got id of the note to redirect
-     */
-    if (teamMember.value?.noteId) {
-      router.push(`/note/${teamMember.value?.noteId}`);
-    } else {
+  } catch (error) {
+    if (error instanceof Error) {
       /**
-       * Join made teamMember null
-       * Means that join link is expired
+       * Handle errors which are related to wrong invitation hash specified
        */
-      message.value = t('join.linkExpired');
+      if (error.message === 'FST_ERR_VALIDATION') {
+        message.value = t('join.messages.validationError');
+      }
+
+      /**
+       * Handle error related to expired invitation link
+       */
+      if (error.message === 'Wrong invitation') {
+        message.value = t('join.messages.linkExpired');
+      }
+
+      /**
+       * Handle errors related to unauthorized state
+       */
+      if (error.message === 'You must be authenticated to access this resource') {
+        message.value = t('join.messages.unauthorized');
+        showGoogleAuthPopup();
+      }
     }
-  } else {
-    /**
-     * Authorize if not authorized yet
-     */
-    showGoogleAuthPopup();
   }
-};
+
+  /**
+   * Check if we got id of the note to redirect
+   */
+  if (teamMember.value?.noteId) {
+    router.push(`/note/${teamMember.value?.noteId}`);
+
+    /**
+     * @todo implement success alert
+     */
+  }
+}
 
 /**
  * Watching authorization of the user
@@ -67,4 +81,11 @@ watch(user, async () => {
 
 </script>
 
-<style></style>
+<style lang="postcss" module>
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+</style>

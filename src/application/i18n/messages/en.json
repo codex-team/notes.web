@@ -92,8 +92,12 @@
     "default": "Something went wrong"
   },
   "join": {
-    "title": "You are joining team!",
-    "linkExpired": "This join link has been expired"
+    "title": "Joining a note team...",
+    "messages": {
+      "linkExpired": "This join link has been expired",
+      "validationError": "Wrong invitation hash specified",
+      "unauthorized": "You must be authenticated to access this resource"
+    }
   },
   "marketplace": {
     "title": "Marketplace",
