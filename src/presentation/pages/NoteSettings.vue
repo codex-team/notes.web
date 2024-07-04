@@ -61,34 +61,31 @@
           </template>
         </Row>
       </Section>
-      <div>
-        <Team
-          :note-id="id"
-          :team="noteSettings.team"
-        />
-        <Section
-          :title="t('noteSettings.inviteCollaboratorTitle')"
-          :caption="t('noteSettings.inviteCollaboratorCaption')"
+
+      <Fieldset
+        :title="t('noteSettings.teamFormFieldSetTitle')"
+      >
+        <div
+          class="fieldset"
+          data-dimensions="large"
         >
-          <Row :title="invitationLink">
-            <template #right>
-              <Button
-                secondary
-                @click="regenerateHash"
-              >
-                {{ t('noteSettings.revokeHashButton') }}
-              </Button>
-            </template>
-          </Row>
-        </Section>
-        <br>
-        <Button
-          destructive
-          @click="deleteNote"
-        >
-          {{ t('noteSettings.deleteNote') }}
-        </Button>
-      </div>
+          <Team
+            :note-id="id"
+            :team="noteSettings.team"
+          />
+          <InviteLink
+            :id="props.id"
+            :invintation-hash="noteSettings.invitationHash"
+          />
+          <Button
+            destructive
+            class="delete-button"
+            @click="deleteNote"
+          >
+            {{ t('noteSettings.deleteNote') }}
+          </Button>
+        </div>
+      </Fieldset>
       <br>
     </div>
   </div>
@@ -106,9 +103,10 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Heading, Card, Input } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'codex-ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
+import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
 
 const { t } = useI18n();
 
@@ -119,26 +117,15 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { noteSettings, load: loadSettings, updateIsPublic, revokeHash, deleteNoteById, parentNote, setParent } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
-
-const invitationLink = computed(
-  () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${noteSettings.value?.invitationHash}`
-);
 
 /**
  * URL of the parent note. Used to set and display the parent note
  */
 const parentURL = ref<string>('');
-
-/**
- * Regenerate invitation hash
- */
-async function regenerateHash() {
-  revokeHash(props.id);
-}
 
 /**
  * Deletes the note complitely
@@ -254,6 +241,16 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: var(--v-padding);
+}
 
+.fieldset{
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.delete-button{
+  width: auto;
+  align-self: flex-start;
 }
 </style>
