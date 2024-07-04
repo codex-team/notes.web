@@ -156,7 +156,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Load note by id
    * @param id - Note identifier got from composable argument
    */
-  const load = async (id: NoteId): Promise<void> => {
+  async function load(id: NoteId): Promise<void> {
     /**
      * @todo try-catch domain errors
      */
@@ -277,16 +277,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     note.value = (await noteService.getNoteByHostname(location.hostname)).note;
   };
 
-  onMounted(async () => {
+  onMounted(() => {
     /**
      * If we have id, load note
      */
     if (currentId.value !== null) {
-      await load(currentId.value);
+      void load(currentId.value);
     }
   });
 
-  watch(currentId, async (newId, prevId) => {
+  watch(currentId, (newId, prevId) => {
     /**
      * One note is open, user clicks on "+" to create another new note
      * Clear existing note
@@ -303,7 +303,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      * we don't need to re-load it
      */
     if (prevId === null && newId !== null) {
-      await load(newId);
+      void load(newId);
 
       return;
     }

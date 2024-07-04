@@ -4,7 +4,7 @@
     :style="{ '--opacity': props.opacity }"
   >
     <div :class="$style['note-header__left']">
-      {{ updatedAt }}
+      {{ lastEdit }}
     </div>
     <div :class="$style['note-header__right']">
       <Button
@@ -56,7 +56,7 @@ const router = useRouter();
 const { note } = useNote({
   id: noteId,
 });
-const updatedAt = ref<string | undefined>('Last update ');
+const lastEdit = ref<string>('Last edit ');
 
 /**
  * Create new child note
@@ -78,19 +78,15 @@ function getNoteSettings(): void {
   router.push(`/note/${props.id}/settings`);
 }
 
-onMounted(async () => {
-  if (note !== null && 'updatedAt' in note) {
-    updatedAt.value = 'Last update ' + note.updatedAt;
+watch(note, () => {
+  if (note.value !== null && 'updatedAt' in note.value) {
+    const updatedAt = note.value.updatedAt;
+
+    if (typeof updatedAt === 'string') {
+      lastEdit.value = 'Last edit ' + formatShortDate(updatedAt);
+    }
   }
 });
-
-// watch(note.value, (newValue, oldValue) => {
-//   if (newValue !== oldValue) {
-//     const currentTime = new Date();
-
-//     updatedAt.value = formatShortDate(currentTime);
-//   }
-// });
 
 </script>
 <style module lang="postcss">
