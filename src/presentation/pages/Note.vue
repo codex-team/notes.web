@@ -118,12 +118,8 @@ function createChildNote(): void {
 watch(
   () => props.id,
   () => {
-    console.log('props.id changed', props.id);
-
     /** If new child note is created, refresh editor with empty data */
     if (props.id === null) {
-      // editor.value?.refresh();
-
       useHead({
         title: t('note.new'),
       });
