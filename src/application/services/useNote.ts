@@ -303,10 +303,10 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      * we don't need to re-load it
      */
     if (prevId === null && newId !== null) {
-      void load(newId);
-
       return;
     }
+
+    void load(newId);
   });
 
   watch(noteTitle, (currentNoteTitle) => {

@@ -15,7 +15,7 @@
       <Button
         secondary
         icon="EtcHorisontal"
-        @click="getNoteSettings"
+        @click="redirectToNoteSettings"
       />
     </div>
   </div>
@@ -71,7 +71,7 @@ function createChildNote(): void {
 /**
  * Move to note settings
  */
-function getNoteSettings(): void {
+function redirectToNoteSettings(): void {
   if (props.id === null) {
     throw new Error('Note is Empty');
   }
