@@ -65,8 +65,9 @@
       <Fieldset
         :title="t('noteSettings.teamFormFieldSetTitle')"
       >
-        <div class="fieldset"  
-              data-dimensions="large"
+        <div
+          class="fieldset"
+          data-dimensions="large"
         >
           <Team
             :note-id="id"
