@@ -83,39 +83,27 @@ export default class NotesApiTransport extends AuthorizableTransport {
 
   /**
    * Make POST request to the NoteX API
-   * @param endpoint - API endpoint
-   * @param data - data to be sent with request body
-   * @param params - Additional params to tune request
-   * @param files - Files to be sent with request
+   * @param params - Request parameters
    */
-  public async post<Response>(endpoint: string, data?: Record<string, JSONValue | undefined>, params?: NotexApiRequestParams, files?: FilesDto): Promise<Response> {
+  public async post<Response>({
+    endpoint,
+    data,
+    params,
+    files,
+  }: {
+    endpoint: string;
+    data?: Record<string, JSONValue | undefined>;
+    params?: NotexApiRequestParams;
+    files?: FilesDto;
+  }): Promise<Response> {
     let payload: FormData | Record<string, JSONValue | undefined> = data ?? {};
 
-    if (files) {
-      const multipartFormData = new FormData();
-
-      files.forEach((file) => {
-        if ('file' in file) {
-          multipartFormData.append(file.key, file.file);
-        } else {
-          multipartFormData.append(file.key, file.blob, file.fileName);
-        }
-      });
-
-      for (let key in data) {
-        const value = data[key];
-
-        if (value !== undefined) {
-          const isPrimitive = typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || value === null;
-
-          multipartFormData.append(key, isPrimitive ? String(value) : JSON.stringify(value));
-        }
-      }
-
-      payload = multipartFormData;
-    }
-
-    const response = await super.post(endpoint, payload, params);
+    const response = await super.post({
+      endpoint,
+      payload,
+      params,
+      files,
+    });
 
     return response as Response;
   }

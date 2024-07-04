@@ -26,7 +26,6 @@ import useMarketplace from '@/application/services/useMarketplace';
 import EditorToolElement from '@/presentation/components/marketplace/EditorToolElement.vue';
 import Button from '@/presentation/components/button/Button.vue';
 import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
-import { Heading } from 'codex-ui/vue';
 
 const { tools } = useMarketplace();
 </script>

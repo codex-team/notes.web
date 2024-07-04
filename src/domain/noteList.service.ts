@@ -50,7 +50,6 @@ export default class NoteListService {
       let objUrl: string | null = null;
 
       try {
-        console.log('bonka', note?.id, note.cover);
         const imageData = await this.noteAttachmentRepository.load(note.id, note.cover);
 
         /**

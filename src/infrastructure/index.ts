@@ -16,7 +16,6 @@ import { EditorToolsStore } from '@/infrastructure/storage/editorTools.ts';
 import EditorToolsRepository from '@/infrastructure/editorTools.repository';
 import EditorToolsTransport from '@/infrastructure/transport/editorTools.transport';
 import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository';
-import { NotesApiFilesTransport } from './transport/notes-api/files';
 
 /**
  * Repositories

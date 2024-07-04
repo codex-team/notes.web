@@ -1,4 +1,6 @@
 import type JSONValue from '@/infrastructure/transport/types/JSONValue';
+import type { FilesDto } from './types/FileDto';
+import { composeFormDatFromFilesDto } from './utils/composeFormDataFromFilesDto';
 
 /**
  * Additional options for fetch transport
@@ -74,11 +76,23 @@ export default class FetchTransport {
   /**
    * Make POST request to update some resource
    * @template Response - Response data type
-   * @param endpoint - API endpoint
-   * @param payload - JSON or form POST data body
+   * @param params - API endpoint, payload and files
    */
-  public async post(endpoint: string, payload?: JSONValue | FormData): Promise<JSONValue> {
-    const isFormData = payload !== undefined && payload instanceof FormData;
+  public async post({
+    endpoint,
+    payload,
+    files,
+  }: {
+    endpoint: string;
+    payload?: Record<string, JSONValue | undefined>;
+    files?: FilesDto;
+  }): Promise<JSONValue> {
+    const isFormData = Boolean(files);
+    let body: FormData | string | undefined = payload ? JSON.stringify(payload) : undefined;
+
+    if (files) {
+      body = composeFormDatFromFilesDto(payload, files);
+    }
 
     /**
      * In case if passed payload is form data, we need to have auto generated Content-Type for multipar/form-data with boundary
@@ -95,7 +109,7 @@ export default class FetchTransport {
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'POST',
       headers: this.headers,
-      body: payload !== undefined ? (isFormData ? payload : JSON.stringify(payload)) : undefined,
+      body,
     });
 
     return this.parseResponse(response, endpoint);

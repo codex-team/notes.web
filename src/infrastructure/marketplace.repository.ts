@@ -47,13 +47,17 @@ export default class MarketplaceRepository implements MarketplaceRepositoryInter
       }];
     }
 
-    const res = await this.transport.post<{ data: EditorTool }>('/editor-tools/add-tool', {
-      name: tool.name,
-      title: tool.title,
-      exportName: tool.exportName,
-      description: tool.description,
-      source: tool.source,
-    }, {}, cover);
+    const res = await this.transport.post<{ data: EditorTool }>({
+      endpoint: '/editor-tools/add-tool',
+      data: {
+        name: tool.name,
+        title: tool.title,
+        exportName: tool.exportName,
+        description: tool.description,
+        source: tool.source,
+      },
+      files: cover,
+    });
 
     return res.data;
   }

@@ -32,11 +32,14 @@ export default class NoteAttachmentUploaderRepository implements NoteAttachmentU
      */
     const fileName = generateHash();
 
-    const res = await this.transport.post<{ key: string }>(`/upload/${noteId}`, {}, {}, [{
-      key: 'file',
-      blob: fileData,
-      fileName,
-    }]);
+    const res = await this.transport.post<{ key: string }>({
+      endpoint: `/upload/${noteId}`,
+      files: [{
+        key: 'file',
+        blob: fileData,
+        fileName,
+      }],
+    });
 
     return res.key;
   }
