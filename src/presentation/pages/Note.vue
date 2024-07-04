@@ -10,13 +10,6 @@
       >
         {{ t('note.createChildNote') }}
       </Button>
-
-      <Button
-        v-if="parentNote != undefined"
-        @click="unlinkButton"
-      >
-        {{ t('note.unlink') }}
-      </Button>
     </div>
     <Editor
       v-if="isToolsLoaded"
@@ -59,7 +52,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, unlinkParent, parentNote } = useNote({
+const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
 
@@ -123,17 +116,6 @@ function createChildNote(): void {
     throw new Error('Note is Empty');
   }
   router.push(`/note/${props.id}/new`);
-}
-
-/**
- * Unlink note from parent
- */
-function unlinkButton(): void {
-  if (props.id === null) {
-    throw new Error('Note is Empty');
-  }
-
-  unlinkParent();
 }
 
 watch(

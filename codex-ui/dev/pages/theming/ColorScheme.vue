@@ -15,6 +15,9 @@
       class="theme-row"
       @click="setColorScheme(mode.toLowerCase() as ColorScheme)"
     >
+      <template #left>
+        <Picture :name="`${mode}Theme`" />
+      </template>
       <template
         v-if="colorScheme === mode.toLowerCase()"
         #right
@@ -28,7 +31,7 @@
 <script setup lang="ts">
 import { ColorScheme, useTheme } from '../../../src/vue/composables/useTheme';
 import PageHeader from '../../components/PageHeader.vue';
-import { Row, Container, Icon } from '../../../src/vue';
+import { Row, Container, Icon, Picture } from '../../../src/vue';
 
 const { colorScheme, setColorScheme } = useTheme();
 </script>

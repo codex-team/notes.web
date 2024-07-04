@@ -13,15 +13,35 @@
   },
   "userSettings": {
     "title": "User Settings",
-    "changeTheme": "Change theme",
-    "userEditorTools": "User editor tools",
+    "editorTools": "Editor Tools",
     "uninstallEditorTool": "Uninstall",
     "toolUninstallConfirmation": "Do you really want to delete this tool?",
     "nameCaption": "Will be displayed in collaborators list",
     "emailCaption": "Used for login",
     "name": "Name",
     "email": "Email",
-    "general": "General"
+    "general": "General",
+    "visitMarketplace": {
+      "title": "Add more tools",
+      "caption": "Discover new Blocks, Formattings and other tools to improve your pages",
+      "button": "View all tools",
+      "pictureName": "Hammer"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "colorSheme": {
+        "title": "Color sheme",
+        "caption": "Choose your side"
+      },
+      "baseTheme": {
+        "title": "Base theme",
+        "caption": "Main colors of the application"
+      },
+      "accentTheme" : {
+        "title": "Accent theme",
+        "caption": "Primary buttons and highlights"
+      }
+    }
   },
   "noteSettings": {
     "title": "Note Settings",
@@ -50,7 +70,7 @@
   },
   "note": {
     "new": "New Note",
-    "unlink": "Unlink from parent",
+    "unlink": "Unlink parent",
     "untitled": "Untitled",
     "open": "Open",
     "createChildNote": "Create child note"

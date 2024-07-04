@@ -17,6 +17,7 @@ import Checkbox from './pages/components/Checkbox.vue';
 import Container from './pages/components/Container.vue';
 import Fieldset from './pages/components/Fieldset.vue';
 import Icon from './pages/components/Icon.vue';
+import Picture from './pages/components/Picture.vue';
 import Popover from './pages/components/Popover.vue';
 import Row from './pages/components/Row.vue';
 import Section from './pages/components/Section.vue';
@@ -26,6 +27,7 @@ import Tabbar from './pages/components/Tabbar.vue';
 import VerticalMenu from './pages/components/VerticalMenu.vue';
 import ContextMenu from './pages/components/ContextMenu.vue';
 import Editor from './pages/components/Editor.vue';
+import ThemePreview from './pages/components/ThemePreview.vue';
 
 /**
  * Vue router routes list
@@ -124,6 +126,10 @@ const routes: RouteRecordRaw[] = [
     component: Icon as Component,
   },
   {
+    path: '/components/picture',
+    component: Picture as Component,
+  },
+  {
     path: '/components/popover',
     component: Popover as Component,
   },
@@ -134,6 +140,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/components/editor',
     component: Editor as Component,
+  },
+  {
+    path: '/components/theme-preview',
+    component: ThemePreview as Component,
   },
 ];
 
