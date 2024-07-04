@@ -71,8 +71,11 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
    * @param id - tool id
    */
   public async addTool(id: string): Promise<void> {
-    const res = await this.transport.post<{ addedTool: EditorTool }>('/user/editor-tools', {
-      toolId: id,
+    const res = await this.transport.post<{ addedTool: EditorTool }>({
+      endpoint: '/user/editor-tools',
+      data: {
+        toolId: id,
+      },
     });
 
     this.store.addEditorTool(res.addedTool);

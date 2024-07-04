@@ -5,9 +5,10 @@ import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
 import JoinPage from '@/presentation/pages/Join.vue';
-import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
+import MarketplacePage from '@/presentation/pages/marketplace/MarketplacePage.vue';
+import MarketplaceTools from '@/presentation/pages/marketplace/MarketplaceTools.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -90,18 +91,40 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: `/marketplace`,
-    component: Marketplace,
+    name: 'marketplacePage',
+    path: `/`,
+    component: MarketplacePage,
+    redirect: '/marketplace',
     meta: {
       pageTitleI18n: 'pages.marketplace',
     },
+    children: [{
+      name: 'marketplace',
+      path: 'marketplace',
+      component: MarketplaceTools,
+      meta: {
+        pageTitleI18n: 'pages.marketplace',
+      },
+    },
+    {
+      name: 'marketplaceAddTool',
+      path: `marketplace/add`,
+      component: AddTool,
+      meta: {
+        pageTitleI18n: 'pages.addTool',
+      },
+    }],
   },
   {
-    name: 'newTool',
-    path: `/marketplace/add`,
-    component: AddTool,
+    name: 'join',
+    path: '/join/:hash',
+    component: JoinPage,
+    props: route => ({
+      invitationHash: String(route.params.hash),
+    }),
     meta: {
-      pageTitleI18n: 'pages.addTool',
+      pageTitleI18n: 'pages.joinTeam',
+      discardTabOnLeave: true,
     },
   },
   {
@@ -116,6 +139,7 @@ const routes: RouteRecordRaw[] = [
       discardTabOnLeave: true,
     },
   },
+
   /**
    * 404 page
    */
