@@ -8,11 +8,13 @@
       </template>
       <template #right>
         <Button
+          v-if="canEdit"
           secondary
           icon="Plus"
           @click="createChildNote"
         />
         <Button
+          v-if="canEdit"
           secondary
           icon="EtcHorisontal"
           @click="redirectToNoteSettings"
