@@ -86,12 +86,6 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
     const combinedTools = [...noteTools, ...userTools]
     const uniqueTools = new Map(combinedTools.map(tool => [tool.name, tool]))
 
-    /**
-     * We don't need to pass default paragraph tools
-     * since it is alrady a part of the editor core
-     */
-    uniqueTools.delete('paragraph');
-
     return Array.from(uniqueTools.values());
   });
 
@@ -103,7 +97,13 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
   async function loadToolsScripts(toolsConfigs: EditorTool[]) {
     const loadedTools = await editorToolsService.getToolsLoaded(toolsConfigs);
 
-    toolsClasses = Object.fromEntries(loadedTools.map(toolClassAndInfo => [toolClassAndInfo.tool.name, toolClassAndInfo.class]));
+    /**
+     * We don't need to pass default paragraph tools
+     * since it is alrady a part of the editor core
+     */
+    const loadedToolsWithoutParagraph = loadedTools.filter(tool => tool.tool.name !== 'paragraph');
+
+    toolsClasses = Object.fromEntries(loadedToolsWithoutParagraph.map(toolClassAndInfo => [toolClassAndInfo.tool.name, toolClassAndInfo.class]));
     toolsClassesLoaded.value = true;
 
     /**

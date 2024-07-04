@@ -83,8 +83,6 @@ export function useEditor(editorConfig: MaybeRefOrGetter<EditorConfig>, options:
    * Destroy the editor instance
    */
   function destroyEditor(): void {
-    console.log('destroying editor');
-
     if (editor === undefined || editor.destroy === undefined) {
       return;
     }

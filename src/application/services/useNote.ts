@@ -177,6 +177,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     const uniqueNoteTools = new Map<string, NoteTool>();
 
     content.blocks.forEach((block) => {
+
       const toolClassAndInfo = editorToolsService.getToolByName(block.type);
 
       if (toolClassAndInfo === undefined) {
@@ -207,15 +208,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
-    console.log('specifiedNoteTools', specifiedNoteTools);
     if (currentId.value === null) {
       /**
        * @todo try-catch domain errors
        */
       const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
-
-      note.value = { ...note.value,
-        content };
 
       /**
        * Replace the current route with note id
@@ -238,8 +235,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
-    note.value = { ...note.value,
-      content };
   }
 
   /**
