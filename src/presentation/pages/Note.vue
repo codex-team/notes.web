@@ -43,7 +43,6 @@ import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { formatShortDate } from '@/infrastructure/utils/date';
-import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
@@ -70,16 +69,6 @@ const noteId = toRef(props, 'id');
 const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
-
-const { updateCover } = useNoteSettings();
-
-const { isEditorReady, editorConfig } = useNoteEditor({
-  noteTools,
-  isDraftResolver: () => noteId.value === null,
-  noteContentResolver: () => note.value?.content,
-  canEdit,
-});
-const { loadedTools } = useLoadedTools(noteTools);
 
 const lastEdit = ref<string>('Last edit ');
 
@@ -116,11 +105,14 @@ watch(note, () => {
   }
 });
 
-/**
- * Check if tools are loaded and if they are not empty
- * Means we can render the editor
- */
-const isToolsLoaded = computed(() => loadedTools.value ? Object.keys(loadedTools.value).length > 0 : false);
+const { updateCover } = useNoteSettings();
+
+const { isEditorReady, editorConfig } = useNoteEditor({
+  noteTools,
+  isDraftResolver: () => noteId.value === null,
+  noteContentResolver: () => note.value?.content,
+  canEdit,
+});
 
 /**
  * Editor component reference
