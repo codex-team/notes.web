@@ -1,7 +1,7 @@
 <template>
   <div>
     <NoteHeader
-      :style="{ '--opacity': id ? 1 : 0 }"
+      :style="{ '--opacity': id && note ? 1 : 0 }"
     >
       <template #left>
         {{ lastEdit }}
@@ -69,7 +69,7 @@ const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
 
-const lastEdit = ref<string>(t('note.defaultLastEdit'));
+const lastEdit = ref<string>(t('note.lastEdit') + ' ' + 'a few seconds ago');
 
 /**
  * Create new child note

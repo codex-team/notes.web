@@ -80,8 +80,7 @@
     "editor": {
       "placeholder": "Write something or press / to select a tool"
     },
-    "lastEdit": "Last edit",
-    "defaultLastEdit": "Last edit a few seconds ago"
+    "lastEdit": "Last edit"
   },
   "noteList": {
     "emptyNoteList": "No Notes yet. Make your first note",
