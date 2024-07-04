@@ -56,11 +56,6 @@ interface UseNoteComposableState {
   save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
 
   /**
-   * Return note data
-   */
-  load: (id: NoteId) => Promise<Note>;
-
-  /**
    * Returns list of tools used in note
    */
   resolveToolsByContent: (content: NoteContent) => NoteTool[];
@@ -161,7 +156,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Load note by id
    * @param id - Note identifier got from composable argument
    */
-  async function load(id: NoteId): Promise<Note> {
+  async function load(id: NoteId): Promise<void> {
     /**
      * @todo try-catch domain errors
      */
@@ -171,9 +166,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     canEdit.value = response.accessRights.canEdit;
     noteTools.value = response.tools;
     parentNote.value = response.parentNote;
-
-    return response.note;
-  }
+  };
 
   /**
    * Returns list of tools used in the note
@@ -333,7 +326,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     resolveHostname,
     resolveToolsByContent,
     save,
-    load,
     unlinkParent,
     parentNote,
   };

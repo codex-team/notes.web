@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRef, ref, onMounted } from 'vue';
+import { toRef, ref, onMounted, watch } from 'vue';
 import { Button } from 'codex-ui/vue';
 import { useRouter } from 'vue-router';
 import useNote from '@/application/services/useNote';
@@ -53,10 +53,10 @@ const props = withDefaults(
 
 const noteId = toRef(props, 'id');
 const router = useRouter();
-const { load } = useNote({
+const { note } = useNote({
   id: noteId,
 });
-const updatedAt = ref('Last update ');
+const updatedAt = ref<string | undefined>('Last update ');
 
 /**
  * Create new child note
@@ -79,17 +79,19 @@ function getNoteSettings(): void {
 }
 
 onMounted(async () => {
-  let newNote;
-
-  if (props.id) {
-    newNote = await load(props.id);
-  }
-  const result = newNote?.updatedAt;
-
-  if (result) {
-    updatedAt.value = updatedAt.value + formatShortDate(result);
+  if (note !== null && 'updatedAt' in note) {
+    updatedAt.value = 'Last update ' + note.updatedAt;
   }
 });
+
+// watch(note.value, (newValue, oldValue) => {
+//   if (newValue !== oldValue) {
+//     const currentTime = new Date();
+
+//     updatedAt.value = formatShortDate(currentTime);
+//   }
+// });
+
 </script>
 <style module lang="postcss">
 .note-header {
