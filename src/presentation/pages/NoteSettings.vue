@@ -70,10 +70,15 @@
             class="fieldset"
             data-dimensions="large"
           >
-            <Team
-              :note-id="id"
-              :team="noteSettings.team"
-            />
+            <div
+              v-if="isTeamPresented"
+            >
+              <Team
+                :note-id="id"
+                :team="noteSettings.team"
+              />
+            </div>
+
             <InviteLink
               :id="props.id"
               :invintation-hash="noteSettings.invitationHash"
@@ -129,6 +134,10 @@ const { noteTitle, unlinkParent } = useNote({
  * URL of the parent note. Used to set and display the parent note
  */
 const parentURL = ref<string>('');
+
+const isTeamPresented = computed(() => {
+  return noteSettings.value!.team.length > 1;
+});
 
 /**
  * Deletes the note complitely
