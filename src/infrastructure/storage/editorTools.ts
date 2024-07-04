@@ -23,7 +23,6 @@ export class EditorToolsStore {
 
   /**
    * Save tool to storage
-   * @param toolName - name of tool
    * @param toolClassAndData - callable class and tools data
    */
   public addTool(toolClassAndData: EditorToolLoaded): void {
