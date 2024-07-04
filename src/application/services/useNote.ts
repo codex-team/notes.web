@@ -166,7 +166,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     canEdit.value = response.accessRights.canEdit;
     noteTools.value = response.tools;
     parentNote.value = response.parentNote;
-  };
+  }
 
   /**
    * Returns list of tools used in the note

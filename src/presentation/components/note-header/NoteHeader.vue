@@ -18,7 +18,6 @@
   width: 100%;
   display: flex;
   align-items: center;
-  height: max-content;
   opacity: var(--opacity);
   justify-content: space-between;
   padding: var(--spacing-s) var(--spacing-m);
