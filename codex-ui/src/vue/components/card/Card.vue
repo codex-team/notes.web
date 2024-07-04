@@ -12,6 +12,7 @@
 
     <div :class="$style['card__body']">
       <div
+        v-if="title"
         :class="['text-ui-base-bold', 'line-clamp-1 ', $style['card__title']]"
         :title="title"
       >
@@ -35,7 +36,7 @@ withDefaults(
     /**
      * Card title
      */
-    title: string;
+    title?: string;
 
     /**
      * Card variety.
@@ -56,6 +57,7 @@ withDefaults(
     src?: string;
   }>(),
   {
+    title: '',
     subtitle: '',
     orientation: 'vertical',
     src: '',
@@ -98,6 +100,10 @@ withDefaults(
 
   &--vertical {
     width: var(--card-width);
+  }
+
+  &__body {
+    flex-grow: 1;
   }
 
   &__cover {

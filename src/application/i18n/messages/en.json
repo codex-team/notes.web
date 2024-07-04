@@ -94,12 +94,24 @@
     "500": "Unknown error happened",
     "default": "Something went wrong"
   },
+  "join": {
+    "title": "Joining a note team...",
+    "messages": {
+      "linkExpired": "This join link has been expired",
+      "validationError": "Wrong invitation hash specified",
+      "unauthorized": "You must be authenticated to access this resource"
+    }
+  },
   "marketplace": {
     "title": "Marketplace",
     "listOfTools": "Tools",
+    "subtitle": "Achieve any goal on your page",
     "uninstallTool": "Uninstall",
     "installTool": "Install",
     "addTool": "Add Tool",
+    "userPerspective": "User perspective",
+    "technicalDetails": "Technical details",
+    "selectFile": "Select file",
     "newTool": {
       "title": {
         "placeholder": "Payment Widget",
@@ -112,6 +124,10 @@
         "caption":"Will be used as a block type in saved data"
 
       },
+      "picture": {
+        "label": "Picture",
+        "description": "A cool descriptive screenshot of the Tool's UI"
+      },
       "exportName": {
         "placeholder": "PaymentTool",
         "label": "Export Name",
@@ -119,10 +135,15 @@
 
       },
       "cdn": {
-        "placeholder": "https://cdn.jsdelivr.net/npm/@editorjs/payment@2.3.0/dist/payment.umd.min.js",
+        "placeholder": "https:\/\/cdn.jsdelivr.net\/npm\/{'@'}editorjs/payment{'@'}2.3.0\/dist\/payment.umd.min.js",
         "label": "CDN",
         "caption":"Direct link to the tool’s UMD bundle"
 
+      },
+      "description": {
+        "placeholder": "Add a payment button using Stripe",
+        "label": "Description",
+        "caption": "Will be visible in tools list"
       },
       "add": "Add tool"
     }
@@ -136,6 +157,7 @@
     "noteSettings": "Note settings",
     "marketplace": "Marketplace",
     "addTool": "Add tool",
-    "notFound": "Not found"
+    "notFound": "Not found",
+    "joinTeam": "Join"
   }
 }

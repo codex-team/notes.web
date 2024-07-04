@@ -22,13 +22,12 @@ import { ContextMenu, ContextMenuItem } from '../../../src/vue';
 const contextMenuItems: ContextMenuItem[] = [
   {
     type: 'default',
-    title: 'Header 1',
-    icon: 'H1',
+    title: 'Header',
     // eslint-disable-next-line no-console
     onActivate: console.log,
   },
   {
-    title: 'Header 2',
+    title: 'Header 1',
     icon: 'H1',
     // eslint-disable-next-line no-console
     onActivate: console.log,
@@ -38,14 +37,18 @@ const contextMenuItems: ContextMenuItem[] = [
   },
   {
     type: 'default',
-    title: 'Header 3',
-    icon: 'H1',
+    title: 'Image',
+    icon: 'Picture',
     // eslint-disable-next-line no-console
     onActivate: console.log,
   },
   {
+    type: 'separator',
+  },
+  {
     type: 'default',
-    title: 'Header 3',
+    title: 'Text',
+    icon: 'Text',
     // eslint-disable-next-line no-console
     onActivate: console.log,
   },

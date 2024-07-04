@@ -2,6 +2,7 @@ import type MarketplaceRepositoryInterface from '@/domain/marketplace.repository
 import type NotesApiTransport from './transport/notes-api';
 import type EditorTool from '@/domain/entities/EditorTool';
 import type { NewToolData } from '@/domain/entities/EditorTool';
+import type { FilesDto } from './transport/types/FileDto';
 
 /**
  * Facade for the marketplace data
@@ -37,7 +38,26 @@ export default class MarketplaceRepository implements MarketplaceRepositoryInter
    * @param tool - tool data
    */
   public async addTool(tool: NewToolData): Promise<EditorTool> {
-    const res = await this.transport.post<{ data: EditorTool }>('/editor-tools/add-tool', tool);
+    let cover: FilesDto | undefined = undefined;
+
+    if (tool.cover !== undefined) {
+      cover = [{
+        key: 'cover',
+        file: tool.cover,
+      }];
+    }
+
+    const res = await this.transport.post<{ data: EditorTool }>({
+      endpoint: '/editor-tools/add-tool',
+      data: {
+        name: tool.name,
+        title: tool.title,
+        exportName: tool.exportName,
+        description: tool.description,
+        source: tool.source,
+      },
+      files: cover,
+    });
 
     return res.data;
   }

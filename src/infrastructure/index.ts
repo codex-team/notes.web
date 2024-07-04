@@ -16,6 +16,7 @@ import { EditorToolsStore } from '@/infrastructure/storage/editorTools.ts';
 import EditorToolsRepository from '@/infrastructure/editorTools.repository';
 import EditorToolsTransport from '@/infrastructure/transport/editorTools.transport';
 import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository';
+import TeamRepository from '@/infrastructure/team.repository';
 
 /**
  * Repositories
@@ -60,6 +61,11 @@ export interface Repositories {
    * Working with all pages user is currently using
    */
   workspace: WorkspaceRepository;
+
+  /**
+   * Working with teams
+   */
+  team: TeamRepository;
 }
 
 /**
@@ -126,6 +132,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const editorToolsRepository = new EditorToolsRepository(editorToolsStore, editorToolsTransport);
   const noteAttachmentUploaderRepository = new NoteAttachmentUploaderRepository(notesApiTransport);
   const workspaceRepository = new WorkspaceRepository(openedPagesStore);
+  const teamRepository = new TeamRepository(notesApiTransport);
 
   return {
     note: noteRepository,
@@ -136,5 +143,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     editorTools: editorToolsRepository,
     noteAttachmentUploader: noteAttachmentUploaderRepository,
     workspace: workspaceRepository,
+    team: teamRepository,
   };
 }

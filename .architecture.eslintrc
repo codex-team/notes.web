@@ -241,6 +241,7 @@
             "from": ["Page", "Component", "Layout"],
             "allow": [
               "Component",
+              "Layout",
               "Application Service",
               "Entity",
               "Utils",
