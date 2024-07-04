@@ -85,7 +85,7 @@ defineProps<{
     display: flex;
     flex: 1;
     padding: var(--v-padding) var(--h-padding) var(--v-padding) 0;
-    gap: var(--h-padding);
+    gap: var(--spacing-m);
     align-items: center;
   }
 
