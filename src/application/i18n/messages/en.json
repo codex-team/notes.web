@@ -91,6 +91,10 @@
     "500": "Unknown error happened",
     "default": "Something went wrong"
   },
+  "join": {
+    "title": "You are joining team!",
+    "linkExpired": "This join link has been expired"
+  },
   "marketplace": {
     "title": "Marketplace",
     "listOfTools": "Tools",
