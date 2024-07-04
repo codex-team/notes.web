@@ -71,7 +71,7 @@ const searchTerm = ref('');
 /**
  * Returns the list of menu context items found during the search
  */
- const filteredItems = computed(() => {
+const filteredItems = computed(() => {
   const { items } = props;
   const lowerCaseSearchTerm = searchTerm.value.toLowerCase();
 
@@ -84,15 +84,19 @@ const searchTerm = ref('');
 
   /**
    * Check what item is separator
+   *
+   * @param item - item of items array
    */
   const isSeparator = (item: Item) => item.type === 'separator';
 
   /**
    * Checks if the element header contains the searched string
+   *
+   * @param item- item of items array
    */
   const includesSearchTerm = (item: Item) =>
-    (item.type === 'default' || !item.type) &&
-    item.title.toLowerCase().includes(lowerCaseSearchTerm);
+    (item.type === 'default' || !item.type)
+    && item.title.toLowerCase().includes(lowerCaseSearchTerm);
 
   /**
    * Filtering items by search query
