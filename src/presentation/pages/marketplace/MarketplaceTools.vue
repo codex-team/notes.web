@@ -1,5 +1,8 @@
 <template>
-  <div class="marketplace">
+  <div
+    class="marketplace"
+    data-dimensions="large"
+  >
     <PageHeading>
       {{ $t('marketplace.title') }}
       <template #description>

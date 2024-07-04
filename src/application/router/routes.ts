@@ -7,7 +7,7 @@ import ErrorPage from '@/presentation/pages/Error.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
 import MarketplacePage from '@/presentation/pages/marketplace/MarketplacePage.vue';
-import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
+import MarketplaceTools from '@/presentation/pages/marketplace/MarketplaceTools.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -100,7 +100,7 @@ const routes: RouteRecordRaw[] = [
     children: [{
       name: 'marketplace',
       path: 'marketplace',
-      component: Marketplace,
+      component: MarketplaceTools,
       meta: {
         pageTitleI18n: 'pages.marketplace',
       },

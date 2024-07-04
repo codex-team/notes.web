@@ -40,19 +40,21 @@
           :src="localCover"
         >
           <input
-            id="marketplace-new-tool-cover"
+            ref="selectFileInput"
             type="file"
             hidden
             accept="image/*"
             enctype="multipart/form-data"
             @change="setCover($event)"
           >
-          <label
-            for="marketplace-new-tool-cover"
-            class="add-cover-label"
+
+          <Button
+            secondary
+            class="add-cover-button"
+            @click="selectFileInput?.click()"
           >
-            <Button class="add-cover-button"> {{ $t('marketplace.selectFile') }}</Button>
-          </label>
+            {{ $t('marketplace.selectFile') }}
+          </Button>
         </Card>
       </Section>
     </Fieldset>
@@ -119,6 +121,8 @@ const description = ref('');
 const cover = ref<File | undefined>(undefined);
 const localCover = ref<string | undefined>(undefined);
 
+const selectFileInput = ref<HTMLInputElement>();
+
 const isLoading = ref(false);
 
 /**
@@ -170,12 +174,7 @@ async function setCover(event: Event) {
   width: max-content;
 }
 
-.add-cover-label {
-  cursor: pointer;
-}
-
 .add-cover-button {
   width: max-content;
-  pointer-events: none;
 }
 </style>
