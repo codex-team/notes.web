@@ -1,5 +1,5 @@
 <template>
-  <ThreeColsLayout>
+  <ThreeColsLayout data-dimensions="large">
     <div :class="$style['page-header']">
       <Heading :level="1">
         {{ t('userSettings.title') }}
@@ -7,7 +7,6 @@
     </div>
     <div
       :class="$style['container']"
-      data-dimensions="large"
     >
       <Fieldset :title="t('userSettings.general')">
         <div :class="$style['container__general-fields']">
@@ -157,73 +156,6 @@
         </div>
       </Fieldset>
     </div>
-    <div :class="$style['page-header']">
-      <Heading :level="1">
-        {{ t('userSettings.title') }}
-      </Heading>
-    </div>
-    <div :class="$style['container']">
-      <Fieldset :title="t('userSettings.general')">
-        <div :class="$style['container__general-fields']">
-          <Section
-            :title="t('userSettings.name')"
-            :caption="t('userSettings.nameCaption')"
-          >
-            <Row :title="user?.name!" />
-          </Section>
-          <Section
-            :title="t('userSettings.email')"
-            :caption="t('userSettings.emailCaption')"
-          >
-            <Row :title="user?.email!" />
-          </Section>
-          <div>
-            <Button
-              type="button"
-              destructive
-            >
-              {{ t('auth.logout') }}
-            </Button>
-          </div>
-        </div>
-      </Fieldset>
-
-      <Fieldset :title="t('userSettings.editorTools')">
-        <div :class="$style['container__editor-tools']">
-          <Card
-            v-for="tool in userEditorTools"
-            :key="tool.id"
-            :title="tool.name"
-            subtitle="Lorem ipsum, waiting for description setup..."
-            src="https://sun9-50.userapi.com/c844720/v844720274/194ada/1HCPufLxhzY.jpg"
-            orientation="horizontal"
-          >
-            <Button
-              v-if="!tool.isDefault"
-              @click="uninstallClicked(tool.id)"
-            >
-              {{ t('userSettings.uninstallEditorTool') }}
-            </Button>
-          </Card>
-        </div>
-      </Fieldset>
-    </div>
-
-    <ThemeButton />
-    <Button
-      type="primary"
-      @click="userLogout"
-    >
-      {{ t('auth.logout') }}
-    </Button>
-
-    <Button
-      class="marketplace"
-      type="primary"
-      @click="router.push('/marketplace')"
-    >
-      {{ t('marketplace.title') }}
-    </Button>
   </ThreeColsLayout>
 </template>
 
@@ -343,7 +275,7 @@ async function uninstallClicked(toolId: string) {
 }
 
 .page-header {
-  padding: var(--spacing-xxl) var(--h-padding) 0;
+  padding: 0 var(--h-padding);
   gap: var(--spacing-s);
 }
 </style>
