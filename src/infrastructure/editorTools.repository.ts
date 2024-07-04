@@ -35,7 +35,7 @@ export default class EditorToolsRepository
     const configTools: EditorToolLoaded[] = [];
 
     for (const tool of tools) {
-      const storedTool = this.store.getTool(tool.name);
+      const storedTool = this.store.getToolByName(tool.name);
 
       if (storedTool) {
         configTools.push(storedTool);
@@ -52,7 +52,7 @@ export default class EditorToolsRepository
             tool,
           };
 
-          this.store.addTool(tool.name, toolClassAndInfo);
+          this.store.addTool(toolClassAndInfo);
 
           configTools.push(toolClassAndInfo);
         } catch (error) {

@@ -26,18 +26,8 @@ export class EditorToolsStore {
    * @param toolName - name of tool
    * @param toolClassAndData - callable class and tools data
    */
-  public addTool(toolName: string, toolClassAndData: EditorToolLoaded): void {
-    this.storage.set(toolName, toolClassAndData);
-  }
-
-  /**
-   * Extract tool from storage
-   * @param toolName - requisitioned tool name
-   */
-  public getTool(toolName: string): EditorToolLoaded | undefined {
-    const tool = this.storage.get(toolName);
-
-    return tool;
+  public addTool(toolClassAndData: EditorToolLoaded): void {
+    this.storage.set(toolClassAndData.tool.name, toolClassAndData);
   }
 
   /**

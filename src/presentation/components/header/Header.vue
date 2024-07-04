@@ -119,11 +119,6 @@ function closeHeaderTab(url: string) {
     display: flex;
     justify-content: center;
     padding: 0 var(--spacing-xl);
-    color: var(--base--text);
-
-    svg {
-      fill: currentColor;
-    }
   }
 
   &__right {
