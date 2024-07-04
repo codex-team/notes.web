@@ -2,8 +2,24 @@
   <div>
     <NoteHeader
       :id="props.id"
-      :opacity="props.id ? 1 : 0"
-    />
+      :style="{ '--opacity': props.id ? 1 : 0 }"
+    >
+      <template #left>
+        {{ lastEdit }}
+      </template>
+      <template #right>
+        <Button
+          secondary
+          icon="Plus"
+          @click="createChildNote"
+        />
+        <Button
+          secondary
+          icon="EtcHorisontal"
+          @click="redirectToNoteSettings"
+        />
+      </template>
+    </NoteHeader>
     <div v-if="note === null">
       Loading...
     </div>
@@ -22,11 +38,13 @@
 
 <script lang="ts" setup>
 import { ref, toRef, watch, computed } from 'vue';
-import { Editor } from 'codex-ui/vue';
+import { Editor, Button } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { formatShortDate } from '@/infrastructure/utils/date';
 import { useLoadedTools } from '@/application/services/useLoadedTools.ts';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
@@ -47,6 +65,7 @@ const props = defineProps<{
 }>();
 
 const noteId = toRef(props, 'id');
+const router = useRouter();
 
 const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
@@ -55,6 +74,41 @@ const { note, noteTools, save, noteTitle, canEdit } = useNote({
 const { updateCover } = useNoteSettings();
 
 const { loadedTools } = useLoadedTools(noteTools);
+
+const lastEdit = ref<string>('Last edit ');
+
+/**
+ * Create new child note
+ */
+function createChildNote(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/note/${props.id}/new`);
+}
+
+/**
+ * Move to note settings
+ */
+function redirectToNoteSettings(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/note/${props.id}/settings`);
+}
+
+/**
+ * Loads the time when the note was last modified when opened
+ */
+watch(note, () => {
+  if (note.value !== null && 'updatedAt' in note.value) {
+    const updatedAt = note.value.updatedAt;
+
+    if (typeof updatedAt === 'string') {
+      lastEdit.value = 'Last edit ' + formatShortDate(updatedAt);
+    }
+  }
+});
 
 /**
  * Check if tools are loaded and if they are not empty
