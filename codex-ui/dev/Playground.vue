@@ -199,10 +199,10 @@ const pages = computed(() => [
       },
 
       {
-        title: 'Alert', 
+        title: 'Alert',
         onActivate: () => router.push('/components/alert'),
-        isActive: route.path === '/components/alert'
-      }
+        isActive: route.path === '/components/alert',
+      },
     ],
   },
 ]);
@@ -238,7 +238,6 @@ const pages = computed(() => [
   text-decoration: none;
   color: var(--base--text);
 }
-
 
 .body {
   padding: var(--spacing-l);
