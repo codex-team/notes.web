@@ -150,7 +150,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/components/alert',
     component: Alert as Component,
-  }
+  },
 ];
 
 export default routes;

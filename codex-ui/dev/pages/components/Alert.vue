@@ -1,5 +1,8 @@
 <template>
-  <Alert :message="'Hello alert'" />
+  <Alert
+    :message="'Hello alert'"
+    type="info"
+  />
 </template>
 
 <script setup lang="ts">
