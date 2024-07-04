@@ -93,23 +93,27 @@ const filteredItems = computed(() => {
     }
   });
 
-  /**
-   * Deleting useless separators
-   */
   if (searchedItems.length > 0) {
-    let items = searchedItems;
-
-    if (searchedItems[0].type === 'separator') {
-      items = searchedItems.slice(1);
-    }
-    if (searchedItems[searchedItems.length - 1].type === 'separator') {
-      items = searchedItems.slice(0, searchedItems.length - 1);
+    if(searchedItems[0].type == 'separator') {
+      searchedItems.shift();
     }
 
-    return items;
-  } else {
-    return messageItem;
+    if(searchedItems.length == 0) {
+      searchedItems.push(messageItem)
+      return searchedItems;
+    }
+
+    if(searchedItems[searchedItems.length - 1].type == 'separator') {
+      searchedItems.pop();
+    }
+
+    if(searchedItems.length == 0) {
+      searchedItems.push(messageItem)
+      return searchedItems;
+    }
   }
+
+  return searchedItems;
 });
 
 /**
