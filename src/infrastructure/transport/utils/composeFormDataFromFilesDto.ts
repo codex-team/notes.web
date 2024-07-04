@@ -1,7 +1,12 @@
 import type { FilesDto } from '../types/FileDto';
 import type JSONValue from '../types/JSONValue';
 
-export const composeFormDatFromFilesDto = (payload: Record<string, JSONValue | undefined> | undefined, files: FilesDto): FormData => {
+/**
+ * Converts JSON payload and files to FormData
+ * @param payload - JSON payload that converts to FormData
+ * @param files - Files to append into form data
+ */
+export const composeFormDataFromFilesDto = (payload: Record<string, JSONValue | undefined> | undefined, files: FilesDto): FormData => {
   const multipartFormData = new FormData();
 
   files.forEach((file) => {

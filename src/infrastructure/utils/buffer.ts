@@ -1,3 +1,8 @@
+/**
+ * Converts an ArrayBuffer to a base64 string.
+ * @param buffer - The ArrayBuffer to convert.
+ * @returns The base64 string representation of the ArrayBuffer.
+ */
 export const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
   var binary = '';
   var bytes = new Uint8Array(buffer);

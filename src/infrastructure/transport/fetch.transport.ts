@@ -1,6 +1,6 @@
 import type JSONValue from '@/infrastructure/transport/types/JSONValue';
-import type { FilesDto } from './types/FileDto';
-import { composeFormDatFromFilesDto } from './utils/composeFormDataFromFilesDto';
+import { composeFormDataFromFilesDto } from './utils/composeFormDataFromFilesDto';
+import type { POSTParams } from './types/POSTParams';
 
 /**
  * Additional options for fetch transport
@@ -82,16 +82,12 @@ export default class FetchTransport {
     endpoint,
     payload,
     files,
-  }: {
-    endpoint: string;
-    payload?: Record<string, JSONValue | undefined>;
-    files?: FilesDto;
-  }): Promise<JSONValue> {
+  }: POSTParams): Promise<JSONValue> {
     const isFormData = Boolean(files);
     let body: FormData | string | undefined = payload ? JSON.stringify(payload) : undefined;
 
     if (files) {
-      body = composeFormDatFromFilesDto(payload, files);
+      body = composeFormDataFromFilesDto(payload, files);
     }
 
     /**

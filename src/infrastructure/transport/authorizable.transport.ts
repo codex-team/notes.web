@@ -1,7 +1,7 @@
 import Transport from '@/infrastructure/transport';
 import type { FetchTransportOptions } from './fetch.transport';
 import type JSONValue from './types/JSONValue';
-import type { FilesDto } from './types/FileDto';
+import type { POSTParamsAuthorizable } from './types/POSTParams';
 
 /**
  * Additional options for authorizable transport
@@ -102,12 +102,7 @@ export default class AuthorizableTransport extends Transport {
     payload,
     params,
     files,
-  }: {
-    endpoint: string;
-    payload?: Record<string, JSONValue | undefined>;
-    params?: AuthorizableRequestParams;
-    files?: FilesDto;
-  }): Promise<JSONValue> {
+  }: POSTParamsAuthorizable): Promise<JSONValue> {
     await this.waitForAuth(params);
 
     return super.post({
