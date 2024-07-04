@@ -106,7 +106,7 @@ const routes: RouteRecordRaw[] = [
       },
     },
     {
-      name: 'newTool',
+      name: 'marketplaceAddTool',
       path: `marketplace/add`,
       component: AddTool,
       meta: {
