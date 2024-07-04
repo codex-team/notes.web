@@ -6,6 +6,7 @@ import type NotesApiTransport from '@/infrastructure/transport/notes-api';
 import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-api/types/GetNoteResponsePayload';
 import type { NoteList } from '@/domain/entities/NoteList';
 import type { NoteDTO } from '@/domain/entities/NoteDTO';
+import type JSONValue from './transport/types/JSONValue';
 
 /**
  * Note repository
@@ -73,10 +74,13 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @todo API should return Note
    */
   public async createNote(content: NoteContent, noteTools: NoteTool[], parentId?: NoteId): Promise<Note> {
-    const response = await this.transport.post<{ id: NoteId }>('/note', {
-      content,
-      tools: noteTools,
-      parentId,
+    const response = await this.transport.post<{ id: NoteId }>({
+      endpoint: '/note',
+      data: {
+        tools: noteTools,
+        parentId,
+        content: content as unknown as JSONValue,
+      },
     });
 
     const note: Note = {
@@ -114,8 +118,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
    * @param parentNoteId - New parent note id
    */
   public async setParent(id: NoteId, parentNoteId: NoteId): Promise<Note> {
-    const response = await this.transport.post<{ parentNote: Note }>(`/note/${id}/relation`, {
-      parentNoteId,
+    const response = await this.transport.post<{ parentNote: Note }>({
+      endpoint: `/note/${id}/relation`,
+      data: {
+        parentNoteId,
+      },
     });
 
     return response.parentNote;

@@ -1,16 +1,14 @@
 <template>
-  <div class="marketplace">
-    <Heading
-      :level="1"
-    >
+  <div
+    class="marketplace"
+    data-dimensions="large"
+  >
+    <PageHeading>
       {{ $t('marketplace.title') }}
-    </Heading>
-    <Heading
-      :level="2"
-      class="marketplace__subheader"
-    >
-      {{ $t('marketplace.listOfTools') }}
-    </Heading>
+      <template #description>
+        {{ $t('marketplace.listOfTools') }}
+      </template>
+    </PageHeading>
     <div class="toolCards">
       <template
         v-for="tool in tools"
@@ -30,7 +28,7 @@
 import useMarketplace from '@/application/services/useMarketplace';
 import EditorToolElement from '@/presentation/components/marketplace/EditorToolElement.vue';
 import Button from '@/presentation/components/button/Button.vue';
-import { Heading } from 'codex-ui/vue';
+import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
 
 const { tools } = useMarketplace();
 </script>
@@ -38,15 +36,15 @@ const { tools } = useMarketplace();
 <style setup lang="postcss" scoped>
 @import '@/presentation/styles/typography.pcss';
 
-h1 {
-  @apply --text-heading-1;
+.headings {
+  padding: 0 var(--h-padding);
 }
 
 .marketplace {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-m);
-  margin: var(--spacing-l) 0;
+  gap: var(--spacing-xxl);
+  width: var(--layout-content-width);
 
   &__subheader {
     margin-bottom: var(--spacing-l);

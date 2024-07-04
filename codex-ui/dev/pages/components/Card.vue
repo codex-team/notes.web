@@ -16,7 +16,7 @@
     orientation="horizontal"
     src="https://via.placeholder.com/150"
   >
-    <Button icon="Plus"/>
+    <Button icon="Plus" />
   </Card>
 
   <Heading :level="2">
@@ -29,7 +29,7 @@
     orientation="vertical"
     src="https://via.placeholder.com/150"
   >
-    <Button icon="Plus"/>
+    <Button icon="Plus" />
   </Card>
 </template>
 

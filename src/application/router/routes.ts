@@ -4,9 +4,10 @@ import Landing from '@/presentation/pages/Landing.vue';
 import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
-import Marketplace from '@/presentation/pages/marketplace/Marketplace.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
+import MarketplacePage from '@/presentation/pages/marketplace/MarketplacePage.vue';
+import MarketplaceTools from '@/presentation/pages/marketplace/MarketplaceTools.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
@@ -89,20 +90,31 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: `/marketplace`,
-    component: Marketplace,
+    name: 'marketplacePage',
+    path: `/`,
+    component: MarketplacePage,
+    redirect: '/marketplace',
     meta: {
       pageTitleI18n: 'pages.marketplace',
     },
-  },
-  {
-    name: 'newTool',
-    path: `/marketplace/add`,
-    component: AddTool,
-    meta: {
-      pageTitleI18n: 'pages.addTool',
+    children: [{
+      name: 'marketplace',
+      path: 'marketplace',
+      component: MarketplaceTools,
+      meta: {
+        pageTitleI18n: 'pages.marketplace',
+      },
     },
+    {
+      name: 'marketplaceAddTool',
+      path: `marketplace/add`,
+      component: AddTool,
+      meta: {
+        pageTitleI18n: 'pages.addTool',
+      },
+    }],
   },
+
   /**
    * 404 page
    */

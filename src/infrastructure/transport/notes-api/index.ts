@@ -5,6 +5,7 @@ import AuthorizableTransport from '@/infrastructure/transport/authorizable.trans
 import type JSONValue from '../types/JSONValue';
 import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
 import NotFoundError from '@/domain/entities/errors/NotFound';
+import type { FilesDto } from '../types/FileDto';
 
 /**
  * Additional params that could be specified for request to NoteX API
@@ -82,14 +83,29 @@ export default class NotesApiTransport extends AuthorizableTransport {
 
   /**
    * Make POST request to the NoteX API
-   * @param endpoint - API endpoint
-   * @param data - data to be sent with request body
-   * @param params - Additional params to tune request
+   * @param params - Request parameters
    */
-  public async post<Payload>(endpoint: string, data?: JSONValue | FormData, params?: NotexApiRequestParams): Promise<Payload> {
-    const response = await super.post(endpoint, data, params);
+  public async post<Response>({
+    endpoint,
+    data,
+    params,
+    files,
+  }: {
+    endpoint: string;
+    data?: Record<string, JSONValue | undefined>;
+    params?: NotexApiRequestParams;
+    files?: FilesDto;
+  }): Promise<Response> {
+    let payload: FormData | Record<string, JSONValue | undefined> = data ?? {};
 
-    return response as Payload;
+    const response = await super.post({
+      endpoint,
+      payload,
+      params,
+      files,
+    });
+
+    return response as Response;
   }
 
   /**
