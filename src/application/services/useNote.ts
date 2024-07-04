@@ -7,7 +7,6 @@ import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
 import useHeader from './useHeader';
 
-
 /**
  * Creates base structure for the empty note:
  * First block is Header, second is an empty Paragraph
@@ -177,7 +176,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     const uniqueNoteTools = new Map<string, NoteTool>();
 
     content.blocks.forEach((block) => {
-
       const toolClassAndInfo = editorToolsService.getToolByName(block.type);
 
       if (toolClassAndInfo === undefined) {

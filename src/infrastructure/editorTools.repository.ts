@@ -29,7 +29,6 @@ export default class EditorToolsRepository
 
   /**
    * Get stored tools plugins, if tool not exists, download it
-   *
    * @param tools - request list of tools
    */
   public async getToolsLoaded(tools: EditorTool[]): Promise<EditorToolLoaded[]> {

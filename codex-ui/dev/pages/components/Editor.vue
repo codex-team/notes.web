@@ -25,7 +25,7 @@
   <Editor
     :tools="{
       header: {
-        class: Header,
+        class: Header as any,
         config: {
           placeholder: 'Heading',
           inlineToolbar: true,
@@ -47,7 +47,7 @@
 import PageHeader from '../../components/PageHeader.vue';
 import { Editor, Tabbar } from '../../../src/vue';
 import Header from '@editorjs/header';
-// ts-expect-error
+// @ts-expect-error
 import NestedList from '@editorjs/nested-list';
 import { ref, watch } from 'vue';
 import { type OutputData } from '@editorjs/editorjs';

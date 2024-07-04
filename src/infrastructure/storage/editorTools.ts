@@ -24,7 +24,7 @@ export class EditorToolsStore {
   /**
    * Save tool to storage
    * @param toolName - name of tool
-   * @param editorTool - saved note
+   * @param toolClassAndData - callable class and tools data
    */
   public addTool(toolName: string, toolClassAndData: EditorToolLoaded): void {
     this.storage.set(toolName, toolClassAndData);
@@ -42,7 +42,6 @@ export class EditorToolsStore {
 
   /**
    * Return a loaded tool by name
-   *
    * @param name - tool name. It is not unique in the system, but unique in the user's tools
    */
   public getToolByName(name: string): EditorToolLoaded | undefined {

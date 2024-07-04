@@ -1,9 +1,9 @@
-import { type Ref, computed, ref, toValue, watch } from "vue";
-import { useAppState } from "./useAppState";
-import type EditorTool from "@/domain/entities/EditorTool";
-import { type NoteContent } from "@/domain/entities/Note";
+import { type Ref, computed, ref, toValue, watch } from 'vue';
+import { useAppState } from './useAppState';
+import type EditorTool from '@/domain/entities/EditorTool';
+import { type NoteContent } from '@/domain/entities/Note';
 import { editorToolsService } from '@/domain';
-import { EditorjsConfigTool } from '@/domain/entities/EditorTool';
+import type { EditorjsConfigTool } from '@/domain/entities/EditorTool';
 import { useI18n } from 'vue-i18n';
 
 interface UseNoteEditorOptions {
@@ -29,6 +29,19 @@ interface UseNoteEditorOptions {
   canEdit: Ref<boolean>;
 }
 
+interface UseNoteEditorComposableState {
+  /**
+   * Flag indicating that the editor is ready to be shown
+   * Now we can show <Editor> component
+   */
+  isEditorReady: Ref<boolean>;
+
+  /**
+   * Editor configuration object
+   */
+  editorConfig: Ref<Record<string, unknown>>;
+}
+
 /**
  * To show Editor in Note we need to follow these steps:
  * 1. Load note data along with content and tools
@@ -39,10 +52,9 @@ interface UseNoteEditorOptions {
  *
  * This app service is doing all these steps and provides isEditorReady flag to indicate that <Editor> component can be shown
  * Also, it provides editorConfig object to pass to <Editor> component
- *
  * @param options - options for the composable
  */
-export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOptions) {
+export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOptions): UseNoteEditorComposableState {
   const isEditorReady = ref(false);
 
   const { t } = useI18n();
@@ -83,18 +95,17 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
     /**
      * Return unique array of tools grouped by tool.name
      */
-    const combinedTools = [...noteTools, ...userTools]
-    const uniqueTools = new Map(combinedTools.map(tool => [tool.name, tool]))
+    const combinedTools = [...noteTools, ...userTools];
+    const uniqueTools = new Map(combinedTools.map(tool => [tool.name, tool]));
 
     return Array.from(uniqueTools.values());
   });
 
   /**
    * Downloads passed tools scripts and toggles-on the isEditorReady flag
-   *
    * @param toolsConfigs - tools to download
    */
-  async function loadToolsScripts(toolsConfigs: EditorTool[]) {
+  async function loadToolsScripts(toolsConfigs: EditorTool[]): Promise<void> {
     const loadedTools = await editorToolsService.getToolsLoaded(toolsConfigs);
 
     /**
@@ -127,7 +138,7 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
     await loadToolsScripts(tools);
   }, {
     immediate: true, // load tools if they are passed to the composable immediately
-  })
+  });
 
   /**
    * Prepare editor configuration using loadeed tools and note content
@@ -142,9 +153,8 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
     };
   });
 
-
   return {
     isEditorReady,
     editorConfig,
-  }
-}
+  };
+};

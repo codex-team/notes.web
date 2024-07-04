@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRef, watch, computed } from 'vue';
+import { ref, toRef, watch } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
@@ -58,7 +58,7 @@ const { updateCover } = useNoteSettings();
 
 const { isEditorReady, editorConfig } = useNoteEditor({
   noteTools,
-  isDraftResolver: () => noteId.value == null,
+  isDraftResolver: () => noteId.value === null,
   noteContentResolver: () => note.value?.content,
   canEdit,
 });
