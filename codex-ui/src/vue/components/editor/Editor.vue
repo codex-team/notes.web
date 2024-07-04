@@ -245,6 +245,19 @@ defineExpose({
       padding-left: var(--spacing-very-x);
     }
   }
+
+  /**
+   * Remove after updating Header tool
+   */
+  .ce-header[contentEditable=true][data-placeholder]:before {
+    position: static;
+    color: var(--base--text-secondary);
+    font-weight: inherit;
+  }
+
+  .ce-header[contentEditable=true][data-placeholder]:empty:focus::before {
+    display: inline;
+  }
 }
 
 [color-scheme="dark"] {
