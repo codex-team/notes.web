@@ -21,7 +21,7 @@
 import PageHeader from '../../components/PageHeader.vue';
 import { Picture } from '../../../src/vue';
 
-const pictureNames = ['Hammer', 'DarkTheme', 'LightTheme', 'SystemTheme'];
+const pictureNames = ['Hammer', 'DarkTheme', 'LightTheme', 'SystemTheme', 'NotexLogo'];
 
 </script>
 
