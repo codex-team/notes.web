@@ -1,12 +1,13 @@
 <template>
   <Header />
   <router-view />
+  <Popover />
 </template>
 
 <script lang="ts" setup>
 import Header from '@/presentation/components/header/Header.vue';
 import { onErrorCaptured } from 'vue';
-import { useTheme } from 'codex-ui/vue';
+import { useTheme, Popover } from 'codex-ui/vue';
 
 /**
  * Read theme from local storage and apply it

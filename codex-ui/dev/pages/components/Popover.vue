@@ -84,6 +84,13 @@ import { usePopover, PopoverShowParams, Button, ContextMenu, Heading } from '../
 
 const { showPopover } = usePopover();
 
+/**
+ * Example of working with Popover
+ *
+ * @param el - element to show popover near
+ * @param align - vertical and horizontal aligning
+ * @param width - allows to stretch the popover to the width of the target
+ */
 function show(el: HTMLElement, align: PopoverShowParams['align'], width?: PopoverShowParams['width']) {
   showPopover({
     targetEl: el,
