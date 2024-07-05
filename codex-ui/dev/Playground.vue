@@ -29,6 +29,7 @@
         <router-view />
       </div>
     </div>
+    <Popover />
   </div>
 </template>
 
@@ -36,7 +37,8 @@
 import { computed } from 'vue';
 import {
   VerticalMenu,
-  Tabbar
+  Tabbar,
+  Popover
 } from '../src/vue';
 import { useTheme } from '../src/vue/composables/useTheme';
 
