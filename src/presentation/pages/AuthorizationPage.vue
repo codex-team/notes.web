@@ -1,16 +1,24 @@
 <template>
   <div :class="$style['message']">
     {{ t('authorize.message') }}
+    <Button
+      @click="showGoogleAuthPopup"
+    >
+     {{ t('auth.login') }}
+    </Button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAppState } from '@/application/services/useAppState';
+import useAuth from '@/application/services/useAuth';
 import { useI18n } from 'vue-i18n';
 import { watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { Button } from 'codex-ui/vue';
 
 const { user } = useAppState();
+const { showGoogleAuthPopup } = useAuth();
 const { t } = useI18n();
 const router = useRouter();
 
@@ -39,5 +47,7 @@ watch(user, () => {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  flex-direction: column;
+  gap: var(--spacing-l)
 }
 </style>
