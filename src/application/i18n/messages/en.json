@@ -89,6 +89,12 @@
     }
   },
   "home": {
+    "createNewNote": {
+      "title": "Create new note",
+      "caption": "Knowledge storage and presentation",
+      "button": "New",
+      "pictureName": "Hammer"
+    },
     "updated": "Updated",
     "title": "Recents",
     "authText": "You are not logged in, log in to see your recent notes"

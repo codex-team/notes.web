@@ -1,13 +1,34 @@
 <template>
   <ThreeColsLayout>
+    <Container>
+      <div :class="$style['container__create-new-note']">
+        <Row
+          :title="t('home.createNewNote.title')"
+          :subtitle="t('home.createNewNote.caption')"
+        >
+          <template #left>
+            <Picture :name="t('home.createNewNote.pictureName')" />
+          </template>
+          <template #right>
+            <Button
+              secondary
+              trailing-icon="ChevronRight"
+              @click="$router.push('/marketplace')"
+            >
+              {{ t('home.createNewNote.button') }}
+            </Button>
+          </template>
+        </Row>
+      </div>
+    </Container>
     <Heading
       :level="1"
-      :class="$style['home__heading']"
+      :class="$style['page-header']"
     >
       {{ $t('home.title') }}
     </Heading>
 
-    <div v-if="!user">
+    <div v-if="user === null">
       <p>{{ $t('home.authText') }}</p>
     </div>
 
@@ -15,29 +36,23 @@
       <p>{{ $t('noteList.emptyNoteList') }}</p>
     </div>
 
-    <div v-if="noteList">
-      <div :class="$style['note-list']">
-        <RouterLink
-          v-for="note in noteList.items"
-          :key="note.id"
-          :to="`/note/${note.id}`"
-        >
-          <Card
-            :class="$style['note-list__card']"
-            :title="getTitle(note.content)"
-            :subtitle="getSubtitle(note)"
-            :src="note.cover || undefined"
-            orientation="vertical"
-          />
-        </RouterLink>
-      </div>
-
-      <Button
-        :class="$style.button"
-        @click="loadMoreNotes"
+    <div
+      v-if="noteList"
+      :class="$style['notes-container']"
+    >
+      <RouterLink
+        v-for="note in noteList.items"
+        :key="note.id"
+        :to="`/note/${note.id}`"
       >
-        {{ $t('loadMore') }}
-      </Button>
+        <Card
+          :class="$style['note-list__card']"
+          :title="getTitle(note.content)"
+          :subtitle="getSubtitle(note)"
+          :src="note.cover || undefined"
+          orientation="vertical"
+        />
+      </RouterLink>
     </div>
   </ThreeColsLayout>
 </template>
@@ -49,13 +64,13 @@ import { useAppState } from '@/application/services/useAppState';
 import useNoteList from '@/application/services/useNoteList';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
-import { Button, Card, Heading } from 'codex-ui/vue';
+import { Container, Row, Picture, Button, Heading, Card } from 'codex-ui/vue';
 import { Note } from '@/domain/entities/Note';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 
 const { user } = useAppState();
 const { t } = useI18n();
-const { noteList, loadMoreNotes } = useNoteList();
+const { noteList } = useNoteList();
 
 /**
  * Changing the title in the browser
@@ -82,26 +97,24 @@ function getSubtitle(note: Note): string | undefined {
 </script>
 
 <style lang="postcss" module>
-h1.home {
-  &__heading {
-    margin-bottom: var(--spacing-xxl);
+.container {
+  display: grid;
+  padding: var(--spacing-xxl) 0;
+  gap: var(--spacing-xxl);
+
+  &__create-new-note {
+    padding: var(--v-padding) 0;
   }
 }
 
-.note-list {
-  width: 100%;
+.page-header {
+  padding: var(--spacing-xxl) var(--h-padding) 0;
+}
+
+.notes-container {
+  padding: var(--spacing-xxl) 0;
+  gap: var(--spacing-ml);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  flex-direction: column;
-  gap: var(--spacing-ml);
-
-  &__card {
-    height: 100%;
-  }
 }
-
-.button {
-  margin-top: var(--spacing-l);
-}
-
 </style>
