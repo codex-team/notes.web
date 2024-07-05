@@ -3,8 +3,18 @@
  */
 export type PropChangeCallback<StoreData> = (prop: keyof StoreData, newValue: StoreData[typeof prop]) => void;
 
+/**
+ * Type represents one change that has been commited to stored data
+ */
 type Change<StoreData> = {
+  /**
+   * Property of stored data which was changed
+   */
   prop: keyof StoreData;
+
+  /**
+   * New value of the stored data property
+   */
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   newValue: any;
 };
@@ -36,10 +46,10 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
   protected get _data(): ProxyHandler<StoreData> {
     return {
       set: (target, prop, value, receiver) => {
+        Reflect.set(target, prop, value, receiver);
+
         this.onDataChange([{ prop: prop as keyof StoreData,
           newValue: value }]);
-
-        Reflect.set(target, prop, value, receiver);
 
         return true;
       },
@@ -56,6 +66,9 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
   public subscribe(callback: PropChangeCallback<StoreData>): void {
     this.subscribers.push(callback);
 
+    /**
+     * When new service subscribed we should develop all stashed changes
+     */
     this.onDataChange(this.stashedChanges);
   }
 
