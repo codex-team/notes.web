@@ -46,7 +46,6 @@
         :to="`/note/${note.id}`"
       >
         <Card
-          :class="$style['note-list__card']"
           :title="getTitle(note.content)"
           :subtitle="getSubtitle(note)"
           :src="note.cover || undefined"
@@ -115,6 +114,8 @@ function getSubtitle(note: Note): string | undefined {
   padding: var(--spacing-xxl) 0;
   gap: var(--spacing-ml);
   display: grid;
+  width: 100%;
+  box-sizing: border-box;
   grid-template-columns: repeat(3, 1fr);
 }
 </style>
