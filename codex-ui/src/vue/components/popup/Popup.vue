@@ -1,5 +1,9 @@
 <template>
-  <div :class="$style['popup']" />
+  <div :class="$style['popup']">
+    <div :class="$style['container']">
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,11 +27,20 @@ withDefaults(
   left: 0;
   bottom: 0;
   right: 0;
-  gap: 10px;
+  gap: var(--spacing-ms);
   background-color: rgba(0, 0, 0, 0.49);
   z-index: 100;
-  &__container {
+}
 
-  }
+.container {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  gap: var(--spacing-ml);
+  padding: var(--spacing-l);
+  border-radius: var(--radius-ml);
+  border-color: var(--base--border);
+  border-width: var(--delimiter-height);
+  background-color: var(--base--bg-primary);
 }
 </style>

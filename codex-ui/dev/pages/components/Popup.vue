@@ -5,7 +5,9 @@
       A component that appears on top of other components
     </template>
   </PageHeader>
-  <Popup />
+  <Popup>
+    {{ 'Hello World!' }}
+  </Popup>
 </template>
 
 <script setup lang="ts">
