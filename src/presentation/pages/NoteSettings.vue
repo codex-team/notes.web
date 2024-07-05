@@ -70,16 +70,43 @@
             class="fieldset"
             data-dimensions="large"
           >
-            <div
-              v-if="isTeamPresented"
+            <Section
+              v-if="inhereteRighs"
+              :title="t('noteSettings.team.title')"
+              :caption="t('noteSettings.team.caption')"
             >
-              <Team
-                :note-id="id"
-                :team="noteSettings.team"
-              />
-            </div>
+              <Row
+                :title="'TODO: add i18n'"
+                :subtitle="'inhereted from TODO: add i18n'"
+              >
+                <template #right>
+                  <Icon
+                    :name="'Linkedin'"
+                    style="border-radius: var(--Radius-radius-l, 16px);
+background: var(--solid, #54617B);"
+                  />
+                </template>
+              </Row>
+              <Row
+                :title="'ovewrite TODO: add i18n'"
+                :subtitle="'something about overwrite TODO: add i18n'"
+              >
+                <template #right>
+                  <Icon
+                    :name="'Check'"
+                  />
+                </template>
+              </Row>
+            </Section>
+
+            <Team
+              v-if="!inhereteRighs"
+              :note-id="id"
+              :team="noteSettings.team"
+            />
 
             <InviteLink
+              v-if="!inhereteRighs"
               :id="props.id"
               :invintation-hash="noteSettings.invitationHash"
             />
@@ -93,6 +120,12 @@
           </div>
         </Fieldset>
         <br>
+        <div
+          v-if="inhereteRighs"
+          @click="turnOffInheritance"
+        >
+          РАБОТАЕТ
+        </div>
       </div>
     </div>
     <div v-else>
@@ -107,10 +140,10 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card, Icon } from 'codex-ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
@@ -135,6 +168,35 @@ const { noteTitle, unlinkParent } = useNote({
  */
 const parentURL = ref<string>('');
 
+/**
+ * Inherete rights from the parent note
+ */
+const inhereteRighs = ref(true);
+
+/**
+ * We should hide the inheritance policy chooser if the parent note is not set
+ */
+watch(parentNote, (newVal) => {
+  if (newVal === undefined) {
+    inhereteRighs.value = false;
+  }
+});
+
+/**
+ * Turn off inheritance
+ */
+async function turnOffInheritance() {
+  const confirm = window.confirm('Вы уверены, что хотите отключить наследование?');
+
+  if (confirm) {
+    inhereteRighs.value = false;
+  }
+}
+
+/**
+ * Check if the team is presented
+ * By default, owner is always presented in the team, it is why we check if the team length is more than 1
+ */
 const isTeamPresented = computed(() => {
   return noteSettings.value!.team.length > 1;
 });
@@ -216,6 +278,7 @@ useHead({
 onMounted(async () => {
   await loadSettings(props.id);
   parentURL.value = getParentURL(parentNote.value?.id);
+  inhereteRighs.value = (parentNote.value !== undefined) && !isTeamPresented.value;
 });
 
 </script>
