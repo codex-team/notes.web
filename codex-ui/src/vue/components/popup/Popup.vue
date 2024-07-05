@@ -1,11 +1,12 @@
 <template>
   <div :class="$style['popup']">
-    <div :class="$style['container']">
+    <div :class="$style['popup__container']">
       <slot />
     </div>
-    <div :class="$style['popup__icon']">
-      <Icon name="Cross" />
-    </div>
+    <Icon
+      name="Cross"
+      :class="$style['popup__icon']"
+    />
   </div>
 </template>
 
@@ -26,37 +27,37 @@ withDefaults(
 </script>
 
 <style module>
+
 .popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   z-index: 100;
   display: flex;
+  position: fixed;
+  align-items: center;
   gap: var(--spacing-ms);
+  justify-content: center;
   background-color: rgba(0, 0, 0, 0.49);
 
+  &__container {
+    z-index: 101;
+    gap: var(--spacing-ml);
+    padding: var(--spacing-l);
+    box-sizing: content-box;
+    border-radius: var(--radius-ml);
+    background-color: var(--base--bg-primary);
+    box-shadow: inset 0 0 0 var(--delimiter-height) var(--base--border);
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
   &__icon {
-  position: absolute;
-  top: 50%;
-  color: var(--base--text-secondary);
-  right: calc(50% + var(--spacing-very-x));
-  transform: translateY(-50%);
-  padding: var(--spacing-very-x);
-  border: var(--delimiter-height) solid;
-  border-radius: var(--radius-l);
-}
+    z-index: 101;
+    color: var(--base--text-secondary);
+    padding: var(--spacing-very-x);
+    box-shadow: inset 0 0 0 var(--delimiter-height);
+    border-radius: var(--radius-l);
+    align-self: center;
+  }
 }
 
-.container {
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  gap: var(--spacing-ml);
-  padding: var(--spacing-l);
-  border: var(--delimiter-height) solid var(--base--border);
-  border-radius: var(--radius-ml);
-  background-color: var(--base--bg-primary);
-}
 </style>
