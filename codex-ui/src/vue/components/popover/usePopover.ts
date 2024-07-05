@@ -2,6 +2,30 @@ import { reactive, ref, shallowRef } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
 import type { PopoverContent, PopoverShowParams } from './Popover.types';
 
+/**
+ * Shared composable for the Popover component
+ *
+ * Popover is the empty container that can be moved to the target element and contain any component
+ * @example
+ * showPopover({
+ *   targetEl: el, // element to move popover to
+ *   with: {
+ *     component: ContextMenu,
+ *     props: {
+ *       items: [
+ *         { title: 'Item 1' },
+ *         { title: 'Item 2' },
+ *         { title: 'Item 3' },
+ *       ],
+ *     },
+ *   },
+ *   align: {
+ *     vertically: 'below',
+ *     horizontally: 'left',
+ *   },
+ *   width: 'fit-target',
+ * });
+ */
 export const usePopover = createSharedComposable(() => {
   /**
    * Popover opening state
