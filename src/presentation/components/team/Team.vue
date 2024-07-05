@@ -3,31 +3,37 @@
     :title="t('noteSettings.team.title')"
     :caption="t('noteSettings.team.caption')"
   >
-    <Row
-      v-for="(member, memberIndex) in team"
-      :key="member.id"
-      :title="member.user.name || member.user.email"
-      :has-delimiter="memberIndex !== team.length - 1"
-    >
-      <template #right>
-        <RoleSelect
-          :note-id="noteId"
-          :team-member="member"
-        />
-      </template>
+    <template v-if="team.length > 1">
+      <Row
+        v-for="(member, memberIndex) in team"
+        :key="member.id"
+        :title="member.user.name || member.user.email"
+        :has-delimiter="memberIndex !== team.length - 1"
+      >
+        <template #right>
+          <RoleSelect
+            :note-id="noteId"
+            :team-member="member"
+          />
+        </template>
 
-      <template #left>
-        <Avatar
-          v-if="member.user.photo !== ''"
-          :src="member.user.photo"
-          :username="member.user.name"
-        />
-        <div
-          v-else
-          class="mock"
-        />
-      </template>
-    </Row>
+        <template #left>
+          <Avatar
+            v-if="member.user.photo !== ''"
+            :src="member.user.photo"
+            :username="member.user.name"
+          />
+          <div
+            v-else
+            class="mock"
+          />
+        </template>
+      </Row>
+    </template>
+    <Row
+      v-else
+      :title="t('noteSettings.team.noCollaborators')"
+    />
   </Section>
 </template>
 

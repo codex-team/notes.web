@@ -64,6 +64,7 @@
     "team": {
       "title": "Collaborators",
       "caption": "Who can access the Note even if it’s not published",
+      "noCollaborators": "No collaborators yet",
       "roles": {
         "Read": "Reader",
         "Write": "Writer"
