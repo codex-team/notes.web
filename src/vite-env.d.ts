@@ -26,6 +26,6 @@ declare module 'vue-router' {
     /**
      * Auth guard if true then user would be asked to authorize on route visit
      */
-    authGuard?: boolean;
+    authRequired?: boolean;
   }
 }

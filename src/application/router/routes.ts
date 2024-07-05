@@ -5,6 +5,7 @@ import Settings from '@/presentation/pages/Settings.vue';
 import NoteSettings from '@/presentation/pages/NoteSettings.vue';
 import ErrorPage from '@/presentation/pages/Error.vue';
 import JoinPage from '@/presentation/pages/Join.vue';
+import AuthorizationPage from '@/presentation/pages/AuthorizationPage.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
 import MarketplacePage from '@/presentation/pages/marketplace/MarketplacePage.vue';
@@ -51,7 +52,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       pageTitleI18n: 'pages.newNote',
       discardTabOnLeave: true,
-      authGuard: true,
+      authRequired: true,
     },
   },
   {
@@ -64,7 +65,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       pageTitleI18n: 'pages.newNote',
       discardTabOnLeave: true,
-      authGuard: true,
+      authRequired: true,
     },
   },
   {
@@ -80,7 +81,7 @@ const routes: RouteRecordRaw[] = [
     component: Settings,
     meta: {
       pageTitleI18n: 'pages.userSettings',
-      authGuard: true,
+      authRequired: true,
     },
   },
   {
@@ -92,7 +93,7 @@ const routes: RouteRecordRaw[] = [
     }),
     meta: {
       pageTitleI18n: 'pages.noteSettings',
-      authGuard: true,
+      authRequired: true,
     },
   },
   {
@@ -109,7 +110,7 @@ const routes: RouteRecordRaw[] = [
       component: MarketplaceTools,
       meta: {
         pageTitleI18n: 'pages.marketplace',
-        authGuard: true,
+        authRequired: true,
       },
     },
     {
@@ -118,7 +119,7 @@ const routes: RouteRecordRaw[] = [
       component: AddTool,
       meta: {
         pageTitleI18n: 'pages.addTool',
-        authGuard: true,
+        authRequired: true,
       },
     }],
   },
@@ -132,18 +133,18 @@ const routes: RouteRecordRaw[] = [
     meta: {
       pageTitleI18n: 'pages.joinTeam',
       discardTabOnLeave: true,
-      authGuard: true,
+      authRequired: true,
     },
   },
   {
     name: 'authorization',
     path: '/auth',
-    component: JoinPage,
+    component: AuthorizationPage,
     props: route => ({
-      invitationHash: String(route.params.hash),
+      redirect: String(route.query.redirect),
     }),
     meta: {
-      pageTitleI18n: 'pages.joinTeam',
+      pageTitleI18n: 'pages.authorization',
       discardTabOnLeave: true,
     },
   },

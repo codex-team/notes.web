@@ -7,7 +7,7 @@
 import Header from '@/presentation/components/header/Header.vue';
 import { onErrorCaptured } from 'vue';
 import { useTheme } from 'codex-ui/vue';
-import useAuthGuard from '@/application/services/useAuthGuard';
+import useAuthGuard from '@/application/services/useAuthRequired';
 
 /**
  * Read theme from local storage and apply it

@@ -109,8 +109,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
        */
       notesApiTransport.continueAnonymous();
 
-      console.log('removed user');
-
       userStore.removeUser();
     }
   });

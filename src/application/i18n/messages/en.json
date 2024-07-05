@@ -97,6 +97,9 @@
     "500": "Unknown error happened",
     "default": "Something went wrong"
   },
+  "authorize" : {
+    "message" : "Authorization required"
+  },
   "join": {
     "title": "Joining a note team...",
     "messages": {
@@ -161,6 +164,7 @@
     "marketplace": "Marketplace",
     "addTool": "Add tool",
     "notFound": "Not found",
-    "joinTeam": "Join"
+    "joinTeam": "Join",
+    "authorization": "Authorize"
   }
 }
