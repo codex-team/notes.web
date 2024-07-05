@@ -79,7 +79,8 @@
     "createChildNote": "Create child note",
     "editor": {
       "placeholder": "Write something or press / to select a tool"
-    }
+    },
+    "lastEdit": "Last edit"
   },
   "noteList": {
     "emptyNoteList": "No Notes yet. Make your first note",
