@@ -75,6 +75,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    name: 'settings',
     path: `/settings/`,
     component: Settings,
     meta: {
@@ -132,6 +133,18 @@ const routes: RouteRecordRaw[] = [
       pageTitleI18n: 'pages.joinTeam',
       discardTabOnLeave: true,
       authGuard: true,
+    },
+  },
+  {
+    name: 'authorization',
+    path: '/auth',
+    component: JoinPage,
+    props: route => ({
+      invitationHash: String(route.params.hash),
+    }),
+    meta: {
+      pageTitleI18n: 'pages.joinTeam',
+      discardTabOnLeave: true,
     },
   },
 

@@ -31,6 +31,8 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   public async loadUser(): Promise<void> {
     const response = await this.transport.get<User>('/user/myself');
 
+    console.log(response);
+
     this.store.setUser(response);
   }
 

@@ -40,6 +40,8 @@ export class UserStore extends SubscribableStore<UserStoreData> {
    * Removes user data
    */
   public removeUser(): void {
+    console.log('removed user from store');
+
     this.data.user = null;
   }
 
