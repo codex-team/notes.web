@@ -109,7 +109,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
        */
       notesApiTransport.continueAnonymous();
 
-      userStore.removeUser();
+      userStore.clearUser();
     }
   });
   /**
