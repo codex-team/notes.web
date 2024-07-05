@@ -125,7 +125,7 @@ export const usePopover = createSharedComposable(() => {
 
   /**
    * Move popover to the passed element and show it
-   * @param params
+   * @param params - popover showing configuration
    */
   function showPopover(params: PopoverShowParams): void {
     move(params.targetEl, params.align, params.width);
