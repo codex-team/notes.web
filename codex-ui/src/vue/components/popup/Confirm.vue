@@ -3,7 +3,7 @@
     :class="$style['confirm']"
     data-dimensions="large"
   >
-    <div :class="[$style['confirm__title'], 'text-ui-base-bold']">
+    <div :class="['text-ui-base-bold']">
       {{ title }}
     </div>
     <div :class="[$style['confirm__body'], 'text-ui-base-medium']">
@@ -57,9 +57,6 @@ defineProps<{
   gap: var(--v-padding);
   text-align: center;
   width: min-content;
-
-  &__title {
-  }
 
   &__body {
     padding: 0 var(--spacing-ml) 0 var(--spacing-ml);
