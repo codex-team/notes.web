@@ -54,12 +54,16 @@ const close = () => {
 
 .popup {
   inset: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
   position: fixed;
-  align-items: center;
-  gap: var(--spacing-ms);
+  align-content: center;
+  gap: var(--spacing-l);
   justify-content: center;
+  align-items: start;
   background-color: rgba(0, 0, 0, 0.49);
+  align-items: baseline;
+  color: var(--base--text);
 
   &__container {
     gap: var(--spacing-ml);
