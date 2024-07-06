@@ -1,7 +1,13 @@
 <template>
-  <div :class="$style['popup']">
+  <div @click="trigger">
+    <slot name="trigger" />
+  </div>
+  <div
+    v-show="showPopup"
+    :class="$style['popup']"
+  >
     <div :class="$style['popup__container']">
-      <slot />
+      <slot name="content" />
     </div>
     <Icon
       name="Cross"
@@ -12,6 +18,9 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
+import { ref } from 'vue';
+
+const showPopup = ref(false);
 
 withDefaults(
   defineProps<{
@@ -24,6 +33,11 @@ withDefaults(
     hasCloseButton: true,
   }
 );
+
+const trigger = () => {
+  showPopup.value = true;
+};
+
 </script>
 
 <style module>

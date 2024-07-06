@@ -5,11 +5,15 @@
       A component that appears on top of other components
     </template>
   </PageHeader>
-  <Button secondary>
-    Popup
-  </Button>
   <Popup>
-    Hello World!
+    <template #trigger>
+      <Button secondary>
+        Popup
+      </Button>
+    </template>
+    <template #content>
+      Hello World!
+    </template>
   </Popup>
 </template>
 
