@@ -10,8 +10,10 @@
       <slot name="content" />
     </div>
     <Icon
-      name="Cross"
+      v-if="hasCloseButton"
       :class="$style['popup__icon']"
+      name="Cross"
+      @click="close"
     />
   </div>
 </template>
@@ -38,6 +40,10 @@ const trigger = () => {
   showPopup.value = true;
 };
 
+const close = () => {
+  showPopup.value = false;
+};
+
 </script>
 
 <style module>
@@ -56,21 +62,18 @@ const trigger = () => {
     z-index: 101;
     gap: var(--spacing-ml);
     padding: var(--spacing-l);
-    box-sizing: content-box;
     border-radius: var(--radius-ml);
     background-color: var(--base--bg-primary);
     box-shadow: inset 0 0 0 var(--delimiter-height) var(--base--border);
-    flex-direction: row;
-    justify-content: flex-end;
   }
 
   &__icon {
     z-index: 101;
+    cursor: pointer;
     color: var(--base--text-secondary);
     padding: var(--spacing-very-x);
     box-shadow: inset 0 0 0 var(--delimiter-height);
     border-radius: var(--radius-l);
-    align-self: center;
   }
 }
 

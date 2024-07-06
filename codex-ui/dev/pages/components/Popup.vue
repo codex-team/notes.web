@@ -12,7 +12,12 @@
       </Button>
     </template>
     <template #content>
-      Hello World!
+      <div>
+        Hello World!
+      </div>
+      <div>
+        Hello World!
+      </div>
     </template>
   </Popup>
 </template>
