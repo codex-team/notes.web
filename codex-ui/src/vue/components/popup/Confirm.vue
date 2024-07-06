@@ -10,12 +10,18 @@
       {{ body }}
     </div>
     <div :class="$style['confirm__controls']">
-      <Button secondary>
+      <Button
+        secondary
+        @click="onLeftActivate"
+      >
         <div :class="$style['confirm__button-inner']">
           {{ leftButton }}
         </div>
       </Button>
-      <Button primary>
+      <Button
+        primary
+        @click="onRightActivate"
+      >
         <div :class="$style['confirm__button-inner']">
           {{ rightButton }}
         </div>
@@ -47,6 +53,16 @@ defineProps<{
    * Text that will be displayed in the right button
    */
   rightButton: string;
+
+  /**
+   * The function that is called when click on the left button
+   */
+  onLeftActivate: () => void;
+
+  /**
+   * The function that is called when click on the right button
+   */
+  onRightActivate: () => void;
 }>();
 </script>
 
