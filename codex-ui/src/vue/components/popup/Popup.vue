@@ -2,20 +2,24 @@
   <div @click="trigger">
     <slot name="trigger" />
   </div>
-  <div
-    v-show="showPopup"
-    :class="$style['popup']"
+  <Teleport
+    to="body"
   >
-    <div :class="$style['popup__container']">
-      <slot name="content" />
+    <div
+      v-show="showPopup"
+      :class="$style['popup']"
+    >
+      <div :class="$style['popup__container']">
+        <slot name="content" />
+      </div>
+      <Icon
+        v-if="hasCloseButton"
+        :class="$style['popup__icon']"
+        name="Cross"
+        @click="close"
+      />
     </div>
-    <Icon
-      v-if="hasCloseButton"
-      :class="$style['popup__icon']"
-      name="Cross"
-      @click="close"
-    />
-  </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -50,7 +54,6 @@ const close = () => {
 
 .popup {
   inset: 0;
-  z-index: 100;
   display: flex;
   position: fixed;
   align-items: center;
@@ -59,7 +62,6 @@ const close = () => {
   background-color: rgba(0, 0, 0, 0.49);
 
   &__container {
-    z-index: 101;
     gap: var(--spacing-ml);
     padding: var(--spacing-l);
     border-radius: var(--radius-ml);
@@ -68,7 +70,6 @@ const close = () => {
   }
 
   &__icon {
-    z-index: 101;
     cursor: pointer;
     color: var(--base--text-secondary);
     padding: var(--spacing-very-x);
