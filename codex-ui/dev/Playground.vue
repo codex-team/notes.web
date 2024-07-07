@@ -191,14 +191,14 @@ const pages = computed(() => [
         isActive: route.path === '/components/fieldset',
       },
       {
-        title: 'Popup',
-        onActivate: () => router.push('/components/popup'),
-        isActive: route.path === '/components/popup',
-      },
-      {
         title: 'Editor',
         onActivate: () => router.push('/components/editor'),
         isActive: route.path === '/components/editor',
+      },
+      {
+        title: 'Popup',
+        onActivate: () => router.push('/components/popup'),
+        isActive: route.path === '/components/popup',
       },
     ],
   },
