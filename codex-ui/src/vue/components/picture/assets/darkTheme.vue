@@ -1,0 +1,134 @@
+<template>
+  <svg
+    width="30"
+    height="30"
+    viewBox="0 0 30 30"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_630_1752)">
+      <rect
+        width="30"
+        height="30"
+        fill="url(#paint0_linear_630_1752)"
+      />
+      <circle
+        cx="15"
+        cy="15"
+        r="10"
+        fill="#7B32C5"
+        fill-opacity="0.25"
+      />
+      <mask
+        id="mask0_630_1752"
+        style="mask-type:alpha"
+        maskUnits="userSpaceOnUse"
+        x="8"
+        y="8"
+        width="14"
+        height="14"
+      >
+        <circle
+          cx="15"
+          cy="15"
+          r="7"
+          fill="black"
+        />
+      </mask>
+      <g mask="url(#mask0_630_1752)">
+        <circle
+          cx="15"
+          cy="15"
+          r="7"
+          fill="url(#paint1_radial_630_1752)"
+        />
+        <circle
+          cx="9"
+          cy="16"
+          r="2"
+          fill="#8F4D9F"
+        />
+        <circle
+          cx="18.5"
+          cy="13.5"
+          r="1.5"
+          fill="#B877C8"
+        />
+        <circle
+          cx="17.5"
+          cy="19.5"
+          r="2.5"
+          fill="#9259A0"
+        />
+        <circle
+          cx="11.5"
+          cy="8.5"
+          r="1.5"
+          fill="#935FA0"
+        />
+      </g>
+      <circle
+        cx="24"
+        cy="6"
+        r="1"
+        fill="#C317FF"
+      />
+      <circle
+        cx="25.5"
+        cy="24.5"
+        r="0.5"
+        fill="white"
+      />
+      <circle
+        cx="5.5"
+        cy="22.5"
+        r="0.5"
+        fill="white"
+      />
+      <circle
+        cx="6.5"
+        cy="5.5"
+        r="0.5"
+        fill="white"
+      />
+    </g>
+    <defs>
+      <linearGradient
+        id="paint0_linear_630_1752"
+        x1="15"
+        y1="0"
+        x2="15"
+        y2="30"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#1A1333" />
+        <stop
+          offset="1"
+          stop-color="#371563"
+        />
+      </linearGradient>
+      <radialGradient
+        id="paint1_radial_630_1752"
+        cx="0"
+        cy="0"
+        r="1"
+        gradientUnits="userSpaceOnUse"
+        gradientTransform="translate(18 12) rotate(124.38) scale(11.5109)"
+      >
+        <stop stop-color="#DDBBFF" />
+        <stop
+          offset="1"
+          stop-color="#8A539D"
+        />
+      </radialGradient>
+      <clipPath id="clip0_630_1752">
+        <path
+          d="M0 8C0 3.58172 3.58172 0 8 0H22C26.4183 0 30 3.58172 30 8V22C30 26.4183 26.4183 30 22 30H8C3.58172 30 0 26.4183 0 22V8Z"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
+<script setup lang="ts"></script>
+<style></style>

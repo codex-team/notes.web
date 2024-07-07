@@ -4,9 +4,7 @@
       to="/"
       class="header__logo"
     >
-      <Picture
-        name="NotexLogo"
-      />
+      <Logo />
     </router-link>
     <Tabbar
       :tabs="tabs"
@@ -29,8 +27,9 @@
 
 <script lang="ts" setup>
 import { IconPlus } from '@codexteam/icons';
-import { Tabbar, TabParams, Picture } from 'codex-ui/vue';
+import { Tabbar, TabParams } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
+import { Logo } from '@/presentation/components/pictures';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
 import { useRouter, useRoute } from 'vue-router';

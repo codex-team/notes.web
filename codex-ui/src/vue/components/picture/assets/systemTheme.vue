@@ -1,0 +1,137 @@
+<template>
+  <svg
+    width="30"
+    height="30"
+    viewBox="0 0 30 30"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_630_1795)">
+      <rect
+        width="30"
+        height="30"
+        fill="url(#paint0_linear_630_1795)"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M28.5 37C33.1944 37 37 33.1944 37 28.5C37 23.8056 33.1944 20 28.5 20C25.0932 20 22.1545 22.0043 20.7987 24.898C19.8317 24.3274 18.7041 24 17.5 24C14.523 24 12.0134 26.0013 11.2434 28.732C10.4359 28.2664 9.49905 28 8.5 28C5.46243 28 3 30.4624 3 33.5C3 36.5376 5.46243 39 8.5 39C10.7679 39 12.7152 37.6273 13.5564 35.6675C14.6502 36.5034 16.0171 37 17.5 37C19.5445 37 21.3686 36.056 22.5602 34.5802C24.0925 36.0773 26.1885 37 28.5 37Z"
+        fill="white"
+        fill-opacity="0.27"
+      />
+      <circle
+        cx="24"
+        cy="6"
+        r="1"
+        fill="#0C7CFF"
+      />
+      <circle
+        cx="25.5"
+        cy="24.5"
+        r="0.5"
+        fill="white"
+      />
+      <circle
+        cx="5.5"
+        cy="22.5"
+        r="0.5"
+        fill="white"
+      />
+      <circle
+        cx="6.5"
+        cy="5.5"
+        r="0.5"
+        fill="white"
+      />
+      <circle
+        cx="15"
+        cy="15"
+        r="9"
+        fill="white"
+        fill-opacity="0.12"
+      />
+      <mask
+        id="mask0_630_1795"
+        style="mask-type:alpha"
+        maskUnits="userSpaceOnUse"
+        x="8"
+        y="8"
+        width="14"
+        height="14"
+      >
+        <circle
+          cx="15"
+          cy="15"
+          r="7"
+          fill="url(#paint1_radial_630_1795)"
+        />
+      </mask>
+      <g mask="url(#mask0_630_1795)">
+        <circle
+          cx="15"
+          cy="15"
+          r="7"
+          fill="url(#paint2_radial_630_1795)"
+        />
+        <circle
+          cx="19"
+          cy="15"
+          r="7"
+          fill="black"
+        />
+      </g>
+    </g>
+    <defs>
+      <linearGradient
+        id="paint0_linear_630_1795"
+        x1="15"
+        y1="0"
+        x2="15"
+        y2="30"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#1F1828" />
+        <stop
+          offset="1"
+          stop-color="#256DD8"
+        />
+      </linearGradient>
+      <radialGradient
+        id="paint1_radial_630_1795"
+        cx="0"
+        cy="0"
+        r="1"
+        gradientUnits="userSpaceOnUse"
+        gradientTransform="translate(18 12) rotate(124.38) scale(11.5109)"
+      >
+        <stop stop-color="white" />
+        <stop
+          offset="1"
+          stop-color="#FFE178"
+        />
+      </radialGradient>
+      <radialGradient
+        id="paint2_radial_630_1795"
+        cx="0"
+        cy="0"
+        r="1"
+        gradientUnits="userSpaceOnUse"
+        gradientTransform="translate(18 12) rotate(124.38) scale(11.5109)"
+      >
+        <stop stop-color="white" />
+        <stop
+          offset="1"
+          stop-color="#FFE178"
+        />
+      </radialGradient>
+      <clipPath id="clip0_630_1795">
+        <path
+          d="M0 8C0 3.58172 3.58172 0 8 0H22C26.4183 0 30 3.58172 30 8V22C30 26.4183 26.4183 30 22 30H8C3.58172 30 0 26.4183 0 22V8Z"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
+<script setup lang="ts"></script>
+<style></style>
