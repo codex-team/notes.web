@@ -33,32 +33,37 @@
 <script setup lang="ts">
 import Button from '../button/Button.vue';
 
-defineProps<{
-  /**
-   * Text that will be displayed at the top of comfirm container
-   */
-  title: string;
+withDefaults(
+  defineProps<{
+    /**
+     * Text that will be displayed at the top of comfirm container
+     */
+    title: string;
 
-  /**
-   * Text that will be displayed in the middle part of the confirm container
-   */
-  body: string;
+    /**
+     * Text that will be displayed in the middle part of the confirm container
+     */
+    body: string;
 
-  /**
-   * Text that will be displayed in the confirm button
-   */
-  confirmButton: string;
+    /**
+     * Text that will be displayed in the confirm button
+     */
+    confirmButton?: string;
 
-  /**
-   * The function that is called when click on the cancel button
-   */
-  onCancel: () => void;
+    /**
+     * The function that is called when click on the cancel button
+     */
+    onCancel: () => void;
 
-  /**
-   * The function that is called when click on the confirm button
-   */
-  onConfirm: () => void;
-}>();
+    /**
+     * The function that is called when click on the confirm button
+     */
+    onConfirm: () => void;
+  }>(),
+  {
+    confirmButton: 'Confirm',
+  }
+);
 </script>
 
 <style module>

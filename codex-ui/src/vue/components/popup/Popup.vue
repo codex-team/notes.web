@@ -1,22 +1,23 @@
 <template>
-  <div @click="trigger">
-    <slot name="trigger" />
-  </div>
   <Teleport
     to="body"
   >
     <div
-      v-show="showPopup"
+      v-show="isActive"
       :class="$style['popup']"
     >
       <div :class="$style['popup__container']">
-        <slot name="content" />
+        <component
+          :is="content.component"
+          v-if="content"
+          v-bind="content.props"
+        />
       </div>
       <Icon
         v-if="hasCloseButton"
         :class="$style['popup__icon']"
         name="Cross"
-        @click="close"
+        @click="hidePopup"
       />
     </div>
   </Teleport>
@@ -24,9 +25,13 @@
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
-import { ref } from 'vue';
+import { usePopup } from './usePopup';
 
-const showPopup = ref(false);
+const {
+  isActive,
+  hidePopup,
+  content,
+} = usePopup();
 
 withDefaults(
   defineProps<{
@@ -39,14 +44,6 @@ withDefaults(
     hasCloseButton: true,
   }
 );
-
-const trigger = () => {
-  showPopup.value = true;
-};
-
-const close = () => {
-  showPopup.value = false;
-};
 
 </script>
 

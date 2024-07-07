@@ -5,31 +5,18 @@
       A component that appears on top of other components. Can include any other component.
     </template>
   </PageHeader>
-  <Popup>
-    <template #trigger>
-      <Button
-        secondary
-        data-dimensions="large"
-      >
-        Press here to open popup
-      </Button>
-    </template>
-    <template #content>
-      <Confirm
-        title="CodeX"
-        body="Are you sure you want to delete the page?"
-        left-button="Button"
-        confirm-button="Confirm"
-        :on-cancel="onCancelFunction"
-        :on-confirm="onConfirmFunction"
-      />
-    </template>
-  </Popup>
+  <Button
+    secondary
+    data-dimensions="large"
+    @click="show()"
+  >
+    Press here to open popup
+  </Button>
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Popup, Button, Confirm } from '../../../src/vue';
+import { Button, Confirm, usePopup } from '../../../src/vue';
 
 function onCancelFunction(): void {
   // eslint-disable-next-line no-console
@@ -39,6 +26,20 @@ function onCancelFunction(): void {
 function onConfirmFunction(): void {
   // eslint-disable-next-line no-console
   console.log('The confirm button was pressed');
+}
+
+const { showPopup } = usePopup();
+
+function show() {
+  showPopup({
+    component: Confirm,
+    props: {
+      title: 'CodeX',
+      body: 'Are you sure you want to delete the page?',
+      onCancel: onCancelFunction,
+      onConfirm: onConfirmFunction,
+    },
+  });
 }
 
 </script>
