@@ -19,9 +19,9 @@
         title="CodeX"
         body="Are you sure you want to delete the page?"
         left-button="Button"
-        right-button="Confirm"
-        :on-left-activate="onLeftFunction"
-        :on-right-activate="onRightFunction"
+        confirm-button="Confirm"
+        :on-cancel="onCancelFunction"
+        :on-confirm="onConfirmFunction"
       />
     </template>
   </Popup>
@@ -31,14 +31,14 @@
 import PageHeader from '../../components/PageHeader.vue';
 import { Popup, Button, Confirm } from '../../../src/vue';
 
-function onLeftFunction(): void {
+function onCancelFunction(): void {
   // eslint-disable-next-line no-console
-  console.log('The left button was pressed');
+  console.log('The cancel button was pressed');
 }
 
-function onRightFunction(): void {
+function onConfirmFunction(): void {
   // eslint-disable-next-line no-console
-  console.log('The right button was pressed');
+  console.log('The confirm button was pressed');
 }
 
 </script>
