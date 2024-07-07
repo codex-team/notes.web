@@ -1,5 +1,6 @@
 <template>
   <svg
+    fill="currentColor"
     style="fill: var(--base--text);"
     width="40"
     height="16"
