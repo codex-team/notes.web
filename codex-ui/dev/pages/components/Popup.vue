@@ -1,8 +1,8 @@
 <template>
   <PageHeader>
-    Popup with Confirm
+    Popup
     <template #description>
-      A component that appears on top of other components
+      A component that appears on top of other components. Can include any other component.
     </template>
   </PageHeader>
   <Popup>
