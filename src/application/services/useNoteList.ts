@@ -25,10 +25,13 @@ interface UseNoteListComposableState {
   currentPage: Ref<number>;
 
   /**
-   * Load more notes
+   * Load next page of the notes
    */
   loadMoreNotes: () => Promise<NoteList>;
 
+  /**
+   * Load previous page of the notes
+   */
   loadPreviousPage: () => Promise<NoteList>;
 }
 
