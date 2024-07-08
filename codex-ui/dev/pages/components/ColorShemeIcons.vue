@@ -1,27 +1,23 @@
 <template>
   <PageHeader>
-    Picture
+    Color sheme icons
     <template #description>
-      Component that will display picture by it's name
+      Components that will display icons representing some of color shemes
     </template>
   </PageHeader>
 
   <div
     :class="$style['pictures']"
   >
-    <Picture
-      v-for="(name, index) in pictureNames"
-      :key="index"
-      :name="name"
-    />
+    <LightColorShemeIcon />
+    <DarkColorShemeIcon />
+    <SystemColorShemeIcon />
   </div>
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Picture } from '../../../src/vue';
-
-const pictureNames = ['Hammer', 'DarkTheme', 'LightTheme', 'SystemTheme', 'NotexLogo'];
+import { LightColorShemeIcon, DarkColorShemeIcon, SystemColorShemeIcon } from '../../../src/vue';
 
 </script>
 
