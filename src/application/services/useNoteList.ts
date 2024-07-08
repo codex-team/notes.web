@@ -55,7 +55,7 @@ export default function (): UseNoteListComposableState {
   };
 
   /**
-   * Load more notes
+   * Load next page of the notes
    */
   const loadMoreNotes = async (): Promise<NoteList> => {
     currentPage.value += 1;
@@ -64,7 +64,7 @@ export default function (): UseNoteListComposableState {
   };
 
   /**
-   * Load more notes
+   * Load previous page of the notes
    */
   const loadPreviousPage = async (): Promise<NoteList> => {
     currentPage.value -= 1;
