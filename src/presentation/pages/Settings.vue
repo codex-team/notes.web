@@ -54,7 +54,8 @@
               @click="setColorScheme(scheme.toLowerCase() as ColorScheme)"
             >
               <template #left>
-                <Picture :name="`${scheme}Theme`" />
+                <LightColorShemeIcon v-if="scheme === 'Light'" />
+                <DarkColorShemeIcon v-if="scheme === 'Dark'" />
               </template>
               <template
                 v-if="colorScheme === scheme.toLowerCase()"
@@ -161,7 +162,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, Picture, Container, Input } from 'codex-ui/vue';
+import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, LightColorShemeIcon, DarkColorShemeIcon, Container, Input } from 'codex-ui/vue';
 import { Hammer } from '@/presentation/components/pictures';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
