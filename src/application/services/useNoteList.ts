@@ -17,12 +17,19 @@ interface UseNoteListComposableState {
    * Get Note List
    * @param page - number of pages
    */
-  load: (page: number) => Promise<void>;
+  load: (page: number) => Promise<NoteList>;
+
+  /**
+   * number of the current page
+   */
+  currentPage: Ref<number>;
 
   /**
    * Load more notes
    */
-  loadMoreNotes: () => Promise<void>;
+  loadMoreNotes: () => Promise<NoteList>;
+
+  loadPreviousPage: () => Promise<NoteList>;
 }
 
 /**
@@ -37,29 +44,39 @@ export default function (): UseNoteListComposableState {
   /**
    * Current page
    */
-  let currentPage = 1;
+  let currentPage = ref(1);
 
   /**
    * Get note list
    * @param page - number of pages
    */
-  const load = async (page: number): Promise<void> => {
-    noteList.value = await noteListService.getNoteList(page);
+  const load = async (page: number): Promise<NoteList> => {
+    return await noteListService.getNoteList(page);
   };
 
   /**
    * Load more notes
    */
-  const loadMoreNotes = async (): Promise<void> => {
-    currentPage += 1;
-    await load(currentPage);
+  const loadMoreNotes = async (): Promise<NoteList> => {
+    currentPage.value += 1;
+
+    return await load(currentPage.value);
+  };
+
+  /**
+   * Load more notes
+   */
+  const loadPreviousPage = async (): Promise<NoteList> => {
+    currentPage.value -= 1;
+
+    return await load(currentPage.value);
   };
 
   /**
    * Load first notes
    */
   onMounted(async () => {
-    await load(1);
+    noteList.value = await load(1);
   });
 
   /**
@@ -81,7 +98,9 @@ export default function (): UseNoteListComposableState {
 
   return {
     noteList,
+    currentPage,
     load,
     loadMoreNotes,
+    loadPreviousPage,
   };
 }

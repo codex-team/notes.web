@@ -56,6 +56,20 @@
         />
       </RouterLink>
     </div>
+    <Button
+      v-if="currentPage !== 1"
+      :class="$style.button"
+      @click="loadPreviousPageNotes"
+    >
+      {{ t('getBack') }}
+    </Button>
+    <Button
+      v-if="nextPageNotes?.items.length !== 0"
+      :class="$style.button"
+      @click="loadNextPageNotes"
+    >
+      {{ $t('loadMore') }}
+    </Button>
   </ThreeColsLayout>
 </template>
 
@@ -69,10 +83,40 @@ import { formatShortDate } from '@/infrastructure/utils/date';
 import { Container, Row, Picture, Button, Heading, Card } from 'codex-ui/vue';
 import { Note } from '@/domain/entities/Note';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
+import { onMounted, ref } from 'vue';
+import { NoteList } from '@/domain/entities/NoteList';
 
 const { user } = useAppState();
 const { t } = useI18n();
-const { noteList } = useNoteList();
+const { noteList, load, loadPreviousPage, currentPage } = useNoteList();
+
+const nextPageNotes = ref<NoteList | null>(null);
+
+/**
+ * On mount of the page we will know if there are more motes to load on next page
+ */
+onMounted(async () => {
+  nextPageNotes.value = await load(currentPage.value + 1);
+});
+
+/**
+ * Function that will update current page notes
+ * Also it will increase number of currnet page and update nextPageNotes
+ */
+async function loadNextPageNotes() {
+  noteList.value = nextPageNotes.value;
+  currentPage.value += 1;
+  nextPageNotes.value = await load(currentPage.value + 1);
+}
+
+/**
+ * Function that will load previous page of the notes
+ * Also update nextPageNotes
+ */
+async function loadPreviousPageNotes() {
+  nextPageNotes.value = noteList.value;
+  noteList.value = await loadPreviousPage();
+}
 
 /**
  * Changing the title in the browser
@@ -120,5 +164,9 @@ function getSubtitle(note: Note): string | undefined {
   width: 100%;
   box-sizing: border-box;
   grid-template-columns: repeat(3, 1fr);
+}
+
+.button {
+  margin-top: var(--spacing-l);
 }
 </style>
