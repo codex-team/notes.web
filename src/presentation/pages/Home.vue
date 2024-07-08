@@ -1,26 +1,29 @@
 <template>
-  <ThreeColsLayout>
-    <Container>
-      <div :class="$style['container__create-new-note']">
-        <Row
-          :title="t('home.createNewNote.title')"
-          :subtitle="t('home.createNewNote.caption')"
-        >
-          <template #left>
-            <Picture :name="t('home.createNewNote.pictureName')" />
-          </template>
-          <template #right>
-            <Button
-              secondary
-              trailing-icon="ChevronRight"
-              @click="$router.push('/marketplace')"
-            >
-              {{ t('home.createNewNote.button') }}
-            </Button>
-          </template>
-        </Row>
-      </div>
-    </Container>
+  <ThreeColsLayout data-dimensions="large">
+    <router-link
+      to="/new"
+    >
+      <Container>
+        <div :class="$style['container__create-new-note']">
+          <Row
+            :title="t('home.createNewNote.title')"
+            :subtitle="t('home.createNewNote.caption')"
+          >
+            <template #left>
+              <Picture :name="t('home.createNewNote.pictureName')" />
+            </template>
+            <template #right>
+              <Button
+                secondary
+                trailing-icon="ChevronRight"
+              >
+                {{ t('home.createNewNote.button') }}
+              </Button>
+            </template>
+          </Row>
+        </div>
+      </Container>
+    </router-link>
     <Heading
       :level="1"
       :class="$style['page-header']"
