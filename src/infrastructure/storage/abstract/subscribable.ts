@@ -88,7 +88,7 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
    */
   private onDataChange(changes: Change<StoreData>[]): void {
     /**
-     * If there are no sunscribers stash current change
+     * If there are no subscribers stash current change
      */
     if (this.subscribers.length === 0) {
       this.stashedChanges.push(changes[0]);

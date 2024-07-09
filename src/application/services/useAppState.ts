@@ -10,10 +10,9 @@ import { type Ref, ref } from 'vue';
 interface UseAppStateComposable {
   /**
    * Current authenticated user
-   * User is undefined if authorization is in process
    * User is null if is not authorized, User instance otherwise
    */
-  user: Ref<User | null | undefined>;
+  user: Ref<User | null>;
 
   /**
    * User editor tools that are used in notes creation.
@@ -29,7 +28,7 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
   /**
    * Current authenticated user
    */
-  const user = ref<User | null | undefined>(undefined);
+  const user = ref<User | null>(null);
 
   /**
    * User editor tools that are used in notes creation
