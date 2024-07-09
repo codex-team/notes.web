@@ -1,7 +1,6 @@
 {
   "appTitle": "NoteX",
-  "loadMore": "Load More",
-  "getBack": "Get Back",
+  "loadMore": "Load more",
   "auth": {
     "login": "Login",
     "logout": "👋Logout"

@@ -1,6 +1,7 @@
 <template>
   <ThreeColsLayout data-dimensions="large">
     <router-link
+      v-if="user"
       to="/new"
     >
       <Container>
@@ -25,18 +26,29 @@
       </Container>
     </router-link>
     <Heading
+      v-if="user"
       :level="1"
       :class="$style['page-header']"
     >
       {{ $t('home.title') }}
     </Heading>
 
-    <div v-if="user === null">
-      <p>{{ $t('home.authText') }}</p>
+    <div v-if="!user">
+      <Container data-dimensions="large">
+        <Row :title="t('home.authText')">
+          <template #right>
+            <Button
+              @click="showGoogleAuthPopup"
+            >
+              {{ t('auth.login') }}
+            </Button>
+          </template>
+        </Row>
+      </Container>
     </div>
 
     <div v-if="user && noteList?.items.length === 0">
-      <p>{{ $t('noteList.emptyNoteList') }}</p>
+      <p>{{ t('noteList.emptyNoteList') }}</p>
     </div>
 
     <div
@@ -57,7 +69,7 @@
       </RouterLink>
     </div>
     <Button
-      v-if="hasMoreNotes"
+      v-if="hasMoreNotes && user"
       :class="$style.button"
       @click="loadMoreNotes"
     >
@@ -77,10 +89,12 @@ import { Container, Row, Button, Heading, Card } from 'codex-ui/vue';
 import Hammer from '../components/pictures/Hammer.vue';
 import { Note } from '@/domain/entities/Note';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
+import useAuth from '@/application/services/useAuth';
 
 const { user } = useAppState();
 const { t } = useI18n();
 const { noteList, loadMoreNotes, hasMoreNotes } = useNoteList();
+const { showGoogleAuthPopup } = useAuth();
 
 /**
  * Changing the title in the browser
