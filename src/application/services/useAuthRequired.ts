@@ -14,10 +14,12 @@ export default function useAuthRequired(): void {
 
   /**
    * Check if user is authorized
+   * If authorization is in process we treat user as unauthorized
+   * When oauth will work, it will be treated as he authorized manually
    * @returns true if user is authorized, false otherwise
    */
   function isUserAuthorized(): boolean {
-    return (user.value !== null);
+    return (user.value !== null || user.value === undefined);
   }
 
   /**
