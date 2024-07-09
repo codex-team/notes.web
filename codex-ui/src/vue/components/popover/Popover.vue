@@ -17,6 +17,10 @@ import { ref } from 'vue';
 import { usePopover } from './usePopover';
 import { onClickOutside } from '@vueuse/core';
 
+/**
+ * Reference to the popover element
+ * Used to bind click-outside event
+ */
 const popoverEl = ref<HTMLDivElement | null>(null);
 
 const {
