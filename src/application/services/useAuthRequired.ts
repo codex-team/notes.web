@@ -19,7 +19,7 @@ export default function useAuthRequired(): void {
    * @returns true if user is authorized, false otherwise
    */
   function isUserAuthorized(): boolean {
-    return (user.value !== null || user.value === undefined);
+    return (user.value !== null && user.value !== undefined);
   }
 
   /**
