@@ -15,4 +15,5 @@ export * from './components/context-menu';
 export * from './components/vertical-menu';
 export * from './components/colorShemeIcons';
 export * from './components/theme-preview';
+export * from './components/popover';
 export * from './composables/useTheme';
