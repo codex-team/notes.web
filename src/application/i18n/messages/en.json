@@ -25,8 +25,7 @@
     "visitMarketplace": {
       "title": "Add more tools",
       "caption": "Discover new Blocks, Formattings and other tools to improve your pages",
-      "button": "View all tools",
-      "pictureName": "Hammer"
+      "button": "View all tools"
     },
     "appearance": {
       "title": "Appearance",
@@ -93,8 +92,7 @@
     "createNewNote": {
       "title": "Create new note",
       "caption": "Knowledge storage and presentation",
-      "button": "New",
-      "pictureName": "Hammer"
+      "button": "New"
     },
     "updated": "Updated",
     "title": "Recents",

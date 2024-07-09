@@ -20,19 +20,15 @@ interface UseNoteListComposableState {
   load: (page: number) => Promise<NoteList>;
 
   /**
-   * number of the current page
+   * Displays if there are more notes to be displayed
+   * @todo move this variable to api (also portion size would be removed)
    */
-  currentPage: Ref<number>;
+  hasMoreNotes: Ref<boolean>;
 
   /**
    * Load next page of the notes
    */
-  loadMoreNotes: () => Promise<NoteList>;
-
-  /**
-   * Load previous page of the notes
-   */
-  loadPreviousPage: () => Promise<NoteList>;
+  loadMoreNotes: () => Promise<void>;
 }
 
 /**
@@ -45,9 +41,21 @@ export default function (): UseNoteListComposableState {
   const noteList = ref<NoteList | null>(null);
 
   /**
-   * Current page
+   * Number of the notes to be displayed on one page
+   * When next page is loaded available notes will be appended to noteList
    */
-  let currentPage = ref(1);
+  const postionSize = 30;
+
+  /**
+   * Used for user to know if he can load more notes
+   */
+  const hasMoreNotes = ref(true);
+
+  /**
+   * Number of the current page
+   * On mount it is 0 because we will use load more notes from page 1
+   */
+  let currentPage = 0;
 
   /**
    * Get note list
@@ -60,26 +68,30 @@ export default function (): UseNoteListComposableState {
   /**
    * Load next page of the notes
    */
-  const loadMoreNotes = async (): Promise<NoteList> => {
-    currentPage.value += 1;
+  const loadMoreNotes = async (): Promise<void> => {
+    currentPage += 1;
 
-    return await load(currentPage.value);
-  };
+    const loadedNotes = await load(currentPage);
 
-  /**
-   * Load previous page of the notes
-   */
-  const loadPreviousPage = async (): Promise<NoteList> => {
-    currentPage.value -= 1;
+    if (loadedNotes.items.length !== postionSize) {
+      hasMoreNotes.value = false;
+    }
 
-    return await load(currentPage.value);
+    /**
+     * Merge loaded notes from next page with notes that user already has
+     */
+    if (noteList.value !== null) {
+      noteList.value.items = [...noteList.value.items, ...loadedNotes.items];
+    } else {
+      noteList.value = loadedNotes;
+    }
   };
 
   /**
    * Load first notes
    */
   onMounted(async () => {
-    noteList.value = await load(1);
+    await loadMoreNotes();
   });
 
   /**
@@ -101,9 +113,8 @@ export default function (): UseNoteListComposableState {
 
   return {
     noteList,
-    currentPage,
+    hasMoreNotes,
     load,
     loadMoreNotes,
-    loadPreviousPage,
   };
 }
