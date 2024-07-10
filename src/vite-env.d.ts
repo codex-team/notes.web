@@ -22,5 +22,10 @@ declare module 'vue-router' {
      * Should we close the tab if we left the route
      */
     discardTabOnLeave?: boolean;
+
+    /**
+     * Auth guard if true then user would be asked to authorize on route visit
+     */
+    authRequired?: boolean;
   }
 }

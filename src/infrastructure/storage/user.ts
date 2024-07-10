@@ -39,7 +39,7 @@ export class UserStore extends SubscribableStore<UserStoreData> {
   /**
    * Removes user data
    */
-  public removeUser(): void {
+  public clearUser(): void {
     this.data.user = null;
   }
 

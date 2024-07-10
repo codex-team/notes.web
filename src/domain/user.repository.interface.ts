@@ -18,7 +18,7 @@ export default interface UserRepositoryInterface {
   /**
    * Removes user data from the storage
    */
-  removeUser: () => void;
+  clearUser: () => void;
 
   /**
    * Loads and store editor tools from user extensions

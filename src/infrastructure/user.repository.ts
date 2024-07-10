@@ -44,8 +44,8 @@ export default class UserRepository extends Repository<UserStore, UserStoreData>
   /**
    * Removes user data from the storage
    */
-  public removeUser(): void {
-    this.store.removeUser();
+  public clearUser(): void {
+    this.store.clearUser();
 
     return;
   }

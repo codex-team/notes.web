@@ -204,14 +204,14 @@ useHead({
  * Logs out the user
  */
 async function userLogout() {
-  await logout().then(() => {
-    router.push({ path: '/' });
+  await logout();
 
-    /**
-     * Delete user settings
-     */
-    deleteOpenedPageByUrl('/settings');
-  });
+  /**
+   * Delete user opened page
+   */
+  deleteOpenedPageByUrl('/settings');
+
+  router.replace({ path: '/' });
 }
 
 /**

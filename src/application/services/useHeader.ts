@@ -74,7 +74,7 @@ export default function useHeader(): useHeaderComposableState {
   /**
    * Hook for adding new page to storage when user changes route
    */
-  router.beforeEach((currentRoute, prevRoute) => {
+  router.beforeResolve((currentRoute, prevRoute) => {
     /**
      * If we are created new note we should replace 'New Note' tab with tab with actual note title
      */
