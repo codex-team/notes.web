@@ -32,6 +32,7 @@
 .main-content {
   width: var(--layout-content-width);
   padding: 0 var(--spacing-ml);
+  box-sizing: content-box;
 }
 
 .block-left, .block-right{

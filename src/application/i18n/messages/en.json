@@ -1,6 +1,6 @@
 {
   "appTitle": "NoteX",
-  "loadMore":"Load More",
+  "loadMore": "Load more",
   "auth": {
     "login": "Login",
     "logout": "👋Logout"
@@ -24,8 +24,7 @@
     "visitMarketplace": {
       "title": "Add more tools",
       "caption": "Discover new Blocks, Formattings and other tools to improve your pages",
-      "button": "View all tools",
-      "pictureName": "Hammer"
+      "button": "View all tools"
     },
     "appearance": {
       "title": "Appearance",
@@ -89,6 +88,11 @@
     }
   },
   "home": {
+    "createNewNote": {
+      "title": "Create new note",
+      "caption": "Knowledge storage and presentation",
+      "button": "New"
+    },
     "updated": "Updated",
     "title": "Recents",
     "authText": "You are not logged in, log in to see your recent notes"

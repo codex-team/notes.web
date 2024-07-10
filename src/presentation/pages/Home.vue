@@ -1,44 +1,80 @@
 <template>
-  <ThreeColsLayout>
+  <ThreeColsLayout data-dimensions="large">
+    <router-link
+      v-if="user"
+      to="/new"
+    >
+      <Container>
+        <div :class="$style['container__create-new-note']">
+          <Row
+            :title="t('home.createNewNote.title')"
+            :subtitle="t('home.createNewNote.caption')"
+          >
+            <template #left>
+              <Hammer />
+            </template>
+            <template #right>
+              <Button
+                secondary
+                trailing-icon="ChevronRight"
+              >
+                {{ t('home.createNewNote.button') }}
+              </Button>
+            </template>
+          </Row>
+        </div>
+      </Container>
+    </router-link>
     <Heading
+      v-if="user"
       :level="1"
-      :class="$style['home__heading']"
+      :class="$style['page-header']"
     >
       {{ $t('home.title') }}
     </Heading>
 
     <div v-if="!user">
-      <p>{{ $t('home.authText') }}</p>
+      <Container data-dimensions="large">
+        <Row :title="t('home.authText')">
+          <template #right>
+            <Button
+              @click="showGoogleAuthPopup"
+            >
+              {{ t('auth.login') }}
+            </Button>
+          </template>
+        </Row>
+      </Container>
     </div>
 
     <div v-if="user && noteList?.items.length === 0">
-      <p>{{ $t('noteList.emptyNoteList') }}</p>
+      <p>{{ t('noteList.emptyNoteList') }}</p>
     </div>
 
-    <div v-if="noteList">
-      <div :class="$style['note-list']">
-        <RouterLink
-          v-for="note in noteList.items"
-          :key="note.id"
-          :to="`/note/${note.id}`"
-        >
-          <Card
-            :class="$style['note-list__card']"
-            :title="getTitle(note.content)"
-            :subtitle="getSubtitle(note)"
-            :src="note.cover || undefined"
-            orientation="vertical"
-          />
-        </RouterLink>
-      </div>
-
-      <Button
-        :class="$style.button"
-        @click="loadMoreNotes"
+    <div
+      v-if="noteList"
+      :class="$style['notes-container']"
+    >
+      <RouterLink
+        v-for="note in noteList.items"
+        :key="note.id"
+        :to="`/note/${note.id}`"
       >
-        {{ $t('loadMore') }}
-      </Button>
+        <Card
+          :title="getTitle(note.content)"
+          :subtitle="getSubtitle(note)"
+          :src="note.cover || undefined"
+          orientation="vertical"
+        />
+      </RouterLink>
     </div>
+    <Button
+      v-if="hasMoreNotes && user"
+      :class="$style.button"
+      @click="loadMoreNotes"
+    >
+      {{ $t('loadMore') }}
+    </Button>
   </ThreeColsLayout>
 </template>
 
@@ -49,13 +85,16 @@ import { useAppState } from '@/application/services/useAppState';
 import useNoteList from '@/application/services/useNoteList';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
-import { Button, Card, Heading } from 'codex-ui/vue';
+import { Container, Row, Button, Heading, Card } from 'codex-ui/vue';
+import Hammer from '../components/pictures/Hammer.vue';
 import { Note } from '@/domain/entities/Note';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
+import useAuth from '@/application/services/useAuth';
 
 const { user } = useAppState();
 const { t } = useI18n();
-const { noteList, loadMoreNotes } = useNoteList();
+const { noteList, loadMoreNotes, hasMoreNotes } = useNoteList();
+const { showGoogleAuthPopup } = useAuth();
 
 /**
  * Changing the title in the browser
@@ -82,26 +121,30 @@ function getSubtitle(note: Note): string | undefined {
 </script>
 
 <style lang="postcss" module>
-h1.home {
-  &__heading {
-    margin-bottom: var(--spacing-xxl);
+.container {
+  display: grid;
+  padding: var(--spacing-xxl) 0;
+  gap: var(--spacing-xxl);
+
+  &__create-new-note {
+    padding: var(--v-padding) 0;
   }
 }
 
-.note-list {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  flex-direction: column;
-  gap: var(--spacing-ml);
+.page-header {
+  padding: var(--spacing-xxl) var(--h-padding) 0;
+}
 
-  &__card {
-    height: 100%;
-  }
+.notes-container {
+  padding: var(--spacing-xxl) 0;
+  gap: var(--spacing-ml);
+  display: grid;
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .button {
   margin-top: var(--spacing-l);
 }
-
 </style>

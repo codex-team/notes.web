@@ -41,7 +41,6 @@ body {
   background: var(--base--bg-primary);
   color: var(--base--text);
   word-break: break-word;
-  font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: grid;
