@@ -510,10 +510,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@editorjs/editorjs@npm:2.30.0-rc.14":
-  version: 2.30.0-rc.14
-  resolution: "@editorjs/editorjs@npm:2.30.0-rc.14"
-  checksum: b72887eb7c9c1fa8d44de474af02e2f0c9d3e6bd4663e97e5f1e381d23ccb936d86519dc02adf10a7bbc5e9a3f36985ba82ca13d7dfc09245131117e01466d24
+"@editorjs/editorjs@npm:2.30.2-rc.0":
+  version: 2.30.2-rc.0
+  resolution: "@editorjs/editorjs@npm:2.30.2-rc.0"
+  checksum: 192af217036b7dcb36050361d36a99d287cb572dc5ed64fe6657928d0bd9c82c750970ef477cc85c5baebb4e4cae591bbd72b9fd7e669832c279cce48a70854b
   languageName: node
   linkType: hard
 
@@ -524,13 +524,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@editorjs/header@npm:^2.8.5":
-  version: 2.8.5
-  resolution: "@editorjs/header@npm:2.8.5"
+"@editorjs/header@npm:^2.8.6":
+  version: 2.8.6
+  resolution: "@editorjs/header@npm:2.8.6"
   dependencies:
     "@codexteam/icons": ^0.0.5
     "@editorjs/editorjs": ^2.29.1
-  checksum: 7055497b1ffa33d170eeeb50f98a4b44371219a9e01904dfb763c7cabe5a667e20bc127d79c3730139f3a00b4b8c56a9356fcf21de99957658985c2fe152bc78
+  checksum: 3d9ec6ec581986252d8fd6da3726b8018d83e37e84f994d0b5992c0c82d9a213147ee464061d08b8cf42780006da8b76aa2ffc0a1443d9d5993d5088480745da
   languageName: node
   linkType: hard
 
@@ -2166,8 +2166,8 @@ __metadata:
   resolution: "codex-ui@workspace:codex-ui"
   dependencies:
     "@codexteam/icons": ^0.3.0
-    "@editorjs/editorjs": 2.30.0-rc.14
-    "@editorjs/header": ^2.8.5
+    "@editorjs/editorjs": 2.30.2-rc.0
+    "@editorjs/header": ^2.8.6
     "@editorjs/nested-list": ^1.4.2
     "@types/node": ^20.11.15
     "@vitejs/plugin-vue": ^5.0.3
