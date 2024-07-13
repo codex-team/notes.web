@@ -122,7 +122,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
   /**
    * Get html element with note
    */
-  const editorElement = toValue(editor.value.element);
+  const editorElement = editor.value ? toValue(editor.value.element) : null;
 
   if (!isEmpty) {
     await save(data, props.parentId);
