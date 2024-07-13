@@ -12,6 +12,10 @@ export async function makeElementScreenshot(element: HTMLElement, containerStyle
    */
   const screenshotContainer = document.createElement('div');
 
+  screenshotContainer.setAttribute('color-scheme', 'dark');
+  screenshotContainer.setAttribute('theme-base', 'graphite');
+  screenshotContainer.setAttribute('theme-accent', 'sky');
+
   /**
    * Assign passed styles to container
    */

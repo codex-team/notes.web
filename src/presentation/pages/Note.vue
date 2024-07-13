@@ -122,7 +122,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
   /**
    * Get html element with note
    */
-  const editorElement = document.getElementById('editorjs');
+  const editorElement = editor.value ? editor.value.element : null;
 
   if (!isEmpty) {
     await save(data, props.parentId);
@@ -133,6 +133,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
     if (editorElement !== null) {
       updatedNoteCover = await makeElementScreenshot(editorElement, {
         background: 'var(--base--bg-primary)',
+        color: 'var(--base--text)',
         display: 'flex',
         justifyContent: 'center',
         width: '1200px',
