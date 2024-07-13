@@ -76,6 +76,11 @@ defineExpose({
   isEmpty(): boolean {
     return isEmpty.value;
   },
+
+  /**
+   * Returns the editor instance
+   */
+  element: editorComponent,
 });
 </script>
 

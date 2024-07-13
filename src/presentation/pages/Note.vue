@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRef, watch } from 'vue';
+import { ref, toRef, watch, toValue } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
@@ -122,7 +122,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
   /**
    * Get html element with note
    */
-  const editorElement = document.getElementById('editorjs');
+  const editorElement = toValue(editor.value.element);
 
   if (!isEmpty) {
     await save(data, props.parentId);
