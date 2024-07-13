@@ -131,6 +131,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const limitCharsForNoteTitle = 50;
 
   /**
+   * Is there any note currently saving
+   * Used to prevent re-load note after draft is saved
+   */
+  const isNoteSaving = ref<boolean>(false);
+
+  /**
    * Note Title identifier
    */
   const noteTitle = computed(() => {
@@ -213,6 +219,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
+    isNoteSaving.value = true;
+
     if (currentId.value === null) {
       /**
        * @todo try-catch domain errors
@@ -235,16 +243,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
           title: noteTitle.value,
           url: route.path,
         });
-
-      return;
+    } else {
+      await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
     }
-
-    await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
 
     /**
      * Store just saved content in memory
      */
     lastUpdateContent.value = content;
+
+    isNoteSaving.value = false;
   }
 
   /**
@@ -300,11 +308,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
+    const isDraftSaving = prevId === null && isNoteSaving.value;
+
     /**
      * Case for newly created note,
      * we don't need to re-load it
      */
-    if (prevId === null && newId !== null) {
+    if (isDraftSaving) {
       return;
     }
 
