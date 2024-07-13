@@ -78,7 +78,7 @@ defineExpose({
   },
 
   /**
-   * Returns the editor instance
+   * Returns the editor holder
    */
   element: editorComponent,
 });
