@@ -70,46 +70,49 @@
             class="fieldset"
             data-dimensions="large"
           >
-            <Section
-              v-if="inhereteRighs"
-              :title="t('noteSettings.team.title')"
-              :caption="t('noteSettings.team.caption')"
-            >
-              <Row
-                :title="'TODO: add i18n'"
-                :subtitle="'inhereted from TODO: add i18n'"
+            <template v-if="inhereteRighs">
+              <Section
+                :title="t('noteSettings.team.title')"
+                :caption="t('noteSettings.team.caption')"
               >
-                <template #right>
-                  <Icon
-                    :name="'Linkedin'"
-                    style="border-radius: var(--Radius-radius-l, 16px);
-background: var(--solid, #54617B);"
-                  />
-                </template>
-              </Row>
-              <Row
-                :title="'ovewrite TODO: add i18n'"
-                :subtitle="'something about overwrite TODO: add i18n'"
-              >
-                <template #right>
-                  <Icon
-                    :name="'Check'"
-                  />
-                </template>
-              </Row>
-            </Section>
+                <Row
+                  :title="'TODO: add i18n'"
+                  :subtitle="'inhereted from TODO: add i18n'"
+                >
+                  <template #right>
+                    <Icon
+                      v-if="inhereteRighs"
+                      :name="'Check'"
+                    />
+                  </template>
+                </Row>
+                <Row
+                  :title="'ovewrite TODO: add i18n'"
+                  :subtitle="'something about overwrite TODO: add i18n'"
+                  @click="turnOffInheritance"
+                >
+                  <template #right>
+                    <Icon
+                      v-if="!inhereteRighs"
+                      :name="'Check'"
+                    />
+                  </template>
+                </Row>
+              </Section>
+            </template>
 
-            <Team
-              v-if="!inhereteRighs"
-              :note-id="id"
-              :team="noteSettings.team"
-            />
+            <template v-else>
+              <Team
+                :note-id="id"
+                :team="noteSettings.team"
+              />
 
-            <InviteLink
-              v-if="!inhereteRighs"
-              :id="props.id"
-              :invintation-hash="noteSettings.invitationHash"
-            />
+              <InviteLink
+                :id="props.id"
+                :invintation-hash="noteSettings.invitationHash"
+              />
+            </template>
+
             <Button
               destructive
               class="delete-button"
@@ -119,13 +122,6 @@ background: var(--solid, #54617B);"
             </Button>
           </div>
         </Fieldset>
-        <br>
-        <div
-          v-if="inhereteRighs"
-          @click="turnOffInheritance"
-        >
-          РАБОТАЕТ
-        </div>
       </div>
     </div>
     <div v-else>
