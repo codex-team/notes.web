@@ -29,6 +29,7 @@
         <router-view />
       </div>
     </div>
+    <Popover />
     <Popup />
   </div>
 </template>
@@ -38,6 +39,7 @@ import { computed } from 'vue';
 import {
   VerticalMenu,
   Tabbar,
+  Popover,
   Popup
 } from '../src/vue';
 import { useTheme } from '../src/vue/composables/useTheme';
@@ -113,9 +115,9 @@ const pages = computed(() => [
         isActive: route.path === '/components/icon',
       },
       {
-        title: 'Picture',
-        onActivate: () => router.push('/components/picture'),
-        isActive: route.path === '/components/picture',
+        title: 'ColorShemeIcons',
+        onActivate: () => router.push('/components/color-sheme-icons'),
+        isActive: route.path === '/components/color-sheme-icons',
       },
       {
         title: 'ThemePreview',

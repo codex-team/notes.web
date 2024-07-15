@@ -54,7 +54,8 @@
               @click="setColorScheme(scheme.toLowerCase() as ColorScheme)"
             >
               <template #left>
-                <Picture :name="`${scheme}Theme`" />
+                <LightColorShemeIcon v-if="scheme === 'Light'" />
+                <DarkColorShemeIcon v-if="scheme === 'Dark'" />
               </template>
               <template
                 v-if="colorScheme === scheme.toLowerCase()"
@@ -139,7 +140,7 @@
                 :subtitle="t('userSettings.visitMarketplace.caption')"
               >
                 <template #left>
-                  <Picture :name="t('userSettings.visitMarketplace.pictureName')" />
+                  <Hammer />
                 </template>
                 <template #right>
                   <Button
@@ -161,7 +162,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, Picture, Container, Input } from 'codex-ui/vue';
+import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, LightColorShemeIcon, DarkColorShemeIcon, Container, Input } from 'codex-ui/vue';
+import { Hammer } from '@/presentation/components/pictures';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
 import { useUserSettings } from '@/application/services/useUserSettings';
@@ -202,14 +204,14 @@ useHead({
  * Logs out the user
  */
 async function userLogout() {
-  await logout().then(() => {
-    router.push({ path: '/' });
+  await logout();
 
-    /**
-     * Delete user settings
-     */
-    deleteOpenedPageByUrl('/settings');
-  });
+  /**
+   * Delete user opened page
+   */
+  deleteOpenedPageByUrl('/settings');
+
+  router.replace({ path: '/' });
 }
 
 /**

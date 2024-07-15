@@ -4,6 +4,22 @@
 export type PropChangeCallback<StoreData> = (prop: keyof StoreData, newValue: StoreData[typeof prop]) => void;
 
 /**
+ * Type represents one change that has been commited to stored data
+ */
+type Change<StoreData> = {
+  /**
+   * Property of stored data which was changed
+   */
+  prop: keyof StoreData;
+
+  /**
+   * New value of the stored data property
+   */
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  newValue: any;
+};
+
+/**
  * Base class for subscribable stores.
  * Allows to subscribe to store data changes
  */
@@ -20,6 +36,11 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
   private subscribers: PropChangeCallback<StoreData>[] = [];
 
   /**
+   * Using for accumulation of changes in store until subscriber appearse
+   */
+  private stashedChanges: Change<StoreData>[] = [];
+
+  /**
    * Data proxy handler
    */
   protected get _data(): ProxyHandler<StoreData> {
@@ -27,7 +48,8 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
       set: (target, prop, value, receiver) => {
         Reflect.set(target, prop, value, receiver);
 
-        this.onDataChange(prop as keyof StoreData, value);
+        this.onDataChange([{ prop: prop as keyof StoreData,
+          newValue: value }]);
 
         return true;
       },
@@ -43,6 +65,11 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
    */
   public subscribe(callback: PropChangeCallback<StoreData>): void {
     this.subscribers.push(callback);
+
+    /**
+     * When new service subscribed we should develop all stashed changes
+     */
+    this.onDataChange(this.stashedChanges);
   }
 
   /**
@@ -57,12 +84,25 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
   /**
    * Function called when store data is changed.
    * Notifies subscribers about data change.
-   * @param prop - changed property
-   * @param newValue - new value of changed property
+   * @param changes - array of changes
    */
-  private onDataChange(prop: keyof StoreData, newValue: StoreData[typeof prop]): void {
-    this.subscribers.forEach((callback) => {
-      callback(prop, newValue);
-    });
+  private onDataChange(changes: Change<StoreData>[]): void {
+    /**
+     * If there are no subscribers stash current change
+     */
+    if (this.subscribers.length === 0) {
+      this.stashedChanges.push(changes[0]);
+    } else {
+      this.subscribers.forEach((callback) => {
+        changes.forEach((change) => {
+          callback(change.prop, change.newValue);
+        });
+      });
+
+      /**
+       * Clear stashed changes
+       */
+      this.stashedChanges = [];
+    }
   }
 }

@@ -1,22 +1,41 @@
 <template>
-  <div v-if="note === null">
-    Loading...
-  </div>
-  <div v-else>
-    <div>
-      <Button
-        v-if="props.id != null"
-        @click="createChildNote"
-      >
-        {{ t('note.createChildNote') }}
-      </Button>
+  <div>
+    <NoteHeader
+      :style="{ '--opacity': id && note ? 1 : 0 }"
+    >
+      <template #left>
+        {{
+          note && 'updatedAt' in note && note.updatedAt
+            ? t('note.lastEdit') + ' ' + formatShortDate(note.updatedAt)
+            : t('note.lastEdit') + ' ' + 'a few seconds ago'
+        }}
+      </template>
+      <template #right>
+        <Button
+          v-if="canEdit"
+          secondary
+          icon="Plus"
+          @click="createChildNote"
+        />
+        <Button
+          v-if="canEdit"
+          secondary
+          icon="EtcHorisontal"
+          @click="redirectToNoteSettings"
+        />
+      </template>
+    </NoteHeader>
+    <div v-if="note === null">
+      Loading...
     </div>
-    <Editor
-      v-if="isEditorReady"
-      ref="editor"
-      v-bind="editorConfig"
-      @change="noteChanged"
-    />
+    <div v-else>
+      <Editor
+        v-if="isEditorReady"
+        ref="editor"
+        v-bind="editorConfig"
+        @change="noteChanged"
+      />
+    </div>
   </div>
 </template>
 
@@ -28,9 +47,11 @@ import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { formatShortDate } from '@/infrastructure/utils/date';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
+import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 
 const { t } = useI18n();
 
@@ -53,6 +74,26 @@ const noteId = toRef(props, 'id');
 const { note, noteTools, save, noteTitle, canEdit } = useNote({
   id: noteId,
 });
+
+/**
+ * Create new child note
+ */
+function createChildNote(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/note/${props.id}/new`);
+}
+
+/**
+ * Move to note settings
+ */
+function redirectToNoteSettings(): void {
+  if (props.id === null) {
+    throw new Error('Note is Empty');
+  }
+  router.push(`/note/${props.id}/settings`);
+}
 
 const { updateCover } = useNoteSettings();
 
@@ -81,7 +122,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
   /**
    * Get html element with note
    */
-  const editorElement = document.getElementById('editorjs');
+  const editorElement = editor.value ? editor.value.element : null;
 
   if (!isEmpty) {
     await save(data, props.parentId);
@@ -92,6 +133,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
     if (editorElement !== null) {
       updatedNoteCover = await makeElementScreenshot(editorElement, {
         background: 'var(--base--bg-primary)',
+        color: 'var(--base--text)',
         display: 'flex',
         justifyContent: 'center',
         width: '1200px',
@@ -103,16 +145,6 @@ async function noteChanged(data: NoteContent): Promise<void> {
       updateCover(props.id, updatedNoteCover);
     }
   }
-}
-
-/**
- * Create new child note
- */
-function createChildNote(): void {
-  if (props.id === null) {
-    throw new Error('Note is Empty');
-  }
-  router.push(`/note/${props.id}/new`);
 }
 
 watch(

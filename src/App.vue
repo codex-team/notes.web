@@ -1,19 +1,26 @@
 <template>
   <Header />
   <router-view />
+  <Popover />
   <Popup />
 </template>
 
 <script lang="ts" setup>
 import Header from '@/presentation/components/header/Header.vue';
 import { onErrorCaptured } from 'vue';
-import { useTheme } from 'codex-ui/vue';
+import { useTheme, Popover } from 'codex-ui/vue';
+import useAuthRequired from '@/application/services/useAuthRequired';
 import { Popup } from '../codex-ui/src';
 
 /**
  * Read theme from local storage and apply it
  */
 useTheme();
+
+/**
+ * Check for authorization on appropriate routes
+ */
+useAuthRequired();
 
 /**
  * All errors inside the application
@@ -36,7 +43,6 @@ body {
   background: var(--base--bg-primary);
   color: var(--base--text);
   word-break: break-word;
-  font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: grid;

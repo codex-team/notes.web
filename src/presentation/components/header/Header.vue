@@ -4,9 +4,7 @@
       to="/"
       class="header__logo"
     >
-      <img
-        src="/logo.svg"
-      >
+      <Logo />
     </router-link>
     <Tabbar
       :tabs="tabs"
@@ -31,6 +29,7 @@
 import { IconPlus } from '@codexteam/icons';
 import { Tabbar, TabParams } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
+import { Logo } from '@/presentation/components/pictures';
 import { useAppState } from '@/application/services/useAppState';
 import useHeader from '@/application/services/useHeader';
 import { useRouter, useRoute } from 'vue-router';

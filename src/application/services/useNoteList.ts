@@ -17,10 +17,16 @@ interface UseNoteListComposableState {
    * Get Note List
    * @param page - number of pages
    */
-  load: (page: number) => Promise<void>;
+  load: (page: number) => Promise<NoteList>;
 
   /**
-   * Load more notes
+   * Displays if there are more notes to be displayed
+   * @todo move this variable to api (also portion size would be removed)
+   */
+  hasMoreNotes: Ref<boolean>;
+
+  /**
+   * Load next page of the notes
    */
   loadMoreNotes: () => Promise<void>;
 }
@@ -35,31 +41,57 @@ export default function (): UseNoteListComposableState {
   const noteList = ref<NoteList | null>(null);
 
   /**
-   * Current page
+   * Number of the notes to be displayed on one page
+   * When next page is loaded available notes will be appended to noteList
    */
-  let currentPage = 1;
+  const postionSize = 30;
+
+  /**
+   * Used for user to know if he can load more notes
+   */
+  const hasMoreNotes = ref(true);
+
+  /**
+   * Number of the current page
+   * On mount it is 0 because we will use load more notes from page 1
+   */
+  let currentPage = 0;
 
   /**
    * Get note list
    * @param page - number of pages
    */
-  const load = async (page: number): Promise<void> => {
-    noteList.value = await noteListService.getNoteList(page);
+  const load = async (page: number): Promise<NoteList> => {
+    return await noteListService.getNoteList(page);
   };
 
   /**
-   * Load more notes
+   * Load next page of the notes
    */
   const loadMoreNotes = async (): Promise<void> => {
     currentPage += 1;
-    await load(currentPage);
+
+    const loadedNotes = await load(currentPage);
+
+    if (loadedNotes.items.length !== postionSize) {
+      hasMoreNotes.value = false;
+    }
+
+    /**
+     * Merge loaded notes from next page with notes that user already has
+     */
+    if (noteList.value !== null) {
+      noteList.value.items = [...noteList.value.items, ...loadedNotes.items];
+    } else {
+      noteList.value = loadedNotes;
+    }
   };
 
   /**
    * Load first notes
    */
   onMounted(async () => {
-    await load(1);
+    await loadMoreNotes();
   });
 
   /**
@@ -81,6 +113,7 @@ export default function (): UseNoteListComposableState {
 
   return {
     noteList,
+    hasMoreNotes,
     load,
     loadMoreNotes,
   };

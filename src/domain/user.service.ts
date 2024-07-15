@@ -35,7 +35,7 @@ export default class UserService {
      * When we got unauthorized
      */
     eventBus.addEventListener(AUTH_LOGOUT_EVENT_NAME, () => {
-      void this.repository.removeUser();
+      void this.repository.clearUser();
     });
   }
 
