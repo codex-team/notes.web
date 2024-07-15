@@ -1,26 +1,22 @@
 <template>
-  <Teleport
-    to="body"
+  <div
+    v-show="isActive"
+    :class="$style['popup']"
   >
-    <div
-      v-show="isActive"
-      :class="$style['popup']"
-    >
-      <div :class="$style['popup__container']">
-        <component
-          :is="content.component"
-          v-if="content"
-          v-bind="content.props"
-        />
-      </div>
-      <Icon
-        v-if="hasCloseButton"
-        :class="$style['popup__icon']"
-        name="Cross"
-        @click="hidePopup"
+    <div :class="$style['popup__container']">
+      <component
+        :is="content.component"
+        v-if="content"
+        v-bind="content.props"
       />
     </div>
-  </Teleport>
+    <Icon
+      v-if="hasCloseButton"
+      :class="$style['popup__icon']"
+      name="Cross"
+      @click="hidePopup"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -50,6 +46,7 @@ withDefaults(
 <style module>
 
 .popup {
+  z-index: var(--z-popover);
   inset: 0;
   display: grid;
   grid-template-columns: auto auto;
