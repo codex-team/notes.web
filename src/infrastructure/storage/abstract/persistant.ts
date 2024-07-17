@@ -1,6 +1,10 @@
 /* eslint-disable-next-line boundaries/element-types */
 import { SubscribableStore } from './subscribable';
 
+type StoreDataWithOptionalFields<StoreData> = {
+  [Property in keyof StoreData]: StoreData[Property] | undefined
+};
+
 export class PersistantStore<StoreData extends Record<string, unknown>> extends SubscribableStore<StoreData> {
   /**
    * Keys of the StoreData type
@@ -11,7 +15,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
   /**
    * Proxy for data stored
    */
-  protected data: StoreData;
+  protected data: StoreDataWithOptionalFields<StoreData>;
 
   /**
    * Storage that would retain information when proxy is cleared
@@ -21,7 +25,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
   constructor(keysStored: string[]) {
     super();
     this.keysStored = keysStored;
-    this.data = new Proxy<StoreData>({} as StoreData, this._data);
+    this.data = new Proxy<StoreDataWithOptionalFields<StoreData>>({} as StoreDataWithOptionalFields<StoreData>, this._data);
 
     /**
      * Load data from local store to proxy
@@ -29,12 +33,21 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
     this.loadInitialData();
   };
 
-  protected get _data(): ProxyHandler<StoreData> {
+  protected get _data(): ProxyHandler<StoreDataWithOptionalFields<StoreData>> {
     return {
       get: (target, prop) => {
         const item = this.storage.getItem(prop as string);
 
-        return item !== null ? JSON.parse(item) : undefined;
+        try {
+          return item !== null ? JSON.parse(item) : undefined;
+        } catch {
+          console.warn(`Persistant store: Cannot parse ${item}`);
+
+          /**
+           * Delete item that cannot be parsed
+           */
+          this.storage.removeItem(prop as string);
+        }
       },
 
       set: (target, prop, value, receiver) => {
@@ -74,7 +87,16 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
         const storedValue = this.storage.getItem(key);
 
         if (storedValue !== null) {
-          this.data[key as keyof StoreData] = JSON.parse(storedValue);
+          try {
+            this.data[key as keyof StoreData] = JSON.parse(storedValue);
+          } catch {
+            console.warn(`Persistant store: Cannot parse ${storedValue}`);
+
+            /**
+             * Delete item that cannot be parsed
+             */
+            this.storage.removeItem(key);
+          }
         }
       }
     }

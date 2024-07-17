@@ -21,11 +21,17 @@ export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
    * @param page - page that had beed opened by user
    */
   public addOpenedPage(page: OpenedPage): void {
-    const uniquePageUrls = this.data.openedPages.map(currentPage => currentPage.url);
+    if (this.data.openedPages !== undefined) {
+      const uniquePageUrls = this.data.openedPages?.map(currentPage => currentPage.url);
 
-    if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
+      if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
+        this.data.openedPages = [
+          ...this.data.openedPages,
+          page,
+        ];
+      }
+    } else {
       this.data.openedPages = [
-        ...this.data.openedPages,
         page,
       ];
     }
@@ -36,7 +42,7 @@ export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
    * @param url - url of closed page
    */
   public deleteOpenedPageByUrl(url: OpenedPage['url']): void {
-    this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == url));
+    this.data.openedPages = this.data.openedPages?.filter(currentPage => !(currentPage.url == url));
   }
 
   /**
@@ -46,7 +52,7 @@ export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
    * @param page - new data for opened page with certain url
    */
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
-    this.data.openedPages = this.data.openedPages.map((currentPage) => {
+    this.data.openedPages = this.data.openedPages?.map((currentPage) => {
       if (currentPage.url == url) {
         currentPage.title = page.title;
       }
