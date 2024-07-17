@@ -25,8 +25,8 @@ export class SessionStore<StoreData extends Record<string, unknown>> extends Sub
         return Reflect.get(target, prop, receiver);
       },
 
-      deleteProperty: (target, property) => {
-        return Reflect.deleteProperty(target, property);
+      deleteProperty: (target, prop) => {
+        return Reflect.deleteProperty(target, prop);
       },
     };
   }

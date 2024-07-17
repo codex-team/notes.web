@@ -49,8 +49,10 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
         return true;
       },
 
-      deleteProperty: (target, property) => {
-        return Reflect.deleteProperty(target, property);
+      deleteProperty: (target, prop) => {
+        this.storage.removeItem(prop as string);
+
+        return Reflect.deleteProperty(target, prop);
       },
     };
   }
