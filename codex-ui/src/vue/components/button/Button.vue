@@ -34,7 +34,7 @@ const props = withDefaults(
     secondary?: boolean;
 
     /**
-     * Pass this attribue for negative actions
+     * Pass this attribute for negative actions
      */
     destructive?: boolean;
 
