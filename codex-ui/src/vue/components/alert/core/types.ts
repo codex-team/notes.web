@@ -54,13 +54,13 @@ interface AlertOptions {
    *
    *  Can be any of `(success, error, default, info, warning)`
    */
-  status: AlertType.DEFAULT;
+  status: AlertType;
   /**
    *  Position of the toast on the screen.
    *
    *  Can be any of (top-right, top-center, top-left, bottom-right, bottom-center, bottom-left).
    */
-  position: POSITION.BOTTOM_CENTER;
+  position: POSITION;
   /**
    * How many milliseconds for the toast to be auto dismissed, or false to disable.
    */

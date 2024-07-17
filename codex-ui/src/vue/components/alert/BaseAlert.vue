@@ -26,14 +26,21 @@ import { defineProps, computed, withDefaults, ref, watch, nextTick } from 'vue';
 import { useElementHover, useFocus, useDraggable } from '@vueuse/core';
 import Icon from '../icon/Icon.vue';
 import { AlertOptions } from './core/types';
-import { ALERT_NAMESPACE } from './core/constant';
+import { ALERT_CONTAINER_DEFAULTS, ALERT_NAMESPACE } from './core/constant';
 import { useAlert } from './core/useAlert';
 
 const el = ref<HTMLElement>();
 
 const props = withDefaults(defineProps<AlertOptions>(), {
-  id: 0,
-  icon: 'Check',
+  id: ALERT_CONTAINER_DEFAULTS.id,
+  position: ALERT_CONTAINER_DEFAULTS.position,
+  content: ALERT_CONTAINER_DEFAULTS.content,
+  closeOnClick: ALERT_CONTAINER_DEFAULTS.closeOnClick,
+  icon: ALERT_CONTAINER_DEFAULTS.icon,
+  status: ALERT_CONTAINER_DEFAULTS.status,
+  timeout: ALERT_CONTAINER_DEFAULTS.timeout,
+  onClick: ALERT_CONTAINER_DEFAULTS.onClick,
+  onClose: ALERT_CONTAINER_DEFAULTS.onClose,
 });
 
 const { value: hovering } = useElementHover(el);
