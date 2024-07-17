@@ -1,3 +1,7 @@
 import Card from './Card.vue';
+import CardSkeleton from './CardSkeleton.vue';
 
-export { Card };
+export {
+  Card,
+  CardSkeleton
+};

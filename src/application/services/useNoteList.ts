@@ -58,11 +58,22 @@ export default function (): UseNoteListComposableState {
   let currentPage = 0;
 
   /**
+   * Loading state
+   */
+  const isLoading = ref(false);
+
+  /**
    * Get note list
    * @param page - number of pages
    */
   const load = async (page: number): Promise<NoteList> => {
-    return await noteListService.getNoteList(page);
+    isLoading.value = true;
+
+    const list = await noteListService.getNoteList(page);
+
+    isLoading.value = false;
+
+    return list;
   };
 
   /**
@@ -116,5 +127,6 @@ export default function (): UseNoteListComposableState {
     hasMoreNotes,
     load,
     loadMoreNotes,
+    isLoading,
   };
 }

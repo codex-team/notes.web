@@ -7,7 +7,11 @@
   </PageHeader>
 
   <Heading :level="2">
-    Horizontal card
+    Orientation
+  </Heading>
+
+  <Heading :level="3">
+    Horizontal
   </Heading>
 
   <Card
@@ -19,8 +23,8 @@
     <Button icon="Plus" />
   </Card>
 
-  <Heading :level="2">
-    Vertical card
+  <Heading :level="3">
+    Vertical
   </Heading>
 
   <Card
@@ -31,11 +35,25 @@
   >
     <Button icon="Plus" />
   </Card>
+
+  <br>
+  <br>
+  <Heading :level="1">
+    Card Skeleton
+  </Heading>
+  <br>
+  <br>
+
+  <CardSkeleton orientation="horizontal" />
+
+  <br>
+  <br>
+  <CardSkeleton orientation="vertical" />
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Card, Heading, Button } from '../../../src/vue';
+import { Card, CardSkeleton, Heading, Button } from '../../../src/vue';
 
 </script>
 
