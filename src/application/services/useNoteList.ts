@@ -29,6 +29,11 @@ interface UseNoteListComposableState {
    * Load next page of the notes
    */
   loadMoreNotes: () => Promise<void>;
+
+  /**
+   * Loading state
+   */
+  isLoading: Ref<boolean>;
 }
 
 /**

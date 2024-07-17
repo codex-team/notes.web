@@ -31,6 +31,7 @@
   <Button
     v-if="hasMoreNotes"
     :class="$style.button"
+    secondary
     @click="loadMoreNotes"
   >
     {{ $t('loadMore') }}
