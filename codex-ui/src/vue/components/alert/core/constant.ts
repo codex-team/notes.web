@@ -17,12 +17,12 @@ const ALERT_CONTAINER_DEFAULTS: Required<AlertOptions> = {
   id: 0,
   position: POSITION.BOTTOM_CENTER,
   status: AlertType.DEFAULT,
-  timeout: 5000,
   onClick: emptyFunction,
   onClose: emptyFunction,
   closeOnClick: true,
   content: 'Hello',
   icon: 'Check',
+  timeout: 5000,
 };
 
 export { ALERT_NAMESPACE, isUndefined, getId, ALERT_CONTAINER_DEFAULTS };

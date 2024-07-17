@@ -213,7 +213,6 @@ const pages = computed(() => [
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  /* height: 100vh; */
 }
 .header {
   display: grid;

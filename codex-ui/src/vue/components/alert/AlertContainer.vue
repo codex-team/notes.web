@@ -36,7 +36,6 @@ const props = withDefaults(defineProps<AlertOptions>(), {
   timeout: ALERT_CONTAINER_DEFAULTS.timeout,
   onClick: ALERT_CONTAINER_DEFAULTS.onClick,
   onClose: ALERT_CONTAINER_DEFAULTS.onClose,
-
 });
 
 const positions = Object.values(POSITION);
