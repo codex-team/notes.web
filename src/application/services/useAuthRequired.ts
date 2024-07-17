@@ -31,7 +31,9 @@ export default function useAuthRequired(): void {
    * For each route check if auth is required
    */
   router.beforeEach(async (actualRoute, _, next) => {
-    if (actualRoute.meta.authRequired === true && !(await isUserAuthorized())) {
+    const isAuthorized = await isUserAuthorized();
+
+    if (actualRoute.meta.authRequired === true && !isAuthorized) {
       /**
        * If auth is required and user is not autorized
        * Then show google auth popup and redirect user to auth page

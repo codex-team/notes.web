@@ -6,7 +6,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
    * Keys of the StoreData type
    * Used to separate the needed local storage information
    */
-  protected readonly storeDataKeys: string[];
+  protected readonly keysStored: string[];
 
   /**
    * Proxy for data stored
@@ -18,9 +18,9 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
    */
   private storage = window.localStorage;
 
-  constructor(storeDataKeys: string[]) {
+  constructor(keysStored: string[]) {
     super();
-    this.storeDataKeys = storeDataKeys;
+    this.keysStored = keysStored;
     this.data = new Proxy<StoreData>(this.loadInitialData(), this._data);
   };
 
@@ -65,7 +65,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
     for (let i = 0; i < this.storage.length; i++) {
       const key = this.storage.key(i);
 
-      if (key !== null && this.storeDataKeys.includes(key)) {
+      if (key !== null && this.keysStored.includes(key)) {
         const storedValue = this.storage.getItem(key);
 
         if (storedValue !== null) {

@@ -2,6 +2,7 @@ import type AuthRepositoryInterface from '@/domain/auth.repository.interface';
 import type NotesApiTransport from './transport/notes-api';
 import type AuthStorage from './storage/auth';
 import type AuthSession from '@/domain/entities/AuthSession';
+import { notEmpty } from './utils/empty';
 
 /**
  * Facade for the auth data
@@ -30,7 +31,7 @@ export default class AuthRepository implements AuthRepositoryInterface {
   public hasSession(): boolean {
     const refreshToken = this.authStorage.getRefreshToken();
 
-    return refreshToken !== null && refreshToken !== '';
+    return notEmpty(refreshToken);
   }
 
   /**

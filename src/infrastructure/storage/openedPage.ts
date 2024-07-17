@@ -21,7 +21,6 @@ export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
    * @param page - page that had beed opened by user
    */
   public addOpenedPage(page: OpenedPage): void {
-    console.log(this.data.openedPages, typeof this.data.openedPages);
     const uniquePageUrls = this.data.openedPages.map(currentPage => currentPage.url);
 
     if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
