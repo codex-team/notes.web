@@ -34,7 +34,16 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
       get: (target, prop) => {
         const item = this.storage.getItem(prop as string);
 
-        return item !== null ? JSON.parse(item) : undefined;
+        try {
+          return item !== null ? JSON.parse(item) : undefined;
+        } catch {
+          console.warn(`Persistant store: Cannot parse ${item}`);
+
+          /**
+           * Delete item that cannot be parsed
+           */
+          this.storage.removeItem(prop as string);
+        }
       },
 
       set: (target, prop, value, receiver) => {
@@ -74,7 +83,16 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
         const storedValue = this.storage.getItem(key);
 
         if (storedValue !== null) {
-          this.data[key as keyof StoreData] = JSON.parse(storedValue);
+          try {
+            this.data[key as keyof StoreData] = JSON.parse(storedValue);
+          } catch {
+            console.warn(`Persistant store: Cannot parse ${storedValue}`);
+
+            /**
+             * Delete item that cannot be parsed
+             */
+            this.storage.removeItem(key);
+          }
         }
       }
     }
