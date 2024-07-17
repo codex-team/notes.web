@@ -24,9 +24,20 @@ import BaseAlert from './BaseAlert.vue';
 import AlertTransition from './AlertTransition.vue';
 import { useAlert } from './core/useAlert';
 import { AlertOptions, POSITION } from './core/types';
-import { ALERT_NAMESPACE } from './core/constant';
+import { ALERT_CONTAINER_DEFAULTS, ALERT_NAMESPACE } from './core/constant';
 
-const props = defineProps<AlertOptions>();
+const props = withDefaults(defineProps<AlertOptions>(), {
+  id: ALERT_CONTAINER_DEFAULTS.id,
+  position: ALERT_CONTAINER_DEFAULTS.position,
+  content: ALERT_CONTAINER_DEFAULTS.content,
+  closeOnClick: ALERT_CONTAINER_DEFAULTS.closeOnClick,
+  icon: ALERT_CONTAINER_DEFAULTS.icon,
+  status: ALERT_CONTAINER_DEFAULTS.status,
+  timeout: ALERT_CONTAINER_DEFAULTS.timeout,
+  onClick: ALERT_CONTAINER_DEFAULTS.onClick,
+  onClose: ALERT_CONTAINER_DEFAULTS.onClose,
+
+});
 
 const positions = Object.values(POSITION);
 
