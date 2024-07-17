@@ -1,7 +1,10 @@
 import { PersistantStore } from './abstract/persistant';
 
 export type AuthStoreData = {
-  refreshToken: string;
+  /**
+   * If user is authorized refresh token will be stored
+   */
+  refreshToken?: string;
 };
 
 /**
@@ -31,6 +34,6 @@ export default class AuthStorage extends PersistantStore<AuthStoreData> {
    * Removes refresh token
    */
   public removeRefreshToken(): void {
-    this.data.refreshToken = '';
+    delete this.data.refreshToken;
   }
 }
