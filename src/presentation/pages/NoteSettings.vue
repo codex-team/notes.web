@@ -1,97 +1,99 @@
 <template>
-  <div
-    v-if="noteSettings"
-    class="note-settings"
-  >
+  <ThreeColsLayout data-dimensions="large">
     <div
-      class="note-settings__page-header"
+      v-if="noteSettings"
+      class="note-settings"
     >
-      <Heading
-        :level="1"
+      <div
+        class="note-settings__page-header"
       >
-        {{ $t('noteSettings.title') }}
-      </Heading>
-      <Heading
-        :level="2"
-        class="note-settings__subheading"
-      >
-        {{ noteTitle }}
-      </Heading>
-    </div>
-    <div class="form">
-      <Section
-        :title="t('noteSettings.parentNote')"
-        :caption="t('noteSettings.parentNoteCaption')"
-        :with-background="false"
-      >
-        <div class="change-parent">
-          <Input
-            v-model="parentURL"
-            data-dimensions="large"
-            :disabled="parentNote !== undefined"
-            :placeholder="t('noteSettings.parentNotePlaceholder')"
-            @input="setParentDebounced"
-          />
-          <Card
-            v-if="parentNote"
-            :title="parentNoteTitle"
-            :subtitle="formatShortDate(parentNote.createdAt!)"
-            orientation="horizontal"
-          >
-            <Button
-              secondary
-              @click="handleUnlinkParentClick"
-            >
-              {{ t('note.unlink') }}
-            </Button>
-          </Card>
-        </div>
-      </Section>
-
-      <Section
-        :title="t('noteSettings.availabilityTitle')"
-        :caption="t('noteSettings.availabilityCaption')"
-      >
-        <Row :title="t('noteSettings.availabilityRowTitle')">
-          <template #right>
-            <Switch
-              v-model="isPublic"
-              @click="changeAccess"
-            />
-          </template>
-        </Row>
-      </Section>
-
-      <Fieldset
-        :title="t('noteSettings.teamFormFieldSetTitle')"
-      >
-        <div
-          class="fieldset"
-          data-dimensions="large"
+        <Heading
+          :level="1"
         >
-          <Team
-            :note-id="id"
-            :team="noteSettings.team"
-          />
-          <InviteLink
-            :id="props.id"
-            :invintation-hash="noteSettings.invitationHash"
-          />
-          <Button
-            destructive
-            class="delete-button"
-            @click="deleteNote"
+          {{ $t('noteSettings.title') }}
+        </Heading>
+        <Heading
+          :level="2"
+          class="note-settings__subheading"
+        >
+          {{ noteTitle }}
+        </Heading>
+      </div>
+      <div class="form">
+        <Section
+          :title="t('noteSettings.parentNote')"
+          :caption="t('noteSettings.parentNoteCaption')"
+          :with-background="false"
+        >
+          <div class="change-parent">
+            <Input
+              v-model="parentURL"
+              data-dimensions="large"
+              :disabled="parentNote !== undefined"
+              :placeholder="t('noteSettings.parentNotePlaceholder')"
+              @input="setParentDebounced"
+            />
+            <Card
+              v-if="parentNote"
+              :title="parentNoteTitle"
+              :subtitle="formatShortDate(parentNote.createdAt!)"
+              orientation="horizontal"
+            >
+              <Button
+                secondary
+                @click="handleUnlinkParentClick"
+              >
+                {{ t('note.unlink') }}
+              </Button>
+            </Card>
+          </div>
+        </Section>
+
+        <Section
+          :title="t('noteSettings.availabilityTitle')"
+          :caption="t('noteSettings.availabilityCaption')"
+        >
+          <Row :title="t('noteSettings.availabilityRowTitle')">
+            <template #right>
+              <Switch
+                v-model="isPublic"
+                @click="changeAccess"
+              />
+            </template>
+          </Row>
+        </Section>
+
+        <Fieldset
+          :title="t('noteSettings.teamFormFieldSetTitle')"
+        >
+          <div
+            class="fieldset"
+            data-dimensions="large"
           >
-            {{ t('noteSettings.deleteNote') }}
-          </Button>
-        </div>
-      </Fieldset>
-      <br>
+            <Team
+              :note-id="id"
+              :team="noteSettings.team"
+            />
+            <InviteLink
+              :id="props.id"
+              :invintation-hash="noteSettings.invitationHash"
+            />
+            <Button
+              destructive
+              class="delete-button"
+              @click="deleteNote"
+            >
+              {{ t('noteSettings.deleteNote') }}
+            </Button>
+          </div>
+        </Fieldset>
+        <br>
+      </div>
     </div>
-  </div>
-  <div v-else>
-    Loading...
-  </div>
+    <div v-else>
+      Loading...
+    </div>
+  </ThreeColsLayout>
 </template>
 
 <script lang="ts" setup>
@@ -104,6 +106,7 @@ import { computed, ref, onMounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'codex-ui/vue';
+import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { formatShortDate } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
