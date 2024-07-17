@@ -50,7 +50,7 @@ const randomType = () => getRandom(Object.values(AlertType));
 const randomPosition = () => getRandom(Object.values(POSITION));
 
 const randomMessage = () =>
-  getRandom(['Hello', 'notex']);
+  getRandom(['Hello', 'codex']);
 
 const showToast = () => {
   toast.success({ content: randomMessage(),
