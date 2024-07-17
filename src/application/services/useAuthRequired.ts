@@ -1,6 +1,7 @@
 import { useAppState } from './useAppState.ts';
 import useAuth from './useAuth.ts';
 import { useRouter } from 'vue-router';
+import { until } from '@vueuse/core';
 
 /**
  * Function that is used in App for checking user authorization
@@ -18,15 +19,17 @@ export default function useAuthRequired(): void {
    * When oauth will work, it will be treated as he authorized manually
    * @returns true if user is authorized, false otherwise
    */
-  function isUserAuthorized(): boolean {
-    return (user.value !== null && user.value !== undefined);
+  async function isUserAuthorized(): Promise<boolean> {
+    await until(user).not.toBe(undefined);
+
+    return user.value !== null;
   }
 
   /**
    * For each route check if auth is required
    */
-  router.beforeEach((actualRoute, _, next) => {
-    if (actualRoute.meta.authRequired === true && !isUserAuthorized()) {
+  router.beforeEach(async (actualRoute, _, next) => {
+    if (actualRoute.meta.authRequired === true && !(await isUserAuthorized())) {
       /**
        * If auth is required and user is not autorized
        * Then show google auth popup and redirect user to auth page

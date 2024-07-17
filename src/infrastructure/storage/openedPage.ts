@@ -1,5 +1,5 @@
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
-import { SubscribableStore } from './abstract/subscribable';
+import { PersistantStore } from './abstract/persistant';
 
 export type OpenedPagesStoreData = {
   /**
@@ -11,10 +11,9 @@ export type OpenedPagesStoreData = {
 /**
  * Class to store all pages that are currently opened in workspace
  */
-export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
+export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
   constructor() {
-    super();
-    this.data.openedPages = [];
+    super(['openedPages']);
   }
 
   /**
@@ -22,6 +21,7 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
    * @param page - page that had beed opened by user
    */
   public addOpenedPage(page: OpenedPage): void {
+    console.log(this.data.openedPages, typeof this.data.openedPages);
     const uniquePageUrls = this.data.openedPages.map(currentPage => currentPage.url);
 
     if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
@@ -29,6 +29,11 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
         ...this.data.openedPages,
         page,
       ];
+    } else {
+      /**
+       * This used for calling proxy setter to update currently opened pages in domain
+       */
+      this.data.openedPages = this.data.openedPages;
     }
   }
 

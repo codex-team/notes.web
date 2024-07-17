@@ -28,7 +28,9 @@ export default class AuthRepository implements AuthRepositoryInterface {
    * Specify whether we have auth session (refresh token)
    */
   public hasSession(): boolean {
-    return this.authStorage.getRefreshToken() !== null;
+    const refreshToken = this.authStorage.getRefreshToken();
+
+    return refreshToken !== null && refreshToken !== '';
   }
 
   /**
