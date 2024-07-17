@@ -28,11 +28,6 @@ export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
         ...this.data.openedPages,
         page,
       ];
-    } else {
-      /**
-       * This used for calling proxy setter to update currently opened pages in domain
-       */
-      this.data.openedPages = this.data.openedPages;
     }
   }
 

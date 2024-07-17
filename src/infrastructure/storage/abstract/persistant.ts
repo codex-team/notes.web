@@ -21,7 +21,12 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
   constructor(keysStored: string[]) {
     super();
     this.keysStored = keysStored;
-    this.data = new Proxy<StoreData>(this.loadInitialData(), this._data);
+    this.data = new Proxy<StoreData>({} as StoreData, this._data);
+
+    /**
+     * Load data from local store to proxy
+     */
+    this.loadInitialData();
   };
 
   protected get _data(): ProxyHandler<StoreData> {
@@ -59,11 +64,9 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
 
   /**
    * Funciton for loading initial data from window.localStorage to proxy object
-   * @returns data stored in localStorage in normalized form for proxy
+   * Data stored in localStorage would be normalized for proxy
    */
-  private loadInitialData(): StoreData {
-    const storedData = {} as StoreData;
-
+  private loadInitialData(): void {
     for (let i = 0; i < this.storage.length; i++) {
       const key = this.storage.key(i);
 
@@ -71,11 +74,9 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
         const storedValue = this.storage.getItem(key);
 
         if (storedValue !== null) {
-          storedData[key as keyof StoreData] = JSON.parse(storedValue);
+          this.data[key as keyof StoreData] = JSON.parse(storedValue);
         }
       }
     }
-
-    return storedData;
   }
 }
