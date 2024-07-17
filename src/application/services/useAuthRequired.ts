@@ -15,11 +15,13 @@ export default function useAuthRequired(): void {
 
   /**
    * Check if user is authorized
-   * If authorization is in process we treat user as unauthorized
    * When oauth will work, it will be treated as he authorized manually
    * @returns true if user is authorized, false otherwise
    */
   async function isUserAuthorized(): Promise<boolean> {
+    /**
+     * Wait until authorization process is finished
+     */
     await until(user).not.toBe(undefined);
 
     return user.value !== null;

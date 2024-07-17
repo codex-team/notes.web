@@ -1,20 +1,24 @@
 /* eslint-disable-next-line boundaries/element-types */
 import { SubscribableStore } from './subscribable';
 
-type StoreDataKeys = string[];
-
 export class PersistantStore<StoreData extends Record<string, unknown>> extends SubscribableStore<StoreData> {
-  protected readonly storeDataKeys: StoreDataKeys;
+  /**
+   * Keys of the StoreData type
+   * Used to separate the needed local storage information
+   */
+  protected readonly storeDataKeys: string[];
 
   /**
-   * Proxy for data stored in store.
-   * Used to watch data changes
+   * Proxy for data stored
    */
   protected data: StoreData;
 
+  /**
+   * Storage that would retain information when proxy is cleared
+   */
   private storage = window.localStorage;
 
-  constructor(storeDataKeys: StoreDataKeys) {
+  constructor(storeDataKeys: string[]) {
     super();
     this.storeDataKeys = storeDataKeys;
     this.data = new Proxy<StoreData>(this.loadInitialData(), this._data);
@@ -53,10 +57,6 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
    */
   private loadInitialData(): StoreData {
     const storedData = {} as StoreData;
-
-    if (this.storage === undefined) {
-      return {} as StoreData;
-    }
 
     for (let i = 0; i < this.storage.length; i++) {
       const key = this.storage.key(i);
