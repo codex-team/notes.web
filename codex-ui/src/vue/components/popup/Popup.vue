@@ -1,6 +1,6 @@
 <template>
   <div
-    v-show="isActive"
+    v-show="isOpen"
     :class="$style['popup']"
   >
     <div :class="$style['popup__container']">
@@ -24,7 +24,7 @@ import Icon from '../icon/Icon.vue';
 import { usePopup } from './usePopup';
 
 const {
-  isActive,
+  isOpen,
   hidePopup,
   content,
 } = usePopup();

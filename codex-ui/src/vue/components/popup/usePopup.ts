@@ -4,9 +4,9 @@ import type { PopupContent } from './Popup.types';
 
 export const usePopup = createSharedComposable(() => {
   /**
-   * Popup active state
+   * Popup open state
    */
-  const isActive = ref(false);
+  const isOpen = ref(false);
 
   /**
    * Popup content: component and props
@@ -29,7 +29,7 @@ export const usePopup = createSharedComposable(() => {
    * Show popup
    */
   function show(): void {
-    isActive.value = true;
+    isOpen.value = true;
   }
 
   /**
@@ -46,11 +46,11 @@ export const usePopup = createSharedComposable(() => {
    */
   function hidePopup(): void {
     content.value = null;
-    isActive.value = false;
+    isOpen.value = false;
   }
 
   return {
-    isActive,
+    isOpen,
     showPopup,
     hidePopup,
     content,

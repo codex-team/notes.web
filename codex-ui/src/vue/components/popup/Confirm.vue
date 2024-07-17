@@ -3,7 +3,7 @@
     :class="$style['confirm']"
     data-dimensions="large"
   >
-    <div :class="['text-ui-base-bold']">
+    <div class="text-ui-base-bold">
       {{ title }}
     </div>
     <div :class="[$style['confirm__body'], 'text-ui-base-medium']">
@@ -15,7 +15,7 @@
         @click="onCancel"
       >
         <div :class="$style['confirm__button-inner']">
-          Cancel
+          {{ cancelText }}
         </div>
       </Button>
       <Button
@@ -23,7 +23,7 @@
         @click="onConfirm"
       >
         <div :class="$style['confirm__button-inner']">
-          {{ confirmButton }}
+          {{ confirmText }}
         </div>
       </Button>
     </div>
@@ -48,7 +48,12 @@ withDefaults(
     /**
      * Text that will be displayed in the confirm button
      */
-    confirmButton?: string;
+    confirmText?: string;
+
+    /**
+     * Text that will be displayed in the cancel button
+     */
+    cancelText?: string;
 
     /**
      * The function that is called when click on the cancel button
@@ -61,7 +66,8 @@ withDefaults(
     onConfirm: () => void;
   }>(),
   {
-    confirmButton: 'Confirm',
+    confirmText: 'Confirm',
+    cancelText: 'Cancel',
   }
 );
 </script>
