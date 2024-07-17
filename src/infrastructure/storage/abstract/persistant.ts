@@ -1,6 +1,10 @@
 /* eslint-disable-next-line boundaries/element-types */
 import { SubscribableStore } from './subscribable';
 
+type StoreDataWithOptionalFields<StoreData> = {
+  [Property in keyof StoreData]: StoreData[Property] | undefined
+};
+
 export class PersistantStore<StoreData extends Record<string, unknown>> extends SubscribableStore<StoreData> {
   /**
    * Keys of the StoreData type
@@ -11,7 +15,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
   /**
    * Proxy for data stored
    */
-  protected data: StoreData;
+  protected data: StoreDataWithOptionalFields<StoreData>;
 
   /**
    * Storage that would retain information when proxy is cleared
@@ -21,7 +25,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
   constructor(keysStored: string[]) {
     super();
     this.keysStored = keysStored;
-    this.data = new Proxy<StoreData>({} as StoreData, this._data);
+    this.data = new Proxy<StoreDataWithOptionalFields<StoreData>>({} as StoreDataWithOptionalFields<StoreData>, this._data);
 
     /**
      * Load data from local store to proxy
@@ -29,7 +33,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
     this.loadInitialData();
   };
 
-  protected get _data(): ProxyHandler<StoreData> {
+  protected get _data(): ProxyHandler<StoreDataWithOptionalFields<StoreData>> {
     return {
       get: (target, prop) => {
         const item = this.storage.getItem(prop as string);
