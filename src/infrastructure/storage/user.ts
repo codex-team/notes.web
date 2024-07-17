@@ -1,5 +1,5 @@
 import type { User } from '@/domain/entities/User';
-import { SubscribableStore } from './abstract/subscribable';
+import { SessionStore } from './abstract/session';
 import type EditorTool from '@/domain/entities/EditorTool';
 
 /**
@@ -20,7 +20,7 @@ export type UserStoreData = {
 /**
  * Store for the user data
  */
-export class UserStore extends SubscribableStore<UserStoreData> {
+export class UserStore extends SessionStore<UserStoreData> {
   /**
    * Returns user data
    */
