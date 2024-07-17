@@ -1,5 +1,5 @@
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
-import { SubscribableStore } from './abstract/subscribable';
+import { PersistantStore } from './abstract/persistant';
 
 export type OpenedPagesStoreData = {
   /**
@@ -11,10 +11,9 @@ export type OpenedPagesStoreData = {
 /**
  * Class to store all pages that are currently opened in workspace
  */
-export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
+export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
   constructor() {
-    super();
-    this.data.openedPages = [];
+    super(['openedPages']);
   }
 
   /**

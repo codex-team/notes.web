@@ -1,24 +1,25 @@
+import { PersistantStore } from './abstract/persistant';
+
+export type AuthStoreData = {
+  /**
+   * If user is authorized refresh token will be stored
+   */
+  refreshToken?: string;
+};
+
 /**
  * Stores auth data in local storage
  */
-export default class AuthStorage {
-  /**
-   * Storage implementation
-   */
-  private readonly storage: Storage;
-
-  /**
-   * Creates storage instance
-   */
+export default class AuthStorage extends PersistantStore<AuthStoreData> {
   constructor() {
-    this.storage = window.localStorage;
+    super(['refreshToken']);
   }
 
   /**
    * Returns refresh token
    */
   public getRefreshToken(): string | null {
-    return this.storage.getItem('refreshToken');
+    return this.data.refreshToken === undefined ? null : this.data.refreshToken;
   }
 
   /**
@@ -26,13 +27,13 @@ export default class AuthStorage {
    * @param refreshToken - refresh token to save
    */
   public setRefreshToken(refreshToken: string): void {
-    this.storage.setItem('refreshToken', refreshToken);
+    this.data.refreshToken = refreshToken;
   }
 
   /**
    * Removes refresh token
    */
   public removeRefreshToken(): void {
-    this.storage.removeItem('refreshToken');
+    delete this.data.refreshToken;
   }
 }
