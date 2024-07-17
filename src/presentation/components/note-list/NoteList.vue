@@ -66,7 +66,7 @@ function getSubtitle(note: Note): string | undefined {
     return;
   }
 
-  return t('home.updated') + ' ' + formatShortDate(note.updatedAt);
+  return `${t('home.updated')} ${formatShortDate(note.updatedAt)}`;
 }
 
 </script>
