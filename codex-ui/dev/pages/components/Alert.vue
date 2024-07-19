@@ -2,7 +2,7 @@
   <PageHeader>
     Alert
     <template #description>
-      Light and beautiful notex alert
+      Light and beautiful codex alert
       <code>click the button to see for yourself </code>
     </template>
   </PageHeader>
@@ -39,24 +39,17 @@
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
 import { Button } from '../../../src/vue';
-import { useAlert, AlertContainer, POSITION, AlertType } from '../../../src/vue/components/alert';
+import { useAlert, AlertContainer } from '../../../src/vue/components/alert';
 
-const toast = useAlert();
-
-const getRandom = <T>(list: T[]) => list[Math.floor((Math.random() * 10) % list.length)];
-
-const randomType = () => getRandom(Object.values(AlertType));
-
-const randomPosition = () => getRandom(Object.values(POSITION));
-
-const randomMessage = () =>
-  getRandom(['Hello', 'codex']);
+const toast = useAlert;
 
 const showToast = () => {
-  toast.success({ content: randomMessage(),
-    position: randomPosition(),
-    timeout: 10000,
-    status: randomType() });
+  toast('info', {
+    message: 'codex',
+    icon: 'Check',
+    type: 'info',
+    timeout: 5000,
+  });
 };
 
 </script>

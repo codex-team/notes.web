@@ -1,104 +1,75 @@
 <template>
   <div
     ref="el"
-    @click="clickHandler"
   >
     <div
-      class="notex-alert"
-      :class="classes"
+      :class="[
+        $style.alert,
+        $style['alert--' + computedStyle]
+      ]"
     >
       <Icon
         v-if="icon"
-        :name="icon"
+        :name="icon ?? null"
       />
-      <div>{{ props.content }}</div>
-      <span
-        :class="`${ALERT_NAMESPACE}__close-button`"
-        @click="closeAlert"
-      >&times;
-      </span>
+      <div>{{ props.message }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, withDefaults, ref, watch, nextTick } from 'vue';
-import { useElementHover, useFocus, useDraggable } from '@vueuse/core';
+import { defineProps, computed, withDefaults, ref } from 'vue';
 import Icon from '../icon/Icon.vue';
-import { AlertOptions } from './core/types';
-import { ALERT_CONTAINER_DEFAULTS, ALERT_NAMESPACE } from './core/constant';
-import { useAlert } from './core/useAlert';
+import { AlertOptions, AlertType } from './core/types';
+import { ALERT_CONTAINER_STYLES } from './core/constant';
 
 const el = ref<HTMLElement>();
 
 const props = withDefaults(defineProps<AlertOptions>(), {
-  id: ALERT_CONTAINER_DEFAULTS.id,
-  position: ALERT_CONTAINER_DEFAULTS.position,
-  content: ALERT_CONTAINER_DEFAULTS.content,
-  closeOnClick: ALERT_CONTAINER_DEFAULTS.closeOnClick,
-  icon: ALERT_CONTAINER_DEFAULTS.icon,
-  status: ALERT_CONTAINER_DEFAULTS.status,
-  timeout: ALERT_CONTAINER_DEFAULTS.timeout,
-  onClick: ALERT_CONTAINER_DEFAULTS.onClick,
-  onClose: ALERT_CONTAINER_DEFAULTS.onClose,
-});
-
-const { value: hovering } = useElementHover(el);
-const { focused } = useFocus(el);
-const { isDragging } = useDraggable(el);
-
-/**
- * a progress bar can be provided using this computed property
- */
-// eslint-disable-next-line no-unused-vars
-const runingAlert = computed(() => !hovering && focused.value && !isDragging.value);
-const { alertStore } = useAlert(props);
-
-/**
- * close alert
- */
-const closeAlert = () => {
-  for (var i = alertStore.value.length - 1; i >= 0; i--) {
-    if (alertStore.value[i].id === props.id) {
-      alertStore.value.splice(i, 1);
-    }
-  }
-};
-
-watch(isDragging, (v) => {
-  if (v !== null) {
-    nextTick(() => closeAlert());
-  }
+  id: ALERT_CONTAINER_STYLES.id,
+  position: ALERT_CONTAINER_STYLES.position,
+  message: ALERT_CONTAINER_STYLES.message,
+  icon: ALERT_CONTAINER_STYLES.icon,
+  type: ALERT_CONTAINER_STYLES.type,
+  timeout: ALERT_CONTAINER_STYLES.timeout,
 });
 
 /**
- * handles closure and dragging of alert box
+ * compute serveral style type
  */
-const clickHandler = () => {
-  if (props.onClick) {
-    props.onClick(closeAlert);
+const computedStyle = computed<AlertType>(() => {
+  if (props.type === 'success') {
+    return 'success';
   }
 
-  if (props.closeOnClick) {
-    closeAlert();
+  if (props.type === 'error') {
+    return 'error';
   }
-};
 
-const classes = computed(() => {
-  return [`${ALERT_NAMESPACE}`, `${ALERT_NAMESPACE}--${props.status}`, `${props.position}`];
+  if (props.type === 'warning') {
+    return 'warning';
+  }
+
+  if (props.type === 'info') {
+    return 'info';
+  }
+
+  return 'default';
 });
+
 </script>
 
-<style  lang="postcss">
-.notex-alert {
+<style module lang="postcss">
+.alert {
   --padding-left: var(--h-padding);
   --padding-right: var(--h-padding);
   --color: var(--accent--text-solid-foreground);
-  --success: #00A64D;
-  --error: #BB393D;
-  --warning: #DE6205;
-  --info: #54617B;
-  --default: #54617B;
+  --bg: var(--base-text);
+  --bg-success: var(--base-alert-success);
+  --bg-error: var(--base-alert-error);
+  --bg-warning: var(--base-alert-warning);
+  --bg-info: var(--base-alert-info);
+  --bg-default: var(--base--bg-primary);
 
   position: relative;
   box-sizing: border-box;
@@ -106,9 +77,11 @@ const classes = computed(() => {
   align-items: center;
   gap: var(--v-padding);
   border: 0;
+  margin-block-start: 0.4rem;
   outline: 0;
   font-family: inherit;
   pointer-events: auto;
+  background-color: var(--bg);
   overflow: hidden;
   word-break: keep-all;
   transform: translateZ(0);
@@ -119,44 +92,23 @@ const classes = computed(() => {
   color: var(--color);
 
   &--success {
-    background-color: var(--success);
+    background-color: var(--bg-success);
   }
 
   &--error {
-    background-color: var(--error);
+    background-color: var(--bg-error);
   }
 
   &--warning {
-    background-color: var(--warning);
+    background-color: var(--bg-warning);
   }
 
   &--info {
-    background-color: var(--info);
+    background-color: var(--bg-info);
   }
 
   &--default {
-    background-color: var(--default);
+    background-color: var(--bg-default);
   }
-}
-
-.notex-alert__close-button {
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 14px;
-  background: transparent;
-  outline: none;
-  border: none;
-  padding: 0;
-  padding-left: 10px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  align-items: center;
-  color: #fff;
-  opacity: 0.3;
-  transition: visibility 0s, opacity 0.2s linear;
-  &:hover, &:focus {
-    opacity: 1;
-  }
-
 }
 </style>
