@@ -102,6 +102,7 @@ defineProps<{
   }
 
   &__center {
+    height: 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
