@@ -1,12 +1,6 @@
 import type { App, Ref } from 'vue';
 
-export enum AlertType {
-  SUCCESS = 'success',
-  ERROR = 'error',
-  WARNING = 'warning',
-  INFO = 'info',
-  DEFAULT = 'default'
-}
+export type AlertType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
 export enum EVENTS {
   ADD = 'add',
@@ -48,40 +42,23 @@ interface AlertOptions {
   /**
    * content to be rendered
    */
-  content: string;
+  message?: string | null;
   /**
    *  Type of the toast.
    *
    *  Can be any of `(success, error, default, info, warning)`
    */
-  status: AlertType;
+  type: AlertType | null;
   /**
    *  Position of the toast on the screen.
    *
-   *  Can be any of (top-right, top-center, top-left, bottom-right, bottom-center, bottom-left).
+   * (bottom-center).
    */
-  position: POSITION;
+  position?: POSITION.BOTTOM_CENTER;
   /**
    * How many milliseconds for the toast to be auto dismissed, or false to disable.
    */
   timeout?: number;
-  /**
-   * Callback executed when the toast is clicked.
-   *
-   *  A closeToast callback is passed as argument to onClick when it is called.
-   */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  onClick?: (closeToast: Function) => void;
-
-  /**
-   * Callback executed when the toast is closed.
-   */
-  onClose?: () => void;
-
-  /**
-   * Whether or not the toast is closed when clicked.
-   */
-  closeOnClick?: boolean;
 }
 
 interface AlertInterface {
@@ -94,36 +71,6 @@ interface AlertInterface {
    * iterated store of alerts
    */
   alertStore: Ref<AlertOptions[]>;
-
-  /**
-   * show success alert
-   * @param options - alert options
-   */
-  success: (options: AlertOptions) => void;
-
-  /**
-   * show error alert
-   * @param option - alert options
-   */
-  error: (option: AlertOptions) => void;
-
-  /**
-   * show warning alert
-   * @param options - alert options
-   */
-  warning: (options: AlertOptions) => void;
-
-  /**
-   * show info alert
-   * @param options - alert options
-   */
-  info: (options: AlertOptions) => void;
-
-  /**
-   * show default alert
-   * @param options - alert options
-   */
-  default: (options: AlertOptions) => void;
 }
 
 export declare interface BasePluginOptions extends AlertOptions {

@@ -15,7 +15,7 @@ const props = defineProps<{
   /**
    * Icon name
    */
-  name: string;
+  name: string | null;
 }>();
 
 const iconSource = computed(() => {
