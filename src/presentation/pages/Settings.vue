@@ -58,10 +58,12 @@
                 <DarkColorShemeIcon v-if="scheme === 'Dark'" />
               </template>
               <template
-                v-if="colorScheme === scheme.toLowerCase()"
                 #right
               >
-                <Icon name="Check" />
+                <Icon
+                  name="Check"
+                  :style="colorScheme === scheme.toLowerCase() ? 'opacity: 1;' : 'opacity: 0;'"
+                />
               </template>
             </Row>
           </Section>
@@ -82,10 +84,12 @@
                 <ThemePreview :theme="theme" />
               </template>
               <template
-                v-if="themeBase === theme.toLowerCase()"
                 #right
               >
-                <Icon name="Check" />
+                <Icon
+                  name="Check"
+                  :style="themeBase === theme.toLowerCase() ? 'opacity: 1;' : 'opacity: 0;'"
+                />
               </template>
             </Row>
           </Section>
@@ -106,10 +110,12 @@
                 <ThemePreview :theme="theme" />
               </template>
               <template
-                v-if="themeAccent === theme.toLowerCase()"
                 #right
               >
-                <Icon name="Check" />
+                <Icon
+                  name="Check"
+                  :style="themeAccent === theme.toLowerCase() ? 'opacity: 1;' : 'opacity: 0;'"
+                />
               </template>
             </Row>
           </Section>
