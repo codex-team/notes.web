@@ -17,19 +17,19 @@
 
   <div class="flex-content">
     <div>
-      Message - message of the alert to be displayed
+      Message - message of the alert to be displayed (string)
     </div>
 
     <div>
-      Position - (bottom-center)
+      Position - position of alert (bottom-center)
     </div>
 
     <div>
-      Type - alert type
+      Type - alert type (success, error, warning, info and default)
     </div>
 
     <div>
-      Timeout - the existence of the alertt
+      Timeout - Visibility duration in milliseconds, set to 0 to keep toast visible
     </div>
   </div>
 
