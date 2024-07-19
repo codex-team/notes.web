@@ -69,7 +69,7 @@ const computedStyle = computed<AlertType>(() => {
   --bg-error: var(--base-alert-error);
   --bg-warning: var(--base-alert-warning);
   --bg-info: var(--base-alert-info);
-  --bg-default: var(--base--bg-primary);
+  --bg-default: var(--base--solid);
 
   position: relative;
   box-sizing: border-box;

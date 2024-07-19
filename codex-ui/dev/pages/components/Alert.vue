@@ -17,19 +17,19 @@
 
   <div class="flex-content">
     <div>
-      Content
+      Message - message of the alert to be displayed
     </div>
 
     <div>
-      Position
+      Position - (bottom-center)
     </div>
 
     <div>
-      Status
+      Type - alert type
     </div>
 
     <div>
-      Timeout
+      Timeout - the existence of the alertt
     </div>
   </div>
 
@@ -44,10 +44,10 @@ import { useAlert, AlertContainer } from '../../../src/vue/components/alert';
 const toast = useAlert;
 
 const showToast = () => {
-  toast('info', {
+  toast('default', {
     message: 'codex',
     icon: 'Check',
-    type: 'info',
+    type: 'default',
     timeout: 5000,
   });
 };
