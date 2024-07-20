@@ -32,8 +32,9 @@
 
 <script setup lang="ts">
 import Button from '../button/Button.vue';
+import { onMounted, onUnmounted } from 'vue';
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     /**
      * Text that will be displayed at the top of comfirm container
@@ -70,6 +71,27 @@ withDefaults(
     cancelText: 'Cancel',
   }
 );
+
+/**
+ * Call onConfirm when enter was pressed
+ *
+ * @param event - the event object representing the keyboard event
+ * @param event.key - the property of the event object that holds the value of the pressed key
+ */
+const confirmOnEnter = (event: { key: string }) => {
+  if (event.key === 'Enter') {
+    props.onConfirm();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', confirmOnEnter);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', confirmOnEnter);
+});
+
 </script>
 
 <style module>

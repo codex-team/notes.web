@@ -35,7 +35,7 @@ function show() {
     component: Confirm,
     props: {
       title: 'CodeX',
-      body: 'Are you sure you want to delete the page?',
+      text: 'Are you sure you want to delete the page?',
       onCancel: onCancelFunction,
       onConfirm: onConfirmFunction,
     },
