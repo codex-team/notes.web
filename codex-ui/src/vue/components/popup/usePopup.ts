@@ -2,6 +2,23 @@ import { createSharedComposable } from '@vueuse/core';
 import { ref, shallowRef } from 'vue';
 import type { PopupContent } from './Popup.types';
 
+/**
+ * Shared composable for the Popup component
+ *
+ * Popup is component empty container that appears on top of other components and contain any component
+ * @example
+ * function show() {
+ *  showPopup({
+ *  component: Confirm,
+ *    props: {
+ *      title: 'CodeX',
+ *      body: 'Are you sure you want to delete the page?',
+ *      onCancel: onCancelFunction,
+ *      onConfirm: onConfirmFunction,
+ *    },
+ *  });
+ * }
+ */
 export const usePopup = createSharedComposable(() => {
   /**
    * Popup open state
