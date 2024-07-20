@@ -7,7 +7,7 @@
       {{ title }}
     </div>
     <div :class="[$style['confirm__body'], 'text-ui-base-medium']">
-      {{ body }}
+      {{ text }}
     </div>
     <div :class="$style['confirm__controls']">
       <Button
@@ -43,7 +43,7 @@ withDefaults(
     /**
      * Text that will be displayed in the middle part of the confirm container
      */
-    body: string;
+    text: string;
 
     /**
      * Text that will be displayed in the confirm button
