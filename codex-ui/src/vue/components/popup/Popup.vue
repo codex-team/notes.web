@@ -3,7 +3,10 @@
     v-show="isOpen"
     :class="$style['popup']"
   >
-    <div :class="$style['popup__container']">
+    <div
+      ref="popupEl"
+      :class="$style['popup__container']"
+    >
       <component
         :is="content.component"
         v-if="content"
@@ -20,14 +23,27 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import Icon from '../icon/Icon.vue';
 import { usePopup } from './usePopup';
+import { onClickOutside } from '@vueuse/core';
+
+/**
+ * Reference to the popup element
+ * Used to bind click-outside event
+ */
+const popupEl = ref<HTMLDivElement | null>(null);
 
 const {
   isOpen,
   hidePopup,
   content,
 } = usePopup();
+
+/**
+ * Close the popup when clicking outside of popup container
+ */
+onClickOutside(popupEl, hidePopup);
 
 withDefaults(
   defineProps<{
