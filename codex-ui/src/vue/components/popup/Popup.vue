@@ -82,7 +82,7 @@ onUnmounted(() => {
 <style module>
 
 .popup {
-  z-index: var(--z-popover);
+  z-index: var(--z-popup);
   inset: 0;
   display: grid;
   grid-template-columns: auto auto;
