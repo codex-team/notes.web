@@ -8,7 +8,7 @@ export const useConfirm = createSharedComposable(() => {
    * Represents the result of the user's selection: false - Cancel button was pressed,
    * true - Confirm button was pressed, undefined - no selection has been made yet
    */
-  const result = ref<boolean | undefined>();
+  const result = ref<boolean>();
 
   /**
    * Used to create a Popup component that will display the current Confirm
@@ -20,7 +20,6 @@ export const useConfirm = createSharedComposable(() => {
    */
   function onCancel(): void {
     result.value = false;
-    console.log('The cancel button was pressed');
   }
 
   /**
@@ -28,7 +27,6 @@ export const useConfirm = createSharedComposable(() => {
    */
   function onConfirm(): void {
     result.value = true;
-    console.log('The confirm button was pressed');
   }
 
   /**
@@ -37,7 +35,7 @@ export const useConfirm = createSharedComposable(() => {
    * @param text - message to be displayed in confirm window
    * @returns user selection result
    */
-  async function confirm(title: string, text: string): Promise<boolean | undefined> {
+  async function confirm(title: string, text: string): Promise<boolean> {
     showPopup({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       component: Confirm,
@@ -47,8 +45,17 @@ export const useConfirm = createSharedComposable(() => {
       },
     });
 
-    return new Promise<boolean | undefined>((resolve) => {
-      resolve(result.value);
+    /**
+     * Check every 100 ms to see if the user has pressed the button
+     */
+    return new Promise<boolean>((resolve) => {
+      const interval = setInterval(() => {
+        if (result.value !== undefined) {
+          clearInterval(interval);
+          resolve(result.value);
+        }
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      }, 100);
     });
   };
 
