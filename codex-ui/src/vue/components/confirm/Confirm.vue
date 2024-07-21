@@ -33,6 +33,9 @@
 <script setup lang="ts">
 import Button from '../button/Button.vue';
 import { onMounted, onUnmounted } from 'vue';
+import { useConfirm } from './useConfirm';
+
+const { confirm } = useConfirm();
 
 const props = withDefaults(
   defineProps<{
