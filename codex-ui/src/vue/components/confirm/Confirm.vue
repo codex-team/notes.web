@@ -35,9 +35,9 @@ import Button from '../button/Button.vue';
 import { onMounted, onUnmounted } from 'vue';
 import { useConfirm } from './useConfirm';
 
-const { confirm } = useConfirm();
+const { onCancel, onConfirm } = useConfirm();
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     /**
      * Text that will be displayed at the top of comfirm container
@@ -58,16 +58,6 @@ const props = withDefaults(
      * Text that will be displayed in the cancel button
      */
     cancelText?: string;
-
-    /**
-     * The function that is called when click on the cancel button
-     */
-    onCancel: () => void;
-
-    /**
-     * The function that is called when click on the confirm button
-     */
-    onConfirm: () => void;
   }>(),
   {
     confirmText: 'Confirm',
@@ -83,7 +73,7 @@ const props = withDefaults(
  */
 const confirmOnEnter = (event: { key: string }) => {
   if (event.key === 'Enter') {
-    props.onConfirm();
+    onConfirm();
   }
 };
 
