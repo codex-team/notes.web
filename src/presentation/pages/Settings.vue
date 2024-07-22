@@ -230,7 +230,7 @@ async function uninstallClicked(toolId: string) {
 }
 </script>
 
-<style scoped lang="postcss" module>
+<style lang="postcss" module>
 .container {
   display: grid;
   padding: var(--spacing-xxl) 0;
@@ -256,6 +256,10 @@ async function uninstallClicked(toolId: string) {
 
     &-theme-row {
       cursor: pointer;
+
+      :global(.codex-row__center) {
+        min-height: 20px;
+      }
 
       &:first-of-type {
         border-top-left-radius: var(--radius-field);
