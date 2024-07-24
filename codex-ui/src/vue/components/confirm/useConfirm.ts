@@ -46,16 +46,12 @@ export const useConfirm = createSharedComposable(() => {
     });
 
     /**
-     * Check every 100 ms to see if the user has pressed the button
+     * Check if the user has pressed the confirm or close button
      */
     return new Promise<boolean>((resolve) => {
-      const interval = setInterval(() => {
-        if (result.value !== undefined) {
-          clearInterval(interval);
-          resolve(result.value);
-        }
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      }, 100);
+      if (result.value !== undefined) {
+        resolve(result.value);
+      }
     });
   };
 
