@@ -1,4 +1,4 @@
-import type { App, Ref } from 'vue';
+import type { Ref } from 'vue';
 
 export type AlertType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
@@ -11,9 +11,12 @@ export enum POSITION {
 
 export declare type ALERTID = string | number;
 
-export declare type Icon = string;
+declare type Icon = string;
 
-interface AlertOptions {
+/**
+ * alert configuration
+ */
+export interface AlertOptions {
   /**
    *  ID of the alert.
    */
@@ -21,7 +24,6 @@ interface AlertOptions {
   /**
    * Custom icon class to be used.
    *
-   * When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon.
    */
   icon?: Icon;
   /**
@@ -46,7 +48,7 @@ interface AlertOptions {
   timeout?: number;
 }
 
-interface AlertInterface {
+export interface AlertInterface {
   /**
    * DOM reference to the alert container
    */
@@ -57,14 +59,3 @@ interface AlertInterface {
    */
   alertStore: Ref<AlertOptions[]>;
 }
-
-export declare interface BasePluginOptions extends AlertOptions {
-  /**
-   * Callback executed when the toast container is mounted.
-   *
-   * Receives the Container vue instance as a parameter.
-   */
-  onMounted?: (containerApp: App<Element>) => void;
-}
-
-export type { AlertOptions, AlertInterface };

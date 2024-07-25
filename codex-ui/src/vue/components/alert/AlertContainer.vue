@@ -21,7 +21,7 @@
 import BaseAlert from './BaseAlert.vue';
 import AlertTransition from './AlertTransition.vue';
 import { useAlert } from './core/useAlert';
-import { AlertOptions } from './core/types';
+import type { AlertOptions } from './core/types';
 import { ALERT_CONTAINER_STYLES } from './core/constant';
 
 const props = withDefaults(defineProps<AlertOptions>(), {

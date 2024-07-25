@@ -7,8 +7,6 @@
     </template>
   </PageHeader>
 
-
-
   <p>The following outlines options for alert to display </p>
 
   <div class="flex-content">
@@ -30,51 +28,49 @@
   </div>
 
   <div class="flex-type">
-
     <div class="flex">
       <span>Success</span>
       <Button
-      @click="showToast('success')"
-    >
-      click success
-    </Button>
+        @click="showToast('success')"
+      >
+        click success
+      </Button>
     </div>
-
 
     <div class="flex">
       <span>Error</span>
       <Button
-      @click="showToast('error')"
-    >
-      click error
-    </Button>
+        @click="showToast('error')"
+      >
+        click error
+      </Button>
     </div>
 
     <div class="flex">
       <span>Warning</span>
       <Button
-      @click="showToast('warning')"
-    >
-      click warning
-    </Button>
+        @click="showToast('warning')"
+      >
+        click warning
+      </Button>
     </div>
 
     <div class="flex">
       <span>Info</span>
       <Button
-      @click="showToast('info')"
-    >
-      click info
-    </Button>
+        @click="showToast('info')"
+      >
+        click info
+      </Button>
     </div>
 
     <div class="flex">
       <span>Default</span>
       <Button
-      @click="showToast('default')"
-    >
-      click default
-    </Button>
+        @click="showToast('default')"
+      >
+        click default
+      </Button>
     </div>
   </div>
 
@@ -83,8 +79,7 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Button } from '../../../src/vue';
-import { useAlert, AlertContainer, AlertType } from '../../../src/vue/components/alert';
+import { Button, useAlert, AlertContainer, AlertType } from '../../../src/vue';
 
 const toast = useAlert;
 
