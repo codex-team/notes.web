@@ -2,26 +2,11 @@ import type { App, Ref } from 'vue';
 
 export type AlertType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
-export enum EVENTS {
-  ADD = 'add',
-  DISMISS = 'dismiss',
-  UPDATE = 'update',
-  CLEAR = 'clear'
-}
 
 export enum POSITION {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  TOP_LEFT = 'top-left',
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  TOP_CENTER = 'top-center',
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  TOP_RIGHT = 'top-right',
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  BOTTOM_LEFT = 'bottom-left',
+
   // eslint-disable-next-line @typescript-eslint/naming-convention
   BOTTOM_CENTER = 'bottom-center',
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  BOTTOM_RIGHT = 'bottom-right'
 }
 
 export declare type ALERTID = string | number;
