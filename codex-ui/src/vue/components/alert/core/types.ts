@@ -2,11 +2,10 @@ import type { Ref } from 'vue';
 
 export type AlertType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
-
 export enum POSITION {
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  BOTTOM_CENTER = 'bottom-center',
+  BOTTOM_CENTER = 'bottom-center'
 }
 
 export declare type ALERTID = string | number;
