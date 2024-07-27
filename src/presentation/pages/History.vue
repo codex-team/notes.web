@@ -53,20 +53,38 @@
 import { Heading, Container, Row, Avatar, Button } from 'codex-ui/vue';
 import ThreeColsLayout from '../layouts/ThreeColsLayout.vue';
 import useNoteHistory from '@/application/services/useNoteHistory';
+import useHeader from '@/application/services/useHeader';
+import useNote from '@/application/services/useNote';
 import { parseDate } from '@/infrastructure/utils/parseDate';
-
-const props = defineProps({
-  noteId: Note['id'],
-});
-
-const { noteHistory } = useNoteHistory({ noteId: props.noteId });
-
+import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Note from './Note.vue';
+import type { NoteId } from '@/domain/entities/Note';
+import { useRoute } from 'vue-router';
+
+const props = defineProps<{
+  /**
+   * Id of the note
+   */
+  noteId: NoteId;
+
+}>();
 
 const { t } = useI18n();
+const { noteHistory } = useNoteHistory({ noteId: props.noteId });
+const { patchOpenedPageByUrl } = useHeader();
 
-const noteTitle = 'HELLO WORLD HISTORY';
+const route = useRoute();
+
+const { noteTitle } = useNote({ id: props.noteId });
+
+watch(noteTitle, (currentNoteTitle) => {
+  patchOpenedPageByUrl(
+    route.path,
+    {
+      title: `Version hisotry (${currentNoteTitle})`,
+      url: route.path,
+    });
+});
 
 </script>
 <style lang="postcss" module>
