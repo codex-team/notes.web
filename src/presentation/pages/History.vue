@@ -48,6 +48,7 @@
     </div>
   </ThreeColsLayout>
 </template>
+<!-- @todo Make button with icon Eye, it would be implemented in Codex icons 2.0 -->
 
 <script setup lang="ts">
 import { Heading, Container, Row, Avatar, Button } from 'codex-ui/vue';
