@@ -5,10 +5,16 @@ import type { Note } from '@/domain/entities/Note';
 import { noteHistoryService } from '@/domain';
 
 interface UseNoteHistoryComposableState {
+  /**
+   * Note hisotry is array of the history meta used for history preview
+   */
   noteHistory: Ref<NoteHistoryMeta[] | null>;
 }
 
 interface UseNoteHistoryComposableOptions {
+  /**
+   * Id of the note
+   */
   noteId: MaybeRefOrGetter<NoteHistoryRecord['noteId'] | null>;
 }
 
@@ -21,6 +27,9 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
     noteHistory.value = await noteHistoryService.loadNoteHistory(noteId);
   }
 
+  /**
+   * When page is mounted, we should load note history
+   */
   onMounted(() => {
     if (currentNoteId.value !== null) {
       void loadNoteHistory(currentNoteId.value);
