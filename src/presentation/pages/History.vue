@@ -55,7 +55,7 @@ import ThreeColsLayout from '../layouts/ThreeColsLayout.vue';
 import useNoteHistory from '@/application/services/useNoteHistory';
 import useHeader from '@/application/services/useHeader';
 import useNote from '@/application/services/useNote';
-import { parseDate } from '@/infrastructure/utils/parseDate';
+import { parseDate } from '@/infrastructure/utils/date';
 import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { NoteId } from '@/domain/entities/Note';
