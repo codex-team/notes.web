@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import useNoteList from '@/application/services/useNoteList';
 import type { Note } from '@/domain/entities/Note';
-import { formatShortDate } from '@/infrastructure/utils/date';
+import { getTimeFromNow } from '@/infrastructure/utils/date';
 import { getTitle } from '@/infrastructure/utils/note';
 import { useI18n } from 'vue-i18n';
 import { Card, CardSkeleton, Button } from 'codex-ui/vue';
@@ -66,7 +66,7 @@ function getSubtitle(note: Note): string | undefined {
     return;
   }
 
-  return `${t('home.updated')} ${formatShortDate(note.updatedAt)}`;
+  return `${t('home.updated')} ${getTimeFromNow(note.updatedAt)}`;
 }
 
 </script>
