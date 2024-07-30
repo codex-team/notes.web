@@ -3,6 +3,7 @@ import { computed, onMounted, ref, toValue, watch } from 'vue';
 import type { NoteHistoryRecord, NoteHistoryMeta } from '@/domain/entities/History';
 import type { Note } from '@/domain/entities/Note';
 import { noteHistoryService } from '@/domain';
+import { notEmpty } from '@/infrastructure/utils/empty';
 
 interface UseNoteHistoryComposableState {
   /**
@@ -12,7 +13,7 @@ interface UseNoteHistoryComposableState {
 
   historyContent: Ref<NoteHistoryRecord['content'] | undefined>;
   historyTools: Ref<NoteHistoryRecord['tools'] | undefined>;
-  // loadNoteHistory: (noteId: Note['id'], historyId: NoteHistoryRecord['id']) => Promise<NoteHistoryRecord>;
+  historyMeta: Ref<NoteHistoryMeta | undefined>;
 }
 
 interface UseNoteHistoryComposableOptions {
@@ -24,7 +25,7 @@ interface UseNoteHistoryComposableOptions {
   /**
    * Id of the history record
    */
-  historyId: Ref<NoteHistoryRecord['id'] | null>;
+  historyId?: Ref<NoteHistoryRecord['id'] | null>;
 }
 
 export default function useNoteHistory(options: UseNoteHistoryComposableOptions): UseNoteHistoryComposableState {
@@ -32,6 +33,7 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
 
   const historyContent = ref<NoteHistoryRecord['content'] | undefined>(undefined);
   const historyTools = ref<NoteHistoryRecord['tools'] | undefined>(undefined);
+  const historyMeta = ref<NoteHistoryMeta | undefined>(undefined);
 
   const currentNoteId = computed(() => toValue(options.noteId));
   const currentHistoryId = computed(() => toValue(options.historyId));
@@ -45,6 +47,12 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
 
     historyContent.value = historyRecord.content;
     historyTools.value = historyRecord.tools;
+    historyMeta.value = {
+      id: historyRecord.id,
+      userId: historyRecord.userId,
+      createdAt: historyRecord.createdAt,
+      user: historyRecord.user,
+    };
   }
 
   /**
@@ -52,7 +60,7 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
    */
   onMounted(async () => {
     console.log('service mounted');
-    if (currentNoteId.value !== null && currentHistoryId.value === null) {
+    if (currentNoteId.value !== null) {
       await loadNoteHistory(currentNoteId.value);
       // if (notEmpty(currentHistoryId.value)) {
       //   await loadNoteHistoryRecord(currentNoteId.value, currentHistoryId.value);
@@ -62,7 +70,7 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
 
   watch(currentHistoryId, async (historyId) => {
     console.log('watcher');
-    if (historyId !== null && currentNoteId.value !== null) {
+    if (notEmpty(historyId) && currentNoteId.value !== null) {
       console.log('loadinig started');
       await loadNoteHistoryRecord(currentNoteId.value, historyId);
       console.log('loadinig awaited');
@@ -72,8 +80,9 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
   });
 
   return {
-    noteHistory: noteHistory,
-    historyContent: historyContent,
-    historyTools: historyTools,
+    noteHistory,
+    historyContent,
+    historyTools,
+    historyMeta,
   };
 }

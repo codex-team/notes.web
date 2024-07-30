@@ -83,7 +83,7 @@ watch(noteTitle, (currentNoteTitle) => {
   patchOpenedPageByUrl(
     route.path,
     {
-      title: `Version hisotry (${currentNoteTitle})`,
+      title: `Version history (${currentNoteTitle})`,
       url: route.path,
     });
 });
@@ -114,7 +114,6 @@ watch(noteTitle, (currentNoteTitle) => {
     align-items: flex-start;
     gap: var(--spacing-ml);
     align-self: stretch;
-    cursor: pointer;
   }
 }
 
@@ -123,6 +122,7 @@ watch(noteTitle, (currentNoteTitle) => {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  cursor: pointer;
 
   &__row {
     align-self: stretch;

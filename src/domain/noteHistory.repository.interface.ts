@@ -1,4 +1,4 @@
-import type { NoteHistoryMeta, NoteHistoryRecord } from './entities/History';
+import type { NoteHistoryMeta, NoteHistoryRecord, NoteHistoryView } from './entities/History';
 import type { Note } from './entities/Note';
 
 /**
@@ -11,5 +11,5 @@ export default interface NoteHistoryRepositoryInterface {
    */
   loadNoteHistory(noteId: Note['id']): Promise<NoteHistoryMeta[]>;
 
-  getNoteHistoryRecordById(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<NoteHistoryRecord>;
+  getNoteHistoryRecordById(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<NoteHistoryView>;
 }

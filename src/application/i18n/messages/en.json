@@ -175,6 +175,7 @@
     "notFound": "Not found",
     "joinTeam": "Join",
     "authorization": "Authorize",
-    "history": "History"
+    "history": "History",
+    "historyVersion": "Version"
   }
 }

@@ -57,3 +57,5 @@ export type NoteHistoryMeta = Omit<NoteHistoryRecord, 'content' | 'noteId' | 'to
    */
   user: UserMeta;
 };
+
+export type NoteHistoryView = NoteHistoryRecord & { user: UserMeta };
