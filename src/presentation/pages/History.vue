@@ -27,6 +27,7 @@
             :subtitle="parseDate(new Date(historyRecord.createdAt))"
             :has-delimiter="noteHistory !== null && index !== noteHistory?.length - 1"
             :class="$style['history-items__row']"
+            @click="router.push(`/note/${props.noteId}/history/${historyRecord.id}`)"
           >
             <template #left>
               <Avatar
@@ -59,7 +60,7 @@ import { parseDate } from '@/infrastructure/utils/date';
 import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { NoteId } from '@/domain/entities/Note';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const props = defineProps<{
   /**
@@ -74,6 +75,7 @@ const { noteHistory } = useNoteHistory({ noteId: props.noteId });
 const { patchOpenedPageByUrl } = useHeader();
 
 const route = useRoute();
+const router = useRouter();
 
 const { noteTitle } = useNote({ id: props.noteId });
 
@@ -112,6 +114,7 @@ watch(noteTitle, (currentNoteTitle) => {
     align-items: flex-start;
     gap: var(--spacing-ml);
     align-self: stretch;
+    cursor: pointer;
   }
 }
 

@@ -10,6 +10,7 @@ import type { RouteRecordRaw } from 'vue-router';
 import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
 import MarketplacePage from '@/presentation/pages/marketplace/MarketplacePage.vue';
 import History from '@/presentation/pages/History.vue';
+import HistoryVersion from '@/presentation/pages/HistoryVersion.vue';
 import MarketplaceTools from '@/presentation/pages/marketplace/MarketplaceTools.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
@@ -55,6 +56,20 @@ const routes: RouteRecordRaw[] = [
     },
     props: route => ({
       noteId: String(route.params.noteId),
+    }),
+  },
+  {
+    name: 'history_version',
+    path: '/note/:noteId/history/:historyId',
+    component: HistoryVersion,
+    meta: {
+      layout: 'fullpage',
+      pageTitleI18n: 'pages.historyVersion',
+      authRequired: true,
+    },
+    props: route => ({
+      noteId: String(route.params.noteId),
+      historyId: Number(route.params.historyId),
     }),
   },
   {

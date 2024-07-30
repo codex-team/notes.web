@@ -1,5 +1,5 @@
 import type { MaybeRefOrGetter, Ref } from 'vue';
-import { computed, onMounted, ref, toValue } from 'vue';
+import { computed, onMounted, ref, toValue, watch } from 'vue';
 import type { NoteHistoryRecord, NoteHistoryMeta } from '@/domain/entities/History';
 import type { Note } from '@/domain/entities/Note';
 import { noteHistoryService } from '@/domain';
@@ -9,6 +9,10 @@ interface UseNoteHistoryComposableState {
    * Note hisotry is array of the history meta used for history preview
    */
   noteHistory: Ref<NoteHistoryMeta[] | null>;
+
+  historyContent: Ref<NoteHistoryRecord['content'] | undefined>;
+  historyTools: Ref<NoteHistoryRecord['tools'] | undefined>;
+  // loadNoteHistory: (noteId: Note['id'], historyId: NoteHistoryRecord['id']) => Promise<NoteHistoryRecord>;
 }
 
 interface UseNoteHistoryComposableOptions {
@@ -16,27 +20,60 @@ interface UseNoteHistoryComposableOptions {
    * Id of the note
    */
   noteId: MaybeRefOrGetter<NoteHistoryRecord['noteId'] | null>;
+
+  /**
+   * Id of the history record
+   */
+  historyId: Ref<NoteHistoryRecord['id'] | null>;
 }
 
 export default function useNoteHistory(options: UseNoteHistoryComposableOptions): UseNoteHistoryComposableState {
   const noteHistory = ref<NoteHistoryMeta[] | null>(null);
 
+  const historyContent = ref<NoteHistoryRecord['content'] | undefined>(undefined);
+  const historyTools = ref<NoteHistoryRecord['tools'] | undefined>(undefined);
+
   const currentNoteId = computed(() => toValue(options.noteId));
+  const currentHistoryId = computed(() => toValue(options.historyId));
 
   async function loadNoteHistory(noteId: Note['id']): Promise<void> {
     noteHistory.value = await noteHistoryService.loadNoteHistory(noteId);
   }
 
+  async function loadNoteHistoryRecord(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<void> {
+    const historyRecord = await noteHistoryService.getNoteHistoryRecordById(noteId, historyId);
+
+    historyContent.value = historyRecord.content;
+    historyTools.value = historyRecord.tools;
+  }
+
   /**
    * When page is mounted, we should load note history
    */
-  onMounted(() => {
-    if (currentNoteId.value !== null) {
-      void loadNoteHistory(currentNoteId.value);
+  onMounted(async () => {
+    console.log('service mounted');
+    if (currentNoteId.value !== null && currentHistoryId.value === null) {
+      await loadNoteHistory(currentNoteId.value);
+      // if (notEmpty(currentHistoryId.value)) {
+      //   await loadNoteHistoryRecord(currentNoteId.value, currentHistoryId.value);
+      // }
     }
+  });
+
+  watch(currentHistoryId, async (historyId) => {
+    console.log('watcher');
+    if (historyId !== null && currentNoteId.value !== null) {
+      console.log('loadinig started');
+      await loadNoteHistoryRecord(currentNoteId.value, historyId);
+      console.log('loadinig awaited');
+    }
+  }, {
+    immediate: true,
   });
 
   return {
     noteHistory: noteHistory,
+    historyContent: historyContent,
+    historyTools: historyTools,
   };
 }
