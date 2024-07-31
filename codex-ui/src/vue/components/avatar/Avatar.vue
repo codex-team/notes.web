@@ -26,7 +26,7 @@ withDefaults(defineProps<{
    * Size of the avatar image
    * medium by default
    */
-  size: 'medium' | 'small'
+  size: 'medium' | 'small';
 }>(),
 {
   src: undefined,
