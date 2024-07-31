@@ -59,21 +59,14 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
    * When page is mounted, we should load note history
    */
   onMounted(async () => {
-    console.log('service mounted');
     if (currentNoteId.value !== null) {
       await loadNoteHistory(currentNoteId.value);
-      // if (notEmpty(currentHistoryId.value)) {
-      //   await loadNoteHistoryRecord(currentNoteId.value, currentHistoryId.value);
-      // }
     }
   });
 
   watch(currentHistoryId, async (historyId) => {
-    console.log('watcher');
     if (notEmpty(historyId) && currentNoteId.value !== null) {
-      console.log('loadinig started');
       await loadNoteHistoryRecord(currentNoteId.value, historyId);
-      console.log('loadinig awaited');
     }
   }, {
     immediate: true,
