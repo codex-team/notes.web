@@ -103,6 +103,9 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
     }
   });
 
+  /**
+   * Watch fot the history id to load new history record when it is needed
+   */
   watch(currentHistoryId, async (historyId) => {
     if (notEmpty(historyId) && currentNoteId.value !== null) {
       await loadNoteHistoryRecord(currentNoteId.value, historyId);
