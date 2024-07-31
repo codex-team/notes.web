@@ -21,7 +21,7 @@
           secondary
           @click="router.push(`/note/${noteId}/history`)"
         >
-          history
+          👁️
         </Button>
       </template>
     </NoteHeader>
