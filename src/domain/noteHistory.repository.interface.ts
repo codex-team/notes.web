@@ -11,5 +11,11 @@ export default interface NoteHistoryRepositoryInterface {
    */
   loadNoteHistory(noteId: Note['id']): Promise<NoteHistoryMeta[]>;
 
+  /**
+   * Get full note history record with user info
+   * @param noteId - id of the note with history
+   * @param historyId - id of the history record
+   * @returns - full note history record with user info
+   */
   getNoteHistoryRecordById(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<NoteHistoryView>;
 }

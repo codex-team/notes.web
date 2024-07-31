@@ -1,7 +1,7 @@
 import type NoteHistoryRepositoryInterface from '@/domain/noteHistory.repository.interface';
 import type NotesApiTransport from './transport/notes-api';
 import type { Note } from '@/domain/entities/Note';
-import type { NoteHistoryMeta, NoteHistoryRecord } from '@/domain/entities/History';
+import type { NoteHistoryMeta, NoteHistoryRecord, NoteHistoryView } from '@/domain/entities/History';
 
 /**
  * Note history repository class used for data delivery from transport to service
@@ -26,8 +26,14 @@ export default class NoteHistoryRepository implements NoteHistoryRepositoryInter
     return response.noteHistoryMeta;
   }
 
-  public async getNoteHistoryRecordById(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<NoteHistoryRecord> {
-    const response = await this.transport.get<{ noteHistoryRecord: NoteHistoryRecord }>(`/note/${noteId}/history/${historyId}`);
+  /**
+   * Get full note history record with user info
+   * @param noteId - id of the note with history
+   * @param historyId - id of the history record
+   * @returns - full note history record with user info
+   */
+  public async getNoteHistoryRecordById(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<NoteHistoryView> {
+    const response = await this.transport.get<{ noteHistoryRecord: NoteHistoryView }>(`/note/${noteId}/history/${historyId}`);
 
     return response.noteHistoryRecord;
   }

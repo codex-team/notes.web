@@ -24,6 +24,12 @@ export default class NoteHistoryService {
     return await this.noteHistoryRepository.loadNoteHistory(noteId);
   }
 
+  /**
+   * Get full note history record with user info
+   * @param noteId - id of the note with history
+   * @param historyId - id of the history record
+   * @returns - full note history record with user info
+   */
   public async getNoteHistoryRecordById(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<NoteHistoryView> {
     return await this.noteHistoryRepository.getNoteHistoryRecordById(noteId, historyId);
   }

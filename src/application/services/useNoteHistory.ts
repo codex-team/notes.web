@@ -38,10 +38,20 @@ export default function useNoteHistory(options: UseNoteHistoryComposableOptions)
   const currentNoteId = computed(() => toValue(options.noteId));
   const currentHistoryId = computed(() => toValue(options.historyId));
 
+  /**
+   * Loads full note history meta for certain note
+   * @param noteId - id of the note with history
+   */
   async function loadNoteHistory(noteId: Note['id']): Promise<void> {
     noteHistory.value = await noteHistoryService.loadNoteHistory(noteId);
   }
 
+  /**
+   * Get full note history record with user info
+   * @param noteId - id of the note with history
+   * @param historyId - id of the history record
+   * @returns - full note history record with user info
+   */
   async function loadNoteHistoryRecord(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<void> {
     const historyRecord = await noteHistoryService.getNoteHistoryRecordById(noteId, historyId);
 
