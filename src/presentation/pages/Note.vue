@@ -23,7 +23,7 @@
           secondary
           @click="router.push(`/note/${noteId}/history`)"
         >
-          👁️
+          History
         </Button>
         <Button
           v-if="canEdit"

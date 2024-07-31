@@ -85,7 +85,8 @@
     "title": "Versions history",
     "view": "View",
     "useVersion": "Use this version",
-    "confirmVersionRestore": "Do you really want to use this version?"
+    "confirmVersionRestore": "Do you really want to use this version?",
+    "editedTime": "edited on"
   },
   "noteList": {
     "emptyNoteList": "No Notes yet. Make your first note",
