@@ -11,8 +11,19 @@ interface UseNoteHistoryComposableState {
    */
   noteHistory: Ref<NoteHistoryMeta[] | null>;
 
+  /**
+   * Content of the certain history record
+   */
   historyContent: Ref<NoteHistoryRecord['content'] | undefined>;
+
+  /**
+   * Tools that are used in current history content
+   */
   historyTools: Ref<NoteHistoryRecord['tools'] | undefined>;
+
+  /**
+   * Metadata of the history record
+   */
   historyMeta: Ref<NoteHistoryMeta | undefined>;
 }
 
@@ -29,10 +40,28 @@ interface UseNoteHistoryComposableOptions {
 }
 
 export default function useNoteHistory(options: UseNoteHistoryComposableOptions): UseNoteHistoryComposableState {
+  /**
+   * Array of the note history metadata
+   * Used fot presentation of the note history
+   */
   const noteHistory = ref<NoteHistoryMeta[] | null>(null);
 
+  /**
+   * Content of the current note history record
+   * Used for the presentation of certain history record
+   */
   const historyContent = ref<NoteHistoryRecord['content'] | undefined>(undefined);
+
+  /**
+   * Note tools used in current note history content
+   * Used for the content displaying in editor
+   */
   const historyTools = ref<NoteHistoryRecord['tools'] | undefined>(undefined);
+
+  /**
+   * Meta data of the note history record
+   * Used fot informative presnetation of the note history record
+   */
   const historyMeta = ref<NoteHistoryMeta | undefined>(undefined);
 
   const currentNoteId = computed(() => toValue(options.noteId));
