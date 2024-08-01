@@ -81,6 +81,13 @@
     },
     "lastEdit": "Last edit"
   },
+  "history": {
+    "title": "Versions history",
+    "view": "View",
+    "useVersion": "Use this version",
+    "confirmVersionRestore": "Do you really want to use this version?",
+    "editedTime": "edited on"
+  },
   "noteList": {
     "emptyNoteList": "No Notes yet. Make your first note",
     "noteListItem": {
@@ -170,6 +177,8 @@
     "addTool": "Add tool",
     "notFound": "Not found",
     "joinTeam": "Join",
-    "authorization": "Authorize"
+    "authorization": "Authorize",
+    "history": "History",
+    "historyVersion": "Version"
   }
 }

@@ -6,7 +6,7 @@
       <template #left>
         {{
           note && 'updatedAt' in note && note.updatedAt
-            ? t('note.lastEdit') + ' ' + formatShortDate(note.updatedAt)
+            ? t('note.lastEdit') + ' ' + getTimeFromNow(note.updatedAt)
             : t('note.lastEdit') + ' ' + 'a few seconds ago'
         }}
       </template>
@@ -17,6 +17,14 @@
           icon="Plus"
           @click="createChildNote"
         />
+        <!-- @todo add icon history to the button, it will be availible since codex icons 2.0 -->
+        <Button
+          v-if="canEdit"
+          secondary
+          @click="router.push(`/note/${noteId}/history`)"
+        >
+          History
+        </Button>
         <Button
           v-if="canEdit"
           secondary
@@ -47,7 +55,7 @@ import { useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { formatShortDate } from '@/infrastructure/utils/date';
+import { getTimeFromNow } from '@/infrastructure/utils/date';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';

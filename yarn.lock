@@ -510,10 +510,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@editorjs/editorjs@npm:2.30.2-rc.0":
-  version: 2.30.2-rc.0
-  resolution: "@editorjs/editorjs@npm:2.30.2-rc.0"
-  checksum: 192af217036b7dcb36050361d36a99d287cb572dc5ed64fe6657928d0bd9c82c750970ef477cc85c5baebb4e4cae591bbd72b9fd7e669832c279cce48a70854b
+"@editorjs/editorjs@npm:2.30.2":
+  version: 2.30.2
+  resolution: "@editorjs/editorjs@npm:2.30.2"
+  checksum: 658e10918390d18578e65d73e84f601b7eab8ba1a704142872a597ed0da6bb1ee407fc32b5b18a473a99c993729dc8959df408f10738a6150199acaf225474fc
   languageName: node
   linkType: hard
 
@@ -2166,7 +2166,7 @@ __metadata:
   resolution: "codex-ui@workspace:codex-ui"
   dependencies:
     "@codexteam/icons": ^0.3.0
-    "@editorjs/editorjs": 2.30.2-rc.0
+    "@editorjs/editorjs": 2.30.2
     "@editorjs/header": ^2.8.6
     "@editorjs/nested-list": ^1.4.2
     "@types/node": ^20.11.15

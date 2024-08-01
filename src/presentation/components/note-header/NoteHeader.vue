@@ -30,6 +30,7 @@
   &__right {
     display: flex;
     gap: var(--spacing-s);
+    align-items: center;
   }
 }
 </style>

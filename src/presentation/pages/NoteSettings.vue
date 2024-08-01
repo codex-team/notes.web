@@ -36,7 +36,7 @@
             <Card
               v-if="parentNote"
               :title="parentNoteTitle"
-              :subtitle="formatShortDate(parentNote.createdAt!)"
+              :subtitle="getTimeFromNow(parentNote.createdAt!)"
               orientation="horizontal"
             >
               <Button
@@ -108,7 +108,7 @@ import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'codex-ui/vue';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { getTitle } from '@/infrastructure/utils/note';
-import { formatShortDate } from '@/infrastructure/utils/date';
+import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
 
 const { t } = useI18n();
