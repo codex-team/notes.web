@@ -28,6 +28,7 @@ import VerticalMenu from './pages/components/VerticalMenu.vue';
 import ContextMenu from './pages/components/ContextMenu.vue';
 import Editor from './pages/components/Editor.vue';
 import ThemePreview from './pages/components/ThemePreview.vue';
+import Popup from './pages/components/Popup.vue';
 
 /**
  * Vue router routes list
@@ -144,6 +145,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/components/theme-preview',
     component: ThemePreview as Component,
+  },
+  {
+    path: '/components/popup',
+    component: Popup as Component,
   },
 ];
 
