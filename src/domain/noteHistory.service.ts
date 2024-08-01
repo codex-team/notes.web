@@ -1,4 +1,4 @@
-import type { NoteHistoryMeta } from './entities/History';
+import type { NoteHistoryMeta, NoteHistoryRecord, NoteHistoryView } from './entities/History';
 import type { Note } from './entities/Note';
 import type NoteHistoryRepository from './noteHistory.repository.interface';
 
@@ -22,5 +22,15 @@ export default class NoteHistoryService {
    */
   public async loadNoteHistory(noteId: Note['id']): Promise<NoteHistoryMeta[]> {
     return await this.noteHistoryRepository.loadNoteHistory(noteId);
+  }
+
+  /**
+   * Get full note history record with user info
+   * @param noteId - id of the note with history
+   * @param historyId - id of the history record
+   * @returns - full note history record with user info
+   */
+  public async getNoteHistoryRecordById(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<NoteHistoryView> {
+    return await this.noteHistoryRepository.getNoteHistoryRecordById(noteId, historyId);
   }
 }

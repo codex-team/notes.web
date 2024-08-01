@@ -83,7 +83,10 @@
   },
   "history": {
     "title": "Versions history",
-    "view": "View"
+    "view": "View",
+    "useVersion": "Use this version",
+    "confirmVersionRestore": "Do you really want to use this version?",
+    "editedTime": "edited on"
   },
   "noteList": {
     "emptyNoteList": "No Notes yet. Make your first note",
@@ -175,6 +178,7 @@
     "notFound": "Not found",
     "joinTeam": "Join",
     "authorization": "Authorize",
-    "history": "History"
+    "history": "History",
+    "historyVersion": "Version"
   }
 }

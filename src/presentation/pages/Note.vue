@@ -17,6 +17,14 @@
           icon="Plus"
           @click="createChildNote"
         />
+        <!-- @todo add icon history to the button, it will be availible since codex icons 2.0 -->
+        <Button
+          v-if="canEdit"
+          secondary
+          @click="router.push(`/note/${noteId}/history`)"
+        >
+          History
+        </Button>
         <Button
           v-if="canEdit"
           secondary

@@ -4,7 +4,7 @@
     <Button
       @click="showGoogleAuthPopup"
     >
-     {{ t('auth.login') }}
+      {{ t('auth.login') }}
     </Button>
   </div>
 </template>
