@@ -5,6 +5,9 @@ import { POSITION } from './types';
  */
 const getId = (i => () => i++)(0);
 
+/**
+ * default styles
+ */
 const ALERT_CONTAINER_STYLES: AlertOptions = {
   id: 0,
   position: POSITION.BOTTOM_CENTER,

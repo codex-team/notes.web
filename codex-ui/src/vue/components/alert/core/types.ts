@@ -1,7 +1,13 @@
 import type { Ref } from 'vue';
 
+/**
+ * Various alert type
+ */
 export type AlertType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
+/**
+ * position of alert, default position -> bottom-center
+ */
 export enum POSITION {
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -51,10 +57,10 @@ export interface AlertInterface {
   /**
    * DOM reference to the alert container
    */
-  alertRef: Ref<HTMLElement | null>;
+  alertRef: Ref<unknown>;
 
   /**
-   * iterated store of alerts
+   * Iterated store of alerts
    */
   alertStore: Ref<AlertOptions[]>;
 }

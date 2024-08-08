@@ -23,7 +23,7 @@
     </div>
 
     <div>
-      Timeout - Visibility duration in milliseconds, set timeout to keep toast visible
+      Timeout - visibility duration in milliseconds, set timeout to keep toast visible
     </div>
   </div>
 
@@ -86,8 +86,7 @@ const toast = useAlert;
 const showToast = (status: AlertType) => {
   toast(status, {
     message: 'codex',
-    icon: 'Check',
-    type: status,
+    icon: 'Trash',
     timeout: 5000,
   });
 };

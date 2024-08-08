@@ -1,19 +1,17 @@
 <template>
   <div
     ref="el"
+    :class="[
+      $style.alert,
+      $style['alert--' + computedStyle]
+    ]"
+    :theme-base="computedTheme"
   >
-    <div
-      :class="[
-        $style.alert,
-        $style['alert--' + computedStyle]
-      ]"
-    >
-      <Icon
-        v-if="icon"
-        :name="icon ?? null"
-      />
-      <div>{{ props.message }}</div>
-    </div>
+    <Icon
+      v-show="icon"
+      :name="icon"
+    />
+    <div>{{ props.message }}</div>
   </div>
 </template>
 
@@ -35,9 +33,9 @@ const props = withDefaults(defineProps<AlertOptions>(), {
 });
 
 /**
- * compute serveral style type
+ * computed style
  */
-const computedStyle = computed<AlertType>(() => {
+const computedStyle = computed<AlertType | null>(() => {
   if (props.type === 'success') {
     return 'success';
   }
@@ -54,9 +52,36 @@ const computedStyle = computed<AlertType>(() => {
     return 'info';
   }
 
-  return 'default';
+  if (props.type === 'default') {
+    return 'default';
+  }
+
+  return null;
 });
 
+/**
+ *
+ * computed theme
+ */
+const computedTheme = computed(() => {
+  if (props.type === 'success') {
+    return 'grass';
+  }
+
+  if (props.type === 'error') {
+    return 'red';
+  }
+
+  if (props.type === 'warning') {
+    return 'amber';
+  }
+
+  if (props.type === 'info') {
+    return 'graphite';
+  }
+
+  return '';
+});
 </script>
 
 <style module lang="postcss">
@@ -92,23 +117,23 @@ const computedStyle = computed<AlertType>(() => {
   color: var(--color);
 
   &--success {
-    background-color: var(--bg-success);
+    --bg: var(--base--solid);
   }
 
   &--error {
-    background-color: var(--bg-error);
+    --bg: var(--base--solid);
   }
 
   &--warning {
-    background-color: var(--bg-warning);
+    --bg: var(--base--solid);
   }
 
   &--info {
-    background-color: var(--bg-info);
+    --bg: var(--base--solid);
   }
 
   &--default {
-    background-color: var(--bg-default);
+    --bg: var(--base--solid-secondary);
   }
 }
 </style>
