@@ -90,11 +90,6 @@ const computedTheme = computed(() => {
   --padding-right: var(--h-padding);
   --color: var(--accent--text-solid-foreground);
   --bg: var(--base-text);
-  --bg-success: var(--base-alert-success);
-  --bg-error: var(--base-alert-error);
-  --bg-warning: var(--base-alert-warning);
-  --bg-info: var(--base-alert-info);
-  --bg-default: var(--base--solid);
 
   position: relative;
   box-sizing: border-box;
