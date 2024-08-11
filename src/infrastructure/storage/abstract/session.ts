@@ -13,7 +13,7 @@ export class SessionStore<StoreData extends Record<string, unknown>> extends Sub
    */
   protected get _data(): ProxyHandler<StoreData> {
     return {
-      set: (target, prop, value, receiver) => {
+      set: (target, prop, value: StoreData, receiver) => {
         Reflect.set(target, prop, value, receiver);
 
         this.onDataChange([{ prop: prop as keyof StoreData,

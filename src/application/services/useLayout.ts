@@ -4,11 +4,19 @@ import Default from '@/presentation/layouts/ThreeColsLayout.vue';
 import Fullpage from '@/presentation/layouts/Fullpage.vue';
 
 /**
+ * Type for all available layouts
+ */
+type Layouts = {
+  default: Component;
+  fullpage: Component;
+};
+
+/**
  * Layouts available in application.
  *
  * Layout — is page wrapper. You can use it to create different layouts for different pages, e.g.: multiple sidebars, etc.
  */
-export const layouts = {
+export const layouts: Layouts = {
   /**
    * Standard layout with Centered container
    */

@@ -1,4 +1,4 @@
-import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
+import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch, type ComputedRef } from 'vue';
 import { noteService, editorToolsService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type { NoteTool } from '@/domain/entities/Note';
@@ -139,7 +139,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   /**
    * Note Title identifier
    */
-  const noteTitle = computed(() => {
+  const noteTitle: ComputedRef<string> = computed(() => {
     const noteContent = lastUpdateContent.value ?? note.value?.content;
 
     const firstNoteBlock = noteContent?.blocks[0];
@@ -147,7 +147,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     if (!firstNoteBlock || !Boolean(firstNoteBlock.data.text)) {
       return 'Note';
     } else {
-      return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+      return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle) as string;
     }
   });
 

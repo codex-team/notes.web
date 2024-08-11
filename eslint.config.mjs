@@ -62,7 +62,7 @@ export default [
       /**
        * @todo get rid of this rule ignores and solve all eslint errors occured
        */
-      '@typescript-eslint/no-unsafe-assignment': ['off'],
+      '@typescript-eslint/no-unsafe-assignment': ['error'],
       '@typescript-eslint/no-unsafe-argument': ['off'],
       '@typescript-eslint/no-unsafe-return': ['off'],
       '@typescript-eslint/no-unsafe-call': ['off'],
