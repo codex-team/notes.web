@@ -123,14 +123,14 @@ const editor = ref<typeof Editor | undefined>(undefined);
  * @param data - editor data
  */
 async function noteChanged(data: NoteContent): Promise<void> {
-  const isEmpty = editor.value?.isEmpty();
+  const isEmpty = editor.value?.isEmpty() as boolean;
 
   let updatedNoteCover: Blob | null = null;
 
   /**
    * Get html element with note
    */
-  const editorElement = editor.value ? editor.value.element : null;
+  const editorElement = editor.value ? editor.value.element as HTMLElement : null;
 
   if (!isEmpty) {
     await save(data, props.parentId);

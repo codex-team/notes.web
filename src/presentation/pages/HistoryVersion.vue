@@ -99,7 +99,7 @@ async function useThisVersion() {
     /**
      * Get html element with note
      */
-    const editorElement = editor.value ? editor.value.element : null;
+    const editorElement = editor.value ? editor.value.element as HTMLElement : null;
 
     if (historyContent.value !== undefined) {
       await save(historyContent.value, undefined);

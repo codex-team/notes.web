@@ -64,25 +64,27 @@ function applyColorScheme(value: ColorScheme): void {
   bodyEl.setAttribute('color-scheme', value);
 }
 
+/** Type for theme hook */
+type UseTheme = {
+  /** Current base theme value. 'graphite' by default */
+  themeBase: Ref<Theme>;
+  /** Current accent theme value. 'sky' by default */
+  themeAccent: Ref<Theme>;
+  /** Current color scheme value. 'dark' by default */
+  colorScheme: Ref<ColorScheme>;
+  /** Update base theme value */
+  setBaseTheme: (value: Theme) => void;
+  /** Update accent theme value */
+  setAccentTheme: (value: Theme) => void;
+  /** Set color scheme value */
+  setColorScheme: (value: ColorScheme) => void;
+}
 /**
  * Composable to manage app themes.
  * Allows to set accent and base themes
  */
-export const useTheme = createSharedComposable(
-  (): {
-    /** Current base theme value. 'graphite' by default */
-    themeBase: Ref<Theme>;
-    /** Current accent theme value. 'sky' by default */
-    themeAccent: Ref<Theme>;
-    /** Current color scheme value. 'dark' by default */
-    colorScheme: Ref<ColorScheme>;
-    /** Update base theme value */
-    setBaseTheme: (value: Theme) => void;
-    /** Update accent theme value */
-    setAccentTheme: (value: Theme) => void;
-    /** Set color scheme value */
-    setColorScheme: (value: ColorScheme) => void;
-  } => {
+export const useTheme: () => UseTheme = createSharedComposable(
+  () => {
     /**
      * Current base theme value. 'graphite' by default
      */

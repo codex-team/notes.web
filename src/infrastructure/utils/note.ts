@@ -10,7 +10,7 @@ export function getTitle(content: OutputData): string {
   const firstNoteBlock = content.blocks[0];
   const { t } = useI18n();
 
-  const text: string | undefined = firstNoteBlock.data.text;
+  const text = firstNoteBlock.data.text as string | undefined;
 
   /**
    *  If the heading is empty, return 'Untitled'

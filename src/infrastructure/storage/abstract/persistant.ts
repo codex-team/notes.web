@@ -50,7 +50,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
         }
       },
 
-      set: (target, prop, value, receiver) => {
+      set: (target, prop, value: StoreData, receiver) => {
         /**
          * Set new property value for proxy usage
          */
@@ -88,7 +88,7 @@ export class PersistantStore<StoreData extends Record<string, unknown>> extends 
 
         if (storedValue !== null) {
           try {
-            this.data[key as keyof StoreData] = JSON.parse(storedValue);
+            this.data[key as keyof StoreData] = JSON.parse(storedValue) as StoreData[keyof StoreData];
           } catch {
             console.warn(`Persistant store: Cannot parse ${storedValue}`);
 
