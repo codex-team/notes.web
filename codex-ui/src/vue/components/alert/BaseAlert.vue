@@ -80,7 +80,7 @@ const computedTheme = computed(() => {
     return 'graphite';
   }
 
-  return '';
+  return undefined;
 });
 </script>
 
