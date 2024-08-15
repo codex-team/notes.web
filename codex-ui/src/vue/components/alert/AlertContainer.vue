@@ -33,7 +33,10 @@ const props = withDefaults(defineProps<AlertOptions>(), {
   timeout: ALERT_CONTAINER_STYLES.timeout,
 });
 
-const { alertRef, alertStore } = useAlert(props.type, props);
+const {
+  alertRef,
+  alertStore,
+} = useAlert(props.type!, props);
 </script>
 
 <style module lang="postcss">

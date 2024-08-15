@@ -23,7 +23,7 @@
     </div>
 
     <div>
-      Timeout - visibility duration in milliseconds, set timeout to keep toast visible
+      Timeout - visibility duration in milliseconds, set timeout to keep alert visible
     </div>
   </div>
 
@@ -31,7 +31,7 @@
     <div class="flex">
       <span>Success</span>
       <Button
-        @click="showToast('success')"
+        @click="showSuccessAlert"
       >
         click success
       </Button>
@@ -40,7 +40,7 @@
     <div class="flex">
       <span>Error</span>
       <Button
-        @click="showToast('error')"
+        @click="showErrorAlert"
       >
         click error
       </Button>
@@ -49,7 +49,7 @@
     <div class="flex">
       <span>Warning</span>
       <Button
-        @click="showToast('warning')"
+        @click="showWarningAlert"
       >
         click warning
       </Button>
@@ -58,7 +58,7 @@
     <div class="flex">
       <span>Info</span>
       <Button
-        @click="showToast('info')"
+        @click="showInfoAlert"
       >
         click info
       </Button>
@@ -67,7 +67,7 @@
     <div class="flex">
       <span>Default</span>
       <Button
-        @click="showToast('default')"
+        @click="showDefaultAlert"
       >
         click default
       </Button>
@@ -79,13 +79,45 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Button, useAlert, AlertContainer, AlertType } from '../../../src/vue';
+import { Button, useAlert, AlertContainer } from '../../../src/vue';
 
-const toast = useAlert;
+const { success, error, warning, info, defaultAlert } = useAlert();
 
-const showToast = (status: AlertType) => {
-  toast(status, {
-    message: 'codex',
+const showSuccessAlert = () => {
+  success({
+    message: 'success',
+    icon: 'Trash',
+    timeout: 5000,
+  });
+};
+
+const showErrorAlert = () => {
+  error({
+    message: 'error',
+    icon: 'Trash',
+    timeout: 5000,
+  });
+};
+
+const showWarningAlert = () => {
+  warning({
+    message: 'warning',
+    icon: 'Trash',
+    timeout: 5000,
+  });
+};
+
+const showInfoAlert = () => {
+  info({
+    message: 'info',
+    icon: 'Trash',
+    timeout: 5000,
+  });
+};
+
+const showDefaultAlert = () => {
+  defaultAlert({
+    message: 'default',
     icon: 'Trash',
     timeout: 5000,
   });

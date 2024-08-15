@@ -63,4 +63,34 @@ export interface AlertInterface {
    * Iterated store of alerts
    */
   alertStore: Ref<AlertOptions[]>;
+
+  /**
+   * trigger success alert
+   * @param opt - alert options
+   */
+  success: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+
+  /**
+   * trigger error alert
+   * @param opt - alert options
+   */
+  error: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+
+  /**
+   * trigger warning alert
+   * @param opt - alert options
+   */
+  warning: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+
+  /**
+   * trigger info alert
+   * @param opt - alert options
+   */
+  info: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+
+  /**
+   * trigger default alert
+   * @param opt - alert options
+   */
+  defaultAlert: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
 }
