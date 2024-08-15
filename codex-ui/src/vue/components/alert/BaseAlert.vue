@@ -3,7 +3,7 @@
     ref="el"
     :class="[
       $style.alert,
-      $style['alert--' + computedStyle]
+      $style['alert--' + props.type]
     ]"
     :theme-base="computedTheme"
   >
@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { defineProps, computed, withDefaults, ref } from 'vue';
 import Icon from '../icon/Icon.vue';
-import type { AlertOptions, AlertType } from './core/types';
+import type { AlertOptions } from './core/types';
 import { ALERT_CONTAINER_STYLES } from './core/constant';
 
 const el = ref<HTMLElement>();
@@ -30,33 +30,6 @@ const props = withDefaults(defineProps<AlertOptions>(), {
   icon: ALERT_CONTAINER_STYLES.icon,
   type: ALERT_CONTAINER_STYLES.type,
   timeout: ALERT_CONTAINER_STYLES.timeout,
-});
-
-/**
- * computed style
- */
-const computedStyle = computed<AlertType | null>(() => {
-  if (props.type === 'success') {
-    return 'success';
-  }
-
-  if (props.type === 'error') {
-    return 'error';
-  }
-
-  if (props.type === 'warning') {
-    return 'warning';
-  }
-
-  if (props.type === 'info') {
-    return 'info';
-  }
-
-  if (props.type === 'default') {
-    return 'default';
-  }
-
-  return null;
 });
 
 /**
@@ -86,10 +59,6 @@ const computedTheme = computed(() => {
 
 <style module lang="postcss">
 .alert {
-  --padding-left: var(--h-padding);
-  --padding-right: var(--h-padding);
-  --color: var(--accent--text-solid-foreground);
-  --bg: var(--base-text);
 
   position: relative;
   box-sizing: border-box;
@@ -101,34 +70,34 @@ const computedTheme = computed(() => {
   outline: 0;
   font-family: inherit;
   pointer-events: auto;
-  background-color: var(--bg);
+  background-color: var(--base-text);
   overflow: hidden;
   word-break: keep-all;
   transform: translateZ(0);
   direction: ltr;
-  padding: var(--v-padding) var(--padding-right) var(--v-padding) var(--padding-left);
+  padding: var(--v-padding) var(--h-padding) var(--v-padding) var(--h-padding);
   border-radius: var(--radius-field);
   box-shadow: inset 0 0 0 1px var(--border-color);
-  color: var(--color);
+  color: var(--accent--text-solid-foreground);
 
   &--success {
-    --bg: var(--base--solid);
+    background-color: var(--base--solid);
   }
 
   &--error {
-    --bg: var(--base--solid);
+    background-color: var(--base--solid);
   }
 
   &--warning {
-    --bg: var(--base--solid);
+    background-color: var(--base--solid);
   }
 
   &--info {
-    --bg: var(--base--solid);
+    background-color: var(--base--solid);
   }
 
   &--default {
-    --bg: var(--base--solid-secondary);
+    background-color: var(--base--solid-secondary);
   }
 }
 </style>
