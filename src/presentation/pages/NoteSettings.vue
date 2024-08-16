@@ -210,7 +210,7 @@ useHead({
 
 watch(noteTitle, (newTitle) => {
   const openPageInfo = {
-    title: `${t('Settings')} (${newTitle})`,
+    title: `${t('noteSettings.settings')} (${newTitle})`,
     url: route.path,
   };
 
