@@ -102,7 +102,7 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'codex-ui/vue';
@@ -110,6 +110,8 @@ import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
+import useHeader from '@/application/services/useHeader';
+import { useRoute } from 'vue-router';
 
 const { t } = useI18n();
 
@@ -120,6 +122,8 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
+const { patchOpenedPageByUrl } = useHeader();
+const route = useRoute();
 const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
   id: props.id,
@@ -202,6 +206,15 @@ function getParentURL(id: NoteId | undefined): string {
  */
 useHead({
   title: t('noteSettings.title'),
+});
+
+watch(noteTitle, (newTitle) => {
+  const openPageInfo = {
+    title: `${t('noteSettings.settings')} (${newTitle})`,
+    url: route.path,
+  };
+
+  patchOpenedPageByUrl(route.path, openPageInfo);
 });
 
 onMounted(async () => {
