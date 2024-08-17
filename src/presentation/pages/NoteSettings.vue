@@ -205,7 +205,7 @@ function getParentURL(id: NoteId | undefined): string {
  * Changing the title in the browser
  */
 useHead({
-  title: 'Note Settings',
+  title: t('noteSettings.title'),
 });
 
 watch(noteTitle, (newTitle) => {
