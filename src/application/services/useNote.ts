@@ -147,7 +147,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     if (!firstNoteBlock || !Boolean(firstNoteBlock.data.text)) {
       return 'Note';
     } else {
-      return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
+      return firstNoteBlock.data.text.replace(/&nbsp;/g, ' ').slice(0, limitCharsForNoteTitle);
     }
   });
 

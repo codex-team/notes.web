@@ -18,7 +18,7 @@ export function getTitle(content: OutputData): string {
   if (text === undefined || text.trim() === '') {
     return t('note.untitled');
   } else {
-    return text?.slice?.(0, limitCharsForNoteTitle);
+    return text?.replace(/&nbsp;/g, ' ')?.slice?.(0, limitCharsForNoteTitle);
   }
 }
 
