@@ -3,7 +3,7 @@ import type { Ref } from 'vue';
 /**
  * Various alert type
  */
-export type AlertType = 'success' | 'error' | 'warning' | 'info' | 'default';
+export type Alertype = 'success' | 'error' | 'warning' | 'info' | 'default';
 
 /**
  * position of alert, default position -> bottom-center
@@ -14,33 +14,25 @@ export enum POSITION {
   BOTTOM_CENTER = 'bottom-center'
 }
 
-export declare type ALERTID = string | number;
-
-declare type Icon = string;
-
 /**
  * alert configuration
  */
 export interface AlertOptions {
   /**
-   *  ID of the alert.
-   */
-  id?: ALERTID;
-  /**
    * Custom icon class to be used.
    *
    */
-  icon?: Icon;
+  icon?: string;
   /**
    * content to be rendered
    */
-  message?: string | null;
+  message?: string;
   /**
    *  Type of the toast.
    *
    *  Can be any of `(success, error, default, info, warning)`
    */
-  type: AlertType | null;
+  type?: Alertype;
   /**
    *  Position of the toast on the screen.
    *
@@ -55,11 +47,6 @@ export interface AlertOptions {
 
 export interface AlertInterface {
   /**
-   * DOM reference to the alert container
-   */
-  alertRef: Ref<unknown>;
-
-  /**
    * Iterated store of alerts
    */
   alertStore: Ref<AlertOptions[]>;
@@ -68,29 +55,29 @@ export interface AlertInterface {
    * trigger success alert
    * @param opt - alert options
    */
-  success: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+  success: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
 
   /**
    * trigger error alert
    * @param opt - alert options
    */
-  error: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+  error: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
 
   /**
    * trigger warning alert
    * @param opt - alert options
    */
-  warning: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+  warning: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
 
   /**
    * trigger info alert
    * @param opt - alert options
    */
-  info: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+  info: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
 
   /**
    * trigger default alert
    * @param opt - alert options
    */
-  defaultAlert: (opt: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+  defaultAlert: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
 }

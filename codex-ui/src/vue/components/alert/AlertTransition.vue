@@ -24,13 +24,12 @@ const leave = (el: unknown) => {
 <style lang="postcss">
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.5s ease;
-
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-  transform: translate(30px, 20px);
+  transform: translateY(30px);
 }
 </style>

@@ -24,7 +24,6 @@ import { ALERT_CONTAINER_STYLES } from './core/constant';
 const el = ref<HTMLElement>();
 
 const props = withDefaults(defineProps<AlertOptions>(), {
-  id: ALERT_CONTAINER_STYLES.id,
   position: ALERT_CONTAINER_STYLES.position,
   message: ALERT_CONTAINER_STYLES.message,
   icon: ALERT_CONTAINER_STYLES.icon,
@@ -59,7 +58,6 @@ const computedTheme = computed(() => {
 
 <style module lang="postcss">
 .alert {
-
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -77,7 +75,6 @@ const computedTheme = computed(() => {
   direction: ltr;
   padding: var(--v-padding) var(--h-padding) var(--v-padding) var(--h-padding);
   border-radius: var(--radius-field);
-  box-shadow: inset 0 0 0 1px var(--border-color);
   color: var(--accent--text-solid-foreground);
 
   &--success {
