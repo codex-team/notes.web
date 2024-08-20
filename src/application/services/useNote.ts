@@ -6,6 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
 import useHeader from './useHeader';
+import { getTitle } from '@/infrastructure/utils/note';
 
 /**
  * Creates base structure for the empty note:
@@ -128,7 +129,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   const route = useRoute();
 
-  const limitCharsForNoteTitle = 50;
+  // const limitCharsForNoteTitle = 50;
 
   /**
    * Is there any note currently saving
@@ -142,13 +143,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const noteTitle = computed(() => {
     const noteContent = lastUpdateContent.value ?? note.value?.content;
 
-    const firstNoteBlock = noteContent?.blocks[0];
-
-    if (!firstNoteBlock || !Boolean(firstNoteBlock.data.text)) {
-      return 'Note';
-    } else {
-      return firstNoteBlock.data.text.replace(/&nbsp;/g, ' ').slice(0, limitCharsForNoteTitle);
-    }
+    return getTitle(noteContent);
   });
 
   /**
