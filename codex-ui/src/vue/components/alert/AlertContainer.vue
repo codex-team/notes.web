@@ -18,9 +18,9 @@
 <script setup lang="ts">
 import BaseAlert from './BaseAlert.vue';
 import AlertTransition from './AlertTransition.vue';
-import { useAlert } from './core/useAlert';
-import type { AlertOptions } from './core/types';
-import { ALERT_CONTAINER_STYLES } from './core/constant';
+import { useAlert } from './useAlert';
+import type { AlertOptions } from './Alert.types';
+import { ALERT_CONTAINER_STYLES } from './constant';
 
 const props = withDefaults(defineProps<AlertOptions>(), {
   position: ALERT_CONTAINER_STYLES.position,

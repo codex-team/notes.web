@@ -28,19 +28,19 @@ export interface AlertOptions {
    */
   message?: string;
   /**
-   *  Type of the toast.
+   *  Type of the alert.
    *
    *  Can be any of `(success, error, default, info, warning)`
    */
   type?: Alertype;
   /**
-   *  Position of the toast on the screen.
+   *  Position of the alert on the screen.
    *
    * (bottom-center).
    */
   position?: POSITION.BOTTOM_CENTER;
   /**
-   * How many milliseconds for the toast to be auto dismissed, or false to disable.
+   * How many milliseconds for the alert to be auto dismissed
    */
   timeout?: number;
 }

@@ -33,7 +33,7 @@
       <Button
         @click="showSuccessAlert"
       >
-        click success
+        Show success alert
       </Button>
     </div>
 
@@ -42,7 +42,7 @@
       <Button
         @click="showErrorAlert"
       >
-        click error
+        Show error alert
       </Button>
     </div>
 
@@ -51,7 +51,7 @@
       <Button
         @click="showWarningAlert"
       >
-        click warning
+        Show warning alert
       </Button>
     </div>
 
@@ -60,7 +60,7 @@
       <Button
         @click="showInfoAlert"
       >
-        click info
+        Show info alert
       </Button>
     </div>
 
@@ -69,7 +69,7 @@
       <Button
         @click="showDefaultAlert"
       >
-        click default
+        Show default alert
       </Button>
     </div>
   </div>
@@ -134,16 +134,22 @@ const showDefaultAlert = () => {
 }
 
 .flex-type {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+  display: grid;
+  grid-template-columns: repeat(1, 2fr);
+  gap: var(--spacing-l);
+  align-items: center;
   margin-top: 2rem;
 
   .flex {
     display: grid;
-    grid-template-columns: repeat(2, max-content);
-    gap: var(--spacing-l);
+    grid-template-columns: repeat(5, 1fr);
     align-items: center;
+    gap: var(--spacing-l);
+
+    button {
+      display: grid;
+      grid-column: span 1;
+    }
   }
 }
 </style>

@@ -1,5 +1,5 @@
-import { useAlert } from './core/useAlert';
+import { useAlert } from './useAlert';
 import AlertContainer from './AlertContainer.vue';
 
-export * from './core/types.js';
+export * from './Alert.types.js';
 export { AlertContainer, useAlert };

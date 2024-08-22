@@ -1,5 +1,5 @@
-import type { AlertOptions } from './types';
-import { POSITION } from './types';
+import type { AlertOptions } from './Alert.types';
+import { POSITION } from './Alert.types';
 
 /**
  * default styles

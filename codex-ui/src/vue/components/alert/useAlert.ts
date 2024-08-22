@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import type { AlertInterface, AlertOptions, Alertype } from './types';
+import type { AlertInterface, AlertOptions, Alertype } from './Alert.types';
 import { createSharedComposable } from '@vueuse/core';
 
 /**
@@ -74,6 +74,7 @@ export function useAlert(type?: Alertype, opt?: Pick<AlertOptions, 'icon' | 'mes
 
   switch (type) {
     case 'success':
+
       triggerAlert('success', opt);
       break;
 

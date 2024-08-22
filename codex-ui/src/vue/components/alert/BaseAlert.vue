@@ -18,8 +18,8 @@
 <script setup lang="ts">
 import { defineProps, computed, withDefaults, ref } from 'vue';
 import Icon from '../icon/Icon.vue';
-import type { AlertOptions } from './core/types';
-import { ALERT_CONTAINER_STYLES } from './core/constant';
+import type { AlertOptions } from './Alert.types';
+import { ALERT_CONTAINER_STYLES } from './constant';
 
 const el = ref<HTMLElement>();
 
