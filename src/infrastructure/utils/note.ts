@@ -1,24 +1,22 @@
 import { type OutputData } from '@editorjs/editorjs';
-import { useI18n } from 'vue-i18n';
 /**
  * Get the title of the note
  * @param content - content of the note
  * @returns the title of the note
  */
-export function getTitle(content: OutputData): string {
+export function getTitle(content: OutputData | undefined): string {
   const limitCharsForNoteTitle = 50;
-  const firstNoteBlock = content.blocks[0];
-  const { t } = useI18n();
+  const firstNoteBlock = content?.blocks[0];
 
-  const text: string | undefined = firstNoteBlock.data.text;
+  const text: string | undefined = firstNoteBlock?.data.text;
 
   /**
    *  If the heading is empty, return 'Untitled'
    */
   if (text === undefined || text.trim() === '') {
-    return t('note.untitled');
+    return 'Untitled';
   } else {
-    return text?.slice?.(0, limitCharsForNoteTitle);
+    return text?.replace(/&nbsp;/g, ' ')?.slice?.(0, limitCharsForNoteTitle);
   }
 }
 
