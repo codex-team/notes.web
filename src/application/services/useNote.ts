@@ -129,8 +129,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   const route = useRoute();
 
-  // const limitCharsForNoteTitle = 50;
-
   /**
    * Is there any note currently saving
    * Used to prevent re-load note after draft is saved
