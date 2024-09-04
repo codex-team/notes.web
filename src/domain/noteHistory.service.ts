@@ -1,0 +1,36 @@
+import type { NoteHistoryMeta, NoteHistoryRecord, NoteHistoryView } from './entities/History';
+import type { Note } from './entities/Note';
+import type NoteHistoryRepository from './noteHistory.repository.interface';
+
+/**
+ * Note history service class, used for logic handling of the data,
+ * Also used for data delivery from repository to application service
+ */
+export default class NoteHistoryService {
+  /**
+   * Note history repository instance
+   */
+  private readonly noteHistoryRepository: NoteHistoryRepository;
+
+  constructor(historyRepository: NoteHistoryRepository) {
+    this.noteHistoryRepository = historyRepository;
+  }
+
+  /**
+   * Loads note history meta for note history preview
+   * @param noteId - id of the note
+   */
+  public async loadNoteHistory(noteId: Note['id']): Promise<NoteHistoryMeta[]> {
+    return await this.noteHistoryRepository.loadNoteHistory(noteId);
+  }
+
+  /**
+   * Get full note history record with user info
+   * @param noteId - id of the note with history
+   * @param historyId - id of the history record
+   * @returns - full note history record with user info
+   */
+  public async getNoteHistoryRecordById(noteId: Note['id'], historyId: NoteHistoryRecord['id']): Promise<NoteHistoryView> {
+    return await this.noteHistoryRepository.getNoteHistoryRecordById(noteId, historyId);
+  }
+}

@@ -44,6 +44,7 @@
   },
   "noteSettings": {
     "title": "Note Settings",
+    "settings": "Settings",
     "customHostname": "Custom Hostname",
     "hostnamePlaceholder": "example: landing.codex.so",
     "availabilityTitle": "Availability",
@@ -80,6 +81,13 @@
       "placeholder": "Write something or press / to select a tool"
     },
     "lastEdit": "Last edit"
+  },
+  "history": {
+    "title": "Versions history",
+    "view": "View",
+    "useVersion": "Use this version",
+    "confirmVersionRestore": "Do you really want to use this version?",
+    "editedTime": "edited on"
   },
   "noteList": {
     "emptyNoteList": "No Notes yet. Make your first note",
@@ -170,6 +178,8 @@
     "addTool": "Add tool",
     "notFound": "Not found",
     "joinTeam": "Join",
-    "authorization": "Authorize"
+    "authorization": "Authorize",
+    "history": "History",
+    "historyVersion": "Version"
   }
 }

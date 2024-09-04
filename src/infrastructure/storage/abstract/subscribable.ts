@@ -25,39 +25,14 @@ type Change<StoreData> = {
  */
 export abstract class SubscribableStore<StoreData extends Record<string, unknown>> {
   /**
-   * Proxy for data stored in store.
-   * Used to watch data changes
-   */
-  protected data = new Proxy<StoreData>({} as StoreData, this._data);
-
-  /**
    * List of subscribers on data change
    */
-  private subscribers: PropChangeCallback<StoreData>[] = [];
+  protected subscribers: PropChangeCallback<StoreData>[] = [];
 
   /**
    * Using for accumulation of changes in store until subscriber appearse
    */
-  private stashedChanges: Change<StoreData>[] = [];
-
-  /**
-   * Data proxy handler
-   */
-  protected get _data(): ProxyHandler<StoreData> {
-    return {
-      set: (target, prop, value, receiver) => {
-        Reflect.set(target, prop, value, receiver);
-
-        this.onDataChange([{ prop: prop as keyof StoreData,
-          newValue: value }]);
-
-        return true;
-      },
-      get(target, prop, receiver) {
-        return Reflect.get(target, prop, receiver);
-      },
-    };
-  }
+  protected stashedChanges: Change<StoreData>[] = [];
 
   /**
    * Subscribe to store changes
@@ -86,7 +61,7 @@ export abstract class SubscribableStore<StoreData extends Record<string, unknown
    * Notifies subscribers about data change.
    * @param changes - array of changes
    */
-  private onDataChange(changes: Change<StoreData>[]): void {
+  protected onDataChange(changes: Change<StoreData>[]): void {
     /**
      * If there are no subscribers stash current change
      */

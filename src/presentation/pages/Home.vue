@@ -33,7 +33,7 @@
       {{ $t('home.title') }}
     </Heading>
 
-    <div v-if="!user">
+    <div v-if="user === null">
       <Container data-dimensions="large">
         <Row :title="t('home.authText')">
           <template #right>
@@ -46,35 +46,9 @@
         </Row>
       </Container>
     </div>
-
-    <div v-if="user && noteList?.items.length === 0">
-      <p>{{ t('noteList.emptyNoteList') }}</p>
-    </div>
-
-    <div
-      v-if="noteList"
-      :class="$style['notes-container']"
-    >
-      <RouterLink
-        v-for="note in noteList.items"
-        :key="note.id"
-        :to="`/note/${note.id}`"
-      >
-        <Card
-          :title="getTitle(note.content)"
-          :subtitle="getSubtitle(note)"
-          :src="note.cover || undefined"
-          orientation="vertical"
-        />
-      </RouterLink>
-    </div>
-    <Button
-      v-if="hasMoreNotes && user"
-      :class="$style.button"
-      @click="loadMoreNotes"
-    >
-      {{ $t('loadMore') }}
-    </Button>
+    <NoteList
+      v-else-if="user !== undefined"
+    />
   </ThreeColsLayout>
 </template>
 
@@ -82,18 +56,15 @@
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
-import useNoteList from '@/application/services/useNoteList';
-import { getTitle } from '@/infrastructure/utils/note';
-import { formatShortDate } from '@/infrastructure/utils/date';
-import { Container, Row, Button, Heading, Card } from 'codex-ui/vue';
+import { Container, Row, Button, Heading } from 'codex-ui/vue';
 import Hammer from '../components/pictures/Hammer.vue';
-import { Note } from '@/domain/entities/Note';
+
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
+import NoteList from '@/presentation/components/note-list/NoteList.vue';
 import useAuth from '@/application/services/useAuth';
 
 const { user } = useAppState();
 const { t } = useI18n();
-const { noteList, loadMoreNotes, hasMoreNotes } = useNoteList();
 const { showGoogleAuthPopup } = useAuth();
 
 /**
@@ -102,22 +73,6 @@ const { showGoogleAuthPopup } = useAuth();
 useHead({
   title: t('home.title'),
 });
-
-/**
- * Returns card subtitle text
- *
- * @param note - Note entity
- *
- * @returns {string | undefined}
- */
-function getSubtitle(note: Note): string | undefined {
-  if (note.updatedAt === undefined) {
-    return;
-  }
-
-  return t('home.updated') + ' ' + formatShortDate(note.updatedAt);
-}
-
 </script>
 
 <style lang="postcss" module>
@@ -133,18 +88,5 @@ function getSubtitle(note: Note): string | undefined {
 
 .page-header {
   padding: var(--spacing-xxl) var(--h-padding) 0;
-}
-
-.notes-container {
-  padding: var(--spacing-xxl) 0;
-  gap: var(--spacing-ml);
-  display: grid;
-  width: 100%;
-  box-sizing: border-box;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.button {
-  margin-top: var(--spacing-l);
 }
 </style>

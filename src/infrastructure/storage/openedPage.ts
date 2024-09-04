@@ -1,5 +1,5 @@
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
-import { SubscribableStore } from './abstract/subscribable';
+import { PersistantStore } from './abstract/persistant';
 
 export type OpenedPagesStoreData = {
   /**
@@ -11,10 +11,9 @@ export type OpenedPagesStoreData = {
 /**
  * Class to store all pages that are currently opened in workspace
  */
-export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
+export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
   constructor() {
-    super();
-    this.data.openedPages = [];
+    super(['openedPages']);
   }
 
   /**
@@ -22,11 +21,17 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
    * @param page - page that had beed opened by user
    */
   public addOpenedPage(page: OpenedPage): void {
-    const uniquePageUrls = this.data.openedPages.map(currentPage => currentPage.url);
+    if (this.data.openedPages !== undefined) {
+      const uniquePageUrls = this.data.openedPages?.map(currentPage => currentPage.url);
 
-    if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
+      if (!uniquePageUrls.includes(page.url) && page.url !== '/') {
+        this.data.openedPages = [
+          ...this.data.openedPages,
+          page,
+        ];
+      }
+    } else {
       this.data.openedPages = [
-        ...this.data.openedPages,
         page,
       ];
     }
@@ -37,7 +42,7 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
    * @param url - url of closed page
    */
   public deleteOpenedPageByUrl(url: OpenedPage['url']): void {
-    this.data.openedPages = this.data.openedPages.filter(currentPage => !(currentPage.url == url));
+    this.data.openedPages = this.data.openedPages?.filter(currentPage => !(currentPage.url == url));
   }
 
   /**
@@ -47,7 +52,7 @@ export class OpenedPagesStore extends SubscribableStore<OpenedPagesStoreData> {
    * @param page - new data for opened page with certain url
    */
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
-    this.data.openedPages = this.data.openedPages.map((currentPage) => {
+    this.data.openedPages = this.data.openedPages?.map((currentPage) => {
       if (currentPage.url == url) {
         currentPage.title = page.title;
       }
