@@ -16,21 +16,6 @@ export const useConfirm = createSharedComposable(() => {
   const { showPopup } = usePopup();
 
   /**
-   * Confirm button was pressed
-   */
-  function onCancel(): void {
-    result.value = false;
-  }
-
-  /**
-   * Cancel button was pressed
-   */
-  function onConfirm(): void {
-    result.value = true;
-  }
-
-  /**
-   *
    * @param title - title of the confirm window
    * @param text - message to be displayed in confirm window
    * @returns user selection result
@@ -42,6 +27,12 @@ export const useConfirm = createSharedComposable(() => {
       props: {
         title: title,
         text: text,
+        onCancel: () => {
+          result.value = false;
+        },
+        onConfirm: () => {
+          result.value = true;
+        },
       },
     });
 
@@ -57,7 +48,5 @@ export const useConfirm = createSharedComposable(() => {
 
   return {
     confirm,
-    onCancel,
-    onConfirm,
   };
 });
