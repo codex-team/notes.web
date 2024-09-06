@@ -89,6 +89,10 @@ withDefaults(
     padding: var(--spacing-very-x);
     box-shadow: inset 0 0 0 var(--delimiter-height);
     border-radius: var(--radius-l);
+
+    &:hover {
+      color: var(--base--text);
+    }
   }
 }
 
