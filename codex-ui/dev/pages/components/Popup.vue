@@ -16,23 +16,15 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { Button, useConfirm } from '../../../src/vue';
+import { StubText, Button, usePopup } from '../../../src/vue';
 
-const { confirm } = useConfirm();
+const { showPopup } = usePopup();
 
-async function show() {
-  const res = await confirm(
-    'CodeX',
-    'Are you sure you want to delete the page?'
-  );
-
-  if (res) {
-    // eslint-disable-next-line no-console
-    console.log('The confirm button was pressed');
-  } else {
-    // eslint-disable-next-line no-console
-    console.log('The cancel button was pressed');
-  }
+function show(): void {
+  showPopup({
+    component: StubText,
+    props: {},
+  });
 }
 
 </script>
