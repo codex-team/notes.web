@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import Icon from '../icon/Icon.vue';
 import { usePopup } from './usePopup';
 import { onClickOutside } from '@vueuse/core';
@@ -45,18 +45,6 @@ const {
  */
 onClickOutside(popupEl, hidePopup);
 
-/**
- * Close the popup when esc was pressed
- *
- * @param event - the event object representing the keyboard event
- * @param event.key - the property of the event object that holds the value of the pressed key
- */
-const closeOnEsc = (event: { key: string }) => {
-  if (event.key === 'Escape') {
-    hidePopup();
-  }
-};
-
 withDefaults(
   defineProps<{
     /**
@@ -68,14 +56,6 @@ withDefaults(
     hasCloseButton: true,
   }
 );
-
-onMounted(() => {
-  document.addEventListener('keydown', closeOnEsc);
-});
-
-onUnmounted(() => {
-  document.removeEventListener('keydown', closeOnEsc);
-});
 
 </script>
 

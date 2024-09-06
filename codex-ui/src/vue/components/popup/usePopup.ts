@@ -1,5 +1,5 @@
 import { createSharedComposable } from '@vueuse/core';
-import { ref, shallowRef } from 'vue';
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue';
 import type { PopupContent } from './Popup.types';
 
 /**
@@ -65,6 +65,25 @@ export const usePopup = createSharedComposable(() => {
     content.value = null;
     isOpen.value = false;
   }
+
+  /**
+   * Close the popup when esc was pressed
+   * @param event - the event object representing the keyboard event
+   * @param event.key - the property of the event object that holds the value of the pressed key
+   */
+  const closeOnEsc = (event: { key: string }): void => {
+    if (event.key === 'Escape') {
+      hidePopup();
+    }
+  };
+
+  onMounted(() => {
+    document.addEventListener('keydown', closeOnEsc);
+  });
+
+  onUnmounted(() => {
+    document.removeEventListener('keydown', closeOnEsc);
+  });
 
   return {
     isOpen,
