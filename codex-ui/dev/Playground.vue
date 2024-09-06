@@ -204,6 +204,11 @@ const pages = computed(() => [
         onActivate: () => router.push('/components/popup'),
         isActive: route.path === '/components/popup',
       },
+      {
+        title: 'Confirm',
+        onActivate: () => router.push('/components/confirm'),
+        isActive: route.path === '/components/confirm',
+      },
     ],
   },
 ]);
