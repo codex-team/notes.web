@@ -7,7 +7,7 @@
   >
     <AlertTransition>
       <BaseAlert
-        v-for="(alert, index) in alertStore"
+        v-for="(alert, index) in alerts"
         :key="index"
         v-bind="alert"
       />
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<AlertOptions>(), {
   timeout: ALERT_CONTAINER_STYLES.timeout,
 });
 
-const { alertStore } = useAlert(props.type, props);
+const { alerts } = useAlert();
 
 </script>
 

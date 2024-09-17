@@ -49,7 +49,7 @@ export interface AlertInterface {
   /**
    * Iterated store of alerts
    */
-  alertStore: Ref<AlertOptions[]>;
+  alerts: Ref<AlertOptions[]>;
 
   /**
    * trigger success alert
