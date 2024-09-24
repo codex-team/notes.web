@@ -1,11 +1,49 @@
+import type { Ref } from 'vue';
 import { ref } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
-import type { AlertInterface, AlertOptions, Alertype } from './Alert.types';
+import type { AlertOptions, Alertype } from './Alert.types';
+
+export interface UseAlertComposableState {
+  /**
+   * Iterated store of alerts
+   */
+  alerts: Ref<AlertOptions[]>;
+
+  /**
+   * trigger success alert
+   * @param opt - alert options
+   */
+  success: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+
+  /**
+   * trigger error alert
+   * @param opt - alert options
+   */
+  error: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+
+  /**
+   * trigger warning alert
+   * @param opt - alert options
+   */
+  warning: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+
+  /**
+   * trigger info alert
+   * @param opt - alert options
+   */
+  info: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+
+  /**
+   * trigger default alert
+   * @param opt - alert options
+   */
+  alert: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
+}
 
 /**
  * Alert service hook
  */
-export const useAlert = createSharedComposable((): AlertInterface => {
+export const useAlert = createSharedComposable((): UseAlertComposableState => {
   const alerts = ref<AlertOptions[]>([]);
 
   /**
@@ -13,8 +51,8 @@ export const useAlert = createSharedComposable((): AlertInterface => {
    * @param type type of alert (success, error, warning, info and default)
    * @param opt alert options(timeout, message and icon)
    */
-  function triggerAlert(type?: Alertype, opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>): void {
-    const alertIndex = alerts.value.findIndex((idx: AlertOptions) => idx.timeout === opt?.timeout);
+  function triggerAlert(type?: Alertype, opt?: Pick<AlertOptions, 'id' | 'icon' | 'message' | 'timeout'>): void {
+    const alertIndex = alerts.value.findIndex((idx: AlertOptions) => idx.id === opt?.id);
 
     alerts.value.push({ type,
       ...opt });
@@ -26,10 +64,10 @@ export const useAlert = createSharedComposable((): AlertInterface => {
 
   return {
     alerts,
-    success: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => triggerAlert('success', opt),
-    error: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => triggerAlert('error', opt),
-    warning: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => triggerAlert('warning', opt),
-    info: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => triggerAlert('info', opt),
-    defaultAlert: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => triggerAlert('default', opt),
+    success: (opt?: Omit<AlertOptions, 'id'>) => triggerAlert('success', opt),
+    error: (opt?: Omit<AlertOptions, 'id'>) => triggerAlert('error', opt),
+    warning: (opt?: Omit<AlertOptions, 'id'>) => triggerAlert('warning', opt),
+    info: (opt?: Omit<AlertOptions, 'id'>) => triggerAlert('info', opt),
+    alert: (opt?: Omit<AlertOptions, 'id'>) => triggerAlert('default', opt),
   };
 });

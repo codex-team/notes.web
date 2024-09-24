@@ -1,23 +1,14 @@
-import type { Ref } from 'vue';
-
 /**
  * Various alert type
  */
 export type Alertype = 'success' | 'error' | 'warning' | 'info' | 'default';
 
 /**
- * position of alert, default position -> bottom-center
- */
-export enum POSITION {
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  BOTTOM_CENTER = 'bottom-center'
-}
-
-/**
  * alert configuration
  */
 export interface AlertOptions {
+
+  id?: number;
   /**
    * Custom icon class to be used.
    *
@@ -38,46 +29,9 @@ export interface AlertOptions {
    *
    * (bottom-center).
    */
-  position?: POSITION.BOTTOM_CENTER;
+  position?: 'bottom-center';
   /**
    * How many milliseconds for the alert to be auto dismissed
    */
   timeout?: number;
-}
-
-export interface AlertInterface {
-  /**
-   * Iterated store of alerts
-   */
-  alerts: Ref<AlertOptions[]>;
-
-  /**
-   * trigger success alert
-   * @param opt - alert options
-   */
-  success: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
-
-  /**
-   * trigger error alert
-   * @param opt - alert options
-   */
-  error: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
-
-  /**
-   * trigger warning alert
-   * @param opt - alert options
-   */
-  warning: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
-
-  /**
-   * trigger info alert
-   * @param opt - alert options
-   */
-  info: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
-
-  /**
-   * trigger default alert
-   * @param opt - alert options
-   */
-  defaultAlert: (opt?: Pick<AlertOptions, 'icon' | 'message' | 'timeout'>) => void;
 }

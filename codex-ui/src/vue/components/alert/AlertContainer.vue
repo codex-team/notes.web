@@ -6,7 +6,7 @@
     ]"
   >
     <AlertTransition>
-      <BaseAlert
+      <Alert
         v-for="(alert, index) in alerts"
         :key="index"
         v-bind="alert"
@@ -16,18 +16,19 @@
 </template>
 
 <script setup lang="ts">
-import BaseAlert from './BaseAlert.vue';
+import Alert from './Alert.vue';
 import AlertTransition from './AlertTransition.vue';
 import { useAlert } from './useAlert';
 import type { AlertOptions } from './Alert.types';
-import { ALERT_CONTAINER_STYLES } from './constant';
+import { genId } from './constant';
 
 const props = withDefaults(defineProps<AlertOptions>(), {
-  position: ALERT_CONTAINER_STYLES.position,
-  content: ALERT_CONTAINER_STYLES.message,
-  icon: ALERT_CONTAINER_STYLES.icon,
-  type: ALERT_CONTAINER_STYLES.type,
-  timeout: ALERT_CONTAINER_STYLES.timeout,
+  id: genId(),
+  position: 'bottom-center',
+  content: '',
+  icon: '',
+  type: undefined,
+  timeout: 5000,
 });
 
 const { alerts } = useAlert();

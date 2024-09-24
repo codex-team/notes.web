@@ -19,16 +19,17 @@
 import { defineProps, computed, withDefaults, ref } from 'vue';
 import Icon from '../icon/Icon.vue';
 import type { AlertOptions } from './Alert.types';
-import { ALERT_CONTAINER_STYLES } from './constant';
+import { genId } from './constant';
 
 const el = ref<HTMLElement>();
 
 const props = withDefaults(defineProps<AlertOptions>(), {
-  position: ALERT_CONTAINER_STYLES.position,
-  message: ALERT_CONTAINER_STYLES.message,
-  icon: ALERT_CONTAINER_STYLES.icon,
-  type: ALERT_CONTAINER_STYLES.type,
-  timeout: ALERT_CONTAINER_STYLES.timeout,
+  id: genId(),
+  position: 'bottom-center',
+  message: '',
+  icon: '',
+  type: undefined,
+  timeout: 5000,
 });
 
 /**
@@ -94,7 +95,7 @@ const computedTheme = computed(() => {
   }
 
   &--default {
-    background-color: var(--base--solid-secondary);
+    background-color: var(--base--bg-secondary);
   }
 }
 </style>

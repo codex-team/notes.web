@@ -81,7 +81,7 @@
 import PageHeader from '../../components/PageHeader.vue';
 import { Button, useAlert, AlertContainer } from '../../../src/vue';
 
-const { success, error, warning, info, defaultAlert } = useAlert();
+const { success, error, warning, info, alert } = useAlert();
 
 const showSuccessAlert = () => {
   success({
@@ -112,7 +112,7 @@ const showInfoAlert = () => {
 };
 
 const showDefaultAlert = () => {
-  defaultAlert({
+  alert({
     message: 'codex',
     timeout: 5000,
   });
