@@ -2,7 +2,7 @@
   <div
     :class="[
       $style.alert__container,
-      $style['alert__container--' + props.position]
+      $style['alert__container--' + defaultAlertOpt.position]
     ]"
   >
     <AlertTransition>
@@ -19,19 +19,8 @@
 import Alert from './Alert.vue';
 import AlertTransition from './AlertTransition.vue';
 import { useAlert } from './useAlert';
-import type { AlertOptions } from './Alert.types';
-import { genId } from './constant';
 
-const props = withDefaults(defineProps<AlertOptions>(), {
-  id: genId(),
-  position: 'bottom-center',
-  content: '',
-  icon: '',
-  type: undefined,
-  timeout: 5000,
-});
-
-const { alerts } = useAlert();
+const { alerts, defaultAlertOpt } = useAlert();
 
 </script>
 

@@ -1,9 +1,14 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
-import type { AlertOptions, Alertype } from './Alert.types';
+import type { AlertOptions, AlerType } from './Alert.types';
 
 export interface UseAlertComposableState {
+  /**
+   * Default alert option
+   */
+  defaultAlertOpt: Ref<AlertOptions>;
+
   /**
    * Iterated store of alerts
    */
@@ -46,12 +51,21 @@ export interface UseAlertComposableState {
 export const useAlert = createSharedComposable((): UseAlertComposableState => {
   const alerts = ref<AlertOptions[]>([]);
 
+  const defaultAlertOpt = ref<AlertOptions>({
+    id: `alert-'${Math.random()}`,
+    position: 'bottom-center',
+    message: '',
+    icon: undefined,
+    type: undefined,
+    timeout: 5000,
+  });
+
   /**
    * Trigger alert component
    * @param type type of alert (success, error, warning, info and default)
    * @param opt alert options(timeout, message and icon)
    */
-  function triggerAlert(type?: Alertype, opt?: Pick<AlertOptions, 'id' | 'icon' | 'message' | 'timeout'>): void {
+  function triggerAlert(type?: AlerType, opt?: Pick<AlertOptions, 'id' | 'icon' | 'message' | 'timeout'>): void {
     const alertIndex = alerts.value.findIndex((idx: AlertOptions) => idx.id === opt?.id);
 
     alerts.value.push({ type,
@@ -69,5 +83,6 @@ export const useAlert = createSharedComposable((): UseAlertComposableState => {
     warning: (opt?: Omit<AlertOptions, 'id'>) => triggerAlert('warning', opt),
     info: (opt?: Omit<AlertOptions, 'id'>) => triggerAlert('info', opt),
     alert: (opt?: Omit<AlertOptions, 'id'>) => triggerAlert('default', opt),
+    defaultAlertOpt,
   };
 });

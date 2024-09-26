@@ -1,14 +1,14 @@
 /**
  * Various alert type
  */
-export type Alertype = 'success' | 'error' | 'warning' | 'info' | 'default';
+export type AlerType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
 /**
  * alert configuration
  */
 export interface AlertOptions {
 
-  id?: number;
+  id?: string;
   /**
    * Custom icon class to be used.
    *
@@ -23,7 +23,7 @@ export interface AlertOptions {
    *
    *  Can be any of `(success, error, default, info, warning)`
    */
-  type?: Alertype;
+  type?: AlerType;
   /**
    *  Position of the alert on the screen.
    *

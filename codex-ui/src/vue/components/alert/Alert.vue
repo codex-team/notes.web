@@ -19,12 +19,11 @@
 import { defineProps, computed, withDefaults, ref } from 'vue';
 import Icon from '../icon/Icon.vue';
 import type { AlertOptions } from './Alert.types';
-import { genId } from './constant';
 
 const el = ref<HTMLElement>();
 
 const props = withDefaults(defineProps<AlertOptions>(), {
-  id: genId(),
+  id: `alert-' ${Math.random()}`,
   position: 'bottom-center',
   message: '',
   icon: '',
