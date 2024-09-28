@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { defineProps, computed, withDefaults, ref } from 'vue';
 import Icon from '../icon/Icon.vue';
-import type { AlertOptions } from './Alert.types';
+import type { AlertOptions, AlertTheme } from './Alert.types';
 
 const el = ref<HTMLElement>();
 
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<AlertOptions>(), {
   position: 'bottom-center',
   message: '',
   icon: '',
-  type: undefined,
+  type: 'default',
   timeout: 5000,
 });
 
@@ -35,24 +35,23 @@ const props = withDefaults(defineProps<AlertOptions>(), {
  *
  * computed theme
  */
-const computedTheme = computed(() => {
-  if (props.type === 'success') {
-    return 'grass';
-  }
+const computedTheme = computed((): AlertTheme => {
+  switch (props.type) {
+    case 'success':
+      return 'grass';
 
-  if (props.type === 'error') {
-    return 'red';
-  }
+    case 'error':
+      return 'red';
 
-  if (props.type === 'warning') {
-    return 'amber';
-  }
+    case 'warning':
+      return 'amber';
 
-  if (props.type === 'info') {
-    return 'graphite';
-  }
+    case 'info':
+      return 'graphite';
 
-  return undefined;
+    default:
+      return '';
+  }
 });
 </script>
 
