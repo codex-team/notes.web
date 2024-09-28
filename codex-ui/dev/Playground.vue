@@ -197,6 +197,12 @@ const pages = computed(() => [
         onActivate: () => router.push('/components/editor'),
         isActive: route.path === '/components/editor',
       },
+
+      {
+        title: 'Alert',
+        onActivate: () => router.push('/components/alert'),
+        isActive: route.path === '/components/alert',
+      },
     ],
   },
 ]);
@@ -204,9 +210,12 @@ const pages = computed(() => [
 
 <style module>
 .playground {
+  display: flex;
+  flex-direction: column;
   background-color: var(--base--bg-primary);
   color: var(--base--text);
-  min-height: 100%;
+  min-height: 100vh;
+  width: 100%;
 }
 .header {
   display: grid;
