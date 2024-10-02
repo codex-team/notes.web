@@ -16,7 +16,8 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { StubText, Button, usePopup } from '../../../src/vue';
+import { Button, usePopup } from '../../../src/vue';
+import StubText from './StubText.vue';
 
 const { showPopup } = usePopup();
 
