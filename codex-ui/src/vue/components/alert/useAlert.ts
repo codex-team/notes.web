@@ -4,7 +4,6 @@ import { createSharedComposable } from '@vueuse/core';
 import type { AlertOptions, AlerType } from './Alert.types';
 
 /**
- *
  * Return values of useAlert composable
  */
 export interface UseAlertComposableState {
@@ -57,7 +56,6 @@ export const useAlert = createSharedComposable((): UseAlertComposableState => {
 
   const defaultAlertOpt = ref<AlertOptions>({
     id: `alert-'${Math.random()}`,
-    position: 'bottom-center',
     message: '',
     icon: undefined,
     type: 'default',
@@ -66,11 +64,11 @@ export const useAlert = createSharedComposable((): UseAlertComposableState => {
 
   /**
    * Trigger alert component
-   * @param type type of alert (success, error, warning, info and default)
+   * @param type alert type (success, error, warning, info and default)
    * @param opt alert options(timeout, message and icon)
    */
-  function triggerAlert(type: AlerType, opt: Omit<AlertOptions, 'position'>): void {
-    const alertIndex = alerts.value.findIndex((idx: AlertOptions) => idx.id === opt.id);
+  function triggerAlert(type: AlerType, opt: AlertOptions): void {
+    let alertIndex = alerts.value.findIndex((idx: AlertOptions) => idx.id === opt.id);
 
     alerts.value.push({ type,
       ...opt });

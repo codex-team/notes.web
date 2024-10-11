@@ -30,6 +30,7 @@
       </div>
     </div>
     <Popover />
+    <AlertContainer />
   </div>
 </template>
 
@@ -38,8 +39,10 @@ import { computed } from 'vue';
 import {
   VerticalMenu,
   Tabbar,
-  Popover
+  Popover,
+  AlertContainer
 } from '../src/vue';
+
 import { useTheme } from '../src/vue/composables/useTheme';
 
 import { useRouter, useRoute } from 'vue-router';
@@ -210,12 +213,10 @@ const pages = computed(() => [
 
 <style module>
 .playground {
-  display: flex;
-  flex-direction: column;
+
   background-color: var(--base--bg-primary);
   color: var(--base--text);
   min-height: 100vh;
-  width: 100%;
 }
 .header {
   display: grid;

@@ -4,11 +4,6 @@
 export type AlerType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
 /**
- * Various alert theme type
- */
-export type AlertTheme = 'grass' | 'red' | 'amber' | 'graphite' | '';
-
-/**
  * alert configuration
  */
 export interface AlertOptions {
@@ -32,13 +27,6 @@ export interface AlertOptions {
    *  Can be any of `(success, error, default, info, warning)`
    */
   type?: AlerType;
-
-  /**
-   *  Position of the alert on the screen.
-   *
-   * (bottom-center).
-   */
-  position?: 'bottom-center';
 
   /**
    * How many milliseconds for the alert to be auto dismissed

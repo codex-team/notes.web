@@ -2,9 +2,10 @@
   <div
     :class="[
       $style.alert__container,
-      $style['alert__container--' + defaultAlertOpt.position]
+      $style['alert__container--bottom-center']
     ]"
   >
+    <!-- Transition group for the list of alerts -->
     <AlertTransition>
       <Alert
         v-for="(alert, index) in alerts"
@@ -20,7 +21,7 @@ import Alert from './Alert.vue';
 import AlertTransition from './AlertTransition.vue';
 import { useAlert } from './useAlert';
 
-const { alerts, defaultAlertOpt } = useAlert();
+const { alerts } = useAlert();
 
 </script>
 
@@ -35,8 +36,8 @@ const { alerts, defaultAlertOpt } = useAlert();
 
   &--bottom-center {
    left: 50%;
-   bottom: 2rem
+   transform: translateX(-50%);
+   bottom: var(--spacing-l);
   }
 }
-
 </style>

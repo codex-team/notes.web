@@ -18,18 +18,23 @@
 <script setup lang="ts">
 import { defineProps, computed, withDefaults, ref } from 'vue';
 import Icon from '../icon/Icon.vue';
-import type { AlertOptions, AlertTheme } from './Alert.types';
+import type { AlertOptions } from './Alert.types';
 
 const el = ref<HTMLElement>();
 
 const props = withDefaults(defineProps<AlertOptions>(), {
-  id: `alert-' ${Math.random()}`,
+  id: `alert-'${Math.random()}`,
   position: 'bottom-center',
   message: '',
   icon: '',
   type: 'default',
   timeout: 5000,
 });
+
+/**
+ * Various alert theme type
+ */
+export type AlertTheme = 'grass' | 'red' | 'amber' | 'graphite' | undefined;
 
 /**
  *
@@ -50,7 +55,7 @@ const computedTheme = computed((): AlertTheme => {
       return 'graphite';
 
     default:
-      return '';
+      return undefined;
   }
 });
 </script>
@@ -70,11 +75,12 @@ const computedTheme = computed((): AlertTheme => {
   background-color: var(--base-text);
   overflow: hidden;
   word-break: keep-all;
-  transform: translateZ(0);
   direction: ltr;
   padding: var(--v-padding) var(--h-padding) var(--v-padding) var(--h-padding);
   border-radius: var(--radius-field);
-  color: var(--accent--text-solid-foreground);
+  color: var(--base--text-solid-foreground);
+  overflow-wrap: anywhere;
+  transform: translateY(10%);
 
   &--success {
     background-color: var(--base--solid);
@@ -93,7 +99,9 @@ const computedTheme = computed((): AlertTheme => {
   }
 
   &--default {
+    color: var(--base--text);
     background-color: var(--base--bg-secondary);
   }
 }
+
 </style>
