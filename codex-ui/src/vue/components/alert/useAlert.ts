@@ -7,10 +7,6 @@ import type { AlertOptions, AlerType } from './Alert.types';
  * Return values of useAlert composable
  */
 export interface UseAlertComposableState {
-  /**
-   * Default alert option
-   */
-  defaultAlertOpt: Ref<AlertOptions>;
 
   /**
    * Iterated store of alerts
@@ -54,14 +50,6 @@ export interface UseAlertComposableState {
 export const useAlert = createSharedComposable((): UseAlertComposableState => {
   const alerts = ref<AlertOptions[]>([]);
 
-  const defaultAlertOpt = ref<AlertOptions>({
-    id: `alert-'${Math.random()}`,
-    message: '',
-    icon: undefined,
-    type: 'default',
-    timeout: 5000,
-  });
-
   /**
    * Trigger alert component
    * @param type alert type (success, error, warning, info and default)
@@ -85,6 +73,5 @@ export const useAlert = createSharedComposable((): UseAlertComposableState => {
     warning: (opt: Omit<AlertOptions, 'id'>) => triggerAlert('warning', opt),
     info: (opt: Omit<AlertOptions, 'id'>) => triggerAlert('info', opt),
     alert: (opt: Omit<AlertOptions, 'id'>) => triggerAlert('default', opt),
-    defaultAlertOpt,
   };
 });

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, withDefaults, ref } from 'vue';
+import { defineProps, computed, ref } from 'vue';
 import Icon from '../icon/Icon.vue';
 import type { AlertOptions } from './Alert.types';
 

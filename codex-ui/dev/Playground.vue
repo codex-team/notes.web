@@ -213,7 +213,6 @@ const pages = computed(() => [
 
 <style module>
 .playground {
-
   background-color: var(--base--bg-primary);
   color: var(--base--text);
   min-height: 100vh;
