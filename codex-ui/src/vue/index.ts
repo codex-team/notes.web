@@ -17,3 +17,4 @@ export * from './components/colorShemeIcons';
 export * from './components/theme-preview';
 export * from './components/popover';
 export * from './composables/useTheme';
+export * from './components/checkbox';

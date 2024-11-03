@@ -2,15 +2,65 @@
   <PageHeader>
     Checkbox
     <template #description>
-      Best used for making selections, such as agreeing to terms, selecting multiple items from a list, or enabling options that require further action (like pressing a "Submit" button) to take effect.
+      This component has multiple states, useful for selecting options in various scenarios.
     </template>
   </PageHeader>
+
+  <div class="preview-list">
+    <div class="preview-item">
+      <span class="preview-label">Default + Checked</span>
+      <Checkbox :checked="true" />
+    </div>
+
+    <div class="preview-item">
+      <span class="preview-label">Hover + Checked</span>
+      <Checkbox :checked="true" :hover="true" />
+    </div>
+
+    <div class="preview-item">
+      <span class="preview-label">Disabled + Checked</span>
+      <Checkbox :checked="true" disabled />
+    </div>
+
+    <div class="preview-item">
+      <span class="preview-label">Default + Unchecked</span>
+      <Checkbox :checked="false" />
+    </div>
+
+    <div class="preview-item">
+      <span class="preview-label">Hover + Unchecked</span>
+      <Checkbox :checked="false" :hover="true" />
+    </div>
+
+    <div class="preview-item">
+      <span class="preview-label">Disabled + Unchecked</span>
+      <Checkbox :checked="false" disabled />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-
+import { Checkbox } from '../../../src/vue';
 </script>
 
 <style scoped>
+.preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.preview-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 240px;
+}
+
+.preview-label {
+  font-size: 16px;
+  color: #888;
+}
 </style>
