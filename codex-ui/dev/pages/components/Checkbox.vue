@@ -5,25 +5,17 @@
       This component has multiple states, useful for selecting options in various scenarios.
     </template>
   </PageHeader>
-
   <div class="preview-list">
     <div class="preview-item">
-      <span class="preview-label">Default + Checked</span>
+      <span class="preview-label">Checked</span>
       <Checkbox :checked="true" />
     </div>
-
     <div class="preview-item">
-      <span class="preview-label">Disabled + Checked</span>
-      <Checkbox :checked="true" disabled />
-    </div>
-
-    <div class="preview-item">
-      <span class="preview-label">Default + Unchecked</span>
+      <span class="preview-label">Unchecked</span>
       <Checkbox :checked="false" />
     </div>
-
     <div class="preview-item">
-      <span class="preview-label">Disabled + Unchecked</span>
+      <span class="preview-label">Disabled</span>
       <Checkbox :checked="false" disabled />
     </div>
   </div>
