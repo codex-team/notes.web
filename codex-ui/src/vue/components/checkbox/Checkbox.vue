@@ -4,47 +4,33 @@
     :class="[
       isChecked && 'checkbox--checked',
       props.disabled && 'checkbox--disabled',
-      isHover && !props.disabled && 'checkbox--hover',
     ]"
     @click="onClick"
-    @mouseenter="setHover(true)"
-    @mouseleave="setHover(false)"
   >
-    <div v-if="isChecked || isHover" class="checkbox__icon">
-      <Icon name="Check" :class="{ 'checkbox__icon--faded': isHover && !isChecked }" />
+    <div class="checkbox__icon">
+      <Icon name="Check" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Icon from '../icon/Icon.vue';
-import { ref, computed, defineProps, defineEmits, withDefaults } from 'vue';
+import { ref, defineProps, defineEmits, withDefaults } from 'vue';
 
 const props = withDefaults(
   defineProps<{
     label?: string;
     checked: boolean;
-    hover?: boolean;
     disabled?: boolean;
   }>(),
   {
     disabled: false,
     label: undefined,
-    hover: false,
   }
 );
 
 const emit = defineEmits(['update:checked']);
 const isChecked = ref(props.checked);
-const internalHover = ref(false);
-
-const isHover = computed(() => props.hover || internalHover.value);
-
-const setHover = (value: boolean) => {
-  if (!props.hover) {
-    internalHover.value = value;
-  }
-};
 
 const onClick = () => {
   if (!props.disabled) {
@@ -61,22 +47,22 @@ const onClick = () => {
   justify-content: center;
   cursor: pointer;
   position: relative;
-  border-radius: var(--checkbox-border-radius, 8px); /* Используйте переменные, если доступны */
-  width: var(--checkbox-width, 20px);
-  height: var(--checkbox-height, 20px);
-  background-color: #282B31; /* Default + False */
+  border-radius: var(--radius-m);
+  width: var(--size-icon);
+  height: var(--size-icon);
+  background-color: var(--accent--bg-secondary);
   transition: background-color 0.2s ease, border-color 0.2s ease;
 
   &--checked {
-    background-color: #54617B; /* Default + True */
+    background-color: var(--accent--solid);
   }
 
-  &--hover {
-    background-color: #343A47; /* Hover + True */
+  &:not(&--disabled):hover {
+    background-color: var(--accent--solid-hover);
   }
 
   &--disabled {
-    background-color: #282B31; /* Disabled + True */
+    background-color: var(--accent--bg-secondary);
     cursor: not-allowed;
     opacity: 0.5;
   }
@@ -86,24 +72,21 @@ const onClick = () => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #fff;
-    width: var(--checkbox-icon-width, 20px);
-    height: var(--checkbox-icon-height, 20px);
+    width: var(--checkbox-icon-width);
+    height: var(--checkbox-icon-height);
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
 
-  &__icon--faded {
+  &--checked &__icon {
+    opacity: 1;
+  }
+
+  &:not(&--disabled):hover &__icon {
     opacity: 0.5;
-  }
-
-  &__label {
-    margin-left: var(--checkbox-label-margin, 8px);
-    font-size: var(--checkbox-label-font-size, 18px);
-    font-weight: 500;
-    color: #fff;
-    white-space: nowrap;
   }
 }
 </style>

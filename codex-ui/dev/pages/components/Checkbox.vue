@@ -13,11 +13,6 @@
     </div>
 
     <div class="preview-item">
-      <span class="preview-label">Hover + Checked</span>
-      <Checkbox :checked="true" :hover="true" />
-    </div>
-
-    <div class="preview-item">
       <span class="preview-label">Disabled + Checked</span>
       <Checkbox :checked="true" disabled />
     </div>
@@ -25,11 +20,6 @@
     <div class="preview-item">
       <span class="preview-label">Default + Unchecked</span>
       <Checkbox :checked="false" />
-    </div>
-
-    <div class="preview-item">
-      <span class="preview-label">Hover + Unchecked</span>
-      <Checkbox :checked="false" :hover="true" />
     </div>
 
     <div class="preview-item">
