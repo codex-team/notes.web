@@ -61,49 +61,49 @@ const onClick = () => {
   justify-content: center;
   cursor: pointer;
   position: relative;
-  border-radius: 8px;
-  width: 20px;
-  height: 20px;
+  border-radius: var(--checkbox-border-radius, 8px); /* Используйте переменные, если доступны */
+  width: var(--checkbox-width, 20px);
+  height: var(--checkbox-height, 20px);
   background-color: #282B31; /* Default + False */
   transition: background-color 0.2s ease, border-color 0.2s ease;
-}
 
-.checkbox__icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  &--checked {
+    background-color: #54617B; /* Default + True */
+  }
 
-.checkbox__icon--faded {
-  opacity: 0.5;
-}
+  &--hover {
+    background-color: #343A47; /* Hover + True */
+  }
 
-.checkbox__label {
-  margin-left: 8px;
-  font-size: 18px;
-  font-weight: 500;
-  color: #fff;
-  white-space: nowrap;
-}
+  &--disabled {
+    background-color: #282B31; /* Disabled + True */
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 
-.checkbox--checked {
-  background-color: #54617B; /* Default + True */
-}
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    width: var(--checkbox-icon-width, 20px);
+    height: var(--checkbox-icon-height, 20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.checkbox--hover {
-  background-color: #343A47; /* Hover + True */
-}
+  &__icon--faded {
+    opacity: 0.5;
+  }
 
-.checkbox--disabled {
-  background-color: #282B31; /* Disabled + True */
-  cursor: not-allowed;
-  opacity: 0.5;
+  &__label {
+    margin-left: var(--checkbox-label-margin, 8px);
+    font-size: var(--checkbox-label-font-size, 18px);
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+  }
 }
 </style>
