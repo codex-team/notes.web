@@ -159,6 +159,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const parentNote = ref<Note | undefined>(undefined);
 
   /**
+   * Note parents of the actual note
+   *
+   * Actual note by default
+   */
+  const noteParents = ref<Note[]>([]);
+
+  /**
    * Load note by id
    * @param id - Note identifier got from composable argument
    */
@@ -172,6 +179,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     canEdit.value = response.accessRights.canEdit;
     noteTools.value = response.tools;
     parentNote.value = response.parentNote;
+    noteParents.value = response.parents;
   }
 
   /**
@@ -263,6 +271,23 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     await noteService.unlinkParent(currentId.value);
 
     parentNote.value = undefined;
+  }
+
+  /**
+   * Format the received note parents into presentation format
+   */
+  async function formatNoteParents(): Promise<string> {
+    if (currentId.value === null) {
+      throw new Error('note id is not defined');
+    }
+    let presentationFormat = '';
+    
+    for (let value of noteParents.value) {
+      presentationFormat += getTitle(value.content) + ' > ';
+    }
+    presentationFormat += noteTitle.value;
+
+    return presentationFormat;
   }
 
   /**
