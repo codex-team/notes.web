@@ -276,12 +276,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   /**
    * Format the received note parents into presentation format
    */
-  async function formatNoteParents(): Promise<string> {
+  function formatNoteParents(): string {
     if (currentId.value === null) {
       throw new Error('note id is not defined');
     }
     let presentationFormat = '';
-    
+
     for (let value of noteParents.value) {
       presentationFormat += getTitle(value.content) + ' > ';
     }
@@ -340,6 +340,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
+    formatNoteParents();
     patchOpenedPageByUrl(
       route.path,
       {

@@ -10,4 +10,5 @@ export type GetNoteResponsePayload = {
   accessRights: NoteAccessRights;
   parentNote: Note | undefined;
   tools: EditorTool[];
+  parents: Note[];
 };
