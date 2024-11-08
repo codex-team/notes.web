@@ -163,7 +163,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    *
    * Actual note by default
    */
-  const noteParents = ref<Note[]>([]);
+  let noteParents: Note[] = [];
 
   /**
    * Load note by id
@@ -179,7 +179,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     canEdit.value = response.accessRights.canEdit;
     noteTools.value = response.tools;
     parentNote.value = response.parentNote;
-    noteParents.value = response.parents;
+    noteParents = response.parents;
   }
 
   /**
@@ -274,18 +274,24 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
-   * Format the received note parents into presentation format
+   * Reform the received note parents from api into presentation format.
+   * @returns An array of Note objects representing the formatted note parents.
+   * @throws {Error} If the note id is not defined.
    */
-  function formatNoteParents(): string {
+  function formatNoteParents(): Note[] {
     if (currentId.value === null) {
       throw new Error('note id is not defined');
     }
-    let presentationFormat = '';
+    let presentationFormat: Note[] = [];
 
-    for (let value of noteParents.value) {
-      presentationFormat += getTitle(value.content) + ' > ';
+    if (noteParents.length > 2) {
+      presentationFormat = [noteParents[0]];
+      presentationFormat.push({ id: currentId.value,
+        content: note.value?.content as NoteContent });
+    } else {
+      presentationFormat = [...noteParents, { id: currentId.value,
+        content: note.value?.content as NoteContent }];
     }
-    presentationFormat += noteTitle.value;
 
     return presentationFormat;
   }
