@@ -17,7 +17,13 @@
 import Icon from '../icon/Icon.vue';
 import { ref, defineProps, defineEmits, withDefaults } from 'vue';
 
-/* Define component props with default values */
+/**
+ * Component props with default values
+ *
+ * @property {string | undefined} label - Optional label for the checkbox
+ * @property {boolean} checked - Initial checked state of the checkbox
+ * @property {boolean | undefined} disabled - Whether the checkbox is disabled
+ */
 const props = withDefaults(
   defineProps<{
     label?: string;
@@ -30,16 +36,28 @@ const props = withDefaults(
   }
 );
 
-/* Define events that the component can emit */
+/**
+ * Define events that the component can emit
+ */
 const emit = defineEmits(['update:checked']);
 
-/* Reactive variable to keep track of checkbox checked state */
+/**
+ * Reactive variable to keep track of checkbox checked state
+ *
+ * @type {import('vue').Ref<boolean>}
+ */
 const isChecked = ref(props.checked);
 
-/* Reactive variable to manage hover state */
+/**
+ * Reactive variable to manage hover state
+ *
+ * @type {import('vue').Ref<boolean>}
+ */
 const noHover = ref(false);
 
-/* Function that toggles the checked state when the checkbox is clicked */
+/**
+ * Function that toggles the checked state when the checkbox is clicked
+ */
 const onClick = () => {
   if (!props.disabled) {
     isChecked.value = !isChecked.value;
@@ -48,16 +66,22 @@ const onClick = () => {
   }
 };
 
-/* Function to reset hover state when the mouse leaves the checkbox */
+/**
+ * Function to reset hover state when the mouse leaves the checkbox
+ */
 const onMouseLeave = () => {
   noHover.value = false;
 };
 </script>
 
 <style scoped>
-/* Base styles for the checkbox container */
+/**
+ * Base styles for the checkbox container
+ */
 .checkbox {
   --checkbox-bg-color: var(--accent--bg-secondary);
+  --icon-color: var(--accent--text-solid-foreground);
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,10 +90,12 @@ const onMouseLeave = () => {
   height: var(--size-icon);
   background-color: var(--checkbox-bg-color);
   cursor: pointer;
+  user-select: none;
 
-  /* Base icon styles */
+  /**
+   * Base icon styles
+   */
   .codex-icon {
-    --icon-color: var(--accent--text-solid-foreground);
     width: var(--checkbox-icon-width);
     height: var(--checkbox-icon-height);
     display: flex;
@@ -77,43 +103,49 @@ const onMouseLeave = () => {
     justify-content: center;
     color: var(--icon-color);
     opacity: 0;
-    transition: opacity 0.15s ease;
   }
 
-  /* Styles for hover state when unchecked */
+  /**
+   * Styles for hover state when unchecked
+   */
   &:not(.checkbox--disabled):not(.no-hover):hover {
     --checkbox-bg-color: var(--accent--bg-secondary-hover);
+    --icon-color: var(--accent--text-secondary);
 
     .codex-icon {
       opacity: 1;
-      --icon-color: var(--accent--text-secondary);
     }
   }
 
-  /* Styles for checked state */
+  /**
+   * Styles for checked state
+   */
   &.checkbox--checked {
     --checkbox-bg-color: var(--accent--solid);
+    --icon-color: var(--accent--text-solid-foreground);
 
     .codex-icon {
       opacity: 1;
-      --icon-color: var(--accent--text-solid-foreground);
     }
 
-    /* Styles for hover state when checked */
+    /**
+     * Styles for hover state when checked
+     */
     &:not(.checkbox--disabled):not(.no-hover):hover {
       --checkbox-bg-color: var(--accent--solid-hover);
-
-      .codex-icon {
-        --icon-color: var(--accent--text-solid-foreground);
-      }
+      --icon-color: var(--accent--text-solid-foreground);
     }
   }
 
-  /* Styles for disabled state */
+  /**
+   * Styles for disabled state
+   */
   &.checkbox--disabled {
     cursor: not-allowed;
 
-    /* Styles for unchecked disabled state */
+    /**
+     * Styles for unchecked disabled state
+     */
     &.checkbox--unchecked {
       --checkbox-bg-color: var(--accent--bg-secondary);
 
@@ -122,13 +154,15 @@ const onMouseLeave = () => {
       }
     }
 
-    /* Styles for checked disabled state */
+    /**
+     * Styles for checked disabled state
+     */
     &.checkbox--checked {
-      background-color: var(--accent--bg-secondary);
+      --checkbox-bg-color: var(--accent--bg-secondary);
+      --icon-color: var(--accent--text-secondary);
 
       .codex-icon {
         opacity: 1;
-        --icon-color: var(--accent--text-secondary);
       }
     }
   }
