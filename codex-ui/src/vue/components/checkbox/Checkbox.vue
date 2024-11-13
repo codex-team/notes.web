@@ -4,8 +4,10 @@
     :class="[
       isChecked && 'checkbox--checked',
       props.disabled && 'checkbox--disabled',
+      noHover && 'no-hover',
     ]"
     @click="onClick"
+    @mouseleave="onMouseLeave"
   >
     <Icon name="Check" />
   </div>
@@ -29,12 +31,18 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:checked']);
 const isChecked = ref(props.checked);
+const noHover = ref(false);
 
 const onClick = () => {
   if (!props.disabled) {
     isChecked.value = !isChecked.value;
     emit('update:checked', isChecked.value);
+    noHover.value = true;
   }
+};
+
+const onMouseLeave = () => {
+  noHover.value = false;
 };
 </script>
 
@@ -54,7 +62,7 @@ const onClick = () => {
     background-color: var(--accent--solid);
   }
 
-  &:not(&--disabled):hover {
+  &:not(&--disabled):not(.no-hover):hover {
     background-color: var(--accent--solid-hover);
   }
 
@@ -77,7 +85,7 @@ const onClick = () => {
     opacity: 1;
   }
 
-  &:not(&--disabled):hover .codex-icon {
+  &:not(&--disabled):not(.no-hover):hover .codex-icon {
     opacity: 1;
     color: var(--accent--text-secondary);
   }
