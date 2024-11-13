@@ -7,9 +7,7 @@
     ]"
     @click="onClick"
   >
-    <div class="checkbox__icon">
-      <Icon name="Check" />
-    </div>
+    <Icon name="Check" />
   </div>
 </template>
 
@@ -65,7 +63,7 @@ const onClick = () => {
     cursor: not-allowed;
   }
 
-  &__icon {
+  & .codex-icon {
     width: var(--checkbox-icon-width);
     height: var(--checkbox-icon-height);
     display: flex;
@@ -75,11 +73,11 @@ const onClick = () => {
     transition: opacity 0.2s ease;
   }
 
-  &--checked &__icon {
+  &--checked .codex-icon {
     opacity: 1;
   }
 
-  &:not(&--disabled):hover &__icon {
+  &:not(&--disabled):hover .codex-icon {
     opacity: 1;
     color: var(--accent--text-secondary);
   }
