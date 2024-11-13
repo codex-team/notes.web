@@ -46,7 +46,6 @@ const onClick = () => {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  position: relative;
   border-radius: var(--radius-m);
   width: var(--size-icon);
   height: var(--size-icon);
@@ -64,14 +63,9 @@ const onClick = () => {
   &--disabled {
     background-color: var(--accent--bg-secondary);
     cursor: not-allowed;
-    opacity: 0.5;
   }
 
   &__icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: var(--checkbox-icon-width);
     height: var(--checkbox-icon-height);
     display: flex;
@@ -86,7 +80,8 @@ const onClick = () => {
   }
 
   &:not(&--disabled):hover &__icon {
-    opacity: 0.5;
+    opacity: 1;
+    color: var(--accent--text-secondary);
   }
 }
 </style>
