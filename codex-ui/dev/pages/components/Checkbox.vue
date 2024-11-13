@@ -18,6 +18,10 @@
       <span class="preview-label">Disabled</span>
       <Checkbox :checked="false" disabled />
     </div>
+    <div class="preview-item">
+      <span class="preview-label">Disabled + Checked</span>
+      <Checkbox :checked="true" disabled />
+    </div>
   </div>
 </template>
 

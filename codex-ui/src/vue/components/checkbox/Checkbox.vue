@@ -51,43 +51,78 @@ const onMouseLeave = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   border-radius: var(--radius-m);
   width: var(--size-icon);
   height: var(--size-icon);
-  background-color: var(--accent--bg-secondary);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
 
-  &--checked {
-    background-color: var(--accent--solid);
-  }
-
-  &:not(&--disabled):not(.no-hover):hover {
-    background-color: var(--accent--solid-hover);
-  }
-
-  &--disabled {
-    background-color: var(--accent--bg-secondary);
-    cursor: not-allowed;
-  }
-
-  & .codex-icon {
+  /* Базовые стили иконки */
+  .codex-icon {
     width: var(--checkbox-icon-width);
     height: var(--checkbox-icon-height);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.15s ease;
   }
 
-  &--checked .codex-icon {
-    opacity: 1;
+  /* unchecked */
+  & {
+    background-color: var(--accent--bg-secondary);
+
+    /* Hover unchecked */
+    &:not(.checkbox--disabled):not(.no-hover):hover {
+      background-color: var(--accent--bg-secondary-hover);
+
+      .codex-icon {
+        opacity: 1;
+        color: var(--accent--text-secondary);
+      }
+    }
   }
 
-  &:not(&--disabled):not(.no-hover):hover .codex-icon {
-    opacity: 1;
-    color: var(--accent--text-secondary);
+  /* checked */
+  &.checkbox--checked {
+    background-color: var(--accent--solid);
+
+    .codex-icon {
+      opacity: 1;
+      color: var(--accent--text-solid-foreground);
+    }
+
+    /* Hover checked */
+    &:not(.checkbox--disabled):not(.no-hover):hover {
+      background-color: var(--accent--solid-hover);
+
+      .codex-icon {
+        color: var(--accent--text-solid-foreground);
+      }
+    }
+  }
+
+  /* disabled */
+  &.checkbox--disabled {
+    cursor: not-allowed;
+
+    /* Disabled unchecked */
+    &.checkbox--unchecked {
+      background-color: var(--accent--bg-secondary);
+
+      .codex-icon {
+        opacity: 0;
+      }
+    }
+
+    /* Disabled checked */
+    &.checkbox--checked {
+      background-color: var(--accent--bg-secondary);
+
+      .codex-icon {
+        opacity: 1;
+        color: var(--accent--text-secondary);
+      }
+    }
   }
 }
 </style>
