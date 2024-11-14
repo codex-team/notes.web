@@ -166,12 +166,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * @todo try-catch domain errors
      */
-    const response = await noteService.getNoteById(id);
+    try {
+      const response = await noteService.getNoteById(id);
 
-    note.value = response.note;
-    canEdit.value = response.accessRights.canEdit;
-    noteTools.value = response.tools;
-    parentNote.value = response.parentNote;
+      note.value = response.note;
+      canEdit.value = response.accessRights.canEdit;
+      noteTools.value = response.tools;
+      parentNote.value = response.parentNote;
+    } catch (error) {
+      void router.push('/error');
+    }
   }
 
   /**
