@@ -141,7 +141,6 @@ const onMouseLeave = () => {
    * Styles for disabled state
    */
   &.checkbox--disabled {
-    cursor: not-allowed;
     pointer-events: none;
 
     /**
