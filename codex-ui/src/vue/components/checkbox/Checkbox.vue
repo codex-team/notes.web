@@ -108,7 +108,7 @@ const onMouseLeave = () => {
   /**
    * Styles for hover state when unchecked
    */
-  &:not(.checkbox--disabled):not(.no-hover):hover {
+  &:not(.no-hover):hover {
     --checkbox-bg-color: var(--accent--bg-secondary-hover);
     --icon-color: var(--accent--text-secondary);
 
@@ -131,7 +131,7 @@ const onMouseLeave = () => {
     /**
      * Styles for hover state when checked
      */
-    &:not(.checkbox--disabled):not(.no-hover):hover {
+    &:not(.no-hover):hover {
       --checkbox-bg-color: var(--accent--solid-hover);
       --icon-color: var(--accent--text-solid-foreground);
     }
@@ -142,11 +142,12 @@ const onMouseLeave = () => {
    */
   &.checkbox--disabled {
     cursor: not-allowed;
+    pointer-events: none;
 
     /**
      * Styles for unchecked disabled state
      */
-    &.checkbox--unchecked {
+    &:not(.checkbox--checked) {
       --checkbox-bg-color: var(--accent--bg-secondary);
 
       .codex-icon {
