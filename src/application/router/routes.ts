@@ -195,6 +195,18 @@ const routes: RouteRecordRaw[] = [
       code: 404,
     },
   },
+  {
+    path: '/500',
+    component: ErrorPage,
+    meta: {
+      layout: 'fullpage',
+      pageTitleI18n: 'pages.unexpectedError',
+      discardTabOnLeave: true,
+    },
+    props: {
+      code: 500,
+    },
+  },
 ];
 
 export default routes;

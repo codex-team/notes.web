@@ -177,6 +177,7 @@
     "marketplace": "Marketplace",
     "addTool": "Add tool",
     "notFound": "Not found",
+    "unexpectedError": "Unexpected error",
     "joinTeam": "Join",
     "authorization": "Authorize",
     "history": "History",
