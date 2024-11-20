@@ -1,7 +1,7 @@
 import DomainError from './Base';
 
 /**
- * Domain error thrown when some resource is not found
+ * Domain error thrown when unknown error occurs
  */
 export default class ApiError extends DomainError {
   /**
