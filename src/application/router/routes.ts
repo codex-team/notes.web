@@ -181,31 +181,20 @@ const routes: RouteRecordRaw[] = [
   },
 
   /**
-   * 404 page
+   * error page
    */
   {
-    path: '/:pathMatch(.*)*',
+    path: '/error',
     component: ErrorPage,
     meta: {
       layout: 'fullpage',
-      pageTitleI18n: 'pages.notFound',
+      pageTitleI18n: 'pages.error',
       discardTabOnLeave: true,
     },
-    props: {
-      code: 404,
-    },
-  },
-  {
-    path: '/500',
-    component: ErrorPage,
-    meta: {
-      layout: 'fullpage',
-      pageTitleI18n: 'pages.unexpectedError',
-      discardTabOnLeave: true,
-    },
-    props: {
-      code: 500,
-    },
+    props: route => ({
+      code: route.query.code,
+      customMessage: route.query.message,
+    }),
   },
 ];
 

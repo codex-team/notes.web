@@ -5,7 +5,7 @@ import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
-import ApiError from '@/domain/entities/errors/ApiError';
+import NotFoundError from '@/domain/entities/errors/NotFound';
 import useHeader from './useHeader';
 import { getTitle } from '@/infrastructure/utils/note';
 
@@ -175,10 +175,10 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
     } catch (error) {
-      if (error instanceof ApiError) {
-        void router.push('/500');
+      if (error instanceof NotFoundError) {
+        void router.push('/error?code=404');
       } else {
-        void router.push('/400');
+        void router.push('/error');
       }
     }
   }
