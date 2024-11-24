@@ -71,6 +71,11 @@ interface UseNoteComposableState {
   unlinkParent: () => Promise<void>;
 
   /**
+   * Get the format of note parents
+   */
+  formatNoteParents: () => Note[];
+
+  /**
    * Defines if user can edit note
    */
   canEdit: Ref<boolean>;
@@ -284,13 +289,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
     let presentationFormat: Note[] = [];
 
-    if (noteParents.length > 2) {
-      presentationFormat = [noteParents[0]];
-      presentationFormat.push({ id: currentId.value,
-        content: note.value?.content as NoteContent });
+    if (noteParents.length === 0) {
+      presentationFormat.push({
+        id: currentId.value,
+        content: note.value?.content as NoteContent,
+      });
     } else {
-      presentationFormat = [...noteParents, { id: currentId.value,
-        content: note.value?.content as NoteContent }];
+      presentationFormat = noteParents;
     }
 
     return presentationFormat;
@@ -364,6 +369,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     resolveToolsByContent,
     save,
     unlinkParent,
+    formatNoteParents,
     parentNote,
   };
 }
