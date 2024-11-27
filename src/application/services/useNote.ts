@@ -71,7 +71,7 @@ interface UseNoteComposableState {
   unlinkParent: () => Promise<void>;
 
   /**
-   * Get the format of note parents
+   * Returns an array of Note objects representing the formatted note parents.
    */
   formatNoteParents: () => Note[];
 
