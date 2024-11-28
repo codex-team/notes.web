@@ -3,16 +3,15 @@
     ref="dropdown"
     :class="$style['dropdown']"
   >
-    <div
+    <Button
       :class="$style['dropdown__btn']"
+      :icon="activeItem.icon"
+      trailing-icon="BracketsVertical"
+      secondary
       @click="togglePopover"
     >
-      <ContextMenuItem :item="activeItem" />
-      <svg :class="$style['dropdown__icon']" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13.3333 7.5L10 4.16667L6.66668 7.5" stroke="#747E88" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M13.3333 12.5L10 15.8333L6.66668 12.5" stroke="#747E88" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
+      {{ activeItem.title }}
+    </Button>
     <div :style="showPopover ? {'display' : 'block'} : {'display': 'none'}">
       <ContextMenu
         :items="items"
@@ -22,10 +21,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import ContextMenuItem from '../context-menu/ContextMenuItem.vue';
 import type { ContextMenuItem as Item } from '../context-menu/ContextMenu.types';
 import { ContextMenu } from '../context-menu';
 import { onMounted, ref } from 'vue';
+import { Button } from '../button';
 
 const props = defineProps<{
   items: Item[];
@@ -69,20 +68,14 @@ onMounted(() => {
 <style lang="postcss" module>
 .dropdown {
   &__btn {
-    display: flex;
-    align-items: center;
-    width: max-content;
     user-select: none;
-    border-radius: var(--radius-m);
     background-color: var(--base--bg-secondary);
-    margin-bottom: calc(0.75 * var(--h-padding));
+    margin-bottom: var(--spacing-s);
+    padding-right: var(--spacing-s);
   }
   &__btn:hover {
     background-color: var(--base--bg-secondary-hover);
     cursor: pointer;
-  }
-  &__icon {
-    padding-right: var(--v-padding);
   }
 }
 </style>
