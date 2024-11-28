@@ -179,12 +179,27 @@ const routes: RouteRecordRaw[] = [
       discardTabOnLeave: true,
     },
   },
-
+  
+   /**
+   * 404 page
+   */
+   {
+    path: '/:pathMatch(.*)*',
+    component: ErrorPage,
+    meta: {
+      layout: 'fullpage',
+      pageTitleI18n: 'pages.notFound',
+      discardTabOnLeave: true,
+    },
+    props: {
+      code: 404,
+    },
+  },
   /**
    * error page
    */
   {
-    path: '/error',
+    path: '/error/:code',
     component: ErrorPage,
     meta: {
       layout: 'fullpage',
@@ -192,7 +207,7 @@ const routes: RouteRecordRaw[] = [
       discardTabOnLeave: true,
     },
     props: route => ({
-      code: route.query.code,
+      code: route.params.code,
       customMessage: route.query.message,
     }),
   },
