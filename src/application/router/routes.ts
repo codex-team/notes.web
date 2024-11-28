@@ -179,11 +179,10 @@ const routes: RouteRecordRaw[] = [
       discardTabOnLeave: true,
     },
   },
-  
-   /**
+  /**
    * 404 page
    */
-   {
+  {
     path: '/:pathMatch(.*)*',
     component: ErrorPage,
     meta: {
