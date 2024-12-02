@@ -1,8 +1,8 @@
 <template>
   <PageHeader>
-    Select
+    Dropdown
     <template #description>
-      Component of the form that allows you to select one or more options from the list
+      Component of the form that allows you to select one or more options from the list (currently one)
     </template>
   </PageHeader>
   <Dropdown :items="dropdownItems" />
