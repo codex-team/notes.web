@@ -1,10 +1,8 @@
 <template>
   <div
     ref="dropdown"
-    :class="$style['dropdown']"
   >
     <Button
-      :class="$style['dropdown__btn']"
       :icon="activeItem.icon"
       trailing-icon="BracketsVertical"
       secondary
@@ -74,17 +72,3 @@ onMounted(() => {
 });
 
 </script>
-<style lang="postcss" module>
-.dropdown {
-  &__btn {
-    user-select: none;
-    background-color: var(--base--bg-secondary);
-    margin-bottom: var(--spacing-s);
-    padding-right: var(--spacing-s);
-  }
-  &__btn:hover {
-    background-color: var(--base--bg-secondary-hover);
-    cursor: pointer;
-  }
-}
-</style>
