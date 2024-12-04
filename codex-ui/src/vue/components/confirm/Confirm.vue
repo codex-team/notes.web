@@ -80,7 +80,7 @@ const props = withDefaults(
  */
 const confirmOnEnter = (event: { key: string }) => {
   if (event.key === 'Enter') {
-    props.onConfirm;
+    props.onConfirm();
   }
 };
 
