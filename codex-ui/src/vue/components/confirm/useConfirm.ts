@@ -6,7 +6,7 @@ export const useConfirm = createSharedComposable(() => {
   /**
    * Used to create a Popup component that will display the current Confirm
    */
-  const { showPopup } = usePopup();
+  const { showPopup, hidePopup } = usePopup();
 
   /**
    * @param title - title of the confirm window
@@ -23,9 +23,11 @@ export const useConfirm = createSharedComposable(() => {
           text: text,
           onCancel: () => {
             resolve(false);
+            hidePopup();
           },
           onConfirm: () => {
             resolve(true);
+            hidePopup();
           },
         },
       });
