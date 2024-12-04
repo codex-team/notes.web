@@ -65,18 +65,14 @@ withDefaults(
   z-index: var(--z-popup);
   inset: 0;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr auto 1fr;
   position: fixed;
   align-content: center;
-  gap: var(--spacing-l);
-  justify-content: center;
-  align-items: start;
   background-color: rgba(0, 0, 0, 0.49);
-  align-items: baseline;
   color: var(--base--text);
 
   &__container {
-    gap: var(--spacing-ml);
+    grid-column: 2;
     padding: var(--spacing-l);
     border-radius: var(--radius-ml);
     background-color: var(--base--bg-primary);
@@ -84,11 +80,14 @@ withDefaults(
   }
 
   &__icon {
+    grid-column: 3;
     cursor: pointer;
     color: var(--base--text-secondary);
     padding: var(--spacing-very-x);
     box-shadow: inset 0 0 0 var(--delimiter-height);
     border-radius: var(--radius-l);
+    margin-left: var(--spacing-l);
+    margin-top: var(--spacing-xs);
 
     &:hover {
       color: var(--base--text);
