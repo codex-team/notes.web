@@ -30,6 +30,7 @@
       </div>
     </div>
     <Popover />
+    <Popup />
   </div>
 </template>
 
@@ -38,7 +39,8 @@ import { computed } from 'vue';
 import {
   VerticalMenu,
   Tabbar,
-  Popover
+  Popover,
+  Popup
 } from '../src/vue';
 import { useTheme } from '../src/vue/composables/useTheme';
 
@@ -196,6 +198,16 @@ const pages = computed(() => [
         title: 'Editor',
         onActivate: () => router.push('/components/editor'),
         isActive: route.path === '/components/editor',
+      },
+      {
+        title: 'Popup',
+        onActivate: () => router.push('/components/popup'),
+        isActive: route.path === '/components/popup',
+      },
+      {
+        title: 'Confirm',
+        onActivate: () => router.push('/components/confirm'),
+        isActive: route.path === '/components/confirm',
       },
     ],
   },
