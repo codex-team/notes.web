@@ -84,12 +84,26 @@ const confirmOnEnter = (event: { key: string }) => {
   }
 };
 
+/**
+ * Call onCancel when esc was pressed
+ *
+ * @param event - the event object representing the keyboard event
+ * @param event.key - the property of the event object that holds the value of the pressed key
+ */
+const closeOnEsc = (event: { key: string }) => {
+  if (event.key === 'Escape') {
+    props.onCancel();
+  }
+};
+
 onMounted(() => {
   document.addEventListener('keydown', confirmOnEnter);
+  document.addEventListener('keydown', closeOnEsc);
 });
 
 onUnmounted(() => {
   document.removeEventListener('keydown', confirmOnEnter);
+  document.removeEventListener('keydown', closeOnEsc);
 });
 
 </script>
