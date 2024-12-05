@@ -170,9 +170,9 @@ const pages = computed(() => [
         isActive: route.path === '/components/vertical-menu',
       },
       {
-        title: 'Select',
-        onActivate: () => router.push('/components/select'),
-        isActive: route.path === '/components/select',
+        title: 'Dropdown',
+        onActivate: () => router.push('/components/dropdown'),
+        isActive: route.path === '/components/dropdown',
       },
       {
         title: 'Card',

@@ -53,10 +53,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codexteam/icons@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@codexteam/icons@npm:0.3.0"
-  checksum: 4949e753a9f8d0442c581512566167dddf7853fce0aa388ec9ddd9acc2aa3f081192d266c0eb1a2f78154492f376f7ce042f69ca45cad9a1f02583ab70e0000b
+"@codexteam/icons@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "@codexteam/icons@npm:0.3.3"
+  checksum: aa3c2ea96122e981ab6a6544cfe88f2381da4ab56a09230b9123229d85e7f2134409a694e38efe31657d13265198e2391d23347d4be2b64a2bab85b223ef5d83
   languageName: node
   linkType: hard
 
@@ -2165,7 +2165,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "codex-ui@workspace:codex-ui"
   dependencies:
-    "@codexteam/icons": ^0.3.0
+    "@codexteam/icons": ^0.3.3
     "@editorjs/editorjs": 2.30.2
     "@editorjs/header": ^2.8.6
     "@editorjs/nested-list": ^1.4.2
@@ -4325,7 +4325,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "notes.web@workspace:."
   dependencies:
-    "@codexteam/icons": ^0.3.0
+    "@codexteam/icons": ^0.3.3
     "@eslint/eslintrc": ^3.1.0
     "@eslint/js": ^9.3.0
     "@hawk.so/javascript": ^3.0.2
