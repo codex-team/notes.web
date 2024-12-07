@@ -8,8 +8,8 @@
     <!-- Transition group for the list of alerts -->
     <AlertTransition>
       <Alert
-        v-for="(alert, index) in alerts"
-        :key="index"
+        v-for="(alert) in alerts"
+        :key="alert.id"
         v-bind="alert"
       />
     </AlertTransition>

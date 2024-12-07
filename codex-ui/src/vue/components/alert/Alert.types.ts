@@ -1,14 +1,14 @@
 /**
  * Various alert type
  */
-export type AlerType = 'success' | 'error' | 'warning' | 'info' | 'default';
+export type AlertType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
 /**
  * alert configuration
  */
 export interface AlertOptions {
   /** unique alert id */
-  id?: string;
+  id?: number;
 
   /**
    * Custom icon class to be used.
@@ -26,7 +26,7 @@ export interface AlertOptions {
    *
    *  Can be any of `(success, error, default, info, warning)`
    */
-  type?: AlerType;
+  type?: AlertType;
 
   /**
    * How many milliseconds for the alert to be auto dismissed

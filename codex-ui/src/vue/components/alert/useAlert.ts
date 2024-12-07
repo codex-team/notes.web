@@ -1,7 +1,7 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
-import type { AlertOptions, AlerType } from './Alert.types';
+import type { AlertOptions, AlertType } from './Alert.types';
 
 /**
  * Return values of useAlert composable
@@ -48,6 +48,7 @@ export interface UseAlertComposableState {
  * Alert service composable hook
  */
 export const useAlert = createSharedComposable((): UseAlertComposableState => {
+  const counter = ref(0);
   const alerts = ref<AlertOptions[]>([]);
 
   /**
@@ -55,15 +56,25 @@ export const useAlert = createSharedComposable((): UseAlertComposableState => {
    * @param type alert type (success, error, warning, info and default)
    * @param opt alert options(timeout, message and icon)
    */
-  function triggerAlert(type: AlerType, opt: AlertOptions): void {
-    let alertIndex = alerts.value.findIndex((idx: AlertOptions) => idx.id === opt.id);
+  function triggerAlert(type: AlertType, opt: AlertOptions): void {
+    const index = alerts.value.findIndex(m => m.id === opt.id);
 
-    alerts.value.push({ type,
-      ...opt });
+    if (opt.id == null) {
+      opt.id = counter.value++;
+      opt.type = type;
+    }
 
-    setTimeout(() => {
-      alerts.value.splice(alertIndex, alerts.value.shift() as unknown as number);
-    }, opt?.timeout);
+    alerts.value = [...alerts.value, opt];
+    // alerts.value.push({ type,
+    //   ...opt });
+
+    if (index !== 0) {
+      setTimeout(() => {
+        alerts.value.splice(alerts.value[opt?.id], 1);
+      }, opt?.timeout);
+    }
+
+    console.log('counter id', opt.id);
   }
 
   return {

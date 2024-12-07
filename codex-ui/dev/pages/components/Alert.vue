@@ -85,35 +85,35 @@ const { success, error, warning, info, alert } = useAlert();
 
 const showSuccessAlert = () => {
   success({
-    message: 'codex',
+    message: '1st alert',
     timeout: 5000,
   });
 };
 
 const showErrorAlert = () => {
   error({
-    message: 'codex',
+    message: '2nd alert',
     timeout: 5000,
   });
 };
 
 const showWarningAlert = () => {
   warning({
-    message: 'codex',
+    message: '3rd alert',
     timeout: 5000,
   });
 };
 
 const showInfoAlert = () => {
   info({
-    message: 'codex',
+    message: '4th alert',
     timeout: 5000,
   });
 };
 
 const showDefaultAlert = () => {
   alert({
-    message: 'codex',
+    message: '5th alert',
     timeout: 5000,
   });
 };
