@@ -71,6 +71,11 @@ interface UseNoteComposableState {
   unlinkParent: () => Promise<void>;
 
   /**
+   * Returns an array of Note objects representing the formatted note parents.
+   */
+  formatNoteParents: () => Note[];
+
+  /**
    * Defines if user can edit note
    */
   canEdit: Ref<boolean>;
@@ -159,6 +164,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const parentNote = ref<Note | undefined>(undefined);
 
   /**
+   * Note parents of the actual note
+   *
+   * Actual note by default
+   */
+  let noteParents: Note[] = [];
+
+  /**
    * Load note by id
    * @param id - Note identifier got from composable argument
    */
@@ -172,6 +184,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     canEdit.value = response.accessRights.canEdit;
     noteTools.value = response.tools;
     parentNote.value = response.parentNote;
+    noteParents = response.parents;
   }
 
   /**
@@ -266,6 +279,29 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
+   * Reform the received note parents from api into presentation format.
+   * @returns An array of Note objects representing the formatted note parents.
+   * @throws {Error} If the note id is not defined.
+   */
+  function formatNoteParents(): Note[] {
+    if (currentId.value === null) {
+      throw new Error('note id is not defined');
+    }
+    let presentationFormat: Note[] = [];
+
+    if (noteParents.length === 0) {
+      presentationFormat.push({
+        id: currentId.value,
+        content: note.value?.content as NoteContent,
+      });
+    } else {
+      presentationFormat = noteParents;
+    }
+
+    return presentationFormat;
+  }
+
+  /**
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
@@ -315,6 +351,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
+    formatNoteParents();
     patchOpenedPageByUrl(
       route.path,
       {
@@ -332,6 +369,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     resolveToolsByContent,
     save,
     unlinkParent,
+    formatNoteParents,
     parentNote,
   };
 }
