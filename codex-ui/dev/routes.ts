@@ -21,7 +21,7 @@ import ColorShemeIcons from './pages/components/ColorShemeIcons.vue';
 import Popover from './pages/components/Popover.vue';
 import Row from './pages/components/Row.vue';
 import Section from './pages/components/Section.vue';
-import Dropdown from './pages/components/Dropdown.vue';
+import Select from './pages/components/Select.vue';
 import Switch from './pages/components/Switch.vue';
 import Tabbar from './pages/components/Tabbar.vue';
 import VerticalMenu from './pages/components/VerticalMenu.vue';
@@ -88,8 +88,8 @@ const routes: RouteRecordRaw[] = [
     component: Section as Component,
   },
   {
-    path: '/components/dropdown',
-    component: Dropdown as Component,
+    path: '/components/select',
+    component: Select as Component,
   },
   {
     path: '/components/switch',

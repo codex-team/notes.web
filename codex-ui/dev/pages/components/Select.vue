@@ -5,14 +5,14 @@
       Component of the form that allows you to select one or more options from the list (currently one)
     </template>
   </PageHeader>
-  <Dropdown :items="dropdownItems" />
+  <Select :items="options" />
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { ContextMenuItem, Dropdown } from '../../../src';
+import { ContextMenuItem, Select } from '../../../src';
 
-const dropdownItems: ContextMenuItem[] = [
+const options: ContextMenuItem[] = [
   {
     type: 'default',
     title: 'Header',

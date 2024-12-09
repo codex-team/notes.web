@@ -1,16 +1,12 @@
 <template>
-  <div
-    ref="dropdown"
+  <Button
+    :icon="activeItem.icon"
+    trailing-icon="BracketsVertical"
+    secondary
+    @click="!isOpen ? togglePopover($event.currentTarget, {vertically: 'below', horizontally: 'left'}) : hide()"
   >
-    <Button
-      :icon="activeItem.icon"
-      trailing-icon="BracketsVertical"
-      secondary
-      @click="togglePopover($event.target, {vertically: 'below', horizontally: 'left'})"
-    >
-      {{ activeItem.title }}
-    </Button>
-  </div>
+    {{ activeItem.title }}
+  </Button>
 </template>
 <script setup lang="ts">
 import type { ContextMenuItem as Item } from '../context-menu/ContextMenu.types';
@@ -23,27 +19,21 @@ const props = defineProps<{
   items: Item[];
 }>();
 
-let isOpened = false;
 const items = props.items;
-const { showPopover, hide } = usePopover();
+const { showPopover, hide, isOpen } = usePopover();
 
-function togglePopover(el: HTMLElement, align: PopoverShowParams['align']) {
-  if (!isOpened) {
-    showPopover({
-      targetEl: el,
-      with: {
-        component: ContextMenu,
-        props: {
-          items: items,
-        },
+const togglePopover = (el: HTMLElement, align: PopoverShowParams['align']) => {
+  showPopover({
+    targetEl: el,
+    with: {
+      component: ContextMenu,
+      props: {
+        items: items,
       },
-      align,
-    });
-  } else {
-    hide();
-  }
-  isOpened = !isOpened;
-}
+    },
+    align,
+  });
+};
 
 /* Default item value for select on page load */
 const defaultValue: Item = {
@@ -57,8 +47,7 @@ const activeItem = ref(defaultValue);
 const updateActiveItem = (item: Item) => {
   if (item.type === 'default' || !item.type) {
     activeItem.value = Object.create(item);
-    // eslint-disable-next-line no-console
-    activeItem.value.onActivate = console.log;
+    activeItem.value.onActivate = () => {};
     hide();
   }
 };
