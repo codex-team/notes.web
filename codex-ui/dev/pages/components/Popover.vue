@@ -15,7 +15,7 @@
     <div>
       <Button
         secondary
-        @click="show($event.target, {vertically: 'below', horizontally: 'left'})"
+        @click="!isOpen ? show($event.target, {vertically: 'below', horizontally: 'left'}) : hide()"
       >
         Open below left
       </Button>
@@ -82,7 +82,7 @@
 import PageHeader from '../../components/PageHeader.vue';
 import { usePopover, PopoverShowParams, Button, ContextMenu, Heading } from '../../../src/vue';
 
-const { showPopover } = usePopover();
+const { showPopover, isOpen, hide } = usePopover();
 
 /**
  * Example of working with Popover

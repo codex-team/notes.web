@@ -29,12 +29,18 @@ const {
   hide,
   content,
   width,
+  targetElement,
 } = usePopover();
 
 /**
  * Close the popover when clicking outside of it
  */
-onClickOutside(popoverEl, hide);
+onClickOutside(popoverEl, hide, {
+  /**
+   * Allow clicks on the target element to implemet toggle behavior
+   */
+  ignore: [targetElement],
+});
 </script>
 
 <style module>
