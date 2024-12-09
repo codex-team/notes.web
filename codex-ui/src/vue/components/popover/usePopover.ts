@@ -52,6 +52,11 @@ export const usePopover = createSharedComposable(() => {
   const content = shallowRef<PopoverContent | null>(null);
 
   /**
+   * Target element to move popover to
+   */
+  const targetElement = ref<HTMLElement | null>(null);
+
+  /**
    * Move popover to the target element
    * Also, align and set width
    * @param targetEl - element to move popover to
@@ -128,6 +133,7 @@ export const usePopover = createSharedComposable(() => {
    * @param params - popover showing configuration
    */
   function showPopover(params: PopoverShowParams): void {
+    targetElement.value = params.targetEl;
     move(params.targetEl, params.align, params.width);
     mountComponent(params.with.component, params.with.props);
     show();
@@ -137,6 +143,7 @@ export const usePopover = createSharedComposable(() => {
    * Empty content, position and hide popover
    */
   function resetPopover(): void {
+    targetElement.value = null;
     content.value = null;
     position.left = 0;
     position.top = 0;
@@ -159,5 +166,6 @@ export const usePopover = createSharedComposable(() => {
     hide,
     content,
     width,
+    targetElement,
   };
 });
