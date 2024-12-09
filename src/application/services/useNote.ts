@@ -285,7 +285,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    */
   function formatNoteParents(): Note[] {
     if (currentId.value === null) {
-      throw new Error('note id is not defined');
+      return [];
     }
     let presentationFormat: Note[] = [];
 
@@ -296,6 +296,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       });
     } else {
       presentationFormat = noteParents;
+      if (noteParents.find(noteItem => noteItem.id === currentId.value) === undefined) {
+        presentationFormat.push({
+          id: currentId.value,
+          content: note.value?.content as NoteContent,
+        });
+      }
     }
 
     return presentationFormat;

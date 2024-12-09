@@ -6,11 +6,11 @@
       <template #left>
         <div v-if="noteParents.length">
           <span
-            v-for="(parent, index) in noteParents"
+            v-for="(parent, index) in displayedParents"
             :key="parent.id"
           >
-            <a @click="navigateToParent(parent.id)">{{ t(`${getTitle(parent.content)}`) }}</a>
-            <span v-if="index < noteParents.length - 1"> > </span>
+            <a @click="handleParentClick(parent)">{{ newGetTitle(parent.content) }}</a>
+            <span v-if="index < displayedParents.length - 1"> > </span>
           </span>
         </div>
         <div v-else>
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRef, watch } from 'vue';
+import { computed, ref, toRef, watch } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
@@ -66,7 +66,7 @@ import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
-import { getTitle } from '@/infrastructure/utils/note';
+import { OutputData } from '@editorjs/editorjs';
 
 const { t } = useI18n();
 
@@ -90,7 +90,7 @@ const { note, noteTools, save, noteTitle, canEdit, formatNoteParents } = useNote
   id: noteId,
 });
 
-const noteParents = ref<Note[]>([]);
+let noteParents: Note[] = [];
 
 /**
  * Create new child note
@@ -119,6 +119,52 @@ function redirectToNoteSettings(): void {
  */
 function navigateToParent(parentId: string): void {
   router.push(`/note/${parentId}`);
+}
+
+/**
+ * Handle parent click
+ *
+ * @param {object} parent - The parent object
+ * @param {string} parent.id - The ID of the parent note
+ */
+function handleParentClick(parent: { id: string }): void {
+  if (parent.id !== 'ellipsis') {
+    navigateToParent(parent.id);
+  }
+}
+
+/**
+ * Displayed parents
+ */
+const displayedParents = computed(() => {
+  if (noteParents.length > 3) {
+    return [
+      noteParents[0],
+      {
+        id: 'ellipsis',
+        content: {
+          title: '...',
+        },
+      },
+      noteParents[noteParents.length - 1],
+    ];
+  }
+
+  return noteParents;
+});
+
+/**
+ * Update note cover
+ *
+ * @param {OutputData | { title: string }} content - The content of the note
+ * @returns {string} - The title of the note
+ */
+function newGetTitle(content: OutputData | { title: string }): string {
+  if ('blocks' in content) {
+    return content.blocks[0]?.data.text || 'Untitled';
+  }
+
+  return content.title;
 }
 
 const { updateCover } = useNoteSettings();
@@ -151,7 +197,6 @@ async function noteChanged(data: NoteContent): Promise<void> {
   const editorElement = editor.value ? editor.value.element : null;
 
   if (!isEmpty) {
-    noteParents.value = formatNoteParents();
     await save(data, props.parentId);
     /**
      * In case if we do not have note id, we can change its cover, and we need successful data for cover
@@ -188,6 +233,7 @@ watch(
 );
 
 watch(noteTitle, () => {
+  noteParents = formatNoteParents();
   if (props.id !== null) {
     useHead({
       title: noteTitle.value,
