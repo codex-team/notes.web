@@ -20,3 +20,4 @@ export * from './components/popup';
 export * from './components/confirm';
 export * from './composables/useTheme';
 export * from './components/checkbox';
+export * from './components/select';
