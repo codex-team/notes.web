@@ -4,11 +4,18 @@
       :style="{ '--opacity': id && note ? 1 : 0 }"
     >
       <template #left>
-        {{
-          note && 'updatedAt' in note && note.updatedAt
-            ? t('note.lastEdit') + ' ' + getTimeFromNow(note.updatedAt)
-            : t('note.lastEdit') + ' ' + 'a few seconds ago'
-        }}
+        <div v-if="noteParents.length">
+          <span
+            v-for="(parent, index) in displayedParents"
+            :key="parent.id"
+          >
+            <a @click="handleParentClick(parent)">{{ newGetTitle(parent.content) }}</a>
+            <span v-if="index < displayedParents.length - 1"> > </span>
+          </span>
+        </div>
+        <div v-else>
+          {{ t('note.lastEdit') + ' ' + 'a few seconds ago' }}
+        </div>
       </template>
       <template #right>
         <Button
@@ -48,18 +55,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRef, watch } from 'vue';
+import { computed, ref, toRef, watch } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRouter } from 'vue-router';
-import { NoteContent } from '@/domain/entities/Note';
+import { Note, NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { getTimeFromNow } from '@/infrastructure/utils/date';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
+import { OutputData } from '@editorjs/editorjs';
 
 const { t } = useI18n();
 
@@ -79,9 +86,11 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, formatNoteParents } = useNote({
   id: noteId,
 });
+
+let noteParents: Note[] = [];
 
 /**
  * Create new child note
@@ -101,6 +110,61 @@ function redirectToNoteSettings(): void {
     throw new Error('Note is Empty');
   }
   router.push(`/note/${props.id}/settings`);
+}
+
+/**
+ * Navigate to a specific note
+ *
+ * @param {number} parentId - The ID of the parent note to navigate to
+ */
+function navigateToParent(parentId: string): void {
+  router.push(`/note/${parentId}`);
+}
+
+/**
+ * Handle parent click
+ *
+ * @param {object} parent - The parent object
+ * @param {string} parent.id - The ID of the parent note
+ */
+function handleParentClick(parent: { id: string }): void {
+  if (parent.id !== 'ellipsis') {
+    navigateToParent(parent.id);
+  }
+}
+
+/**
+ * Displayed parents
+ */
+const displayedParents = computed(() => {
+  if (noteParents.length > 3) {
+    return [
+      noteParents[0],
+      {
+        id: 'ellipsis',
+        content: {
+          title: '...',
+        },
+      },
+      noteParents[noteParents.length - 1],
+    ];
+  }
+
+  return noteParents;
+});
+
+/**
+ * Update note cover
+ *
+ * @param {OutputData | { title: string }} content - The content of the note
+ * @returns {string} - The title of the note
+ */
+function newGetTitle(content: OutputData | { title: string }): string {
+  if ('blocks' in content) {
+    return content.blocks[0]?.data.text || 'Untitled';
+  }
+
+  return content.title;
 }
 
 const { updateCover } = useNoteSettings();
@@ -169,6 +233,7 @@ watch(
 );
 
 watch(noteTitle, () => {
+  noteParents = formatNoteParents();
   if (props.id !== null) {
     useHead({
       title: noteTitle.value,
