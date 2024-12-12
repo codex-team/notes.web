@@ -176,7 +176,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       parentNote.value = response.parentNote;
     } catch (error) {
       if (error instanceof NotFoundError) {
-        void router.push(`/error/404?message=${error.message}`);
+        void router.push(`/error/404`);
       } else {
         void router.push('/error/500');
       }
