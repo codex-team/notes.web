@@ -3,53 +3,51 @@
     :icon="activeItem.icon"
     trailing-icon="BracketsVertical"
     secondary
-    @click="!isOpen ? togglePopover($event.currentTarget, {vertically: 'below', horizontally: 'left'}) : hide()"
+    @click="togglePopover($event.currentTarget, {vertically: 'below', horizontally: 'left'})"
   >
     {{ activeItem.title }}
   </Button>
 </template>
 <script setup lang="ts">
-import type { ContextMenuItem as Item } from '../context-menu/ContextMenu.types';
+import type { ContextMenuItem as SelectItem, DefaultItem } from '../context-menu/ContextMenu.types';
 import { ContextMenu } from '../context-menu';
 import { onMounted, ref } from 'vue';
 import { usePopover, PopoverShowParams } from '../popover';
 import { Button } from '../button';
 
 const props = defineProps<{
-  items: Item[];
+  items: SelectItem[];
+  defaultItem: DefaultItem;
 }>();
 
 const items = props.items;
 const { showPopover, hide, isOpen } = usePopover();
 
 const togglePopover = (el: HTMLElement, align: PopoverShowParams['align']) => {
-  showPopover({
-    targetEl: el,
-    with: {
-      component: ContextMenu,
-      props: {
-        items: items,
+  if (!isOpen.value) {
+    showPopover({
+      targetEl: el,
+      with: {
+        component: ContextMenu,
+        props: {
+          items: items,
+        },
       },
-    },
-    align,
-  });
+      align,
+    });
+  } else {
+    hide();
+  }
 };
 
 /* Default item value for select on page load */
-const defaultValue: Item = {
-  title: 'Choose an option',
-  type: 'default',
-  onActivate: () => {},
-};
+const defaultValue: SelectItem = props.defaultItem;
 const activeItem = ref(defaultValue);
 
 /* Main function to update selected item */
-const updateActiveItem = (item: Item) => {
-  if (item.type === 'default' || !item.type) {
-    activeItem.value = Object.create(item);
-    activeItem.value.onActivate = () => {};
-    hide();
-  }
+const updateActiveItem = (item: DefaultItem) => {
+  activeItem.value = item;
+  hide();
 };
 
 onMounted(() => {
