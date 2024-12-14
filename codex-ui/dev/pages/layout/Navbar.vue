@@ -1,0 +1,32 @@
+<template>
+  <div class="navbar-wrapper">
+    <Navbar>
+      Left
+      <template #navbar__right>
+        Right
+      </template>
+    </Navbar>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { Navbar } from '../../../src/vue';
+</script>
+
+<style scoped>
+.navbar-wrapper {
+    min-height: 400px;
+    position: relative;
+    background-color: var(--base--bg-secondary);
+    border-radius: var(--radius-m);
+    border: 1px solid var(--base--border);
+    overflow-x: clip;
+
+    .navbar {
+        z-index: 1;
+        top: 52px;
+        border-radius: var(--radius-m) var(--radius-m) 0 0;
+        padding: 0 var(--spacing-ms);
+    }
+}
+</style>

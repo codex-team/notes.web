@@ -1,22 +1,23 @@
 <template>
   <div :class="$style.playground">
-    <div :class="$style.header">
+    <Navbar>
       <a
         :class="$style.logo"
         href="/dev/index.html"
       >
         CodeX UI
       </a>
-      <Tabbar
-        :class="$style.headerRight"
-        :tabs="[{
-          title: 'Figma',
-          id: 'figma-button',
-          picture: 'https://cdn.svgporn.com/logos/figma.svg',
-          link: 'https://www.figma.com/design/YmJc2Vqmev25xZgXic5bjL/CodeX-Design-System?node-id=1288-953&t=PhdeYMJcGnLqT4js-0'
-        }]"
-      />
-    </div>
+      <template #navbar__right>
+        <Tabbar
+          :tabs="[{
+            title: 'Figma',
+            id: 'figma-button',
+            picture: 'https://cdn.svgporn.com/logos/figma.svg',
+            link: 'https://www.figma.com/design/YmJc2Vqmev25xZgXic5bjL/CodeX-Design-System?node-id=1288-953&t=PhdeYMJcGnLqT4js-0'
+          }]"
+        />
+      </template>
+    </Navbar>
     <div :class="$style.body">
       <div
         :class="$style.aside"
@@ -43,6 +44,7 @@ import {
   Popup
 } from '../src/vue';
 import { useTheme } from '../src/vue/composables/useTheme';
+import { Navbar } from '../src/vue/layout/navbar';
 
 import { useRouter, useRoute } from 'vue-router';
 
@@ -93,6 +95,16 @@ const pages = computed(() => [
         title: 'Colors',
         onActivate: () => router.push('/theming/colors'),
         isActive: route.path === '/theming/colors',
+      },
+    ],
+  },
+  {
+    title: 'Layout',
+    items: [
+      {
+        title: 'Navbar',
+        onActivate: () => router.push('/layout/navbar'),
+        isActive: route.path === '/layout/navbar',
       },
     ],
   },
@@ -219,14 +231,6 @@ const pages = computed(() => [
   background-color: var(--base--bg-primary);
   color: var(--base--text);
   min-height: 100%;
-}
-.header {
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--base--border);
-  padding: var(--spacing-xs) var(--spacing-m);
 }
 
 .logo {
