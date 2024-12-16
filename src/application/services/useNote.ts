@@ -5,6 +5,7 @@ import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
+import NotFoundError from '@/domain/entities/errors/NotFound';
 import useHeader from './useHeader';
 import { getTitle } from '@/infrastructure/utils/note';
 
@@ -166,12 +167,20 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     /**
      * @todo try-catch domain errors
      */
-    const response = await noteService.getNoteById(id);
+    try {
+      const response = await noteService.getNoteById(id);
 
-    note.value = response.note;
-    canEdit.value = response.accessRights.canEdit;
-    noteTools.value = response.tools;
-    parentNote.value = response.parentNote;
+      note.value = response.note;
+      canEdit.value = response.accessRights.canEdit;
+      noteTools.value = response.tools;
+      parentNote.value = response.parentNote;
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        void router.push(`/error/404`);
+      } else {
+        void router.push('/error/500');
+      }
+    }
   }
 
   /**
