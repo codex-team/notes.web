@@ -20,6 +20,6 @@
 }
 
 .fade-leave-active {
-  position: absolute;
+  transition: max-height 0.45s cubic-bezier(0, 1, 0, 1), opacity 0.3s, margin-bottom 0.3s;
 }
 </style>

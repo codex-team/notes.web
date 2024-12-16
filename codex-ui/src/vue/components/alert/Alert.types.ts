@@ -8,7 +8,7 @@ export type AlertType = 'success' | 'error' | 'warning' | 'info' | 'default';
  */
 export interface AlertOptions {
   /** unique alert id */
-  id?: number;
+  id?: string | number;
 
   /**
    * Custom icon class to be used.
@@ -31,5 +31,5 @@ export interface AlertOptions {
   /**
    * How many milliseconds for the alert to be auto dismissed
    */
-  timeout?: number;
+  timeout: number;
 }

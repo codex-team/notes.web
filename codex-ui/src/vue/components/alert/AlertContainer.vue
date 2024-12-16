@@ -22,7 +22,6 @@ import AlertTransition from './AlertTransition.vue';
 import { useAlert } from './useAlert';
 
 const { alerts } = useAlert();
-
 </script>
 
 <style module lang="postcss">
