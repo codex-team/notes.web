@@ -71,9 +71,9 @@ interface UseNoteComposableState {
   unlinkParent: () => Promise<void>;
 
   /**
-   * Returns an array of Note objects representing the formatted note parents.
+   * Returns an array of note parents for the current note.
    */
-  formatNoteParents: () => Note[];
+  noteParents: Ref<Note[]>;
 
   /**
    * Defines if user can edit note
@@ -168,7 +168,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    *
    * Actual note by default
    */
-  let noteParents: Note[] = [];
+  const noteParents = ref<Note[]>([]);
 
   /**
    * Load note by id
@@ -184,7 +184,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     canEdit.value = response.accessRights.canEdit;
     noteTools.value = response.tools;
     parentNote.value = response.parentNote;
-    noteParents = response.parents;
+    noteParents.value = response.parents;
   }
 
   /**
@@ -279,7 +279,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
-   * Reform the received note parents from api into presentation format.
+   * Reform the array of note parents by adding the actual note id and content.
    * @returns An array of Note objects representing the formatted note parents.
    * @throws {Error} If the note id is not defined.
    */
@@ -289,14 +289,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
     let presentationFormat: Note[] = [];
 
-    if (noteParents.length === 0) {
+    if (noteParents.value.length === 0) {
       presentationFormat.push({
         id: currentId.value,
         content: note.value?.content as NoteContent,
       });
     } else {
-      presentationFormat = noteParents;
-      if (noteParents.find(noteItem => noteItem.id === currentId.value) === undefined) {
+      presentationFormat = noteParents.value;
+      if (noteParents.value.find(noteItem => noteItem.id === currentId.value) === undefined) {
         presentationFormat.push({
           id: currentId.value,
           content: note.value?.content as NoteContent,
@@ -357,7 +357,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    formatNoteParents();
+    noteParents.value = formatNoteParents();
     patchOpenedPageByUrl(
       route.path,
       {
@@ -375,7 +375,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     resolveToolsByContent,
     save,
     unlinkParent,
-    formatNoteParents,
+    noteParents,
     parentNote,
   };
 }
