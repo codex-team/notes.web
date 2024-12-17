@@ -30,6 +30,7 @@ import Editor from './pages/components/Editor.vue';
 import ThemePreview from './pages/components/ThemePreview.vue';
 import Popup from './pages/components/Popup.vue';
 import Confirm from './pages/components/Confirm.vue';
+import Navbar from './pages/layout/Navbar.vue';
 
 /**
  * Vue router routes list
@@ -154,6 +155,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/components/confirm',
     component: Confirm as Component,
+  },
+  {
+    path: '/layout/navbar',
+    component: Navbar as Component,
   },
 ];
 
