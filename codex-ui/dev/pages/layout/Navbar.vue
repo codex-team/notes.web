@@ -2,7 +2,7 @@
   <div class="navbar-wrapper">
     <Navbar>
       Left
-      <template #navbar__right>
+      <template #right>
         Right
       </template>
     </Navbar>
@@ -24,7 +24,7 @@ import { Navbar } from '../../../src/vue';
 
     .navbar {
         z-index: 1;
-        top: 52px;
+        top: var(--layout-navbar-height);
         border-radius: var(--radius-m) var(--radius-m) 0 0;
         padding: 0 var(--spacing-ms);
     }

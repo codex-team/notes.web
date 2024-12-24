@@ -2,7 +2,7 @@
   <div class="navbar">
     <slot />
     <div class="navbar__right">
-      <slot name="navbar__right" />
+      <slot name="right" />
     </div>
   </div>
 </template>

@@ -7,7 +7,7 @@
       >
         CodeX UI
       </a>
-      <template #navbar__right>
+      <template #right>
         <Tabbar
           :tabs="[{
             title: 'Figma',
