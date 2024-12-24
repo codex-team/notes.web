@@ -1,12 +1,12 @@
 <template>
-  <div :class="$style['item']">
+  <div :class="$style['context-menu-item']">
     <div
       v-if="item.type === 'default' || !item.type"
-      :class="[$style['item__default']]"
+      :class="[$style['context-menu-item__default']]"
+      @click="item.onActivate"
     >
       <div
-        :class="$style['item__body']"
-        @click="item.onActivate"
+        :class="$style['context-menu-item__body']"
       >
         <Icon
           v-if="item.icon !== undefined"
@@ -19,14 +19,14 @@
     </div>
     <div
       v-if="item.type === 'separator'"
-      :class="$style['item__separator']"
+      :class="$style['context-menu-item__separator']"
     >
-      <div :class="$style['item__line']" />
+      <div :class="$style['context-menu-item__line']" />
     </div>
     <div
       v-if="item.type === 'message'"
-      :class="[$style['item__default'],
-               $style['item__default--no-hover']]"
+      :class="[$style['context-menu-item__default'],
+               $style['context-menu-item__default--no-hover']]"
     >
       {{ item.message }}
     </div>
@@ -46,7 +46,7 @@ defineProps<{
 </script>
 
 <style lang="postcss" module>
-.item {
+.context-menu-item {
   &__separator {
     padding: var(--spacing-very-x) var(--spacing-xxs);
   }
@@ -67,7 +67,7 @@ defineProps<{
     }
   }
 
-  .item__default:not(.item__default--no-hover):hover {
+  .context-menu-item__default:not(.context-menu-item__default--no-hover):hover {
     background-color: var(--base--bg-secondary-hover);
     cursor: pointer;
   }
