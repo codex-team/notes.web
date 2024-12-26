@@ -56,7 +56,7 @@ useHead({
 });
 
 const openPageInfo = {
-  title: te(`errors.${props.code}`) ? t(`errors.${props.code}`) : t(`errors.default`),
+  title: te(`error.${props.code}`) ? t(`error.${props.code}`) : t(`pages.error`),
   url: route.path,
 };
 

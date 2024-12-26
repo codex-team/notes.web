@@ -105,6 +105,10 @@
     "title": "Recents",
     "authText": "You are not logged in, log in to see your recent notes"
   },
+  "error": {
+    "404": "Not found",
+    "500": "Internal server error"
+  },
   "errors": {
     "404": "Page not found",
     "500": "Unknown error happened",
