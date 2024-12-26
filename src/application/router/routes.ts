@@ -207,7 +207,6 @@ const routes: RouteRecordRaw[] = [
     },
     props: route => ({
       code: route.params.code,
-      customMessage: route.query.message,
     }),
   },
 ];
