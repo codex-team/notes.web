@@ -99,7 +99,7 @@ interface UseNoteComposableOptions {
  * @param options - note service options
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
-  const { patchOpenedPageByUrl } = useHeader();
+  const { patchOpenedPageByUrl, deleteOpenedPageByUrl } = useHeader();
   /**
    * Current note identifier
    */
@@ -175,6 +175,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
     } catch (error) {
+      deleteOpenedPageByUrl(route.path);
       if (error instanceof NotFoundError) {
         void router.push(`/error/404`);
       } else {

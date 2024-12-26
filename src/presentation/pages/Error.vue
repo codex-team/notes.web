@@ -52,11 +52,11 @@ const message = computed(() => {
 });
 
 useHead({
-  title: t(`errors.${props.code}`),
+  title: t(`pages.error`),
 });
 
 const openPageInfo = {
-  title: t(`errors.${props.code}`),
+  title: te(`errors.${props.code}`) ? t(`errors.${props.code}`) : t(`errors.default`),
   url: route.path,
 };
 
