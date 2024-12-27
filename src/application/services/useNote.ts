@@ -164,9 +164,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param id - Note identifier got from composable argument
    */
   async function load(id: NoteId): Promise<void> {
-    /**
-     * @todo try-catch domain errors
-     */
     try {
       const response = await noteService.getNoteById(id);
 
