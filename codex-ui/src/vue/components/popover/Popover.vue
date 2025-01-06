@@ -3,6 +3,12 @@
     v-show="isOpen"
     ref="popoverEl"
     :class="$style.popover"
+    :style="{
+      left: position.left + 'px',
+      top: position.top + 'px',
+      transform: position.transform,
+      width: width + 'px' // Assuming width is in pixels
+    }"
   >
     <component
       :is="content.component"
@@ -51,10 +57,6 @@ onClickOutside(popoverEl, hide, {
   border-radius: var(--radius-field);
   border: 1px solid var(--base--border);
   padding: var(--h-padding);
-  left: v-bind('position.left');
-  top: v-bind('position.top');
-  transform: v-bind('position.transform');
-  width: v-bind('width');
   box-sizing: border-box;
 }
 </style>

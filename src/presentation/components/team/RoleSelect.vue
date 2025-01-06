@@ -1,17 +1,10 @@
 <template>
   <div v-if="teamMember.user.id != user?.id">
-    <select
-      v-model="selectedRole"
-      @change="updateMemberRole"
-    >
-      <option
-        v-for="(role, index) in roleOptions"
-        :key="index"
-        :value="role"
-      >
-        {{ t(`noteSettings.team.roles.${role}`) }}
-      </option>
-    </select>
+    <Select
+      :items="roleItems"
+      :default-item="defaultRole"
+      @value-update="(updatedRole) => updateMemberRole(updatedRole)"
+    />
   </div>
 </template>
 
@@ -22,6 +15,7 @@ import { computed, ref } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings.ts';
 import { useAppState } from '@/application/services/useAppState';
 import { useI18n } from 'vue-i18n';
+import { ContextMenuItem, DefaultItem, Select } from 'codex-ui/vue';
 
 /**
  * TeamMember props
@@ -38,8 +32,20 @@ const props = defineProps<{
 }>();
 
 const selectedRole = ref(MemberRole[props.teamMember.role]);
+const defaultRole: DefaultItem = {
+  title: selectedRole.value,
+  onActivate: () => {},
+};
 
 const roleOptions = computed(() => Object.values(MemberRole).filter(value => typeof value === 'string'));
+const roleItems: ContextMenuItem[] = [];
+
+roleOptions.value.forEach((role) => {
+  roleItems.push({
+    title: role.toString(),
+    onActivate: () => {},
+  });
+});
 
 const { changeRole } = useNoteSettings();
 
@@ -50,8 +56,8 @@ const { t } = useI18n();
 /**
  * Updates the user role if it has been changed
  */
-async function updateMemberRole() {
-  changeRole(props.noteId, props.teamMember.user.id, MemberRole[selectedRole.value as keyof typeof MemberRole]);
+async function updateMemberRole(updatedRole: DefaultItem | any) {
+  changeRole(props.noteId, props.teamMember.user.id, MemberRole[updatedRole.title as keyof typeof MemberRole]);
 }
 </script>
 
