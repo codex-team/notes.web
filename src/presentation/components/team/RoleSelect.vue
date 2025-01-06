@@ -14,7 +14,6 @@ import { NoteId } from '@/domain/entities/Note.ts';
 import { computed, ref } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings.ts';
 import { useAppState } from '@/application/services/useAppState';
-import { useI18n } from 'vue-i18n';
 import { ContextMenuItem, DefaultItem, Select } from 'codex-ui/vue';
 
 /**
@@ -51,10 +50,10 @@ const { changeRole } = useNoteSettings();
 
 const { user } = useAppState();
 
-const { t } = useI18n();
-
 /**
  * Updates the user role if it has been changed
+ *
+ * @param updatedRole - new role needed to set
  */
 async function updateMemberRole(updatedRole: DefaultItem | any) {
   changeRole(props.noteId, props.teamMember.user.id, MemberRole[updatedRole.title as keyof typeof MemberRole]);
