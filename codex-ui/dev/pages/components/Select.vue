@@ -5,27 +5,73 @@
       Component of the form that allows you to select one or more options from the list (currently one)
     </template>
   </PageHeader>
-  <Select
-    :items="options"
-    :default-item="defaultItem"
-    @value-update="(value) => updatedValue = value"
-  />
-  <Heading :level="3">
+  <div class="ex">
+    Default
+    <Select
+      v-model="currentItem"
+      :align="{vertically: 'below', horizontally: 'left'}"
+      :is-disabled="false"
+      :items="options"
+    />
+    Disabled
+    <Select
+      v-model="currentItem"
+      :align="{vertically: 'below', horizontally: 'left'}"
+      :is-disabled="true"
+      :items="options"
+    />
+  </div>
+  <Heading :level="2">
     Getting selected option
   </Heading>
-  You can use selected item outside the component via <code>@value-update</code>: <i>{{ updatedValue }}</i>
+  Selected option replaces default value and can be easily got from the same object:
+  <div class="ex">
+    <i>{{ currentItem }}</i>
+  </div>
+  <Heading
+    :level="2"
+  >
+    Aligning
+  </Heading>
+  You can choose vertical aligning from <code>below</code> and <code>above</code> and horizontal aligning from <code>left</code> and <code>right</code>
+  <div class="ex">
+    <Select
+      v-model="currentItem"
+      :align="{vertically: 'below', horizontally: 'left'}"
+      :is-disabled="false"
+      :items="options"
+    />
+    <Select
+      v-model="currentItem"
+      :align="{vertically: 'below', horizontally: 'right'}"
+      :is-disabled="false"
+      :items="options"
+    />
+    <Select
+      v-model="currentItem"
+      :align="{vertically: 'above', horizontally: 'left'}"
+      :is-disabled="false"
+      :items="options"
+    />
+    <Select
+      v-model="currentItem"
+      :align="{vertically: 'above', horizontally: 'right'}"
+      :is-disabled="false"
+      :items="options"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { ContextMenuItem, DefaultItem, Heading, Select } from '../../../src';
+import { ContextMenuItem, Heading, Select } from '../../../src';
 import { ref } from 'vue';
 
-const defaultItem: DefaultItem = {
+const currentItem = ref({
   title: 'Choose an option',
   onActivate: () => {},
-};
-const updatedValue = ref<DefaultItem>(defaultItem);
+});
+
 const options: ContextMenuItem[] = [
   {
     type: 'default',
@@ -57,4 +103,11 @@ const options: ContextMenuItem[] = [
 </script>
 
 <style scoped>
+.ex {
+  display: grid;
+  gap: var(--spacing-xl);
+  margin: var(--spacing-xl) 0 var(--spacing-xxl);
+  grid-template-columns: repeat(2, max-content);
+  align-items: center;
+}
 </style>
