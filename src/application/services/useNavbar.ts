@@ -7,7 +7,7 @@ import { workspaceService } from '@/domain/index';
 import { useI18n } from 'vue-i18n';
 import { notEmpty } from '@/infrastructure/utils/empty';
 
-interface useAppNavbarComposableState {
+interface useNavbarComposableState {
   /**
    * Function for adding record to opened pages storage when user opens new page
    * @param page - page that had beed opened by user
@@ -38,7 +38,7 @@ interface useAppNavbarComposableState {
  * Function for composing data for AppNavbar
  * @returns data used in AppNavbar and functions for composing data used in AppNavbar
  */
-export default function useAppNavbar(): useAppNavbarComposableState {
+export default function useNavbar(): useNavbarComposableState {
   const router = useRouter();
   const route = useRoute();
   const { t } = useI18n();

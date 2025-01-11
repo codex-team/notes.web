@@ -51,7 +51,7 @@ import { useNoteEditor } from '@/application/services/useNoteEditor';
 import { parseDate } from '@/infrastructure/utils/date';
 import useNote from '@/application/services/useNote';
 import { useI18n } from 'vue-i18n';
-import useAppNavbar from '@/application/services/useAppNavbar';
+import useNavbar from '@/application/services/useNavbar';
 import { useRoute, useRouter } from 'vue-router';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
@@ -69,7 +69,7 @@ const historyId = toRef(props, 'historyId');
 
 const { updateCover } = useNoteSettings();
 const { t } = useI18n();
-const { patchOpenedPageByUrl } = useAppNavbar();
+const { patchOpenedPageByUrl } = useNavbar();
 const { historyContent, historyTools, historyMeta } = useHistory({
   noteId: noteId,
   historyId: historyId,

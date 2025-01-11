@@ -31,7 +31,7 @@ import { Tabbar, TabParams, Navbar } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { Logo } from '@/presentation/components/pictures';
 import { useAppState } from '@/application/services/useAppState';
-import useAppNavbar from '@/application/services/useAppNavbar';
+import useNavbar from '@/application/services/useNavbar';
 import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
 import useAuth from '@/application/services/useAuth';
@@ -41,7 +41,7 @@ const route = useRoute();
 const { user } = useAppState();
 const { showGoogleAuthPopup } = useAuth();
 
-const { currentOpenedPages, deleteOpenedPageByUrl } = useAppNavbar();
+const { currentOpenedPages, deleteOpenedPageByUrl } = useNavbar();
 
 const tabs = computed(() => currentOpenedPages.value.map((page): TabParams => {
   return {

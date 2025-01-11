@@ -1,6 +1,6 @@
 <template>
   <ThreeColsLayout data-dimensions="large">
-    <div :class="$style['page-appNavbar']">
+    <div :class="$style['page-header']">
       <Heading :level="1">
         {{ t('userSettings.title') }}
       </Heading>
@@ -170,7 +170,7 @@ import { useUserSettings } from '@/application/services/useUserSettings';
 import { useAppState } from '@/application/services/useAppState';
 import { useHead } from 'unhead';
 import { ref } from 'vue';
-import useAppNavbar from '@/application/services/useAppNavbar';
+import useNavbar from '@/application/services/useNavbar';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 
 const { user, userEditorTools } = useAppState();
@@ -178,7 +178,7 @@ const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
 const { removeTool } = useUserSettings();
-const { deleteOpenedPageByUrl } = useAppNavbar();
+const { deleteOpenedPageByUrl } = useNavbar();
 const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setColorScheme } = useTheme();
 
 /**
@@ -278,7 +278,7 @@ async function uninstallClicked(toolId: string) {
   }
 }
 
-.page-appNavbar {
+.page-header {
   padding: 0 var(--h-padding);
   gap: var(--spacing-s);
 }

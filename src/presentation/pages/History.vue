@@ -54,7 +54,7 @@
 import { Heading, Container, Row, Avatar, Button } from 'codex-ui/vue';
 import ThreeColsLayout from '../layouts/ThreeColsLayout.vue';
 import useNoteHistory from '@/application/services/useNoteHistory';
-import useAppNavbar from '@/application/services/useAppNavbar';
+import useNavbar from '@/application/services/useNavbar';
 import useNote from '@/application/services/useNote';
 import { parseDate } from '@/infrastructure/utils/date';
 import { watch } from 'vue';
@@ -72,7 +72,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { noteHistory } = useNoteHistory({ noteId: props.noteId });
-const { patchOpenedPageByUrl } = useAppNavbar();
+const { patchOpenedPageByUrl } = useNavbar();
 
 const route = useRoute();
 const router = useRouter();
