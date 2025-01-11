@@ -168,9 +168,10 @@ import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
 import { useUserSettings } from '@/application/services/useUserSettings';
 import { useAppState } from '@/application/services/useAppState';
+import { useHead } from 'unhead';
+import { ref } from 'vue';
 import useAppNavbar from '@/application/services/useAppNavbar';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
-import { ref } from 'vue';
 
 const { user, userEditorTools } = useAppState();
 const { t } = useI18n();
