@@ -1,12 +1,12 @@
 <template>
-  <Header />
+  <AppNavbar />
   <router-view />
   <Popover />
   <Popup />
 </template>
 
 <script lang="ts" setup>
-import Header from '@/presentation/components/header/Header.vue';
+import AppNavbar from '@/presentation/components/appNavbar/AppNavbar.vue';
 import { onErrorCaptured } from 'vue';
 import { useTheme, Popover, Popup } from 'codex-ui/vue';
 import useAuthRequired from '@/application/services/useAuthRequired';

@@ -168,8 +168,7 @@ import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
 import { useUserSettings } from '@/application/services/useUserSettings';
 import { useAppState } from '@/application/services/useAppState';
-import { useHead } from 'unhead';
-import { ref } from 'vue';
+import { useHead } fr@/application/services/useAppNavbar 'vue';
 import useHeader from '@/application/services/useHeader';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 

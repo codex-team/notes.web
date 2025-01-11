@@ -5,7 +5,7 @@ import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
-import useHeader from './useHeader';
+import useHeader from './useAppNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
 
 /**

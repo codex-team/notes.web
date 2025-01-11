@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { Heading, Container, Row, Avatar, Button } from 'codex-ui/vue';
 import ThreeColsLayout from '../layouts/ThreeColsLayout.vue';
-import useNoteHistory from '@/application/services/useNoteHistory';
+import useNoteHistory from '@/application/services/useAppNavbarstory';
 import useHeader from '@/application/services/useHeader';
 import useNote from '@/application/services/useNote';
 import { parseDate } from '@/infrastructure/utils/date';

@@ -1,37 +1,37 @@
 <template>
-  <div class="header">
+  <Navbar>
     <router-link
       to="/"
-      class="header__logo"
+      class="appNavbar__logo"
     >
       <Logo />
     </router-link>
     <Tabbar
       :tabs="tabs"
       @click="(tab) => router.push(tab.id)"
-      @discard="(tab) => closeHeaderTab(tab.id)"
+      @discard="(tab) => closeAppNavbarTab(tab.id)"
     />
     <Button
       link="/new"
       type="transparent"
       :icon="IconPlus"
     />
-    <div class="header__right">
+    <template #right>
       <Tabbar
         :tabs="userTab"
         @click="(tab) => {userTabClicked(tab)}"
       />
-    </div>
-  </div>
+    </template>
+  </Navbar>
 </template>
 
 <script lang="ts" setup>
 import { IconPlus } from '@codexteam/icons';
-import { Tabbar, TabParams } from 'codex-ui/vue';
+import { Tabbar, TabParams, Navbar } from 'codex-ui/vue';
 import Button from '@/presentation/components/button/Button.vue';
 import { Logo } from '@/presentation/components/pictures';
 import { useAppState } from '@/application/services/useAppState';
-import useHeader from '@/application/services/useHeader';
+import useAppNavbar from '@/application/services/useAppNavbar';
 import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
 import useAuth from '@/application/services/useAuth';
@@ -41,7 +41,7 @@ const route = useRoute();
 const { user } = useAppState();
 const { showGoogleAuthPopup } = useAuth();
 
-const { currentOpenedPages, deleteOpenedPageByUrl } = useHeader();
+const { currentOpenedPages, deleteOpenedPageByUrl } = useAppNavbar();
 
 const tabs = computed(() => currentOpenedPages.value.map((page): TabParams => {
   return {
@@ -87,7 +87,7 @@ function userTabClicked(tab: TabParams) {
   }
 }
 
-function closeHeaderTab(url: string) {
+function closeAppNavbarTab(url: string) {
   deleteOpenedPageByUrl(url);
 
   /**
@@ -104,7 +104,7 @@ function closeHeaderTab(url: string) {
 </script>
 
 <style scoped lang="postcss">
-.header {
+.appNavbar {
   background-color: var(--base--bg-primary);
   display: flex;
   justify-content: center;

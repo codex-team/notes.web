@@ -109,7 +109,7 @@ import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'co
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
-import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
+import InviteLink from '@/presentation/c@/application/services/useAppNavbark.vue';
 import useHeader from '@/application/services/useHeader';
 import { useRoute } from 'vue-router';
 
