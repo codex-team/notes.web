@@ -20,13 +20,11 @@ import { Navbar } from '../../../src/vue';
     background-color: var(--base--bg-secondary);
     border-radius: var(--radius-m);
     border: 1px solid var(--base--border);
-    overflow-x: clip;
 
     .navbar {
         z-index: 1;
         top: var(--layout-navbar-height);
         border-radius: var(--radius-m) var(--radius-m) 0 0;
-        padding: 0 var(--spacing-ms);
     }
 }
 </style>

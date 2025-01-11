@@ -20,6 +20,7 @@
   height: var(--layout-navbar-height);
   border-bottom: 1px solid var(--base--border);
   box-sizing: border-box;
+  padding: var(--spacing-ms) var(--spacing-l);
 
   &__right {
       margin-left: auto;
