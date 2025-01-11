@@ -107,6 +107,6 @@ function closeTab(url: string) {
 .app-navbar-logo {
   display: flex;
   justify-content: center;
-  padding: 0 var(--spacing-xl);
+  padding: 0 var(--spacing-m) 0 var(--spacing-xs);
 }
 </style>

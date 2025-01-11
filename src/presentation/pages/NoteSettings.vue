@@ -5,7 +5,7 @@
       class="note-settings"
     >
       <div
-        class="note-settings__page-appNavbar"
+        class="note-settings__page-header"
       >
         <Heading
           :level="1"
@@ -231,7 +231,7 @@ onMounted(async () => {
   gap: var(--spacing-l);
   margin: var(--spacing-xxl) var(--spacing-ml);
 
-  &__page-appNavbar {
+  &__page-header {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-s);

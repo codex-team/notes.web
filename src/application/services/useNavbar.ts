@@ -35,8 +35,8 @@ interface useNavbarComposableState {
 };
 
 /**
- * Function for composing data for AppNavbar
- * @returns data used in AppNavbar and functions for composing data used in AppNavbar
+ * Function for composing data for Navbar
+ * @returns data used in Navbar and functions for composing data used in Navbar
  */
 export default function useNavbar(): useNavbarComposableState {
   const router = useRouter();
@@ -87,7 +87,7 @@ export default function useNavbar(): useNavbarComposableState {
   });
 
   /**
-   * Subscribe to page changes in the use AppNavbar
+   * Subscribe to page changes in the use Navbar
    */
   AppStateController.openedPages((prop: 'openedPages', value: OpenedPage[] | null) => {
     if (prop === 'openedPages') {
