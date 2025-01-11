@@ -5,7 +5,7 @@
       class="note-settings"
     >
       <div
-        class="note-settings__page-header"
+        class="note-settings__page-appNavbar"
       >
         <Heading
           :level="1"
@@ -109,8 +109,8 @@ import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'co
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
-import InviteLink from '@/presentation/c@/application/services/useAppNavbark.vue';
-import useHeader from '@/application/services/useHeader';
+import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
+import useAppNavbar from '@/application/services/useAppNavbar';
 import { useRoute } from 'vue-router';
 
 const { t } = useI18n();
@@ -122,7 +122,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { patchOpenedPageByUrl } = useHeader();
+const { patchOpenedPageByUrl } = useAppNavbar();
 const route = useRoute();
 const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
@@ -231,7 +231,7 @@ onMounted(async () => {
   gap: var(--spacing-l);
   margin: var(--spacing-xxl) var(--spacing-ml);
 
-  &__page-header {
+  &__page-appNavbar {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-s);

@@ -49,8 +49,9 @@ import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import useHistory from '@/application/services/useNoteHistory';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import { parseDate } from '@/infrastructure/utils/date';
-import useNote from '@/application/services/useNot@/application/services/useAppNavbar-i18n';
-import useHeader from '@/application/services/useHeader';
+import useNote from '@/application/services/useNote';
+import { useI18n } from 'vue-i18n';
+import useAppNavbar from '@/application/services/useAppNavbar';
 import { useRoute, useRouter } from 'vue-router';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
@@ -68,7 +69,7 @@ const historyId = toRef(props, 'historyId');
 
 const { updateCover } = useNoteSettings();
 const { t } = useI18n();
-const { patchOpenedPageByUrl } = useHeader();
+const { patchOpenedPageByUrl } = useAppNavbar();
 const { historyContent, historyTools, historyMeta } = useHistory({
   noteId: noteId,
   historyId: historyId,
