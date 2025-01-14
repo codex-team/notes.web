@@ -110,7 +110,7 @@ import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
-import useHeader from '@/application/services/useHeader';
+import useNavbar from '@/application/services/useNavbar';
 import { useRoute } from 'vue-router';
 
 const { t } = useI18n();
@@ -122,7 +122,7 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { patchOpenedPageByUrl } = useHeader();
+const { patchOpenedPageByUrl } = useNavbar();
 const route = useRoute();
 const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({

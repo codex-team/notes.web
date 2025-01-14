@@ -21,3 +21,5 @@ export * from './components/confirm';
 export * from './composables/useTheme';
 export * from './components/checkbox';
 export * from './components/select';
+
+export * from './layout/navbar';
