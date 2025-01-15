@@ -6,6 +6,9 @@ import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
 import NotFoundError from '@/domain/entities/errors/NotFound';
+import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
+import NotAcceptableError from '@/domain/entities/errors/NotAcceptable';
+import ForbiddenError from '@/domain/entities/errors/Forbidden';
 import useHeader from './useHeader';
 import { getTitle } from '@/infrastructure/utils/note';
 
@@ -173,11 +176,23 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       parentNote.value = response.parentNote;
     } catch (error) {
       deleteOpenedPageByUrl(route.path);
-      if (error instanceof NotFoundError) {
-        void router.push(`/error/404`);
-      } else {
-        void router.push('/error/500');
-      }
+
+      switch (true) {
+        case error instanceof NotFoundError:
+          void router.push('/error/404');
+          break;
+        case error instanceof UnauthorizedError:
+          void router.push('/error/401');
+          break;
+        case error instanceof NotAcceptableError:
+          void router.push('/error/406');
+          break;
+        case error instanceof ForbiddenError:
+          void router.push('/error/403');
+          break;
+        default:
+          void router.push('/error/500');
+      };
     }
   }
 

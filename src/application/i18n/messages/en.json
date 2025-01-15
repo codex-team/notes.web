@@ -106,11 +106,17 @@
     "authText": "You are not logged in, log in to see your recent notes"
   },
   "error": {
+    "401": "Unauthorized",
     "404": "Not found",
+    "403": "Forbidden",
+    "406": "Resource not found",
     "500": "Internal server error"
   },
   "errors": {
+    "401": "You must be authenticated to access this resource",
     "404": "Page not found",
+    "403": "Access Denied",
+    "406": "Resource not found",
     "500": "Unknown error happened",
     "default": "Something went wrong"
   },
@@ -180,7 +186,7 @@
     "noteSettings": "Note settings",
     "marketplace": "Marketplace",
     "addTool": "Add tool",
-    "error": "Error",
+    "error": "Oops! Something went wrong",
     "notFound": "Not found",
     "joinTeam": "Join",
     "authorization": "Authorize",

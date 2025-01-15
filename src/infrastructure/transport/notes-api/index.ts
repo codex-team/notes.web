@@ -5,7 +5,9 @@ import AuthorizableTransport from '@/infrastructure/transport/authorizable.trans
 import type JSONValue from '../types/JSONValue';
 import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
 import NotFoundError from '@/domain/entities/errors/NotFound';
+import NotAcceptableError from '@/domain/entities/errors/NotAcceptable';
 import ApiError from '@/domain/entities/errors/ApiError';
+import ForbiddenError from '@/domain/entities/errors/Forbidden';
 import type { FilesDto } from '../types/FileDto';
 
 /**
@@ -49,10 +51,13 @@ export default class NotesApiTransport extends AuthorizableTransport {
          */
         switch (status) {
           case 401:
-          case 403:
             return new UnauthorizedError(errorText);
+          case 403:
+            return new ForbiddenError(errorText);
           case 404:
             return new NotFoundError(errorText);
+          case 406:
+            return new NotAcceptableError(errorText);
           default:
             return new ApiError(errorText, status);
         }

@@ -1,7 +1,7 @@
 import DomainError from './Base';
 
 /**
- * Domain error thrown when user is not authorized to perform some action
+ * Domain error thrown when user is not authenticated
  */
 export default class UnauthorizedError extends DomainError {
   /**
