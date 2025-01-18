@@ -23,3 +23,4 @@ export * from './components/checkbox';
 export * from './components/select';
 
 export * from './layout/navbar';
+export * from './layout/page-block';

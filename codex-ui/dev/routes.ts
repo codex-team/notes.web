@@ -31,6 +31,7 @@ import ThemePreview from './pages/components/ThemePreview.vue';
 import Popup from './pages/components/Popup.vue';
 import Confirm from './pages/components/Confirm.vue';
 import Navbar from './pages/layout/Navbar.vue';
+import PageBlock from './pages/layout/PageBlock.vue';
 
 /**
  * Vue router routes list
@@ -159,6 +160,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/layout/navbar',
     component: Navbar as Component,
+  },
+  {
+    path: '/layout/page-block',
+    component: PageBlock as Component,
   },
 ];
 

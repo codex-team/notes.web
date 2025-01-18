@@ -106,6 +106,11 @@ const pages = computed(() => [
         onActivate: () => router.push('/layout/navbar'),
         isActive: route.path === '/layout/navbar',
       },
+      {
+        title: 'PageBlock',
+        onActivate: () => router.push('/layout/page-block'),
+        isActive: route.path === '/layout/page-block',
+      },
     ],
   },
   {
