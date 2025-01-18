@@ -90,5 +90,5 @@
 
 <script setup lang="ts">
 import PageHeader from '../../components/PageHeader.vue';
-import { PageBlock, Heading } from '../../../src/vue/';
+import { Heading } from '../../../src/vue/';
 </script>
