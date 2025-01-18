@@ -7,7 +7,7 @@
   </PageHeader>
   <div class="page-block-wrapper">
     <Heading :level="2">
-      Examplesz
+      Examples
     </Heading>
     <Heading :level="3">
       default
