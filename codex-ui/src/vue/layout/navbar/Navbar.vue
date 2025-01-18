@@ -21,6 +21,7 @@
   border-bottom: 1px solid var(--base--border);
   box-sizing: border-box;
   padding: var(--spacing-ms) var(--spacing-l);
+  overflow: hidden;
 
   &__right {
       margin-left: auto;
