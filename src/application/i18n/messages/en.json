@@ -109,14 +109,12 @@
     "401": "Unauthorized",
     "404": "Not found",
     "403": "Forbidden",
-    "406": "Resource not found",
     "500": "Internal server error"
   },
   "errors": {
     "401": "You must be authenticated to access this resource",
     "404": "Page not found",
     "403": "Access Denied",
-    "406": "Resource not found",
     "500": "Unknown error happened",
     "default": "Something went wrong"
   },
