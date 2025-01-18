@@ -16,6 +16,7 @@
     <!-- Center Content -->
     <div
       class="page-block__content"
+      :class="{'page-block__content--stretched': stretched}"
     >
       <slot />
     </div>
@@ -53,15 +54,20 @@ defineProps({
   }
 
   &__content {
-    width: var(--layout-content-width);
+    max-width: var(--layout-content-width);
     padding: var(--spacing-xxl) var(--spacing-ml);
     box-sizing: border-box;
+
+    &--stretched {
+      max-width: 100%;
+    }
   }
 
   &__sidebar {
+    width: var(--layout-sidebar-width);
+    flex-shrink: 0;
     box-sizing: border-box;
     padding: var(--spacing-xxl) var(--spacing-ml);
-    width: var(--layout-sidebar-width);
   }
 }
 </style>

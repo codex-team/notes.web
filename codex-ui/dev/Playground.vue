@@ -18,18 +18,14 @@
         />
       </template>
     </Navbar>
-    <div :class="$style.body">
-      <div
-        :class="$style.aside"
-      >
+    <PageBlock :stretched="true">
+      <template #left>
         <VerticalMenu
           :items="pages"
         />
-      </div>
-      <div :class="$style.content">
-        <router-view />
-      </div>
-    </div>
+      </template>
+      <router-view />
+    </PageBlock>
     <Popover />
     <Popup />
   </div>
@@ -45,6 +41,7 @@ import {
 } from '../src/vue';
 import { useTheme } from '../src/vue/composables/useTheme';
 import { Navbar } from '../src/vue/layout/navbar';
+import { PageBlock } from '../src/vue/layout/page-block';
 
 import { useRouter, useRoute } from 'vue-router';
 
@@ -235,7 +232,6 @@ const pages = computed(() => [
 .playground {
   background-color: var(--base--bg-primary);
   color: var(--base--text);
-  min-height: 100%;
 }
 
 .logo {
@@ -246,13 +242,5 @@ const pages = computed(() => [
   padding: 0 var(--spacing-xs);
   text-decoration: none;
   color: var(--base--text);
-}
-
-.body {
-  padding: var(--spacing-l);
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--spacing-xxl);
-  max-width: 1200px;
 }
 </style>

@@ -15,6 +15,7 @@ import { Navbar } from '../../../src/vue';
 
 <style scoped>
 .navbar-wrapper {
+  width: 600px;
   min-height: 400px;
   position: relative;
   background-color: var(--base--bg-secondary);
