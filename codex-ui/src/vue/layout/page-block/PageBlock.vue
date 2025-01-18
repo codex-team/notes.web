@@ -8,22 +8,24 @@
     <!-- Left Sidebar -->
     <div
       v-if="$slots.left"
-      class="page-block__sidebar page-block__sidebar--left"
+      class="page-block__sidebar"
     >
-      <slot name="left"></slot>
+      <slot name="left" />
     </div>
 
     <!-- Center Content -->
-    <div class="page-block__content">
-      <slot></slot>
+    <div
+      class="page-block__content"
+    >
+      <slot />
     </div>
 
     <!-- Right Sidebar -->
     <div
       v-if="$slots.right"
-      class="page-block__sidebar page-block__sidebar--right"
+      class="page-block__sidebar"
     >
-      <slot name="right"></slot>
+      <slot name="right" />
     </div>
   </div>
 </template>
@@ -41,34 +43,25 @@ defineProps({
 
 <style scoped lang="postcss">
 .page-block {
-  display: grid;
-  grid-template-columns: var(--layout-sidebar-width) 1fr var(--layout-sidebar-width);
-  gap: var(--spacing-ms);
-  max-width: var(--layout-content-width);
-  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
 
-  &-stretched {
-    max-width: 100%;
-  }
-
-  &__sidebar {
-    width: var(--layout-sidebar-width);
+  &--stretched {
+    justify-content: stretch;
   }
 
   &__content {
-    max-width: var(--layout-content-width);
-    width: 100%;
+    width: var(--layout-content-width);
+    padding: var(--spacing-xxl) var(--spacing-ml);
+    box-sizing: border-box;
   }
 
   &__sidebar {
-
-    &--left {
-      width: var(--layout-sidebar-width);
-    }
-
-    &--right {
-      width: var(--layout-sidebar-width);
-    }
+    box-sizing: border-box;
+    padding: var(--spacing-xxl) var(--spacing-ml);
+    width: var(--layout-sidebar-width);
   }
 }
 </style>
