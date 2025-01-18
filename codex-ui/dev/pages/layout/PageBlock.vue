@@ -10,7 +10,7 @@
       Examples
     </Heading>
     <Heading :level="3">
-      default
+      Default
     </Heading>
     <svg
       width="700px"
@@ -21,28 +21,28 @@
       <rect
         width="1830"
         height="457"
-        fill="#151515"
+        fill="var(--base--bg-secondary)"
       />
       <rect
         x="233"
         y="50"
         width="300"
         height="357"
-        fill="#23252A"
+        fill="var(--base--bg-primary)"
       />
       <rect
         x="1297"
         y="50"
         width="300"
         height="357"
-        fill="#23252A"
+        fill="var(--base--bg-primary)"
       />
       <rect
         x="565"
         y="50"
         width="700"
         height="357"
-        fill="#23252A"
+        fill="var(--base--bg-primary)"
       />
     </svg>
     <br>
@@ -50,7 +50,7 @@
     <br>
     <br>
     <Heading :level="3">
-      stretched
+      Stretched
     </Heading>
     <svg
       width="700px"
@@ -61,28 +61,28 @@
       <rect
         width="1830"
         height="457"
-        fill="#151515"
+        fill="var(--base--bg-secondary)"
       />
       <rect
         x="16"
         y="50"
         width="316.82"
         height="357"
-        fill="#23252A"
+        fill="var(--base--bg-primary)"
       />
       <rect
         x="364.82"
         y="50"
         width="1100.36"
         height="357"
-        fill="#23252A"
+        fill="var(--base--bg-primary)"
       />
       <rect
         x="1497.18"
         y="50"
         width="316.82"
         height="357"
-        fill="#23252A"
+        fill="var(--base--bg-primary)"
       />
     </svg>
   </div>

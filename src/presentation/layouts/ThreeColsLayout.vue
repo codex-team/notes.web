@@ -36,7 +36,7 @@
 }
 
 .block-left, .block-right{
-  width: var(--layout-block-width);
+  width: var(--layout-sidebar-width);
   padding: 0 var(--spacing-ml);
 }
 </style>
