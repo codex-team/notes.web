@@ -1,22 +1,24 @@
 <template>
   <div
-    class="page-block"
-    :class="{
-      'page-block--stretched': stretched,
-    }"
+    :class="[
+      $style['page-block'],
+      { [$style['page-block--stretched']]: stretched }
+    ]"
   >
     <!-- Left Sidebar -->
     <div
       v-if="$slots.left"
-      class="page-block__sidebar"
+      :class="$style['page-block__sidebar']"
     >
       <slot name="left" />
     </div>
 
     <!-- Center Content -->
     <div
-      class="page-block__content"
-      :class="{'page-block__content--stretched': stretched}"
+      :class="[
+        $style['page-block__content'],
+        { [$style['page-block__content--stretched']]: stretched }
+      ]"
     >
       <slot />
     </div>
@@ -24,7 +26,7 @@
     <!-- Right Sidebar -->
     <div
       v-if="$slots.right"
-      class="page-block__sidebar"
+      :class="$style['page-block__sidebar']"
     >
       <slot name="right" />
     </div>
@@ -42,7 +44,7 @@ defineProps({
 });
 </script>
 
-<style scoped lang="postcss">
+<style module lang="postcss">
 .page-block {
   width: 100%;
   display: flex;
