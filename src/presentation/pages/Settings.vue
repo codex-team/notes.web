@@ -211,6 +211,11 @@ async function userLogout() {
    */
   deleteOpenedPageByUrl('/settings');
 
+  /**
+   * Clear local Storage
+   */
+  window.localStorage.clear();
+
   router.replace({ path: '/' });
 }
 
