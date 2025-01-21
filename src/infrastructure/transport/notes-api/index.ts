@@ -50,15 +50,15 @@ export default class NotesApiTransport extends AuthorizableTransport {
          */
         switch (status) {
           case 401:
-            return new UnauthorizedError(errorText);
+            return new UnauthorizedError(errorText, status);
           case 403:
-            return new ForbiddenError(errorText);
+            return new ForbiddenError(errorText, status);
           case 404:
-            return new NotFoundError(errorText);
+            return new NotFoundError(errorText, status);
           case 406:
-            return new NotFoundError(errorText);
+            return new NotFoundError(errorText, status);
           default:
-            return new ResourceUnavailableError(errorText, status);
+            return new ResourceUnavailableError(errorText, 500);
         }
       },
     });
