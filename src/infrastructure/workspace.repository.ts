@@ -37,4 +37,11 @@ export default class WorkspaceRepository extends Repository<OpenedPagesStore, Op
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
     return this.store.patchOpenedPageByUrl(url, page);
   }
+
+  /**
+   * Delete opened pages excluding Home Page
+   */
+  public deleteOpenPages(): void {
+    this.store.deleteOpenPages();
+  }
 }

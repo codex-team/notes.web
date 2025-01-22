@@ -29,6 +29,11 @@ interface useNavbarComposableState {
   patchOpenedPageByUrl: (url: OpenedPage['url'], page: OpenedPage) => void;
 
   /**
+   * Delete all opened pages excluding Home page
+   */
+  deleteOpenedPages: () => void;
+
+  /**
    * There would be stored all currently opened pages
    */
   currentOpenedPages: ComputedRef<OpenedPage[]>;
@@ -70,6 +75,13 @@ export default function useNavbar(): useNavbarComposableState {
   function patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
     workspaceService.patchOpenedPageByUrl(url, page);
   };
+
+  /**
+   * Delete opened pages excluding Home page
+   */
+  function deleteOpenedPages(): void {
+    workspaceService.deleteOpenPages();
+  }
 
   /**
    * Hook for adding new page to storage when user changes route
@@ -120,5 +132,6 @@ export default function useNavbar(): useNavbarComposableState {
     deleteOpenedPageByUrl,
     patchOpenedPageByUrl,
     currentOpenedPages,
+    deleteOpenedPages,
   };
 }
