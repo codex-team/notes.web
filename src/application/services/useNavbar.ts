@@ -77,7 +77,7 @@ export default function useNavbar(): useNavbarComposableState {
   };
 
   /**
-   * Delete opened pages excluding Home page
+   * Delete all opened pages excluding Home page
    */
   function deleteOpenedPages(): void {
     workspaceService.deleteOpenPages();
