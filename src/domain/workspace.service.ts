@@ -41,7 +41,7 @@ export default class WorkspaceService {
   /**
    * Delete opened pages excluding Home Page
    */
-  public deleteOpenPages(): void {
-    this.repository.deleteOpenPages();
+  public deleteOpenedPages(): void {
+    this.repository.deleteOpenedPages();
   }
 }
