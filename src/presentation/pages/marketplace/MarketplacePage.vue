@@ -1,6 +1,6 @@
 <template>
-  <ThreeColsLayout>
-    <template #left-col>
+  <PageBlock>
+    <template #left>
       <VerticalMenu
         class="menu"
         :items="verticalMenuItems"
@@ -9,13 +9,12 @@
     <template #default>
       <router-view />
     </template>
-  </ThreeColsLayout>
+  </PageBlock>
 </template>
 
 <script lang="ts" setup>
-import { VerticalMenu, type VerticalMenuItem } from 'codex-ui/vue';
+import { VerticalMenu, type VerticalMenuItem, PageBlock } from 'codex-ui/vue';
 import { computed, Ref } from 'vue';
-import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
