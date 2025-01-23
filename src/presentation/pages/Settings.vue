@@ -178,7 +178,7 @@ const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
 const { removeTool } = useUserSettings();
-const { deleteOpenedPageByUrl } = useNavbar();
+const { deleteOpenedPages } = useNavbar();
 const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setColorScheme } = useTheme();
 
 /**
@@ -209,7 +209,7 @@ async function userLogout() {
   /**
    * Delete user opened page
    */
-  deleteOpenedPageByUrl('/settings');
+  deleteOpenedPages();
 
   router.replace({ path: '/' });
 }

@@ -61,4 +61,15 @@ export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
         url: currentPage.url };
     });
   }
+
+  /**
+   * Delete all opened pages excluding Home page
+   */
+  public deleteOpenedPages(): void {
+    this.data.openedPages?.forEach((currentPage) => {
+      if (currentPage.url !== '/') {
+        this.deleteOpenedPageByUrl(currentPage.url);
+      }
+    });
+  }
 }
