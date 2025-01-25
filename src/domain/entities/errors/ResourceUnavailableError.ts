@@ -9,8 +9,8 @@ export default class ResourceUnavailableError extends DomainError {
    * @param message - Error message
    * @param statusCode - Error status code
    */
-  constructor(message: string, public statusCode: number) {
-    super(message);
+  constructor(message: string = 'Internal server error', statusCode: number = 500) {
+    super(message, statusCode);
     this.name = 'ResourceUnavailableError';
   }
 }

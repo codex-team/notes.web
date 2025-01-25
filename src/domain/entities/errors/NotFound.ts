@@ -9,8 +9,8 @@ export default class NotFoundError extends DomainError {
    * @param message - Error message
    * @param statusCode - Error status code
    */
-  constructor(message: string = 'NotFound', public statusCode: number) {
-    super(message);
+  constructor(message: string = 'NotFound', statusCode: number = 404) {
+    super(message, statusCode);
     this.name = 'NotFoundError';
   }
 }

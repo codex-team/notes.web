@@ -7,9 +7,11 @@ export default class DomainError extends Error {
   /**
    * Constructor for Domain error
    * @param message - Error message
+   * @param statusCode - Status code
    */
-  constructor(message: string) {
+  constructor(message: string, statusCode?: number) {
     super(message);
     this.name = 'DomainError';
+    this.statusCode = statusCode;
   }
 }

@@ -9,8 +9,8 @@ export default class UnauthorizedError extends DomainError {
    * @param message - Error message
    * @param statusCode - Error status code
    */
-  constructor(message: string = 'Unauthorized', public statusCode: number) {
-    super(message);
+  constructor(message: string = 'Unauthorized', statusCode: number = 401) {
+    super(message, statusCode);
     this.name = 'UnauthorizedError';
   }
 }
