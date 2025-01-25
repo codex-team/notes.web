@@ -1,13 +1,11 @@
 <template>
-  <div class="container">
-    <div class="navbar-wrapper">
-      <Navbar>
-        Left
-        <template #right>
-          Right
-        </template>
-      </Navbar>
-    </div>
+  <div class="navbar-wrapper">
+    <Navbar>
+      Left
+      <template #right>
+        Right
+      </template>
+    </Navbar>
   </div>
 </template>
 
@@ -16,11 +14,6 @@ import { Navbar } from '../../../src/vue';
 </script>
 
 <style scoped>
-.container {
-  height: 400px;
-  overflow-y: scroll;
-}
-
 .navbar-wrapper {
   height: 800px;
   position: relative;
@@ -29,7 +22,8 @@ import { Navbar } from '../../../src/vue';
   border: 1px solid var(--base--border);
 
   .navbar {
-      border-radius: var(--radius-m) var(--radius-m) 0 0;
+    top: var(--layout-navbar-height);
+    border-radius: var(--radius-m) var(--radius-m) 0 0;
   }
 }
 </style>

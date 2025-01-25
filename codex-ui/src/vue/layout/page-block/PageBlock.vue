@@ -65,7 +65,6 @@ defineProps({
     &--stretched {
       max-width: 100%;
       flex: 2;
-      overflow: hidden;
     }
   }
 
