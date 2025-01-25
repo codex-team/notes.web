@@ -14,10 +14,10 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useHead } from 'unhead';
 import { useRoute } from 'vue-router';
-import useHeader from '@/application/services/useHeader';
+import useNavbar from '@/application/services/useNavbar';
 
 const route = useRoute();
-const { patchOpenedPageByUrl } = useHeader();
+const { patchOpenedPageByUrl } = useNavbar();
 
 const { t, te } = useI18n();
 
