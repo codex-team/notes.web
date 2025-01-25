@@ -73,9 +73,8 @@ withDefaults(
   display: inline-block;
   min-width: var(--min-width);
   text-decoration: none;
-
   max-width: max-content;
-
+  user-select: none;
   flex: 1;
   flex-shrink: 1;
 
