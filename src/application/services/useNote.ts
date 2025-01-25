@@ -5,6 +5,7 @@ import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
+import DomainError from '@/domain/entities/errors/Base';
 import useNavbar from './useNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
 
@@ -98,7 +99,7 @@ interface UseNoteComposableOptions {
  * @param options - note service options
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
-  const { patchOpenedPageByUrl } = useNavbar();
+  const { patchOpenedPageByUrl, deleteOpenedPageByUrl } = useNavbar();
   /**
    * Current note identifier
    */
@@ -163,15 +164,21 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param id - Note identifier got from composable argument
    */
   async function load(id: NoteId): Promise<void> {
-    /**
-     * @todo try-catch domain errors
-     */
-    const response = await noteService.getNoteById(id);
+    try {
+      const response = await noteService.getNoteById(id);
 
-    note.value = response.note;
-    canEdit.value = response.accessRights.canEdit;
-    noteTools.value = response.tools;
-    parentNote.value = response.parentNote;
+      note.value = response.note;
+      canEdit.value = response.accessRights.canEdit;
+      noteTools.value = response.tools;
+      parentNote.value = response.parentNote;
+    } catch (error) {
+      deleteOpenedPageByUrl(route.path);
+      if (error instanceof DomainError) {
+        void router.push(`/error/${error.statusCode}`);
+      } else {
+        void router.push('/error/500');
+      }
+    }
   }
 
   /**

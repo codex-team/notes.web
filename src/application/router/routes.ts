@@ -179,7 +179,6 @@ const routes: RouteRecordRaw[] = [
       discardTabOnLeave: true,
     },
   },
-
   /**
    * 404 page
    */
@@ -194,6 +193,21 @@ const routes: RouteRecordRaw[] = [
     props: {
       code: 404,
     },
+  },
+  /**
+   * error page
+   */
+  {
+    path: '/error/:code',
+    component: ErrorPage,
+    meta: {
+      layout: 'fullpage',
+      pageTitleI18n: 'pages.error',
+      discardTabOnLeave: true,
+    },
+    props: route => ({
+      code: route.params.code,
+    }),
   },
 ];
 
