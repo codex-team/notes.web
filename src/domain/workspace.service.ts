@@ -37,4 +37,11 @@ export default class WorkspaceService {
   public patchOpenedPageByUrl(url: OpenedPage['url'], page: OpenedPage): void {
     this.repository.patchOpenedPageByUrl(url, page);
   }
+
+  /**
+   * Delete opened pages excluding Home Page
+   */
+  public deleteOpenedPages(): void {
+    this.repository.deleteOpenedPages();
+  }
 }

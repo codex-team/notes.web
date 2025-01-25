@@ -7,7 +7,7 @@ import { workspaceService } from '@/domain/index';
 import { useI18n } from 'vue-i18n';
 import { notEmpty } from '@/infrastructure/utils/empty';
 
-interface useHeaderComposableState {
+interface useNavbarComposableState {
   /**
    * Function for adding record to opened pages storage when user opens new page
    * @param page - page that had beed opened by user
@@ -29,16 +29,21 @@ interface useHeaderComposableState {
   patchOpenedPageByUrl: (url: OpenedPage['url'], page: OpenedPage) => void;
 
   /**
+   * Delete all opened pages excluding Home page
+   */
+  deleteOpenedPages: () => void;
+
+  /**
    * There would be stored all currently opened pages
    */
   currentOpenedPages: ComputedRef<OpenedPage[]>;
 };
 
 /**
- * Function for composing data for header
- * @returns data used in header and functions for composing data used in header
+ * Function for composing data for Navbar
+ * @returns data used in Navbar and functions for composing data used in Navbar
  */
-export default function useHeader(): useHeaderComposableState {
+export default function useNavbar(): useNavbarComposableState {
   const router = useRouter();
   const route = useRoute();
   const { t } = useI18n();
@@ -72,6 +77,13 @@ export default function useHeader(): useHeaderComposableState {
   };
 
   /**
+   * Delete all opened pages excluding Home page
+   */
+  function deleteOpenedPages(): void {
+    workspaceService.deleteOpenedPages();
+  }
+
+  /**
    * Hook for adding new page to storage when user changes route
    */
   router.beforeResolve((currentRoute, prevRoute) => {
@@ -87,7 +99,7 @@ export default function useHeader(): useHeaderComposableState {
   });
 
   /**
-   * Subscribe to page changes in the use Header
+   * Subscribe to page changes in the use Navbar
    */
   AppStateController.openedPages((prop: 'openedPages', value: OpenedPage[] | null) => {
     if (prop === 'openedPages') {
@@ -120,5 +132,6 @@ export default function useHeader(): useHeaderComposableState {
     deleteOpenedPageByUrl,
     patchOpenedPageByUrl,
     currentOpenedPages,
+    deleteOpenedPages,
   };
 }

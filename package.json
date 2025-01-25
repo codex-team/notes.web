@@ -18,7 +18,7 @@
     "codex-ui"
   ],
   "dependencies": {
-    "@codexteam/icons": "^0.3.0",
+    "@codexteam/icons": "^0.3.3",
     "@hawk.so/javascript": "^3.0.2",
     "@vueuse/core": "^10.3.0",
     "codex-ui": "workspace:^",

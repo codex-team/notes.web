@@ -170,7 +170,7 @@ import { useUserSettings } from '@/application/services/useUserSettings';
 import { useAppState } from '@/application/services/useAppState';
 import { useHead } from 'unhead';
 import { ref } from 'vue';
-import useHeader from '@/application/services/useHeader';
+import useNavbar from '@/application/services/useNavbar';
 import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 
 const { user, userEditorTools } = useAppState();
@@ -178,7 +178,7 @@ const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
 const { removeTool } = useUserSettings();
-const { deleteOpenedPageByUrl } = useHeader();
+const { deleteOpenedPages } = useNavbar();
 const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setColorScheme } = useTheme();
 
 /**
@@ -209,7 +209,7 @@ async function userLogout() {
   /**
    * Delete user opened page
    */
-  deleteOpenedPageByUrl('/settings');
+  deleteOpenedPages();
 
   router.replace({ path: '/' });
 }

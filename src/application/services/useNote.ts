@@ -6,7 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
 import DomainError from '@/domain/entities/errors/Base';
-import useHeader from './useHeader';
+import useNavbar from './useNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
 
 /**
@@ -99,7 +99,7 @@ interface UseNoteComposableOptions {
  * @param options - note service options
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
-  const { patchOpenedPageByUrl, deleteOpenedPageByUrl } = useHeader();
+  const { patchOpenedPageByUrl, deleteOpenedPageByUrl } = useNavbar();
   /**
    * Current note identifier
    */
