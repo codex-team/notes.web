@@ -57,6 +57,8 @@ defineProps({
 
   &__content {
     max-width: var(--layout-content-width);
+    flex-grow: 1;
+    min-width: 0;
     padding: var(--spacing-xxl) var(--spacing-ml);
     box-sizing: border-box;
 

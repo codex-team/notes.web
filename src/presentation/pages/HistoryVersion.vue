@@ -34,17 +34,19 @@
         </Button>
       </template>
     </NoteHeader>
-    <Editor
-      v-if="isEditorReady"
-      ref="editor"
-      v-bind="editorConfig"
-    />
+    <PageBlock>
+      <Editor
+        v-if="isEditorReady"
+        ref="editor"
+        v-bind="editorConfig"
+      />
+    </PageBlock>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, toRef, watch } from 'vue';
-import { Editor, Button, Avatar } from 'codex-ui/vue';
+import { Editor, Button, Avatar, PageBlock } from 'codex-ui/vue';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import useHistory from '@/application/services/useNoteHistory';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
