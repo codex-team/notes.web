@@ -167,7 +167,6 @@ async function setCover(event: Event) {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxl);
-  width: var(--layout-content-width);
 }
 
 .add-tool-button {

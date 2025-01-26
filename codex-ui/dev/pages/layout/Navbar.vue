@@ -15,17 +15,15 @@ import { Navbar } from '../../../src/vue';
 
 <style scoped>
 .navbar-wrapper {
-  width: 600px;
-  min-height: 400px;
+  height: 800px;
   position: relative;
   background-color: var(--base--bg-secondary);
   border-radius: var(--radius-m);
   border: 1px solid var(--base--border);
 
   .navbar {
-      z-index: 1;
-      top: var(--layout-navbar-height);
-      border-radius: var(--radius-m) var(--radius-m) 0 0;
+    top: var(--layout-navbar-height);
+    border-radius: var(--radius-m) var(--radius-m) 0 0;
   }
 }
 </style>

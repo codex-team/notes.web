@@ -1,5 +1,5 @@
 <template>
-  <ThreeColsLayout data-dimensions="large">
+  <PageBlock data-dimensions="large">
     <div
       v-if="noteSettings"
       class="note-settings"
@@ -93,7 +93,7 @@
     <div v-else>
       Loading...
     </div>
-  </ThreeColsLayout>
+  </PageBlock>
 </template>
 
 <script lang="ts" setup>
@@ -105,8 +105,7 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card } from 'codex-ui/vue';
-import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
+import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card, PageBlock } from 'codex-ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
