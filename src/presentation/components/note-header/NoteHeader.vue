@@ -22,6 +22,10 @@
   transition: opacity 100ms;
   justify-content: space-between;
   padding: var(--spacing-s) var(--spacing-m);
+  position: sticky;
+  top: var(--layout-navbar-height);
+  background-color: var(--base--bg-primary);
+  z-index: var(--z-note-header);
 
   &__left {
     color: var(--base--text-secondary);
