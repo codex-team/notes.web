@@ -22,7 +22,7 @@ export default interface WorkspaceRepositoryInterface {
   patchOpenedPageByUrl: (url: OpenedPage['url'], page: OpenedPage) => void;
 
   /**
-   * Delete all opened pages excluding Home page
+   * Delete all opened pages
    */
   deleteOpenedPages: () => void;
 

@@ -63,13 +63,11 @@ export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
   }
 
   /**
-   * Delete all opened pages excluding Home page
+   * Delete all opened pages
    */
   public deleteOpenedPages(): void {
     this.data.openedPages?.forEach((currentPage) => {
-      if (currentPage.url !== '/') {
-        this.deleteOpenedPageByUrl(currentPage.url);
-      }
+      this.deleteOpenedPageByUrl(currentPage.url);
     });
   }
 }

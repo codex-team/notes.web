@@ -39,7 +39,7 @@ export default class WorkspaceRepository extends Repository<OpenedPagesStore, Op
   }
 
   /**
-   * Delete all opened pages excluding Home page
+   * Delete all opened pages
    */
   public deleteOpenedPages(): void {
     this.store.deleteOpenedPages();
