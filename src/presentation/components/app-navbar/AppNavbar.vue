@@ -47,7 +47,7 @@ const tabs = computed(() => currentOpenedPages.value.map((page): TabParams => {
   return {
     id: page.url,
     title: page.title,
-    closable: page.title !== 'Home',
+    closable: true,
     isActive: page.url === route.path,
   };
 }));

@@ -29,7 +29,7 @@ interface useNavbarComposableState {
   patchOpenedPageByUrl: (url: OpenedPage['url'], page: OpenedPage) => void;
 
   /**
-   * Delete all opened pages excluding Home page
+   * Delete all opened pages
    */
   deleteOpenedPages: () => void;
 
@@ -77,7 +77,7 @@ export default function useNavbar(): useNavbarComposableState {
   };
 
   /**
-   * Delete all opened pages excluding Home page
+   * Delete all opened pages
    */
   function deleteOpenedPages(): void {
     workspaceService.deleteOpenedPages();
@@ -94,8 +94,13 @@ export default function useNavbar(): useNavbarComposableState {
       deleteOpenedPageByUrl(route.path);
     }
 
-    addOpenedPage({ title: t(currentRoute.meta.pageTitleI18n),
-      url: currentRoute.path });
+    /**
+     * If the route is '/' do not add the page
+     */
+    if (currentRoute.path !== '/') {
+      addOpenedPage({ title: t(currentRoute.meta.pageTitleI18n),
+        url: currentRoute.path });
+    }
   });
 
   /**

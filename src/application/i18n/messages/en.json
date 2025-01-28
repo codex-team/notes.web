@@ -7,7 +7,6 @@
   },
   "header": {
     "buttons": {
-      "home": "Home",
       "noteSettings": "Settings"
     }
   },
@@ -176,7 +175,6 @@
     }
   },
   "pages": {
-    "home": "Home",
     "note": "Note",
     "newNote": "New note",
     "landing": "landing",
