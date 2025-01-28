@@ -1,27 +1,21 @@
 <template>
-  <div v-if="teamMember.user.id != user?.id">
-    <select
+  <div>
+    <Select
       v-model="selectedRole"
-      @change="updateMemberRole"
-    >
-      <option
-        v-for="(role, index) in roleOptions"
-        :key="index"
-        :value="role"
-      >
-        {{ t(`noteSettings.team.roles.${role}`) }}
-      </option>
-    </select>
+      :align="{ vertically: 'below', horizontally: 'right' }"
+      :is-disabled="teamMember.user.id == user?.id || isCreator"
+      :items="roleItems"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { MemberRole, TeamMember } from '@/domain/entities/Team.ts';
 import { NoteId } from '@/domain/entities/Note.ts';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings.ts';
 import { useAppState } from '@/application/services/useAppState';
-import { useI18n } from 'vue-i18n';
+import { ContextMenuItem, DefaultItem, Select } from 'codex-ui/vue';
 
 /**
  * TeamMember props
@@ -37,31 +31,53 @@ const props = defineProps<{
   noteId: NoteId;
 }>();
 
-const selectedRole = ref(MemberRole[props.teamMember.role]);
+/* property to disable select for changing creator's role */
+let isCreator = false;
+
+const selectedRole = ref<DefaultItem>({
+  title: MemberRole[props.teamMember.role],
+  onActivate: () => {},
+});
 
 const roleOptions = computed(() => Object.values(MemberRole).filter(value => typeof value === 'string'));
+const roleItems: ContextMenuItem[] = [];
+
+roleOptions.value.forEach((role) => {
+  roleItems.push({
+    title: role.toString(),
+    onActivate: () => {},
+  });
+});
 
 const { changeRole } = useNoteSettings();
-
 const { user } = useAppState();
 
-const { t } = useI18n();
+/* Watch role's update */
+watch(selectedRole, (newRole, oldRole) => {
+  if (newRole.title !== oldRole.title) {
+    updateMemberRole(newRole.title);
+  }
+});
 
 /**
  * Updates the user role if it has been changed
+ *
+ * @param updatedRole - new role needed to set
  */
-async function updateMemberRole() {
-  changeRole(props.noteId, props.teamMember.user.id, MemberRole[selectedRole.value as keyof typeof MemberRole]);
+async function updateMemberRole(updatedRole: string | any) {
+  changeRole(props.noteId, props.teamMember.user.id, MemberRole[updatedRole as keyof typeof MemberRole]).catch(() => {
+    selectedRole.value = {
+      title: 'Write',
+      onActivate: () => {},
+    };
+    isCreator = true;
+  });
 }
+/* Check, is the user creator or not to disable select on true */
+onMounted(() => {
+  updateMemberRole(MemberRole[props.teamMember.role]);
+});
 </script>
 
 <style scoped>
-.member {
-  margin-top: var(--spacing-l);
-}
-.member-name {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-very-x);
-}
 </style>
