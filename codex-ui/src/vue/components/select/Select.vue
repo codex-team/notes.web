@@ -1,30 +1,33 @@
 <template>
   <Button
-    :icon="activeItem.icon"
+    :icon="currentItem.icon"
+    :disabled="isDisabled"
     trailing-icon="BracketsVertical"
     secondary
-    @click="togglePopover($event.currentTarget, {vertically: 'below', horizontally: 'left'})"
+    @click="togglePopover($event.currentTarget)"
   >
-    {{ activeItem.title }}
+    {{ currentItem.title }}
   </Button>
 </template>
 <script setup lang="ts">
 import type { ContextMenuItem as SelectItem, DefaultItem } from '../context-menu/ContextMenu.types';
 import { ContextMenu } from '../context-menu';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { usePopover, PopoverShowParams } from '../popover';
 import { Button } from '../button';
 
 const props = defineProps<{
+  align: PopoverShowParams['align'];
+  isDisabled: boolean;
   items: SelectItem[];
-  defaultItem: DefaultItem;
 }>();
 
+const align = props.align;
 const items = props.items;
 const { showPopover, hide, isOpen } = usePopover();
 
-const togglePopover = (el: HTMLElement, align: PopoverShowParams['align']) => {
-  if (!isOpen.value) {
+const togglePopover = (el: HTMLElement) => {
+  if (!isOpen.value && !props.isDisabled) {
     showPopover({
       targetEl: el,
       with: {
@@ -41,12 +44,11 @@ const togglePopover = (el: HTMLElement, align: PopoverShowParams['align']) => {
 };
 
 /* Default item value for select on page load */
-const defaultValue: SelectItem = props.defaultItem;
-const activeItem = ref(defaultValue);
+const currentItem = defineModel<DefaultItem>({ required: true });
 
 /* Main function to update selected item */
 const updateActiveItem = (item: DefaultItem) => {
-  activeItem.value = item;
+  currentItem.value = item;
   hide();
 };
 

@@ -8,6 +8,7 @@
       :key="member.id"
       :title="member.user.name || member.user.email"
       :has-delimiter="memberIndex !== team.length - 1"
+      data-dimensions="medium"
     >
       <template #right>
         <RoleSelect

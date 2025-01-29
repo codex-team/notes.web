@@ -51,4 +51,6 @@ export interface Note {
    * @todo Resolve the optionality issue
    */
   updatedAt?: string;
+
+  creatorId?: number;
 }
