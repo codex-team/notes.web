@@ -3,7 +3,7 @@
     <Select
       v-model="selectedRole"
       :align="{ vertically: 'below', horizontally: 'right' }"
-      :is-disabled="teamMember.user.id == user?.id || isCreator"
+      :is-disabled="teamMember.user.id == user?.id || (note !== null && (note as Note).creatorId === teamMember.id)"
       :items="roleItems"
     />
   </div>
@@ -11,11 +11,12 @@
 
 <script setup lang="ts">
 import { MemberRole, TeamMember } from '@/domain/entities/Team.ts';
-import { NoteId } from '@/domain/entities/Note.ts';
-import { computed, onMounted, ref, watch } from 'vue';
+import { Note, NoteId } from '@/domain/entities/Note.ts';
+import { computed, ref, watch } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings.ts';
 import { useAppState } from '@/application/services/useAppState';
 import { ContextMenuItem, DefaultItem, Select } from 'codex-ui/vue';
+import useNote from '@/application/services/useNote.ts';
 
 /**
  * TeamMember props
@@ -30,9 +31,6 @@ const props = defineProps<{
    */
   noteId: NoteId;
 }>();
-
-/* property to disable select for changing creator's role */
-let isCreator = false;
 
 const selectedRole = ref<DefaultItem>({
   title: MemberRole[props.teamMember.role],
@@ -50,6 +48,7 @@ roleOptions.value.forEach((role) => {
 });
 
 const { changeRole } = useNoteSettings();
+const { note } = useNote({ id: props.noteId });
 const { user } = useAppState();
 
 /* Watch role's update */
@@ -58,25 +57,14 @@ watch(selectedRole, (newRole, oldRole) => {
     updateMemberRole(newRole.title);
   }
 });
-
 /**
  * Updates the user role if it has been changed
  *
  * @param updatedRole - new role needed to set
  */
 async function updateMemberRole(updatedRole: string | any) {
-  changeRole(props.noteId, props.teamMember.user.id, MemberRole[updatedRole as keyof typeof MemberRole]).catch(() => {
-    selectedRole.value = {
-      title: 'Write',
-      onActivate: () => {},
-    };
-    isCreator = true;
-  });
+  changeRole(props.noteId, props.teamMember.user.id, MemberRole[updatedRole as keyof typeof MemberRole]);
 }
-/* Check, is the user creator or not to disable select on true */
-onMounted(() => {
-  updateMemberRole(MemberRole[props.teamMember.role]);
-});
 </script>
 
 <style scoped>
