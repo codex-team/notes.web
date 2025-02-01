@@ -68,13 +68,13 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
    * Loaded tools classes by grouped by tool.name
    * Undefined when tools are not loaded yet
    */
-  let toolsClasses: Record<string, EditorjsConfigTool> | undefined = undefined;
+  let toolsUserConfig: Record<string, { class: EditorjsConfigTool; inlineToolbar: boolean }> | undefined = undefined;
 
   /**
-   * We can't make toolsClasses reactive since it contains excecutable js-classes, Vue can't handle that.
+   * We can't make toolsUserConfig reactive since it contains excecutable js-classes, Vue can't handle that.
    * So we store reactive flag to indicate that tools are loaded
    */
-  const toolsClassesLoaded = ref<boolean>(false);
+  const toolsUserConfigLoaded = ref<boolean>(false);
 
   /**
    * Combine note and user tools
@@ -114,8 +114,17 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
      */
     const loadedToolsWithoutParagraph = loadedTools.filter(tool => tool.tool.name !== 'paragraph');
 
-    toolsClasses = Object.fromEntries(loadedToolsWithoutParagraph.map(toolClassAndInfo => [toolClassAndInfo.tool.name, toolClassAndInfo.class]));
-    toolsClassesLoaded.value = true;
+    toolsUserConfig = Object.fromEntries(
+      loadedToolsWithoutParagraph
+        .map(toolClassAndInfo => [
+          toolClassAndInfo.tool.name,
+          {
+            class: toolClassAndInfo.class,
+            inlineToolbar: true,
+          },
+        ])
+    );
+    toolsUserConfigLoaded.value = true;
 
     /**
      * Now all tools are loaded, we're ready to use the editor
@@ -148,8 +157,9 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       holderId: 'editorjs',
       data: options.noteContentResolver(),
       readOnly: toValue(options.canEdit) === false,
-      tools: toolsClassesLoaded.value ? toolsClasses : undefined,
+      tools: toolsUserConfigLoaded.value ? toolsUserConfig : undefined,
       placeholder: t('note.editor.placeholder'),
+      inlineToolbar: true,
     };
   });
 
