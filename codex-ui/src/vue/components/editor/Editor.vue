@@ -48,6 +48,13 @@ const props = defineProps<{
    * Should the editor be focused on load
    */
   autofocus?: boolean;
+
+  /**
+   * Common Inline Toolbar settings
+   * - if true (or not specified), the order from 'tool' property will be used (default)
+   * - if an array of tool names, this order will be used
+   */
+  inlineToolbar?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -62,6 +69,7 @@ const editorConfig = computed<EditorConfig>(() => {
     tools: props.tools,
     placeholder: props.placeholder,
     autofocus: props.autofocus,
+    inlineToolbar: props.inlineToolbar,
   };
 });
 
