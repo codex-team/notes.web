@@ -52,5 +52,8 @@ export interface Note {
    */
   updatedAt?: string;
 
+  /**
+   * Id of user, who created the note
+   */
   creatorId?: number;
 }

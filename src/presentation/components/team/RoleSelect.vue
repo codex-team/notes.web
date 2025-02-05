@@ -52,10 +52,8 @@ const { note } = useNote({ id: props.noteId });
 const { user } = useAppState();
 
 /* Watch role's update */
-watch(selectedRole, (newRole, oldRole) => {
-  if (newRole.title !== oldRole.title) {
-    updateMemberRole(newRole.title);
-  }
+watch(selectedRole, (newRole) => {
+  updateMemberRole(newRole.title);
 });
 /**
  * Updates the user role if it has been changed
