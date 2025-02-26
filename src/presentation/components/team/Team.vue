@@ -57,6 +57,7 @@ const props = defineProps<{
  * Sorts the team members based on their role and whether they are the creator of the note.
  *
  * @param members - Array of TeamMember objects to be sorted.
+ // eslint-disable-next-line jsdoc/require-returns-type
  * @returns Sorted array of TeamMember objects.
  */
 const sortMembers = (members: TeamMember[]): TeamMember[] => {
