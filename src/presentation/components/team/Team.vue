@@ -38,7 +38,7 @@ import { NoteId } from '@/domain/entities/Note';
 import { Section, Row, Avatar } from 'codex-ui/vue';
 import RoleSelect from './RoleSelect.vue';
 import { useI18n } from 'vue-i18n';
-import {computed, defineProps} from "vue";
+import { computed, defineProps } from 'vue';
 
 const { t } = useI18n();
 
@@ -88,7 +88,7 @@ const sortMembers = (members: TeamMember[]): TeamMember[] => {
   });
 };
 
-const sortedTeam = computed(()=>sortMembers(props.team))
+const sortedTeam = computed(() => sortMembers(props.team));
 </script>
 
 <style scoped>
