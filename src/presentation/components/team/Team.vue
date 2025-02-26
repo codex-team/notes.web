@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { TeamMember, MemberRole } from '@/domain/entities/Team';
+import { Team, TeamMember, MemberRole } from '@/domain/entities/Team';
 import { NoteId } from '@/domain/entities/Note';
 import { Section, Row, Avatar } from 'codex-ui/vue';
 import RoleSelect from './RoleSelect.vue';
@@ -46,7 +46,7 @@ const props = defineProps<{
   /**
    * Team of the current note
    */
-  team: TeamMember[];
+  team: Team;
   /**
    * Id of the current note
    */
@@ -57,7 +57,7 @@ const props = defineProps<{
  * Sorts the team members based on their role and whether they are the creator of the note.
  *
  * @param members - Array of TeamMember objects to be sorted.
- * @returns {TeamMember} - Sorted array of TeamMember objects.
+ * @returns {TeamMember}TeamMember - Sorted array of TeamMember objects.
  */
 const sortMembers = (members: TeamMember[]): TeamMember[] => {
   return members.sort((a, b) => {
