@@ -18,6 +18,7 @@ import EditorToolsTransport from '@/infrastructure/transport/editorTools.transpo
 import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository';
 import TeamRepository from '@/infrastructure/team.repository';
 import NoteHistoryRepository from './noteHistory.repository';
+import CtprotoTransport from './transport/ctproto.transport';
 
 /**
  * Repositories
@@ -94,6 +95,13 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
    */
   const notesApiTransport = new NotesApiTransport(noteApiUrl);
   const editorToolsTransport = new EditorToolsTransport();
+  const ctprotoTransport = new CtprotoTransport('ws://localhost:8080', 'valid-token');
+
+  // Используем API
+  ctprotoTransport
+    .send('note:join', { noteId: '123' })
+    .then(response => console.log('✅ Ответ от сервера:', response))
+    .catch(err => console.error('❌ Ошибка при отправке:', err));
 
   /**
    * When we got authorized

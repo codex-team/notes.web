@@ -2303,6 +2303,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ctproto@npm:^0.0.13":
+  version: 0.0.13
+  resolution: "ctproto@npm:0.0.13"
+  dependencies:
+    nanoid: ^3.1.20
+    ws: ^7.4.1
+  checksum: 48adbd6c3fa69c1fa11a00105422c7b8563aadfb55d70908eba3988666177525775be7d0a64c2ec73a2c688b42aa63124b1f9c2ac9a2ad523401478fa9e6c6db
+  languageName: node
+  linkType: hard
+
 "data-view-buffer@npm:^1.0.1":
   version: 1.0.1
   resolution: "data-view-buffer@npm:1.0.1"
@@ -4237,6 +4247,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^3.1.20":
+  version: 3.3.8
+  resolution: "nanoid@npm:3.3.8"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: dfe0adbc0c77e9655b550c333075f51bb28cfc7568afbf3237249904f9c86c9aaaed1f113f0fddddba75673ee31c758c30c43d4414f014a52a7a626efc5958c9
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^3.3.7":
   version: 3.3.7
   resolution: "nanoid@npm:3.3.7"
@@ -4334,6 +4353,7 @@ __metadata:
     "@vitejs/plugin-vue": ^4.1.0
     "@vueuse/core": ^10.3.0
     codex-ui: "workspace:^"
+    ctproto: ^0.0.13
     dayjs: ^1.11.10
     eslint: ^9.3.0
     eslint-config-codex: ^2.0.0
@@ -4362,6 +4382,7 @@ __metadata:
     vue-i18n: ^9.2.2
     vue-router: ^4.2.4
     vue-tsc: ^1.8.8
+    ws: ^8.18.1
   languageName: unknown
   linkType: soft
 
@@ -6152,6 +6173,36 @@ __metadata:
     string-width: ^5.0.1
     strip-ansi: ^7.0.1
   checksum: 371733296dc2d616900ce15a0049dca0ef67597d6394c57347ba334393599e800bab03c41d4d45221b6bc967b8c453ec3ae4749eff3894202d16800fdfe0e238
+  languageName: node
+  linkType: hard
+
+"ws@npm:^7.4.1":
+  version: 7.5.10
+  resolution: "ws@npm:7.5.10"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: f9bb062abf54cc8f02d94ca86dcd349c3945d63851f5d07a3a61c2fcb755b15a88e943a63cf580cbdb5b74436d67ef6b67f745b8f7c0814e411379138e1863cb
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.18.1":
+  version: 8.18.1
+  resolution: "ws@npm:8.18.1"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 4658357185d891bc45cc2d42a84f9e192d047e8476fb5cba25b604f7d75ca87ca0dd54cd0b2cc49aeee57c79045a741cb7d0b14501953ac60c790cd105c42f23
   languageName: node
   linkType: hard
 
