@@ -1,5 +1,4 @@
 import { CTProtoClient } from 'ctproto';
-import { nanoid } from 'nanoid';
 
 interface AuthRequestPayload {
   token: string;
@@ -37,26 +36,17 @@ export default class CtprotoTransport {
     ApiUpdate
   >;
 
-  private reconnectAttempts = 0;
-  private readonly maxReconnectAttempts = 5;
-
   constructor(apiUrl: string, authToken: string) {
     this.client = new CTProtoClient<AuthRequestPayload, AuthResponsePayload, ApiRequest, ApiResponse, ApiUpdate>({
       apiUrl,
       authRequestPayload: { token: authToken },
       onAuth: (response) => {
         console.log('✅ Аутентификация успешна:', response);
-        this.reconnectAttempts = 0; // Сброс счётчика попыток
       },
       onMessage: (message) => {
         console.log('📩 Получено сообщение от сервера:', message);
       },
-      onError: (error) => {
-        console.error('❌ Ошибка CTProto:', error);
-      },
-      onDisconnect: (reason) => {
-        console.warn('⚠ CTProto отключен:', reason);
-      },
+      disableLogs: false,
     });
   }
 
@@ -70,13 +60,5 @@ export default class CtprotoTransport {
       type,
       payload
     );
-  }
-
-  /**
-   * Подписка на входящие сообщения
-   * @param callback - Функция обработки сообщений
-   */
-  public on(callback: (message: ApiResponse | ApiUpdate) => void): void {
-    this.client.onMessage = callback;
   }
 }
