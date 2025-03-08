@@ -322,7 +322,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    if (!route.path.includes('/settings')) {
+    const routes = ['/settings', '/history', '/error'];
+
+    if (routes.every(rt => !route.path.includes(rt))) {
       patchOpenedPageByUrl(
         route.path,
         {
