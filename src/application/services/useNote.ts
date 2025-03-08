@@ -8,6 +8,8 @@ import type EditorTool from '@/domain/entities/EditorTool';
 import DomainError from '@/domain/entities/errors/Base';
 import useNavbar from './useNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
+import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
+import type { VerticalMenuItem } from 'codex-ui/vue';
 
 /**
  * Creates base structure for the empty note:
@@ -85,6 +87,11 @@ interface UseNoteComposableState {
    * Title for bookmarks in the browser
    */
   noteTitle: Ref<string>;
+
+  /**
+   * Note hierarchy Vertical menu items
+   */
+  noteHierarchyVerticalMenuItems: Ref<VerticalMenuItem[] | null>;
 }
 
 interface UseNoteComposableOptions {
@@ -160,6 +167,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const parentNote = ref<Note | undefined>(undefined);
 
   /**
+   * Note hierarchy Vertical menu items
+   *
+   * null by default
+   */
+  const noteHierarchyVerticalMenuItems = ref<VerticalMenuItem[] | null>(null);
+
+  /**
    * Load note by id
    * @param id - Note identifier got from composable argument
    */
@@ -179,6 +193,48 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         void router.push('/error/500');
       }
     }
+  }
+
+  function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null): VerticalMenuItem {
+    if (!noteHierarchyObj) {
+      return {
+        title: 'Untitled',
+        isActive: false,
+        items: undefined,
+        onActivate: () => {
+          console.log('Default item activated');
+        },
+      };
+    }
+
+    // Transform the current note into a VerticalMenuItem
+    const menuItem: VerticalMenuItem = {
+      title: getTitle(noteHierarchyObj.content),
+      isActive: route.path === `/note/${noteHierarchyObj.id}`,
+      items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child)) : undefined,
+      onActivate: () => {
+        console.log(`Note ${noteHierarchyObj.id} activated`);
+        void router.push(`/note/${noteHierarchyObj.id}`);
+      },
+    };
+
+    return menuItem;
+  }
+
+  /**
+   * get note hierarchy
+   * @param id - note id
+   */
+  async function getNoteHierarchy(id: NoteId): Promise<void> {
+    let response = await noteService.getNoteHierarchy(id);
+
+    let noteHierarchyMenuItems = transformNoteHierarchy(response);
+
+    console.warn(response);
+
+    noteHierarchyVerticalMenuItems.value = [noteHierarchyMenuItems];
+
+    console.log(noteHierarchyVerticalMenuItems);
   }
 
   /**
@@ -281,10 +337,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   onMounted(() => {
     /**
-     * If we have id, load note
+     * If we have id, load note and note hierarchy
      */
     if (currentId.value !== null) {
       void load(currentId.value);
+      void getNoteHierarchy(currentId.value);
     }
   });
 
@@ -340,5 +397,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     save,
     unlinkParent,
     parentNote,
+    noteHierarchyVerticalMenuItems,
   };
 }
