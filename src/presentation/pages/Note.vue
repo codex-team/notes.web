@@ -40,6 +40,7 @@
       <Editor
         v-if="isEditorReady"
         ref="editor"
+        :key="id || 'new'"
         v-bind="editorConfig"
         @change="noteChanged"
       />
