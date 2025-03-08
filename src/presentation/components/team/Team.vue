@@ -4,10 +4,10 @@
     :caption="t('noteSettings.team.caption')"
   >
     <Row
-      v-for="(member, index) in sortedTeam"
+      v-for="(member, memberIndex) in sortedTeam"
       :key="member.id"
       :title="member.user.name || member.user.email"
-      :has-delimiter="index !== sortedTeam.length - 1"
+      :has-delimiter="memberIndex !== sortedTeam.length - 1"
       data-dimensions="medium"
     >
       <template #right>
@@ -41,8 +41,14 @@ import RoleSelect from './RoleSelect.vue';
 import { useI18n } from 'vue-i18n';
 import useNote from '@/application/services/useNote.ts';
 
+/**
+ * Team of the current note
+ */
 const props = defineProps<{
   team: Team;
+  /**
+   * Id of the current note
+   */
   noteId: NoteId;
 }>();
 
