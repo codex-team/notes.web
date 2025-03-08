@@ -4,10 +4,10 @@
     :caption="t('noteSettings.team.caption')"
   >
     <Row
-      v-for="(member, memberIndex) in sortedTeam"
+      v-for="(member, index) in sortedTeam"
       :key="member.id"
       :title="member.user.name || member.user.email"
-      :has-delimiter="memberIndex !== sortedTeam.length - 1"
+      :has-delimiter="index !== sortedTeam.length - 1"
       data-dimensions="medium"
     >
       <template #right>
@@ -33,62 +33,46 @@
 </template>
 
 <script setup lang="ts">
-import { Team, TeamMember, MemberRole } from '@/domain/entities/Team';
-import { NoteId } from '@/domain/entities/Note';
+import { computed } from 'vue';
+import { Team, MemberRole } from '@/domain/entities/Team';
+import { Note, NoteId } from '@/domain/entities/Note';
 import { Section, Row, Avatar } from 'codex-ui/vue';
 import RoleSelect from './RoleSelect.vue';
 import { useI18n } from 'vue-i18n';
-import { computed, defineProps } from 'vue';
-
-const { t } = useI18n();
+import useNote from '@/application/services/useNote.ts';
 
 const props = defineProps<{
-  /**
-   * Team of the current note
-   */
   team: Team;
-  /**
-   * Id of the current note
-   */
   noteId: NoteId;
 }>();
 
-/**
- * Sorts the team members based on their role and whether they are the creator of the note.
- *
- * @param members - Array of TeamMember objects to be sorted.
- * @returns {TeamMember}TeamMember - Sorted array of TeamMember objects.
- */
-const sortMembers = (members: TeamMember[]): TeamMember[] => {
-  return members.sort((a, b) => {
+const { t } = useI18n();
+const { note } = useNote({ id: props.noteId });
+
+const sortedTeam = computed(() => {
+  if (!note.value) {
+    return props.team;
+  }
+
+  return [...props.team].sort((a, b) => {
+    const isCreatorA = a.user.id === (note.value as Note).creatorId;
+    const isCreatorB = b.user.id === (note.value as Note).creatorId;
+
+    if (isCreatorA) {
+      return -1;
+    }
+    if (isCreatorB) {
+      return 1;
+    }
+
     const roleOrder = {
       [MemberRole.Write]: 0,
       [MemberRole.Read]: 1,
     };
 
-    const isCreatorA = String(a.user.id) === props.noteId;
-    const isCreatorB = String(b.user.id) === props.noteId;
-
-    if (isCreatorA && !isCreatorB) {
-      return -1;
-    }
-    if (!isCreatorA && isCreatorB) {
-      return 1;
-    }
-
-    if (!roleOrder[a.role] && !roleOrder[b.role]) {
-      return 0;
-    }
-
-    if (roleOrder[a.role] === roleOrder[b.role]) {
-      return 0;
-    }
-
-    return roleOrder[a.role] < roleOrder[b.role] ? -1 : 1;
+    return roleOrder[a.role] - roleOrder[b.role];
   });
-};
-
-const sortedTeam = computed(() => sortMembers(props.team));
+});
 </script>
 
 <style scoped>
