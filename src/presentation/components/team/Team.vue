@@ -41,10 +41,10 @@ import RoleSelect from './RoleSelect.vue';
 import { useI18n } from 'vue-i18n';
 import useNote from '@/application/services/useNote.ts';
 
-/**
- * Team of the current note
- */
 const props = defineProps<{
+  /**
+   * Team of the current note
+   */
   team: Team;
   /**
    * Id of the current note
