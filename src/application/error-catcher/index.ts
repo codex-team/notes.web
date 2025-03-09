@@ -20,7 +20,8 @@ const HawkPlugin = {
       vue: app,
       release: window.HAWK_RELEASE,
     });
-    app.config.globalProperties.$hawk = hawk; 
+
+    app.config.globalProperties.$hawk = hawk;
   },
 };
 
