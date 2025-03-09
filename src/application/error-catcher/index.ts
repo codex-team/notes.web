@@ -15,11 +15,12 @@ declare global {
  */
 const HawkPlugin = {
   install(app: App) {
-    new HawkCatcher({
+    const hawk = new HawkCatcher({
       token: import.meta.env.VITE_HAWK_TOKEN,
       vue: app,
       release: window.HAWK_RELEASE,
     });
+    app.config.globalProperties.$hawk = hawk; 
   },
 };
 
