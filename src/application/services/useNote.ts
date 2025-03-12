@@ -9,7 +9,6 @@ import DomainError from '@/domain/entities/errors/Base';
 import useNavbar from './useNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
 import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
-import type { VerticalMenuItem } from 'codex-ui/vue';
 
 /**
  * Creates base structure for the empty note:
@@ -89,9 +88,9 @@ interface UseNoteComposableState {
   noteTitle: Ref<string>;
 
   /**
-   * Note hierarchy Vertical menu items
+   * Note hierarchy
    */
-  noteHierarchyVerticalMenuItems: Ref<VerticalMenuItem[] | null>;
+  noteHierarchy: Ref<NoteHierarchy | null>;
 }
 
 interface UseNoteComposableOptions {
@@ -167,11 +166,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const parentNote = ref<Note | undefined>(undefined);
 
   /**
-   * Note hierarchy Vertical menu items
+   * Note hierarchy
    *
    * null by default
    */
-  const noteHierarchyVerticalMenuItems = ref<VerticalMenuItem[] | null>(null);
+  const noteHierarchy = ref<NoteHierarchy | null>(null);
 
   /**
    * Load note by id
@@ -195,32 +194,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
   }
 
-  function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null): VerticalMenuItem {
-    if (!noteHierarchyObj) {
-      return {
-        title: 'Untitled',
-        isActive: false,
-        items: undefined,
-        onActivate: () => {
-          console.log('Default item activated');
-        },
-      };
-    }
-
-    // Transform the current note into a VerticalMenuItem
-    const menuItem: VerticalMenuItem = {
-      title: getTitle(noteHierarchyObj.content),
-      isActive: route.path === `/note/${noteHierarchyObj.id}`,
-      items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child)) : undefined,
-      onActivate: () => {
-        console.log(`Note ${noteHierarchyObj.id} activated`);
-        void router.push(`/note/${noteHierarchyObj.id}`);
-      },
-    };
-
-    return menuItem;
-  }
-
   /**
    * get note hierarchy
    * @param id - note id
@@ -228,13 +201,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   async function getNoteHierarchy(id: NoteId): Promise<void> {
     let response = await noteService.getNoteHierarchy(id);
 
-    let noteHierarchyMenuItems = transformNoteHierarchy(response);
-
-    console.warn(response);
-
-    noteHierarchyVerticalMenuItems.value = [noteHierarchyMenuItems];
-
-    console.log(noteHierarchyVerticalMenuItems);
+    noteHierarchy.value = response;
   }
 
   /**
@@ -397,6 +364,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     save,
     unlinkParent,
     parentNote,
-    noteHierarchyVerticalMenuItems,
+    noteHierarchy,
   };
 }

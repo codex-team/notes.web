@@ -37,21 +37,31 @@
       Loading...
     </div>
     <div v-else>
-      <Editor
-        v-if="isEditorReady"
-        ref="editor"
-        v-bind="editorConfig"
-        @change="noteChanged"
-      />
+      <PageBlock>
+        <template #left>
+          <VerticalMenu
+            class="menu"
+            :items="[verticalMenuItems]"
+          />
+        </template>
+        <template #default>
+          <Editor
+            v-if="isEditorReady"
+            ref="editor"
+            v-bind="editorConfig"
+            @change="noteChanged"
+          />
+        </template>
+      </PageBlock>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRef, watch } from 'vue';
-import { Button, Editor } from 'codex-ui/vue';
+import { computed, ref, toRef, watch } from 'vue';
+import { Button, Editor, type VerticalMenuItem, VerticalMenu, PageBlock } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
@@ -60,10 +70,14 @@ import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
+import { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
+import { getTitle } from '@/infrastructure/utils/note';
 
 const { t } = useI18n();
 
 const router = useRouter();
+
+const route = useRoute();
 
 const props = defineProps<{
   /**
@@ -79,7 +93,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteHierarchy } = useNote({
   id: noteId,
 });
 
@@ -155,6 +169,39 @@ async function noteChanged(data: NoteContent): Promise<void> {
   }
 }
 
+/**
+ * Recursively transform the note hierarchy into a VerticalMenuItem
+ *
+ * @param noteHierarchyObj - note hierarchy data
+ * @returns menuItem  - VerticalMenuItem
+ */
+
+function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null): VerticalMenuItem {
+  if (!noteHierarchyObj) {
+    return {
+      title: 'Untitled',
+      isActive: false,
+      items: undefined,
+    };
+  }
+
+  // Transform the current note into a VerticalMenuItem
+  const menuItem: VerticalMenuItem = {
+    title: getTitle(noteHierarchyObj.content),
+    isActive: route.path === `/note/${noteHierarchyObj.id}`,
+    items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child)) : undefined,
+    onActivate: () => {
+      void router.push(`/note/${noteHierarchyObj.id}`);
+    },
+  };
+
+  return menuItem;
+}
+
+const verticalMenuItems = computed<VerticalMenuItem>(() => {
+  return transformNoteHierarchy(noteHierarchy.value);
+});
+
 watch(
   () => props.id,
   () => {
@@ -178,4 +225,9 @@ watch(noteTitle, () => {
 </script>
 
 <style scoped>
+.menu {
+  flex-shrink: 0;
+  height: fit-content;
+  width: auto;
+}
 </style>
