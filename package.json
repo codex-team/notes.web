@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "@codexteam/icons": "^0.3.3",
-    "@hawk.so/javascript": "^3.0.2",
+    "@hawk.so/javascript": "^3.2.1",
     "@vueuse/core": "^10.3.0",
     "codex-ui": "workspace:^",
     "dayjs": "^1.11.10",
