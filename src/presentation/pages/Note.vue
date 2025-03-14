@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRef, watch } from 'vue';
+import { ref, toRef, watch } from 'vue';
 import { Button, Editor, type VerticalMenuItem, VerticalMenu, PageBlock } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
@@ -198,9 +198,27 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null): Vertica
   return menuItem;
 }
 
-const verticalMenuItems = computed<VerticalMenuItem>(() => {
-  return transformNoteHierarchy(noteHierarchy.value);
-});
+function updateNoteHierarchyTitle(menuItem: VerticalMenuItem, newTitle: string): VerticalMenuItem {
+  if (menuItem.isActive) {
+    return {
+      ...menuItem,
+      title: newTitle,
+    };
+  }
+
+  if (menuItem.items) {
+    return {
+      ...menuItem,
+      items: menuItem.items.map(child =>
+        updateNoteHierarchyTitle(child, newTitle)
+      ),
+    };
+  }
+
+  return menuItem;
+}
+
+const verticalMenuItems = ref<VerticalMenuItem>(transformNoteHierarchy(noteHierarchy.value));
 
 watch(
   () => props.id,
@@ -220,8 +238,13 @@ watch(noteTitle, () => {
     useHead({
       title: noteTitle.value,
     });
+    verticalMenuItems.value = updateNoteHierarchyTitle(verticalMenuItems.value, noteTitle.value);
   }
 });
+
+watch(noteHierarchy, (newHierarchy) => {
+  verticalMenuItems.value = transformNoteHierarchy(newHierarchy);
+}, { immediate: true });
 </script>
 
 <style scoped>
