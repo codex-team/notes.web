@@ -322,12 +322,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    patchOpenedPageByUrl(
-      route.path,
-      {
-        title: currentNoteTitle,
-        url: route.path,
-      });
+    const routes = ['/settings', '/history', '/error'];
+
+    if (routes.every(rt => !route.path.includes(rt))) {
+      patchOpenedPageByUrl(
+        route.path,
+        {
+          title: currentNoteTitle,
+          url: route.path,
+        });
+    }
   });
 
   return {
