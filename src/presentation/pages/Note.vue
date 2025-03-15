@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRef, watch } from 'vue';
+import { computed, ref, toRef, watch } from 'vue';
 import { Button, Editor, type VerticalMenuItem, VerticalMenu, PageBlock } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
@@ -176,7 +176,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
  * @returns menuItem  - VerticalMenuItem
  */
 
-function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null): VerticalMenuItem {
+function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentNoteTitle: string): VerticalMenuItem {
   if (!noteHierarchyObj) {
     return {
       title: 'Untitled',
@@ -185,11 +185,12 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null): Vertica
     };
   }
 
+  const title = route.path === `/note/${noteHierarchyObj.id}` ? currentNoteTitle : getTitle(noteHierarchyObj.content);
   // Transform the current note into a VerticalMenuItem
   const menuItem: VerticalMenuItem = {
-    title: getTitle(noteHierarchyObj.content),
+    title: title,
     isActive: route.path === `/note/${noteHierarchyObj.id}`,
-    items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child)) : undefined,
+    items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
     onActivate: () => {
       void router.push(`/note/${noteHierarchyObj.id}`);
     },
@@ -198,27 +199,9 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null): Vertica
   return menuItem;
 }
 
-function updateNoteHierarchyTitle(menuItem: VerticalMenuItem, newTitle: string): VerticalMenuItem {
-  if (menuItem.isActive) {
-    return {
-      ...menuItem,
-      title: newTitle,
-    };
-  }
-
-  if (menuItem.items) {
-    return {
-      ...menuItem,
-      items: menuItem.items.map(child =>
-        updateNoteHierarchyTitle(child, newTitle)
-      ),
-    };
-  }
-
-  return menuItem;
-}
-
-const verticalMenuItems = ref<VerticalMenuItem>(transformNoteHierarchy(noteHierarchy.value));
+const verticalMenuItems = computed<VerticalMenuItem>(() => {
+  return transformNoteHierarchy(noteHierarchy.value, noteTitle.value);
+});
 
 watch(
   () => props.id,
@@ -238,13 +221,9 @@ watch(noteTitle, () => {
     useHead({
       title: noteTitle.value,
     });
-    verticalMenuItems.value = updateNoteHierarchyTitle(verticalMenuItems.value, noteTitle.value);
   }
 });
 
-watch(noteHierarchy, (newHierarchy) => {
-  verticalMenuItems.value = transformNoteHierarchy(newHierarchy);
-}, { immediate: true });
 </script>
 
 <style scoped>
