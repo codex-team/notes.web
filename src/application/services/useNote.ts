@@ -8,6 +8,7 @@ import type EditorTool from '@/domain/entities/EditorTool';
 import DomainError from '@/domain/entities/errors/Base';
 import useNavbar from './useNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
+import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
 
 /**
  * Creates base structure for the empty note:
@@ -85,6 +86,11 @@ interface UseNoteComposableState {
    * Title for bookmarks in the browser
    */
   noteTitle: Ref<string>;
+
+  /**
+   * Note hierarchy
+   */
+  noteHierarchy: Ref<NoteHierarchy | null>;
 }
 
 interface UseNoteComposableOptions {
@@ -160,6 +166,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const parentNote = ref<Note | undefined>(undefined);
 
   /**
+   * Note hierarchy
+   *
+   * null by default
+   */
+  const noteHierarchy = ref<NoteHierarchy | null>(null);
+
+  /**
    * Load note by id
    * @param id - Note identifier got from composable argument
    */
@@ -179,6 +192,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         void router.push('/error/500');
       }
     }
+  }
+
+  /**
+   * get note hierarchy
+   * @param id - note id
+   */
+  async function getNoteHierarchy(id: NoteId): Promise<void> {
+    let response = await noteService.getNoteHierarchy(id);
+
+    noteHierarchy.value = response;
   }
 
   /**
@@ -281,10 +304,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   onMounted(() => {
     /**
-     * If we have id, load note
+     * If we have id, load note and note hierarchy
      */
     if (currentId.value !== null) {
       void load(currentId.value);
+      void getNoteHierarchy(currentId.value);
     }
   });
 
@@ -340,5 +364,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     save,
     unlinkParent,
     parentNote,
+    noteHierarchy,
   };
 }

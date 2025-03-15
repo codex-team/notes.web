@@ -4,6 +4,7 @@ import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type { NoteDTO } from './entities/NoteDTO';
 import type { NoteTool } from '@/domain/entities/Note';
 import { extractNoteId } from '@/infrastructure/utils/note';
+import type { NoteHierarchy } from './entities/NoteHierarchy';
 /**
  * Note Service
  */
@@ -79,5 +80,13 @@ export default class NoteService {
     const parentNote = await this.noteRepository.setParent(id, parentId);
 
     return parentNote;
+  }
+
+  /**
+   * Returns Note Hierarchy
+   * @param id - note id
+   */
+  public async getNoteHierarchy(id: NoteId): Promise<NoteHierarchy | null> {
+    return await this.noteRepository.getNoteHierarchy(id);
   }
 }
