@@ -112,7 +112,7 @@
        */
       {
         "type": "CodeX UI",
-        "pattern": "**/codex-ui/**/*",
+        "pattern": "**/@codexteam/ui/**/*",
         "mode": "file"
       }
     ],
