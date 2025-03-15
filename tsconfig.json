@@ -24,7 +24,7 @@
       "@/domain": ["domain"],
       "@/application/*": ["application/*"],
       "@/application": ["application"],
-      "codex-ui/vue": ["../codex-ui/dist/types/vue/index.d.ts"]
+      "codex-ui/vue": ["../@codexteam/ui/dist/types/vue/index.d.ts"]
     }
   },
 }
