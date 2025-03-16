@@ -1,4 +1,3 @@
-# Исключаем исходные файлы и ненужные директории
 dev/
 node_modules/
 src/
@@ -11,12 +10,10 @@ src/
 .idea/
 .vscode/
 
-# Исключаем файлы конфигурации
 tsconfig.json
 tsconfig.dts.json
 eslint.config.mjs
 postcss.config.js
 vite.config.ts
 
-# Исключаем документацию и вспомогательные файлы (если не нужны)
 README.md
