@@ -21,7 +21,7 @@ export default [
   ...compat.extends('.architecture.eslintrc'),
   {
     name: 'ts-notex.web',
-    ignores: ['codex-ui/**/*', '*.pcss', '*.otf', 'eslint.config.mjs'],
+    ignores: ['@codexteam/ui/**/*', '*.pcss', '*.otf', 'eslint.config.mjs'],
     plugins: {
       '@typescript-eslint': TsPlugin,
     },
@@ -70,6 +70,7 @@ export default [
       'jsdoc/require-param-type': ['off'],
       'jsdoc/informative-docs': ['off'],
       'jsdoc/require-jsdoc': ['off'],
+      'boundaries/no-unknown': ['off'],
     },
   },
 

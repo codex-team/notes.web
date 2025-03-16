@@ -7,6 +7,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
   return {
+    build: {
+      rollupOptions: {
+        external: ['codex-ui/vue'],
+      },
+    },
     plugins: [
       vue(),
       hawkVitePlugin({

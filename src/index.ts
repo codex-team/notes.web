@@ -4,7 +4,7 @@ import App from './App.vue';
 import i18n from '@/application/i18n';
 import hawk from '@/application/error-catcher';
 import router from '@/application/router/index';
-import 'codex-ui/styles';
+import '@codexteam/ui/styles';
 import '@/presentation/styles/index.pcss';
 
 const app = createApp(App);
