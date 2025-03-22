@@ -173,6 +173,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const noteHierarchy = ref<NoteHierarchy | null>(null);
 
   /**
+   * get note hierarchy
+   * @param id - note id
+   */
+  async function getNoteHierarchy(id: NoteId): Promise<void> {
+    let response = await noteService.getNoteHierarchy(id);
+
+    noteHierarchy.value = response;
+  }
+
+  /**
    * Load note by id
    * @param id - Note identifier got from composable argument
    */
@@ -184,6 +194,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
+      void getNoteHierarchy(id);
     } catch (error) {
       deleteOpenedPageByUrl(route.path);
       if (error instanceof DomainError) {
@@ -192,16 +203,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         void router.push('/error/500');
       }
     }
-  }
-
-  /**
-   * get note hierarchy
-   * @param id - note id
-   */
-  async function getNoteHierarchy(id: NoteId): Promise<void> {
-    let response = await noteService.getNoteHierarchy(id);
-
-    noteHierarchy.value = response;
   }
 
   /**
@@ -266,6 +267,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
           title: noteTitle.value,
           url: route.path,
         });
+
+      /**
+       * Get note Hierarchy when new Note is created
+       */
+      void getNoteHierarchy(noteCreated.id);
     } else {
       await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
     }
@@ -308,7 +314,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     if (currentId.value !== null) {
       void load(currentId.value);
-      void getNoteHierarchy(currentId.value);
     }
   });
 
@@ -319,6 +324,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     note.value = createDraft();
     canEdit.value = true;
     lastUpdateContent.value = null;
+    noteHierarchy.value = null;
   }
 
   /**

@@ -180,7 +180,7 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
   if (!noteHierarchyObj) {
     return {
       title: 'Untitled',
-      isActive: false,
+      isActive: true,
       items: undefined,
     };
   }
