@@ -13,7 +13,7 @@ export interface NoteHierarchy {
   /**
    * note content
    */
-  content: NoteContent;
+  content: NoteContent | null;
 
   /**
    * child notes

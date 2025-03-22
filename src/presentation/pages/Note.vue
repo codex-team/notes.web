@@ -185,7 +185,7 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
     };
   }
 
-  const title = route.path === `/note/${noteHierarchyObj.id}` ? currentNoteTitle : getTitle(noteHierarchyObj.content);
+  const title = noteHierarchyObj.content ? getTitle(noteHierarchyObj.content) : 'Untitled';
   // Transform the current note into a VerticalMenuItem
   const menuItem: VerticalMenuItem = {
     title: title,

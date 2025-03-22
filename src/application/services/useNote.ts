@@ -321,6 +321,33 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     lastUpdateContent.value = null;
   }
 
+  /**
+   * Recursively update the note hierarchy content
+   * @param hierarchy - The note hierarchy to update
+   * @param content - The new content to update in the hierarchy
+   */
+  function updateNoteHierarchyContent(hierarchy: NoteHierarchy | null, content: NoteContent | null): void {
+    // If hierarchy is null, there's nothing to update
+    if (!hierarchy) {
+      return;
+    }
+
+    // If content is null, we can't update the hierarchy content
+    if (!content) {
+      return;
+    }
+
+    // Update the content of the current note in the hierarchy if it matches the currentId
+    if (hierarchy.id === currentId.value) {
+      hierarchy.content = content;
+    }
+
+    // Recursively update child notes
+    if (hierarchy.childNotes) {
+      hierarchy.childNotes.forEach(child => updateNoteHierarchyContent(child, content));
+    }
+  }
+
   watch(currentId, (newId, prevId) => {
     /**
      * One note is open, user clicks on "+" to create another new note
@@ -352,6 +379,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         title: currentNoteTitle,
         url: route.path,
       });
+
+    updateNoteHierarchyContent(noteHierarchy.value, lastUpdateContent.value);
   });
 
   return {
