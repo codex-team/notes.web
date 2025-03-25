@@ -2,6 +2,7 @@ import type { Note, NoteContent, NoteId, NoteTool } from '@/domain/entities/Note
 import type { NoteList } from './entities/NoteList';
 import type NoteAccessRights from '@/domain/entities/NoteAccessRights';
 import type { NoteDTO } from './entities/NoteDTO';
+import type { NoteHierarchy } from './entities/NoteHierarchy';
 
 /**
  * Repository interface describes the methods that required by domain for its business logic implementation
@@ -56,4 +57,10 @@ export default interface NoteRepositoryInterface {
    * @param parentNoteId - New parent note id
    */
   setParent(id: NoteId, parentNoteId: NoteId): Promise<Note>;
+
+  /**
+   * Returns Note Hierarchy
+   * @param id - note id
+   */
+  getNoteHierarchy(id: NoteId): Promise<NoteHierarchy | null>;
 }
