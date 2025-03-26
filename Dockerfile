@@ -4,14 +4,14 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases ./.yarn/releases
-COPY ./codex-ui/package.json codex-ui/
+COPY ./@codexteam/package.json @codexteam/
 RUN yarn install
 
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/codex-ui/node_modules ./codex-ui/node_modules
+COPY --from=deps /app/@codexteam/node_modules ./@codexteam/node_modules
 RUN yarn build
 
 FROM nginx:bullseye AS runner
