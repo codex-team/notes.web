@@ -9,7 +9,7 @@ The Design System forged in the fires of open-source development
 ## Access Vue components
 
 ```ts
-import { Button, Input, Heading } from 'codex-ui/vue';
+import { Button, Input, Heading } from '@codexteam/ui/vue';
 ```
 
 ```vue
@@ -28,7 +28,7 @@ Add the following "path" to the "tsconfig.json"
 {
   "compilerOptions": {
     "paths": {
-      "codex-ui/vue": ["../codex-ui/dist/types/vue/index.d.ts"],
+      "@codexteam/ui/vue": ["../@codexteam/ui/dist/types/vue/index.d.ts"],
     }
   },
 }
@@ -36,7 +36,7 @@ Add the following "path" to the "tsconfig.json"
 ```
 
 ## Build Design System
-Build the design system to be able to use the codex-ui/styles import
+Build the design system to be able to use the @codexteam/ui/styles import
 
 ```
 yarn build
@@ -44,7 +44,7 @@ yarn build
 
 ## Access CSS variables
 
-1. Import `codex-ui/styles` somewhere in App
+1. Import `@codexteam/ui/styles` somewhere in App
 2. Use variable in CSS, e.g `var(--ui-color)`
 
 ## Using Typography

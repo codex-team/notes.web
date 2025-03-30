@@ -8,7 +8,7 @@ import VueParser from 'vue-eslint-parser';
 export default [
   ...CodeX,
   {
-    name: 'ts-codex-ui',
+    name: 'ts-@codexteam/ui',
     ignores: ['*.pcss', '*.otf', 'eslint.config.mjs', 'postcss.config.js'],
     plugins: {
       '@typescript-eslint': TsPlugin,

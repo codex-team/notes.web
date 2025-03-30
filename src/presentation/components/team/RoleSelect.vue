@@ -15,7 +15,7 @@ import { Note, NoteId } from '@/domain/entities/Note.ts';
 import { computed, ref, watch } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings.ts';
 import { useAppState } from '@/application/services/useAppState';
-import { ContextMenuItem, DefaultItem, Select } from 'codex-ui/vue';
+import { ContextMenuItem, DefaultItem, Select } from '@codexteam/ui/vue';
 import useNote from '@/application/services/useNote.ts';
 
 /**

@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import { ref, toRef, watch } from 'vue';
-import { Editor, Button, Avatar, PageBlock } from 'codex-ui/vue';
+import { Editor, Button, Avatar, PageBlock } from '@codexteam/ui/vue';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import useHistory from '@/application/services/useNoteHistory';
 import { useNoteEditor } from '@/application/services/useNoteEditor';

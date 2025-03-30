@@ -59,7 +59,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, toRef, watch } from 'vue';
-import { Button, Editor, type VerticalMenuItem, VerticalMenu, PageBlock } from 'codex-ui/vue';
+import { Button, Editor, type VerticalMenuItem, VerticalMenu, PageBlock } from '@codexteam/ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
