@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { Heading, Container, Row, Avatar, Button, PageBlock } from 'codex-ui/vue';
+import { Heading, Container, Row, Avatar, Button, PageBlock } from '@codexteam/ui/vue';
 import useNoteHistory from '@/application/services/useNoteHistory';
 import useNavbar from '@/application/services/useNavbar';
 import useNote from '@/application/services/useNote';

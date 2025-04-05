@@ -15,7 +15,7 @@ import useAuth from '@/application/services/useAuth';
 import { useI18n } from 'vue-i18n';
 import { watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { Button } from 'codex-ui/vue';
+import { Button } from '@codexteam/ui/vue';
 
 const { user } = useAppState();
 const { showGoogleAuthPopup } = useAuth();
