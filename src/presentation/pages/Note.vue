@@ -71,7 +71,6 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
-import { getTitle } from '@/infrastructure/utils/note';
 
 const { t } = useI18n();
 
@@ -185,14 +184,13 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
     };
   }
 
-  const title = noteHierarchyObj.content ? getTitle(noteHierarchyObj.content) : 'Untitled';
   // Transform the current note into a VerticalMenuItem
   const menuItem: VerticalMenuItem = {
-    title: title,
-    isActive: route.path === `/note/${noteHierarchyObj.id}`,
+    title: noteHierarchyObj?.noteTitle || 'Untitled',
+    isActive: route.path === `/note/${noteHierarchyObj.noteId}`,
     items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
     onActivate: () => {
-      void router.push(`/note/${noteHierarchyObj.id}`);
+      void router.push(`/note/${noteHierarchyObj.noteId}`);
     },
   };
 
