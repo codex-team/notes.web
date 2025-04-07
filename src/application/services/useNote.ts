@@ -379,13 +379,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    patchOpenedPageByUrl(
-      route.path,
-      {
-        title: currentNoteTitle,
-        url: route.path,
-      });
-
+    if (route.name == 'note') {
+      patchOpenedPageByUrl(
+        route.path,
+        {
+          title: currentNoteTitle,
+          url: route.path,
+        });
+    }
     updateNoteHierarchyContent(noteHierarchy.value, lastUpdateContent.value);
   });
 
