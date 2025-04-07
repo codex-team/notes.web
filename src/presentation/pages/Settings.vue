@@ -162,7 +162,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, LightColorShemeIcon, DarkColorShemeIcon, Container, Input, PageBlock } from 'codex-ui/vue';
+import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, LightColorShemeIcon, DarkColorShemeIcon, Container, Input, PageBlock } from '@codexteam/ui/vue';
 import { Hammer } from '@/presentation/components/pictures';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';

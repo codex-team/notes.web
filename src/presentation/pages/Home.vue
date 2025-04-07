@@ -56,7 +56,7 @@
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
-import { Container, Row, Button, Heading, PageBlock } from 'codex-ui/vue';
+import { Container, Row, Button, Heading, PageBlock } from '@codexteam/ui/vue';
 import Hammer from '../components/pictures/Hammer.vue';
 import NoteList from '@/presentation/components/note-list/NoteList.vue';
 import useAuth from '@/application/services/useAuth';

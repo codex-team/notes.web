@@ -105,7 +105,7 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref, onMounted, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card, PageBlock } from 'codex-ui/vue';
+import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card, PageBlock } from '@codexteam/ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';

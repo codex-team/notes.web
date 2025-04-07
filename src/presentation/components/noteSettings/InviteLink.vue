@@ -34,7 +34,7 @@ import { computed, defineProps, ref } from 'vue';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import type { NoteId } from '@/domain/entities/Note';
 import { useI18n } from 'vue-i18n';
-import { Button, Row, Section } from 'codex-ui/vue';
+import { Button, Row, Section } from '@codexteam/ui/vue';
 
 const { t } = useI18n();
 

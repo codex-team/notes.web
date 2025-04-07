@@ -1,5 +1,5 @@
 {
-  "eslint.workingDirectories": ["./", "./codex-ui"],
+  "eslint.workingDirectories": ["./", "./@codexteam/ui"],
 
   // Enable the ESlint flat config support
   "eslint.experimental.useFlatConfig": true,

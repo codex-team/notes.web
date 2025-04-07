@@ -36,7 +36,7 @@
 import { computed } from 'vue';
 import { Team, MemberRole } from '@/domain/entities/Team';
 import { Note, NoteId } from '@/domain/entities/Note';
-import { Section, Row, Avatar } from 'codex-ui/vue';
+import { Section, Row, Avatar } from '@codexteam/ui/vue';
 import RoleSelect from './RoleSelect.vue';
 import { useI18n } from 'vue-i18n';
 import useNote from '@/application/services/useNote.ts';

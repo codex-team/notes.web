@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { VerticalMenu, type VerticalMenuItem, PageBlock } from 'codex-ui/vue';
+import { VerticalMenu, type VerticalMenuItem, PageBlock } from '@codexteam/ui/vue';
 import { computed, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 

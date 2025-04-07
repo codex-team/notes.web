@@ -2,7 +2,7 @@
   "plugins": [
     "boundaries"
   ],
-  "ignorePatterns": ["codex-ui"],
+  "ignorePatterns": ["@codexteam/ui"],
   "settings": {
     "boundaries/elements": [
       /**
@@ -112,7 +112,7 @@
        */
       {
         "type": "CodeX UI",
-        "pattern": "**/codex-ui/**/*",
+        "pattern": "**/@codexteam/ui/**/*",
         "mode": "file"
       }
     ],
