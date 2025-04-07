@@ -379,7 +379,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    if (!route.path.match('/note/.{10}/')) {
+    if (route.name == "note") {
       patchOpenedPageByUrl(
         route.path,
         {
