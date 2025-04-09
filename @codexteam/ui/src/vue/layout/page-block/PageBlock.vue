@@ -12,6 +12,10 @@
     >
       <slot name="left" />
     </div>
+    <div
+      :class="$style['page-block__sidebar']"
+      v-else
+    />
 
     <!-- Center Content -->
     <div
@@ -30,6 +34,10 @@
     >
       <slot name="right" />
     </div>
+    <div
+      :class="$style['page-block__sidebar']"
+      v-else
+    />
   </div>
 </template>
 
