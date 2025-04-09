@@ -7,15 +7,13 @@
   >
     <!-- Left Sidebar -->
     <div
-      v-if="$slots.left"
       :class="$style['page-block__sidebar']"
     >
-      <slot name="left" />
+      <slot
+        v-if="$slots.left"
+        name="left"
+      />
     </div>
-    <div
-      :class="$style['page-block__sidebar']"
-      v-else
-    />
 
     <!-- Center Content -->
     <div
@@ -29,15 +27,13 @@
 
     <!-- Right Sidebar -->
     <div
-      v-if="$slots.right"
       :class="$style['page-block__sidebar']"
     >
-      <slot name="right" />
+      <slot
+        v-if="$slots.right"
+        name="right"
+      />
     </div>
-    <div
-      :class="$style['page-block__sidebar']"
-      v-else
-    />
   </div>
 </template>
 
