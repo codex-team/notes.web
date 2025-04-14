@@ -386,9 +386,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
           title: currentNoteTitle,
           url: route.path,
         });
-
-      updateNoteHierarchyContent(noteHierarchy.value, currentNoteTitle);
     }
+    updateNoteHierarchyContent(noteHierarchy.value, currentNoteTitle);
   });
 
   return {
