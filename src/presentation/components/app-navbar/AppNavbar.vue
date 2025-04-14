@@ -43,6 +43,9 @@ const { showGoogleAuthPopup } = useAuth();
 
 const { currentOpenedPages, deleteOpenedPageByUrl } = useNavbar();
 
+/**
+ * @todo when user clicks on + button to add new note the user should see the previous note heirarchy
+ */
 const tabs = computed(() => currentOpenedPages.value.map((page): TabParams => {
   return {
     id: page.url,

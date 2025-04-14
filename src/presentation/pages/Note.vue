@@ -169,6 +169,9 @@ async function noteChanged(data: NoteContent): Promise<void> {
 }
 
 /**
+ * @todo when user clicks on + button to add new note the user should see the previous note heirarchy
+ */
+/**
  * Recursively transform the note hierarchy into a VerticalMenuItem
  *
  * @param noteHierarchyObj - note hierarchy data
