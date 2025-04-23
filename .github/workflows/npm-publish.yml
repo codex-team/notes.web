@@ -1,0 +1,48 @@
+name: Publish CodeX UI to NPM
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '@codexteam/ui/**'
+
+jobs:
+  publish-ui:
+    name: Publish @codexteam/ui package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - name: Install dependencies
+        run: yarn install
+        working-directory: ./@codexteam/ui
+      - name: Build package
+        run: yarn build
+        working-directory: ./@codexteam/ui
+      - name: Publish package
+        run: yarn publish --access=public
+        working-directory: ./@codexteam/ui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  notify:
+    needs: publish-ui
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get UI package info
+        id: ui-package
+        uses: codex-team/action-nodejs-package-info@v1
+        with:
+          package_json_path: ./@codexteam/ui/package.json
+      - name: Send a message
+        uses: codex-team/action-codexbot-notify@v1
+        with:
+          webhook: ${{ secrets.CODEX_BOT_WEBHOOK_HAWK }}
+          message: '📦 [${{ steps.ui-package.outputs.name }}](${{ steps.ui-package.outputs.npmjs-link }}) ${{ steps.ui-package.outputs.version }} was published'
+          parse_mode: 'markdown'
+          disable_web_page_preview: true
