@@ -44,7 +44,7 @@ import type { Note } from '@/domain/entities/Note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 import { getTitle } from '@/infrastructure/utils/note';
 import { useI18n } from 'vue-i18n';
-import { Card, CardSkeleton, Button } from 'codex-ui/vue';
+import { Card, CardSkeleton, Button } from '@codexteam/ui/vue';
 
 const {
   noteList,

@@ -12,6 +12,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useHead } from 'unhead';
+import { useRoute } from 'vue-router';
+import useNavbar from '@/application/services/useNavbar';
+
+const route = useRoute();
+const { patchOpenedPageByUrl } = useNavbar();
 
 const { t, te } = useI18n();
 
@@ -44,6 +50,17 @@ const message = computed(() => {
 
   return t('errors.default');
 });
+
+useHead({
+  title: t(`pages.error`),
+});
+
+const openPageInfo = {
+  title: te(`error.${props.code}`) ? t(`error.${props.code}`) : t(`pages.error`),
+  url: route.path,
+};
+
+patchOpenedPageByUrl(route.path, openPageInfo);
 </script>
 
 <style lang="postcss" module>

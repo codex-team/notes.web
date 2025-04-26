@@ -7,6 +7,7 @@ import type { GetNoteResponsePayload } from '@/infrastructure/transport/notes-ap
 import type { NoteList } from '@/domain/entities/NoteList';
 import type { NoteDTO } from '@/domain/entities/NoteDTO';
 import type JSONValue from './transport/types/JSONValue';
+import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
 
 /**
  * Note repository
@@ -126,5 +127,15 @@ export default class NoteRepository implements NoteRepositoryInterface {
     });
 
     return response.parentNote;
+  }
+
+  /**
+   * get Note hierarchy
+   * @param id - note id
+   */
+  public async getNoteHierarchy(id: NoteId): Promise<NoteHierarchy | null> {
+    const response = await this.transport.get<{ noteHierarchy: NoteHierarchy }>(`/note/note-hierarchy/${id}`);
+
+    return response.noteHierarchy;
   }
 }

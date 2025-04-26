@@ -22,11 +22,11 @@ jobs:
       - name: Run ESLint
         run: yarn lint
 
-      - name: Install codex-ui dependencies
+      - name: Install @codexteam/ui dependencies
         run: |
           yarn install
-        working-directory: ./codex-ui
+        working-directory: ./@codexteam/ui
 
-      - name: Run ESLint on codex-ui
+      - name: Run ESLint on @codexteam/ui
         run: yarn lint
-        working-directory: ./codex-ui
+        working-directory: ./@codexteam/ui

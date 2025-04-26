@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "types": ["vite/client"],
-    "target": "ES2020",
+    "target": "ES2022",
     "baseUrl": "./src",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -24,7 +24,7 @@
       "@/domain": ["domain"],
       "@/application/*": ["application/*"],
       "@/application": ["application"],
-      "codex-ui/vue": ["../codex-ui/dist/types/vue/index.d.ts"]
+      "@codexteam/ui/vue": ["../@codexteam/ui/dist/types/vue/index.d.ts"]
     }
   },
 }

@@ -1,5 +1,5 @@
 <template>
-  <ThreeColsLayout data-dimensions="large">
+  <PageBlock data-dimensions="large">
     <div :class="$style['history']">
       <div :class="$style['history__page-header']">
         <Heading
@@ -47,14 +47,13 @@
         </Container>
       </div>
     </div>
-  </ThreeColsLayout>
+  </PageBlock>
 </template>
 
 <script setup lang="ts">
-import { Heading, Container, Row, Avatar, Button } from 'codex-ui/vue';
-import ThreeColsLayout from '../layouts/ThreeColsLayout.vue';
+import { Heading, Container, Row, Avatar, Button, PageBlock } from '@codexteam/ui/vue';
 import useNoteHistory from '@/application/services/useNoteHistory';
-import useHeader from '@/application/services/useHeader';
+import useNavbar from '@/application/services/useNavbar';
 import useNote from '@/application/services/useNote';
 import { parseDate } from '@/infrastructure/utils/date';
 import { watch } from 'vue';
@@ -72,7 +71,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { noteHistory } = useNoteHistory({ noteId: props.noteId });
-const { patchOpenedPageByUrl } = useHeader();
+const { patchOpenedPageByUrl } = useNavbar();
 
 const route = useRoute();
 const router = useRouter();

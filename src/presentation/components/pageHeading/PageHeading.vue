@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { Heading } from 'codex-ui/vue';
+import { Heading } from '@codexteam/ui/vue';
 </script>
 
 <style scoped lang="postcss">

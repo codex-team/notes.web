@@ -1,5 +1,5 @@
 <template>
-  <ThreeColsLayout data-dimensions="large">
+  <PageBlock data-dimensions="large">
     <router-link
       v-if="user"
       to="/new"
@@ -49,17 +49,15 @@
     <NoteList
       v-else-if="user !== undefined"
     />
-  </ThreeColsLayout>
+  </PageBlock>
 </template>
 
 <script setup lang="ts">
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { useAppState } from '@/application/services/useAppState';
-import { Container, Row, Button, Heading } from 'codex-ui/vue';
+import { Container, Row, Button, Heading, PageBlock } from '@codexteam/ui/vue';
 import Hammer from '../components/pictures/Hammer.vue';
-
-import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
 import NoteList from '@/presentation/components/note-list/NoteList.vue';
 import useAuth from '@/application/services/useAuth';
 

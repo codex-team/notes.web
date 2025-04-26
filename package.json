@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "yarn build:ui && vue-tsc && vite build",
-    "build:ui": "yarn workspace codex-ui run build",
+    "build:ui": "yarn workspace @codexteam/ui run build",
     "preview": "vite preview",
     "lint": "eslint",
     "lint:fix": "yarn lint --fix",
@@ -15,13 +15,13 @@
   },
   "private": true,
   "workspaces": [
-    "codex-ui"
+    "@codexteam/ui"
   ],
   "dependencies": {
-    "@codexteam/icons": "^0.3.0",
-    "@hawk.so/javascript": "^3.0.2",
+    "@codexteam/icons": "^0.3.3",
+    "@codexteam/ui": "workspace:^",
+    "@hawk.so/javascript": "^3.2.1",
     "@vueuse/core": "^10.3.0",
-    "codex-ui": "workspace:^",
     "dayjs": "^1.11.10",
     "html2canvas": "^1.4.1",
     "jwt-decode": "^3.1.2",

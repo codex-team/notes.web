@@ -34,24 +34,26 @@
         </Button>
       </template>
     </NoteHeader>
-    <Editor
-      v-if="isEditorReady"
-      ref="editor"
-      v-bind="editorConfig"
-    />
+    <PageBlock>
+      <Editor
+        v-if="isEditorReady"
+        ref="editor"
+        v-bind="editorConfig"
+      />
+    </PageBlock>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, toRef, watch } from 'vue';
-import { Editor, Button, Avatar } from 'codex-ui/vue';
+import { Editor, Button, Avatar, PageBlock } from '@codexteam/ui/vue';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import useHistory from '@/application/services/useNoteHistory';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import { parseDate } from '@/infrastructure/utils/date';
 import useNote from '@/application/services/useNote';
 import { useI18n } from 'vue-i18n';
-import useHeader from '@/application/services/useHeader';
+import useNavbar from '@/application/services/useNavbar';
 import { useRoute, useRouter } from 'vue-router';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
@@ -69,7 +71,7 @@ const historyId = toRef(props, 'historyId');
 
 const { updateCover } = useNoteSettings();
 const { t } = useI18n();
-const { patchOpenedPageByUrl } = useHeader();
+const { patchOpenedPageByUrl } = useNavbar();
 const { historyContent, historyTools, historyMeta } = useHistory({
   noteId: noteId,
   historyId: historyId,

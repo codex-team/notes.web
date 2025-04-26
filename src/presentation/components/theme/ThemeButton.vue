@@ -10,7 +10,7 @@
 import { IconReplace } from '@codexteam/icons';
 import { useI18n } from 'vue-i18n';
 import Button from '@/presentation/components/button/Button.vue';
-import { useTheme, ColorScheme } from 'codex-ui/vue';
+import { useTheme, ColorScheme } from '@codexteam/ui/vue';
 
 const { t } = useI18n();
 const { colorScheme, setColorScheme } = useTheme();

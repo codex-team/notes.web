@@ -1,5 +1,5 @@
 <template>
-  <ThreeColsLayout data-dimensions="large">
+  <PageBlock data-dimensions="large">
     <div :class="$style['page-header']">
       <Heading :level="1">
         {{ t('userSettings.title') }}
@@ -157,12 +157,12 @@
         </div>
       </Fieldset>
     </div>
-  </ThreeColsLayout>
+  </PageBlock>
 </template>
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, LightColorShemeIcon, DarkColorShemeIcon, Container, Input } from 'codex-ui/vue';
+import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, LightColorShemeIcon, DarkColorShemeIcon, Container, Input, PageBlock } from '@codexteam/ui/vue';
 import { Hammer } from '@/presentation/components/pictures';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
@@ -170,15 +170,14 @@ import { useUserSettings } from '@/application/services/useUserSettings';
 import { useAppState } from '@/application/services/useAppState';
 import { useHead } from 'unhead';
 import { ref } from 'vue';
-import useHeader from '@/application/services/useHeader';
-import ThreeColsLayout from '@/presentation/layouts/ThreeColsLayout.vue';
+import useNavbar from '@/application/services/useNavbar';
 
 const { user, userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
 const { removeTool } = useUserSettings();
-const { deleteOpenedPageByUrl } = useHeader();
+const { deleteOpenedPages } = useNavbar();
 const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setColorScheme } = useTheme();
 
 /**
@@ -209,7 +208,7 @@ async function userLogout() {
   /**
    * Delete user opened page
    */
-  deleteOpenedPageByUrl('/settings');
+  deleteOpenedPages();
 
   router.replace({ path: '/' });
 }
