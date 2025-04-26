@@ -279,35 +279,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
-   * Reform the array of note parents by adding the actual note id and content.
-   * @returns An array of Note objects representing the formatted note parents.
-   * @throws {Error} If the note id is not defined.
-   */
-  function formatNoteParents(): Note[] {
-    if (currentId.value === null) {
-      return [];
-    }
-    let presentationFormat: Note[] = [];
-
-    if (noteParents.value.length === 0) {
-      presentationFormat.push({
-        id: currentId.value,
-        content: note.value?.content as NoteContent,
-      });
-    } else {
-      presentationFormat = noteParents.value;
-      if (noteParents.value.find(noteItem => noteItem.id === currentId.value) === undefined) {
-        presentationFormat.push({
-          id: currentId.value,
-          content: note.value?.content as NoteContent,
-        });
-      }
-    }
-
-    return presentationFormat;
-  }
-
-  /**
    * Get note by custom hostname
    */
   const resolveHostname = async (): Promise<void> => {
@@ -357,7 +328,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    noteParents.value = formatNoteParents();
     patchOpenedPageByUrl(
       route.path,
       {

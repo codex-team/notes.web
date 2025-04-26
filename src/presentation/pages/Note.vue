@@ -4,17 +4,9 @@
       :style="{ '--opacity': id && note ? 1 : 0 }"
     >
       <template #left>
-        <div>
-          <RouterLink
-            v-for="(parent, index) in displayedParents"
-            :key="index"
-            :to="{ path: `/note/${parent.id ? parent.id : noteId}` }"
-            @click.prevent="handleParentClick($event, parent)"
-          >
-            {{ getTitle(parent.content) }}
-            <span v-if="index < displayedParents.length - 1"> > </span>
-          </RouterLink>
-        </div>
+        <BreadCrumbs
+          :note-parents="noteParents"
+        />
       </template>
       <template #right>
         <Button
@@ -54,19 +46,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRef, watch } from 'vue';
-import { OutputData } from '@editorjs/editorjs';
+import { ref, toRef, watch } from 'vue';
 import { Button, Editor } from 'codex-ui/vue';
 import useNote from '@/application/services/useNote';
-import { RouterLink, useRouter } from 'vue-router';
-import { Note, NoteContent } from '@/domain/entities/Note';
+import { useRouter } from 'vue-router';
+import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
-import { getTitle } from '@/infrastructure/utils/note';
+import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
 
 const { t } = useI18n();
 
@@ -109,51 +100,6 @@ function redirectToNoteSettings(): void {
   }
   router.push(`/note/${props.id}/settings`);
 }
-
-/**
- * Navigate to a specific note
- *
- * @param {number} parentId - The ID of the parent note to navigate to
- */
-function navigateToParent(parentId: string): void {
-  router.push(`/note/${parentId}`);
-}
-
-/**
- * Handle parent click
- *
- * @param {Event} event - The click event
- * @param {object} parent - The parent object
- * @param {string} parent.id - The ID of the parent note
- */
-function handleParentClick(event: Event, parent: Note): void {
-  if (getTitle(parent.content) !== '...') {
-    navigateToParent(parent.id);
-  } else {
-    event.preventDefault();
-  }
-}
-
-/**
- * Displayed parents
- */
-const displayedParents = computed(() => {
-  if (noteParents.value.length > 3) {
-    const newNoteContent = { blocks: [] } as OutputData;
-
-    newNoteContent.blocks.push({ type: 'paraghraph',
-      data: { text: '...' } });
-
-    return [
-      noteParents.value[0],
-      { id: '',
-        content: newNoteContent },
-      noteParents.value[noteParents.value.length - 1],
-    ];
-  }
-
-  return noteParents.value;
-});
 
 const { updateCover } = useNoteSettings();
 
