@@ -11,6 +11,7 @@
         }}
       </template>
       <template #right>
+        <!-- @todo when user clicks on + button to add new note the user should see the previous note heirarchy -->
         <Button
           v-if="canEdit"
           secondary
@@ -186,9 +187,6 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
 
   // Transform the current note into a VerticalMenuItem
   const menuItem: VerticalMenuItem = {
-    /**
-     * @todo when user clicks on + button to add new note the user should see the previous note heirarchy
-     */
     title: noteHierarchyObj?.noteTitle || 'Untitled',
     isActive: route.path === `/note/${noteHierarchyObj.noteId}`,
     items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
