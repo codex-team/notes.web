@@ -25,7 +25,7 @@ const props = defineProps<{
   noteParents: Note[];
 }>();
 /**
- * Note's parents hierarchy
+ * Note parents hierarchy
  * If there are more than 3, only the closest & the furthest ones are shown
  */
 const displayedParents = computed(() => {
