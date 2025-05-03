@@ -4,11 +4,9 @@
       :style="{ '--opacity': id && note ? 1 : 0 }"
     >
       <template #left>
-        {{
-          note && 'updatedAt' in note && note.updatedAt
-            ? t('note.lastEdit') + ' ' + getTimeFromNow(note.updatedAt)
-            : t('note.lastEdit') + ' ' + 'a few seconds ago'
-        }}
+        <BreadCrumbs
+          :note-parents="noteParents"
+        />
       </template>
       <template #right>
         <Button
@@ -65,11 +63,11 @@ import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { getTimeFromNow } from '@/infrastructure/utils/date';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
+import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
 import { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
 import { getTitle } from '@/infrastructure/utils/note';
 
@@ -93,7 +91,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, noteHierarchy } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
   id: noteId,
 });
 
