@@ -45,20 +45,19 @@ const displayedParents = computed(() => {
 /**
  * title of the parent
  *
- * @param content - parent's content, could be
+ * @param content - parent's content
+ * @returns {string} - parent title in string implementation
  */
-const parentTitle = computed(() => {
-  return (content: string | null | OutputData) => {
-    if (content === null) {
-      return '...';
-    }
-    if (typeof content === 'string') {
-      return content;
-    }
+function parentTitle(content: string | null | OutputData): string {
+  if (content === null) {
+    return '...';
+  }
+  if (typeof content === 'string') {
+    return content;
+  }
 
-    return getTitle(content);
-  };
-});
+  return getTitle(content);
+}
 </script>
 
 <style scoped>
