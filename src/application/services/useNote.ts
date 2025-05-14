@@ -1,8 +1,7 @@
-import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
-import { noteService, editorToolsService } from '@/domain';
-import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
-import type { NoteTool } from '@/domain/entities/Note';
-import { useRouter, useRoute } from 'vue-router';
+import { computed, type MaybeRefOrGetter, onMounted, ref, type Ref, toValue, watch } from 'vue';
+import { editorToolsService, noteService } from '@/domain';
+import type { Note, NoteContent, NoteId, NoteTool } from '@/domain/entities/Note';
+import { useRoute, useRouter } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
 import DomainError from '@/domain/entities/errors/Base';
@@ -188,9 +187,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param id - note id
    */
   async function getNoteHierarchy(id: NoteId): Promise<void> {
-    let response = await noteService.getNoteHierarchy(id);
-
-    noteHierarchy.value = response;
+    noteHierarchy.value = await noteService.getNoteHierarchy(id);
   }
 
   /**
@@ -255,6 +252,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
+    note.value.content = content;
     isNoteSaving.value = true;
 
     if (currentId.value === null) {
@@ -263,6 +261,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        */
       const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
 
+      noteParents.value = (await noteService.getNoteById(noteCreated.id)).parents;
       /**
        * Replace the current route with note id
        */
