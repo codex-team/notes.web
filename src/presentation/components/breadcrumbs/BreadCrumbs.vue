@@ -2,7 +2,7 @@
   <RouterLink
     v-for="(parent, index) in displayedParents"
     :key="index"
-    :to="{ path: parent.id ? `/note/${parent.id}` : '' }"
+    :to="`/note/${parent.id}`"
     class="breadcrumb"
   >
     {{ parent.content ? getTitle(parent.content) : '...' }}
