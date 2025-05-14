@@ -5,10 +5,7 @@
     :to="`/note/${parent.id}`"
     class="breadcrumb"
   >
-    {{ parent.content ?
-      typeof parent.content === 'string' ?
-        parent.content :
-        getTitle(parent.content) : '...' }}
+    {{ parentTitle(parent.content) }}
     <Icon
       v-if="index < displayedParents.length - 1"
       name="ChevronRight"
@@ -23,6 +20,7 @@ import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { Note } from '@/domain/entities/Note.ts';
 import { Icon } from '@codexteam/ui/vue';
+import { OutputData } from '@editorjs/editorjs';
 
 const props = defineProps<{
   noteParents: (Note | { id: string; content: string })[];
@@ -42,6 +40,24 @@ const displayedParents = computed(() => {
   }
 
   return props.noteParents;
+});
+
+/**
+ * title of the parent
+ *
+ * @param content - parent's content, could be
+ */
+const parentTitle = computed(() => {
+  return (content: string | null | OutputData) => {
+    if (content === null) {
+      return '...';
+    }
+    if (typeof content === 'string') {
+      return content;
+    }
+
+    return getTitle(content);
+  };
 });
 </script>
 
