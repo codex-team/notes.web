@@ -5,7 +5,10 @@
     :to="`/note/${parent.id}`"
     class="breadcrumb"
   >
-    {{ parent.content ? getTitle(parent.content) : '...' }}
+    {{ parent.content ?
+      typeof parent.content === 'string' ?
+        parent.content :
+        getTitle(parent.content) : '...' }}
     <Icon
       v-if="index < displayedParents.length - 1"
       name="ChevronRight"
@@ -22,7 +25,7 @@ import { Note } from '@/domain/entities/Note.ts';
 import { Icon } from '@codexteam/ui/vue';
 
 const props = defineProps<{
-  noteParents: Note[];
+  noteParents: (Note | { id: string; content: string })[];
 }>();
 /**
  * Note parents hierarchy

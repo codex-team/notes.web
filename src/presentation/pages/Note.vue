@@ -7,7 +7,7 @@
         <BreadCrumbs
           :note-parents="
             note && noteId ?
-              [...noteParents, { id: noteId, content: note.content }] :
+              [...noteParents, { id: noteId, content: noteTitle }] :
               noteParents
           "
         />

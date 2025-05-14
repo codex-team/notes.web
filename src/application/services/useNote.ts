@@ -252,7 +252,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
-    note.value.content = content;
     isNoteSaving.value = true;
 
     if (currentId.value === null) {
