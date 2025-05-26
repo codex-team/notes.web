@@ -4,13 +4,18 @@
       :style="{ '--opacity': id && note ? 1 : 0 }"
     >
       <template #left>
-        {{
-          note && 'updatedAt' in note && note.updatedAt
-            ? t('note.lastEdit') + ' ' + getTimeFromNow(note.updatedAt)
-            : t('note.lastEdit') + ' ' + 'a few seconds ago'
-        }}
+        <BreadCrumbs
+          :note-parents="noteParents"
+        />
       </template>
       <template #right>
+        <div class="last_edit">
+          {{
+            note && 'updatedAt' in note && note.updatedAt
+              ? t('note.lastEdit') + ' ' + getTimeFromNow(note.updatedAt)
+              : t('note.lastEdit') + ' ' + 'a few seconds ago'
+          }}
+        </div>
         <!-- @todo when user clicks on + button to add new note the user should see the previous note heirarchy -->
         <Button
           v-if="canEdit"
@@ -60,18 +65,19 @@
 
 <script lang="ts" setup>
 import { computed, ref, toRef, watch } from 'vue';
-import { Button, Editor, type VerticalMenuItem, VerticalMenu, PageBlock } from '@codexteam/ui/vue';
+import { Button, Editor, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { getTimeFromNow } from '@/infrastructure/utils/date';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
+import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
 import { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
+import { getTimeFromNow } from '@/infrastructure/utils/date.ts';
 
 const { t } = useI18n();
 
@@ -93,7 +99,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, noteHierarchy } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
   id: noteId,
 });
 
@@ -164,7 +170,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
       });
     }
     if (updatedNoteCover !== null && props.id !== null) {
-      updateCover(props.id, updatedNoteCover);
+      await updateCover(props.id, updatedNoteCover);
     }
   }
 }
@@ -173,6 +179,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
  * Recursively transform the note hierarchy into a VerticalMenuItem
  *
  * @param noteHierarchyObj - note hierarchy data
+ * @param currentNoteTitle - actual title of note
  * @returns menuItem  - VerticalMenuItem
  */
 
@@ -186,7 +193,7 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
   }
 
   // Transform the current note into a VerticalMenuItem
-  const menuItem: VerticalMenuItem = {
+  return {
     title: noteHierarchyObj?.noteTitle || 'Untitled',
     isActive: route.path === `/note/${noteHierarchyObj.noteId}`,
     items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
@@ -194,8 +201,6 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
       void router.push(`/note/${noteHierarchyObj.noteId}`);
     },
   };
-
-  return menuItem;
 }
 
 const verticalMenuItems = computed<VerticalMenuItem>(() => {
@@ -230,5 +235,10 @@ watch(noteTitle, () => {
   flex-shrink: 0;
   height: fit-content;
   width: auto;
+}
+
+.last_edit {
+  color: var(--base--text-secondary);
+  padding-right: var(--h-padding);
 }
 </style>

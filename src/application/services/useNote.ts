@@ -73,6 +73,11 @@ interface UseNoteComposableState {
   unlinkParent: () => Promise<void>;
 
   /**
+   * Returns an array of note parents for the current note.
+   */
+  noteParents: Ref<Note[]>;
+
+  /**
    * Defines if user can edit note
    */
   canEdit: Ref<boolean>;
@@ -166,6 +171,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const parentNote = ref<Note | undefined>(undefined);
 
   /**
+   * Note parents of the actual note
+   *
+   * Actual note by default
+   */
+  const noteParents = ref<Note[]>([]);
+  /**
    * Note hierarchy
    *
    * null by default
@@ -194,6 +205,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
+      noteParents.value = response.parents;
       void getNoteHierarchy(id);
     } catch (error) {
       deleteOpenedPageByUrl(route.path);
@@ -399,6 +411,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     resolveToolsByContent,
     save,
     unlinkParent,
+    noteParents,
     parentNote,
     noteHierarchy,
   };

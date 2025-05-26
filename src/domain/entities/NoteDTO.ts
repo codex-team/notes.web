@@ -25,4 +25,9 @@ export interface NoteDTO {
    * Editor tools
    */
   tools: EditorTool[];
+
+  /**
+   * Note parents
+   */
+  parents: Note[];
 }
