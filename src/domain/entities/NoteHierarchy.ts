@@ -1,4 +1,4 @@
-import { type NoteContent, type NoteId } from './Note';
+import { type NoteId } from './Note';
 
 /**
  * Note Tree entity
@@ -8,12 +8,12 @@ export interface NoteHierarchy {
   /**
    * public note id
    */
-  id: NoteId;
+  noteId: NoteId;
 
   /**
-   * note content
+   * note title
    */
-  content: NoteContent | null;
+  noteTitle: string;
 
   /**
    * child notes

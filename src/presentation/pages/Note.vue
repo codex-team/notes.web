@@ -16,6 +16,7 @@
               : t('note.lastEdit') + ' ' + 'a few seconds ago'
           }}
         </div>
+        <!-- @todo when user clicks on + button to add new note the user should see the previous note heirarchy -->
         <Button
           v-if="canEdit"
           secondary
@@ -76,7 +77,6 @@ import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
 import { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
-import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date.ts';
 
 const { t } = useI18n();
@@ -192,15 +192,13 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
     };
   }
 
-  const title = noteHierarchyObj.content ? getTitle(noteHierarchyObj.content) : 'Untitled';
-
   // Transform the current note into a VerticalMenuItem
   return {
-    title: title,
-    isActive: route.path === `/note/${noteHierarchyObj.id}`,
+    title: noteHierarchyObj?.noteTitle || 'Untitled',
+    isActive: route.path === `/note/${noteHierarchyObj.noteId}`,
     items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
     onActivate: () => {
-      void router.push(`/note/${noteHierarchyObj.id}`);
+      void router.push(`/note/${noteHierarchyObj.noteId}`);
     },
   };
 }

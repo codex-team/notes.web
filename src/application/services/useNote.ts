@@ -340,29 +340,29 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
-   * Recursively update the note hierarchy content
+   * Recursively update the note hierarchy title
    * @param hierarchy - The note hierarchy to update
-   * @param content - The new content to update in the hierarchy
+   * @param title - The new title to update in the hierarchy
    */
-  function updateNoteHierarchyContent(hierarchy: NoteHierarchy | null, content: NoteContent | null): void {
+  function updateNoteHierarchyContent(hierarchy: NoteHierarchy | null, title: string): void {
     // If hierarchy is null, there's nothing to update
     if (!hierarchy) {
       return;
     }
 
     // If content is null, we can't update the hierarchy content
-    if (!content) {
+    if (!title) {
       return;
     }
 
-    // Update the content of the current note in the hierarchy if it matches the currentId
-    if (hierarchy.id === currentId.value) {
-      hierarchy.content = content;
+    // Update the title of the current note in the hierarchy if it matches the currentId
+    if (hierarchy.noteId === currentId.value) {
+      hierarchy.noteTitle = title;
     }
 
     // Recursively update child notes
     if (hierarchy.childNotes) {
-      hierarchy.childNotes.forEach(child => updateNoteHierarchyContent(child, content));
+      hierarchy.childNotes.forEach(child => updateNoteHierarchyContent(child, title));
     }
   }
 
@@ -399,7 +399,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
           url: route.path,
         });
     }
-    updateNoteHierarchyContent(noteHierarchy.value, lastUpdateContent.value);
+    updateNoteHierarchyContent(noteHierarchy.value, currentNoteTitle);
   });
 
   return {
