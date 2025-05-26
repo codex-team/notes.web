@@ -25,6 +25,7 @@
       "import": "./dist/styles.css"
     }
   },
+  "types": "dist/types/vue/index.d.ts",
   "devDependencies": {
     "@codexteam/icons": "^0.3.3",
     "@editorjs/header": "^2.8.6",
