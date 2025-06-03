@@ -27,8 +27,6 @@
   },
   "devDependencies": {
     "@codexteam/icons": "^0.3.3",
-    "@editorjs/header": "^2.8.6",
-    "@editorjs/nested-list": "^1.4.2",
     "@types/node": "^20.11.15",
     "@vitejs/plugin-vue": "^5.0.3",
     "@vueuse/core": "^10.9.0",
@@ -48,7 +46,9 @@
     "vue-tsc": "latest"
   },
   "dependencies": {
-    "@editorjs/editorjs": "2.30.2",
+    "@editorjs/editorjs": "2.30.8",
+    "@editorjs/header": "^2.8.8",
+    "@editorjs/nested-list": "^1.4.3",
     "vue": "^3.4.16"
   }
 }

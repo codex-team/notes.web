@@ -100,9 +100,9 @@ __metadata:
   resolution: "@codexteam/ui@workspace:@codexteam/ui"
   dependencies:
     "@codexteam/icons": ^0.3.3
-    "@editorjs/editorjs": 2.30.2
-    "@editorjs/header": ^2.8.6
-    "@editorjs/nested-list": ^1.4.2
+    "@editorjs/editorjs": 2.30.8
+    "@editorjs/header": ^2.8.8
+    "@editorjs/nested-list": ^1.4.3
     "@types/node": ^20.11.15
     "@vitejs/plugin-vue": ^5.0.3
     "@vueuse/core": ^10.9.0
@@ -574,36 +574,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@editorjs/editorjs@npm:2.30.2":
-  version: 2.30.2
-  resolution: "@editorjs/editorjs@npm:2.30.2"
-  checksum: 658e10918390d18578e65d73e84f601b7eab8ba1a704142872a597ed0da6bb1ee407fc32b5b18a473a99c993729dc8959df408f10738a6150199acaf225474fc
+"@editorjs/editorjs@npm:2.30.8, @editorjs/editorjs@npm:^2.29.1":
+  version: 2.30.8
+  resolution: "@editorjs/editorjs@npm:2.30.8"
+  checksum: 34c6b12792a1bd1e26bf339cdb0e00ac55e11f69e9d10e7f63572e65617f28f8eed8bfa7c4dddf5fd9e9df269a5d947b8f34f431ac8839bed659f41a833c6c0f
   languageName: node
   linkType: hard
 
-"@editorjs/editorjs@npm:^2.29.1":
-  version: 2.29.1
-  resolution: "@editorjs/editorjs@npm:2.29.1"
-  checksum: a4c242660aaf62b29998d80bb39eae9f91b5030d33df1fc35b3f41cbe0a0b46f6c522761a787cb0cf11b3ba187380503ab31775a1bd17f999b9bda44747631d7
-  languageName: node
-  linkType: hard
-
-"@editorjs/header@npm:^2.8.6":
-  version: 2.8.6
-  resolution: "@editorjs/header@npm:2.8.6"
+"@editorjs/header@npm:^2.8.8":
+  version: 2.8.8
+  resolution: "@editorjs/header@npm:2.8.8"
   dependencies:
     "@codexteam/icons": ^0.0.5
     "@editorjs/editorjs": ^2.29.1
-  checksum: 3d9ec6ec581986252d8fd6da3726b8018d83e37e84f994d0b5992c0c82d9a213147ee464061d08b8cf42780006da8b76aa2ffc0a1443d9d5993d5088480745da
+  checksum: 24b90c40f35f7d5c34e6d240f5e30ffa141b160d6635886de9801344633f593b1eee9a40ac831ab0d829d5c0470dd3d2a53e7088cb102828c7fcca74d7289975
   languageName: node
   linkType: hard
 
-"@editorjs/nested-list@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@editorjs/nested-list@npm:1.4.2"
+"@editorjs/nested-list@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "@editorjs/nested-list@npm:1.4.3"
   dependencies:
     "@codexteam/icons": ^0.0.2
-  checksum: b88797b7defe223d73f8fb57fc1d64d22c9a9bf11f5e731265b48e5f67fb6f724eac94b027df25ae63e691640832713d74ea7a853b3ea0a2ae0d10bab75b135a
+  checksum: fba5056d897142ce519c6c43a76faf5f38961fc62967c34e9c648b8fe9644b73d79811198b4b67080195a0166446d21ed8b8a203dcd89f07987a416bb67dba66
   languageName: node
   linkType: hard
 
