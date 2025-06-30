@@ -260,6 +260,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        */
       const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
 
+      /**
+       * Fetch note's parents after saving the note
+       */
       noteParents.value = (await noteService.getNoteById(noteCreated.id)).parents;
       /**
        * Replace the current route with note id
