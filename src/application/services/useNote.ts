@@ -5,7 +5,10 @@ import type { NoteTool } from '@/domain/entities/Note';
 import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
-import useHeader from './useHeader';
+import DomainError from '@/domain/entities/errors/Base';
+import useNavbar from './useNavbar';
+import { getTitle } from '@/infrastructure/utils/note';
+import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
 
 /**
  * Creates base structure for the empty note:
@@ -70,6 +73,11 @@ interface UseNoteComposableState {
   unlinkParent: () => Promise<void>;
 
   /**
+   * Returns an array of note parents for the current note.
+   */
+  noteParents: Ref<Note[]>;
+
+  /**
    * Defines if user can edit note
    */
   canEdit: Ref<boolean>;
@@ -83,6 +91,11 @@ interface UseNoteComposableState {
    * Title for bookmarks in the browser
    */
   noteTitle: Ref<string>;
+
+  /**
+   * Note hierarchy
+   */
+  noteHierarchy: Ref<NoteHierarchy | null>;
 }
 
 interface UseNoteComposableOptions {
@@ -97,7 +110,7 @@ interface UseNoteComposableOptions {
  * @param options - note service options
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
-  const { patchOpenedPageByUrl } = useHeader();
+  const { patchOpenedPageByUrl, deleteOpenedPageByUrl } = useNavbar();
   /**
    * Current note identifier
    */
@@ -128,8 +141,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   const route = useRoute();
 
-  const limitCharsForNoteTitle = 50;
-
   /**
    * Is there any note currently saving
    * Used to prevent re-load note after draft is saved
@@ -142,13 +153,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const noteTitle = computed(() => {
     const noteContent = lastUpdateContent.value ?? note.value?.content;
 
-    const firstNoteBlock = noteContent?.blocks[0];
-
-    if (!firstNoteBlock || !Boolean(firstNoteBlock.data.text)) {
-      return 'Note';
-    } else {
-      return firstNoteBlock.data.text.slice(0, limitCharsForNoteTitle);
-    }
+    return getTitle(noteContent);
   });
 
   /**
@@ -166,19 +171,50 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const parentNote = ref<Note | undefined>(undefined);
 
   /**
+   * Note parents of the actual note
+   *
+   * Actual note by default
+   */
+  const noteParents = ref<Note[]>([]);
+  /**
+   * Note hierarchy
+   *
+   * null by default
+   */
+  const noteHierarchy = ref<NoteHierarchy | null>(null);
+
+  /**
+   * get note hierarchy
+   * @param id - note id
+   */
+  async function getNoteHierarchy(id: NoteId): Promise<void> {
+    let response = await noteService.getNoteHierarchy(id);
+
+    noteHierarchy.value = response;
+  }
+
+  /**
    * Load note by id
    * @param id - Note identifier got from composable argument
    */
   async function load(id: NoteId): Promise<void> {
-    /**
-     * @todo try-catch domain errors
-     */
-    const response = await noteService.getNoteById(id);
+    try {
+      const response = await noteService.getNoteById(id);
 
-    note.value = response.note;
-    canEdit.value = response.accessRights.canEdit;
-    noteTools.value = response.tools;
-    parentNote.value = response.parentNote;
+      note.value = response.note;
+      canEdit.value = response.accessRights.canEdit;
+      noteTools.value = response.tools;
+      parentNote.value = response.parentNote;
+      noteParents.value = response.parents;
+      void getNoteHierarchy(id);
+    } catch (error) {
+      deleteOpenedPageByUrl(route.path);
+      if (error instanceof DomainError) {
+        void router.push(`/error/${error.statusCode}`);
+      } else {
+        void router.push('/error/500');
+      }
+    }
   }
 
   /**
@@ -243,6 +279,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
           title: noteTitle.value,
           url: route.path,
         });
+
+      /**
+       * Get note Hierarchy when new Note is created
+       */
+      void getNoteHierarchy(noteCreated.id);
     } else {
       await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
     }
@@ -281,7 +322,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   onMounted(() => {
     /**
-     * If we have id, load note
+     * If we have id, load note and note hierarchy
      */
     if (currentId.value !== null) {
       void load(currentId.value);
@@ -295,6 +336,34 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     note.value = createDraft();
     canEdit.value = true;
     lastUpdateContent.value = null;
+    noteHierarchy.value = null;
+  }
+
+  /**
+   * Recursively update the note hierarchy title
+   * @param hierarchy - The note hierarchy to update
+   * @param title - The new title to update in the hierarchy
+   */
+  function updateNoteHierarchyContent(hierarchy: NoteHierarchy | null, title: string): void {
+    // If hierarchy is null, there's nothing to update
+    if (!hierarchy) {
+      return;
+    }
+
+    // If content is null, we can't update the hierarchy content
+    if (!title) {
+      return;
+    }
+
+    // Update the title of the current note in the hierarchy if it matches the currentId
+    if (hierarchy.noteId === currentId.value) {
+      hierarchy.noteTitle = title;
+    }
+
+    // Recursively update child notes
+    if (hierarchy.childNotes) {
+      hierarchy.childNotes.forEach(child => updateNoteHierarchyContent(child, title));
+    }
   }
 
   watch(currentId, (newId, prevId) => {
@@ -322,12 +391,15 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    patchOpenedPageByUrl(
-      route.path,
-      {
-        title: currentNoteTitle,
-        url: route.path,
-      });
+    if (route.name == 'note') {
+      patchOpenedPageByUrl(
+        route.path,
+        {
+          title: currentNoteTitle,
+          url: route.path,
+        });
+    }
+    updateNoteHierarchyContent(noteHierarchy.value, currentNoteTitle);
   });
 
   return {
@@ -339,6 +411,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     resolveToolsByContent,
     save,
     unlinkParent,
+    noteParents,
     parentNote,
+    noteHierarchy,
   };
 }

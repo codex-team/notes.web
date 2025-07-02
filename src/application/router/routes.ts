@@ -1,16 +1,7 @@
 import Home from '@/presentation/pages/Home.vue';
 import Note from '@/presentation/pages/Note.vue';
 import Landing from '@/presentation/pages/Landing.vue';
-import Settings from '@/presentation/pages/Settings.vue';
-import NoteSettings from '@/presentation/pages/NoteSettings.vue';
-import ErrorPage from '@/presentation/pages/Error.vue';
-import JoinPage from '@/presentation/pages/Join.vue';
-import AuthorizationPage from '@/presentation/pages/AuthorizationPage.vue';
 import type { RouteRecordRaw } from 'vue-router';
-import AddTool from '@/presentation/pages/marketplace/AddTool.vue';
-import MarketplacePage from '@/presentation/pages/marketplace/MarketplacePage.vue';
-import History from '@/presentation/pages/History.vue';
-import HistoryVersion from '@/presentation/pages/HistoryVersion.vue';
 import MarketplaceTools from '@/presentation/pages/marketplace/MarketplaceTools.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
@@ -48,7 +39,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'history',
     path: '/note/:noteId/history',
-    component: History,
+    component: () => import('@/presentation/pages/History.vue'),
     meta: {
       layout: 'fullpage',
       pageTitleI18n: 'pages.history',
@@ -61,7 +52,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'history_version',
     path: '/note/:noteId/history/:historyId',
-    component: HistoryVersion,
+    component: () => import('@/presentation/pages/HistoryVersion.vue'),
     meta: {
       layout: 'fullpage',
       pageTitleI18n: 'pages.historyVersion',
@@ -109,7 +100,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'settings',
     path: `/settings/`,
-    component: Settings,
+    component: () => import('@/presentation/pages/Settings.vue'),
     meta: {
       pageTitleI18n: 'pages.userSettings',
       authRequired: true,
@@ -118,7 +109,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'note_settings',
     path: '/note/:id/settings',
-    component: NoteSettings,
+    component: () => import('@/presentation/pages/NoteSettings.vue'),
     props: route => ({
       id: String(route.params.id),
     }),
@@ -130,7 +121,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'marketplacePage',
     path: `/`,
-    component: MarketplacePage,
+    component: () => import('@/presentation/pages/marketplace/MarketplacePage.vue'),
     redirect: '/marketplace',
     meta: {
       pageTitleI18n: 'pages.marketplace',
@@ -147,7 +138,7 @@ const routes: RouteRecordRaw[] = [
     {
       name: 'marketplaceAddTool',
       path: `marketplace/add`,
-      component: AddTool,
+      component: () => import('@/presentation/pages/marketplace/AddTool.vue'),
       meta: {
         pageTitleI18n: 'pages.addTool',
         authRequired: true,
@@ -157,7 +148,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'join',
     path: '/join/:hash',
-    component: JoinPage,
+    component: () => import('@/presentation/pages/Join.vue'),
     props: route => ({
       invitationHash: String(route.params.hash),
     }),
@@ -170,7 +161,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'authorization',
     path: '/auth',
-    component: AuthorizationPage,
+    component: () => import('@/presentation/pages/AuthorizationPage.vue'),
     props: route => ({
       redirect: String(route.query.redirect),
     }),
@@ -179,13 +170,12 @@ const routes: RouteRecordRaw[] = [
       discardTabOnLeave: true,
     },
   },
-
   /**
    * 404 page
    */
   {
     path: '/:pathMatch(.*)*',
-    component: ErrorPage,
+    component: () => import('@/presentation/pages/Error.vue'),
     meta: {
       layout: 'fullpage',
       pageTitleI18n: 'pages.notFound',
@@ -194,6 +184,21 @@ const routes: RouteRecordRaw[] = [
     props: {
       code: 404,
     },
+  },
+  /**
+   * error page
+   */
+  {
+    path: '/error/:code',
+    component: () => import('@/presentation/pages/Error.vue'),
+    meta: {
+      layout: 'fullpage',
+      pageTitleI18n: 'pages.error',
+      discardTabOnLeave: true,
+    },
+    props: route => ({
+      code: route.params.code,
+    }),
   },
 ];
 

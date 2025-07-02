@@ -42,7 +42,6 @@ const { tools } = useMarketplace();
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxl);
-  width: var(--layout-content-width);
 
   &__subheader {
     margin-bottom: var(--spacing-l);

@@ -104,7 +104,7 @@
 
 <script setup lang="ts">
 import useMarketplace from '@/application/services/useMarketplace';
-import { Section, Input, Button, Card, Fieldset } from 'codex-ui/vue';
+import { Section, Input, Button, Card, Fieldset } from '@codexteam/ui/vue';
 import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -167,7 +167,6 @@ async function setCover(event: Event) {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxl);
-  width: var(--layout-content-width);
 }
 
 .add-tool-button {

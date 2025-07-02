@@ -32,7 +32,7 @@ import { EditorToolWithUserBinding } from '@/domain/entities/EditorTool';
 import { useUserSettings } from '@/application/services/useUserSettings';
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
-import { Button, Card } from 'codex-ui/vue';
+import { Button, Card } from '@codexteam/ui/vue';
 
 const { addTool, removeTool } = useUserSettings();
 
