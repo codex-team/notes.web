@@ -1,5 +1,5 @@
 import type { Ref } from 'vue';
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
 import type { AlertOptions, AlertType } from './Alert.types';
 
@@ -49,12 +49,35 @@ export interface UseAlertComposableState {
  */
 export const useAlert = createSharedComposable((): UseAlertComposableState => {
   const counter = ref(0);
+  const maxAlerts = 10; // Default maximum number of alerts
   const alerts = ref<AlertOptions[]>([]);
+  const animationFrameIds = new Map<number, number>();
 
   function removeExpiredAlerts(): void {
     const currentTime = new Date().getTime();
 
     alerts.value = alerts.value.filter(alert => alert.timeout > currentTime);
+  }
+
+  function scheduleRemoval(alertId: number, timeout: number): void {
+    const startTime = performance.now();
+
+    const checkExpiry = (timestamp: number): void => {
+      const elpased = timestamp - startTime;
+
+      if (elpased >= timeout) {
+        removeExpiredAlerts();
+        animationFrameIds.delete(alertId);
+      } else {
+        const frameId = requestAnimationFrame(checkExpiry);
+
+        animationFrameIds.set(alertId, frameId);
+      }
+    };
+
+    const frameId = requestAnimationFrame(checkExpiry);
+
+    animationFrameIds.set(alertId, frameId);
   }
 
   /**
@@ -70,11 +93,40 @@ export const useAlert = createSharedComposable((): UseAlertComposableState => {
     const currentTime = new Date().getTime();
     const currentTimeout = currentTime + opt.timeout;
 
-    opt.id = counter.value++, opt.type = type, opt.timeout = currentTimeout;
+    if (alerts.value.length >= maxAlerts) {
+      // Find and remove the oldest alert (smallest ID)
+      const oldestAlert = alerts.value.reduce((prev, current) => {
+        if (prev?.id === undefined || current.id === undefined) {
+          return prev;
+        }
 
-    alerts.value = [...alerts.value, opt];
-    setInterval(removeExpiredAlerts, currentTimeout);
+        return (prev.id < current.id) ? prev : current;
+      });
+
+      alerts.value = alerts.value.filter(alert => alert.id !== oldestAlert?.id);
+    }
+
+    const newAlert = {
+      ...opt,
+      id: counter.value++,
+      type,
+      timeout: currentTimeout,
+    };
+
+    alerts.value = [newAlert, ...alerts.value];
+
+    requestAnimationFrame(() => {
+      scheduleRemoval(Number(newAlert.id), opt.timeout);
+    });
   }
+
+  onUnmounted(() => {
+    animationFrameIds.forEach((frameId) => {
+      cancelAnimationFrame(frameId);
+    });
+
+    animationFrameIds.clear();
+  });
 
   return {
     alerts,

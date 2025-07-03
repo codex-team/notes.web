@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { Component } from 'vue';
 import Index from './pages/Index.vue';
+import Alert from './pages/components/Alert.vue';
 import TypeScale from './pages/base-concepts/TypeScale.vue';
 import ControlsDimensions from './pages/base-concepts/ControlsDimensions.vue';
 import Sizes from './pages/base-concepts/Sizes.vue';
@@ -40,6 +41,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: Index as Component,
+  },
+  {
+    path: '/alert',
+    component: Alert as Component,
   },
   {
     path: '/type-scale',

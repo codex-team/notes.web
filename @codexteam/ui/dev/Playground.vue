@@ -115,6 +115,11 @@ const pages = computed(() => [
     title: 'Components',
     items: [
       {
+        title: 'Alert',
+        onActivate: () => router.push('/alert'),
+        isActive: route.path === '/alert',
+      },
+      {
         title: 'Button',
         onActivate: () => router.push('/components/button'),
         isActive: route.path === '/components/button',

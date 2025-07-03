@@ -20,7 +20,6 @@
 import Alert from './Alert.vue';
 import AlertTransition from './AlertTransition.vue';
 import { useAlert } from './useAlert';
-
 const { alerts } = useAlert();
 </script>
 
