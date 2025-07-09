@@ -16,12 +16,18 @@
 /* Enter/Leave transitions */
 .alert-enter-active {
   transition: all 0.3s ease-out;
+  position: relative;
+  z-index: 1;
 }
 
 .alert-leave-active {
-  transition: all 0.4s ease-in;
-  position: absolute;
-  width: 100%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .alert-enter-from {
@@ -36,12 +42,14 @@
 
 .alert-leave-to {
   opacity: 0;
-  transform: translateX(-100%);
+  transform: translateY(-10px);
+  margin: 0;
+  padding: 0;
 }
 
 /* Move other items smoothly when one is removed */
 .alert-move {
-  transition: transform 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .alert-container {
