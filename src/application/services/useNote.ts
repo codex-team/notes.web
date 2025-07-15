@@ -9,6 +9,8 @@ import DomainError from '@/domain/entities/errors/Base';
 import useNavbar from './useNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
 import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
+import useNoteSettings from '@/application/services/useNoteSettings';
+import type NoteSettings from '@/domain/entities/NoteSettings';
 
 /**
  * Creates base structure for the empty note:
@@ -96,6 +98,18 @@ interface UseNoteComposableState {
    * Note hierarchy
    */
   noteHierarchy: Ref<NoteHierarchy | null>;
+
+  /**
+   * Note settings composable
+   */
+  noteSettings: Ref<NoteSettings | null>;
+  /**
+   * Updates the cover image of the note.
+   * @param id - The identifier of the note whose cover should be updated.
+   * @param data - The new cover image as binary data (Blob).
+   * @returns A Promise that resolves when the cover has been updated.
+   */
+  updateCover: (id: string, data: Blob) => Promise<void>;
 }
 
 interface UseNoteComposableOptions {
@@ -115,6 +129,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Current note identifier
    */
   const currentId = computed(() => toValue(options.id));
+
+  /**
+   * Note settings composable
+   */
+  const { noteSettings, load: loadNoteSettings, updateCover } = useNoteSettings();
 
   /**
    * Currently opened note
@@ -320,12 +339,35 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     note.value = (await noteService.getNoteByHostname(location.hostname)).note;
   };
 
-  onMounted(() => {
+  onMounted(async () => {
     /**
-     * If we have id, load note and note hierarchy
+     * If we have id, load note settings first, then note and note hierarchy if needed
      */
     if (currentId.value !== null) {
-      void load(currentId.value);
+      await loadNoteSettings(currentId.value);
+      // Only load note and hierarchy if showNoteHierarchy is true
+      if (noteSettings.value?.showNoteHierarchy === true) {
+        void load(currentId.value);
+      } else {
+        // Load note without hierarchy
+        try {
+          const response = await noteService.getNoteById(currentId.value);
+
+          note.value = response.note;
+          canEdit.value = response.accessRights.canEdit;
+          noteTools.value = response.tools;
+          parentNote.value = response.parentNote;
+          noteParents.value = response.parents;
+          // Do not call getNoteHierarchy
+        } catch (error) {
+          deleteOpenedPageByUrl(route.path);
+          if (error instanceof DomainError) {
+            void router.push(`/error/${error.statusCode}`);
+          } else {
+            void router.push('/error/500');
+          }
+        }
+      }
     }
   });
 
@@ -414,5 +456,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     noteParents,
     parentNote,
     noteHierarchy,
+    noteSettings,
+    updateCover,
   };
 }

@@ -63,6 +63,20 @@
           </Row>
         </Section>
 
+        <Section
+          :title="t('noteSettings.noteHierarchyTitle')"
+          :caption="t('noteSettings.noteHierarchyCaption')"
+        >
+          <Row :title="t('noteSettings.noteHierarchyRowTitle')">
+            <template #right>
+              <Switch
+                v-model="showNoteHierarchy"
+                @click="changeShowNoteHierarchy"
+              />
+            </template>
+          </Row>
+        </Section>
+
         <Fieldset
           :title="t('noteSettings.teamFormFieldSetTitle')"
         >
@@ -123,7 +137,7 @@ const props = defineProps<{
 
 const { patchOpenedPageByUrl } = useNavbar();
 const route = useRoute();
-const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent, updateShowNoteHierarchy } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
@@ -178,10 +192,21 @@ const isPublic = computed(() => {
 });
 
 /**
+ * Current value of showNoteHierarchy field
+ */
+const showNoteHierarchy = computed(() => {
+  return noteSettings.value?.showNoteHierarchy;
+});
+
+/**
  * Change isPublic property
  */
 async function changeAccess() {
   updateIsPublic(props.id, !noteSettings.value!.isPublic);
+}
+
+async function changeShowNoteHierarchy() {
+  updateShowNoteHierarchy(props.id, !noteSettings.value!.showNoteHierarchy);
 }
 
 /**

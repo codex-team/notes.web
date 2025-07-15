@@ -46,6 +46,7 @@
       <PageBlock>
         <template #left>
           <VerticalMenu
+            v-if="noteSettings && noteSettings.showNoteHierarchy"
             class="menu"
             :items="[verticalMenuItems]"
           />
@@ -72,7 +73,6 @@ import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
-import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
@@ -99,7 +99,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy, noteSettings, updateCover } = useNote({
   id: noteId,
 });
 
@@ -122,8 +122,6 @@ function redirectToNoteSettings(): void {
   }
   router.push(`/note/${props.id}/settings`);
 }
-
-const { updateCover } = useNoteSettings();
 
 const { isEditorReady, editorConfig } = useNoteEditor({
   noteTools,
