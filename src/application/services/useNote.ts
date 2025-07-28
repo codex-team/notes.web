@@ -1,4 +1,4 @@
-import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
+import { ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
 import { noteService, editorToolsService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type { NoteTool } from '@/domain/entities/Note';
@@ -9,8 +9,13 @@ import DomainError from '@/domain/entities/errors/Base';
 import useNavbar from './useNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
 import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
-import useNoteSettings from '@/application/services/useNoteSettings';
-import type NoteSettings from '@/domain/entities/NoteSettings';
+
+/**
+ * Note-specific load options
+ */
+export interface NoteLoadOptions {
+  loadHierarchy?: boolean;
+}
 
 /**
  * Creates base structure for the empty note:
@@ -100,16 +105,11 @@ interface UseNoteComposableState {
   noteHierarchy: Ref<NoteHierarchy | null>;
 
   /**
-   * Note settings composable
+   * Load note by id with configurable options
+   * @param id - Note identifier
+   * @param loadOptions - Load options for customizing what data to fetch
    */
-  noteSettings: Ref<NoteSettings | null>;
-  /**
-   * Updates the cover image of the note.
-   * @param id - The identifier of the note whose cover should be updated.
-   * @param data - The new cover image as binary data (Blob).
-   * @returns A Promise that resolves when the cover has been updated.
-   */
-  updateCover: (id: string, data: Blob) => Promise<void>;
+  load: (id: NoteId, loadOptions?: NoteLoadOptions) => Promise<void>;
 }
 
 interface UseNoteComposableOptions {
@@ -129,11 +129,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Current note identifier
    */
   const currentId = computed(() => toValue(options.id));
-
-  /**
-   * Note settings composable
-   */
-  const { noteSettings, load: loadNoteSettings, updateCover } = useNoteSettings();
 
   /**
    * Currently opened note
@@ -215,8 +210,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   /**
    * Load note by id
    * @param id - Note identifier got from composable argument
+   * @param loadOptions - Loading options
    */
-  async function load(id: NoteId): Promise<void> {
+  async function load(id: NoteId, loadOptions?: NoteLoadOptions): Promise<void> {
     try {
       const response = await noteService.getNoteById(id);
 
@@ -225,7 +221,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
       noteParents.value = response.parents;
-      void getNoteHierarchy(id);
+
+      // Default to false if not specified
+      const shouldLoadHierarchy = loadOptions?.loadHierarchy ?? false;
+
+      if (shouldLoadHierarchy) {
+        void getNoteHierarchy(id);
+      }
     } catch (error) {
       deleteOpenedPageByUrl(route.path);
       if (error instanceof DomainError) {
@@ -339,38 +341,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     note.value = (await noteService.getNoteByHostname(location.hostname)).note;
   };
 
-  onMounted(async () => {
-    /**
-     * If we have id, load note settings first, then note and note hierarchy if needed
-     */
-    if (currentId.value !== null) {
-      await loadNoteSettings(currentId.value);
-      // Only load note and hierarchy if showNoteHierarchy is true
-      if (noteSettings.value?.showNoteHierarchy === true) {
-        void load(currentId.value);
-      } else {
-        // Load note without hierarchy
-        try {
-          const response = await noteService.getNoteById(currentId.value);
-
-          note.value = response.note;
-          canEdit.value = response.accessRights.canEdit;
-          noteTools.value = response.tools;
-          parentNote.value = response.parentNote;
-          noteParents.value = response.parents;
-          // Do not call getNoteHierarchy
-        } catch (error) {
-          deleteOpenedPageByUrl(route.path);
-          if (error instanceof DomainError) {
-            void router.push(`/error/${error.statusCode}`);
-          } else {
-            void router.push('/error/500');
-          }
-        }
-      }
-    }
-  });
-
   /**
    * Reset note to the initial state
    */
@@ -456,7 +426,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     noteParents,
     parentNote,
     noteHierarchy,
-    noteSettings,
-    updateCover,
+    load,
   };
 }

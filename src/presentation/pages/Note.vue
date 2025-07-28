@@ -46,9 +46,9 @@
       <PageBlock>
         <template #left>
           <VerticalMenu
-            v-if="noteSettings && noteSettings.showNoteHierarchy"
+            v-if="noteSettings && noteSettings.showNoteHierarchy && verticalMenuItems.length > 0"
             class="menu"
-            :items="[verticalMenuItems]"
+            :items="verticalMenuItems"
           />
         </template>
         <template #default>
@@ -67,12 +67,13 @@
 <script lang="ts" setup>
 import { computed, ref, toRef, watch } from 'vue';
 import { Button, Editor, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
-import useNote from '@/application/services/useNote';
+import useNote, { type NoteLoadOptions } from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
+import useNoteSettings from '@/application/services/useNoteSettings';
 import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
@@ -99,9 +100,12 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy, noteSettings, updateCover } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy, load } = useNote({
   id: noteId,
 });
+
+// Note settings composable - used directly in the page
+const { noteSettings, load: loadNoteSettings, updateCover } = useNoteSettings();
 
 /**
  * Create new child note
@@ -181,18 +185,10 @@ async function noteChanged(data: NoteContent): Promise<void> {
  * @returns menuItem  - VerticalMenuItem
  */
 
-function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentNoteTitle: string): VerticalMenuItem {
-  if (!noteHierarchyObj) {
-    return {
-      title: 'Untitled',
-      isActive: true,
-      items: undefined,
-    };
-  }
-
+function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy, currentNoteTitle: string): VerticalMenuItem {
   // Transform the current note into a VerticalMenuItem
   return {
-    title: noteHierarchyObj?.noteTitle || 'Untitled',
+    title: noteHierarchyObj.noteTitle || 'Untitled',
     isActive: route.path === `/note/${noteHierarchyObj.noteId}`,
     items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
     onActivate: () => {
@@ -201,18 +197,33 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
   };
 }
 
-const verticalMenuItems = computed<VerticalMenuItem>(() => {
-  return transformNoteHierarchy(noteHierarchy.value, noteTitle.value);
+const verticalMenuItems = computed<VerticalMenuItem[]>(() => {
+  if (!noteHierarchy.value) {
+    return [];
+  }
+
+  return [transformNoteHierarchy(noteHierarchy.value, noteTitle.value)];
 });
 
 watch(
   () => props.id,
-  () => {
+  async () => {
     /** If new child note is created, refresh editor with empty data */
     if (props.id === null) {
       useHead({
         title: t('note.new'),
       });
+    } else {
+      // Load note settings first
+      await loadNoteSettings(props.id);
+
+      // Create load options based on note settings
+      const loadOptions: NoteLoadOptions = {
+        loadHierarchy: noteSettings.value?.showNoteHierarchy === true,
+      };
+
+      // Load note with the configured options
+      await load(props.id, loadOptions);
     }
   },
   { immediate: true }
