@@ -80,7 +80,6 @@ const computedTheme = computed((): AlertTheme => {
   border-radius: var(--radius-field);
   color: var(--base--text-solid-foreground);
   overflow-wrap: anywhere;
-  transform: translateY(10%);
 
   &--success {
     background-color: var(--base--solid);

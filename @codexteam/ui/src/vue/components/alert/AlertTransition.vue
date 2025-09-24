@@ -13,43 +13,51 @@
 </script>
 
 <style lang="postcss">
-/* Enter/Leave transitions */
+/* Enter animation */
 .alert-enter-active {
-  transition: all 0.3s ease-out;
-  position: relative;
-  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-origin: center bottom;
 }
 
 .alert-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-origin: center bottom;
 }
 
 .alert-enter-from {
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateY(20px) scale(0.95);
+  max-height: 0;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .alert-enter-to {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0) scale(1);
+  max-height: 200px;
 }
 
+/* Final state for leave */
 .alert-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(20px) scale(0.95);
+  max-height: 0;
   margin: 0;
-  padding: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.alert-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  max-height: 200px;
 }
 
 /* Move other items smoothly when one is removed */
 .alert-move {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .alert-container {
@@ -58,5 +66,6 @@
   flex-direction: column;
   gap: 0.75rem;
   width: 100%;
+  min-height: 0;
 }
 </style>

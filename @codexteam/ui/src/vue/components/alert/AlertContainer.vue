@@ -36,6 +36,9 @@ const { alerts } = useAlert();
    left: 50%;
    transform: translateX(-50%);
    bottom: var(--spacing-l);
+   width: auto;
+   min-width: auto;
+   max-width: auto;
   }
 }
 </style>
