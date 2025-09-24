@@ -39,6 +39,7 @@ import {
   Popover,
   Popup
 } from '../src/vue';
+
 import { useTheme } from '../src/vue/composables/useTheme';
 import { Navbar } from '../src/vue/layout/navbar';
 import { PageBlock } from '../src/vue/layout/page-block';
@@ -113,6 +114,11 @@ const pages = computed(() => [
   {
     title: 'Components',
     items: [
+      {
+        title: 'Alert',
+        onActivate: () => router.push('/alert'),
+        isActive: route.path === '/alert',
+      },
       {
         title: 'Button',
         onActivate: () => router.push('/components/button'),
