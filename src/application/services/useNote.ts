@@ -1,4 +1,4 @@
-import { ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
+import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
 import { noteService, editorToolsService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type { NoteTool } from '@/domain/entities/Note';
@@ -9,13 +9,6 @@ import DomainError from '@/domain/entities/errors/Base';
 import useNavbar from './useNavbar';
 import { getTitle } from '@/infrastructure/utils/note';
 import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
-
-/**
- * Note-specific load options
- */
-export interface NoteLoadOptions {
-  loadHierarchy?: boolean;
-}
 
 /**
  * Creates base structure for the empty note:
@@ -105,11 +98,16 @@ interface UseNoteComposableState {
   noteHierarchy: Ref<NoteHierarchy | null>;
 
   /**
-   * Load note by id with configurable options
+   * Load note by id
    * @param id - Note identifier
-   * @param loadOptions - Load options for customizing what data to fetch
    */
-  load: (id: NoteId, loadOptions?: NoteLoadOptions) => Promise<void>;
+  load: (id: NoteId) => Promise<void>;
+
+  /**
+   * Load note hierarchy separately when needed
+   * @param id - Note identifier
+   */
+  loadHierarchy: (id: NoteId) => Promise<void>;
 }
 
 interface UseNoteComposableOptions {
@@ -210,9 +208,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   /**
    * Load note by id
    * @param id - Note identifier got from composable argument
-   * @param loadOptions - Loading options
    */
-  async function load(id: NoteId, loadOptions?: NoteLoadOptions): Promise<void> {
+  async function load(id: NoteId): Promise<void> {
     try {
       const response = await noteService.getNoteById(id);
 
@@ -221,13 +218,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
       noteParents.value = response.parents;
-
-      // Default to false if not specified
-      const shouldLoadHierarchy = loadOptions?.loadHierarchy ?? false;
-
-      if (shouldLoadHierarchy) {
-        void getNoteHierarchy(id);
-      }
     } catch (error) {
       deleteOpenedPageByUrl(route.path);
       if (error instanceof DomainError) {
@@ -236,6 +226,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         void router.push('/error/500');
       }
     }
+  }
+
+  /**
+   * Load note hierarchy separately when needed
+   * @param id - Note identifier
+   */
+  async function loadHierarchy(id: NoteId): Promise<void> {
+    await getNoteHierarchy(id);
   }
 
   /**
@@ -300,11 +298,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
           title: noteTitle.value,
           url: route.path,
         });
-
-      /**
-       * Get note Hierarchy when new Note is created
-       */
-      void getNoteHierarchy(noteCreated.id);
     } else {
       await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
     }
@@ -333,6 +326,15 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
     parentNote.value = undefined;
   }
+
+  onMounted(() => {
+    /**
+     * If we have id, load note and note hierarchy
+     */
+    if (currentId.value !== null) {
+      void load(currentId.value);
+    }
+  });
 
   /**
    * Get note by custom hostname
@@ -427,5 +429,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     parentNote,
     noteHierarchy,
     load,
+    loadHierarchy,
   };
 }

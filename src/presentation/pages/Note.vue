@@ -67,7 +67,7 @@
 <script lang="ts" setup>
 import { computed, ref, toRef, watch } from 'vue';
 import { Button, Editor, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
-import useNote, { type NoteLoadOptions } from '@/application/services/useNote';
+import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
@@ -100,7 +100,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy, load } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy, loadHierarchy } = useNote({
   id: noteId,
 });
 
@@ -217,13 +217,10 @@ watch(
       // Load note settings first
       await loadNoteSettings(props.id);
 
-      // Create load options based on note settings
-      const loadOptions: NoteLoadOptions = {
-        loadHierarchy: noteSettings.value?.showNoteHierarchy === true,
-      };
-
-      // Load note with the configured options
-      await load(props.id, loadOptions);
+      // Load hierarchy only if settings allow it
+      if (noteSettings.value?.showNoteHierarchy === true) {
+        await loadHierarchy(props.id);
+      }
     }
   },
   { immediate: true }
