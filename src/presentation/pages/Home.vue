@@ -50,23 +50,23 @@
     </router-link>
 
     <!-- Home content -->
-    <template v-if="activeMenuItem === 'home'">
+    <template v-if="activeMenuItem === 'recents'">
       <Heading
         :level="1"
         :class="$style['page-header']"
       >
-        {{ $t('home.title') }}
+        {{ t('home.sections.recents.title') }}
       </Heading>
       <NoteList />
     </template>
 
     <!-- My notes content -->
-    <template v-else-if="activeMenuItem === 'notes'">
+    <template v-else-if="activeMenuItem === 'myNotes'">
       <Heading
         :level="1"
         :class="$style['page-header']"
       >
-        My notes
+        {{ t('home.sections.myNotes.title') }}
       </Heading>
       <Container>
       </Container>
@@ -89,7 +89,7 @@ const { t } = useI18n();
 const { showGoogleAuthPopup } = useAuth();
 
 // Active menu item state
-const activeMenuItem = ref('home');
+const activeMenuItem = ref('recents');
 
 const verticalMenuItems = computed<VerticalMenuItem>(() => {
   return {
@@ -97,17 +97,17 @@ const verticalMenuItems = computed<VerticalMenuItem>(() => {
     isActive: false,
     items: [
       {
-        title: t('home.title'),
-        isActive: activeMenuItem.value === 'home',
+        title: t('home.sections.recents.title'),
+        isActive: activeMenuItem.value === 'recents',
         onActivate: () => {
-          activeMenuItem.value = 'home';
+          activeMenuItem.value = 'recents';
         },
       },
       {
-        title: 'My notes',
-        isActive: activeMenuItem.value === 'notes',
+        title: t('home.sections.myNotes.title'),
+        isActive: activeMenuItem.value === 'myNotes',
         onActivate: () => {
-          activeMenuItem.value = 'notes';
+          activeMenuItem.value = 'myNotes';
         },
       },
     ],
