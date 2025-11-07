@@ -68,8 +68,7 @@
       >
         {{ t('home.sections.myNotes.title') }}
       </Heading>
-      <Container>
-      </Container>
+      <MyNoteList />
     </template>
   </PageBlock>
 </template>
@@ -81,6 +80,7 @@ import { useAppState } from '@/application/services/useAppState';
 import { Container, Row, Button, Heading, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
 import Hammer from '../components/pictures/Hammer.vue';
 import NoteList from '@/presentation/components/note-list/NoteList.vue';
+import MyNoteList from '@/presentation/components/my-note-list/MyNoteList.vue';
 import useAuth from '@/application/services/useAuth';
 import { computed, ref } from 'vue';
 
