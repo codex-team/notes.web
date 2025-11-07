@@ -68,6 +68,14 @@ export default class NoteRepository implements NoteRepositoryInterface {
   }
 
   /**
+   * Gets list of notes created by the user
+   * @param page - number of pages to get
+   */
+  public async getMyNoteList(page: number): Promise<NoteList> {
+    return await this.transport.get<NoteList>(`/notes/my`, { page });
+  }
+
+  /**
    * Creates a new note
    * @param content - Note content (Editor.js data)
    * @param noteTools - Tools that are used in note

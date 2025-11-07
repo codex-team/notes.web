@@ -30,6 +30,12 @@ export default interface NoteRepositoryInterface {
   getNoteList(page: number): Promise<NoteList>;
 
   /**
+   * Returns a list of notes created by the user
+   * @param page - number of pages
+   */
+  getMyNoteList(page: number): Promise<NoteList>;
+
+  /**
    * Creates a new note
    * @param content - Note content (Editor.js data)
    * @param noteTools - Tools that are used in note

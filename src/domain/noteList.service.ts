@@ -69,4 +69,55 @@ export default class NoteListService {
 
     return parsedNoteList;
   }
+
+  /**
+   * Returns list of notes created by the user
+   * @todo - move loading images data logic to separate service for optimization
+   * @param page - number of current pages
+   * @returns list of notes created by the user
+   */
+  public async getMyNoteList(page: number): Promise<NoteList> {
+    const noteList = await this.repository.getMyNoteList(page);
+
+    /**
+     * Note list with valid image urls in cover
+     */
+    const parsedNoteList: NoteList = {
+      items: [],
+    };
+
+    for (const note of noteList.items) {
+      /**
+       * If note has no cover, we have no need to load it
+       */
+      if (note.cover === null) {
+        parsedNoteList.items.push(note);
+        continue;
+      }
+
+      /**
+       * Cover object url for passing to the element
+       */
+      let objUrl: string | null = null;
+
+      try {
+        const imageData = await this.noteAttachmentRepository.load(note.id, note.cover);
+
+        /**
+         * Make url from blob data
+         */
+        // eslint-disable-next-line n/no-unsupported-features/node-builtins
+        objUrl = URL.createObjectURL(imageData);
+      } catch {
+        console.log('Error while loading cover for note ', note.id);
+      }
+
+      parsedNoteList.items.push({
+        ...note,
+        cover: objUrl,
+      });
+    }
+
+    return parsedNoteList;
+  }
 }

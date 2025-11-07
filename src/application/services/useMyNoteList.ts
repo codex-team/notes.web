@@ -6,6 +6,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 
 /**
  * My note list hook state
+ * Returns notes created by the user
  */
 interface UseMyNoteListComposableState {
   /**
@@ -14,7 +15,7 @@ interface UseMyNoteListComposableState {
   noteList: Ref<NoteList | null>;
 
   /**
-   * Get My Note List
+   * Get list of notes created by the user
    * @param page - number of pages
    */
   load: (page: number) => Promise<NoteList>;
@@ -37,7 +38,7 @@ interface UseMyNoteListComposableState {
 }
 
 /**
- * Application service for working with the My Note list
+ * Application service for working with notes created by the user
  */
 export default function (): UseMyNoteListComposableState {
   /**
@@ -68,15 +69,13 @@ export default function (): UseMyNoteListComposableState {
   const isLoading = ref(false);
 
   /**
-   * Get my note list
+   * Get list of notes created by the user
    * @param page - number of pages
    */
   const load = async (page: number): Promise<NoteList> => {
     isLoading.value = true;
 
-    // TODO: Replace with actual API call for user's notes
-    // For now, using the same service but filtering by creator
-    const list = await noteListService.getNoteList(page);
+    const list = await noteListService.getMyNoteList(page);
 
     isLoading.value = false;
 
