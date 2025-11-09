@@ -46,12 +46,23 @@ import { getTitle } from '@/infrastructure/utils/note';
 import { useI18n } from 'vue-i18n';
 import { Card, CardSkeleton, Button } from '@codexteam/ui/vue';
 
+interface Props {
+  /**
+   * If true, returns notes created by the user
+   */
+  onlyCreatedByUser?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  onlyCreatedByUser: false,
+});
+
 const {
   noteList,
   loadMoreNotes,
   hasMoreNotes,
   isLoading,
-} = useNoteList();
+} = useNoteList(props.onlyCreatedByUser);
 const { t } = useI18n();
 
 /**

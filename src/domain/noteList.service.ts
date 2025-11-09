@@ -23,61 +23,11 @@ export default class NoteListService {
    * Returns note list
    * @todo - move loading images data logic to separate service for optimization
    * @param page - number of current pages
+   * @param onlyCreatedByUser - if true, returns notes created by the user
    * @returns list of notes
    */
-  public async getNoteList(page: number): Promise<NoteList> {
-    const noteList = await this.repository.getNoteList(page);
-
-    /**
-     * Note list with valid image urls in cover
-     */
-    const parsedNoteList: NoteList = {
-      items: [],
-    };
-
-    for (const note of noteList.items) {
-      /**
-       * If note has no cover, we have no need to load it
-       */
-      if (note.cover === null) {
-        parsedNoteList.items.push(note);
-        continue;
-      }
-
-      /**
-       * Cover object url for passing to the element
-       */
-      let objUrl: string | null = null;
-
-      try {
-        const imageData = await this.noteAttachmentRepository.load(note.id, note.cover);
-
-        /**
-         * Make url from blob data
-         */
-        // eslint-disable-next-line n/no-unsupported-features/node-builtins
-        objUrl = URL.createObjectURL(imageData);
-      } catch {
-        console.log('Error while loading cover for note ', note.id);
-      }
-
-      parsedNoteList.items.push({
-        ...note,
-        cover: objUrl,
-      });
-    }
-
-    return parsedNoteList;
-  }
-
-  /**
-   * Returns list of notes created by the user
-   * @todo - move loading images data logic to separate service for optimization
-   * @param page - number of current pages
-   * @returns list of notes created by the user
-   */
-  public async getMyNoteList(page: number): Promise<NoteList> {
-    const noteList = await this.repository.getMyNoteList(page);
+  public async getNoteList(page: number, onlyCreatedByUser = false): Promise<NoteList> {
+    const noteList = await this.repository.getNoteList(page, onlyCreatedByUser);
 
     /**
      * Note list with valid image urls in cover

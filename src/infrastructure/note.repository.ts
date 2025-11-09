@@ -62,17 +62,11 @@ export default class NoteRepository implements NoteRepositoryInterface {
   /**
    * Gets note list
    * @param page - number of pages to get
+   * @param onlyCreatedByUser - if true, returns notes created by the user, otherwise returns all notes
    */
-  public async getNoteList(page: number): Promise<NoteList> {
-    return await this.transport.get<NoteList>(`/notes`, { page });
-  }
-
-  /**
-   * Gets list of notes created by the user
-   * @param page - number of pages to get
-   */
-  public async getMyNoteList(page: number): Promise<NoteList> {
-    return await this.transport.get<NoteList>(`/notes/my`, { page });
+  public async getNoteList(page: number, onlyCreatedByUser = false): Promise<NoteList> {
+    const endpoint = onlyCreatedByUser ? '/notes/my' : '/notes';
+    return await this.transport.get<NoteList>(endpoint, { page });
   }
 
   /**

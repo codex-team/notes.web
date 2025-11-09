@@ -26,14 +26,9 @@ export default interface NoteRepositoryInterface {
   /**
    * Returns a list of notes
    * @param page - number of pages
+   * @param onlyCreatedByUser - if true, returns notes created by the user
    */
-  getNoteList(page: number): Promise<NoteList>;
-
-  /**
-   * Returns a list of notes created by the user
-   * @param page - number of pages
-   */
-  getMyNoteList(page: number): Promise<NoteList>;
+  getNoteList(page: number, onlyCreatedByUser?: boolean): Promise<NoteList>;
 
   /**
    * Creates a new note
