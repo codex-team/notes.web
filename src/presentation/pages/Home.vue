@@ -15,7 +15,10 @@
   </div>
 
   <!-- Authorized users -->
-  <PageBlock v-else-if="user !== undefined" data-dimensions="large">
+  <PageBlock
+    v-else-if="user !== undefined"
+    data-dimensions="large"
+  >
     <template #left>
       <VerticalMenu
         class="menu"
