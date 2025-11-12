@@ -2,18 +2,8 @@
   <PageBlock
     data-dimensions="large"
   >
-    <template
-      v-if="isUserAuthorized"
-      #left
-    >
-      <VerticalMenu
-        class="menu"
-        :items="[verticalMenuItems]"
-      />
-    </template>
-
     <!-- Unauthorized users -->
-    <template v-if="!isUserAuthorized">
+    <template v-if="!user">
       <Container>
         <Row :title="t('home.authText')">
           <template #right>
@@ -27,8 +17,19 @@
       </Container>
     </template>
 
-    <!-- Authorized users -->
-    <template v-else>
+    <!-- Authorized users - menu -->
+    <template
+      v-if="user"
+      #left
+    >
+      <VerticalMenu
+        class="menu"
+        :items="[verticalMenuItems]"
+      />
+    </template>
+
+    <!-- Authorized users - content -->
+    <template v-if="user">
       <router-link
         to="/new"
       >
@@ -54,19 +55,16 @@
         </Container>
       </router-link>
 
-      <!-- Home content -->
-      <template v-if="activeMenuItem === 'recents' || activeMenuItem === 'myNotes'">
-        <Heading
-          :level="1"
-          :class="$style['page-header']"
-        >
-          {{ sectionTitle }}
-        </Heading>
-        <NoteList
-          :key="activeMenuItem"
-          :only-created-by-user="showOnlyUserNotes"
-        />
-      </template>
+      <Heading
+        :level="1"
+        :class="$style['page-header']"
+      >
+        {{ sectionTitle }}
+      </Heading>
+      <NoteList
+        :key="activeMenuItem"
+        :only-created-by-user="tabs[activeMenuItem].onlyCreatedByUser"
+      />
     </template>
   </PageBlock>
 </template>
@@ -85,46 +83,33 @@ const { user } = useAppState();
 const { t } = useI18n();
 const { showGoogleAuthPopup } = useAuth();
 
-// Active menu item state
-const activeMenuItem = ref('recents');
+const tabs = {
+  recents: {
+    titleKey: 'home.sections.recents.title',
+    onlyCreatedByUser: false,
+  },
+  myNotes: {
+    titleKey: 'home.sections.myNotes.title',
+    onlyCreatedByUser: true,
+  },
+};
 
-const isUserAuthorized = computed(() => user.value !== undefined);
+type TabId = keyof typeof tabs;
 
-const sectionTitle = computed(() => {
-  if (activeMenuItem.value === 'recents') {
-    return t('home.sections.recents.title');
-  }
-  if (activeMenuItem.value === 'myNotes') {
-    return t('home.sections.myNotes.title');
-  }
+const activeMenuItem = ref<TabId>('recents');
+const sectionTitle = computed(() => t(tabs[activeMenuItem.value].titleKey));
 
-  return '';
-});
-
-const showOnlyUserNotes = computed(() => activeMenuItem.value === 'myNotes');
-
-const verticalMenuItems = computed<VerticalMenuItem>(() => {
-  return {
-    title: 'Navigation',
-    isActive: false,
-    items: [
-      {
-        title: t('home.sections.recents.title'),
-        isActive: activeMenuItem.value === 'recents',
-        onActivate: () => {
-          activeMenuItem.value = 'recents';
-        },
-      },
-      {
-        title: t('home.sections.myNotes.title'),
-        isActive: activeMenuItem.value === 'myNotes',
-        onActivate: () => {
-          activeMenuItem.value = 'myNotes';
-        },
-      },
-    ],
-  };
-});
+const verticalMenuItems = computed<VerticalMenuItem>(() => ({
+  title: 'Navigation',
+  isActive: false,
+  items: (Object.keys(tabs) as TabId[]).map(tabId => ({
+    title: t(tabs[tabId].titleKey),
+    isActive: activeMenuItem.value === tabId,
+    onActivate: () => {
+      activeMenuItem.value = tabId;
+    },
+  })),
+}));
 
 /**
  * Changing the title in the browser
