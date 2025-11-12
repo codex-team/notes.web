@@ -1,77 +1,72 @@
 <template>
-  <!-- Unauthorized users -->
-  <div v-if="user === null">
-    <Container data-dimensions="large">
-      <Row :title="t('home.authText')">
-        <template #right>
-          <Button
-            @click="showGoogleAuthPopup"
-          >
-            {{ t('auth.login') }}
-          </Button>
-        </template>
-      </Row>
-    </Container>
-  </div>
-
-  <!-- Authorized users -->
   <PageBlock
-    v-else-if="user !== undefined"
     data-dimensions="large"
   >
-    <template #left>
+    <template
+      v-if="isUserAuthorized"
+      #left
+    >
       <VerticalMenu
         class="menu"
         :items="[verticalMenuItems]"
       />
     </template>
 
-    <router-link
-      v-if="user"
-      to="/new"
-    >
+    <!-- Unauthorized users -->
+    <template v-if="!isUserAuthorized">
       <Container>
-        <div :class="$style['container__create-new-note']">
-          <Row
-            :title="t('home.createNewNote.title')"
-            :subtitle="t('home.createNewNote.caption')"
-          >
-            <template #left>
-              <Hammer />
-            </template>
-            <template #right>
-              <Button
-                secondary
-                trailing-icon="ChevronRight"
-              >
-                {{ t('home.createNewNote.button') }}
-              </Button>
-            </template>
-          </Row>
-        </div>
+        <Row :title="t('home.authText')">
+          <template #right>
+            <Button
+              @click="showGoogleAuthPopup"
+            >
+              {{ t('auth.login') }}
+            </Button>
+          </template>
+        </Row>
       </Container>
-    </router-link>
-
-    <!-- Home content -->
-    <template v-if="activeMenuItem === 'recents'">
-      <Heading
-        :level="1"
-        :class="$style['page-header']"
-      >
-        {{ t('home.sections.recents.title') }}
-      </Heading>
-      <NoteList />
     </template>
 
-    <!-- My notes content -->
-    <template v-else-if="activeMenuItem === 'myNotes'">
-      <Heading
-        :level="1"
-        :class="$style['page-header']"
+    <!-- Authorized users -->
+    <template v-else>
+      <router-link
+        to="/new"
       >
-        {{ t('home.sections.myNotes.title') }}
-      </Heading>
-      <NoteList :only-created-by-user="true" />
+        <Container>
+          <div :class="$style['container__create-new-note']">
+            <Row
+              :title="t('home.createNewNote.title')"
+              :subtitle="t('home.createNewNote.caption')"
+            >
+              <template #left>
+                <Hammer />
+              </template>
+              <template #right>
+                <Button
+                  secondary
+                  trailing-icon="ChevronRight"
+                >
+                  {{ t('home.createNewNote.button') }}
+                </Button>
+              </template>
+            </Row>
+          </div>
+        </Container>
+      </router-link>
+
+      <!-- Home content -->
+      <template v-if="activeMenuItem === 'recents' || activeMenuItem === 'myNotes'">
+        <Heading
+          :level="1"
+          :class="$style['page-header']"
+        >
+          {{ sectionTitle }}
+        </Heading>
+        <NoteList
+          :key="activeMenuItem"
+          :only-created-by-user="showOnlyUserNotes"
+        />
+      </template>
     </template>
   </PageBlock>
 </template>
@@ -92,6 +87,21 @@ const { showGoogleAuthPopup } = useAuth();
 
 // Active menu item state
 const activeMenuItem = ref('recents');
+
+const isUserAuthorized = computed(() => user.value !== undefined);
+
+const sectionTitle = computed(() => {
+  if (activeMenuItem.value === 'recents') {
+    return t('home.sections.recents.title');
+  }
+  if (activeMenuItem.value === 'myNotes') {
+    return t('home.sections.myNotes.title');
+  }
+
+  return '';
+});
+
+const showOnlyUserNotes = computed(() => activeMenuItem.value === 'myNotes');
 
 const verticalMenuItems = computed<VerticalMenuItem>(() => {
   return {
