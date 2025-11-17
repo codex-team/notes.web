@@ -9,16 +9,9 @@ export default defineConfig({
     outDir: resolve(__dirname, 'dist'),
     emptyOutDir: true,
     rollupOptions: {
-      /* Externalize Vue and vue-router (loaded from CDN) */
-      external: ['vue', 'vue-router'],
       output: {
         /* Ensure relative paths work for static demo */
         assetFileNames: 'assets/[name].[ext]',
-        globals: {
-          vue: 'Vue',
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          'vue-router': 'VueRouter',
-        },
       },
     },
   },
