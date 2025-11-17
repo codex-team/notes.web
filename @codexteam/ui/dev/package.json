@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codexteam/icons": "^0.3.3",
     "@codexteam/ui": "workspace:*",
     "@editorjs/editorjs": "2.30.2",
     "@editorjs/header": "^2.8.6",
