@@ -100,6 +100,9 @@ __metadata:
   resolution: "@codexteam/ui-demo@workspace:@codexteam/ui/dev"
   dependencies:
     "@codexteam/ui": "workspace:*"
+    "@editorjs/editorjs": 2.30.2
+    "@editorjs/header": ^2.8.6
+    "@editorjs/nested-list": ^1.4.2
     "@vitejs/plugin-vue": ^5.0.3
     postcss: ^8.4.26
     postcss-apply: ^0.12.0
