@@ -16,7 +16,7 @@
   "private": true,
   "workspaces": [
     "@codexteam/ui",
-    "@codexteam/ui/dev"
+    "@codexteam/ui/**"
   ],
   "dependencies": {
     "@codexteam/icons": "^0.3.3",

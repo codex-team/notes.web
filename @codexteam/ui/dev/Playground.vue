@@ -38,10 +38,10 @@ import {
   Tabbar,
   Popover,
   Popup
-} from '@';
-import { useTheme } from '@/vue/composables/useTheme';
-import { Navbar } from '@/vue/layout/navbar';
-import { PageBlock } from '@/vue/layout/page-block';
+} from '../src';
+import { useTheme } from '../src/vue/composables/useTheme';
+import { Navbar } from '../src/vue/layout/navbar';
+import { PageBlock } from '../src/vue/layout/page-block';
 
 import { useRouter, useRoute } from 'vue-router';
 
