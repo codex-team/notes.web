@@ -1,0 +1,30 @@
+{
+  "name": "@codexteam/ui-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@codexteam/icons": "^0.3.3",
+    "@codexteam/ui": "workspace:*",
+    "@editorjs/editorjs": "2.30.2",
+    "@editorjs/header": "^2.8.6",
+    "@editorjs/nested-list": "^1.4.2",
+    "vue": "^3.4.16",
+    "vue-router": "^4.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.3",
+    "postcss": "^8.4.26",
+    "postcss-apply": "^0.12.0",
+    "postcss-hover-media-feature": "^1.0.2",
+    "postcss-import": "^16.0.0",
+    "postcss-nested": "^6.0.1",
+    "postcss-preset-env": "^9.3.0",
+    "vite": "^5.0.12"
+  }
+}
