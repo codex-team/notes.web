@@ -2,7 +2,7 @@
 
 The Design System forged in the fires of open-source development
 
-Demo: https://codex-ui.vercel.app/
+Demo: https://cdx-ui.vercel.app/
 
 - [ ] Make tree-shaking work
 - [ ] Test Web/React/Native implementations
