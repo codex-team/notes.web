@@ -100,7 +100,7 @@ const activeMenuItem = ref<TabId>('recents');
 const sectionTitle = computed(() => t(tabs[activeMenuItem.value].titleKey));
 
 const verticalMenuItems = computed<VerticalMenuItem>(() => ({
-  title: 'Navigation',
+  title: t('home.navigation'),
   isActive: false,
   items: (Object.keys(tabs) as TabId[]).map(tabId => ({
     title: t(tabs[tabId].titleKey),
