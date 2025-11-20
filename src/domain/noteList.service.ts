@@ -23,10 +23,11 @@ export default class NoteListService {
    * Returns note list
    * @todo - move loading images data logic to separate service for optimization
    * @param page - number of current pages
+   * @param onlyCreatedByUser - if true, returns notes created by the user
    * @returns list of notes
    */
-  public async getNoteList(page: number): Promise<NoteList> {
-    const noteList = await this.repository.getNoteList(page);
+  public async getNoteList(page: number, onlyCreatedByUser = false): Promise<NoteList> {
+    const noteList = await this.repository.getNoteList(page, onlyCreatedByUser);
 
     /**
      * Note list with valid image urls in cover

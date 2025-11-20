@@ -100,8 +100,17 @@
       "caption": "Knowledge storage and presentation",
       "button": "New"
     },
+    "sections": {
+      "recents": {
+        "title": "Recents"
+      },
+      "myNotes": {
+        "title": "My notes"
+      }
+    },
+    "navigation": "Navigation",
     "updated": "Updated",
-    "title": "Recents",
+    "title": "Home",
     "authText": "You are not logged in, log in to see your recent notes"
   },
   "error": {
