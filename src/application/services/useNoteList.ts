@@ -38,8 +38,9 @@ interface UseNoteListComposableState {
 
 /**
  * Application service for working with the Note list
+ * @param onlyCreatedByUser - if true, returns notes created by the user
  */
-export default function (): UseNoteListComposableState {
+export default function (onlyCreatedByUser = false): UseNoteListComposableState {
   /**
    * NoteList ref
    */
@@ -74,7 +75,7 @@ export default function (): UseNoteListComposableState {
   const load = async (page: number): Promise<NoteList> => {
     isLoading.value = true;
 
-    const list = await noteListService.getNoteList(page);
+    const list = await noteListService.getNoteList(page, onlyCreatedByUser);
 
     isLoading.value = false;
 
