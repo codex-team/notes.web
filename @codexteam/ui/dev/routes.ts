@@ -30,6 +30,8 @@ import Editor from './pages/components/Editor.vue';
 import ThemePreview from './pages/components/ThemePreview.vue';
 import Popup from './pages/components/Popup.vue';
 import Confirm from './pages/components/Confirm.vue';
+import Counter from './pages/components/Counter.vue';
+import Chart from './pages/components/Chart.vue';
 import Navbar from './pages/layout/Navbar.vue';
 import PageBlock from './pages/layout/PageBlock.vue';
 
@@ -156,6 +158,14 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/components/confirm',
     component: Confirm as Component,
+  },
+  {
+    path: '/components/counter',
+    component: Counter as Component,
+  },
+  {
+    path: '/components/chart',
+    component: Chart as Component,
   },
   {
     path: '/layout/navbar',

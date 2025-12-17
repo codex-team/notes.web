@@ -223,6 +223,16 @@ const pages = computed(() => [
         onActivate: () => router.push('/components/confirm'),
         isActive: route.path === '/components/confirm',
       },
+      {
+        title: 'Counter',
+        onActivate: () => router.push('/components/counter'),
+        isActive: route.path === '/components/counter',
+      },
+      {
+        title: 'Chart',
+        onActivate: () => router.push('/components/chart'),
+        isActive: route.path === '/components/chart',
+      },
     ],
   },
 ]);
