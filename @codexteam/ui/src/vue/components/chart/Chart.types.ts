@@ -18,12 +18,12 @@ export enum ChartLineColor {
  */
 export interface ChartItem {
   /**
-   * Day midnight
+   * Timestamp of the data point
    */
   timestamp: number;
 
   /**
-   * How many events occurred in that day
+   * Value at the timestamp
    */
   count: number;
 }

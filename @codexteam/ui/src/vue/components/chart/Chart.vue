@@ -94,6 +94,7 @@ import { ChartItem, ChartLineColors, ChartLine as ChartLineInterface } from './C
 import { chartColors } from './Chart.colors';
 import AnimatedCounter from '../counter/Counter.vue';
 import ChartLine from './ChartLine.vue';
+import { throttle } from '../../utils/app';
 
 interface Props {
   /**
@@ -279,44 +280,6 @@ function computeWrapperSize(): void {
  */
 function windowResized(): void {
   computeWrapperSize();
-}
-
-/**
- * Throttle function to limit the rate of execution
- *
- * @param callback - Function to be throttled
- * @param delay - Delay in milliseconds
- */
-function throttle(callback: () => void, delay: number): () => void {
-  let lastExecTime = 0;
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-  return function (...args): void {
-    const currentTime = Date.now();
-    const timeSinceLastExec = currentTime - lastExecTime;
-
-    if (timeSinceLastExec >= delay) {
-      /* Execute immediately if enough time has passed */
-      lastExecTime = currentTime;
-      // @ts-ignore
-      callback.apply(this, args);
-    } else {
-      /* Schedule execution for the remaining time */
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-      }
-
-      const remainingTime = delay - timeSinceLastExec;
-
-      timeoutId = setTimeout(() => {
-        lastExecTime = Date.now();
-
-        // @ts-ignore
-        callback.apply(this, args);
-        timeoutId = null;
-      }, remainingTime);
-    }
-  };
 }
 
 /**
@@ -526,21 +489,7 @@ function formatTimestamp(timestamp: number): string {
  * @param value - number value
  */
 function formatSpacedNumber(value: number): string {
-  const count = value.toString();
-  const thousandRank = 3;
-  const negativeThousandRank = -3;
-
-  if (count.length < thousandRank) {
-    return count;
-  }
-
-  let result = '';
-
-  for (let i = 1; i <= Math.ceil(count.length / thousandRank); i++) {
-    result = `${count.slice(negativeThousandRank * i, negativeThousandRank * (i - 1) || undefined)} ` + result;
-  }
-
-  return result.trim();
+  return new Intl.NumberFormat('ru-RU').format(value);
 }
 
 onMounted(() => {
