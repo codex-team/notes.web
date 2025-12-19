@@ -5,28 +5,31 @@
       A component for displaying line charts with smooth curves and interactive tooltips.
     </template>
   </PageHeader>
-
+  <p class="charts__description">
+    Select a time period using the first dropdown (e.g., last hour, day, week, or month).
+    The second dropdown controls how data is grouped within that period (by minutes, hours, or days).
+  </p>
   <Heading :level="3">
     Single Line Chart
   </Heading>
 
   <div class="charts">
+    <div class="charts__controls">
+      <Select
+        v-model="singleRangeSelected"
+        :align="{ vertically: 'below', horizontally: 'left' }"
+        :is-disabled="false"
+        :items="singleRangeItems"
+      />
+      <Select
+        :key="singleChartRange"
+        v-model="singleGroupingSelected"
+        :align="{ vertically: 'below', horizontally: 'left' }"
+        :is-disabled="false"
+        :items="singleGroupingItems"
+      />
+    </div>
     <div class="charts__showcase">
-      <div class="charts__controls">
-        <Select
-          v-model="singleRangeSelected"
-          :align="{ vertically: 'below', horizontally: 'left' }"
-          :is-disabled="false"
-          :items="singleRangeItems"
-        />
-        <Select
-          :key="singleChartRange"
-          v-model="singleGroupingSelected"
-          :align="{ vertically: 'below', horizontally: 'left' }"
-          :is-disabled="false"
-          :items="singleGroupingItems"
-        />
-      </div>
       <Chart
         :lines="[singleLineData]"
         :detalization="singleChartGrouping"
@@ -39,22 +42,22 @@
   </Heading>
 
   <div class="charts">
+    <div class="charts__controls">
+      <Select
+        v-model="multiRangeSelected"
+        :align="{ vertically: 'below', horizontally: 'left' }"
+        :is-disabled="false"
+        :items="multiRangeItems"
+      />
+      <Select
+        :key="multiChartRange"
+        v-model="multiGroupingSelected"
+        :align="{ vertically: 'below', horizontally: 'left' }"
+        :is-disabled="false"
+        :items="multiGroupingItems"
+      />
+    </div>
     <div class="charts__showcase">
-      <div class="charts__controls">
-        <Select
-          v-model="multiRangeSelected"
-          :align="{ vertically: 'below', horizontally: 'left' }"
-          :is-disabled="false"
-          :items="multiRangeItems"
-        />
-        <Select
-          :key="multiChartRange"
-          v-model="multiGroupingSelected"
-          :align="{ vertically: 'below', horizontally: 'left' }"
-          :is-disabled="false"
-          :items="multiGroupingItems"
-        />
-      </div>
       <Chart
         :lines="multipleLinesData"
         :detalization="multiChartGrouping"
@@ -423,14 +426,12 @@ watch(multiChartRange, (newRange) => {
   grid-template-columns: 1fr;
   gap: var(--spacing-l);
   margin-bottom: var(--spacing-xl);
+  position: relative;
 
   &__showcase {
-    position: relative;
     width: 100%;
-    height: 250px;
     background-color: var(--base--bg-secondary);
     border-radius: var(--radius-m);
-    padding: var(--spacing-m);
   }
 
   &__controls {
@@ -445,6 +446,12 @@ watch(multiChartRange, (newRange) => {
   &__control-group {
     display: flex;
     gap: var(--spacing-s);
+  }
+
+  &__description {
+    margin-bottom: var(--spacing-m);
+    color: var(--base--text-secondary);
+
   }
 }
 </style>

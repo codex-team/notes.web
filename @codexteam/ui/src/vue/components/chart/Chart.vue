@@ -9,16 +9,16 @@
       class="chart__body"
     >
       <ChartLine
-        v-for="(line, index) in lines"
+        v-for="(preparedLine, index) in preparedLines"
         :key="`chart-line-${index}`"
-        :points="line.data"
-        :color="line.color"
+        :points="preparedLine.line.data"
+        :color="preparedLine.line.color"
         :chart-width="chartWidth"
         :chart-height="chartHeight"
-        :min-value="getLineMinValue(line)"
-        :max-value="getLineMaxValue(line)"
+        :min-value="preparedLine.min"
+        :max-value="preparedLine.max"
         :step-x="stepX"
-        :label="line.label"
+        :label="preparedLine.line.label"
       />
     </svg>
     <div
@@ -43,17 +43,17 @@
       class="chart__pointer"
     >
       <template
-        v-for="(line, index) in lines"
+        v-for="(preparedLine, index) in preparedLines"
       >
         <div
-          v-if="!isLineAllZeros(line)"
-          :key="`cursor-${line.label}-${index}`"
+          v-if="!preparedLine.allZeros"
+          :key="`cursor-${preparedLine.line.label}-${index}`"
           :style="{
-            transform: `translateY(${getLinePointerTop(line)}px)`,
-            backgroundColor: getCursorColor(line)
+            transform: `translateY(${getLinePointerTop(preparedLine)}px)`,
+            backgroundColor: getCursorColor(preparedLine.line)
           }"
           class="chart__pointer-cursor"
-          :class="`chart__pointer-cursor--${line.label}`"
+          :class="`chart__pointer-cursor--${preparedLine.line.label}`"
         />
       </template>
       <div
@@ -68,18 +68,18 @@
           {{ formatTimestamp(firstLineData[hoveredIndex].timestamp * 1000) }}
         </div>
         <template
-          v-for="(line, index) in lines"
+          v-for="(preparedLine, index) in preparedLines"
         >
           <div
-            v-if="!isLineAllZeros(line)"
-            :key="`tooltip-line-${line.label}-${index}`"
+            v-if="!preparedLine.allZeros"
+            :key="`tooltip-line-${preparedLine.line.label}-${index}`"
             class="chart__pointer-tooltip-number"
           >
-            <AnimatedCounter :value="formatSpacedNumber(getLineValueAtHoveredIndex(line, hoveredIndex))" />
-            {{ line.label }}
+            <AnimatedCounter :value="formatSpacedNumber(getLineValueAtHoveredIndex(preparedLine.line, hoveredIndex))" />
+            {{ preparedLine.line.label }}
             <span
               class="chart__pointer-tooltip-dot"
-              :style="{ backgroundColor: getCursorColor(line) }"
+              :style="{ backgroundColor: getCursorColor(preparedLine.line) }"
             />
           </div>
         </template>
@@ -94,7 +94,17 @@ import { ChartItem, ChartLineColors, ChartLine as ChartLineInterface } from './C
 import { chartColors } from './Chart.colors';
 import AnimatedCounter from '../counter/Counter.vue';
 import ChartLine from './ChartLine.vue';
-import { throttle } from '../../utils/app';
+import { throttle } from '../../utils';
+
+/**
+ * Prepared line with precomputed min/max/allZeros
+ */
+interface PreparedLine {
+  line: ChartLineInterface;
+  min: number;
+  max: number;
+  allZeros: boolean;
+}
 
 interface Props {
   /**
@@ -132,6 +142,45 @@ const hoveredIndex = ref(-1);
  * Chart SVG element ref
  */
 const chart = ref<SVGElement | null>(null);
+
+/**
+ * Cached chart left position for performance
+ */
+const chartLeft = ref(0);
+
+/**
+ * Precomputed line data with min/max/allZeros
+ * This avoids recalculating O(n_data) on every render/mousemove
+ */
+const preparedLines = computed((): PreparedLine[] => {
+  return props.lines.map((line) => {
+    let min = Infinity;
+    let max = 0;
+    let allZeros = true;
+
+    for (const item of line.data ?? []) {
+      const v = item.count ?? 0;
+
+      if (v < min) {
+        min = v;
+      }
+      if (v > max) {
+        max = v;
+      }
+      if (v !== 0) {
+        allZeros = false;
+      }
+    }
+
+    const safeMin = min === Infinity ? 0 : min;
+    const safeMax = max * 1.5;
+
+    return { line,
+      min: safeMin,
+      max: safeMax,
+      allZeros };
+  });
+});
 
 /**
  * Width of x-legend item
@@ -267,12 +316,14 @@ function computeWrapperSize(): void {
   if (!svg) {
     chartWidth.value = 0;
     chartHeight.value = 0;
+    chartLeft.value = 0;
 
     return;
   }
 
   chartWidth.value = svg.clientWidth;
   chartHeight.value = svg.clientHeight - strokeWidth;
+  chartLeft.value = svg.getBoundingClientRect().left;
 }
 
 /**
@@ -305,7 +356,7 @@ function moveTooltip(event: MouseEvent): void {
     return;
   }
 
-  const chartX = (event.currentTarget as HTMLElement).getBoundingClientRect().left;
+  const chartX = chartLeft.value;
   const cursorX = event.clientX - chartX;
 
   const newIndex = Math.round(cursorX / stepX.value);
@@ -316,29 +367,28 @@ function moveTooltip(event: MouseEvent): void {
 
 /**
  * Get the Y coordinate for a line's pointer cursor at the hovered index
+ * Uses precomputed min/max from PreparedLine
  *
- * @param line - the chart line
+ * @param prepared - the prepared line with precomputed values
  */
-function getLinePointerTop(line: ChartLineInterface): number {
-  if (hoveredIndex.value === -1 || !line || !line.data || line.data.length === 0) {
+function getLinePointerTop(prepared: PreparedLine): number {
+  if (hoveredIndex.value === -1 || !prepared.line.data || prepared.line.data.length === 0) {
     return 0;
   }
 
-  const point = line.data[hoveredIndex.value];
+  const point = prepared.line.data[hoveredIndex.value];
 
   if (!point) {
     return 0;
   }
 
-  const lineMinValue = getLineMinValue(line);
-  const lineMaxValue = getLineMaxValue(line);
-  const lineKY = lineMaxValue === lineMinValue
+  const lineKY = prepared.max === prepared.min
     ? 1
-    : chartHeight.value / (lineMaxValue - lineMinValue);
+    : chartHeight.value / (prepared.max - prepared.min);
 
   const currentValue = point.count ?? 0;
 
-  return chartHeight.value - (currentValue - lineMinValue) * lineKY;
+  return chartHeight.value - (currentValue - prepared.min) * lineKY;
 }
 
 /**
@@ -387,72 +437,6 @@ function getCursorColor(line: ChartLineInterface): string {
   const color = getLineColor(line);
 
   return color.pointerColor;
-}
-
-/**
- * Get minimum value for a specific line
- *
- * @param line - the chart line
- */
-function getLineMinValue(line: ChartLineInterface): number {
-  if (!line || !line.data || line.data.length === 0) {
-    return 0;
-  }
-
-  let min = Infinity;
-
-  for (const item of line.data) {
-    if (item.count < min) {
-      min = item.count;
-    }
-  }
-
-  return min === Infinity ? 0 : min;
-}
-
-/**
- * Check if all data counters of a line are 0
- *
- * @param line - the chart line
- */
-function isLineAllZeros(line: ChartLineInterface): boolean {
-  if (!line || !line.data || line.data.length === 0) {
-    return true;
-  }
-
-  for (const item of line.data) {
-    if (item.count !== 0) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-/**
- * Get maximum value for a specific line
- *
- * @param line - the chart line
- */
-function getLineMaxValue(line: ChartLineInterface): number {
-  if (!line || !line.data || line.data.length === 0) {
-    return 0;
-  }
-
-  let max = 0;
-
-  for (const item of line.data) {
-    if (item.count > max) {
-      max = item.count;
-    }
-  }
-
-  /**
-   * We will increment max value for 50% for adding some offset from the top
-   */
-  const incrementForOffset = 1.5;
-
-  return max * incrementForOffset;
 }
 
 /**
@@ -514,7 +498,7 @@ onBeforeUnmount(() => {
     flex-direction: column;
     height: 215px;
     background-color: var(--base--bg-secondary);
-    border-radius: 3px;
+    border-radius: var(--radius-s);
 
     --legend-height: 40px;
     --legend-line-height: 11px;
@@ -522,21 +506,21 @@ onBeforeUnmount(() => {
 
     &__info {
       position: absolute;
-      top: 15px;
-      right: 15px;
-      padding: 5px 10px;
+      top: var(--spacing-ml);
+      right: var(--spacing-ml);
+      padding: var(--spacing-xs) var(--spacing-ms);
       color: var(--base--text);
       font-size: 13px;
       white-space: nowrap;
-      background: color-mod(var(--base--bg) alpha(50%));
-      border-radius: 5px;
+      background: color-mod(var(--base--bg-primary) alpha(50%));
+      border-radius: var(--radius-s);
 
       &-today {
         color: var(--base--text-secondary);
       }
 
       &-highlight {
-        margin-left: 6px;
+        margin-left: var(--spacing-xs);
         font-weight: bold;
       }
     }
@@ -548,6 +532,7 @@ onBeforeUnmount(() => {
     &__ox {
       height: var(--legend-height);
       padding-block: var(--legend-block-padding);
+      box-sizing: border-box;
 
       &-inner {
         position: relative;
@@ -564,6 +549,7 @@ onBeforeUnmount(() => {
         text-align: center;
         transform-origin: center;
         opacity: 0.3;
+        white-space: nowrap;
 
         &:first-of-type,
         &:last-of-type {
@@ -597,22 +583,22 @@ onBeforeUnmount(() => {
       }
 
       &-tooltip {
-        --tooltip-block-padding: 6px;
+        --tooltip-block-padding: var(--spacing-xs);
 
         position: absolute;
         top: calc(100% - var(--legend-height) + var(--legend-block-padding) - var(--tooltip-block-padding) - 1px);
         left: 50%;
         z-index: 500;
         padding-block: var(--tooltip-block-padding);
-        padding-inline: 8px;
+        padding-inline: var(--spacing-s);
         color: var(--base--text);
         font-size: 12px;
         line-height: 1.4;
         letter-spacing: 0.2px;
         white-space: nowrap;
         text-align: center;
-        background: #191C25;
-        border-radius: 7px;
+        background: var(--base--bg-primary);
+        border-radius: var(--radius-m);
         box-shadow: 0 7px 12px 0 rgba(0, 0, 0, 0.12);
         transform: translateX(-50%);
         transition: min-width 150ms ease;
@@ -629,7 +615,7 @@ onBeforeUnmount(() => {
         }
 
         &-date {
-          margin-bottom: 2px;
+          margin-bottom: var(--spacing-very-x);
           color: var(--base--text-secondary);
           font-size: 11px;
         }
