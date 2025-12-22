@@ -5,150 +5,97 @@
       A component for displaying line charts with smooth curves and interactive tooltips.
     </template>
   </PageHeader>
-  <p class="charts__description">
-    Select a time period using the first dropdown (e.g., last hour, day, week, or month).
-    The second dropdown controls how data is grouped within that period (by minutes, hours, or days).
-  </p>
-  <Heading :level="3">
-    Single Line Chart
-  </Heading>
 
-  <div class="charts">
-    <div class="charts__controls">
-      <Select
-        v-model="singleRangeSelected"
-        :align="{ vertically: 'below', horizontally: 'left' }"
-        :is-disabled="false"
-        :items="singleRangeItems"
-      />
-      <Select
-        :key="singleChartRange"
-        v-model="singleGroupingSelected"
-        :align="{ vertically: 'below', horizontally: 'left' }"
-        :is-disabled="false"
-        :items="singleGroupingItems"
-      />
+  <div class="chart-props">
+    <div class="chart-props__item">
+      <h4 class="chart-props__name">
+        lines
+      </h4>
+      <p class="chart-props__description">
+        An array of line objects to display on the chart.
+      </p>
     </div>
-    <div class="charts__showcase">
+
+    <div class="chart-props__item">
+      <h4 class="chart-props__name">
+        detalization
+      </h4>
+      <p class="chart-props__description">
+        Controls how timestamps are formatted on the X-axis legend and tooltip.
+        Does not affect data aggregation — only the display format.
+      </p>
+      <ul class="chart-props__list">
+        <li><code>'days'</code> — shows day and month (e.g., "19 dec")</li>
+        <li><code>'hours'</code> — shows day, month, and time (e.g., "19 dec, 14:00")</li>
+        <li><code>'minutes'</code> — shows day, month, and time (e.g., "19 dec, 14:30")</li>
+      </ul>
+      <div class="chart-props__control">
+        <span class="chart-props__control-label">Try it:</span>
+        <Select
+          v-model="detalizationSelected"
+          :align="{ vertically: 'below', horizontally: 'left' }"
+          :is-disabled="false"
+          :items="detalizationItems"
+        />
+      </div>
+    </div>
+  </div>
+
+  <Heading :level="3">
+    Single Line
+  </Heading>
+  <div class="chart-example">
+    <div class="chart-example__showcase">
       <Chart
         :lines="[singleLineData]"
-        :detalization="singleChartGrouping"
+        :detalization="currentDetalization"
       />
     </div>
   </div>
 
   <Heading :level="3">
-    Multiple Lines Chart
+    Multiple Lines
   </Heading>
-
-  <div class="charts">
-    <div class="charts__controls">
-      <Select
-        v-model="multiRangeSelected"
-        :align="{ vertically: 'below', horizontally: 'left' }"
-        :is-disabled="false"
-        :items="multiRangeItems"
-      />
-      <Select
-        :key="multiChartRange"
-        v-model="multiGroupingSelected"
-        :align="{ vertically: 'below', horizontally: 'left' }"
-        :is-disabled="false"
-        :items="multiGroupingItems"
-      />
-    </div>
-    <div class="charts__showcase">
+  <div class="chart-example">
+    <div class="chart-example__showcase">
       <Chart
         :lines="multipleLinesData"
-        :detalization="multiChartGrouping"
+        :detalization="currentDetalization"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import PageHeader from '../../components/PageHeader.vue';
 import { Chart, ChartLineColor, Heading, Select } from '../../../src/vue';
 import type { ChartItem, ChartLine } from '../../../src/vue/components/chart';
 import type { ContextMenuItem, DefaultItem } from '../../../src/vue/components/context-menu/ContextMenu.types';
-import { ref, computed, watch } from 'vue';
 
 /**
- * Range types for chart data
+ * Detalization types for chart timestamp formatting
  */
-type RangeValue = 'hour' | 'day' | 'week' | 'month';
+type DetalizationValue = 'minutes' | 'hours' | 'days';
 
 /**
- * Grouping types for chart detalization.
- * Affects the legend and tooltip display format:
- * - 'minutes' → shows day, month, hours:minutes (e.g., "18 dec, 14:30")
- * - 'hours' → shows day, month, hours:minutes (e.g., "18 dec, 14:00")
- * - 'days' → shows only day and month (e.g., "18 dec")
+ * Mapping from Select title to detalization value
  */
-type GroupingValue = 'minutes' | 'hours' | 'days';
-
-/**
- * Mapping from title to range value
- */
-const rangeTitleToValue: Record<string, RangeValue> = {
-  Hour: 'hour',
-  Day: 'day',
-  Week: 'week',
-  Month: 'month',
+const detalizationMap: Record<string, DetalizationValue> = {
+  days: 'days',
+  hours: 'hours',
+  minutes: 'minutes',
 };
 
 /**
- * Mapping from title to grouping value
- */
-const groupingTitleToValue: Record<string, GroupingValue> = {
-  Minutes: 'minutes',
-  Hours: 'hours',
-  Days: 'days',
-};
-
-/**
- * Generate sample data based on range and grouping
+ * Generate sample chart data
  *
- * @param range - The time range ('hour', 'day', 'week', 'month')
- * @param grouping - The grouping level ('minutes', 'hours', 'days')
- * @param baseValue - Base value used to scale the random counts
+ * @param points - Number of data points to generate
+ * @param intervalSeconds - Time interval between points in seconds
+ * @param baseValue - Base value for random count generation
  */
-function generateData(range: RangeValue, grouping: GroupingValue, baseValue: number = 100): ChartItem[] {
+function generateData(points: number, intervalSeconds: number, baseValue = 100): ChartItem[] {
   const now = Math.floor(Date.now() / 1000);
-  let points: number;
-  let intervalSeconds: number;
-
-  /* Determine number of points and interval based on range and grouping */
-  switch (range) {
-    case 'hour':
-      /* 1 hour = 60 minutes */
-      points = 60;
-      intervalSeconds = 60; /* 1 minute */
-      break;
-    case 'day':
-      if (grouping === 'minutes') {
-        points = 24 * 60; /* 1440 minutes */
-        intervalSeconds = 60;
-      } else {
-        points = 24; /* 24 hours */
-        intervalSeconds = 3600;
-      }
-      break;
-    case 'week':
-      if (grouping === 'hours') {
-        points = 7 * 24; /* 168 hours */
-        intervalSeconds = 3600;
-      } else {
-        points = 7; /* 7 days */
-        intervalSeconds = 86400;
-      }
-      break;
-    case 'month':
-    default:
-      points = 30; /* 30 days */
-      intervalSeconds = 86400;
-      break;
-  }
 
   return Array.from({ length: points }, (_, i) => ({
     timestamp: now - (points - i) * intervalSeconds,
@@ -157,271 +104,120 @@ function generateData(range: RangeValue, grouping: GroupingValue, baseValue: num
 }
 
 /**
- * Check if grouping is available for a given range
- *
- * @param range - The time range value
- * @param grouping - The grouping value to check
+ * Empty handler for select option activation
  */
-function isGroupingAvailable(range: RangeValue, grouping: GroupingValue): boolean {
-  switch (range) {
-    case 'hour':
-      /* hour → only minutes */
-      return grouping === 'minutes';
-    case 'day':
-      /* day → hours or minutes */
-      return grouping === 'hours' || grouping === 'minutes';
-    case 'week':
-      /* week → days or hours */
-      return grouping === 'days' || grouping === 'hours';
-    case 'month':
-      /* month → only days */
-      return grouping === 'days';
-    default:
-      return true;
-  }
-}
+const onActivate = (): void => {};
 
 /**
- * Get default grouping title for a given range
- *
- * @param range - The time range value
+ * Currently selected detalization option
  */
-function getDefaultGroupingTitle(range: RangeValue): string {
-  switch (range) {
-    case 'hour':
-      return 'Minutes';
-    case 'day':
-      return 'Hours';
-    case 'week':
-      return 'Days';
-    case 'month':
-      return 'Days';
-    default:
-      return 'Days';
-  }
-}
-
-/**
- * Create a  function for onActivate Option Select that is called when click
- */
-const onActivateOptionSelect = (): void => {};
-
-/* ==================== Single Line Chart ==================== */
-
-/**
- * Currently selected range option for single line chart
- */
-const singleRangeSelected = ref<DefaultItem>({
-  title: 'Day',
-  onActivate: onActivateOptionSelect,
+const detalizationSelected = ref<DefaultItem>({
+  title: 'days',
+  onActivate,
 });
 
 /**
- * Currently selected grouping option for single line chart
+ * Available detalization options for the Select component
  */
-const singleGroupingSelected = ref<DefaultItem>({
-  title: 'Hours',
-  onActivate: onActivateOptionSelect,
-});
-
-/**
- * Available range options for single line chart
- */
-const singleRangeItems: ContextMenuItem[] = [
-  {
-    title: 'Hour',
-    onActivate: onActivateOptionSelect,
-  },
-  {
-    title: 'Day',
-    onActivate: onActivateOptionSelect,
-  },
-  {
-    title: 'Week',
-    onActivate: onActivateOptionSelect,
-  },
-  {
-    title: 'Month',
-    onActivate: onActivateOptionSelect,
-  },
+const detalizationItems: ContextMenuItem[] = [
+  { title: 'days',
+    onActivate },
+  { title: 'hours',
+    onActivate },
+  { title: 'minutes',
+    onActivate },
 ];
 
 /**
- * Computed range value derived from selected range title
+ * Current detalization value derived from selected option
  */
-const singleChartRange = computed<RangeValue>(() => {
-  return rangeTitleToValue[singleRangeSelected.value.title] || 'day';
+const currentDetalization = computed<DetalizationValue>(() => {
+  return detalizationMap[detalizationSelected.value.title] || 'days';
 });
 
 /**
- * Computed grouping value derived from selected grouping title
- */
-const singleChartGrouping = computed<GroupingValue>(() => {
-  return groupingTitleToValue[singleGroupingSelected.value.title] || 'hours';
-});
-
-/**
- * Available grouping options filtered by current range
- * - month → only Days
- * - week → Days, Hours
- * - day → Hours, Minutes
- * - hour → only Minutes
- */
-const singleGroupingItems = computed<ContextMenuItem[]>(() => {
-  const range = singleChartRange.value;
-
-  return [
-    {
-      title: 'Minutes',
-      onActivate: onActivateOptionSelect,
-    },
-    {
-      title: 'Hours',
-      onActivate: onActivateOptionSelect,
-    },
-    {
-      title: 'Days',
-      onActivate: onActivateOptionSelect,
-    },
-  ].filter(item => isGroupingAvailable(range, groupingTitleToValue[item.title]));
-});
-
-/**
- * Chart data for single line chart
+ * Single line chart data - 30 days of events
  */
 const singleLineData = computed<ChartLine>(() => ({
   label: 'events',
-  data: generateData(singleChartRange.value, singleChartGrouping.value, 2000),
+  data: generateData(30, 86400, 2000),
   color: ChartLineColor.Red,
 }));
 
 /**
- * Auto-set grouping to default when range changes and current grouping is not available
- */
-watch(singleChartRange, (newRange) => {
-  const currentGrouping = singleChartGrouping.value;
-
-  if (!isGroupingAvailable(newRange, currentGrouping)) {
-    singleGroupingSelected.value = {
-      title: getDefaultGroupingTitle(newRange),
-      onActivate: onActivateOptionSelect,
-    };
-  }
-});
-
-/* ==================== Multiple Lines Chart ==================== */
-
-/**
- * Currently selected range option for multiple lines chart
- */
-const multiRangeSelected = ref<DefaultItem>({
-  title: 'Week',
-  onActivate: onActivateOptionSelect,
-});
-
-/**
- * Currently selected grouping option for multiple lines chart
- */
-const multiGroupingSelected = ref<DefaultItem>({
-  title: 'Days',
-  onActivate: onActivateOptionSelect,
-});
-
-/**
- * Available range options for multiple lines chart
- */
-const multiRangeItems: ContextMenuItem[] = [
-  {
-    title: 'Hour',
-    onActivate: onActivateOptionSelect,
-  },
-  {
-    title: 'Day',
-    onActivate: onActivateOptionSelect,
-  },
-  {
-    title: 'Week',
-    onActivate: onActivateOptionSelect,
-  },
-  {
-    title: 'Month',
-    onActivate: onActivateOptionSelect,
-  },
-];
-
-/**
- * Computed range value derived from selected range title
- */
-const multiChartRange = computed<RangeValue>(() => {
-  return rangeTitleToValue[multiRangeSelected.value.title] || 'week';
-});
-
-/**
- * Computed grouping value derived from selected grouping title
- */
-const multiChartGrouping = computed<GroupingValue>(() => {
-  return groupingTitleToValue[multiGroupingSelected.value.title] || 'days';
-});
-
-/**
- * Available grouping options filtered by current range
- * - month → only Days
- * - week → Days, Hours
- * - day → Hours, Minutes
- * - hour → only Minutes
- */
-const multiGroupingItems = computed<ContextMenuItem[]>(() => {
-  const range = multiChartRange.value;
-
-  return [
-    {
-      title: 'Minutes',
-      onActivate: onActivateOptionSelect,
-    },
-    {
-      title: 'Hours',
-      onActivate: onActivateOptionSelect,
-    },
-    {
-      title: 'Days',
-      onActivate: onActivateOptionSelect,
-    },
-  ].filter(item => isGroupingAvailable(range, groupingTitleToValue[item.title]));
-});
-
-/**
- * Chart data for multiple lines chart with two lines: accepted and rate-limited
+ * Multiple lines chart data - accepted and filtered events
  */
 const multipleLinesData = computed<ChartLine[]>(() => [
   {
     label: 'accepted',
-    data: generateData(multiChartRange.value, multiChartGrouping.value, 150),
+    data: generateData(30, 86400, 150),
     color: ChartLineColor.Red,
   },
   {
-    label: 'rate-limited',
-    data: generateData(multiChartRange.value, multiChartGrouping.value, 50),
+    label: 'filtered',
+    data: generateData(30, 86400, 50),
     color: ChartLineColor.LightGrey,
   },
 ]);
-
-/**
- * Auto-set grouping to default when range changes and current grouping is not available
- */
-watch(multiChartRange, (newRange) => {
-  const currentGrouping = multiChartGrouping.value;
-
-  if (!isGroupingAvailable(newRange, currentGrouping)) {
-    multiGroupingSelected.value = {
-      title: getDefaultGroupingTitle(newRange),
-      onActivate: onActivateOptionSelect,
-    };
-  }
-});
 </script>
 
 <style scoped>
-.charts {
+.chart-props {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-l);
+  margin-bottom: var(--spacing-xl);
+
+  &__item {
+    padding: var(--spacing-m);
+    background-color: var(--base--bg-secondary);
+    border-radius: var(--radius-m);
+  }
+
+  &__name {
+    margin: 0 0 var(--spacing-s);
+  }
+
+  &__description {
+    margin: 0 0 var(--spacing-s);
+    color: var(--base--text-secondary);
+  }
+
+  &__code {
+    margin: 0;
+    padding: var(--spacing-s);
+    background-color: var(--base--bg-primary);
+    border-radius: var(--radius-s);
+    overflow-x: auto;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+    margin: 0 0 var(--spacing-m);
+    padding-left: var(--spacing-l);
+    color: var(--base--text-secondary);
+
+    code {
+      padding: var(--spacing-xxs) var(--spacing-ms);
+      background-color: var(--base--bg-primary);
+      border-radius: var(--radius-s);
+    }
+  }
+
+  &__control {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s);
+  }
+
+  &__control-label {
+    color: var(--base--text-secondary);
+  }
+}
+
+.chart-example {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-l);
@@ -434,24 +230,5 @@ watch(multiChartRange, (newRange) => {
     border-radius: var(--radius-m);
   }
 
-  &__controls {
-    position: absolute;
-    top: var(--spacing-m);
-    right: var(--spacing-m);
-    z-index: 2;
-    display: flex;
-    gap: var(--spacing-m);
-  }
-
-  &__control-group {
-    display: flex;
-    gap: var(--spacing-s);
-  }
-
-  &__description {
-    margin-bottom: var(--spacing-m);
-    color: var(--base--text-secondary);
-
-  }
 }
 </style>

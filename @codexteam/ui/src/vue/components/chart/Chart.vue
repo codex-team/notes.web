@@ -91,7 +91,8 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { ChartItem, ChartLineColors, ChartLine as ChartLineInterface } from './Chart.types';
-import { chartColors } from './Chart.colors';
+import { chartColorsDark, chartColorsLight } from './Chart.colors';
+import { ColorScheme, useTheme } from '../../composables/useTheme';
 import AnimatedCounter from '../counter/Counter.vue';
 import ChartLine from './ChartLine.vue';
 import { throttle } from '../../utils';
@@ -121,6 +122,20 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   lines: () => [] as ChartLineInterface[],
   detalization: 'days',
+});
+
+/**
+ * Current color scheme from theme system
+ */
+const { colorScheme } = useTheme();
+
+/**
+ * Palette for current color scheme
+ */
+const chartColorsPalette = computed<ChartLineColors[]>(() => {
+  return colorScheme.value === ColorScheme.Light
+    ? chartColorsLight
+    : chartColorsDark;
 });
 
 /**
@@ -419,7 +434,7 @@ function getLineValueAtHoveredIndex(line: ChartLineInterface, index: number): nu
 function getLineColor(line: ChartLineInterface): ChartLineColors {
   const colorName = line.color ?? 'red';
 
-  const color = chartColors.find(c => c.name === colorName);
+  const color = chartColorsPalette.value.find(c => c.name === colorName);
 
   if (!color) {
     throw new Error(`Color ${colorName} not found in chartColors`);

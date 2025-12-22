@@ -46,7 +46,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { ChartItem, ChartLineColor, ChartLineColors } from './Chart.types';
-import { chartColors } from './Chart.colors';
+import { chartColorsDark, chartColorsLight } from './Chart.colors';
+import { ColorScheme, useTheme } from '../../composables/useTheme';
 
 interface Props {
   /**
@@ -99,6 +100,20 @@ const props = withDefaults(defineProps<Props>(), {
   minValue: 0,
   maxValue: 0,
   stepX: 0,
+});
+
+/**
+ * Current color scheme from theme system
+ */
+const { colorScheme } = useTheme();
+
+/**
+ * Palette for current color scheme
+ */
+const chartColorsPalette = computed<ChartLineColors[]>(() => {
+  return colorScheme.value === ColorScheme.Light
+    ? chartColorsLight
+    : chartColorsDark;
 });
 
 /**
@@ -230,7 +245,7 @@ const smoothPathFill = computed((): string => {
  * Color for the chart line
  */
 const colorSet = computed((): ChartLineColors => {
-  return chartColors.find(c => c.name === props.color) as ChartLineColors;
+  return chartColorsPalette.value.find(c => c.name === props.color) as ChartLineColors;
 });
 </script>
 
