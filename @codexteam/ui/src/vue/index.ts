@@ -21,6 +21,8 @@ export * from './components/confirm';
 export * from './composables/useTheme';
 export * from './components/checkbox';
 export * from './components/select';
+export * from './components/chart';
+export * from './components/counter';
 
 export * from './layout/navbar';
 export * from './layout/page-block';

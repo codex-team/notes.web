@@ -1,0 +1,664 @@
+<template>
+  <div
+    class="chart"
+    @mousemove.passive="moveTooltip"
+    @mouseleave.passive="hoveredIndex = -1"
+  >
+    <svg
+      ref="chart"
+      class="chart__body"
+    >
+      <ChartLine
+        v-for="(preparedLine, index) in preparedLines"
+        :key="`chart-line-${index}`"
+        :points="preparedLine.line.data"
+        :color="preparedLine.line.color"
+        :chart-width="chartWidth"
+        :chart-height="chartHeight"
+        :min-value="preparedLine.min"
+        :max-value="preparedLine.max"
+        :step-x="stepX"
+        :label="preparedLine.line.label"
+      />
+    </svg>
+    <div
+      class="chart__ox"
+    >
+      <div
+        class="chart__ox-inner"
+      >
+        <span
+          v-for="item in visibleLegendPoints"
+          :key="item.index"
+          class="chart__ox-item"
+          :style="{ left: `${item.index * stepX}px`, transform: 'translateX(-50%)' }"
+        >
+          {{ formatTimestamp(item.point.timestamp * 1000) }}
+        </span>
+      </div>
+    </div>
+    <div
+      v-if="hoveredIndex >= 0 && hoveredIndex < firstLineData.length"
+      :style="{ transform: `translateX(${pointerLeft}px)` }"
+      class="chart__pointer"
+    >
+      <template
+        v-for="(preparedLine, index) in preparedLines"
+      >
+        <div
+          v-if="!preparedLine.allZeros"
+          :key="`cursor-${preparedLine.line.label}-${index}`"
+          :style="{
+            transform: `translateY(${getLinePointerTop(preparedLine)}px)`,
+            backgroundColor: getCursorColor(preparedLine.line)
+          }"
+          class="chart__pointer-cursor"
+          :class="`chart__pointer-cursor--${preparedLine.line.label}`"
+        />
+      </template>
+      <div
+        class="chart__pointer-tooltip"
+        :class="{
+          'chart__pointer-tooltip--left': tooltipAlignment === 'left',
+          'chart__pointer-tooltip--right': tooltipAlignment === 'right'
+        }"
+        :style="{ minWidth: `${(String(firstLineData[hoveredIndex].count).length + ' events'.length) * 6.4 + 12}px` }"
+      >
+        <div class="chart__pointer-tooltip-date">
+          {{ formatTimestamp(firstLineData[hoveredIndex].timestamp * 1000) }}
+        </div>
+        <template
+          v-for="(preparedLine, index) in preparedLines"
+        >
+          <div
+            v-if="!preparedLine.allZeros"
+            :key="`tooltip-line-${preparedLine.line.label}-${index}`"
+            class="chart__pointer-tooltip-number"
+          >
+            <AnimatedCounter :value="formatSpacedNumber(getLineValueAtHoveredIndex(preparedLine.line, hoveredIndex))" />
+            {{ preparedLine.line.label }}
+            <span
+              class="chart__pointer-tooltip-dot"
+              :style="{ backgroundColor: getCursorColor(preparedLine.line) }"
+            />
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { ChartItem, ChartLineColors, ChartLine as ChartLineInterface } from './Chart.types';
+import { chartColorsDark, chartColorsLight } from './Chart.colors';
+import { ColorScheme, useTheme } from '../../composables/useTheme';
+import AnimatedCounter from '../counter/Counter.vue';
+import ChartLine from './ChartLine.vue';
+import { throttle } from '../../utils';
+
+/**
+ * Prepared line with precomputed min/max/allZeros
+ */
+interface PreparedLine {
+  line: ChartLineInterface;
+  min: number;
+  max: number;
+  allZeros: boolean;
+}
+
+interface Props {
+  /**
+   * List of lines for displaying on the chart
+   */
+  lines?: ChartLineInterface[];
+
+  /**
+   * Detalization of the chart affects the legend and tooltip display
+   */
+  detalization?: 'minutes' | 'hours' | 'days';
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  lines: () => [] as ChartLineInterface[],
+  detalization: 'days',
+});
+
+/**
+ * Current color scheme from theme system
+ */
+const { colorScheme } = useTheme();
+
+/**
+ * Palette for current color scheme
+ */
+const chartColorsPalette = computed<ChartLineColors[]>(() => {
+  return colorScheme.value === ColorScheme.Light
+    ? chartColorsLight
+    : chartColorsDark;
+});
+
+/**
+ * Chart SVG clientWidth
+ */
+const chartWidth = ref(0);
+
+/**
+ * Chart SVG clientHeight
+ */
+const chartHeight = ref(0);
+
+/**
+ * Hovered point index
+ */
+const hoveredIndex = ref(-1);
+
+/**
+ * Chart SVG element ref
+ */
+const chart = ref<SVGElement | null>(null);
+
+/**
+ * Cached chart left position for performance
+ */
+const chartLeft = ref(0);
+
+/**
+ * Precomputed line data with min/max/allZeros
+ * This avoids recalculating O(n_data) on every render/mousemove
+ */
+const preparedLines = computed((): PreparedLine[] => {
+  return props.lines.map((line) => {
+    let min = Infinity;
+    let max = 0;
+    let allZeros = true;
+
+    for (const item of line.data ?? []) {
+      const v = item.count ?? 0;
+
+      if (v < min) {
+        min = v;
+      }
+      if (v > max) {
+        max = v;
+      }
+      if (v !== 0) {
+        allZeros = false;
+      }
+    }
+
+    const safeMin = min === Infinity ? 0 : min;
+    const safeMax = max * 1.5;
+
+    return { line,
+      min: safeMin,
+      max: safeMax,
+      allZeros };
+  });
+});
+
+/**
+ * Width of x-legend item
+ */
+const xLegendWidth = computed((): number => {
+  switch (props.detalization) {
+    case 'days':
+      return 50;
+    case 'hours':
+      return 75;
+    case 'minutes':
+      return 90;
+    default:
+      return 55;
+  }
+});
+
+/**
+ * First line of the chart.
+ * Used for calculating stepX
+ */
+const firstLine = computed((): ChartLineInterface => {
+  return props.lines[0];
+});
+
+/**
+ * Data of the first line of the chart.
+ * Used for calculating stepX (and other common properties across all lines)
+ */
+const firstLineData = computed((): ChartItem[] => {
+  if (!firstLine.value) {
+    return [];
+  }
+
+  return firstLine.value.data;
+});
+
+/**
+ * Step for OX axis
+ */
+const stepX = computed((): number => {
+  if (firstLineData.value.length <= 1) {
+    return 0;
+  }
+
+  return chartWidth.value / (firstLineData.value.length - 1);
+});
+
+/**
+ * Calculate the step for displaying x-legend items to prevent overflow
+ * Returns how many items to skip between displayed items
+ */
+const visibleXLegendItems = computed((): number => {
+  if (!chartWidth.value || !firstLineData.value.length) {
+    return 1;
+  }
+
+  const maxItems = Math.floor(chartWidth.value / xLegendWidth.value);
+
+  if (maxItems >= firstLineData.value.length) {
+    return 1;
+  }
+
+  return Math.max(1, Math.ceil(firstLineData.value.length / maxItems));
+});
+
+/**
+ * Filtered points to display in x-legend based on visibleXLegendItems step
+ */
+const visibleLegendPoints = computed((): Array<{
+  point: ChartItem;
+  index: number;
+}> => {
+  const step = visibleXLegendItems.value;
+  const result: Array<{
+    point: ChartItem;
+    index: number;
+  }> = [];
+
+  for (let i = 0; i < firstLineData.value.length; i = i + step) {
+    result.push({
+      point: firstLineData.value[i],
+      index: i,
+    });
+  }
+
+  /* Ensure the last point is always included */
+  const lastIndex = firstLineData.value.length - 1;
+
+  if (result.length > 0 && result[result.length - 1].index !== lastIndex) {
+    result.push({
+      point: firstLineData.value[lastIndex],
+      index: lastIndex,
+    });
+  }
+
+  return result;
+});
+
+/**
+ * Left coordinate of hover pointer
+ */
+const pointerLeft = computed((): number => {
+  return hoveredIndex.value * stepX.value;
+});
+
+/**
+ * Tooltip alignment class based on position to prevent overflow
+ */
+const tooltipAlignment = computed((): string => {
+  const estimatedTooltipWidth = 100;
+  const pointerX = hoveredIndex.value * stepX.value;
+
+  if (pointerX < estimatedTooltipWidth / 2) {
+    /* Near left edge - align tooltip to the left */
+    return 'left';
+  } else if (pointerX > chartWidth.value - estimatedTooltipWidth / 2) {
+    /* Near right edge - align tooltip to the right */
+    return 'right';
+  }
+
+  /* Default center alignment */
+  return 'center';
+});
+
+/**
+ * Compute and save chart wrapper width
+ */
+function computeWrapperSize(): void {
+  const strokeWidth = 2;
+  const svg = chart.value as SVGElement;
+
+  if (!svg) {
+    chartWidth.value = 0;
+    chartHeight.value = 0;
+    chartLeft.value = 0;
+
+    return;
+  }
+
+  chartWidth.value = svg.clientWidth;
+  chartHeight.value = svg.clientHeight - strokeWidth;
+  chartLeft.value = svg.getBoundingClientRect().left;
+}
+
+/**
+ * Handler for window resize
+ */
+function windowResized(): void {
+  computeWrapperSize();
+}
+
+/**
+ * Handler of window resize
+ */
+const onResize = throttle(windowResized, 200);
+
+/**
+ * Moves tooltip to the hovered point
+ *
+ * @param event - mousemove
+ */
+function moveTooltip(event: MouseEvent): void {
+  if (firstLineData.value.length === 0) {
+    hoveredIndex.value = -1;
+
+    return;
+  }
+
+  if (stepX.value === 0) {
+    hoveredIndex.value = -1;
+
+    return;
+  }
+
+  const chartX = chartLeft.value;
+  const cursorX = event.clientX - chartX;
+
+  const newIndex = Math.round(cursorX / stepX.value);
+  const clampedIndex = Math.max(0, Math.min(firstLineData.value.length - 1, newIndex));
+
+  hoveredIndex.value = clampedIndex;
+}
+
+/**
+ * Get the Y coordinate for a line's pointer cursor at the hovered index
+ * Uses precomputed min/max from PreparedLine
+ *
+ * @param prepared - the prepared line with precomputed values
+ */
+function getLinePointerTop(prepared: PreparedLine): number {
+  if (hoveredIndex.value === -1 || !prepared.line.data || prepared.line.data.length === 0) {
+    return 0;
+  }
+
+  const point = prepared.line.data[hoveredIndex.value];
+
+  if (!point) {
+    return 0;
+  }
+
+  const lineKY = prepared.max === prepared.min
+    ? 1
+    : chartHeight.value / (prepared.max - prepared.min);
+
+  const currentValue = point.count ?? 0;
+
+  return chartHeight.value - (currentValue - prepared.min) * lineKY;
+}
+
+/**
+ * Get the value for a line at the hovered index
+ *
+ * @param line - the chart line
+ * @param index - hovered index
+ */
+function getLineValueAtHoveredIndex(line: ChartLineInterface, index: number): number {
+  if (!line || !line.data || index < 0 || index >= line.data.length) {
+    return 0;
+  }
+
+  const point = line.data[index];
+
+  if (!point) {
+    return 0;
+  }
+
+  return point.count || 0;
+}
+
+/**
+ * Return colors set for a particular chart line
+ *
+ * @param line - the chart line
+ */
+function getLineColor(line: ChartLineInterface): ChartLineColors {
+  const colorName = line.color ?? 'red';
+
+  const color = chartColorsPalette.value.find(c => c.name === colorName);
+
+  if (!color) {
+    throw new Error(`Color ${colorName} not found in chartColors`);
+  }
+
+  return color;
+}
+
+/**
+ * Cursor is a pointer on the chart line appearing when hovering over it
+ *
+ * @param line - the chart line
+ */
+function getCursorColor(line: ChartLineInterface): string {
+  const color = getLineColor(line);
+
+  return color.pointerColor;
+}
+
+/**
+ * Formats timestamp based on detalization prop
+ *
+ * @param timestamp - timestamp in milliseconds
+ */
+function formatTimestamp(timestamp: number): string {
+  const date = new Date(timestamp);
+  const shortMonths = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+  if (props.detalization === 'days') {
+    /* For days, show only day and month */
+    const day = date.getDate();
+    const month = date.getMonth();
+
+    return `${day} ${shortMonths[month]}`;
+  } else {
+    /* For hours and minutes, show day, month, hours:minutes */
+    const day = date.getDate();
+    const month = date.getMonth();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const paddedHours = hours.toString().padStart(2, '0');
+    const paddedMinutes = minutes.toString().padStart(2, '0');
+
+    return `${day} ${shortMonths[month]}, ${paddedHours}:${paddedMinutes}`;
+  }
+}
+
+/**
+ * Formats number with spaces
+ *
+ * @param value - number value
+ */
+function formatSpacedNumber(value: number): string {
+  return new Intl.NumberFormat('ru-RU').format(value);
+}
+
+onMounted(() => {
+  /**
+   * Cache wrapper width
+   */
+  computeWrapperSize();
+
+  window.addEventListener('resize', onResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', onResize);
+});
+</script>
+
+<style>
+  .chart {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    height: 215px;
+    background-color: var(--base--bg-secondary);
+    border-radius: var(--radius-s);
+
+    --legend-height: 40px;
+    --legend-line-height: 11px;
+    --legend-block-padding: 15px;
+
+    &__info {
+      position: absolute;
+      top: var(--spacing-ml);
+      right: var(--spacing-ml);
+      padding: var(--spacing-xs) var(--spacing-ms);
+      color: var(--base--text);
+      font-size: 13px;
+      white-space: nowrap;
+      background: color-mod(var(--base--bg-primary) alpha(50%));
+      border-radius: var(--radius-s);
+
+      &-today {
+        color: var(--base--text-secondary);
+      }
+
+      &-highlight {
+        margin-left: var(--spacing-xs);
+        font-weight: bold;
+      }
+    }
+
+    &__body {
+      flex-grow: 2;
+    }
+
+    &__ox {
+      height: var(--legend-height);
+      padding-block: var(--legend-block-padding);
+      box-sizing: border-box;
+
+      &-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      &-item {
+        position: absolute;
+        left: 0;
+        color: var(--base--text);
+        font-size: 11px;
+        line-height: var(--legend-line-height);
+        text-align: center;
+        transform-origin: center;
+        opacity: 0.3;
+        white-space: nowrap;
+
+        &:first-of-type,
+        &:last-of-type {
+          display: none;
+        }
+      }
+    }
+
+    &__pointer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 3px;
+      height: 100%;
+      margin-left: -1.5px;
+      background-color: rgba(25, 28, 37, 0.5);
+      animation: pointer-in 200ms ease;
+      will-change: opacity, transform;
+
+      &-cursor {
+        position: absolute;
+        top: 0;
+        width: 7px;
+        height: 7px;
+        margin-top: -3.5px;
+        margin-left: -2px;
+        border-radius: 50%;
+        opacity: 1;
+        will-change: transform;
+      }
+
+      &-tooltip {
+        --tooltip-block-padding: var(--spacing-xs);
+
+        position: absolute;
+        top: calc(100% - var(--legend-height) + var(--legend-block-padding) - var(--tooltip-block-padding) - 1px);
+        left: 50%;
+        z-index: 500;
+        padding-block: var(--tooltip-block-padding);
+        padding-inline: var(--spacing-s);
+        color: var(--base--text);
+        font-size: 12px;
+        line-height: 1.4;
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+        text-align: center;
+        background: var(--base--bg-primary);
+        border-radius: var(--radius-m);
+        box-shadow: 0 7px 12px 0 rgba(0, 0, 0, 0.12);
+        transform: translateX(-50%);
+        transition: min-width 150ms ease;
+
+        &--left {
+          left: 0;
+          transform: translateX(0);
+        }
+
+        &--right {
+          right: 0;
+          left: auto;
+          transform: translateX(0);
+        }
+
+        &-date {
+          margin-bottom: var(--spacing-very-x);
+          color: var(--base--text-secondary);
+          font-size: 11px;
+        }
+
+        &-number {
+          font-weight: 500;
+        }
+
+        &-dot {
+          display: inline-block;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          vertical-align: middle;
+          margin-left: 2px;
+          margin-top: -1px;
+        }
+      }
+    }
+  }
+
+  @keyframes pointer-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+</style>
