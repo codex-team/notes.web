@@ -201,6 +201,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     try {
       const response = await noteService.getNoteById(id);
 
+      /**
+       * Id changed, loaded another note
+       */
+      if (currentId.value !== id) {
+        return;
+      }
+
       note.value = response.note;
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
@@ -208,6 +215,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       noteParents.value = response.parents;
       void getNoteHierarchy(id);
     } catch (error) {
+      if (currentId.value !== id) {
+        return;
+      }
       deleteOpenedPageByUrl(route.path);
       if (error instanceof DomainError) {
         void router.push(`/error/${error.statusCode}`);
@@ -255,9 +265,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
+    /**
+     * Id may be changed
+     */
+    const savedNoteId = currentId.value;
+
     isNoteSaving.value = true;
 
-    if (currentId.value === null) {
+    if (savedNoteId === null) {
       /**
        * @todo try-catch domain errors
        */
@@ -273,25 +288,26 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         },
       });
 
-      patchOpenedPageByUrl(
-        route.path,
-        {
-          title: noteTitle.value,
-          url: route.path,
-        });
+      patchOpenedPageByUrl(route.path, {
+        title: noteTitle.value,
+        url: route.path,
+      });
 
       /**
        * Get note Hierarchy when new Note is created
        */
       void getNoteHierarchy(noteCreated.id);
     } else {
-      await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
+      await noteService.updateNoteContentAndTools(savedNoteId, content, specifiedNoteTools);
     }
 
     /**
      * Store just saved content in memory
+     * If id changed, do not store content
      */
-    lastUpdateContent.value = content;
+    if (currentId.value === savedNoteId) {
+      lastUpdateContent.value = content;
+    }
 
     isNoteSaving.value = false;
   }
@@ -362,7 +378,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
     // Recursively update child notes
     if (hierarchy.childNotes) {
-      hierarchy.childNotes.forEach(child => updateNoteHierarchyContent(child, title));
+      hierarchy.childNotes.forEach((child) => updateNoteHierarchyContent(child, title));
     }
   }
 
@@ -391,13 +407,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    if (route.name == 'note') {
-      patchOpenedPageByUrl(
-        route.path,
-        {
-          title: currentNoteTitle,
-          url: route.path,
-        });
+    if (route.name == 'note' && currentId.value !== null) {
+      /**
+       * URL may have changed, use note id
+       */
+      const noteUrl = `/note/${currentId.value}`;
+
+      patchOpenedPageByUrl(noteUrl, {
+        title: currentNoteTitle,
+        url: noteUrl,
+      });
     }
     updateNoteHierarchyContent(noteHierarchy.value, currentNoteTitle);
   });
