@@ -38,4 +38,9 @@ export default interface NoteSettings {
    * Note cover image id
    */
   cover: string;
+
+  /**
+   * Show note heirarchy
+   */
+  showNoteHierarchy: boolean;
 }
