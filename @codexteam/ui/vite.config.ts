@@ -23,10 +23,26 @@ export default defineConfig({
       fileName: (format, entryName) => `${entryName}.js`,
       formats: ['es'],
     },
-    cssCodeSplit: false,
+    cssCodeSplit: true,
     rollupOptions: {
       input: {
-        styles: resolve(__dirname, 'src/styles/index.pcss'),
+        /**
+         * Base styles - dimensions, typography, mixins, z-axis
+         */
+        style: resolve(__dirname, 'src/styles/index.pcss'),
+
+        /**
+         * Individual themes for tree-shaking
+         */
+        'styles/themes/graphite': resolve(__dirname, 'src/styles/themes/graphite.pcss'),
+        'styles/themes/crimson': resolve(__dirname, 'src/styles/themes/crimson.pcss'),
+        'styles/themes/red': resolve(__dirname, 'src/styles/themes/red.pcss'),
+        'styles/themes/violet': resolve(__dirname, 'src/styles/themes/violet.pcss'),
+        'styles/themes/grass': resolve(__dirname, 'src/styles/themes/grass.pcss'),
+        'styles/themes/amber': resolve(__dirname, 'src/styles/themes/amber.pcss'),
+        'styles/themes/pure': resolve(__dirname, 'src/styles/themes/pure.pcss'),
+        'styles/themes/sky': resolve(__dirname, 'src/styles/themes/sky.pcss'),
+
         vue: resolve(__dirname, 'src/vue/index.ts'),
       },
       output: {
@@ -36,6 +52,11 @@ export default defineConfig({
         globals: {
           vue: 'Vue',
         },
+        /**
+         * Preserve module structure for better tree shaking
+         */
+        preserveModules: true,
+        preserveModulesRoot: 'src',
       },
       // make sure to externalize deps that shouldn't be bundled
       // into your library

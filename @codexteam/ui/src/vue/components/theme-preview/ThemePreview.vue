@@ -1,6 +1,6 @@
 <template>
   <div
-    class="theme-preview"
+    :class="$style['theme-preview']"
     :theme-base="theme.toLowerCase()"
   />
 </template>
@@ -15,7 +15,7 @@ defineProps<{
 
 </script>
 
-<style lang="postcss">
+<style  module lang="postcss">
 
 .theme-preview {
   width: 30px;

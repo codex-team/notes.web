@@ -2,6 +2,10 @@
   "name": "@codexteam/ui",
   "version": "0.1.1",
   "type": "module",
+  "sideEffects": [
+    "*.css",
+    "*.pcss"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "yarn build-src && yarn build-types",
@@ -17,12 +21,35 @@
   ],
   "exports": {
     "./vue": {
-      "import": {
-        "default": "./dist/vue.js"
-      }
+      "types": "./dist/types/vue/index.d.ts",
+      "import": "./dist/vue.js"
     },
     "./styles": {
-      "import": "./dist/styles.css"
+      "import": "./dist/style.css"
+    },
+    "./styles/themes/graphite": {
+      "import": "./dist/styles/themes/graphite.css"
+    },
+    "./styles/themes/crimson": {
+      "import": "./dist/styles/themes/crimson.css"
+    },
+    "./styles/themes/red": {
+      "import": "./dist/styles/themes/red.css"
+    },
+    "./styles/themes/violet": {
+      "import": "./dist/styles/themes/violet.css"
+    },
+    "./styles/themes/grass": {
+      "import": "./dist/styles/themes/grass.css"
+    },
+    "./styles/themes/amber": {
+      "import": "./dist/styles/themes/amber.css"
+    },
+    "./styles/themes/pure": {
+      "import": "./dist/styles/themes/pure.css"
+    },
+    "./styles/themes/sky": {
+      "import": "./dist/styles/themes/sky.css"
     }
   },
   "devDependencies": {
