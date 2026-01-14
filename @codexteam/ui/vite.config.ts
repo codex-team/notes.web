@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
@@ -60,7 +61,13 @@ export default defineConfig({
       },
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['vue'],
+      external: [
+        'vue',
+        '@vueuse/core',
+        '@vueuse/shared',
+        '@editorjs/editorjs',
+        '@codexteam/icons',
+      ],
     },
   },
   css: {
@@ -74,7 +81,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       '@/': '/src/',
     },
   },

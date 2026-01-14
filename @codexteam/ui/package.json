@@ -1,6 +1,6 @@
 {
   "name": "@codexteam/ui",
-  "version": "0.1.1",
+  "version": "0.2.0-rc.3",
   "type": "module",
   "sideEffects": [
     "*.css",
@@ -75,7 +75,11 @@
     "vue-tsc": "latest"
   },
   "dependencies": {
+    "@codexteam/icons": "^0.3.3",
     "@editorjs/editorjs": "2.30.2",
+    "@vueuse/core": "^10.3.0"
+  },
+  "peerDependencies": {
     "vue": "^3.4.16"
   }
 }

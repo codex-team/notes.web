@@ -15,7 +15,7 @@ defineProps<{
 
 </script>
 
-<style  module lang="postcss">
+<style module lang="postcss">
 
 .theme-preview {
   width: 30px;

@@ -4,50 +4,136 @@ The Design System forged in the fires of open-source development
 
 Demo: https://cdx-ui.vercel.app/
 
-- [ ] Make tree-shaking work
+- [x] Make tree-shaking work
 - [ ] Test Web/React/Native implementations
 - [ ] Think about i18n
 
-## Access Vue components
+## Installation
 
-```ts
-import { Button, Input, Heading } from '@codexteam/ui/vue';
+```bash
+npm install @codexteam/ui
+# or
+yarn add @codexteam/ui
 ```
 
+## Quick Start
+
+### 1. Import Base Styles (Required)
+
+```typescript
+// main.ts
+import '@codexteam/ui/styles';
+```
+
+### 2. Import Themes (Tree-shakeable)
+
+Import only the themes you need - others will NOT be included in the bundle:
+
+```typescript
+import '@codexteam/ui/styles/themes/pure';
+import '@codexteam/ui/styles/themes/grass';
+```
+
+**Available themes:** `graphite`, `crimson`, `red`, `violet`, `grass`, `amber`, `pure`, `sky`
+
+### 3. Import Components (Tree-shakeable)
+
+```typescript
+import { Button, Avatar, Heading } from '@codexteam/ui/vue';
+```
+
+### 4. Apply Theme in Template
+
 ```vue
-<Heading :level="2">
-  CodeX UI showcase
-</Heading>
-<Button text="Button text" />
-<Input text="Input text" />
+<template>
+  <div color-scheme="light" theme-accent="pure" theme-base="grass">
+    <Button>Click me</Button>
+  </div>
+</template>
+```
+
+## Complete Example
+
+**main.ts:**
+```typescript
+import { createApp } from 'vue';
+import App from './App.vue';
+
+// Base styles (required)
+import '@codexteam/ui/styles';
+
+// Themes (import only what you need)
+import '@codexteam/ui/styles/themes/pure';
+import '@codexteam/ui/styles/themes/grass';
+
+createApp(App).mount('#app');
+```
+
+**App.vue:**
+```vue
+<script setup lang="ts">
+import { Button, Heading, Input } from '@codexteam/ui/vue';
+</script>
+
+<template>
+  <div color-scheme="light" theme-accent="pure" theme-base="grass">
+    <Heading :level="2">CodeX UI showcase</Heading>
+    <Button>Button text</Button>
+    <Input placeholder="Input text" />
+  </div>
+</template>
 ```
 
 ## Types for Vue Components
 
 Add the following "path" to the "tsconfig.json"
 
-```
+```json
 {
   "compilerOptions": {
     "paths": {
-      "@codexteam/ui/vue": ["../@codexteam/ui/dist/types/vue/index.d.ts"],
+      "@codexteam/ui/vue": ["../@codexteam/ui/dist/types/vue/index.d.ts"]
     }
-  },
+  }
 }
-
 ```
 
 ## Build Design System
 Build the design system to be able to use the @codexteam/ui/styles import
 
-```
+```bash
 yarn build
 ```
 
-## Access CSS variables
+## Custom Theming
 
-1. Import `@codexteam/ui/styles` somewhere in App
-2. Use variable in CSS, e.g `var(--ui-color)`
+If you don't want to use built-in themes, define your own CSS variables:
+
+```css
+:root {
+  /* Base colors */
+  --base--bg-primary: #ffffff;
+  --base--bg-secondary: #f5f5f5;
+  --base--bg-secondary-hover: #eeeeee;
+  --base--border: #e0e0e0;
+  --base--text: #333333;
+  --base--text-secondary: #666666;
+  --base--solid: #000000;
+  --base--text-solid-foreground: #ffffff;
+
+  /* Accent colors */
+  --accent--solid: #2196f3;
+  --accent--solid-hover: #1976d2;
+  --accent--bg-secondary: #e3f2fd;
+  --accent--text-solid-foreground: #ffffff;
+}
+```
+
+## Access CSS Variables
+
+1. Import `@codexteam/ui/styles` in your app
+2. Import themes you need (e.g., `@codexteam/ui/styles/themes/pure`)
+3. Use variables in CSS: `var(--base--text)`, `var(--accent--solid)`
 
 ## Using Typography
 
