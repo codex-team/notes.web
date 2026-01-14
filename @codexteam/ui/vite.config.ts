@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
@@ -74,7 +75,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       '@/': '/src/',
     },
   },
