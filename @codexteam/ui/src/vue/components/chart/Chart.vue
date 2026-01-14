@@ -1,12 +1,12 @@
 <template>
   <div
-    class="chart"
+    :class="$style.chart"
     @mousemove.passive="moveTooltip"
     @mouseleave.passive="hoveredIndex = -1"
   >
     <svg
       ref="chart"
-      class="chart__body"
+      :class="$style.chart__body"
     >
       <ChartLine
         v-for="(preparedLine, index) in preparedLines"
@@ -22,15 +22,15 @@
       />
     </svg>
     <div
-      class="chart__ox"
+      :class="$style.chart__ox"
     >
       <div
-        class="chart__ox-inner"
+        :class="$style['chart__ox-inner']"
       >
         <span
           v-for="item in visibleLegendPoints"
           :key="item.index"
-          class="chart__ox-item"
+          :class="$style['chart__ox-item']"
           :style="{ left: `${item.index * stepX}px`, transform: 'translateX(-50%)' }"
         >
           {{ formatTimestamp(item.point.timestamp * 1000) }}
@@ -40,7 +40,7 @@
     <div
       v-if="hoveredIndex >= 0 && hoveredIndex < firstLineData.length"
       :style="{ transform: `translateX(${pointerLeft}px)` }"
-      class="chart__pointer"
+      :class="$style.chart__pointer"
     >
       <template
         v-for="(preparedLine, index) in preparedLines"
@@ -52,19 +52,18 @@
             transform: `translateY(${getLinePointerTop(preparedLine)}px)`,
             backgroundColor: getCursorColor(preparedLine.line)
           }"
-          class="chart__pointer-cursor"
-          :class="`chart__pointer-cursor--${preparedLine.line.label}`"
+          :class="$style['chart__pointer-cursor']"
         />
       </template>
       <div
-        class="chart__pointer-tooltip"
-        :class="{
-          'chart__pointer-tooltip--left': tooltipAlignment === 'left',
-          'chart__pointer-tooltip--right': tooltipAlignment === 'right'
-        }"
+        :class="[
+          $style['chart__pointer-tooltip'],
+          tooltipAlignment === 'left' && $style['chart__pointer-tooltip--left'],
+          tooltipAlignment === 'right' && $style['chart__pointer-tooltip--right']
+        ]"
         :style="{ minWidth: `${(String(firstLineData[hoveredIndex].count).length + ' events'.length) * 6.4 + 12}px` }"
       >
-        <div class="chart__pointer-tooltip-date">
+        <div :class="$style['chart__pointer-tooltip-date']">
           {{ formatTimestamp(firstLineData[hoveredIndex].timestamp * 1000) }}
         </div>
         <template
@@ -73,12 +72,12 @@
           <div
             v-if="!preparedLine.allZeros"
             :key="`tooltip-line-${preparedLine.line.label}-${index}`"
-            class="chart__pointer-tooltip-number"
+            :class="$style['chart__pointer-tooltip-number']"
           >
             <AnimatedCounter :value="formatSpacedNumber(getLineValueAtHoveredIndex(preparedLine.line, hoveredIndex))" />
             {{ preparedLine.line.label }}
             <span
-              class="chart__pointer-tooltip-dot"
+              :class="$style['chart__pointer-tooltip-dot']"
               :style="{ backgroundColor: getCursorColor(preparedLine.line) }"
             />
           </div>
@@ -505,160 +504,160 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style>
-  .chart {
-    position: relative;
-    z-index: 0;
-    display: flex;
-    flex-direction: column;
-    height: 215px;
-    background-color: var(--base--bg-secondary);
-    border-radius: var(--radius-s);
+<style module>
+.chart {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  height: 215px;
+  background-color: var(--base--bg-secondary);
+  border-radius: var(--radius-s);
 
-    --legend-height: 40px;
-    --legend-line-height: 11px;
-    --legend-block-padding: 15px;
+  --legend-height: 40px;
+  --legend-line-height: 11px;
+  --legend-block-padding: 15px;
+}
 
-    &__info {
-      position: absolute;
-      top: var(--spacing-ml);
-      right: var(--spacing-ml);
-      padding: var(--spacing-xs) var(--spacing-ms);
-      color: var(--base--text);
-      font-size: 13px;
-      white-space: nowrap;
-      background: color-mod(var(--base--bg-primary) alpha(50%));
-      border-radius: var(--radius-s);
+.chart__info {
+  position: absolute;
+  top: var(--spacing-ml);
+  right: var(--spacing-ml);
+  padding: var(--spacing-xs) var(--spacing-ms);
+  color: var(--base--text);
+  font-size: 13px;
+  white-space: nowrap;
+  background: color-mod(var(--base--bg-primary) alpha(50%));
+  border-radius: var(--radius-s);
+}
 
-      &-today {
-        color: var(--base--text-secondary);
-      }
+.chart__info-today {
+  color: var(--base--text-secondary);
+}
 
-      &-highlight {
-        margin-left: var(--spacing-xs);
-        font-weight: bold;
-      }
-    }
+.chart__info-highlight {
+  margin-left: var(--spacing-xs);
+  font-weight: bold;
+}
 
-    &__body {
-      flex-grow: 2;
-    }
+.chart__body {
+  flex-grow: 2;
+}
 
-    &__ox {
-      height: var(--legend-height);
-      padding-block: var(--legend-block-padding);
-      box-sizing: border-box;
+.chart__ox {
+  height: var(--legend-height);
+  padding-block: var(--legend-block-padding);
+  box-sizing: border-box;
+}
 
-      &-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-      }
+.chart__ox-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 
-      &-item {
-        position: absolute;
-        left: 0;
-        color: var(--base--text);
-        font-size: 11px;
-        line-height: var(--legend-line-height);
-        text-align: center;
-        transform-origin: center;
-        opacity: 0.3;
-        white-space: nowrap;
+.chart__ox-item {
+  position: absolute;
+  left: 0;
+  color: var(--base--text);
+  font-size: 11px;
+  line-height: var(--legend-line-height);
+  text-align: center;
+  transform-origin: center;
+  opacity: 0.3;
+  white-space: nowrap;
+}
 
-        &:first-of-type,
-        &:last-of-type {
-          display: none;
-        }
-      }
-    }
+.chart__ox-item:first-of-type,
+.chart__ox-item:last-of-type {
+  display: none;
+}
 
-    &__pointer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      width: 3px;
-      height: 100%;
-      margin-left: -1.5px;
-      background-color: rgba(25, 28, 37, 0.5);
-      animation: pointer-in 200ms ease;
-      will-change: opacity, transform;
+.chart__pointer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 3px;
+  height: 100%;
+  margin-left: -1.5px;
+  background-color: rgba(25, 28, 37, 0.5);
+  animation: pointer-in 200ms ease;
+  will-change: opacity, transform;
+}
 
-      &-cursor {
-        position: absolute;
-        top: 0;
-        width: 7px;
-        height: 7px;
-        margin-top: -3.5px;
-        margin-left: -2px;
-        border-radius: 50%;
-        opacity: 1;
-        will-change: transform;
-      }
+.chart__pointer-cursor {
+  position: absolute;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  margin-left: -2px;
+  border-radius: 50%;
+  opacity: 1;
+  will-change: transform;
+}
 
-      &-tooltip {
-        --tooltip-block-padding: var(--spacing-xs);
+.chart__pointer-tooltip {
+  --tooltip-block-padding: var(--spacing-xs);
 
-        position: absolute;
-        top: calc(100% - var(--legend-height) + var(--legend-block-padding) - var(--tooltip-block-padding) - 1px);
-        left: 50%;
-        z-index: 500;
-        padding-block: var(--tooltip-block-padding);
-        padding-inline: var(--spacing-s);
-        color: var(--base--text);
-        font-size: 12px;
-        line-height: 1.4;
-        letter-spacing: 0.2px;
-        white-space: nowrap;
-        text-align: center;
-        background: var(--base--bg-primary);
-        border-radius: var(--radius-m);
-        box-shadow: 0 7px 12px 0 rgba(0, 0, 0, 0.12);
-        transform: translateX(-50%);
-        transition: min-width 150ms ease;
+  position: absolute;
+  top: calc(100% - var(--legend-height) + var(--legend-block-padding) - var(--tooltip-block-padding) - 1px);
+  left: 50%;
+  z-index: 500;
+  padding-block: var(--tooltip-block-padding);
+  padding-inline: var(--spacing-s);
+  color: var(--base--text);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  text-align: center;
+  background: var(--base--bg-primary);
+  border-radius: var(--radius-m);
+  box-shadow: 0 7px 12px 0 rgba(0, 0, 0, 0.12);
+  transform: translateX(-50%);
+  transition: min-width 150ms ease;
+}
 
-        &--left {
-          left: 0;
-          transform: translateX(0);
-        }
+.chart__pointer-tooltip--left {
+  left: 0;
+  transform: translateX(0);
+}
 
-        &--right {
-          right: 0;
-          left: auto;
-          transform: translateX(0);
-        }
+.chart__pointer-tooltip--right {
+  right: 0;
+  left: auto;
+  transform: translateX(0);
+}
 
-        &-date {
-          margin-bottom: var(--spacing-very-x);
-          color: var(--base--text-secondary);
-          font-size: 11px;
-        }
+.chart__pointer-tooltip-date {
+  margin-bottom: var(--spacing-very-x);
+  color: var(--base--text-secondary);
+  font-size: 11px;
+}
 
-        &-number {
-          font-weight: 500;
-        }
+.chart__pointer-tooltip-number {
+  font-weight: 500;
+}
 
-        &-dot {
-          display: inline-block;
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          vertical-align: middle;
-          margin-left: 2px;
-          margin-top: -1px;
-        }
-      }
-    }
+.chart__pointer-tooltip-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 2px;
+  margin-top: -1px;
+}
+
+@keyframes pointer-in {
+  from {
+    opacity: 0;
   }
 
-  @keyframes pointer-in {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
+  to {
+    opacity: 1;
   }
+}
 </style>

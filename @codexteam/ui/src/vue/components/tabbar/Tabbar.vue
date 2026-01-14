@@ -1,5 +1,5 @@
 <template>
-  <div class="tabbar">
+  <div :class="$style.tabbar">
     <Tab
       v-for="tab in tabs"
       :key="tab.id"
@@ -25,7 +25,7 @@ defineProps<{
 
 </script>
 
-<style land="postcss">
+<style module lang="postcss">
 .tabbar {
   --min-width: calc(var(--v-padding) * 2 + var(--size-icon));
   display: flex;

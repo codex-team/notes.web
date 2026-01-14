@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Logs
+*.log
+
+# Test app (internal testing only)
+test-app/
+
+# Editor
+.idea/
+.vscode/
+*.sw?
+
+# OS
+.DS_Store
+
+# Environment
+.env
+.env.local

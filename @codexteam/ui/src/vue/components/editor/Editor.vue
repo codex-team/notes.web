@@ -92,7 +92,7 @@ defineExpose({
 });
 </script>
 
-<style>
+<style module>
 @import '../../../styles/typography.pcss';
 
 .editorjs {

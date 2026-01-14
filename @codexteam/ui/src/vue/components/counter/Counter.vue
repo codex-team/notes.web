@@ -1,14 +1,14 @@
 <template>
-  <span class="a-counter">
+  <span :class="$style['a-counter']">
     <span
       v-if="prevValue !== null"
-      class="a-counter__prev"
+      :class="$style['a-counter__prev']"
     >
       {{ prevValue }}
     </span>
     <span
       v-if="curValue !== null"
-      class="a-counter__cur"
+      :class="$style['a-counter__cur']"
     >
       {{ curValue }}
     </span>
@@ -48,7 +48,7 @@ watch(() => props.value, (newValue, oldValue) => {
 });
 </script>
 
-<style>
+<style module>
   .a-counter {
     position: relative;
     display: inline-block;

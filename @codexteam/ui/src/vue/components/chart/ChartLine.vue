@@ -29,12 +29,12 @@
       </linearGradient>
     </defs>
     <path
-      class="chart__body-path-fill"
+      :class="$style['chart__body-path-fill']"
       :fill="`url(#${fillGradientId})`"
       :d="smoothPathFill"
     />
     <path
-      class="chart__body-path"
+      :class="$style['chart__body-path']"
       fill="none"
       :stroke="`url(#${gradientId})`"
       stroke-width="3"
@@ -249,7 +249,7 @@ const colorSet = computed((): ChartLineColors => {
 });
 </script>
 
-<style>
+<style module>
 .chart__body-path-fill {
   stroke: none;
   vector-effect: non-scaling-stroke;
