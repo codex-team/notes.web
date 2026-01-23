@@ -24,6 +24,16 @@ export default defineConfig({
       fileName: (format, entryName) => `${entryName}.js`,
       formats: ['es'],
     },
+    /**
+     * CSS Code Splitting: Enables CSS to be split into separate chunks
+     * With cssInjectedByJsPlugin enabled:
+     * - Component CSS is injected into vue.js bundle (no separate CSS files for components)
+     * - Theme CSS files are split separately in dist/styles/themes/ for tree-shaking
+     * - Base styles are in dist/style.css
+     * This allows users to import only the themes they need:
+     * - import '@codexteam/ui/styles' (base styles)
+     * - import '@codexteam/ui/styles/themes/graphite' (specific theme)
+     */
     cssCodeSplit: true,
     rollupOptions: {
       input: {
