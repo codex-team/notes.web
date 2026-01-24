@@ -25,7 +25,18 @@ yarn add @codexteam/ui
 import '@codexteam/ui/styles';
 ```
 
-### 2. Import Themes (Tree-shakeable)
+### 2. Import Fonts (Optional)
+
+Fonts are **optional** and are **not** loaded by default. If you want to use the bundled **Inter** and **JetBrains Mono** fonts, import them explicitly:
+
+```typescript
+// main.ts
+import '@codexteam/ui/styles/fonts';
+```
+
+If you don't import fonts, typography will fall back to system fonts.
+
+### 3. Import Themes (Tree-shakeable)
 
 Import only the themes you need - others will NOT be included in the bundle:
 
@@ -36,13 +47,13 @@ import '@codexteam/ui/styles/themes/grass';
 
 **Available themes:** `graphite`, `crimson`, `red`, `violet`, `grass`, `amber`, `pure`, `sky`
 
-### 3. Import Components (Tree-shakeable)
+### 4. Import Components (Tree-shakeable)
 
 ```typescript
 import { Button, Avatar, Heading } from '@codexteam/ui/vue';
 ```
 
-### 4. Apply Theme in Template
+### 5. Apply Theme in Template
 
 ```vue
 <template>
@@ -61,6 +72,9 @@ import App from './App.vue';
 
 // Base styles (required)
 import '@codexteam/ui/styles';
+
+// Fonts (optional)
+import '@codexteam/ui/styles/fonts';
 
 // Themes (import only what you need)
 import '@codexteam/ui/styles/themes/pure';

@@ -27,6 +27,9 @@
     "./styles": {
       "import": "./dist/style.css"
     },
+    "./styles/fonts": {
+      "import": "./dist/styles/fonts.css"
+    },
     "./styles/themes/graphite": {
       "import": "./dist/styles/themes/graphite.css"
     },

@@ -28,10 +28,12 @@ export default defineConfig({
      * CSS Code Splitting: Enables CSS to be split into separate chunks
      * With cssInjectedByJsPlugin enabled:
      * - Component CSS is injected into vue.js bundle (no separate CSS files for components)
-     * - Theme CSS files are split separately in dist/styles/themes/ for tree-shaking
-     * - Base styles are in dist/style.css
+     * - Base styles are emitted as dist/style.css
+     * - Fonts are emitted as dist/styles/fonts.css (optional import)
+     * - Theme CSS files are emitted as dist/styles/themes/*.css
      * This allows users to import only the themes they need:
      * - import '@codexteam/ui/styles' (base styles)
+     * - import '@codexteam/ui/styles/fonts' (optional fonts)
      * - import '@codexteam/ui/styles/themes/graphite' (specific theme)
      */
     cssCodeSplit: true,
@@ -41,6 +43,13 @@ export default defineConfig({
          * Base styles - dimensions, typography, mixins, z-axis
          */
         style: resolve(__dirname, 'src/styles/index.pcss'),
+
+        /**
+         * Optional fonts (Inter + JetBrains Mono)
+         * Exported as: @codexteam/ui/styles/fonts
+         * Vite will automatically copy font files to dist/fonts/ when processing @import url()
+         */
+        'styles/fonts': resolve(__dirname, 'src/styles/fonts.pcss'),
 
         /**
          * Individual themes for tree-shaking
