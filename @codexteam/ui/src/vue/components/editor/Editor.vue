@@ -1,9 +1,9 @@
 <template>
   <div
     ref="editorComponent"
-    class="editorjs"
     :class="{
-      'editorjs--with-initial-placeholder': props.firstBlockPlaceholder,
+      [$style['editorjs']]: true,
+      [$style['editorjs--with-initial-placeholder']]: props.firstBlockPlaceholder,
     }"
   />
 </template>
@@ -92,7 +92,7 @@ defineExpose({
 });
 </script>
 
-<style>
+<style module>
 @import '../../../styles/typography.pcss';
 
 .editorjs {
