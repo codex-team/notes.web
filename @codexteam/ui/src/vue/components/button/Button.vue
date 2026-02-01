@@ -25,6 +25,13 @@
 import { computed, defineProps, useSlots } from 'vue';
 import Icon from '../icon/Icon.vue';
 
+/**
+ * Import red theme for destructive button style.
+ * This is marked as external in vite config, so consumers need to import
+ * '@codexteam/ui/styles/themes/red' in their app.
+ */
+import '@codexteam/ui/styles/themes/red';
+
 const props = withDefaults(
   defineProps<{
     /**

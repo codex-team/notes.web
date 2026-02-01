@@ -86,6 +86,11 @@ export default defineConfig({
         '@vueuse/shared',
         '@editorjs/editorjs',
         '@codexteam/icons',
+        /**
+         * Theme red is used by Button component for destructive style.
+         * Mark as external so it's not bundled into component but imported separately.
+         */
+        '@codexteam/ui/styles/themes/red',
       ],
     },
   },
