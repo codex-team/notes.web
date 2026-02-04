@@ -87,8 +87,10 @@ export default defineConfig({
         '@editorjs/editorjs',
         '@codexteam/icons',
         /**
-         * Theme red is used by Button component for destructive style.
-         * Mark as external so it's not bundled into component but imported separately.
+         * Mark the red theme as external because it's imported inside the UI library itself (used for destructive buttons)
+         * This prevents Rollup from trying to bundle/resolve @codexteam/ui/styles/themes/red as an internal module.
+         * It also avoids Rollup silencing the "failed to resolve import" error.
+         * The actual CSS file is still emitted separately via the styles/themes/red CSS entry in rollupOptions.input.
          */
         '@codexteam/ui/styles/themes/red',
       ],
