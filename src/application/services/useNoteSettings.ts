@@ -34,6 +34,13 @@ interface UseNoteSettingsComposableState {
   updateIsPublic: (id: NoteId, newIsPublicValue: boolean) => Promise<void>;
 
   /**
+   * Update field showNoteHierarchy in note settings
+   * @param id - Note id
+   * @param newShowNoteHierarchyValue - new showNoteHierarchy
+   */
+  updateShowNoteHierarchy: (id: NoteId, newShowNoteHierarchyValue: boolean) => Promise<void>;
+
+  /**
    * Revoke invitation hash
    * @param id - note id
    */
@@ -113,6 +120,22 @@ export default function (): UseNoteSettingsComposableState {
      */
     if (noteSettings.value) {
       noteSettings.value.isPublic = isPublic;
+    }
+  }
+
+  /**
+   * Update field showNoteHierarchy in note settings
+   * @param id - Note id
+   * @param newShowNoteHierarchyValue - new showNoteHierarchy
+   */
+  async function updateShowNoteHierarchy(id: NoteId, newShowNoteHierarchyValue: boolean): Promise<void> {
+    const { showNoteHierarchy } = await noteSettingsService.patchNoteSettingsByNoteId(id, { showNoteHierarchy: newShowNoteHierarchyValue });
+
+    /**
+     * If note settings were not loaded till this moment for some reason, do nothing
+     */
+    if (noteSettings.value) {
+      noteSettings.value.showNoteHierarchy = showNoteHierarchy;
     }
   }
 
@@ -198,5 +221,6 @@ export default function (): UseNoteSettingsComposableState {
     revokeHash,
     changeRole,
     deleteNoteById,
+    updateShowNoteHierarchy,
   };
 }

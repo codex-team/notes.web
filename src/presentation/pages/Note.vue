@@ -46,8 +46,9 @@
       <PageBlock>
         <template #left>
           <VerticalMenu
+            v-if="noteSettings && noteSettings.showNoteHierarchy && verticalMenuItems.length > 0"
             class="menu"
-            :items="[verticalMenuItems]"
+            :items="verticalMenuItems"
           />
         </template>
         <template #default>
@@ -99,9 +100,12 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy, loadHierarchy } = useNote({
   id: noteId,
 });
+
+// Note settings composable - used directly in the page
+const { noteSettings, load: loadNoteSettings, updateCover } = useNoteSettings();
 
 /**
  * Create new child note
@@ -122,8 +126,6 @@ function redirectToNoteSettings(): void {
   }
   router.push(`/note/${props.id}/settings`);
 }
-
-const { updateCover } = useNoteSettings();
 
 const { isEditorReady, editorConfig } = useNoteEditor({
   noteTools,
@@ -183,18 +185,10 @@ async function noteChanged(data: NoteContent): Promise<void> {
  * @returns menuItem  - VerticalMenuItem
  */
 
-function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentNoteTitle: string): VerticalMenuItem {
-  if (!noteHierarchyObj) {
-    return {
-      title: 'Untitled',
-      isActive: true,
-      items: undefined,
-    };
-  }
-
+function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy, currentNoteTitle: string): VerticalMenuItem {
   // Transform the current note into a VerticalMenuItem
   return {
-    title: noteHierarchyObj?.noteTitle || 'Untitled',
+    title: noteHierarchyObj.noteTitle || 'Untitled',
     isActive: route.path === `/note/${noteHierarchyObj.noteId}`,
     items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
     onActivate: () => {
@@ -203,18 +197,30 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
   };
 }
 
-const verticalMenuItems = computed<VerticalMenuItem>(() => {
-  return transformNoteHierarchy(noteHierarchy.value, noteTitle.value);
+const verticalMenuItems = computed<VerticalMenuItem[]>(() => {
+  if (!noteHierarchy.value) {
+    return [];
+  }
+
+  return [transformNoteHierarchy(noteHierarchy.value, noteTitle.value)];
 });
 
 watch(
   () => props.id,
-  () => {
+  async () => {
     /** If new child note is created, refresh editor with empty data */
     if (props.id === null) {
       useHead({
         title: t('note.new'),
       });
+    } else {
+      // Load note settings first
+      await loadNoteSettings(props.id);
+
+      // Load hierarchy only if settings allow it
+      if (noteSettings.value?.showNoteHierarchy === true) {
+        await loadHierarchy(props.id);
+      }
     }
   },
   { immediate: true }

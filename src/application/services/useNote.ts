@@ -96,6 +96,18 @@ interface UseNoteComposableState {
    * Note hierarchy
    */
   noteHierarchy: Ref<NoteHierarchy | null>;
+
+  /**
+   * Load note by id
+   * @param id - Note identifier
+   */
+  load: (id: NoteId) => Promise<void>;
+
+  /**
+   * Load note hierarchy separately when needed
+   * @param id - Note identifier
+   */
+  loadHierarchy: (id: NoteId) => Promise<void>;
 }
 
 interface UseNoteComposableOptions {
@@ -206,7 +218,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
       noteParents.value = response.parents;
-      void getNoteHierarchy(id);
     } catch (error) {
       deleteOpenedPageByUrl(route.path);
       if (error instanceof DomainError) {
@@ -215,6 +226,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         void router.push('/error/500');
       }
     }
+  }
+
+  /**
+   * Load note hierarchy separately when needed
+   * @param id - Note identifier
+   */
+  async function loadHierarchy(id: NoteId): Promise<void> {
+    await getNoteHierarchy(id);
   }
 
   /**
@@ -279,11 +298,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
           title: noteTitle.value,
           url: route.path,
         });
-
-      /**
-       * Get note Hierarchy when new Note is created
-       */
-      void getNoteHierarchy(noteCreated.id);
     } else {
       await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
     }
@@ -313,13 +327,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     parentNote.value = undefined;
   }
 
-  /**
-   * Get note by custom hostname
-   */
-  const resolveHostname = async (): Promise<void> => {
-    note.value = (await noteService.getNoteByHostname(location.hostname)).note;
-  };
-
   onMounted(() => {
     /**
      * If we have id, load note and note hierarchy
@@ -328,6 +335,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       void load(currentId.value);
     }
   });
+
+  /**
+   * Get note by custom hostname
+   */
+  const resolveHostname = async (): Promise<void> => {
+    note.value = (await noteService.getNoteByHostname(location.hostname)).note;
+  };
 
   /**
    * Reset note to the initial state
@@ -414,5 +428,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     noteParents,
     parentNote,
     noteHierarchy,
+    load,
+    loadHierarchy,
   };
 }
