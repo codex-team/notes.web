@@ -47,6 +47,9 @@ import '@codexteam/ui/styles/themes/grass';
 
 **Available themes:** `graphite`, `crimson`, `red`, `violet`, `grass`, `amber`, `pure`, `sky`
 
+> **Note:** the **red** theme is included to the library out of the box since it is used for destructive-action styles.
+> You don't need to import **@codexteam/ui/styles/themes/red** manually in your app.
+
 ### 4. Import Components (Tree-shakeable)
 
 ```typescript
