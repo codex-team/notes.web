@@ -28,7 +28,7 @@ import Icon from '../icon/Icon.vue';
 /**
  * Red theme for destructive styles (auto-included, no manual import required by consumers).
  */
-import '@codexteam/ui/styles/themes/red';
+import '@codexteam/ui/styles/themes/red.css';
 
 const props = withDefaults(
   defineProps<{

@@ -93,6 +93,7 @@ export default defineConfig({
          * The actual CSS file is still emitted separately via the styles/themes/red CSS entry in rollupOptions.input.
          */
         '@codexteam/ui/styles/themes/red',
+        '@codexteam/ui/styles/themes/red.css',
       ],
     },
   },

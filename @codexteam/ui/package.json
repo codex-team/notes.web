@@ -39,6 +39,9 @@
     "./styles/themes/red": {
       "import": "./dist/styles/themes/red.css"
     },
+    "./styles/themes/red.css": {
+      "import": "./dist/styles/themes/red.css"
+    },
     "./styles/themes/violet": {
       "import": "./dist/styles/themes/violet.css"
     },
