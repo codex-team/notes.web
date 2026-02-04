@@ -10,7 +10,6 @@ import '@codexteam/ui/styles/themes/graphite';
 import '@codexteam/ui/styles/themes/sky';
 import '@codexteam/ui/styles/themes/crimson';
 import '@codexteam/ui/styles/themes/grass';
-import '@codexteam/ui/styles/themes/red';
 import '@codexteam/ui/styles/themes/violet';
 import '@codexteam/ui/styles/themes/amber';
 import '@codexteam/ui/styles/themes/pure';

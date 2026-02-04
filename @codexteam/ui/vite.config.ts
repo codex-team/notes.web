@@ -56,7 +56,6 @@ export default defineConfig({
          */
         'styles/themes/graphite': resolve(__dirname, 'src/styles/themes/graphite.pcss'),
         'styles/themes/crimson': resolve(__dirname, 'src/styles/themes/crimson.pcss'),
-        'styles/themes/red': resolve(__dirname, 'src/styles/themes/red.pcss'),
         'styles/themes/violet': resolve(__dirname, 'src/styles/themes/violet.pcss'),
         'styles/themes/grass': resolve(__dirname, 'src/styles/themes/grass.pcss'),
         'styles/themes/amber': resolve(__dirname, 'src/styles/themes/amber.pcss'),
@@ -78,8 +77,7 @@ export default defineConfig({
         preserveModules: true,
         preserveModulesRoot: 'src',
       },
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
+      // make sure to externalize deps that shouldn't be bundled into your library
       external: [
         'vue',
         '@vueuse/core',

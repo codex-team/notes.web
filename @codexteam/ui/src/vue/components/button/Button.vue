@@ -2,8 +2,8 @@
   <button
     :class="[
       $style.button,
-      `${$style.button}--${style}`,
-      iconType !== 'none' && `${$style.button}--icon-${iconType}`,
+      $style[`button--${style}`],
+      iconType !== 'none' && $style[`button--icon-${iconType}`],
 
       'text-ui-base-medium',
     ]"
