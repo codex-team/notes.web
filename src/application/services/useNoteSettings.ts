@@ -66,6 +66,13 @@ interface UseNoteSettingsComposableState {
    * @param newParentURL - New parent note URL
    */
   setParent: (id: NoteId, newParentURL: string) => Promise<void>;
+
+  /**
+   * Delete team member by user id
+   * @param id - Note id
+   * @param userId - User id
+   */
+  removeMemberByUserId: (id: NoteId, userId: UserId) => Promise<void>;
 }
 
 /**
@@ -188,6 +195,15 @@ export default function (): UseNoteSettingsComposableState {
     }
   };
 
+  /**
+   * Delete team member by user id
+   * @param id - Note id
+   * @param userId - User id
+   */
+  const removeMemberByUserId = async (id: NoteId, userId: UserId) => {
+    await noteSettingsService.removeMemberByUserId(id, userId);
+  }
+
   return {
     updateCover,
     setParent,
@@ -198,5 +214,6 @@ export default function (): UseNoteSettingsComposableState {
     revokeHash,
     changeRole,
     deleteNoteById,
+    removeMemberByUserId,
   };
 }

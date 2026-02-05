@@ -43,4 +43,11 @@ export default interface NoteSettingsRepositoryInterface {
    * @param id - Note id
    */
   deleteNote(id: NoteId): Promise<void>;
+
+  /**
+   * Delete team member by user id
+   * @param id - Note id
+   * @param userId - User id
+   */
+  removeMemberByUserId(id: NoteId, userId: UserId): Promise<void>;
 }

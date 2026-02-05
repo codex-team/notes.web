@@ -73,6 +73,7 @@
             <Team
               :note-id="id"
               :team="noteSettings.team"
+              @teamMemberRemoved="handleTeamMemberRemoved"
             />
             <InviteLink
               :id="props.id"
@@ -220,6 +221,13 @@ onMounted(async () => {
   await loadSettings(props.id);
   parentURL.value = getParentURL(parentNote.value?.id);
 });
+
+/**
+ * Handle team member removal by refreshing the note settings
+ */
+async function handleTeamMemberRemoved() {
+  await loadSettings(props.id);
+}
 
 </script>
 

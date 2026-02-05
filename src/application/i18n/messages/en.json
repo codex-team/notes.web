@@ -67,6 +67,11 @@
       "roles": {
         "Read": "Reader",
         "Write": "Writer"
+      },
+      "removeMemberConfirmationTitle": "Remove member",
+      "removeMemberConfirmationBody": "Are you sure you want to remove user from the team?",
+      "ContextMenu": {
+        "remove": "Remove"
       }
     }
   },
