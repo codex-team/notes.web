@@ -200,9 +200,9 @@ export default function (): UseNoteSettingsComposableState {
    * @param id - Note id
    * @param userId - User id
    */
-  const removeMemberByUserId = async (id: NoteId, userId: UserId) => {
+  const removeMemberByUserId = async (id: NoteId, userId: UserId): Promise<void> => {
     await noteSettingsService.removeMemberByUserId(id, userId);
-  }
+  };
 
   return {
     updateCover,

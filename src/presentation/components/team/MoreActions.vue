@@ -1,19 +1,18 @@
 <template>
-  <button 
-    ref="triggerButton" 
-    class="more-actions-button" 
+  <button
+    ref="triggerButton"
+    class="more-actions-button"
     @click="handleButtonClick"
   >
-    <Icon 
-      name="EtcVertical" 
+    <Icon
+      name="EtcVertical"
     />
   </button>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Icon, ContextMenu, usePopover, useConfirm } from '@codexteam/ui/vue';
-import type { ContextMenuItem } from '@codexteam/ui/vue';
+import { Icon, ContextMenu, usePopover, useConfirm, type ContextMenuItem } from '@codexteam/ui/vue';
 import { type TeamMember } from '@/domain/entities/Team';
 import { useI18n } from 'vue-i18n';
 import { NoteId } from '@/domain/entities/Note';
@@ -43,13 +42,13 @@ const menuItems: ContextMenuItem[] = [
     title: t('noteSettings.team.ContextMenu.remove'),
     onActivate: () => {
       handleRemove(props.teamMember);
-      hide(); 
-    }
-  }
+      hide();
+    },
+  },
 ];
 
 const emit = defineEmits<{
-  teamMemberRemoved: []
+  teamMemberRemoved: [];
 }>();
 
 const handleButtonClick = (): void => {
@@ -59,14 +58,14 @@ const handleButtonClick = (): void => {
       with: {
         component: ContextMenu,
         props: {
-          items: menuItems
-        }
+          items: menuItems,
+        },
       },
       align: {
         vertically: 'below',
-        horizontally: 'right'
+        horizontally: 'right',
       },
-      width: 'auto'
+      width: 'auto',
     });
   }
 };
@@ -99,4 +98,3 @@ const handleRemove = async (member: TeamMember): Promise<void> => {
   cursor: pointer;
 }
 </style>
-

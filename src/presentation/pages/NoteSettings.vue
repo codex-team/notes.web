@@ -73,7 +73,7 @@
             <Team
               :note-id="id"
               :team="noteSettings.team"
-              @teamMemberRemoved="handleTeamMemberRemoved"
+              @team-member-removed="handleTeamMemberRemoved"
             />
             <InviteLink
               :id="props.id"

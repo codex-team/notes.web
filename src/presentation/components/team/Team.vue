@@ -15,10 +15,10 @@
           :note-id="noteId"
           :team-member="member"
         />
-        <MoreActions 
+        <MoreActions
           :note-id="noteId"
           :team-member="member"
-          @teamMemberRemoved="handleMemberRemoved"
+          @team-member-removed="handleMemberRemoved"
         />
       </template>
 
