@@ -3,6 +3,7 @@
     ref="triggerButton"
     class="more-actions-button"
     @click="handleButtonClick"
+    :title="t('noteSettings.team.contextMenu.title')"
   >
     <Icon
       name="EtcVertical"
@@ -39,7 +40,7 @@ const triggerButton = ref<HTMLButtonElement>();
 
 const menuItems: ContextMenuItem[] = [
   {
-    title: t('noteSettings.team.ContextMenu.remove'),
+    title: t('noteSettings.team.contextMenu.remove'),
     onActivate: () => {
       handleRemove(props.teamMember);
       hide();
