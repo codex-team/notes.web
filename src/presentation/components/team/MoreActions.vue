@@ -41,9 +41,13 @@ const triggerButton = ref<HTMLButtonElement>();
 const menuItems: ContextMenuItem[] = [
   {
     title: t('noteSettings.team.contextMenu.remove'),
-    onActivate: () => {
-      handleRemove(props.teamMember);
+    onActivate: async () => {
       hide();
+      try {
+        await handleRemove(props.teamMember);
+      } catch (error) {
+        console.error('Failed to remove team member', error);
+      }
     },
   },
 ];
