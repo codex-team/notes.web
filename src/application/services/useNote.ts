@@ -202,7 +202,8 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       const response = await noteService.getNoteById(id);
 
       /**
-       * Id changed, loaded another note
+       * If route already points to another note,
+       * ignore this outdated response
        */
       if (currentId.value !== id) {
         return;
@@ -215,6 +216,10 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       noteParents.value = response.parents;
       void getNoteHierarchy(id);
     } catch (error) {
+      /**
+       * If user already switched to another note,
+       * do not handle errors from the previous request
+       */
       if (currentId.value !== id) {
         return;
       }
@@ -266,7 +271,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     const specifiedNoteTools = resolveToolsByContent(content);
 
     /**
-     * Id may be changed
+     * Remember current note id to detect route changes during save
      */
     const savedNoteId = currentId.value;
 
@@ -409,7 +414,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   watch(noteTitle, (currentNoteTitle) => {
     if (route.name == 'note' && currentId.value !== null) {
       /**
-       * URL may have changed, use note id
+       * Build tab URL from current note id to avoid using outdated route.path
        */
       const noteUrl = `/note/${currentId.value}`;
 
