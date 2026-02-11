@@ -383,7 +383,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
     // Recursively update child notes
     if (hierarchy.childNotes) {
-      hierarchy.childNotes.forEach((child) => updateNoteHierarchyContent(child, title));
+      hierarchy.childNotes.forEach(child => updateNoteHierarchyContent(child, title));
     }
   }
 
