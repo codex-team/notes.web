@@ -79,7 +79,7 @@ const handleButtonClick = (): void => {
 const handleRemove = async (member: TeamMember): Promise<void> => {
   const shouldRemove = await confirm(
     t('noteSettings.team.removeMemberConfirmationTitle'),
-    t('noteSettings.team.removeMemberConfirmationBody')
+    t('noteSettings.team.removeMemberConfirmationBody', { username: member.user.name })
   );
 
   if (shouldRemove) {
