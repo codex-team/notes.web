@@ -73,6 +73,7 @@
             <Team
               :note-id="id"
               :team="noteSettings.team"
+              @team-member-removed="handleTeamMemberRemoved"
             />
             <InviteLink
               :id="props.id"
@@ -111,6 +112,7 @@ import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
 import useNavbar from '@/application/services/useNavbar';
 import { useRoute } from 'vue-router';
+import { TeamMember } from '@/domain/entities/Team';
 
 const { t } = useI18n();
 
@@ -221,6 +223,19 @@ onMounted(async () => {
   parentURL.value = getParentURL(parentNote.value?.id);
 });
 
+/**
+ * Handle team member removal by refreshing the note settings and removing the member from the team
+ *
+ * @param userId - user id of the member to remove
+ */
+async function handleTeamMemberRemoved(userId: TeamMember['user']['id']) {
+  if (noteSettings.value !== null) {
+    noteSettings.value = {
+      ...noteSettings.value,
+      team: noteSettings.value.team.filter(member => member.user.id !== userId),
+    };
+  }
+}
 </script>
 
 <style setup lang="postcss" scoped>
