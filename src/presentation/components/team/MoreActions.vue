@@ -1,9 +1,9 @@
 <template>
   <button
     ref="triggerButton"
+    :title="t('noteSettings.team.contextMenu.title')"
     class="more-actions-button"
     @click="handleButtonClick"
-    :title="t('noteSettings.team.contextMenu.title')"
   >
     <Icon
       name="EtcVertical"
@@ -43,17 +43,13 @@ const menuItems: ContextMenuItem[] = [
     title: t('noteSettings.team.contextMenu.remove'),
     onActivate: async () => {
       hide();
-      try {
-        await handleRemove(props.teamMember);
-      } catch (error) {
-        console.error('Failed to remove team member', error);
-      }
+      await handleRemove(props.teamMember);
     },
   },
 ];
 
 const emit = defineEmits<{
-  teamMemberRemoved: [];
+  teamMemberRemoved: [userId: TeamMember['user']['id']];
 }>();
 
 const handleButtonClick = (): void => {
@@ -87,8 +83,11 @@ const handleRemove = async (member: TeamMember): Promise<void> => {
   );
 
   if (shouldRemove) {
-    await removeMemberByUserId(props.noteId, member.user.id);
-    emit('teamMemberRemoved');
+    const isDeleted = await removeMemberByUserId(props.noteId, member.user.id);
+
+    if (isDeleted) {
+      emit('teamMemberRemoved', member.user.id);
+    }
   }
 };
 </script>

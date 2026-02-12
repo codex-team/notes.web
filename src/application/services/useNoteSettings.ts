@@ -71,8 +71,9 @@ interface UseNoteSettingsComposableState {
    * Delete team member by user id
    * @param id - Note id
    * @param userId - User id
+   * @returns true if user was removed
    */
-  removeMemberByUserId: (id: NoteId, userId: UserId) => Promise<void>;
+  removeMemberByUserId: (id: NoteId, userId: UserId) => Promise<boolean>;
 }
 
 /**
@@ -199,9 +200,10 @@ export default function (): UseNoteSettingsComposableState {
    * Delete team member by user id
    * @param id - Note id
    * @param userId - User id
+   * @returns true if user was removed
    */
-  const removeMemberByUserId = async (id: NoteId, userId: UserId): Promise<void> => {
-    await noteSettingsService.removeMemberByUserId(id, userId);
+  const removeMemberByUserId = async (id: NoteId, userId: UserId): Promise<boolean> => {
+    return await noteSettingsService.removeMemberByUserId(id, userId);
   };
 
   return {

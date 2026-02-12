@@ -48,6 +48,7 @@ export default interface NoteSettingsRepositoryInterface {
    * Delete team member by user id
    * @param id - Note id
    * @param userId - User id
+   * @returns true if user was removed
    */
-  removeMemberByUserId(id: NoteId, userId: UserId): Promise<void>;
+  removeMemberByUserId(id: NoteId, userId: UserId): Promise<boolean>;
 }

@@ -123,8 +123,9 @@ export default class NoteSettingsService {
    * Delete team member by user id
    * @param id - Note id
    * @param userId - User id
+   * @returns true if user was removed
    */
-  public async removeMemberByUserId(id: NoteId, userId: UserId): Promise<void> {
+  public async removeMemberByUserId(id: NoteId, userId: UserId): Promise<boolean> {
     return await this.noteSettingsRepository.removeMemberByUserId(id, userId);
   }
 }
