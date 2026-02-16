@@ -83,12 +83,12 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
   const noteAndUserTools = computed<EditorTool[] | undefined>(() => {
     const isDraft = options.isDraftResolver();
     const noteTools = isDraft ? [] : toValue(options.noteTools);
-    const userTools = toValue(userEditorTools);
+    const userTools = toValue(userEditorTools) ?? [];
 
     /**
      * If tools are not loaded yet, return undefined
      */
-    if (noteTools === undefined || userTools === undefined) {
+    if (noteTools === undefined) {
       return undefined;
     }
 
