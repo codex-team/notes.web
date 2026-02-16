@@ -69,4 +69,17 @@ export default class NoteSettingsRepository implements NoteSettingsRepositoryInt
   public async deleteNote(id: NoteId): Promise<void> {
     await this.transport.delete<boolean>(`/note/` + id);
   }
+
+  /**
+   * Delete team member by user id
+   * @param id - Note id
+   * @param userId - User id
+   * @returns true if user was removed
+   */
+  public async removeMemberByUserId(id: NoteId, userId: UserId): Promise<boolean> {
+    const data = { userId };
+    const response = await this.transport.delete<number>(`/note-settings/${id}/team`, data);
+
+    return response === userId;
+  }
 }

@@ -15,6 +15,11 @@
           :note-id="noteId"
           :team-member="member"
         />
+        <MoreActions
+          :note-id="noteId"
+          :team-member="member"
+          @team-member-removed="handleMemberRemoved"
+        />
       </template>
 
       <template #left>
@@ -34,12 +39,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Team, MemberRole } from '@/domain/entities/Team';
+import { Team, MemberRole, TeamMember } from '@/domain/entities/Team';
 import { Note, NoteId } from '@/domain/entities/Note';
 import { Section, Row, Avatar } from '@codexteam/ui/vue';
 import RoleSelect from './RoleSelect.vue';
 import { useI18n } from 'vue-i18n';
 import useNote from '@/application/services/useNote.ts';
+import MoreActions from './MoreActions.vue';
 
 const props = defineProps<{
   /**
@@ -50,6 +56,10 @@ const props = defineProps<{
    * Id of the current note
    */
   noteId: NoteId;
+}>();
+
+const emit = defineEmits<{
+  teamMemberRemoved: [id: TeamMember['user']['id']];
 }>();
 
 const { t } = useI18n();
@@ -79,6 +89,11 @@ const sortedTeam = computed(() => {
     return roleOrder[a.role] - roleOrder[b.role];
   });
 });
+
+// Listen for teamMemberRemoved event from child component and bubble them up
+const handleMemberRemoved = (userId: TeamMember['user']['id']): void => {
+  emit('teamMemberRemoved', userId);
+};
 </script>
 
 <style scoped>
