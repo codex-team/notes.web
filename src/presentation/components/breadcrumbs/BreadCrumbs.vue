@@ -2,10 +2,10 @@
   <RouterLink
     v-for="(parent, index) in displayedParents"
     :key="index"
-    :to="{ path: parent.id ? `/note/${parent.id}` : '' }"
+    :to="`/note/${parent.id}`"
     class="breadcrumb"
   >
-    {{ parent.content ? getTitle(parent.content) : '...' }}
+    {{ parentTitle(parent.content) }}
     <Icon
       v-if="index < displayedParents.length - 1"
       name="ChevronRight"
@@ -20,9 +20,10 @@ import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { Note } from '@/domain/entities/Note.ts';
 import { Icon } from '@codexteam/ui/vue';
+import { OutputData } from '@editorjs/editorjs';
 
 const props = defineProps<{
-  noteParents: Note[];
+  noteParents: (Note | { id: string; content: string })[];
 }>();
 /**
  * Note parents hierarchy
@@ -40,6 +41,23 @@ const displayedParents = computed(() => {
 
   return props.noteParents;
 });
+
+/**
+ * title of the parent
+ *
+ * @param content - parent's content
+ * @returns {string} - parent title in string implementation
+ */
+function parentTitle(content: string | null | OutputData): string {
+  if (content === null) {
+    return '...';
+  }
+  if (typeof content === 'string') {
+    return content;
+  }
+
+  return getTitle(content);
+}
 </script>
 
 <style scoped>
