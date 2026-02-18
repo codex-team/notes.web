@@ -88,6 +88,7 @@ withDefaults(
     border-radius: var(--radius-l);
     margin-left: var(--spacing-l);
     margin-top: var(--spacing-xs);
+    box-sizing: content-box;
 
     &:hover {
       color: var(--base--text);

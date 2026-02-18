@@ -47,6 +47,7 @@ function changeValue() {
   border-radius: var(--radius-l);
   background-color: var(--bg-color);
   transition: background-color 0.2s;
+  box-sizing: content-box;
 
   &:not(&--disabled):hover {
     --bg-color: var(--accent--bg-secondary-hover);
