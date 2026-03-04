@@ -200,7 +200,7 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
 
   // Transform the current note into a VerticalMenuItem
   return {
-      title: noteHierarchyObj.noteTitle || 'Untitled',
+    title: noteHierarchyObj.noteTitle || 'Untitled',
     isActive: route.path === `/note/${noteHierarchyObj.noteId}`,
     items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
     onActivate: () => {
