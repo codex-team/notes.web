@@ -44,7 +44,10 @@
     </div>
     <div v-else>
       <PageBlock>
-        <template #left>
+        <template
+          v-if="user"
+          #left
+        >
           <VerticalMenu
             class="menu"
             :items="[verticalMenuItems]"
@@ -78,6 +81,7 @@ import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
 import { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
 import { getTimeFromNow } from '@/infrastructure/utils/date.ts';
+import { useAppState } from '@/application/services/useAppState';
 
 const { t } = useI18n();
 
@@ -96,6 +100,8 @@ const props = defineProps<{
    */
   parentId?: string;
 }>();
+
+const { user } = useAppState();
 
 const noteId = toRef(props, 'id');
 
@@ -194,7 +200,7 @@ function transformNoteHierarchy(noteHierarchyObj: NoteHierarchy | null, currentN
 
   // Transform the current note into a VerticalMenuItem
   return {
-    title: noteHierarchyObj?.noteTitle || 'Untitled',
+      title: noteHierarchyObj.noteTitle || 'Untitled',
     isActive: route.path === `/note/${noteHierarchyObj.noteId}`,
     items: noteHierarchyObj.childNotes ? noteHierarchyObj.childNotes.map(child => transformNoteHierarchy(child, currentNoteTitle)) : undefined,
     onActivate: () => {
