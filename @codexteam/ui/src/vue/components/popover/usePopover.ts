@@ -60,7 +60,8 @@ export const usePopover = createSharedComposable(() => {
   /**
    * Last alignment config, stored for recalculating position on scroll/resize
    */
-  let lastAlign: PopoverShowParams['align'] = { vertically: 'below', horizontally: 'left' };
+  let lastAlign: PopoverShowParams['align'] = { vertically: 'below',
+    horizontally: 'left' };
 
   /**
    * Last width config, stored for recalculating position on scroll/resize
@@ -133,9 +134,14 @@ export const usePopover = createSharedComposable(() => {
   }
 
   /**
+   * Delay in milliseconds for throttling scroll/resize reposition (~60fps)
+   */
+  const REPOSITION_THROTTLE_DELAY_MS = 16;
+
+  /**
    * Throttled handler for scroll/resize events
    */
-  const onRepositionThrottled = throttle(updatePosition, 16);
+  const onRepositionThrottled = throttle(updatePosition, REPOSITION_THROTTLE_DELAY_MS);
 
   /**
    * Start listening for scroll/resize to reposition popover
