@@ -1,4 +1,4 @@
-import { reactive, ref, shallowRef } from 'vue';
+import { onScopeDispose, reactive, ref, shallowRef } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
 import type { PopoverContent, PopoverShowParams } from './Popover.types';
 import { throttle } from '../../utils';
@@ -147,17 +147,26 @@ export const usePopover = createSharedComposable(() => {
    * Start listening for scroll/resize to reposition popover
    */
   function startRepositionListeners(): void {
-    window.addEventListener('scroll', onRepositionThrottled, true);
-    window.addEventListener('resize', onRepositionThrottled);
+    window.addEventListener('scroll', onRepositionThrottled, {
+      capture: true,
+      passive: true,
+    });
+    window.addEventListener('resize', onRepositionThrottled, { passive: true });
   }
 
   /**
    * Stop listening for scroll/resize
    */
   function stopRepositionListeners(): void {
-    window.removeEventListener('scroll', onRepositionThrottled, true);
+    window.removeEventListener('scroll', onRepositionThrottled, { capture: true });
     window.removeEventListener('resize', onRepositionThrottled);
   }
+
+  /**
+   * Safety net: clean up window listeners if the Vue scope is disposed
+   * while the popover is still open (e.g. last consumer unmounts)
+   */
+  onScopeDispose(stopRepositionListeners);
 
   /**
    * Show popover
