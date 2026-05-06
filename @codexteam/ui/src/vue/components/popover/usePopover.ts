@@ -60,8 +60,10 @@ export const usePopover = createSharedComposable(() => {
   /**
    * Last alignment config, stored for recalculating position on scroll/resize
    */
-  let lastAlign: PopoverShowParams['align'] = { vertically: 'below',
-    horizontally: 'left' };
+  let lastAlign: PopoverShowParams['align'] = {
+    vertically: 'below',
+    horizontally: 'left',
+  };
 
   /**
    * Last width config, stored for recalculating position on scroll/resize
