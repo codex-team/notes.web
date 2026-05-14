@@ -88,7 +88,9 @@ defineExpose({
   /**
    * Returns the editor holder
    */
-  element: editorComponent.value,
+  get element(): HTMLElement | null {
+    return editorComponent.value;
+  },
 });
 </script>
 
