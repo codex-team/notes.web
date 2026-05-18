@@ -5,7 +5,11 @@
     >
       <template #left>
         <BreadCrumbs
-          :note-parents="noteParents"
+          :note-parents="
+            note && noteId ?
+              [...noteParents, { id: noteId, content: noteTitle }] :
+              noteParents
+          "
         />
       </template>
       <template #right>
