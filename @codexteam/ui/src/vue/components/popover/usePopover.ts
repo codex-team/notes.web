@@ -1,6 +1,7 @@
-import { reactive, ref, shallowRef } from 'vue';
+import { onScopeDispose, reactive, ref, shallowRef } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
 import type { PopoverContent, PopoverShowParams } from './Popover.types';
+import { throttle } from '../../utils';
 
 /**
  * Shared composable for the Popover component
@@ -57,6 +58,19 @@ export const usePopover = createSharedComposable(() => {
   const targetElement = ref<HTMLElement | null>(null);
 
   /**
+   * Last alignment config, stored for recalculating position on scroll/resize
+   */
+  let lastAlign: PopoverShowParams['align'] = {
+    vertically: 'below',
+    horizontally: 'left',
+  };
+
+  /**
+   * Last width config, stored for recalculating position on scroll/resize
+   */
+  let lastWidthConfig: PopoverShowParams['width'] = 'auto';
+
+  /**
    * Move popover to the target element
    * Also, align and set width
    * @param targetEl - element to move popover to
@@ -86,11 +100,11 @@ export const usePopover = createSharedComposable(() => {
 
     switch (align.horizontally) {
       case 'left':
-        left = `${rect.left}px`;
+        left = `${rect.left + window.scrollX}px`;
         transformX = '0';
         break;
       case 'right':
-        left = `${rect.right}px`;
+        left = `${rect.right + window.scrollX}px`;
         transformX = '-100';
         break;
     }
@@ -110,10 +124,58 @@ export const usePopover = createSharedComposable(() => {
   }
 
   /**
+   * Recalculate popover position using stored target and alignment
+   * Called on scroll/resize to keep popover anchored to the target element
+   */
+  function updatePosition(): void {
+    if (!isOpen.value || !targetElement.value) {
+      return;
+    }
+
+    move(targetElement.value, lastAlign, lastWidthConfig);
+  }
+
+  /**
+   * Delay in milliseconds for throttling scroll/resize reposition (~60fps)
+   */
+  const REPOSITION_THROTTLE_DELAY_MS = 16;
+
+  /**
+   * Throttled handler for scroll/resize events
+   */
+  const onRepositionThrottled = throttle(updatePosition, REPOSITION_THROTTLE_DELAY_MS);
+
+  /**
+   * Start listening for scroll/resize to reposition popover
+   */
+  function startRepositionListeners(): void {
+    window.addEventListener('scroll', onRepositionThrottled, {
+      capture: true,
+      passive: true,
+    });
+    window.addEventListener('resize', onRepositionThrottled, { passive: true });
+  }
+
+  /**
+   * Stop listening for scroll/resize
+   */
+  function stopRepositionListeners(): void {
+    window.removeEventListener('scroll', onRepositionThrottled, { capture: true });
+    window.removeEventListener('resize', onRepositionThrottled);
+  }
+
+  /**
+   * Safety net: clean up window listeners if the Vue scope is disposed
+   * while the popover is still open (e.g. last consumer unmounts)
+   */
+  onScopeDispose(stopRepositionListeners);
+
+  /**
    * Show popover
    */
   function show(): void {
     isOpen.value = true;
+    startRepositionListeners();
   }
 
   /**
@@ -134,6 +196,8 @@ export const usePopover = createSharedComposable(() => {
    */
   function showPopover(params: PopoverShowParams): void {
     targetElement.value = params.targetEl;
+    lastAlign = params.align;
+    lastWidthConfig = params.width;
     move(params.targetEl, params.align, params.width);
     mountComponent(params.with.component, params.with.props);
     show();
@@ -143,6 +207,7 @@ export const usePopover = createSharedComposable(() => {
    * Empty content, position and hide popover
    */
   function resetPopover(): void {
+    stopRepositionListeners();
     targetElement.value = null;
     content.value = null;
     position.left = '0px';
