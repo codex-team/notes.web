@@ -69,7 +69,7 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
   const isLoading = ref(false);
 
   /**
-   * Get note list
+   * Get note list (metadata only, covers are not downloaded)
    * @param page - number of pages
    */
   const load = async (page: number): Promise<NoteList> => {
@@ -80,6 +80,47 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
     isLoading.value = false;
 
     return list;
+  };
+
+  /**
+   * Load cover images for all notes in the list in the background
+   * Updates each note's cover reactively as it arrives
+   */
+  const loadCovers = async (): Promise<void> => {
+    if (isEmpty(noteList.value)) {
+      return;
+    }
+
+    const list = noteList.value;
+    const items = list.items;
+
+    await Promise.all(items.map(async (item, index) => {
+      /**
+       * If cover is null, the note has no cover image
+       */
+      if (item.cover === null) {
+        return;
+      }
+
+      /**
+       * If cover is already a blob URL, it was already loaded
+       */
+      if (item.cover.startsWith('blob:')) {
+        return;
+      }
+
+      const url = await noteListService.loadCover(item.id, item.cover);
+
+      if (url !== null) {
+        /**
+         * Update the specific note's cover reactively so the card renders the image
+         */
+        list.items[index] = {
+          ...item,
+          cover: url,
+        };
+      }
+    }));
   };
 
   /**
@@ -102,6 +143,12 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
     } else {
       noteList.value = loadedNotes;
     }
+
+    /**
+     * Kick off cover downloads in the background
+     * List is already rendered, covers will appear one by one as they load
+     */
+    loadCovers().catch(console.error);
   };
 
   /**

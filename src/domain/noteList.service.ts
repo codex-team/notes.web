@@ -20,49 +20,31 @@ export default class NoteListService {
   }
 
   /**
-   * Returns note list
-   * @todo - move loading images data logic to separate service for optimization
+   * Returns note list with metadata only (covers are not downloaded)
    * @param page - number of current pages
    * @param onlyCreatedByUser - if true, returns notes created by the user
    * @returns list of notes
    */
   public async getNoteList(page: number, onlyCreatedByUser = false): Promise<NoteList> {
-    const noteList = await this.repository.getNoteList(page, onlyCreatedByUser);
+    return await this.repository.getNoteList(page, onlyCreatedByUser);
+  }
 
-    /**
-     * Load cover image for a single note in parallel
-     * @param note - Note entity
-     * @returns Note with cover blob URL (or null cover on error)
-     */
-    const loadCover = async (note: NoteList['items'][number]): Promise<NoteList['items'][number]> => {
-      if (note.cover === null) {
-        return note;
-      }
+  /**
+   * Load cover image for a single note and return its blob URL
+   * @param noteId - Note identifier
+   * @param coverKey - Cover file key on server
+   * @returns Blob URL for the cover image, or null on error
+   */
+  public async loadCover(noteId: string, coverKey: string): Promise<string | null> {
+    try {
+      const imageData = await this.noteAttachmentRepository.load(noteId, coverKey);
 
-      try {
-        const imageData = await this.noteAttachmentRepository.load(note.id, note.cover);
+      // eslint-disable-next-line n/no-unsupported-features/node-builtins
+      return URL.createObjectURL(imageData);
+    } catch {
+      console.log('Error while loading cover for note ', noteId);
 
-        // eslint-disable-next-line n/no-unsupported-features/node-builtins
-        const objUrl = URL.createObjectURL(imageData);
-
-        return {
-          ...note,
-          cover: objUrl,
-        };
-      } catch {
-        console.log('Error while loading cover for note ', note.id);
-
-        return note;
-      }
-    };
-
-    /**
-     * Load all cover images in parallel
-     */
-    const parsedNoteList: NoteList = {
-      items: await Promise.all(noteList.items.map(loadCover)),
-    };
-
-    return parsedNoteList;
+      return null;
+    }
   }
 }
