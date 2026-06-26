@@ -30,43 +30,38 @@ export default class NoteListService {
     const noteList = await this.repository.getNoteList(page, onlyCreatedByUser);
 
     /**
-     * Note list with valid image urls in cover
+     * Load cover image for a single note in parallel
+     * @param note - Note entity
+     * @returns Note with cover blob URL (or null cover on error)
      */
-    const parsedNoteList: NoteList = {
-      items: [],
-    };
-
-    for (const note of noteList.items) {
-      /**
-       * If note has no cover, we have no need to load it
-       */
+    const loadCover = async (note: NoteList['items'][number]): Promise<NoteList['items'][number]> => {
       if (note.cover === null) {
-        parsedNoteList.items.push(note);
-        continue;
+        return note;
       }
-
-      /**
-       * Cover object url for passing to the element
-       */
-      let objUrl: string | null = null;
 
       try {
         const imageData = await this.noteAttachmentRepository.load(note.id, note.cover);
 
-        /**
-         * Make url from blob data
-         */
         // eslint-disable-next-line n/no-unsupported-features/node-builtins
-        objUrl = URL.createObjectURL(imageData);
+        const objUrl = URL.createObjectURL(imageData);
+
+        return {
+          ...note,
+          cover: objUrl,
+        };
       } catch {
         console.log('Error while loading cover for note ', note.id);
-      }
 
-      parsedNoteList.items.push({
-        ...note,
-        cover: objUrl,
-      });
-    }
+        return note;
+      }
+    };
+
+    /**
+     * Load all cover images in parallel
+     */
+    const parsedNoteList: NoteList = {
+      items: await Promise.all(noteList.items.map(loadCover)),
+    };
 
     return parsedNoteList;
   }
