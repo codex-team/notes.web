@@ -55,7 +55,7 @@ interface UseNoteComposableState {
   /**
    * Creates/updates the note
    */
-  save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
+  save: (content: NoteContent, parentId: NoteId | undefined, currentNoteId: NoteId | null) => Promise<void>;
 
   /**
    * Returns list of tools used in note
@@ -244,8 +244,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Saves the note
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
+   * @param currentNoteId - Id of the current note
    */
-  async function save(content: NoteContent, parentId: NoteId | undefined): Promise<void> {
+  async function save(content: NoteContent, parentId: NoteId | undefined, currentNoteId: NoteId | null): Promise<void> {
     if (note.value === null) {
       throw new Error('Note is not loaded yet');
     }
@@ -257,7 +258,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
     isNoteSaving.value = true;
 
-    if (currentId.value === null) {
+    if (currentNoteId === null) {
       /**
        * @todo try-catch domain errors
        */
@@ -285,7 +286,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        */
       void getNoteHierarchy(noteCreated.id);
     } else {
-      await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
+      await noteService.updateNoteContentAndTools(currentNoteId as NoteId, content, specifiedNoteTools);
     }
 
     /**
