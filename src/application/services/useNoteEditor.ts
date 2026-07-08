@@ -144,6 +144,9 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       return;
     }
 
+    isEditorReady.value = false;
+    toolsUserConfigLoaded.value = false;
+
     await loadToolsScripts(tools);
   }, {
     immediate: true, // load tools if they are passed to the composable immediately
