@@ -15,7 +15,7 @@
         <Card
           :title="getTitle(note.content)"
           :subtitle="getSubtitle(note)"
-          :src="note.cover || undefined"
+          :src="note.cover?.startsWith('blob:') ? note.cover : undefined"
           orientation="vertical"
         />
       </RouterLink>
