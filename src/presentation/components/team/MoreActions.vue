@@ -102,3 +102,9 @@ const handleRemove = async (member: TeamMember): Promise<void> => {
   cursor: pointer;
 }
 </style>
+
+<style>
+.codex-popover {
+  padding: var(--spacing-xxs);
+}
+</style>
