@@ -18,9 +18,9 @@ import { type TeamMember } from '@/domain/entities/Team';
 import { useI18n } from 'vue-i18n';
 import { NoteId } from '@/domain/entities/Note';
 import useNoteSettings from '@/application/services/useNoteSettings';
+import { useAppState } from '@/application/services/useAppState';
 
 const { removeMemberByUserId } = useNoteSettings();
-
 const props = defineProps<{
   /**
    * Team member data
@@ -32,28 +32,31 @@ const props = defineProps<{
   noteId: NoteId;
 }>();
 
+const { user } = useAppState();
 const { t } = useI18n();
 const { showPopover, hide } = usePopover();
 const { confirm } = useConfirm();
 
 const triggerButton = ref<HTMLButtonElement>();
 
-const menuItems: ContextMenuItem[] = [
-  {
+const menuItems: ContextMenuItem[] = [];
+
+if (props.teamMember.user.email !== user.value?.email) {
+  menuItems.push({
     title: t('noteSettings.team.contextMenu.remove'),
     onActivate: async () => {
       hide();
       await handleRemove(props.teamMember);
     },
-  },
-];
+  });
+}
 
 const emit = defineEmits<{
   teamMemberRemoved: [userId: TeamMember['user']['id']];
 }>();
 
 const handleButtonClick = (): void => {
-  if (triggerButton.value) {
+  if (triggerButton.value && menuItems.length > 0) {
     showPopover({
       targetEl: triggerButton.value,
       with: {
