@@ -111,11 +111,16 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
       const url = await noteListService.loadCover(item.id, item.cover);
 
       if (url !== null) {
+        const currentItem = list.items[index];
+
+        if (currentItem?.id !== item.id) {
+          return;
+        }
         /**
          * Update the specific note's cover reactively so the card renders the image
          */
         list.items[index] = {
-          ...item,
+          ...currentItem,
           cover: url,
         };
       }
