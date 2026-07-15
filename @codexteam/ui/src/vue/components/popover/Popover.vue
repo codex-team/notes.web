@@ -56,5 +56,6 @@ onClickOutside(popoverEl, hide, {
   top: v-bind('position.top');
   transform: v-bind('position.transform');
   width: v-bind('width');
+  padding: var(--spacing-xxs);
 }
 </style>
