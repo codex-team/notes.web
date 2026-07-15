@@ -74,12 +74,11 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
    */
   const load = async (page: number): Promise<NoteList> => {
     isLoading.value = true;
-
-    const list = await noteListService.getNoteList(page, onlyCreatedByUser);
-
-    isLoading.value = false;
-
-    return list;
+    try {
+      return await noteListService.getNoteList(page, onlyCreatedByUser);
+    } finally {
+      isLoading.value = false;
+    }
   };
 
   /**
