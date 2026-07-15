@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Icon, ContextMenu, usePopover, useConfirm, type ContextMenuItem } from '@codexteam/ui/vue';
 import { type TeamMember } from '@/domain/entities/Team';
 import { useI18n } from 'vue-i18n';
@@ -39,30 +39,34 @@ const { confirm } = useConfirm();
 
 const triggerButton = ref<HTMLButtonElement>();
 
-const menuItems: ContextMenuItem[] = [];
+const menuItems = computed<ContextMenuItem[]>(() => {
+  const items: ContextMenuItem[] = [];
 
-if (props.teamMember.user.email !== user.value?.email) {
-  menuItems.push({
-    title: t('noteSettings.team.contextMenu.remove'),
-    onActivate: async () => {
-      hide();
-      await handleRemove(props.teamMember);
-    },
-  });
-}
+  if (props.teamMember.user.email !== user.value?.email) {
+    items.push({
+      title: t('noteSettings.team.contextMenu.remove'),
+      onActivate: async () => {
+        hide();
+        await handleRemove(props.teamMember);
+      },
+    });
+  }
+
+  return items;
+});
 
 const emit = defineEmits<{
   teamMemberRemoved: [userId: TeamMember['user']['id']];
 }>();
 
 const handleButtonClick = (): void => {
-  if (triggerButton.value && menuItems.length > 0) {
+  if (triggerButton.value && menuItems.value.length > 0) {
     showPopover({
       targetEl: triggerButton.value,
       with: {
         component: ContextMenu,
         props: {
-          items: menuItems,
+          items: menuItems.value,
         },
       },
       align: {
