@@ -42,7 +42,7 @@ const triggerButton = ref<HTMLButtonElement>();
 const menuItems = computed<ContextMenuItem[]>(() => {
   const items: ContextMenuItem[] = [];
 
-  if (props.teamMember.user.email !== user.value?.email) {
+  if (props.teamMember.user.id !== user.value?.id) {
     items.push({
       title: t('noteSettings.team.contextMenu.remove'),
       onActivate: async () => {
