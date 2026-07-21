@@ -82,6 +82,13 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
   };
 
   /**
+   * Set of note IDs whose cover downloads are currently in-flight
+   * Prevents duplicate requests when loadMoreNotes() fires again before
+   * covers for the previous page have finished loading.
+   */
+  const coversLoading = new Set<string>();
+
+  /**
    * Load cover images for all notes in the list in the background
    * Updates each note's cover reactively as it arrives
    */
@@ -108,21 +115,34 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
         return;
       }
 
-      const url = await noteListService.loadCover(item.id, item.cover);
+      /**
+       * If this note's cover is already being fetched, skip it
+       */
+      if (coversLoading.has(item.id)) {
+        return;
+      }
 
-      if (url !== null) {
-        const currentItem = list.items[index];
+      coversLoading.add(item.id);
 
-        if (currentItem?.id !== item.id) {
-          return;
+      try {
+        const url = await noteListService.loadCover(item.id, item.cover);
+
+        if (url !== null) {
+          const currentItem = list.items[index];
+
+          if (currentItem?.id !== item.id) {
+            return;
+          }
+          /**
+           * Update the specific note's cover reactively so the card renders the image
+           */
+          list.items[index] = {
+            ...currentItem,
+            cover: url,
+          };
         }
-        /**
-         * Update the specific note's cover reactively so the card renders the image
-         */
-        list.items[index] = {
-          ...currentItem,
-          cover: url,
-        };
+      } finally {
+        coversLoading.delete(item.id);
       }
     }));
   };
