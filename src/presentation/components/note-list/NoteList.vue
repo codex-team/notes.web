@@ -16,6 +16,7 @@
           :title="getTitle(note.content)"
           :subtitle="getSubtitle(note)"
           :src="note.cover?.startsWith('blob:') ? note.cover : undefined"
+          :is-cover-loading="note.cover !== null && coversLoading.has(note.id)"
           orientation="vertical"
         />
       </RouterLink>
@@ -62,6 +63,7 @@ const {
   loadMoreNotes,
   hasMoreNotes,
   isLoading,
+  coversLoading,
 } = useNoteList(props.onlyCreatedByUser);
 const { t } = useI18n();
 
