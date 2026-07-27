@@ -77,6 +77,13 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
   const toolsUserConfigLoaded = ref<boolean>(false);
 
   /**
+   * Incremented on each new load request to discard stale async results.
+   * Prevents race conditions when rapid note switching causes multiple
+   * concurrent loadToolsScripts invocations.
+   */
+  let currentLoadId = 0;
+
+  /**
    * Combine note and user tools
    * Undefined when user or note is not loaded
    */
@@ -102,10 +109,12 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
   });
 
   /**
-   * Downloads passed tools scripts and toggles-on the isEditorReady flag
+   * Downloads passed tools scripts and returns the loaded config object.
+   * Does not mutate shared state — the caller is responsible for applying the result
    * @param toolsConfigs - tools to download
+   * @returns loaded tools config
    */
-  async function loadToolsScripts(toolsConfigs: EditorTool[]): Promise<void> {
+  async function loadToolsScripts(toolsConfigs: EditorTool[]): Promise<Record<string, { class: EditorjsConfigTool; inlineToolbar: boolean }>> {
     const loadedTools = await editorToolsService.getToolsLoaded(toolsConfigs);
 
     /**
@@ -114,7 +123,7 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
      */
     const loadedToolsWithoutParagraph = loadedTools.filter(tool => tool.tool.name !== 'paragraph');
 
-    toolsUserConfig = Object.fromEntries(
+    return Object.fromEntries(
       loadedToolsWithoutParagraph
         .map(toolClassAndInfo => [
           toolClassAndInfo.tool.name,
@@ -124,12 +133,6 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
           },
         ])
     );
-    toolsUserConfigLoaded.value = true;
-
-    /**
-     * Now all tools are loaded, we're ready to use the editor
-     */
-    isEditorReady.value = true;
   }
 
   /**
@@ -144,10 +147,28 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       return;
     }
 
+    const loadId = ++currentLoadId;
+
     isEditorReady.value = false;
     toolsUserConfigLoaded.value = false;
 
-    await loadToolsScripts(tools);
+    const loadedConfig = await loadToolsScripts(tools);
+
+    /**
+     * If a newer load request has superseded this one — discard stale results
+     * to prevent overwriting state with tools from a previous note.
+     */
+    if (loadId !== currentLoadId) {
+      return;
+    }
+
+    toolsUserConfig = loadedConfig;
+    toolsUserConfigLoaded.value = true;
+
+    /**
+     * Now all tools are loaded, we're ready to use the editor
+     */
+    isEditorReady.value = true;
   }, {
     immediate: true, // load tools if they are passed to the composable immediately
   });
