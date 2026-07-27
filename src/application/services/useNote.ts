@@ -202,6 +202,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       const response = await noteService.getNoteById(id);
 
       note.value = response.note;
+      lastUpdateContent.value = response.note.content;
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
@@ -290,9 +291,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
 
     /**
-     * Store just saved content in memory
+     * Store just saved content in memory only if the current note hasn't changed
+     * This prevents race conditions when switching between notes quickly
      */
-    lastUpdateContent.value = content;
+    if (currentId.value === currentNoteId) {
+      lastUpdateContent.value = content;
+    }
 
     isNoteSaving.value = false;
   }
