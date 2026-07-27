@@ -126,7 +126,7 @@ export function useEditor(editorConfig: MaybeRefOrGetter<EditorConfig>, options:
    * Destroy editor instance after unmount
    */
   onBeforeUnmount(() => {
-    destroyEditor()
+    destroyEditor();
   });
 
   return {
