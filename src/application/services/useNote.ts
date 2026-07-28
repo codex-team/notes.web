@@ -287,7 +287,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        */
       void getNoteHierarchy(noteCreated.id);
     } else {
-      await noteService.updateNoteContentAndTools(currentNoteId as NoteId, content, specifiedNoteTools);
+      await noteService.updateNoteContentAndTools(currentNoteId, content, specifiedNoteTools);
     }
 
     /**
