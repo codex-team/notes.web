@@ -79,6 +79,11 @@ export type NewToolData = Omit<EditorTool, 'userId' | 'id' | 'cover'> & {
 export type EditorjsConfigTool = ToolSettings | ToolConstructable;
 
 /**
+ * Editor.js tools config — map of tool name to its class and inline toolbar flag
+ */
+export type EditorjsToolsConfig = Record<string, { class: EditorjsConfigTool; inlineToolbar: boolean }>;
+
+/**
  * Editor tool info alogn with its plugin's class ready to use
  */
 export interface EditorToolLoaded {

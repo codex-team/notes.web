@@ -3,7 +3,7 @@ import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { type NoteContent } from '@/domain/entities/Note';
 import { editorToolsService } from '@/domain';
-import type { EditorjsConfigTool } from '@/domain/entities/EditorTool';
+import type { EditorjsToolsConfig } from '@/domain/entities/EditorTool';
 import { useI18n } from 'vue-i18n';
 
 interface UseNoteEditorOptions {
@@ -68,7 +68,7 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
    * Loaded tools classes by grouped by tool.name
    * Undefined when tools are not loaded yet
    */
-  let toolsUserConfig: Record<string, { class: EditorjsConfigTool; inlineToolbar: boolean }> | undefined = undefined;
+  let toolsUserConfig: EditorjsToolsConfig | undefined = undefined;
 
   /**
    * We can't make toolsUserConfig reactive since it contains excecutable js-classes, Vue can't handle that.
@@ -114,7 +114,7 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
    * @param toolsConfigs - tools to download
    * @returns loaded tools config
    */
-  async function loadToolsScripts(toolsConfigs: EditorTool[]): Promise<Record<string, { class: EditorjsConfigTool; inlineToolbar: boolean }>> {
+  async function loadToolsScripts(toolsConfigs: EditorTool[]): Promise<EditorjsToolsConfig> {
     const loadedTools = await editorToolsService.getToolsLoaded(toolsConfigs);
 
     /**
