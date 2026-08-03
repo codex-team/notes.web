@@ -152,23 +152,28 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
     isEditorReady.value = false;
     toolsUserConfigLoaded.value = false;
 
-    const loadedConfig = await loadToolsScripts(tools);
+    try {
+      const loadedConfig = await loadToolsScripts(tools);
 
-    /**
-     * If a newer load request has superseded this one — discard stale results
-     * to prevent overwriting state with tools from a previous note.
-     */
-    if (loadId !== currentLoadId) {
-      return;
+      /**
+       * If a newer load request has superseded this one — discard stale results
+       * to prevent overwriting state with tools from a previous note.
+       */
+      if (loadId !== currentLoadId) {
+        return;
+      }
+
+      toolsUserConfig = loadedConfig;
+    } catch (error) {
+      throw new Error(`Failed to load tools scripts: ${error instanceof Error ? error.message : String(error)}`);
+    } finally {
+      toolsUserConfigLoaded.value = true;
+
+      /**
+       * Show editor even if tools are not loaded yet, since we can still show the editor with default tools
+       */
+      isEditorReady.value = true;
     }
-
-    toolsUserConfig = loadedConfig;
-    toolsUserConfigLoaded.value = true;
-
-    /**
-     * Now all tools are loaded, we're ready to use the editor
-     */
-    isEditorReady.value = true;
   }, {
     immediate: true, // load tools if they are passed to the composable immediately
   });
