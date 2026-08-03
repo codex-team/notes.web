@@ -164,11 +164,10 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       }
 
       toolsUserConfig = loadedConfig;
+      toolsUserConfigLoaded.value = true;
     } catch (error) {
       throw new Error(`Failed to load tools scripts: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
-      toolsUserConfigLoaded.value = true;
-
       /**
        * Display the editor regardless of tool loading failures, as it can be displayed with default tools
        */
