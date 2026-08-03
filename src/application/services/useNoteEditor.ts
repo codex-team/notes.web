@@ -170,7 +170,7 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       toolsUserConfigLoaded.value = true;
 
       /**
-       * Show editor even if tools are not loaded yet, since we can still show the editor with default tools
+       * Display the editor regardless of tool loading failures, as it can be displayed with default tools
        */
       isEditorReady.value = true;
     }
