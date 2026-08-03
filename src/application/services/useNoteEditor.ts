@@ -169,9 +169,12 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       throw new Error(`Failed to load tools scripts: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       /**
-       * Display the editor regardless of tool loading failures, as it can be displayed with default tools
+       * Display the editor regardless of tool loading failures, as it can be displayed with default tools.
+       * Only the latest load request may mark the editor as ready
        */
-      isEditorReady.value = true;
+      if (loadId === currentLoadId) {
+        isEditorReady.value = true;
+      }
     }
   }, {
     immediate: true, // load tools if they are passed to the composable immediately
