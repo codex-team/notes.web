@@ -55,7 +55,7 @@ interface UseNoteComposableState {
   /**
    * Creates/updates the note
    */
-  save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
+  save: (content: NoteContent, parentId: NoteId | undefined, currentNoteId: NoteId | null) => Promise<void>;
 
   /**
    * Returns list of tools used in note
@@ -196,6 +196,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       const response = await noteService.getNoteById(id);
 
       note.value = response.note;
+      lastUpdateContent.value = response.note.content;
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
@@ -238,8 +239,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Saves the note
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
+   * @param currentNoteId - Id of the current note
    */
-  async function save(content: NoteContent, parentId: NoteId | undefined): Promise<void> {
+  async function save(content: NoteContent, parentId: NoteId | undefined, currentNoteId: NoteId | null): Promise<void> {
     if (note.value === null) {
       throw new Error('Note is not loaded yet');
     }
@@ -249,7 +251,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
-    if (currentId.value === null) {
+    if (currentNoteId === null) {
       /**
        * @todo try-catch domain errors
        */
@@ -277,13 +279,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        */
       void getNoteHierarchy(noteCreated.id);
     } else {
-      await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
+      await noteService.updateNoteContentAndTools(currentNoteId, content, specifiedNoteTools);
     }
 
     /**
-     * Store just saved content in memory
+     * Store just saved content in memory only if the current note hasn't changed
+     * This prevents race conditions when switching between notes quickly
      */
-    lastUpdateContent.value = content;
+    if (currentId.value === currentNoteId) {
+      lastUpdateContent.value = content;
+    }
   }
 
   /**
