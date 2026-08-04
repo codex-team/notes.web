@@ -142,12 +142,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const route = useRoute();
 
   /**
-   * Is there any note currently saving
-   * Used to prevent re-load note after draft is saved
-   */
-  const isNoteSaving = ref<boolean>(false);
-
-  /**
    * Note Title identifier
    */
   const noteTitle = computed(() => {
@@ -255,8 +249,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
-    isNoteSaving.value = true;
-
     if (currentId.value === null) {
       /**
        * @todo try-catch domain errors
@@ -292,8 +284,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      * Store just saved content in memory
      */
     lastUpdateContent.value = content;
-
-    isNoteSaving.value = false;
   }
 
   /**
@@ -366,7 +356,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
   }
 
-  watch(currentId, (newId, prevId) => {
+  watch(currentId, (newId, _prevId) => {
     /**
      * One note is open, user clicks on "+" to create another new note
      * Clear existing note
@@ -374,16 +364,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     if (newId === null) {
       resetNote();
 
-      return;
-    }
-
-    const isDraftSaving = prevId === null && isNoteSaving.value;
-
-    /**
-     * Case for newly created note,
-     * we don't need to re-load it
-     */
-    if (isDraftSaving) {
       return;
     }
 
