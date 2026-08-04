@@ -176,7 +176,7 @@ async function noteChanged(data: NoteContent): Promise<void> {
         paddingTop: '100px',
       });
     }
-    if (updatedNoteCover !== null && noteIdAtCallTime !== null) {
+    if (updatedNoteCover !== null && noteIdAtCallTime !== null && noteIdAtCallTime === props.id) {
       await updateCover(noteIdAtCallTime as NoteId, updatedNoteCover);
     }
   }
