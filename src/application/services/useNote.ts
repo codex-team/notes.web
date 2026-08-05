@@ -131,8 +131,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   /**
    * List of tools used in the note
    * Undefined when note is not loaded yet
+   * Empty array for drafts since they have no note tools
    */
-  const noteTools = ref<EditorTool[] | undefined>(undefined);
+  const noteTools = ref<EditorTool[] | undefined>(currentId.value === null ? [] : undefined);
 
   /**
    * Router instance used to replace the current route with note id
@@ -334,6 +335,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    */
   function resetNote(): void {
     note.value = createDraft();
+    noteTools.value = [];
     canEdit.value = true;
     lastUpdateContent.value = null;
     noteHierarchy.value = null;

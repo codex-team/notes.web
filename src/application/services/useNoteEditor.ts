@@ -18,12 +18,6 @@ interface UseNoteEditorOptions {
   noteContentResolver: () => NoteContent | undefined;
 
   /**
-   * Function to check if the note is a draft
-   * In draft we wont wait for note tools loading
-   */
-  isDraftResolver: () => boolean;
-
-  /**
    * Flag indicating that user can edit the note
    */
   canEdit: Ref<boolean>;
@@ -85,18 +79,21 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
 
   /**
    * Combine note and user tools
-   * Undefined when user or note is not loaded
+   * Returns undefined when note tools are not loaded yet to prevent
+   * premature editor rendering with an incomplete tools set
    */
   const noteAndUserTools = computed<EditorTool[] | undefined>(() => {
-    const noteTools = toValue(options.noteTools) || [];
-    const userTools = toValue(userEditorTools) ?? [];
+    const noteTools = toValue(options.noteTools);
 
     /**
-     * If tools are not loaded yet, return undefined
+     * If note tools are not loaded yet, return undefined to prevent
+     * premature editor rendering
      */
     if (noteTools === undefined) {
       return undefined;
     }
+
+    const userTools = toValue(userEditorTools) ?? [];
 
     /**
      * Return unique array of tools grouped by tool.name
