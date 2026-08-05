@@ -55,8 +55,10 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
 
   /**
    * Reactive object with editor tools installed by user
+   * User is undefined while authorization is in progress,
+   * null when user is not authenticated, User instance otherwise
    */
-  const { userEditorTools } = useAppState();
+  const { userEditorTools, user } = useAppState();
 
   /**
    * Loaded tools classes by grouped by tool.name
@@ -79,11 +81,13 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
 
   /**
    * Combine note and user tools
-   * Returns undefined when note tools are not loaded yet to prevent
+   * Returns undefined when tools are not loaded yet to prevent
    * premature editor rendering with an incomplete tools set
    */
   const noteAndUserTools = computed<EditorTool[] | undefined>(() => {
     const noteTools = toValue(options.noteTools);
+    const userTools = toValue(userEditorTools);
+    const currentUser = toValue(user);
 
     /**
      * If note tools are not loaded yet, return undefined to prevent
@@ -93,12 +97,18 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       return undefined;
     }
 
-    const userTools = toValue(userEditorTools) ?? [];
+    /**
+     * If user is authenticated but their tools are not loaded yet, wait for them to load
+     * When user is not authenticated userTools stays undefined
+     */
+    if (currentUser !== null && userTools === undefined) {
+      return undefined;
+    }
 
     /**
      * Return unique array of tools grouped by tool.name
      */
-    const combinedTools = [...noteTools, ...userTools];
+    const combinedTools = [...noteTools, ...(userTools ?? [])];
     const uniqueTools = new Map(combinedTools.map(tool => [tool.name, tool]));
 
     return Array.from(uniqueTools.values());
