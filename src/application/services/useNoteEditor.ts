@@ -148,7 +148,6 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
 
     const loadId = ++currentLoadId;
 
-    isEditorReady.value = false;
     toolsUserConfigLoaded.value = false;
 
     try {

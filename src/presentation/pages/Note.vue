@@ -217,6 +217,8 @@ const verticalMenuItems = computed<VerticalMenuItem>(() => {
 watch(
   () => props.id,
   () => {
+    isEditorReady.value = false;
+
     /** If new child note is created, refresh editor with empty data */
     if (props.id === null) {
       useHead({
