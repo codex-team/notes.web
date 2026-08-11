@@ -54,7 +54,6 @@
           <Editor
             v-if="isEditorReady"
             ref="editor"
-            :key="id || 'new'"
             v-bind="editorConfig"
             @change="noteChanged"
           />
@@ -127,6 +126,7 @@ function redirectToNoteSettings(): void {
 const { updateCover } = useNoteSettings();
 
 const { isEditorReady, editorConfig } = useNoteEditor({
+  noteId,
   noteTools,
   isDraftResolver: () => noteId.value === null,
   noteContentResolver: () => note.value?.content,
@@ -217,8 +217,6 @@ const verticalMenuItems = computed<VerticalMenuItem>(() => {
 watch(
   () => props.id,
   () => {
-    isEditorReady.value = false;
-
     /** If new child note is created, refresh editor with empty data */
     if (props.id === null) {
       useHead({

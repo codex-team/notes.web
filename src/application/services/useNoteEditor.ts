@@ -1,12 +1,19 @@
+import type { MaybeRefOrGetter } from 'vue';
 import { type Ref, computed, ref, toValue, watch } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
+import type { NoteId } from '@/domain/entities/Note';
 import { type NoteContent } from '@/domain/entities/Note';
 import { editorToolsService } from '@/domain';
 import type { EditorjsToolsConfig } from '@/domain/entities/EditorTool';
 import { useI18n } from 'vue-i18n';
 
 interface UseNoteEditorOptions {
+  /**
+   * Null for new note, id for reading existing note
+   */
+  noteId: MaybeRefOrGetter<NoteId | null>;
+
   /**
    * Tools used in the note
    */
@@ -82,6 +89,19 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
    * concurrent loadToolsScripts invocations.
    */
   let currentLoadId = 0;
+
+  /**
+   * Reset editor state when the note changes
+   * Prevents showing the editor with stale tools or content
+   * from a previously opened note
+   */
+  watch(
+    () => toValue(options.noteId),
+    () => {
+      isEditorReady.value = false;
+    },
+    { immediate: true }
+  );
 
   /**
    * Combine note and user tools
