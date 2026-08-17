@@ -12,15 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Icon, ContextMenu, usePopover, useConfirm, type ContextMenuItem } from '@codexteam/ui/vue';
 import { type TeamMember } from '@/domain/entities/Team';
 import { useI18n } from 'vue-i18n';
 import { NoteId } from '@/domain/entities/Note';
 import useNoteSettings from '@/application/services/useNoteSettings';
+import { useAppState } from '@/application/services/useAppState';
 
 const { removeMemberByUserId } = useNoteSettings();
-
 const props = defineProps<{
   /**
    * Team member data
@@ -32,34 +32,41 @@ const props = defineProps<{
   noteId: NoteId;
 }>();
 
+const { user } = useAppState();
 const { t } = useI18n();
 const { showPopover, hide } = usePopover();
 const { confirm } = useConfirm();
 
 const triggerButton = ref<HTMLButtonElement>();
 
-const menuItems: ContextMenuItem[] = [
-  {
-    title: t('noteSettings.team.contextMenu.remove'),
-    onActivate: async () => {
-      hide();
-      await handleRemove(props.teamMember);
-    },
-  },
-];
+const menuItems = computed<ContextMenuItem[]>(() => {
+  const items: ContextMenuItem[] = [];
+
+  if (props.teamMember.user.id !== user.value?.id) {
+    items.push({
+      title: t('noteSettings.team.contextMenu.remove'),
+      onActivate: async () => {
+        hide();
+        await handleRemove(props.teamMember);
+      },
+    });
+  }
+
+  return items;
+});
 
 const emit = defineEmits<{
   teamMemberRemoved: [userId: TeamMember['user']['id']];
 }>();
 
 const handleButtonClick = (): void => {
-  if (triggerButton.value) {
+  if (triggerButton.value && menuItems.value.length > 0) {
     showPopover({
       targetEl: triggerButton.value,
       with: {
         component: ContextMenu,
         props: {
-          items: menuItems,
+          items: menuItems.value,
         },
       },
       align: {
