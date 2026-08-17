@@ -34,6 +34,11 @@ interface UseNoteListComposableState {
    * Loading state
    */
   isLoading: Ref<boolean>;
+
+  /**
+   * Set of note IDs whose cover downloads are currently in-flight
+   */
+  coversLoading: Ref<Set<string>>;
 }
 
 /**
@@ -69,17 +74,85 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
   const isLoading = ref(false);
 
   /**
-   * Get note list
+   * Get note list (metadata only, covers are not downloaded)
    * @param page - number of pages
    */
   const load = async (page: number): Promise<NoteList> => {
     isLoading.value = true;
+    try {
+      return await noteListService.getNoteList(page, onlyCreatedByUser);
+    } finally {
+      isLoading.value = false;
+    }
+  };
 
-    const list = await noteListService.getNoteList(page, onlyCreatedByUser);
+  /**
+   * Set of note IDs whose cover downloads are currently in-flight
+   * Prevents duplicate requests when loadMoreNotes() fires again before
+   * covers for the previous page have finished loading.
+   */
+  const coversLoading = ref(new Set<string>());
 
-    isLoading.value = false;
+  /**
+   * Load cover images for all notes in the list in the background
+   * Updates each note's cover reactively as it arrives
+   */
+  const loadCovers = async (): Promise<void> => {
+    if (isEmpty(noteList.value)) {
+      return;
+    }
 
-    return list;
+    const list = noteList.value;
+    const items = list.items;
+
+    await Promise.all(items.map(async (item, index) => {
+      /**
+       * If cover is null, the note has no cover image
+       */
+      if (item.cover === null) {
+        return;
+      }
+
+      /**
+       * If cover is already a blob URL, it was already loaded
+       */
+      if (item.cover.startsWith('blob:')) {
+        return;
+      }
+
+      /**
+       * If this note's cover is already being fetched, skip it
+       */
+      if (coversLoading.value.has(item.id)) {
+        return;
+      }
+
+      coversLoading.value = new Set(coversLoading.value).add(item.id);
+
+      try {
+        const url = await noteListService.loadCover(item.id, item.cover);
+
+        if (url !== null) {
+          const currentItem = list.items[index];
+
+          if (currentItem?.id !== item.id) {
+            return;
+          }
+          /**
+           * Update the specific note's cover reactively so the card renders the image
+           */
+          list.items[index] = {
+            ...currentItem,
+            cover: url,
+          };
+        }
+      } finally {
+        const next = new Set(coversLoading.value);
+
+        next.delete(item.id);
+        coversLoading.value = next;
+      }
+    }));
   };
 
   /**
@@ -102,6 +175,12 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
     } else {
       noteList.value = loadedNotes;
     }
+
+    /**
+     * Kick off cover downloads in the background
+     * List is already rendered, covers will appear one by one as they load
+     */
+    loadCovers().catch(console.error);
   };
 
   /**
@@ -134,5 +213,6 @@ export default function (onlyCreatedByUser = false): UseNoteListComposableState 
     load,
     loadMoreNotes,
     isLoading,
+    coversLoading,
   };
 }

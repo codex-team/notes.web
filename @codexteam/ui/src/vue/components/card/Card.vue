@@ -6,8 +6,13 @@
     ]"
   >
     <div
-      :class="$style['card__cover']"
-      :style="`background-image: url(${src})`"
+      :class="[
+        $style['card__cover'],
+        {
+          [$style['card__cover--skeleton']]: isCoverLoading,
+        },
+      ]"
+      :style="src ? `background-image: url(${src})` : undefined"
     />
 
     <div :class="$style['card__body']">
@@ -55,12 +60,19 @@ withDefaults(
      * Cover image source
      */
     src?: string;
+
+    /**
+     * Loading state.
+     * When true shows skeleton shimmer on cover
+     */
+    isCoverLoading?: boolean;
   }>(),
   {
     title: '',
     subtitle: '',
     orientation: 'vertical',
     src: '',
+    isCoverLoading: false,
   }
 );
 </script>
@@ -113,10 +125,31 @@ withDefaults(
     border-radius: var(--radius-m);
     background-color: var(--base--bg-primary);
     background-size: cover;
+
+    &--skeleton {
+      background-color: color-mix(in srgb, var(--base--text-secondary) 10%, transparent);
+      background-image: linear-gradient(
+        to left,
+        color-mix(in srgb, var(--base--text-secondary) 30%, transparent) 0%,
+        color-mix(in srgb, var(--base--text-secondary) 10%, transparent) 50%,
+        color-mix(in srgb, var(--base--text-secondary) 30%, transparent) 100%
+      );
+      background-size: 200% 100%;
+      animation: card-skeleton-animation 3s infinite linear;
+    }
   }
 
   &__title {
     color: var(--base--text);
+  }
+}
+
+@keyframes card-skeleton-animation {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 </style>

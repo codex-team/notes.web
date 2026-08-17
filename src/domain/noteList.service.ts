@@ -20,54 +20,31 @@ export default class NoteListService {
   }
 
   /**
-   * Returns note list
-   * @todo - move loading images data logic to separate service for optimization
+   * Returns note list with metadata only (covers are not downloaded)
    * @param page - number of current pages
    * @param onlyCreatedByUser - if true, returns notes created by the user
    * @returns list of notes
    */
   public async getNoteList(page: number, onlyCreatedByUser = false): Promise<NoteList> {
-    const noteList = await this.repository.getNoteList(page, onlyCreatedByUser);
+    return await this.repository.getNoteList(page, onlyCreatedByUser);
+  }
 
-    /**
-     * Note list with valid image urls in cover
-     */
-    const parsedNoteList: NoteList = {
-      items: [],
-    };
+  /**
+   * Load cover image for a single note and return its blob URL
+   * @param noteId - Note identifier
+   * @param coverKey - Cover file key on server
+   * @returns Blob URL for the cover image, or null on error
+   */
+  public async loadCover(noteId: string, coverKey: string): Promise<string | null> {
+    try {
+      const imageData = await this.noteAttachmentRepository.load(noteId, coverKey);
 
-    for (const note of noteList.items) {
-      /**
-       * If note has no cover, we have no need to load it
-       */
-      if (note.cover === null) {
-        parsedNoteList.items.push(note);
-        continue;
-      }
+      // eslint-disable-next-line n/no-unsupported-features/node-builtins
+      return URL.createObjectURL(imageData);
+    } catch {
+      console.log('Error while loading cover for note ', noteId);
 
-      /**
-       * Cover object url for passing to the element
-       */
-      let objUrl: string | null = null;
-
-      try {
-        const imageData = await this.noteAttachmentRepository.load(note.id, note.cover);
-
-        /**
-         * Make url from blob data
-         */
-        // eslint-disable-next-line n/no-unsupported-features/node-builtins
-        objUrl = URL.createObjectURL(imageData);
-      } catch {
-        console.log('Error while loading cover for note ', note.id);
-      }
-
-      parsedNoteList.items.push({
-        ...note,
-        cover: objUrl,
-      });
+      return null;
     }
-
-    return parsedNoteList;
   }
 }
