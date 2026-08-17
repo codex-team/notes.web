@@ -50,7 +50,7 @@ onClickOutside(popoverEl, hide, {
   background-color: var(--base--bg-secondary);
   border-radius: var(--radius-field);
   border: 1px solid var(--base--border);
-  padding: var(--h-padding);
+  padding: var(--spacing-xxs);
   box-sizing: border-box;
   left: v-bind('position.left');
   top: v-bind('position.top');
