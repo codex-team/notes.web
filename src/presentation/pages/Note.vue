@@ -127,7 +127,6 @@ const { updateCover } = useNoteSettings();
 
 const { isEditorReady, editorConfig } = useNoteEditor({
   noteTools,
-  isDraftResolver: () => noteId.value === null,
   noteContentResolver: () => note.value?.content,
   canEdit,
 });

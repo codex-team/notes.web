@@ -40,7 +40,7 @@
     placeholder="Write something or press / to select a tool"
     first-block-placeholder="Untitled"
     autofocus
-    :inlineToolbar="true"
+    :inline-toolbar="true"
   />
 </template>
 

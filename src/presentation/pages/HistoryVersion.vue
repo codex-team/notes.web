@@ -84,7 +84,6 @@ const canEdit = ref(false);
 
 const { isEditorReady, editorConfig } = useNoteEditor({
   noteTools: historyTools,
-  isDraftResolver: () => false,
   noteContentResolver: () => historyContent.value,
   canEdit,
 });

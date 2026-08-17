@@ -3,7 +3,7 @@ import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { type NoteContent } from '@/domain/entities/Note';
 import { editorToolsService } from '@/domain';
-import type { EditorjsConfigTool } from '@/domain/entities/EditorTool';
+import type { EditorjsToolsConfig } from '@/domain/entities/EditorTool';
 import { useI18n } from 'vue-i18n';
 
 interface UseNoteEditorOptions {
@@ -16,12 +16,6 @@ interface UseNoteEditorOptions {
    * Function to get note content
    */
   noteContentResolver: () => NoteContent | undefined;
-
-  /**
-   * Function to check if the note is a draft
-   * In draft we wont wait for note tools loading
-   */
-  isDraftResolver: () => boolean;
 
   /**
    * Flag indicating that user can edit the note
@@ -61,14 +55,16 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
 
   /**
    * Reactive object with editor tools installed by user
+   * User is undefined while authorization is in progress,
+   * null when user is not authenticated, User instance otherwise
    */
-  const { userEditorTools } = useAppState();
+  const { userEditorTools, user } = useAppState();
 
   /**
    * Loaded tools classes by grouped by tool.name
    * Undefined when tools are not loaded yet
    */
-  let toolsUserConfig: Record<string, { class: EditorjsConfigTool; inlineToolbar: boolean }> | undefined = undefined;
+  let toolsUserConfig: EditorjsToolsConfig | undefined = undefined;
 
   /**
    * We can't make toolsUserConfig reactive since it contains excecutable js-classes, Vue can't handle that.
@@ -77,35 +73,54 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
   const toolsUserConfigLoaded = ref<boolean>(false);
 
   /**
+   * Incremented on each new load request to discard stale async results.
+   * Prevents race conditions when rapid note switching causes multiple
+   * concurrent loadToolsScripts invocations.
+   */
+  let currentLoadId = 0;
+
+  /**
    * Combine note and user tools
-   * Undefined when user or note is not loaded
+   * Returns undefined when tools are not loaded yet to prevent
+   * premature editor rendering with an incomplete tools set
    */
   const noteAndUserTools = computed<EditorTool[] | undefined>(() => {
-    const isDraft = options.isDraftResolver();
-    const noteTools = isDraft ? [] : toValue(options.noteTools);
-    const userTools = toValue(userEditorTools) ?? [];
+    const noteTools = toValue(options.noteTools);
+    const userTools = toValue(userEditorTools);
+    const currentUser = toValue(user);
 
     /**
-     * If tools are not loaded yet, return undefined
+     * If note tools are not loaded yet, return undefined to prevent
+     * premature editor rendering
      */
     if (noteTools === undefined) {
       return undefined;
     }
 
     /**
+     * If user is authenticated but their tools are not loaded yet, wait for them to load
+     * When user is not authenticated userTools stays undefined
+     */
+    if (currentUser !== null && userTools === undefined) {
+      return undefined;
+    }
+
+    /**
      * Return unique array of tools grouped by tool.name
      */
-    const combinedTools = [...noteTools, ...userTools];
+    const combinedTools = [...noteTools, ...(userTools ?? [])];
     const uniqueTools = new Map(combinedTools.map(tool => [tool.name, tool]));
 
     return Array.from(uniqueTools.values());
   });
 
   /**
-   * Downloads passed tools scripts and toggles-on the isEditorReady flag
+   * Downloads passed tools scripts and returns the loaded config object.
+   * Does not mutate shared state — the caller is responsible for applying the result
    * @param toolsConfigs - tools to download
+   * @returns loaded tools config
    */
-  async function loadToolsScripts(toolsConfigs: EditorTool[]): Promise<void> {
+  async function loadToolsScripts(toolsConfigs: EditorTool[]): Promise<EditorjsToolsConfig> {
     const loadedTools = await editorToolsService.getToolsLoaded(toolsConfigs);
 
     /**
@@ -114,7 +129,7 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
      */
     const loadedToolsWithoutParagraph = loadedTools.filter(tool => tool.tool.name !== 'paragraph');
 
-    toolsUserConfig = Object.fromEntries(
+    return Object.fromEntries(
       loadedToolsWithoutParagraph
         .map(toolClassAndInfo => [
           toolClassAndInfo.tool.name,
@@ -124,12 +139,6 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
           },
         ])
     );
-    toolsUserConfigLoaded.value = true;
-
-    /**
-     * Now all tools are loaded, we're ready to use the editor
-     */
-    isEditorReady.value = true;
   }
 
   /**
@@ -144,7 +153,35 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       return;
     }
 
-    await loadToolsScripts(tools);
+    const loadId = ++currentLoadId;
+
+    isEditorReady.value = false;
+    toolsUserConfigLoaded.value = false;
+
+    try {
+      const loadedConfig = await loadToolsScripts(tools);
+
+      /**
+       * If a newer load request has superseded this one — discard stale results
+       * to prevent overwriting state with tools from a previous note.
+       */
+      if (loadId !== currentLoadId) {
+        return;
+      }
+
+      toolsUserConfig = loadedConfig;
+      toolsUserConfigLoaded.value = true;
+    } catch (error) {
+      throw new Error(`Failed to load tools scripts: ${error instanceof Error ? error.message : String(error)}`);
+    } finally {
+      /**
+       * Display the editor regardless of tool loading failures, as it can be displayed with default tools.
+       * Only the latest load request may mark the editor as ready
+       */
+      if (loadId === currentLoadId) {
+        isEditorReady.value = true;
+      }
+    }
   }, {
     immediate: true, // load tools if they are passed to the composable immediately
   });
