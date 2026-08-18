@@ -65,13 +65,6 @@
         Static series legend under the chart: color dot + <code>label</code> for each line.
         Off by default so existing layouts stay the same.
       </p>
-      <div class="chart-props__control">
-        <span class="chart-props__control-label">Try it:</span>
-        <Switch
-          v-model="legendEnabled"
-          :value="legendEnabled"
-        />
-      </div>
     </div>
   </div>
 
@@ -87,6 +80,11 @@
         :is-disabled="false"
         :items="paletteColorItems"
       />
+      <span class="chart-props__control-label">legend:</span>
+      <Switch
+        v-model="legendEnabled"
+        :value="legendEnabled"
+      />
     </div>
     <div class="chart-example__showcase">
       <Chart
@@ -98,14 +96,56 @@
   </div>
 
   <Heading :level="3">
-    Multiple Lines
+    Shared scale
   </Heading>
+  <p class="chart-example-note">
+    Both series hit <code>50</code> on the same tick. They must sit on one horizontal line.
+  </p>
   <div class="chart-example">
+    <div class="chart-example__showcase">
+      <Chart
+        :lines="sharedScaleData"
+        :detalization="currentDetalization"
+        :legend="true"
+      />
+    </div>
+  </div>
+
+  <Heading :level="3">
+    Single spike
+  </Heading>
+  <p class="chart-example-note">
+    One non-zero point among zeros — should still show as a marker.
+  </p>
+  <div class="chart-example">
+    <div class="chart-example__showcase">
+      <Chart
+        :lines="spikeData"
+        :detalization="currentDetalization"
+        :legend="true"
+      />
+    </div>
+  </div>
+
+  <Heading :level="3">
+    Stacked
+  </Heading>
+  <p class="chart-example-note">
+    Many-series on top (tooltip can overlap the chart below). Some ticks have only one or two non-zero series.
+  </p>
+  <div class="chart-example chart-example--stack">
+    <div class="chart-example__showcase">
+      <Chart
+        :lines="paletteSeriesData"
+        :detalization="currentDetalization"
+        :legend="true"
+      />
+    </div>
     <div class="chart-example__showcase">
       <Chart
         :lines="multipleLinesData"
         :detalization="currentDetalization"
-        :legend="legendEnabled"
+        :legend="true"
       />
     </div>
   </div>
@@ -121,7 +161,7 @@
       <Chart
         :lines="paletteSeriesData"
         :detalization="currentDetalization"
-        :legend="legendEnabled"
+        :legend="true"
       />
     </div>
   </div>
@@ -137,7 +177,7 @@
       <Chart
         :lines="[hexLineData]"
         :detalization="currentDetalization"
-        :legend="legendEnabled"
+        :legend="true"
       />
     </div>
   </div>
@@ -225,9 +265,9 @@ const detalizationSelected = ref<DefaultItem>({
 });
 
 /**
- * Toggle static series legend in the preview
+ * Legend toggle for the Single Line preview
  */
-const legendEnabled = ref(true);
+const legendEnabled = ref(false);
 
 /**
  * Available detalization options for the Select component
@@ -338,16 +378,80 @@ const multipleLinesData = computed<ChartLine[]>(() => {
 });
 
 /**
+ * Two ranges, same count on one tick — must share Y
+ */
+const sharedScaleData = computed<ChartLine[]>(() => {
+  const timestamps = demoTimestamps.value;
+  const mid = Math.floor(timestamps.length / 2);
+
+  return [
+    {
+      label: 'wide',
+      color: ChartLineColor.Red,
+      data: timestamps.map((timestamp, index) => ({
+        timestamp,
+        count: index === mid ? 50 : 180,
+      })),
+    },
+    {
+      label: 'narrow',
+      color: ChartLineColor.Blue,
+      data: timestamps.map((timestamp, index) => ({
+        timestamp,
+        count: index === mid ? 50 : 20,
+      })),
+    },
+  ];
+});
+
+/**
+ * One event among zeros
+ */
+const spikeData = computed<ChartLine[]>(() => {
+  const timestamps = demoTimestamps.value;
+  const mid = Math.floor(timestamps.length / 2);
+
+  return [
+    {
+      label: 'incident',
+      color: ChartLineColor.Orange,
+      data: timestamps.map((timestamp, index) => ({
+        timestamp,
+        count: index === mid ? 90 : 0,
+      })),
+    },
+  ];
+});
+
+/**
+ * Long labels to check tooltip ellipsis
+ */
+const longPreviewLabels: Partial<Record<ChartLineColor, string>> = {
+  [ChartLineColor.Red]: 'accepted-events-from-the-ingestion-pipeline',
+  [ChartLineColor.LightGrey]: 'rate-limited-requests-waiting-in-queue',
+};
+
+/**
  * All hardcoded palette tokens stacked for comparison
  */
 const paletteSeriesData = computed<ChartLine[]>(() => {
   const timestamps = demoTimestamps.value;
   const bases = [150, 130, 110, 95, 80, 70, 55, 40, 25];
 
-  return paletteTokens.map((color, index) => ({
-    label: color,
-    data: generateData(timestamps, bases[index] ?? 50),
+  return paletteTokens.map((color, seriesIndex) => ({
+    label: longPreviewLabels[color] ?? color,
     color,
+    data: timestamps.map((timestamp, tick) => {
+      const activeSeries = (tick % 7) + 1;
+      const count = seriesIndex < activeSeries
+        ? Math.floor(Math.random() * (bases[seriesIndex] ?? 50)) + 10
+        : 0;
+
+      return {
+        timestamp,
+        count,
+      };
+    }),
   }));
 });
 </script>
@@ -437,6 +541,10 @@ const paletteSeriesData = computed<ChartLine[]>(() => {
 
   &--tall {
     padding-bottom: 240px;
+  }
+
+  &--stack {
+    gap: var(--spacing-m);
   }
 }
 </style>
