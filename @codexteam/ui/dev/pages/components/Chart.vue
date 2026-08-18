@@ -380,14 +380,6 @@ const paletteSeriesData = computed<ChartLine[]>(() => {
     }
   }
 
-  &__code {
-    margin: 0;
-    padding: var(--spacing-s);
-    background-color: var(--base--bg-primary);
-    border-radius: var(--radius-s);
-    overflow-x: auto;
-  }
-
   &__list {
     display: flex;
     flex-direction: column;

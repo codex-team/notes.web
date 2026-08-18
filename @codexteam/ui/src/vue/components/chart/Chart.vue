@@ -572,23 +572,12 @@ function getLineValueAtHoveredIndex(line: ChartLineInterface, index: number): nu
 }
 
 /**
- * Return colors set for a particular chart line
- *
- * @param line - the chart line
- */
-function getLineColor(line: ChartLineInterface): ChartLineColors {
-  return resolveChartLineColor(line.color, chartColorsPalette.value);
-}
-
-/**
- * Cursor is a pointer on the chart line appearing when hovering over it
+ * Pointer / legend / tooltip dot color for a series
  *
  * @param line - the chart line
  */
 function getCursorColor(line: ChartLineInterface): string {
-  const color = getLineColor(line);
-
-  return color.pointerColor;
+  return resolveChartLineColor(line.color, chartColorsPalette.value).pointerColor;
 }
 
 const shortMonths = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
@@ -695,27 +684,6 @@ onBeforeUnmount(() => {
   overflow: visible;
 }
 
-.chart__info {
-  position: absolute;
-  top: var(--spacing-ml);
-  right: var(--spacing-ml);
-  padding: var(--spacing-xs) var(--spacing-ms);
-  color: var(--base--text);
-  @apply --text-ui-small;
-  white-space: nowrap;
-  background: color-mod(var(--base--bg-primary) alpha(50%));
-  border-radius: var(--radius-s);
-}
-
-.chart__info-today {
-  color: var(--base--text-secondary);
-}
-
-.chart__info-highlight {
-  margin-left: var(--spacing-xs);
-  @apply --text-ui-base-bold;
-}
-
 .chart__body {
   flex-grow: 2;
 }
@@ -738,7 +706,6 @@ onBeforeUnmount(() => {
   color: var(--base--text);
   @apply --text-ui-small;
   text-align: center;
-  transform-origin: center;
   opacity: 0.3;
   white-space: nowrap;
 }
@@ -770,7 +737,6 @@ onBeforeUnmount(() => {
   margin-top: calc(var(--spacing-xs) / -2);
   margin-left: calc(var(--spacing-xs) / -2);
   border-radius: 50%;
-  opacity: 1;
   will-change: transform;
 }
 
@@ -788,7 +754,6 @@ onBeforeUnmount(() => {
   color: var(--base--text);
   @apply --text-ui-small;
   white-space: nowrap;
-  text-align: left;
   background: var(--base--bg-primary);
   border-radius: var(--radius-s);
   box-shadow: 0 var(--spacing-s) var(--spacing-m) 0 rgba(0, 0, 0, 0.12);
@@ -823,17 +788,9 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
-.chart__legend-dot {
-  flex-shrink: 0;
-  width: var(--spacing-xs);
-  height: var(--spacing-xs);
-  border-radius: 50%;
-}
-
 .chart__pointer-tooltip-date {
   color: var(--base--text-secondary);
   text-align: center;
-  @apply --text-ui-small;
 }
 
 .chart__pointer-tooltip-number {
@@ -850,9 +807,6 @@ onBeforeUnmount(() => {
 
 .chart__pointer-tooltip-value,
 .chart__pointer-tooltip-label {
-  font-size: 1em;
-  font-weight: 400;
-  letter-spacing: inherit;
   line-height: 1;
 }
 
@@ -865,6 +819,7 @@ onBeforeUnmount(() => {
   color: var(--base--text-secondary);
 }
 
+.chart__legend-dot,
 .chart__pointer-tooltip-dot {
   flex-shrink: 0;
   width: var(--spacing-xs);
