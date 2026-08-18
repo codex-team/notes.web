@@ -1,5 +1,10 @@
 <template>
-  <div :class="$style.chart">
+  <div
+    :class="[
+      $style.chart,
+      hoveredIndex >= 0 && $style['chart--raised']
+    ]"
+  >
     <div
       ref="plot"
       :class="$style.chart__plot"
@@ -49,7 +54,6 @@
           :key="`cursor-${preparedLine.line.label}-${index}`"
         >
           <div
-            v-if="!preparedLine.allZeros"
             :style="{
               transform: `translateY(${getLinePointerTop(preparedLine)}px)`,
               backgroundColor: getCursorColor(preparedLine.line)
@@ -72,25 +76,33 @@
             {{ formatTimestamp(firstLineData[hoveredIndex].timestamp * 1000) }}
           </div>
           <div
-            v-for="item in tooltipLines"
-            :key="`tooltip-line-${item.prepared.index}`"
-            :class="$style['chart__pointer-tooltip-number']"
+            :class="$style['chart__pointer-tooltip-list']"
+            @wheel.stop
           >
-            <span
-              :class="$style['chart__pointer-tooltip-dot']"
-              :style="{ backgroundColor: getCursorColor(item.prepared.line) }"
-            />
-            <span :class="$style['chart__pointer-tooltip-metrics']">
+            <div
+              v-for="item in tooltipLines"
+              :key="`tooltip-line-${item.prepared.index}`"
+              :class="$style['chart__pointer-tooltip-number']"
+            >
               <span
-                :key="`tooltip-value-${item.prepared.index}-${item.value}`"
-                :class="$style['chart__pointer-tooltip-value']"
-              >
-                {{ formatSpacedNumber(item.value) }}
+                :class="$style['chart__pointer-tooltip-dot']"
+                :style="{ backgroundColor: getCursorColor(item.prepared.line) }"
+              />
+              <span :class="$style['chart__pointer-tooltip-metrics']">
+                <span
+                  :key="`tooltip-value-${item.prepared.index}-${item.value}`"
+                  :class="$style['chart__pointer-tooltip-value']"
+                >
+                  {{ formatSpacedNumber(item.value) }}
+                </span>
+                <span
+                  :class="$style['chart__pointer-tooltip-label']"
+                  :title="item.prepared.line.label"
+                >
+                  {{ item.prepared.line.label }}
+                </span>
               </span>
-              <span :class="$style['chart__pointer-tooltip-label']">
-                {{ item.prepared.line.label }}
-              </span>
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -103,6 +115,7 @@
         v-for="(preparedLine, index) in preparedLines"
         :key="`legend-${preparedLine.line.label}-${index}`"
         :class="$style['chart__legend-item']"
+        :title="preparedLine.line.label"
       >
         <span
           :class="$style['chart__legend-dot']"
@@ -123,13 +136,12 @@ import ChartLine from './ChartLine.vue';
 import { throttle } from '../../utils';
 
 /**
- * Prepared line with precomputed min/max/allZeros
+ * Prepared line with precomputed min/max
  */
 interface PreparedLine {
   line: ChartLineInterface;
   min: number;
   max: number;
-  allZeros: boolean;
   index: number;
 }
 
@@ -206,38 +218,39 @@ const tooltipPinned = ref(false);
 const chartLeft = ref(0);
 
 /**
- * Precomputed line data with min/max/allZeros
- * This avoids recalculating O(n_data) on every render/mousemove
+ * Shared Y scale so identical counts sit on the same height
  */
-const preparedLines = computed((): PreparedLine[] => {
-  return props.lines.map((line, index) => {
-    let min = Infinity;
-    let max = 0;
-    let allZeros = true;
+const chartValueScale = computed((): { min: number; max: number } => {
+  let max = 0;
 
+  for (const line of props.lines) {
     for (const item of line.data ?? []) {
-      const v = item.count ?? 0;
+      const value = item.count ?? 0;
 
-      if (v < min) {
-        min = v;
-      }
-      if (v > max) {
-        max = v;
-      }
-      if (v !== 0) {
-        allZeros = false;
+      if (value > max) {
+        max = value;
       }
     }
+  }
 
-    const safeMin = min === Infinity ? 0 : min;
-    const safeMax = max * 1.5;
+  return {
+    min: 0,
+    max: max > 0 ? max * 1.5 : 1,
+  };
+});
 
-    return { line,
-      min: safeMin,
-      max: safeMax,
-      allZeros,
-      index };
-  });
+/**
+ * Precomputed line data with shared min/max
+ */
+const preparedLines = computed((): PreparedLine[] => {
+  const { min, max } = chartValueScale.value;
+
+  return props.lines.map((line, index) => ({
+    line,
+    min,
+    max,
+    index,
+  }));
 });
 
 /**
@@ -375,13 +388,17 @@ const tooltipLines = computed((): Array<{
   }
 
   return preparedLines.value
-    .filter(prepared => !prepared.allZeros)
     .map(prepared => ({
       prepared,
       value: getLineValueAtHoveredIndex(prepared.line, hoveredIndex.value),
     }))
     .sort((a, b) => b.value - a.value);
 });
+
+/**
+ * Tooltip width cap, same as CSS max-width
+ */
+const TOOLTIP_MAX_WIDTH_PX = 220;
 
 /**
  * Tooltip min-width based on the longest visible series row
@@ -394,20 +411,15 @@ const tooltipMinWidth = computed((): number => {
   const dateLabel = formatTimestamp(firstLineData.value[hoveredIndex.value].timestamp * 1000);
   let maxLength = dateLabel.length;
 
-  for (const prepared of preparedLines.value) {
-    if (prepared.allZeros) {
-      continue;
-    }
-
-    const value = formatSpacedNumber(getLineValueAtHoveredIndex(prepared.line, hoveredIndex.value));
-    const row = `${value} ${prepared.line.label}`;
+  for (const item of tooltipLines.value) {
+    const row = `${formatSpacedNumber(item.value)} ${item.prepared.line.label}`;
 
     if (row.length > maxLength) {
       maxLength = row.length;
     }
   }
 
-  return maxLength * 5.6 + 28;
+  return Math.min(TOOLTIP_MAX_WIDTH_PX, maxLength * 5.6 + 28);
 });
 
 /**
@@ -665,7 +677,7 @@ onBeforeUnmount(() => {
 
 .chart {
   position: relative;
-  isolation: isolate;
+  z-index: 0;
   display: flex;
   flex-direction: column;
   overflow: visible;
@@ -674,6 +686,10 @@ onBeforeUnmount(() => {
 
   --legend-height: var(--spacing-xxl);
   --legend-block-padding: var(--spacing-s);
+}
+
+.chart--raised {
+  z-index: var(--z-popover);
 }
 
 .chart__plot {
@@ -751,6 +767,7 @@ onBeforeUnmount(() => {
   gap: var(--spacing-xs);
   padding-block: var(--tooltip-block-padding);
   padding-inline: var(--spacing-xs);
+  max-width: 220px;
   color: var(--base--text);
   @apply --text-ui-small;
   white-space: nowrap;
@@ -793,15 +810,41 @@ onBeforeUnmount(() => {
   text-align: center;
 }
 
+.chart__pointer-tooltip-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: var(--spacing-xs);
+  line-height: 1;
+
+  &:has(> :nth-child(6)) {
+    max-height: calc(5lh + 4 * var(--spacing-xs));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: var(--spacing-xxs);
+    }
+  }
+}
+
 .chart__pointer-tooltip-number {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  min-width: 0;
   gap: var(--spacing-xs);
+  height: 1lh;
+  line-height: 1;
 }
 
 .chart__pointer-tooltip-metrics {
   display: flex;
   align-items: baseline;
+  min-width: 0;
+  flex: 1;
   gap: var(--spacing-xs);
 }
 
@@ -811,12 +854,16 @@ onBeforeUnmount(() => {
 }
 
 .chart__pointer-tooltip-value {
+  flex-shrink: 0;
   color: var(--base--text);
   animation: tooltip-value-in 500ms ease;
 }
 
 .chart__pointer-tooltip-label {
+  min-width: 0;
+  overflow: hidden;
   color: var(--base--text-secondary);
+  text-overflow: ellipsis;
 }
 
 .chart__legend-dot,
