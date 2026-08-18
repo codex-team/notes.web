@@ -1,87 +1,101 @@
 <template>
-  <div
-    :class="$style.chart"
-    @mousemove.passive="moveTooltip"
-    @mouseleave.passive="hoveredIndex = -1"
-  >
-    <svg
-      ref="chart"
-      :class="$style.chart__body"
-    >
-      <ChartLine
-        v-for="(preparedLine, index) in preparedLines"
-        :key="`chart-line-${index}`"
-        :points="preparedLine.line.data"
-        :color="preparedLine.line.color"
-        :chart-width="chartWidth"
-        :chart-height="chartHeight"
-        :min-value="preparedLine.min"
-        :max-value="preparedLine.max"
-        :step-x="stepX"
-        :label="preparedLine.line.label"
-      />
-    </svg>
+  <div :class="$style.chart">
     <div
-      :class="$style.chart__ox"
+      :class="$style.chart__plot"
+      @mousemove.passive="moveTooltip"
+      @mouseleave.passive="hoveredIndex = -1"
     >
-      <div
-        :class="$style['chart__ox-inner']"
+      <svg
+        ref="chart"
+        :class="$style.chart__body"
       >
-        <span
-          v-for="item in visibleLegendPoints"
-          :key="item.index"
-          :class="$style['chart__ox-item']"
-          :style="{ left: `${item.index * stepX}px`, transform: 'translateX(-50%)' }"
-        >
-          {{ formatTimestamp(item.point.timestamp * 1000) }}
-        </span>
-      </div>
-    </div>
-    <div
-      v-if="hoveredIndex >= 0 && hoveredIndex < firstLineData.length"
-      :style="{ transform: `translateX(${pointerLeft}px)` }"
-      :class="$style.chart__pointer"
-    >
-      <template
-        v-for="(preparedLine, index) in preparedLines"
+        <ChartLine
+          v-for="(preparedLine, index) in preparedLines"
+          :key="`chart-line-${index}`"
+          :points="preparedLine.line.data"
+          :color="preparedLine.line.color"
+          :chart-width="chartWidth"
+          :chart-height="chartHeight"
+          :min-value="preparedLine.min"
+          :max-value="preparedLine.max"
+          :step-x="stepX"
+          :label="preparedLine.line.label"
+        />
+      </svg>
+      <div
+        :class="$style.chart__ox"
       >
         <div
-          v-if="!preparedLine.allZeros"
-          :key="`cursor-${preparedLine.line.label}-${index}`"
-          :style="{
-            transform: `translateY(${getLinePointerTop(preparedLine)}px)`,
-            backgroundColor: getCursorColor(preparedLine.line)
-          }"
-          :class="$style['chart__pointer-cursor']"
-        />
-      </template>
-      <div
-        :class="[
-          $style['chart__pointer-tooltip'],
-          tooltipAlignment === 'left' && $style['chart__pointer-tooltip--left'],
-          tooltipAlignment === 'right' && $style['chart__pointer-tooltip--right']
-        ]"
-        :style="{ minWidth: `${(String(firstLineData[hoveredIndex].count).length + ' events'.length) * 6.4 + 12}px` }"
-      >
-        <div :class="$style['chart__pointer-tooltip-date']">
-          {{ formatTimestamp(firstLineData[hoveredIndex].timestamp * 1000) }}
+          :class="$style['chart__ox-inner']"
+        >
+          <span
+            v-for="item in visibleLegendPoints"
+            :key="item.index"
+            :class="$style['chart__ox-item']"
+            :style="{ left: `${item.index * stepX}px`, transform: 'translateX(-50%)' }"
+          >
+            {{ formatAxisTimestamp(item.point.timestamp * 1000, item.includeDate) }}
+          </span>
         </div>
+      </div>
+      <div
+        v-if="hoveredIndex >= 0 && hoveredIndex < firstLineData.length"
+        :style="{ transform: `translateX(${pointerLeft}px)` }"
+        :class="$style.chart__pointer"
+      >
         <template
           v-for="(preparedLine, index) in preparedLines"
+          :key="`cursor-${preparedLine.line.label}-${index}`"
         >
           <div
             v-if="!preparedLine.allZeros"
-            :key="`tooltip-line-${preparedLine.line.label}-${index}`"
+            :style="{
+              transform: `translateY(${getLinePointerTop(preparedLine)}px)`,
+              backgroundColor: getCursorColor(preparedLine.line)
+            }"
+            :class="$style['chart__pointer-cursor']"
+          />
+        </template>
+        <div
+          :class="[
+            $style['chart__pointer-tooltip'],
+            tooltipAlignment === 'left' && $style['chart__pointer-tooltip--left'],
+            tooltipAlignment === 'right' && $style['chart__pointer-tooltip--right']
+          ]"
+          :style="{ minWidth: `${tooltipMinWidth}px` }"
+        >
+          <div :class="$style['chart__pointer-tooltip-date']">
+            {{ formatTimestamp(firstLineData[hoveredIndex].timestamp * 1000) }}
+          </div>
+          <div
+            v-for="(item, index) in tooltipLines"
+            :key="`tooltip-line-${item.prepared.line.label}-${index}`"
             :class="$style['chart__pointer-tooltip-number']"
           >
-            <AnimatedCounter :value="formatSpacedNumber(getLineValueAtHoveredIndex(preparedLine.line, hoveredIndex))" />
-            {{ preparedLine.line.label }}
+            <AnimatedCounter :value="formatSpacedNumber(item.value)" />
+            {{ item.prepared.line.label }}
             <span
               :class="$style['chart__pointer-tooltip-dot']"
-              :style="{ backgroundColor: getCursorColor(preparedLine.line) }"
+              :style="{ backgroundColor: getCursorColor(item.prepared.line) }"
             />
           </div>
-        </template>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="legend"
+      :class="$style.chart__legend"
+    >
+      <div
+        v-for="(preparedLine, index) in preparedLines"
+        :key="`legend-${preparedLine.line.label}-${index}`"
+        :class="$style['chart__legend-item']"
+      >
+        <span
+          :class="$style['chart__legend-dot']"
+          :style="{ backgroundColor: getCursorColor(preparedLine.line) }"
+        />
+        {{ preparedLine.line.label }}
       </div>
     </div>
   </div>
@@ -90,7 +104,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { ChartItem, ChartLineColors, ChartLine as ChartLineInterface } from './Chart.types';
-import { chartColorsDark, chartColorsLight } from './Chart.colors';
+import { chartColorsDark, chartColorsLight, resolveChartLineColor } from './Chart.colors';
 import { ColorScheme, useTheme } from '../../composables/useTheme';
 import AnimatedCounter from '../counter/Counter.vue';
 import ChartLine from './ChartLine.vue';
@@ -113,14 +127,20 @@ interface Props {
   lines?: ChartLineInterface[];
 
   /**
-   * Detalization of the chart affects the legend and tooltip display
+   * Detalization of the chart affects the X-axis and tooltip display
    */
   detalization?: 'minutes' | 'hours' | 'days';
+
+  /**
+   * Show a static color legend below the chart (dots + series labels)
+   */
+  legend?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   lines: () => [] as ChartLineInterface[],
   detalization: 'days',
+  legend: false,
 });
 
 /**
@@ -204,9 +224,9 @@ const xLegendWidth = computed((): number => {
     case 'days':
       return 50;
     case 'hours':
-      return 75;
+      return 56;
     case 'minutes':
-      return 90;
+      return 50;
     default:
       return 55;
   }
@@ -267,6 +287,7 @@ const visibleXLegendItems = computed((): number => {
 const visibleLegendPoints = computed((): Array<{
   point: ChartItem;
   index: number;
+  includeDate: boolean;
 }> => {
   const step = visibleXLegendItems.value;
   const result: Array<{
@@ -291,7 +312,24 @@ const visibleLegendPoints = computed((): Array<{
     });
   }
 
-  return result;
+  /*
+   * First/last ticks are hidden in CSS. For minutes, put the calendar day
+   * on the first actually visible tick, and again if the day changes.
+   */
+  return result.map((item, i) => {
+    const date = new Date(item.point.timestamp * 1000);
+    const prev = i > 0 ? new Date(result[i - 1].point.timestamp * 1000) : null;
+    const dayChanged = prev !== null && (
+      prev.getFullYear() !== date.getFullYear()
+      || prev.getMonth() !== date.getMonth()
+      || prev.getDate() !== date.getDate()
+    );
+
+    return {
+      ...item,
+      includeDate: props.detalization === 'minutes' && (i === 1 || dayChanged),
+    };
+  });
 });
 
 /**
@@ -302,10 +340,57 @@ const pointerLeft = computed((): number => {
 });
 
 /**
+ * Tooltip rows sorted by value desc (highest first)
+ */
+const tooltipLines = computed((): Array<{
+  prepared: PreparedLine;
+  value: number;
+}> => {
+  if (hoveredIndex.value < 0) {
+    return [];
+  }
+
+  return preparedLines.value
+    .filter(prepared => !prepared.allZeros)
+    .map(prepared => ({
+      prepared,
+      value: getLineValueAtHoveredIndex(prepared.line, hoveredIndex.value),
+    }))
+    .sort((a, b) => b.value - a.value);
+});
+
+/**
+ * Tooltip min-width based on the longest visible series row
+ */
+const tooltipMinWidth = computed((): number => {
+  if (hoveredIndex.value < 0 || !firstLineData.value[hoveredIndex.value]) {
+    return 100;
+  }
+
+  const dateLabel = formatTimestamp(firstLineData.value[hoveredIndex.value].timestamp * 1000);
+  let maxLength = dateLabel.length;
+
+  for (const prepared of preparedLines.value) {
+    if (prepared.allZeros) {
+      continue;
+    }
+
+    const value = formatSpacedNumber(getLineValueAtHoveredIndex(prepared.line, hoveredIndex.value));
+    const row = `${value} ${prepared.line.label}`;
+
+    if (row.length > maxLength) {
+      maxLength = row.length;
+    }
+  }
+
+  return maxLength * 6.4 + 24;
+});
+
+/**
  * Tooltip alignment class based on position to prevent overflow
  */
 const tooltipAlignment = computed((): string => {
-  const estimatedTooltipWidth = 100;
+  const estimatedTooltipWidth = tooltipMinWidth.value;
   const pointerX = hoveredIndex.value * stepX.value;
 
   if (pointerX < estimatedTooltipWidth / 2) {
@@ -431,15 +516,7 @@ function getLineValueAtHoveredIndex(line: ChartLineInterface, index: number): nu
  * @param line - the chart line
  */
 function getLineColor(line: ChartLineInterface): ChartLineColors {
-  const colorName = line.color ?? 'red';
-
-  const color = chartColorsPalette.value.find(c => c.name === colorName);
-
-  if (!color) {
-    throw new Error(`Color ${colorName} not found in chartColors`);
-  }
-
-  return color;
+  return resolveChartLineColor(line.color, chartColorsPalette.value);
 }
 
 /**
@@ -453,31 +530,52 @@ function getCursorColor(line: ChartLineInterface): string {
   return color.pointerColor;
 }
 
+const shortMonths = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
 /**
- * Formats timestamp based on detalization prop
+ * Compact axis label. Minutes get the date on the first visible tick (and on day change).
+ *
+ * @param timestamp - timestamp in milliseconds
+ * @param includeDate - prepend day + month
+ */
+function formatAxisTimestamp(timestamp: number, includeDate = false): string {
+  const date = new Date(timestamp);
+  const paddedHours = date.getHours().toString().padStart(2, '0');
+  const paddedMinutes = date.getMinutes().toString().padStart(2, '0');
+  const time = `${paddedHours}:${paddedMinutes}`;
+  const dayMonth = `${date.getDate()} ${shortMonths[date.getMonth()]}`;
+
+  if (props.detalization === 'days') {
+    return dayMonth;
+  }
+
+  if (includeDate) {
+    return `${dayMonth}, ${time}`;
+  }
+
+  return time;
+}
+
+/**
+ * Tooltip timestamp: date+time for hours and minutes, date for days.
  *
  * @param timestamp - timestamp in milliseconds
  */
 function formatTimestamp(timestamp: number): string {
   const date = new Date(timestamp);
-  const shortMonths = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const day = date.getDate();
+  const month = shortMonths[date.getMonth()];
+  const paddedHours = date.getHours().toString().padStart(2, '0');
+  const paddedMinutes = date.getMinutes().toString().padStart(2, '0');
+  const time = `${paddedHours}:${paddedMinutes}`;
 
-  if (props.detalization === 'days') {
-    /* For days, show only day and month */
-    const day = date.getDate();
-    const month = date.getMonth();
-
-    return `${day} ${shortMonths[month]}`;
-  } else {
-    /* For hours and minutes, show day, month, hours:minutes */
-    const day = date.getDate();
-    const month = date.getMonth();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const paddedHours = hours.toString().padStart(2, '0');
-    const paddedMinutes = minutes.toString().padStart(2, '0');
-
-    return `${day} ${shortMonths[month]}, ${paddedHours}:${paddedMinutes}`;
+  switch (props.detalization) {
+    case 'minutes':
+    case 'hours':
+      return `${day} ${month}, ${time}`;
+    case 'days':
+    default:
+      return `${day} ${month}`;
   }
 }
 
@@ -504,19 +602,28 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style module>
+<style module lang="postcss">
+@import '@/styles/typography.pcss';
+
 .chart {
   position: relative;
-  z-index: 0;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  height: 215px;
+  overflow: visible;
   background-color: var(--base--bg-secondary);
   border-radius: var(--radius-s);
 
-  --legend-height: 40px;
-  --legend-line-height: 11px;
-  --legend-block-padding: 15px;
+  --legend-height: var(--spacing-xxl);
+  --legend-block-padding: var(--spacing-s);
+}
+
+.chart__plot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 215px;
+  overflow: visible;
 }
 
 .chart__info {
@@ -525,7 +632,7 @@ onBeforeUnmount(() => {
   right: var(--spacing-ml);
   padding: var(--spacing-xs) var(--spacing-ms);
   color: var(--base--text);
-  font-size: 13px;
+  @apply --text-ui-small;
   white-space: nowrap;
   background: color-mod(var(--base--bg-primary) alpha(50%));
   border-radius: var(--radius-s);
@@ -537,7 +644,7 @@ onBeforeUnmount(() => {
 
 .chart__info-highlight {
   margin-left: var(--spacing-xs);
-  font-weight: bold;
+  @apply --text-ui-base-bold;
 }
 
 .chart__body {
@@ -560,8 +667,7 @@ onBeforeUnmount(() => {
   position: absolute;
   left: 0;
   color: var(--base--text);
-  font-size: 11px;
-  line-height: var(--legend-line-height);
+  @apply --text-ui-small;
   text-align: center;
   transform-origin: center;
   opacity: 0.3;
@@ -577,7 +683,7 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: var(--z-popover);
   width: 3px;
   height: 100%;
   margin-left: -1.5px;
@@ -589,10 +695,10 @@ onBeforeUnmount(() => {
 .chart__pointer-cursor {
   position: absolute;
   top: 0;
-  width: 7px;
-  height: 7px;
-  margin-top: -3.5px;
-  margin-left: -2px;
+  width: var(--spacing-xs);
+  height: var(--spacing-xs);
+  margin-top: calc(var(--spacing-xs) / -2);
+  margin-left: calc(var(--spacing-very-x) / -2);
   border-radius: 50%;
   opacity: 1;
   will-change: transform;
@@ -602,20 +708,17 @@ onBeforeUnmount(() => {
   --tooltip-block-padding: var(--spacing-xs);
 
   position: absolute;
-  top: calc(100% - var(--legend-height) + var(--legend-block-padding) - var(--tooltip-block-padding) - 1px);
+  top: calc(100% - var(--legend-height) + var(--legend-block-padding) - var(--tooltip-block-padding) - var(--delimiter-height));
   left: 50%;
-  z-index: 500;
   padding-block: var(--tooltip-block-padding);
   padding-inline: var(--spacing-s);
   color: var(--base--text);
-  font-size: 12px;
-  line-height: 1.4;
-  letter-spacing: 0.2px;
+  @apply --text-ui-base;
   white-space: nowrap;
   text-align: center;
   background: var(--base--bg-primary);
   border-radius: var(--radius-m);
-  box-shadow: 0 7px 12px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 var(--spacing-s) var(--spacing-m) 0 rgba(0, 0, 0, 0.12);
   transform: translateX(-50%);
   transition: min-width 150ms ease;
 }
@@ -631,24 +734,47 @@ onBeforeUnmount(() => {
   transform: translateX(0);
 }
 
+.chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-s) var(--spacing-ml);
+  padding: 0 var(--spacing-ml) var(--spacing-m);
+}
+
+.chart__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--base--text-secondary);
+  @apply --text-ui-small;
+  white-space: nowrap;
+}
+
+.chart__legend-dot {
+  flex-shrink: 0;
+  width: var(--spacing-xs);
+  height: var(--spacing-xs);
+  border-radius: 50%;
+}
+
 .chart__pointer-tooltip-date {
   margin-bottom: var(--spacing-very-x);
   color: var(--base--text-secondary);
-  font-size: 11px;
+  @apply --text-ui-small;
 }
 
 .chart__pointer-tooltip-number {
-  font-weight: 500;
+  @apply --text-ui-base-medium;
 }
 
 .chart__pointer-tooltip-dot {
   display: inline-block;
-  width: 5px;
-  height: 5px;
+  width: var(--spacing-xxs);
+  height: var(--spacing-xxs);
   border-radius: 50%;
   vertical-align: middle;
-  margin-left: 2px;
-  margin-top: -1px;
+  margin-left: var(--spacing-very-x);
+  margin-top: calc(var(--delimiter-height) * -1);
 }
 
 @keyframes pointer-in {

@@ -14,6 +14,11 @@ export enum ChartLineColor {
 }
 
 /**
+ * Palette token (`red` / `light-grey`) or a CSS hex/rgb color string.
+ */
+export type ChartLineColorToken = ChartLineColor | (string & {});
+
+/**
  * Chart element in common case
  */
 export interface ChartItem {
@@ -43,9 +48,10 @@ export interface ChartLine {
   data: ChartItem[];
 
   /**
-   * Name of the color for the line stroke and fill.
+   * Line color: a ChartLineColor token, or any CSS color string.
+   * Defaults to red when omitted.
    */
-  color?: ChartLineColor;
+  color?: ChartLineColorToken;
 }
 
 /**
@@ -53,9 +59,9 @@ export interface ChartLine {
  */
 export interface ChartLineColors {
   /**
-   * Name of the color
+   * Name of the color (palette token or the original CSS color)
    */
-  name: ChartLineColor;
+  name: string;
   /**
    * Starting color for stroke gradient (top)
    */
