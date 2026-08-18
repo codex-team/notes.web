@@ -2,6 +2,41 @@ import { ChartLineColor } from './Chart.types';
 import type { ChartLineColorToken, ChartLineColors } from './Chart.types';
 
 /**
+ * Max value of an RGB channel
+ */
+const RGB_CHANNEL_MAX = 255;
+
+/**
+ * Radix for hex color strings
+ */
+const HEX_RADIX = 16;
+
+/**
+ * Byte width in a #RRGGBB string (two hex digits)
+ */
+const HEX_BYTE_LENGTH = 2;
+
+/**
+ * Start of the green byte in #RRGGBB (without '#')
+ */
+const HEX_GREEN_OFFSET = 2;
+
+/**
+ * Start of the blue byte in #RRGGBB (without '#')
+ */
+const HEX_BLUE_OFFSET = 4;
+
+/**
+ * Length of the #RRGGBB payload (without '#')
+ */
+const HEX_RGB_LENGTH = 6;
+
+/**
+ * Palette name for the default series color
+ */
+const RED_TOKEN: string = ChartLineColor.Red;
+
+/**
  * Colors for dark color scheme.
  */
 export const chartColorsDark: ChartLineColors[] = [
@@ -47,7 +82,6 @@ export const chartColorsLight: ChartLineColors[] = [
 
 /**
  * Clamp a color channel to 0–255
- *
  * @param value - parsed channel
  */
 function clampChannel(value: number): number {
@@ -55,12 +89,11 @@ function clampChannel(value: number): number {
     return 0;
   }
 
-  return Math.max(0, Math.min(255, Math.round(value)));
+  return Math.max(0, Math.min(RGB_CHANNEL_MAX, Math.round(value)));
 }
 
 /**
  * Parse #RGB or #RRGGBB only. Anything else is rejected — never pass raw CSS through.
- *
  * @param color - CSS color string
  */
 function parseHexColor(color: string): { r: number; g: number; b: number } | null {
@@ -71,19 +104,21 @@ function parseHexColor(color: string): { r: number; g: number; b: number } | nul
     const [r, g, b] = shortHex[1].split('');
 
     return {
-      r: parseInt(r + r, 16),
-      g: parseInt(g + g, 16),
-      b: parseInt(b + b, 16),
+      r: parseInt(r + r, HEX_RADIX),
+      g: parseInt(g + g, HEX_RADIX),
+      b: parseInt(b + b, HEX_RADIX),
     };
   }
 
   const longHex = /^#([0-9a-fA-F]{6})$/.exec(value);
 
   if (longHex) {
+    const payload = longHex[1];
+
     return {
-      r: parseInt(longHex[1].slice(0, 2), 16),
-      g: parseInt(longHex[1].slice(2, 4), 16),
-      b: parseInt(longHex[1].slice(4, 6), 16),
+      r: parseInt(payload.slice(0, HEX_GREEN_OFFSET), HEX_RADIX),
+      g: parseInt(payload.slice(HEX_GREEN_OFFSET, HEX_BLUE_OFFSET), HEX_RADIX),
+      b: parseInt(payload.slice(HEX_BLUE_OFFSET, HEX_RGB_LENGTH), HEX_RADIX),
     };
   }
 
@@ -91,8 +126,16 @@ function parseHexColor(color: string): { r: number; g: number; b: number } | nul
 }
 
 /**
+ * Format a 0–255 channel as two hex digits
+ * @param channel - clamped RGB channel
+ */
+function channelToHex(channel: number): string {
+  return channel.toString(HEX_RADIX)
+    .padStart(HEX_BYTE_LENGTH, '0');
+}
+
+/**
  * Build a gradient set from a hex color. Returns null if the string is not a hex.
- *
  * @param color - CSS color string
  */
 export function createChartLineColorsFromCss(color: string): ChartLineColors | null {
@@ -107,7 +150,7 @@ export function createChartLineColorsFromCss(color: string): ChartLineColors | n
   const b = clampChannel(parsed.b);
 
   return {
-    name: `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`,
+    name: `#${channelToHex(r)}${channelToHex(g)}${channelToHex(b)}`,
     strokeStart: `rgb(${r}, ${g}, ${b})`,
     strokeEnd: `rgba(${r}, ${g}, ${b}, 0.22)`,
     fillStart: `rgba(${r}, ${g}, ${b}, 0.26)`,
@@ -118,7 +161,6 @@ export function createChartLineColorsFromCss(color: string): ChartLineColors | n
 
 /**
  * Resolve a line color: palette token or hex. Invalid values fall back to red.
- *
  * @param color - palette token or hex
  * @param palette - dark/light chart palette
  */
@@ -126,13 +168,13 @@ export function resolveChartLineColor(
   color: ChartLineColorToken | undefined,
   palette: ChartLineColors[]
 ): ChartLineColors {
-  const fallback = palette.find(c => c.name === ChartLineColor.Red) ?? palette[0];
-  const colorName = color ?? ChartLineColor.Red;
-  const fromPalette = palette.find(c => c.name === colorName);
+  const fallback = palette.find(item => item.name === RED_TOKEN) ?? palette[0];
+  const colorName: string = color ?? ChartLineColor.Red;
+  const fromPalette = palette.find(item => item.name === colorName);
 
   if (fromPalette) {
     return fromPalette;
   }
 
-  return createChartLineColorsFromCss(String(colorName)) ?? fallback;
+  return createChartLineColorsFromCss(colorName) ?? fallback;
 }

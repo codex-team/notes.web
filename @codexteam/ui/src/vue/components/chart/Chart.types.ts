@@ -14,9 +14,9 @@ export enum ChartLineColor {
 }
 
 /**
- * Palette token (`red` / `light-grey`) or a CSS hex/rgb color string.
+ * Palette token (`red` / `light-grey`) or a hex color (`#RGB` / `#RRGGBB`).
  */
-export type ChartLineColorToken = ChartLineColor | (string & {});
+export type ChartLineColorToken = ChartLineColor | `#${string}`;
 
 /**
  * Chart element in common case
@@ -48,7 +48,7 @@ export interface ChartLine {
   data: ChartItem[];
 
   /**
-   * Line color: a ChartLineColor token, or any CSS color string.
+   * Line color: a ChartLineColor token, or a hex string.
    * Defaults to red when omitted.
    */
   color?: ChartLineColorToken;

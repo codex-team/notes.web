@@ -540,8 +540,12 @@ const shortMonths = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'se
  */
 function formatAxisTimestamp(timestamp: number, includeDate = false): string {
   const date = new Date(timestamp);
-  const paddedHours = date.getHours().toString().padStart(2, '0');
-  const paddedMinutes = date.getMinutes().toString().padStart(2, '0');
+  const paddedHours = date.getHours()
+    .toString()
+    .padStart(2, '0');
+  const paddedMinutes = date.getMinutes()
+    .toString()
+    .padStart(2, '0');
   const time = `${paddedHours}:${paddedMinutes}`;
   const dayMonth = `${date.getDate()} ${shortMonths[date.getMonth()]}`;
 
@@ -565,8 +569,12 @@ function formatTimestamp(timestamp: number): string {
   const date = new Date(timestamp);
   const day = date.getDate();
   const month = shortMonths[date.getMonth()];
-  const paddedHours = date.getHours().toString().padStart(2, '0');
-  const paddedMinutes = date.getMinutes().toString().padStart(2, '0');
+  const paddedHours = date.getHours()
+    .toString()
+    .padStart(2, '0');
+  const paddedMinutes = date.getMinutes()
+    .toString()
+    .padStart(2, '0');
   const time = `${paddedHours}:${paddedMinutes}`;
 
   switch (props.detalization) {

@@ -160,6 +160,9 @@ const detalizationConfig: Record<DetalizationValue, {
 
 /**
  * Shared timestamps aligned to the selected detalization bucket
+ *
+ * @param points - Number of ticks
+ * @param intervalSeconds - Step between ticks
  */
 function generateTimestamps(points: number, intervalSeconds: number): number[] {
   const now = Math.floor(Date.now() / 1000);
