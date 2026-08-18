@@ -10,11 +10,46 @@ export enum ChartLineColor {
   /**
    * Accent color for secondary line
    */
-  LightGrey = 'light-grey'
+  LightGrey = 'light-grey',
+
+  /**
+   * Blue series
+   */
+  Blue = 'blue',
+
+  /**
+   * Green series
+   */
+  Green = 'green',
+
+  /**
+   * Orange series
+   */
+  Orange = 'orange',
+
+  /**
+   * Violet series
+   */
+  Violet = 'violet',
+
+  /**
+   * Yellow series
+   */
+  Yellow = 'yellow',
+
+  /**
+   * Cyan series
+   */
+  Cyan = 'cyan',
+
+  /**
+   * Pink series
+   */
+  Pink = 'pink'
 }
 
 /**
- * Palette token (`red` / `light-grey`) or a hex color (`#RGB` / `#RRGGBB`).
+ * Palette token or a hex color (`#RGB` / `#RRGGBB`).
  */
 export type ChartLineColorToken = ChartLineColor | `#${string}`;
 
@@ -59,7 +94,7 @@ export interface ChartLine {
  */
 export interface ChartLineColors {
   /**
-   * Name of the color (palette token or the original CSS color)
+   * Name of the color (palette token or hex)
    */
   name: string;
   /**

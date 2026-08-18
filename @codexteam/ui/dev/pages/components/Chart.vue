@@ -22,13 +22,15 @@
         lines[].color
       </h4>
       <p class="chart-props__description">
-        <code>ChartLineColor.Red</code> / <code>ChartLineColor.LightGrey</code>,
-        or any CSS color string (<code>'#3F88FF'</code>, <code>'rgb(...)'</code>).
-        Omit it and the line stays red.
+        Built-in palette token, or a hex override. Omit it and the line stays red.
       </p>
       <ul class="chart-props__list">
-        <li><code>red</code>, <code>light-grey</code> — built-in palette</li>
-        <li>any CSS color: <code>'#3F88FF'</code>, <code>'#00C853'</code></li>
+        <li>
+          <code>red</code>, <code>light-grey</code>, <code>blue</code>,
+          <code>green</code>, <code>orange</code>, <code>violet</code>,
+          <code>yellow</code>, <code>cyan</code>, <code>pink</code>
+        </li>
+        <li>hex override: <code>'#7CFF6B'</code></li>
       </ul>
     </div>
 
@@ -77,6 +79,15 @@
     Single Line
   </Heading>
   <div class="chart-example">
+    <div class="chart-example__toolbar">
+      <span class="chart-props__control-label">color:</span>
+      <Select
+        v-model="singleLineColorSelected"
+        :align="{ vertically: 'below', horizontally: 'left' }"
+        :is-disabled="false"
+        :items="paletteColorItems"
+      />
+    </div>
     <div class="chart-example__showcase">
       <Chart
         :lines="[singleLineData]"
@@ -100,15 +111,31 @@
   </div>
 
   <Heading :level="3">
-    Many Series
+    Palette
   </Heading>
   <p class="chart-example-note">
-    Extra series via hex strings. Legend below, tooltip grows down from the axis.
+    Every hardcoded <code>ChartLineColor</code> token on one chart. No hex.
+  </p>
+  <div class="chart-example chart-example--tall">
+    <div class="chart-example__showcase">
+      <Chart
+        :lines="paletteSeriesData"
+        :detalization="currentDetalization"
+        :legend="legendEnabled"
+      />
+    </div>
+  </div>
+
+  <Heading :level="3">
+    Hex override
+  </Heading>
+  <p class="chart-example-note">
+    Same series as Single Line, but <code>color: '#7CFF6B'</code>.
   </p>
   <div class="chart-example">
     <div class="chart-example__showcase">
       <Chart
-        :lines="manySeriesData"
+        :lines="[hexLineData]"
         :detalization="currentDetalization"
         :legend="legendEnabled"
       />
@@ -231,13 +258,62 @@ const demoTimestamps = computed((): number[] => {
 });
 
 /**
- * Single line chart data - 30 days of events
+ * Built-in palette tokens, same order as ChartLineColor
+ */
+const paletteTokens: ChartLineColor[] = Object.values(ChartLineColor);
+
+/**
+ * Fast lookup for Select titles
+ */
+const paletteTokenSet = new Set<string>(paletteTokens);
+
+/**
+ * Color picker for the single-line preview
+ */
+const singleLineColorSelected = ref<DefaultItem>({
+  title: ChartLineColor.Red,
+  onActivate,
+});
+
+/**
+ * Palette options for the Single Line select
+ */
+const paletteColorItems: ContextMenuItem[] = paletteTokens.map(title => ({
+  title,
+  onActivate,
+}));
+
+/**
+ * Keep points stable when only the color token changes
+ */
+const singleLinePoints = computed((): ChartItem[] => {
+  return generateData(demoTimestamps.value, 2000);
+});
+
+/**
+ * Single line chart data
  */
 const singleLineData = computed<ChartLine>(() => {
+  const title = singleLineColorSelected.value.title;
+  const color = paletteTokenSet.has(title)
+    ? title as ChartLineColor
+    : ChartLineColor.Red;
+
   return {
-    label: 'events',
-    data: generateData(demoTimestamps.value, 2000),
-    color: ChartLineColor.Red,
+    label: title,
+    data: singleLinePoints.value,
+    color,
+  };
+});
+
+/**
+ * Hex override demo — same points as Single Line
+ */
+const hexLineData = computed<ChartLine>(() => {
+  return {
+    label: '#7CFF6B',
+    data: singleLinePoints.value,
+    color: '#7CFF6B',
   };
 });
 
@@ -262,53 +338,17 @@ const multipleLinesData = computed<ChartLine[]>(() => {
 });
 
 /**
- * Many series — built-in red/grey plus hex colors
+ * All hardcoded palette tokens stacked for comparison
  */
-const manySeriesData = computed<ChartLine[]>(() => {
+const paletteSeriesData = computed<ChartLine[]>(() => {
   const timestamps = demoTimestamps.value;
+  const bases = [150, 130, 110, 95, 80, 70, 55, 40, 25];
 
-  return [
-    {
-      label: 'accepted',
-      data: generateData(timestamps, 150),
-      color: ChartLineColor.Red,
-    },
-    {
-      label: 'filtered',
-      data: generateData(timestamps, 40),
-      color: ChartLineColor.LightGrey,
-    },
-    {
-      label: 'processed',
-      data: generateData(timestamps, 120),
-      color: '#3F88FF',
-    },
-    {
-      label: 'delivered',
-      data: generateData(timestamps, 90),
-      color: '#00C853',
-    },
-    {
-      label: 'queued',
-      data: generateData(timestamps, 70),
-      color: '#913BE6',
-    },
-    {
-      label: 'warnings',
-      data: generateData(timestamps, 35),
-      color: '#FF8A3D',
-    },
-    {
-      label: 'retries',
-      data: generateData(timestamps, 25),
-      color: '#2EC4B6',
-    },
-    {
-      label: 'custom',
-      data: generateData(timestamps, 55),
-      color: '#7CFF6B',
-    },
-  ];
+  return paletteTokens.map((color, index) => ({
+    label: color,
+    data: generateData(timestamps, bases[index] ?? 50),
+    color,
+  }));
 });
 </script>
 
@@ -386,6 +426,12 @@ const manySeriesData = computed<ChartLine[]>(() => {
   margin: 0 0 var(--spacing-xxl);
   position: relative;
 
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s);
+  }
+
   &__showcase {
     width: 100%;
     background-color: var(--base--bg-secondary);
@@ -395,6 +441,10 @@ const manySeriesData = computed<ChartLine[]>(() => {
   &:last-child {
     margin-bottom: 0;
     padding-bottom: 180px;
+  }
+
+  &--tall {
+    padding-bottom: 240px;
   }
 }
 </style>

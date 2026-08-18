@@ -1,9 +1,10 @@
 <template>
   <div :class="$style.chart">
     <div
+      ref="plot"
       :class="$style.chart__plot"
       @mousemove.passive="moveTooltip"
-      @mouseleave.passive="hoveredIndex = -1"
+      @mouseleave.passive="leavePlot"
     >
       <svg
         ref="chart"
@@ -63,21 +64,33 @@
             tooltipAlignment === 'right' && $style['chart__pointer-tooltip--right']
           ]"
           :style="{ minWidth: `${tooltipMinWidth}px` }"
+          @mousemove.stop
+          @mouseenter="pinTooltip"
+          @mouseleave="unpinTooltip"
         >
           <div :class="$style['chart__pointer-tooltip-date']">
             {{ formatTimestamp(firstLineData[hoveredIndex].timestamp * 1000) }}
           </div>
           <div
-            v-for="(item, index) in tooltipLines"
-            :key="`tooltip-line-${item.prepared.line.label}-${index}`"
+            v-for="item in tooltipLines"
+            :key="`tooltip-line-${item.prepared.index}`"
             :class="$style['chart__pointer-tooltip-number']"
           >
-            <AnimatedCounter :value="formatSpacedNumber(item.value)" />
-            {{ item.prepared.line.label }}
             <span
               :class="$style['chart__pointer-tooltip-dot']"
               :style="{ backgroundColor: getCursorColor(item.prepared.line) }"
             />
+            <span :class="$style['chart__pointer-tooltip-metrics']">
+              <span
+                :key="`tooltip-value-${item.prepared.index}-${item.value}`"
+                :class="$style['chart__pointer-tooltip-value']"
+              >
+                {{ formatSpacedNumber(item.value) }}
+              </span>
+              <span :class="$style['chart__pointer-tooltip-label']">
+                {{ item.prepared.line.label }}
+              </span>
+            </span>
           </div>
         </div>
       </div>
@@ -106,7 +119,6 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { ChartItem, ChartLineColors, ChartLine as ChartLineInterface } from './Chart.types';
 import { chartColorsDark, chartColorsLight, resolveChartLineColor } from './Chart.colors';
 import { ColorScheme, useTheme } from '../../composables/useTheme';
-import AnimatedCounter from '../counter/Counter.vue';
 import ChartLine from './ChartLine.vue';
 import { throttle } from '../../utils';
 
@@ -118,6 +130,7 @@ interface PreparedLine {
   min: number;
   max: number;
   allZeros: boolean;
+  index: number;
 }
 
 interface Props {
@@ -178,6 +191,16 @@ const hoveredIndex = ref(-1);
 const chart = ref<SVGElement | null>(null);
 
 /**
+ * Plot wrapper — used to know whether the cursor left the chart or just entered the tooltip
+ */
+const plot = ref<HTMLElement | null>(null);
+
+/**
+ * Cursor is over the tooltip: keep the last point, do not scrub
+ */
+const tooltipPinned = ref(false);
+
+/**
  * Cached chart left position for performance
  */
 const chartLeft = ref(0);
@@ -187,7 +210,7 @@ const chartLeft = ref(0);
  * This avoids recalculating O(n_data) on every render/mousemove
  */
 const preparedLines = computed((): PreparedLine[] => {
-  return props.lines.map((line) => {
+  return props.lines.map((line, index) => {
     let min = Infinity;
     let max = 0;
     let allZeros = true;
@@ -212,7 +235,8 @@ const preparedLines = computed((): PreparedLine[] => {
     return { line,
       min: safeMin,
       max: safeMax,
-      allZeros };
+      allZeros,
+      index };
   });
 });
 
@@ -383,7 +407,7 @@ const tooltipMinWidth = computed((): number => {
     }
   }
 
-  return maxLength * 6.4 + 24;
+  return maxLength * 5.6 + 28;
 });
 
 /**
@@ -443,6 +467,10 @@ const onResize = throttle(windowResized, 200);
  * @param event - mousemove
  */
 function moveTooltip(event: MouseEvent): void {
+  if (tooltipPinned.value) {
+    return;
+  }
+
   if (firstLineData.value.length === 0) {
     hoveredIndex.value = -1;
 
@@ -462,6 +490,39 @@ function moveTooltip(event: MouseEvent): void {
   const clampedIndex = Math.max(0, Math.min(firstLineData.value.length - 1, newIndex));
 
   hoveredIndex.value = clampedIndex;
+}
+
+/**
+ * Hide hover UI when the cursor leaves the plot, unless it entered the tooltip
+ */
+function leavePlot(): void {
+  if (tooltipPinned.value) {
+    return;
+  }
+
+  hoveredIndex.value = -1;
+}
+
+/**
+ * Freeze the hovered point while the cursor is on the tooltip
+ */
+function pinTooltip(): void {
+  tooltipPinned.value = true;
+}
+
+/**
+ * Resume scrubbing if the cursor returned to the plot, otherwise hide
+ *
+ * @param event - tooltip mouseleave
+ */
+function unpinTooltip(event: MouseEvent): void {
+  tooltipPinned.value = false;
+
+  const next = event.relatedTarget;
+
+  if (!(next instanceof Node) || plot.value?.contains(next) !== true) {
+    hoveredIndex.value = -1;
+  }
 }
 
 /**
@@ -703,29 +764,33 @@ onBeforeUnmount(() => {
 .chart__pointer-cursor {
   position: absolute;
   top: 0;
+  left: 50%;
   width: var(--spacing-xs);
   height: var(--spacing-xs);
   margin-top: calc(var(--spacing-xs) / -2);
-  margin-left: calc(var(--spacing-very-x) / -2);
+  margin-left: calc(var(--spacing-xs) / -2);
   border-radius: 50%;
   opacity: 1;
   will-change: transform;
 }
 
 .chart__pointer-tooltip {
-  --tooltip-block-padding: var(--spacing-xs);
+  --tooltip-block-padding: var(--spacing-xxs);
 
   position: absolute;
   top: calc(100% - var(--legend-height) + var(--legend-block-padding) - var(--tooltip-block-padding) - var(--delimiter-height));
   left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
   padding-block: var(--tooltip-block-padding);
-  padding-inline: var(--spacing-s);
+  padding-inline: var(--spacing-xs);
   color: var(--base--text);
-  @apply --text-ui-base;
+  @apply --text-ui-small;
   white-space: nowrap;
-  text-align: center;
+  text-align: left;
   background: var(--base--bg-primary);
-  border-radius: var(--radius-m);
+  border-radius: var(--radius-s);
   box-shadow: 0 var(--spacing-s) var(--spacing-m) 0 rgba(0, 0, 0, 0.12);
   transform: translateX(-50%);
   transition: min-width 150ms ease;
@@ -766,23 +831,55 @@ onBeforeUnmount(() => {
 }
 
 .chart__pointer-tooltip-date {
-  margin-bottom: var(--spacing-very-x);
   color: var(--base--text-secondary);
+  text-align: center;
   @apply --text-ui-small;
 }
 
 .chart__pointer-tooltip-number {
-  @apply --text-ui-base-medium;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.chart__pointer-tooltip-metrics {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+}
+
+.chart__pointer-tooltip-value,
+.chart__pointer-tooltip-label {
+  font-size: 1em;
+  font-weight: 400;
+  letter-spacing: inherit;
+  line-height: 1;
+}
+
+.chart__pointer-tooltip-value {
+  color: var(--base--text);
+  animation: tooltip-value-in 500ms ease;
+}
+
+.chart__pointer-tooltip-label {
+  color: var(--base--text-secondary);
 }
 
 .chart__pointer-tooltip-dot {
-  display: inline-block;
-  width: var(--spacing-xxs);
-  height: var(--spacing-xxs);
+  flex-shrink: 0;
+  width: var(--spacing-xs);
+  height: var(--spacing-xs);
   border-radius: 50%;
-  vertical-align: middle;
-  margin-left: var(--spacing-very-x);
-  margin-top: calc(var(--delimiter-height) * -1);
+}
+
+@keyframes tooltip-value-in {
+  from {
+    transform: translateY(-5px);
+  }
+
+  to {
+    transform: none;
+  }
 }
 
 @keyframes pointer-in {

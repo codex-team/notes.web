@@ -61,7 +61,7 @@ interface Props {
   label?: string;
 
   /**
-   * Name of the color for the chart line, or any CSS color string
+   * Palette token or hex (`#RGB` / `#RRGGBB`)
    */
   color?: ChartLineColorToken;
 

@@ -56,6 +56,62 @@ export const chartColorsDark: ChartLineColors[] = [
     fillEnd: 'rgba(66, 69, 101, 0)',
     pointerColor: '#FF2E51',
   },
+  {
+    name: ChartLineColor.Blue,
+    strokeStart: '#3F88FF',
+    strokeEnd: '#424565',
+    fillStart: 'rgba(63, 136, 255, 0.22)',
+    fillEnd: 'rgba(66, 69, 101, 0)',
+    pointerColor: '#3F88FF',
+  },
+  {
+    name: ChartLineColor.Green,
+    strokeStart: '#00C853',
+    strokeEnd: '#424565',
+    fillStart: 'rgba(0, 200, 83, 0.22)',
+    fillEnd: 'rgba(66, 69, 101, 0)',
+    pointerColor: '#00C853',
+  },
+  {
+    name: ChartLineColor.Orange,
+    strokeStart: '#FF8A3D',
+    strokeEnd: '#424565',
+    fillStart: 'rgba(255, 138, 61, 0.22)',
+    fillEnd: 'rgba(66, 69, 101, 0)',
+    pointerColor: '#FF8A3D',
+  },
+  {
+    name: ChartLineColor.Violet,
+    strokeStart: '#913BE6',
+    strokeEnd: '#424565',
+    fillStart: 'rgba(145, 59, 230, 0.22)',
+    fillEnd: 'rgba(66, 69, 101, 0)',
+    pointerColor: '#913BE6',
+  },
+  {
+    name: ChartLineColor.Yellow,
+    strokeStart: '#F5C542',
+    strokeEnd: '#424565',
+    fillStart: 'rgba(245, 197, 66, 0.22)',
+    fillEnd: 'rgba(66, 69, 101, 0)',
+    pointerColor: '#F5C542',
+  },
+  {
+    name: ChartLineColor.Cyan,
+    strokeStart: '#2EC4B6',
+    strokeEnd: '#424565',
+    fillStart: 'rgba(46, 196, 182, 0.22)',
+    fillEnd: 'rgba(66, 69, 101, 0)',
+    pointerColor: '#2EC4B6',
+  },
+  {
+    name: ChartLineColor.Pink,
+    strokeStart: '#FF5CA8',
+    strokeEnd: '#424565',
+    fillStart: 'rgba(255, 92, 168, 0.22)',
+    fillEnd: 'rgba(66, 69, 101, 0)',
+    pointerColor: '#FF5CA8',
+  },
 ];
 
 /**
@@ -78,6 +134,62 @@ export const chartColorsLight: ChartLineColors[] = [
     fillEnd: 'rgba(255, 190, 198, 0)',
     pointerColor: '#FF4A68',
   },
+  {
+    name: ChartLineColor.Blue,
+    strokeStart: '#4F94FF',
+    strokeEnd: 'rgba(119, 136, 198, 0.4)',
+    fillStart: 'rgba(79, 148, 255, 0.28)',
+    fillEnd: 'rgba(190, 214, 255, 0)',
+    pointerColor: '#4F94FF',
+  },
+  {
+    name: ChartLineColor.Green,
+    strokeStart: '#26A15F',
+    strokeEnd: 'rgba(119, 136, 198, 0.4)',
+    fillStart: 'rgba(38, 161, 95, 0.28)',
+    fillEnd: 'rgba(168, 232, 198, 0)',
+    pointerColor: '#26A15F',
+  },
+  {
+    name: ChartLineColor.Orange,
+    strokeStart: '#F07828',
+    strokeEnd: 'rgba(119, 136, 198, 0.4)',
+    fillStart: 'rgba(240, 120, 40, 0.28)',
+    fillEnd: 'rgba(255, 210, 176, 0)',
+    pointerColor: '#F07828',
+  },
+  {
+    name: ChartLineColor.Violet,
+    strokeStart: '#8B4BCB',
+    strokeEnd: 'rgba(119, 136, 198, 0.4)',
+    fillStart: 'rgba(139, 75, 203, 0.28)',
+    fillEnd: 'rgba(234, 212, 255, 0)',
+    pointerColor: '#8B4BCB',
+  },
+  {
+    name: ChartLineColor.Yellow,
+    strokeStart: '#D9A82E',
+    strokeEnd: 'rgba(119, 136, 198, 0.4)',
+    fillStart: 'rgba(217, 168, 46, 0.28)',
+    fillEnd: 'rgba(255, 232, 176, 0)',
+    pointerColor: '#D9A82E',
+  },
+  {
+    name: ChartLineColor.Cyan,
+    strokeStart: '#1AA89C',
+    strokeEnd: 'rgba(119, 136, 198, 0.4)',
+    fillStart: 'rgba(26, 168, 156, 0.28)',
+    fillEnd: 'rgba(176, 232, 226, 0)',
+    pointerColor: '#1AA89C',
+  },
+  {
+    name: ChartLineColor.Pink,
+    strokeStart: '#E94B93',
+    strokeEnd: 'rgba(119, 136, 198, 0.4)',
+    fillStart: 'rgba(233, 75, 147, 0.28)',
+    fillEnd: 'rgba(255, 198, 222, 0)',
+    pointerColor: '#E94B93',
+  },
 ];
 
 /**
@@ -94,7 +206,7 @@ function clampChannel(value: number): number {
 
 /**
  * Parse #RGB or #RRGGBB only. Anything else is rejected — never pass raw CSS through.
- * @param color - CSS color string
+ * @param color - hex color string
  */
 function parseHexColor(color: string): { r: number; g: number; b: number } | null {
   const value = color.trim();
@@ -136,7 +248,7 @@ function channelToHex(channel: number): string {
 
 /**
  * Build a gradient set from a hex color. Returns null if the string is not a hex.
- * @param color - CSS color string
+ * @param color - hex color string
  */
 export function createChartLineColorsFromCss(color: string): ChartLineColors | null {
   const parsed = parseHexColor(color);
