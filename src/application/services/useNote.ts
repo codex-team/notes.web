@@ -142,6 +142,13 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const route = useRoute();
 
   /**
+   * Incremented on each new load request to discard stale async results
+   * Prevents race conditions when rapidly switching between notes causes
+   * multiple concurrent load() invocations to resolve out of order
+   */
+  let currentLoadId = 0;
+
+  /**
    * Note Title identifier
    */
   const noteTitle = computed(() => {
@@ -192,8 +199,18 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param id - Note identifier got from composable argument
    */
   async function load(id: NoteId): Promise<void> {
+    const loadId = ++currentLoadId;
+
     try {
       const response = await noteService.getNoteById(id);
+
+      /**
+       * If a newer load request has superseded this one — discard stale results
+       * to prevent mismatched content/tools state when switching notes quickly
+       */
+      if (loadId !== currentLoadId) {
+        return;
+      }
 
       note.value = response.note;
       lastUpdateContent.value = response.note.content;
