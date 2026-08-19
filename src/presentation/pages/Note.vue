@@ -99,7 +99,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy, getLastCreatedNoteId } = useNote({
   id: noteId,
 });
 
@@ -131,6 +131,7 @@ const { isEditorReady, editorConfig } = useNoteEditor({
   isDraftResolver: () => noteId.value === null,
   noteContentResolver: () => note.value?.content,
   canEdit,
+  getLastCreatedNoteId,
 });
 
 /**

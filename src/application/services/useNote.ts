@@ -96,6 +96,13 @@ interface UseNoteComposableState {
    * Note hierarchy
    */
   noteHierarchy: Ref<NoteHierarchy | null>;
+
+  /**
+   * Returns the id of the note created by the most recent save() on a new note
+   * Used to distinguish "same note just got an id after save" from
+   * "switched to a different existing note"
+   */
+  getLastCreatedNoteId: () => NoteId | null;
 }
 
 interface UseNoteComposableOptions {
@@ -183,6 +190,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * null by default
    */
   const noteHierarchy = ref<NoteHierarchy | null>(null);
+
+  /**
+   * Id of the note created by the most recent save() on a new note
+   * Used to skip the reload after save so the editor doesn't get recreated
+   */
+  let lastCreatedNoteId: NoteId | null = null;
 
   /**
    * get note hierarchy
@@ -273,6 +286,19 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        * @todo try-catch domain errors
        */
       const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
+
+      /**
+       * Remember the created note id so the editor can avoid
+       * recreating itself when the route switches from "new note" to the newly created note id
+       */
+      lastCreatedNoteId = noteCreated.id;
+
+      /**
+       * Store the saved content so the navbar title reflects it
+       */
+      if (currentId.value === currentNoteId) {
+        lastUpdateContent.value = content;
+      }
 
       /**
        * Replace the current route with note id
@@ -389,6 +415,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
+    /**
+     * If the note was just created via save() and is still a draft (no id yet),
+     * skip the reload to avoid recreating the editor with the same content.
+     */
+    if (newId === lastCreatedNoteId && note.value !== null && !('id' in note.value)) {
+      return;
+    }
+
     void load(newId);
   });
 
@@ -416,5 +450,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     noteParents,
     parentNote,
     noteHierarchy,
+    getLastCreatedNoteId: () => lastCreatedNoteId,
   };
 }

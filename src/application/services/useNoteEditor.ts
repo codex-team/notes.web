@@ -34,6 +34,13 @@ interface UseNoteEditorOptions {
    * Flag indicating that user can edit the note
    */
   canEdit: Ref<boolean>;
+
+  /**
+   * Returns the id of the note created by the most recent save() on a new note
+   * Used to distinguish "same note just got an id after save" from
+   * "switched to a different existing note"
+   */
+  getLastCreatedNoteId?: () => NoteId | null;
 }
 
 interface UseNoteEditorComposableState {
@@ -91,13 +98,22 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
   let currentLoadId = 0;
 
   /**
-   * Reset editor state when the note changes
-   * Prevents showing the editor with stale tools or content
-   * from a previously opened note
+   * Reset the editor when the note changes.
+
+   * Exception — new note save: the route switches from null to createdId
+   * for the same note, so the editor must NOT be recreated
+   * (avoids blinking and losing the cursor).
    */
   watch(
     () => toValue(options.noteId),
-    () => {
+    (newId, oldId) => {
+      /**
+       * Same note just got an id after save — keep the editor as-is
+       */
+      if (oldId === null && newId !== null && options.getLastCreatedNoteId !== undefined && newId === options.getLastCreatedNoteId()) {
+        return;
+      }
+
       isEditorReady.value = false;
     },
     { immediate: true }
