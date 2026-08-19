@@ -68,7 +68,7 @@ import { computed, ref, toRef, watch } from 'vue';
 import { Button, Editor, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
-import { NoteContent } from '@/domain/entities/Note';
+import { NoteContent, type NoteId } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
@@ -99,7 +99,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
+const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy, getLastCreatedNoteId } = useNote({
   id: noteId,
 });
 
@@ -126,9 +126,11 @@ function redirectToNoteSettings(): void {
 const { updateCover } = useNoteSettings();
 
 const { isEditorReady, editorConfig } = useNoteEditor({
+  noteId,
   noteTools,
   noteContentResolver: () => note.value?.content,
   canEdit,
+  getLastCreatedNoteId,
 });
 
 /**
@@ -152,7 +154,13 @@ async function noteChanged(data: NoteContent): Promise<void> {
   const editorElement = editor.value ? editor.value.element : null;
 
   if (!isEmpty) {
-    await save(data, props.parentId);
+    /**
+     * Capture the current note id at the time of the call
+     * to avoid race conditions when fast switching between notes
+     */
+    const noteIdAtCallTime = props.id;
+
+    await save(data, props.parentId, noteIdAtCallTime);
     /**
      * In case if we do not have note id, we can change its cover, and we need successful data for cover
      * We need to do it after saving in case of note creation
@@ -168,8 +176,8 @@ async function noteChanged(data: NoteContent): Promise<void> {
         paddingTop: '100px',
       });
     }
-    if (updatedNoteCover !== null && props.id !== null) {
-      await updateCover(props.id, updatedNoteCover);
+    if (updatedNoteCover !== null && noteIdAtCallTime !== null && noteIdAtCallTime === props.id) {
+      await updateCover(noteIdAtCallTime as NoteId, updatedNoteCover);
     }
   }
 }

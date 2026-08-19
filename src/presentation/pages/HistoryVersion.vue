@@ -83,6 +83,7 @@ const { noteTitle, save } = useNote({
 const canEdit = ref(false);
 
 const { isEditorReady, editorConfig } = useNoteEditor({
+  noteId,
   noteTools: historyTools,
   noteContentResolver: () => historyContent.value,
   canEdit,
@@ -103,7 +104,7 @@ async function useThisVersion() {
     const editorElement = editor.value ? editor.value.element : null;
 
     if (historyContent.value !== undefined) {
-      await save(historyContent.value, undefined);
+      await save(historyContent.value, undefined, props.noteId);
       /**
        * In case if we do not have note id, we can change its cover, and we need successful data for cover
        * We need to do it after saving in case of note creation

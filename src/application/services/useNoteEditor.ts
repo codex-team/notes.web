@@ -1,12 +1,19 @@
+import type { MaybeRefOrGetter } from 'vue';
 import { type Ref, computed, ref, toValue, watch } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
+import type { NoteId } from '@/domain/entities/Note';
 import { type NoteContent } from '@/domain/entities/Note';
 import { editorToolsService } from '@/domain';
 import type { EditorjsToolsConfig } from '@/domain/entities/EditorTool';
 import { useI18n } from 'vue-i18n';
 
 interface UseNoteEditorOptions {
+  /**
+   * Null for new note, id for reading existing note
+   */
+  noteId: MaybeRefOrGetter<NoteId | null>;
+
   /**
    * Tools used in the note
    */
@@ -21,6 +28,13 @@ interface UseNoteEditorOptions {
    * Flag indicating that user can edit the note
    */
   canEdit: Ref<boolean>;
+
+  /**
+   * Returns the id of the note created by the most recent save() on a new note
+   * Used to distinguish "same note just got an id after save" from
+   * "switched to a different existing note"
+   */
+  getLastCreatedNoteId?: () => NoteId | null;
 }
 
 interface UseNoteEditorComposableState {
@@ -78,6 +92,27 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
    * concurrent loadToolsScripts invocations.
    */
   let currentLoadId = 0;
+
+  /**
+   * Reset the editor when the note changes.
+   * Exception — new note save: the route switches from null to createdId
+   * for the same note, so the editor must NOT be recreated
+   * (avoids blinking and losing the cursor).
+   */
+  watch(
+    () => toValue(options.noteId),
+    (newId, oldId) => {
+      /**
+       * Same note just got an id after save — keep the editor as-is
+       */
+      if (oldId === null && newId !== null && options.getLastCreatedNoteId !== undefined && newId === options.getLastCreatedNoteId()) {
+        return;
+      }
+
+      isEditorReady.value = false;
+    },
+    { immediate: true }
+  );
 
   /**
    * Combine note and user tools
@@ -155,7 +190,6 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
 
     const loadId = ++currentLoadId;
 
-    isEditorReady.value = false;
     toolsUserConfigLoaded.value = false;
 
     try {

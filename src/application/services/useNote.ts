@@ -55,7 +55,7 @@ interface UseNoteComposableState {
   /**
    * Creates/updates the note
    */
-  save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
+  save: (content: NoteContent, parentId: NoteId | undefined, currentNoteId: NoteId | null) => Promise<void>;
 
   /**
    * Returns list of tools used in note
@@ -96,6 +96,13 @@ interface UseNoteComposableState {
    * Note hierarchy
    */
   noteHierarchy: Ref<NoteHierarchy | null>;
+
+  /**
+   * Returns the id of the note created by the most recent save() on a new note
+   * Used to distinguish "same note just got an id after save" from
+   * "switched to a different existing note"
+   */
+  getLastCreatedNoteId: () => NoteId | null;
 }
 
 interface UseNoteComposableOptions {
@@ -143,10 +150,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const route = useRoute();
 
   /**
-   * Is there any note currently saving
-   * Used to prevent re-load note after draft is saved
+   * Incremented on each new load request to discard stale async results
+   * Prevents race conditions when rapidly switching between notes causes
+   * multiple concurrent load() invocations to resolve out of order
    */
-  const isNoteSaving = ref<boolean>(false);
+  let currentLoadId = 0;
 
   /**
    * Note Title identifier
@@ -185,6 +193,12 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const noteHierarchy = ref<NoteHierarchy | null>(null);
 
   /**
+   * Id of the note created by the most recent save() on a new note
+   * Used to skip the reload after save so the editor doesn't get recreated
+   */
+  let lastCreatedNoteId: NoteId | null = null;
+
+  /**
    * get note hierarchy
    * @param id - note id
    */
@@ -199,10 +213,21 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param id - Note identifier got from composable argument
    */
   async function load(id: NoteId): Promise<void> {
+    const loadId = ++currentLoadId;
+
     try {
       const response = await noteService.getNoteById(id);
 
+      /**
+       * If a newer load request has superseded this one — discard stale results
+       * to prevent mismatched content/tools state when switching notes quickly
+       */
+      if (loadId !== currentLoadId) {
+        return;
+      }
+
       note.value = response.note;
+      lastUpdateContent.value = response.note.content;
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
@@ -245,8 +270,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Saves the note
    * @param content - Note content (Editor.js data)
    * @param parentId - Id of the parent note. If null, then it's a root note
+   * @param currentNoteId - Id of the current note
    */
-  async function save(content: NoteContent, parentId: NoteId | undefined): Promise<void> {
+  async function save(content: NoteContent, parentId: NoteId | undefined, currentNoteId: NoteId | null): Promise<void> {
     if (note.value === null) {
       throw new Error('Note is not loaded yet');
     }
@@ -256,13 +282,24 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
-    isNoteSaving.value = true;
-
-    if (currentId.value === null) {
+    if (currentNoteId === null) {
       /**
        * @todo try-catch domain errors
        */
       const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
+
+      /**
+       * Remember the created note id so the editor can avoid
+       * recreating itself when the route switches from "new note" to the newly created note id
+       */
+      lastCreatedNoteId = noteCreated.id;
+
+      /**
+       * Store the saved content so the navbar title reflects it
+       */
+      if (currentId.value === currentNoteId) {
+        lastUpdateContent.value = content;
+      }
 
       /**
        * Replace the current route with note id
@@ -286,15 +323,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
        */
       void getNoteHierarchy(noteCreated.id);
     } else {
-      await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
+      await noteService.updateNoteContentAndTools(currentNoteId, content, specifiedNoteTools);
     }
 
     /**
-     * Store just saved content in memory
+     * Store just saved content in memory only if the current note hasn't changed
+     * This prevents race conditions when switching between notes quickly
      */
-    lastUpdateContent.value = content;
-
-    isNoteSaving.value = false;
+    if (currentId.value === currentNoteId) {
+      lastUpdateContent.value = content;
+    }
   }
 
   /**
@@ -368,7 +406,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     }
   }
 
-  watch(currentId, (newId, prevId) => {
+  watch(currentId, (newId, _prevId) => {
     /**
      * One note is open, user clicks on "+" to create another new note
      * Clear existing note
@@ -379,13 +417,11 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
-    const isDraftSaving = prevId === null && isNoteSaving.value;
-
     /**
-     * Case for newly created note,
-     * we don't need to re-load it
+     * If the note was just created via save() and is still a draft (no id yet),
+     * skip the reload to avoid recreating the editor with the same content.
      */
-    if (isDraftSaving) {
+    if (newId === lastCreatedNoteId && note.value !== null && !('id' in note.value)) {
       return;
     }
 
@@ -416,5 +452,6 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     noteParents,
     parentNote,
     noteHierarchy,
+    getLastCreatedNoteId: () => lastCreatedNoteId,
   };
 }
