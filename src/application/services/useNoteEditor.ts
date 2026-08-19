@@ -99,7 +99,6 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
 
   /**
    * Reset the editor when the note changes.
-
    * Exception — new note save: the route switches from null to createdId
    * for the same note, so the editor must NOT be recreated
    * (avoids blinking and losing the cursor).
