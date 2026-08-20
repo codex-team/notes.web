@@ -33,6 +33,13 @@ export default class FetchTransport {
   ) {}
 
   /**
+   * Returns the base URL of the transport
+   */
+  public getBaseUrl(): string {
+    return this.baseUrl;
+  }
+
+  /**
    * Gets specific resource
    * @template Response - Response data type
    * @param endpoint - API endpoint
