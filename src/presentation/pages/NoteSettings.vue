@@ -66,7 +66,9 @@
         <Fieldset
           :title="t('noteSettings.appearance')"
         >
-          <NoteSidebarSetting />
+          <NoteSidebarSetting
+            v-model:sidebar-position="sidebarPosition"
+          />
         </Fieldset>
 
         <Fieldset
@@ -120,6 +122,7 @@ import NoteSidebarSetting from '@/presentation/components/noteSettings/NoteSideb
 import useNavbar from '@/application/services/useNavbar';
 import { useRoute } from 'vue-router';
 import { TeamMember } from '@/domain/entities/Team';
+import type { SidebarPosition } from '@/domain/entities/NoteSettings';
 
 const { t } = useI18n();
 
@@ -132,7 +135,7 @@ const props = defineProps<{
 
 const { patchOpenedPageByUrl } = useNavbar();
 const route = useRoute();
-const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, updateSidebarPosition, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
@@ -192,6 +195,16 @@ const isPublic = computed(() => {
 async function changeAccess() {
   updateIsPublic(props.id, !noteSettings.value!.isPublic);
 }
+
+/**
+ * Current sidebar position of the note
+ */
+const sidebarPosition = computed<SidebarPosition>({
+  get: () => noteSettings.value?.sidebarPosition ?? 'content',
+  set: (value) => {
+    void updateSidebarPosition(props.id, value);
+  },
+});
 
 /**
  * Construct the parent note URL. If the parent note is not set, return an empty string

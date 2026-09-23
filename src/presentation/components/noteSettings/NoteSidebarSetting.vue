@@ -8,8 +8,8 @@
       <div
         v-for="option in options"
         :key="option.value"
-        :class="['sidebar-setting__card', { 'sidebar-setting__card--selected': selected === option.value }]"
-        @click="selected = option.value"
+        :class="['sidebar-setting__card', { 'sidebar-setting__card--selected': sidebarPosition === option.value }]"
+        @click="select(option.value)"
       >
         <div
           :class="[
@@ -89,7 +89,7 @@
         </div>
 
         <div class="sidebar-setting__label">
-          <div :class="['sidebar-setting__dot', { 'sidebar-setting__dot--selected': selected === option.value }]">
+          <div :class="['sidebar-setting__dot', { 'sidebar-setting__dot--selected': sidebarPosition === option.value }]">
             <div class="sidebar-setting__dot-inner" />
           </div>
           <div class="sidebar-setting__text">
@@ -103,11 +103,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Section } from '@codexteam/ui/vue';
+import type { SidebarPosition } from '@/domain/entities/NoteSettings';
 
-type SidebarOptionValue = 'none' | 'edge' | 'content';
+type SidebarOptionValue = SidebarPosition;
 
 interface SidebarOption {
   value: SidebarOptionValue;
@@ -116,6 +116,20 @@ interface SidebarOption {
 }
 
 const { t } = useI18n();
+
+defineProps<{
+  /**
+   * Sidebar position loaded from note settings
+   */
+  sidebarPosition: SidebarOptionValue;
+}>();
+
+const emit = defineEmits<{
+  /**
+   * Fires when the sidebar position changes
+   */
+  (event: 'update:sidebarPosition', value: SidebarOptionValue): void;
+}>();
 
 const options: SidebarOption[] = [
   {
@@ -136,9 +150,13 @@ const options: SidebarOption[] = [
 ];
 
 /**
- * Currently selected sidebar position
+ * Select and persist a sidebar position through the parent component
+ *
+ * @param value - selected sidebar position
  */
-const selected = ref<SidebarOptionValue>();
+function select(value: SidebarOptionValue): void {
+  emit('update:sidebarPosition', value);
+}
 </script>
 
 <style setup lang="postcss" scoped>
