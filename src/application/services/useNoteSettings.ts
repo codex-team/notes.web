@@ -1,5 +1,6 @@
 import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
+import type { SidebarPosition } from '@/domain/entities/NoteSettings';
 import type { Note, NoteId } from '@/domain/entities/Note';
 import { noteSettingsService, noteService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
@@ -32,6 +33,13 @@ interface UseNoteSettingsComposableState {
    * @param newIsPublicValue - new value for isPublic field
    */
   updateIsPublic: (id: NoteId, newIsPublicValue: boolean) => Promise<void>;
+
+  /**
+   * Update sidebar position in note settings
+   * @param id - note id
+   * @param sidebarPosition - new sidebar position
+   */
+  updateSidebarPosition: (id: NoteId, sidebarPosition: SidebarPosition) => Promise<void>;
 
   /**
    * Revoke invitation hash
@@ -125,6 +133,17 @@ export default function (): UseNoteSettingsComposableState {
   }
 
   /**
+   * Update sidebar position in note settings
+   * @param id - Note id
+   * @param sidebarPosition - new sidebar position
+   */
+  async function updateSidebarPosition(id: NoteId, sidebarPosition: SidebarPosition): Promise<void> {
+    const response = await noteSettingsService.patchNoteSettingsByNoteId(id, { sidebarPosition });
+
+    noteSettings.value = response;
+  }
+
+  /**
    * Revoke invitation hash
    * @param id - Note id
    */
@@ -213,6 +232,7 @@ export default function (): UseNoteSettingsComposableState {
     noteSettings,
     load,
     updateIsPublic,
+    updateSidebarPosition,
     revokeHash,
     changeRole,
     deleteNoteById,

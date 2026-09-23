@@ -200,14 +200,22 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    */
   async function load(id: NoteId): Promise<void> {
     try {
-      const response = await noteService.getNoteById(id);
+      /**
+       * Load the note and its hierarchy in parallel so the sidebar position
+       * is known before the page is rendered, preventing a layout flash
+       */
+      const [response] = await Promise.all([
+        noteService.getNoteById(id),
+        getNoteHierarchy(id).catch(() => {
+          noteHierarchy.value = null;
+        }),
+      ]);
 
       note.value = response.note;
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
       noteParents.value = response.parents;
-      void getNoteHierarchy(id);
     } catch (error) {
       deleteOpenedPageByUrl(route.path);
       if (error instanceof DomainError) {
