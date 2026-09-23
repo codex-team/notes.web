@@ -94,6 +94,27 @@ withDefaults(
       color: var(--base--text);
     }
   }
+
+  @media (max-width: 768px) {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    padding: var(--spacing-ml);
+    overflow-y: auto;
+
+    &__container {
+      grid-column: 1;
+      grid-row: 2;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    &__icon {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: end;
+      margin: 0 0 var(--spacing-s);
+    }
+  }
 }
 
 </style>

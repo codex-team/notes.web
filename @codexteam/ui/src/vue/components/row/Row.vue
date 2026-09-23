@@ -103,6 +103,7 @@ defineProps<{
 
   &__center {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-very-x);
@@ -111,6 +112,20 @@ defineProps<{
   &__right {
     display: flex;
     align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    &__body-inner {
+      flex-wrap: wrap;
+    }
+
+    &__center {
+      flex-basis: 8rem;
+    }
+
+    &__right {
+      margin-left: auto;
+    }
   }
 }
 </style>

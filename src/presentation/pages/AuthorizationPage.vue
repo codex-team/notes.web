@@ -46,7 +46,8 @@ watch(user, () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: var(--spacing-l) var(--spacing-ml);
+  text-align: center;
   flex-direction: column;
   gap: var(--spacing-l)
 }

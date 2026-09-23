@@ -26,5 +26,9 @@
   &__right {
       margin-left: auto;
   }
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-ms) var(--spacing-m);
+  }
 }
 </style>

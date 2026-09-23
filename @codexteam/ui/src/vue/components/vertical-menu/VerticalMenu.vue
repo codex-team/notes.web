@@ -29,5 +29,9 @@ defineProps<{
   gap: var(--spacing-very-x);
   background-color: var(--base--bg-secondary);
   width: max-content;
+
+  @media (max-width: 768px) {
+    width: auto;
+  }
 }
 </style>

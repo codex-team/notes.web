@@ -199,6 +199,13 @@ defineExpose({
     }
   }
 
+  @media (max-width: 768px) {
+    .cdx-search-field__input,
+    .ce-inline-tool-input {
+      font-size: 16px;
+    }
+  }
+
   .ce-popover__nothing-found-message {
     color: var(--base--text-secondary);
   }

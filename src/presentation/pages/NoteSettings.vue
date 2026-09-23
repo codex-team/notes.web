@@ -256,6 +256,10 @@ async function handleTeamMemberRemoved(userId: TeamMember['user']['id']) {
   &__subheading {
     color: var(--text-secondary);
   }
+
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 }
 
 .form{

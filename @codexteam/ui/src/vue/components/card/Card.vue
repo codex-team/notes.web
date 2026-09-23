@@ -79,8 +79,6 @@ withDefaults(
 
 <style module lang="postcss">
 .card {
-  --card-width: 222px;
-
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -111,7 +109,7 @@ withDefaults(
   }
 
   &--vertical {
-    width: var(--card-width);
+    width: var(--card-width, 222px);
   }
 
   &__body {
@@ -141,6 +139,26 @@ withDefaults(
 
   &__title {
     color: var(--base--text);
+  }
+
+  @media (max-width: 768px) {
+    &--horizontal {
+      flex-wrap: wrap;
+      gap: var(--spacing-ml);
+
+      .card__cover {
+        width: 96px;
+        height: 64px;
+      }
+
+      .card__body {
+        min-width: 0;
+      }
+
+      > :nth-child(n + 3) {
+        flex-basis: 100%;
+      }
+    }
   }
 }
 
