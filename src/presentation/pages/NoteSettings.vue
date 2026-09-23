@@ -64,6 +64,12 @@
         </Section>
 
         <Fieldset
+          :title="t('noteSettings.appearance')"
+        >
+          <NoteSidebarSetting />
+        </Fieldset>
+
+        <Fieldset
           :title="t('noteSettings.teamFormFieldSetTitle')"
         >
           <div
@@ -110,6 +116,7 @@ import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card, PageBlock
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
+import NoteSidebarSetting from '@/presentation/components/noteSettings/NoteSidebarSetting.vue';
 import useNavbar from '@/application/services/useNavbar';
 import { useRoute } from 'vue-router';
 import { TeamMember } from '@/domain/entities/Team';
