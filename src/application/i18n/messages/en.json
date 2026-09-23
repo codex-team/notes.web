@@ -54,6 +54,7 @@
       "title": "Sidebar",
       "caption": "Choose how the sidebar is shown for this Note",
       "hint": "Applies to this note for everyone who opens it, including readers of the published version.",
+      "parentOnly": "Sidebar settings are only available in the parent note's settings.",
       "options": {
         "none": {
           "title": "No sidebar",

@@ -68,6 +68,7 @@
         >
           <NoteSidebarSetting
             v-model:sidebar-position="sidebarPosition"
+            :disabled="parentNote !== undefined"
           />
         </Fieldset>
 

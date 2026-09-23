@@ -4,7 +4,9 @@
     :caption="t('noteSettings.sidebar.hint')"
     :with-background="false"
   >
-    <div class="sidebar-setting">
+    <div
+      :class="['sidebar-setting', { 'sidebar-setting--disabled': disabled }]"
+    >
       <div
         v-for="option in options"
         :key="option.value"
@@ -99,6 +101,12 @@
         </div>
       </div>
     </div>
+    <p
+      v-if="disabled"
+      class="sidebar-setting__unavailable"
+    >
+      {{ t('noteSettings.sidebar.parentOnly') }}
+    </p>
   </Section>
 </template>
 
@@ -117,11 +125,16 @@ interface SidebarOption {
 
 const { t } = useI18n();
 
-defineProps<{
+const props = defineProps<{
   /**
    * Sidebar position loaded from note settings
    */
   sidebarPosition: SidebarOptionValue;
+
+  /**
+   * Whether the sidebar position cannot be changed, e.g. for child notes
+   */
+  disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -155,6 +168,10 @@ const options: SidebarOption[] = [
  * @param value - selected sidebar position
  */
 function select(value: SidebarOptionValue): void {
+  if (props.disabled) {
+    return;
+  }
+
   emit('update:sidebarPosition', value);
 }
 </script>
@@ -164,6 +181,11 @@ function select(value: SidebarOptionValue): void {
   display: flex;
   flex-direction: row;
   gap: 12px;
+
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 
   &__card {
     flex: 1;
@@ -319,6 +341,14 @@ function select(value: SidebarOptionValue): void {
   &__subtitle {
     font-size: 12px;
     line-height: 1.35;
+    color: var(--base--text-secondary);
+  }
+
+  &__unavailable {
+    margin: var(--spacing-m) 0 0;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
     color: var(--base--text-secondary);
   }
 }
