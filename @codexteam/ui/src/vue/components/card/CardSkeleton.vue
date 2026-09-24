@@ -74,8 +74,8 @@ withDefaults(
     box-sizing: border-box;
 
     .card-skeleton__cover {
-      width: 150px;
-      height: 100px;
+      width: var(--size-cover);
+      aspect-ratio: 3 / 2;
     }
   }
 
@@ -126,13 +126,12 @@ withDefaults(
     animation: skeleton-animation 3s infinite linear;
   }
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     &--horizontal {
       gap: var(--spacing-ml);
 
       .card-skeleton__cover {
-        width: 96px;
-        height: 64px;
+        width: var(--size-cover-small);
       }
     }
   }

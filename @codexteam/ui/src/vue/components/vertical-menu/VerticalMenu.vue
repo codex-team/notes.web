@@ -30,7 +30,7 @@ defineProps<{
   background-color: var(--base--bg-secondary);
   width: max-content;
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     width: auto;
   }
 }

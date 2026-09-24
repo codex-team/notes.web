@@ -66,9 +66,6 @@ const props = withDefaults(
 
 const tabElement = ref<HTMLElement | null>(null);
 
-/**
- * Keeps the active tab visible when the tabbar is scrolled horizontally
- */
 function scrollIntoViewIfActive(): void {
   if (props.isActive) {
     tabElement.value?.scrollIntoView({
@@ -167,8 +164,8 @@ watch(() => props.isActive, scrollIntoViewIfActive, { flush: 'post' });
     }
   }
 
-  @media (max-width: 768px) {
-    --tab-text-max-width: 120px;
+  @media (--mobile) {
+    --tab-text-max-width: var(--size-text-min);
 
     &__body-image + &__body-text {
       display: none;

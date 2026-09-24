@@ -73,8 +73,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, toRef, watch } from 'vue';
-import { useMediaQuery } from '@vueuse/core';
-import { Button, Editor, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
+import { Button, Editor, PageBlock, VerticalMenu, useViewport, type VerticalMenuItem } from '@codexteam/ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
@@ -108,10 +107,7 @@ const props = defineProps<{
 
 const noteId = toRef(props, 'id');
 
-/**
- * On mobile the note hierarchy goes below the note instead of the sidebar, and only when the note has relatives
- */
-const isMobile = useMediaQuery('(max-width: 768px)');
+const { isMobile } = useViewport();
 
 const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
   id: noteId,
@@ -255,7 +251,7 @@ watch(noteTitle, () => {
   padding-right: var(--h-padding);
 }
 
-@media (max-width: 768px) {
+@media (--mobile) {
   .last_edit {
     display: none;
   }

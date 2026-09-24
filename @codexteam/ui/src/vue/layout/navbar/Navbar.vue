@@ -27,7 +27,7 @@
       margin-left: auto;
   }
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     padding: var(--spacing-ms) var(--spacing-m);
   }
 }

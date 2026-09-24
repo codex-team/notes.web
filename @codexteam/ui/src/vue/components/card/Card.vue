@@ -28,7 +28,12 @@
         {{ subtitle }}
       </div>
     </div>
-    <slot />
+    <div
+      v-if="$slots.default"
+      :class="$style['card__actions']"
+    >
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -95,8 +100,8 @@ withDefaults(
     box-sizing: border-box;
 
     .card__cover {
-      width: 150px;
-      height: 100px;
+      width: var(--size-cover);
+      aspect-ratio: 3 / 2;
     }
   }
 
@@ -141,22 +146,30 @@ withDefaults(
     color: var(--base--text);
   }
 
-  @media (max-width: 768px) {
+  &__actions {
+    display: flex;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  @media (--mobile) {
     &--horizontal {
       flex-wrap: wrap;
       gap: var(--spacing-ml);
 
       .card__cover {
-        width: 96px;
-        height: 64px;
+        width: var(--size-cover-small);
       }
 
       .card__body {
         min-width: 0;
       }
 
-      > :nth-child(n + 3) {
+      .card__actions {
         flex-basis: 100%;
+        flex-direction: column;
       }
     }
   }

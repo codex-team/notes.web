@@ -102,8 +102,8 @@ onMounted(() => {
   padding: var(--v-padding) var(--h-padding);
   border-radius: var(--radius-field);
 
-  @media (max-width: 768px) {
-    font-size: 16px;
+  @media (--mobile) {
+    font-size: var(--font-size-field-mobile);
   }
 }
 </style>

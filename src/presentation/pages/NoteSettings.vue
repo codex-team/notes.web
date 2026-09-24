@@ -257,7 +257,7 @@ async function handleTeamMemberRemoved(userId: TeamMember['user']['id']) {
     color: var(--text-secondary);
   }
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     margin: 0;
   }
 }

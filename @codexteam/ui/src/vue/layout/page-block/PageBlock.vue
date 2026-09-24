@@ -80,13 +80,13 @@ defineProps({
   }
 }
 
-@media (max-width: 1300px) {
+@media (--narrow) {
   .page-block__sidebar:empty {
     display: none;
   }
 }
 
-@media (max-width: 768px) {
+@media (--mobile) {
   .page-block {
     flex-direction: column;
   }

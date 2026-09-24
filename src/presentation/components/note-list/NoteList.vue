@@ -93,13 +93,13 @@ function getSubtitle(note: Note): string | undefined {
   display: grid;
   width: 100%;
   box-sizing: border-box;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--layout-note-card-min-width), 1fr));
 
   > a {
     display: flex;
   }
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     --v-padding: var(--spacing-s);
     --h-padding: var(--spacing-s);
 

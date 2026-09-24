@@ -114,13 +114,13 @@ defineProps<{
     align-items: center;
   }
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     &__body-inner {
       flex-wrap: wrap;
     }
 
     &__center {
-      flex-basis: 8rem;
+      flex-basis: var(--size-text-min);
     }
 
     &__right {

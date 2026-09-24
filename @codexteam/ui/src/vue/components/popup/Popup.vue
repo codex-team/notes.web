@@ -95,7 +95,7 @@ withDefaults(
     }
   }
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
     padding: var(--spacing-ml);

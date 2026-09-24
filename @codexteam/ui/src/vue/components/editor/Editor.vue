@@ -199,10 +199,10 @@ defineExpose({
     }
   }
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     .cdx-search-field__input,
     .ce-inline-tool-input {
-      font-size: 16px;
+      font-size: var(--font-size-field-mobile);
     }
   }
 

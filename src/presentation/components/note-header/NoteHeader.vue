@@ -33,7 +33,7 @@
     min-width: 0;
     color: var(--base--text-secondary);
 
-    @media (max-width: 768px) {
+    @media (--mobile) {
       overflow-x: auto;
       white-space: nowrap;
       scrollbar-width: none;
