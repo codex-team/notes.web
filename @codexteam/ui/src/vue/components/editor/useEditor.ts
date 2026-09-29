@@ -18,6 +18,11 @@ interface UseEditorComposableState {
    * Attribute containing is-empty state.
    */
   isEmpty: Ref<boolean>;
+
+  /**
+   * Returns the current content, including changes not yet reported by onChange
+   */
+  save: () => Promise<OutputData | undefined>;
 }
 
 /**
@@ -67,9 +72,17 @@ export function useEditor(editorConfig: MaybeRefOrGetter<EditorConfig>, options:
   /**
    * Function called on every change of the editor
    * @param api - EditorJS API
+   * @param instance - editor that reported the change
    */
-  async function handleChange(api: API): Promise<void> {
+  async function handleChange(api: API, instance: Editor): Promise<void> {
     const data = await api.saver.save();
+
+    /**
+     * Editor.js reports changes with a delay, drop the ones from an editor that has been destroyed meanwhile
+     */
+    if (instance !== editor) {
+      return;
+    }
 
     /**
      * Update the isEmpty attribute
@@ -102,14 +115,18 @@ export function useEditor(editorConfig: MaybeRefOrGetter<EditorConfig>, options:
     const config = toValue(editorConfig);
 
     try {
-      editor = new Editor({
+      const instance: Editor = new Editor({
         ...config,
         onChange(api: API) {
-          void handleChange(api);
+          if (instance === editor) {
+            void handleChange(api, instance);
+          }
         },
       });
 
-      await editor?.isReady;
+      editor = instance;
+
+      await instance.isReady;
     } catch (e) {
       console.error(e);
     }
@@ -131,5 +148,8 @@ export function useEditor(editorConfig: MaybeRefOrGetter<EditorConfig>, options:
 
   return {
     isEmpty,
+    async save() {
+      return await editor?.save();
+    },
   };
 }
