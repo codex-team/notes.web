@@ -29,7 +29,8 @@ export default defineConfig({
      * With cssInjectedByJsPlugin enabled:
      * - Component CSS is injected into vue.js bundle (no separate CSS files for components)
      * - Base styles are emitted as dist/style.css
-     * - Fonts are emitted as dist/styles/fonts.css (optional import)
+     * - Fonts are copied from public/ as dist/styles/fonts.css and dist/fonts/* (optional import),
+     *   lib mode would inline them as base64 otherwise
      * - Theme CSS files are emitted as dist/styles/themes/*.css
      * This allows users to import only the themes they need:
      * - import '@codexteam/ui/styles' (base styles)
@@ -43,13 +44,6 @@ export default defineConfig({
          * Base styles - dimensions, typography, mixins, z-axis
          */
         style: resolve(__dirname, 'src/styles/index.pcss'),
-
-        /**
-         * Optional fonts (Inter + JetBrains Mono)
-         * Exported as: @codexteam/ui/styles/fonts
-         * Vite will automatically copy font files to dist/fonts/ when processing @import url()
-         */
-        'styles/fonts': resolve(__dirname, 'src/styles/fonts.pcss'),
 
         /**
          * Individual themes for tree-shaking
