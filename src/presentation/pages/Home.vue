@@ -1,86 +1,82 @@
 <template>
-  <PageBlock
+  <div
+    v-if="user === null"
+    :class="$style['hero']"
+  >
+    <div
+      :class="$style['hero__content']"
+      data-dimensions="large"
+    >
+      <Logo :class="$style['hero__logo']" />
+      <h1 :class="$style['hero__title']">
+        {{ t('home.hero.title') }}
+      </h1>
+      <p :class="[$style['hero__text'], 'text-ui-large']">
+        {{ t('home.hero.text') }}
+      </p>
+      <Button @click="showGoogleAuthPopup">
+        {{ t('auth.continueWithGoogle') }}
+      </Button>
+    </div>
+  </div>
+
+  <div
+    v-else-if="user"
+    :class="$style['home']"
     data-dimensions="large"
   >
-    <!-- Unauthorized users -->
-    <template v-if="!user">
-      <Container>
-        <Row :title="t('home.authText')">
-          <template #right>
-            <Button
-              @click="showGoogleAuthPopup"
-            >
-              {{ t('auth.login') }}
-            </Button>
-          </template>
-        </Row>
-      </Container>
-    </template>
+    <PageHeading>
+      {{ t('home.notes') }}
+      <template #actions>
+        <Button
+          icon="Plus"
+          @click="router.push('/new')"
+        >
+          {{ t('note.new') }}
+        </Button>
+      </template>
+    </PageHeading>
 
-    <!-- Authorized users - menu -->
-    <template
-      v-if="user"
-      #left
+    <div
+      :class="$style['home__filters']"
+      role="tablist"
     >
-      <VerticalMenu
-        class="menu"
-        :items="[verticalMenuItems]"
-      />
-    </template>
-
-    <!-- Authorized users - content -->
-    <template v-if="user">
-      <router-link
-        to="/new"
+      <button
+        v-for="(tab, tabId) in tabs"
+        :key="tabId"
+        role="tab"
+        :aria-selected="activeTab === tabId"
+        :class="[$style['home__filter'], activeTab === tabId && $style['home__filter--active'], 'text-ui-base-medium']"
+        @click="activeTab = tabId"
       >
-        <Container>
-          <div :class="$style['container__create-new-note']">
-            <Row
-              :title="t('home.createNewNote.title')"
-              :subtitle="t('home.createNewNote.caption')"
-            >
-              <template #left>
-                <Hammer />
-              </template>
-              <template #right>
-                <Button
-                  secondary
-                  trailing-icon="ChevronRight"
-                >
-                  {{ t('home.createNewNote.button') }}
-                </Button>
-              </template>
-            </Row>
-          </div>
-        </Container>
-      </router-link>
+        {{ t(tab.titleKey) }}
+      </button>
+    </div>
 
-      <Heading
-        :level="1"
-        :class="$style['page-header']"
-      >
-        {{ sectionTitle }}
-      </Heading>
+    <div :class="$style['home__list']">
       <NoteList
-        :key="activeMenuItem"
-        :only-created-by-user="tabs[activeMenuItem].onlyCreatedByUser"
+        :key="activeTab"
+        :only-created-by-user="tabs[activeTab].onlyCreatedByUser"
       />
-    </template>
-  </PageBlock>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useLocalStorage } from '@vueuse/core';
 import { useAppState } from '@/application/services/useAppState';
-import { Container, Row, Button, Heading, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
-import Hammer from '../components/pictures/Hammer.vue';
+import { Button } from '@codexteam/ui/vue';
+import { Logo } from '@/presentation/components/pictures';
 import NoteList from '@/presentation/components/note-list/NoteList.vue';
+import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
 import useAuth from '@/application/services/useAuth';
-import { computed, ref } from 'vue';
+import usePageTitle from '@/application/services/usePageTitle';
 
 const { user } = useAppState();
 const { t } = useI18n();
+const router = useRouter();
 const { showGoogleAuthPopup } = useAuth();
 
 const tabs = {
@@ -96,41 +92,90 @@ const tabs = {
 
 type TabId = keyof typeof tabs;
 
-const activeMenuItem = ref<TabId>('recents');
-const sectionTitle = computed(() => t(tabs[activeMenuItem.value].titleKey));
+const activeTab = useLocalStorage<TabId>('homeTab', 'recents');
 
-const verticalMenuItems = computed<VerticalMenuItem>(() => ({
-  title: t('home.navigation'),
-  isActive: false,
-  items: (Object.keys(tabs) as TabId[]).map(tabId => ({
-    title: t(tabs[tabId].titleKey),
-    isActive: activeMenuItem.value === tabId,
-    onActivate: () => {
-      activeMenuItem.value = tabId;
-    },
-  })),
-}));
+if (!(activeTab.value in tabs)) {
+  activeTab.value = 'recents';
+}
 
-/**
- * Changing the title in the browser
- */
-useHead({
-  title: t('home.title'),
-});
+usePageTitle(() => t('home.title'));
 </script>
 
 <style lang="postcss" module>
-.container {
-  display: grid;
-  padding: var(--spacing-xxl) 0;
-  gap: var(--spacing-xxl);
+.home {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--spacing-xxl) var(--spacing-xl);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-l);
 
-  &__create-new-note {
-    padding: var(--v-padding) 0;
+  &__filters {
+    display: flex;
+    gap: var(--spacing-xxs);
+    padding: 0 calc(var(--h-padding) - var(--spacing-m));
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-l);
+    padding: 0 var(--h-padding);
+  }
+
+  &__filter {
+    cursor: pointer;
+    padding: var(--spacing-xs) var(--spacing-m);
+    border-radius: var(--radius-m);
+    color: var(--base--text-secondary);
+    font-family: inherit;
+
+    &:hover {
+      color: var(--base--text);
+    }
+
+    &--active {
+      color: var(--base--text);
+      background-color: var(--base--bg-secondary-hover);
+    }
   }
 }
 
-.page-header {
-  padding-top: var(--spacing-xxl);
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xxl) var(--spacing-xl);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-l);
+    max-width: 560px;
+    text-align: center;
+    margin-bottom: 10vh;
+  }
+
+  &__logo {
+    width: 80px;
+    height: 32px;
+    margin-bottom: var(--spacing-s);
+  }
+
+  &__title {
+    font-size: 2.8rem;
+    line-height: 110%;
+    font-weight: 700;
+    color: var(--base--text);
+  }
+
+  &__text {
+    color: var(--base--text-secondary);
+    font-weight: 400;
+    margin-bottom: var(--spacing-s);
+  }
 }
 </style>

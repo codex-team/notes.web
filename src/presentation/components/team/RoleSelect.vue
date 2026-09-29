@@ -1,69 +1,55 @@
 <template>
-  <div>
-    <Select
-      v-model="selectedRole"
-      :align="{ vertically: 'below', horizontally: 'right' }"
-      :is-disabled="teamMember.user.id == user?.id || (note !== null && (note as Note).creatorId === teamMember.id)"
-      :items="roleItems"
-    />
-  </div>
+  <Select
+    v-model="selectedRole"
+    :align="{ vertically: 'below', horizontally: 'right' }"
+    :is-disabled="disabled === true"
+    :items="roleItems"
+  />
 </template>
 
 <script setup lang="ts">
-import { MemberRole, TeamMember } from '@/domain/entities/Team.ts';
-import { Note, NoteId } from '@/domain/entities/Note.ts';
-import { computed, ref, watch } from 'vue';
+import { MemberRole, type TeamMember } from '@/domain/entities/Team.ts';
+import type { NoteId } from '@/domain/entities/Note.ts';
+import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import useNoteSettings from '@/application/services/useNoteSettings.ts';
-import { useAppState } from '@/application/services/useAppState';
-import { ContextMenuItem, DefaultItem, Select } from '@codexteam/ui/vue';
-import useNote from '@/application/services/useNote.ts';
+import { type DefaultItem, Select } from '@codexteam/ui/vue';
 
-/**
- * TeamMember props
- */
 const props = defineProps<{
   /**
    * Team member data
    */
   teamMember: TeamMember;
+
   /**
    * Id of the current note
    */
   noteId: NoteId;
+
+  /**
+   * Role can not be changed, e.g. for the current user
+   */
+  disabled?: boolean;
 }>();
 
-const selectedRole = ref<DefaultItem>({
-  title: MemberRole[props.teamMember.role],
-  onActivate: () => {},
-});
-
-const roleOptions = computed(() => Object.values(MemberRole).filter(value => typeof value === 'string'));
-const roleItems: ContextMenuItem[] = [];
-
-roleOptions.value.forEach((role) => {
-  roleItems.push({
-    title: role.toString(),
-    onActivate: () => {},
-  });
-});
-
+const { t } = useI18n();
 const { changeRole } = useNoteSettings();
-const { note } = useNote({ id: props.noteId });
-const { user } = useAppState();
 
-/* Watch role's update */
-watch(selectedRole, (newRole) => {
-  updateMemberRole(newRole.title);
+const roles = [MemberRole.Read, MemberRole.Write];
+
+const roleItems: DefaultItem[] = roles.map(role => ({
+  title: t(`noteSettings.team.roles.${MemberRole[role]}`),
+  onActivate: () => {},
+}));
+
+const selectedRole = ref<DefaultItem>(roleItems[roles.indexOf(props.teamMember.role)]);
+
+watch(selectedRole, async (newItem, oldItem) => {
+  try {
+    await changeRole(props.noteId, props.teamMember.user.id, roles[roleItems.indexOf(newItem)]);
+  } catch (error) {
+    selectedRole.value = oldItem;
+    throw error;
+  }
 });
-/**
- * Updates the user role if it has been changed
- *
- * @param updatedRole - new role needed to set
- */
-async function updateMemberRole(updatedRole: string | any) {
-  changeRole(props.noteId, props.teamMember.user.id, MemberRole[updatedRole as keyof typeof MemberRole]);
-}
 </script>
-
-<style scoped>
-</style>

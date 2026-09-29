@@ -1,3 +1,11 @@
 @import 'reset.pcss';
 @import 'normalize.css';
 @import 'sizes.pcss';
+
+/**
+ * Keyboard focus ring, text fields and the editor show the caret instead
+ */
+:where(a, button, [role='tab'], [tabindex]):focus-visible {
+  outline: 2px solid var(--accent--solid);
+  outline-offset: 2px;
+}

@@ -194,5 +194,10 @@ const iconType = computed<'none' | 'leading' | 'trailing' | 'leadingTrailing' | 
   &:hover {
     background-color: var(--bg-hover);
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent--solid);
+    outline-offset: 2px;
+  }
 }
 </style>

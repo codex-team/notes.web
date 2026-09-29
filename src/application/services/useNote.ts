@@ -1,4 +1,5 @@
-import { onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
+import { onBeforeUnmount, onMounted, ref, type Ref, type MaybeRefOrGetter, computed, toValue, watch } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import { noteService, editorToolsService } from '@/domain';
 import type { Note, NoteContent, NoteId } from '@/domain/entities/Note';
 import type { NoteTool } from '@/domain/entities/Note';
@@ -6,9 +7,22 @@ import { useRouter, useRoute } from 'vue-router';
 import type { NoteDraft } from '@/domain/entities/NoteDraft';
 import type EditorTool from '@/domain/entities/EditorTool';
 import DomainError from '@/domain/entities/errors/Base';
+import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
+import ForbiddenError from '@/domain/entities/errors/Forbidden';
 import useNavbar from './useNavbar';
+import { useAppState } from './useAppState';
 import { getTitle } from '@/infrastructure/utils/note';
 import type { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
+
+/**
+ * Pause in typing after which changes are saved
+ */
+const SAVE_DELAY = 1000;
+
+/**
+ * Changes are saved at least this often during continuous typing
+ */
+const SAVE_MAX_WAIT = 5000;
 
 /**
  * Creates base structure for the empty note:
@@ -37,6 +51,28 @@ function createDraft(): NoteDraft {
 }
 
 /**
+ * State of the note saving
+ * pending - there are unsaved changes waiting for the save delay
+ */
+export type NoteSaveStatus = 'idle' | 'pending' | 'saving' | 'saved' | 'error';
+
+/**
+ * Note that is being created. Gets an id after the first save
+ */
+interface DraftTarget {
+  id: NoteId | null;
+}
+
+/**
+ * Changes to save, bound to the note they were made in
+ */
+interface SaveJob {
+  target: NoteId | DraftTarget;
+  content: NoteContent;
+  parentId?: NoteId;
+}
+
+/**
  * Note hook state
  */
 interface UseNoteComposableState {
@@ -53,19 +89,19 @@ interface UseNoteComposableState {
   noteTools: Ref<EditorTool[] | undefined>;
 
   /**
-   * Creates/updates the note
+   * Saves the changes after a short pause, so typing does not send a request per keystroke
    */
-  save: (content: NoteContent, parentId: NoteId | undefined) => Promise<void>;
+  scheduleSave: (content: NoteContent, parentId?: NoteId) => void;
 
   /**
-   * Returns list of tools used in note
+   * Saves scheduled changes immediately
    */
-  resolveToolsByContent: (content: NoteContent) => NoteTool[];
+  flushSave: () => Promise<void>;
 
   /**
-   * Load note by custom hostname
+   * State of the note saving
    */
-  resolveHostname: () => Promise<void>;
+  saveStatus: Ref<NoteSaveStatus>;
 
   /**
    * Unlink note from parent
@@ -103,6 +139,11 @@ interface UseNoteComposableOptions {
    * Note identifier
    */
   id: MaybeRefOrGetter<NoteId | null>;
+
+  /**
+   * Load the tree of the related notes, needed only for the note page sidebar
+   */
+  withHierarchy?: boolean;
 }
 
 /**
@@ -111,6 +152,7 @@ interface UseNoteComposableOptions {
  */
 export default function (options: UseNoteComposableOptions): UseNoteComposableState {
   const { patchOpenedPageByUrl, deleteOpenedPageByUrl } = useNavbar();
+  const { user } = useAppState();
   /**
    * Current note identifier
    */
@@ -124,7 +166,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   const note = ref<Note | NoteDraft | null>(currentId.value === null ? createDraft() : null);
 
   /**
-   * Here we will store the content of the note on last save
+   * Here we will store the latest content of the note, even if it is not saved yet
    */
   const lastUpdateContent = ref<NoteContent | null>(null);
 
@@ -135,18 +177,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    */
   const noteTools = ref<EditorTool[] | undefined>(currentId.value === null ? [] : undefined);
 
-  /**
-   * Router instance used to replace the current route with note id
-   */
   const router = useRouter();
 
   const route = useRoute();
-
-  /**
-   * Is there any note currently saving
-   * Used to prevent re-load note after draft is saved
-   */
-  const isNoteSaving = ref<boolean>(false);
 
   /**
    * Note Title identifier
@@ -159,10 +192,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   /**
    * Editing rights for the currently opened note
-   *
-   * true by default
+   * Drafts are editable, loaded notes get the rights from the API
    */
-  const canEdit = ref<boolean>(true);
+  const canEdit = ref<boolean>(currentId.value === null);
 
   /**
    * Parent note
@@ -173,10 +205,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
 
   /**
    * Note parents of the actual note
-   *
-   * Actual note by default
    */
   const noteParents = ref<Note[]>([]);
+
   /**
    * Note hierarchy
    *
@@ -184,14 +215,49 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    */
   const noteHierarchy = ref<NoteHierarchy | null>(null);
 
+  const saveStatus = ref<NoteSaveStatus>('idle');
+
+  let draft: DraftTarget = { id: null };
+
+  /**
+   * Id the draft route is being replaced with, its content is already in the editor
+   */
+  let createdDraftId: NoteId | null = null;
+
+  let pendingJob: SaveJob | null = null;
+
+  let pendingSince: number | null = null;
+
+  /**
+   * Last saved blocks, so the same content is not sent twice
+   */
+  let lastSaved: { target: SaveJob['target']; blocks: string } | null = null;
+
+  let saveTimer: ReturnType<typeof setTimeout> | undefined;
+
+  /**
+   * Saves run one by one, so a new note is created once and later changes update it
+   */
+  let saveQueue: Promise<void> = Promise.resolve();
+
+  /**
+   * Incremented on each load, so a slow response for a previously opened note is ignored
+   */
+  let loadCounter = 0;
+
   /**
    * get note hierarchy
    * @param id - note id
    */
   async function getNoteHierarchy(id: NoteId): Promise<void> {
-    let response = await noteService.getNoteHierarchy(id);
-
-    noteHierarchy.value = response;
+    try {
+      noteHierarchy.value = await noteService.getNoteHierarchy(id);
+    } catch (error) {
+      /**
+       * The sidebar is optional, the note stays usable without it
+       */
+      console.warn('Failed to load the note hierarchy', error);
+    }
   }
 
   /**
@@ -199,22 +265,47 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param id - Note identifier got from composable argument
    */
   async function load(id: NoteId): Promise<void> {
+    const loadId = ++loadCounter;
+
+    note.value = null;
+    lastUpdateContent.value = null;
+    noteTools.value = undefined;
+
     try {
       const response = await noteService.getNoteById(id);
+
+      if (loadId !== loadCounter) {
+        return;
+      }
 
       note.value = response.note;
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
       noteParents.value = response.parents;
-      void getNoteHierarchy(id);
-    } catch (error) {
-      deleteOpenedPageByUrl(route.path);
-      if (error instanceof DomainError) {
-        void router.push(`/error/${error.statusCode}`);
-      } else {
-        void router.push('/error/500');
+
+      if (options.withHierarchy === true) {
+        void getNoteHierarchy(id);
       }
+    } catch (error) {
+      if (loadId !== loadCounter) {
+        return;
+      }
+
+      /**
+       * Private note opened by an anonymous user: log in and come back
+       */
+      if ((error instanceof UnauthorizedError || error instanceof ForbiddenError) && !user.value) {
+        void router.replace({
+          name: 'authorization',
+          query: { redirect: route.fullPath },
+        });
+
+        return;
+      }
+
+      deleteOpenedPageByUrl(route.path);
+      void router.replace(`/error/${error instanceof DomainError && error.statusCode !== undefined ? error.statusCode : '500'}`);
     }
   }
 
@@ -242,69 +333,113 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   }
 
   /**
-   * Saves the note
-   * @param content - Note content (Editor.js data)
-   * @param parentId - Id of the parent note. If null, then it's a root note
+   * Sends the changes to the API
+   * @param job - changes and the note they belong to
    */
-  async function save(content: NoteContent, parentId: NoteId | undefined): Promise<void> {
-    if (note.value === null) {
-      throw new Error('Note is not loaded yet');
+  async function persist(job: SaveJob): Promise<void> {
+    const tools = resolveToolsByContent(job.content);
+
+    saveStatus.value = 'saving';
+
+    try {
+      if (typeof job.target === 'string') {
+        await noteService.updateNoteContentAndTools(job.target, job.content, tools);
+      } else if (job.target.id !== null) {
+        await noteService.updateNoteContentAndTools(job.target.id, job.content, tools);
+      } else {
+        const noteCreated = await noteService.createNote(job.content, tools, job.parentId);
+
+        job.target.id = noteCreated.id;
+
+        /**
+         * Replace the draft route with the note route if user is still on the draft
+         */
+        if (job.target === draft && currentId.value === null) {
+          const draftUrl = route.path;
+
+          createdDraftId = noteCreated.id;
+          await router.replace({
+            name: 'note',
+            params: {
+              id: noteCreated.id,
+            },
+          });
+
+          deleteOpenedPageByUrl(draftUrl);
+          patchOpenedPageByUrl(route.path, {
+            title: getTitle(job.content),
+            url: route.path,
+          });
+
+          if (options.withHierarchy === true) {
+            void getNoteHierarchy(noteCreated.id);
+          }
+        }
+      }
+
+      lastSaved = {
+        target: job.target,
+        blocks: JSON.stringify(job.content.blocks),
+      };
+      saveStatus.value = pendingJob === null ? 'saved' : 'pending';
+    } catch (error) {
+      console.error(error);
+
+      /**
+       * Keep the changes, so the next edit or retry saves them
+       */
+      pendingJob ??= job;
+      saveStatus.value = 'error';
+    }
+  }
+
+  /**
+   * Saves scheduled changes immediately
+   */
+  function flushSave(): Promise<void> {
+    clearTimeout(saveTimer);
+    pendingSince = null;
+
+    const job = pendingJob;
+
+    pendingJob = null;
+
+    if (job !== null) {
+      saveQueue = saveQueue.then(() => persist(job));
     }
 
-    /**
-     * Resolve tools that are used in note
-     */
-    const specifiedNoteTools = resolveToolsByContent(content);
+    return saveQueue;
+  }
 
-    isNoteSaving.value = true;
+  /**
+   * Saves the changes after a short pause
+   * @param content - Note content (Editor.js data)
+   * @param parentId - Id of the parent note for a new note
+   */
+  function scheduleSave(content: NoteContent, parentId?: NoteId): void {
+    const target = currentId.value ?? draft;
 
-    if (currentId.value === null) {
-      /**
-       * @todo try-catch domain errors
-       */
-      const noteCreated = await noteService.createNote(content, specifiedNoteTools, parentId);
-
-      /**
-       * Replace the current route with note id
-       */
-      await router.replace({
-        name: 'note',
-        params: {
-          id: noteCreated.id,
-        },
-      });
-
-      patchOpenedPageByUrl(
-        route.path,
-        {
-          title: noteTitle.value,
-          url: route.path,
-        });
-
-      /**
-       * Get note Hierarchy when new Note is created
-       */
-      void getNoteHierarchy(noteCreated.id);
-    } else {
-      await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
+    if (pendingJob === null && lastSaved?.target === target && lastSaved.blocks === JSON.stringify(content.blocks)) {
+      return;
     }
 
-    /**
-     * Store just saved content in memory
-     */
+    pendingJob = {
+      target,
+      content,
+      parentId,
+    };
     lastUpdateContent.value = content;
+    saveStatus.value = 'pending';
 
-    isNoteSaving.value = false;
+    pendingSince ??= Date.now();
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => void flushSave(), Math.min(SAVE_DELAY, pendingSince + SAVE_MAX_WAIT - Date.now()));
   }
 
   /**
    * Unlink note from parent
    */
   async function unlinkParent(): Promise<void> {
-    if (note.value === null) {
-      throw new Error('Note is not loaded yet');
-    }
-
     if (currentId.value === null) {
       throw new Error('Note id is not defined');
     }
@@ -314,19 +449,23 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     parentNote.value = undefined;
   }
 
-  /**
-   * Get note by custom hostname
-   */
-  const resolveHostname = async (): Promise<void> => {
-    note.value = (await noteService.getNoteByHostname(location.hostname)).note;
-  };
-
   onMounted(() => {
-    /**
-     * If we have id, load note and note hierarchy
-     */
     if (currentId.value !== null) {
       void load(currentId.value);
+    }
+  });
+
+  onBeforeUnmount(() => {
+    void flushSave();
+  });
+
+  /**
+   * Ask the browser to confirm leaving the page while changes are not saved yet
+   */
+  useEventListener(window, 'beforeunload', (event: BeforeUnloadEvent) => {
+    if (pendingJob !== null || saveStatus.value === 'saving') {
+      void flushSave();
+      event.preventDefault();
     }
   });
 
@@ -334,11 +473,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * Reset note to the initial state
    */
   function resetNote(): void {
+    loadCounter++;
+    draft = { id: null };
     note.value = createDraft();
     noteTools.value = [];
     canEdit.value = true;
     lastUpdateContent.value = null;
     noteHierarchy.value = null;
+    noteParents.value = [];
+    parentNote.value = undefined;
+    saveStatus.value = 'idle';
   }
 
   /**
@@ -347,31 +491,25 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
    * @param title - The new title to update in the hierarchy
    */
   function updateNoteHierarchyContent(hierarchy: NoteHierarchy | null, title: string): void {
-    // If hierarchy is null, there's nothing to update
     if (!hierarchy) {
       return;
     }
 
-    // If content is null, we can't update the hierarchy content
-    if (!title) {
-      return;
-    }
-
-    // Update the title of the current note in the hierarchy if it matches the currentId
     if (hierarchy.noteId === currentId.value) {
       hierarchy.noteTitle = title;
     }
 
-    // Recursively update child notes
-    if (hierarchy.childNotes) {
-      hierarchy.childNotes.forEach(child => updateNoteHierarchyContent(child, title));
-    }
+    hierarchy.childNotes?.forEach(child => updateNoteHierarchyContent(child, title));
   }
 
-  watch(currentId, (newId, prevId) => {
+  watch(currentId, (newId) => {
+    /**
+     * Changes of the previous note are bound to it, save them before switching
+     */
+    void flushSave();
+
     /**
      * One note is open, user clicks on "+" to create another new note
-     * Clear existing note
      */
     if (newId === null) {
       resetNote();
@@ -379,21 +517,18 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
-    const isDraftSaving = prevId === null && isNoteSaving.value;
+    if (newId === createdDraftId) {
+      createdDraftId = null;
 
-    /**
-     * Case for newly created note,
-     * we don't need to re-load it
-     */
-    if (isDraftSaving) {
       return;
     }
 
+    saveStatus.value = 'idle';
     void load(newId);
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    if (route.name == 'note') {
+    if (route.name === 'note' && note.value !== null) {
       patchOpenedPageByUrl(
         route.path,
         {
@@ -409,9 +544,9 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
     noteTools,
     noteTitle,
     canEdit,
-    resolveHostname,
-    resolveToolsByContent,
-    save,
+    scheduleSave,
+    flushSave,
+    saveStatus,
     unlinkParent,
     noteParents,
     parentNote,

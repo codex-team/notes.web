@@ -14,17 +14,13 @@
         secondary
         @click="onCancel"
       >
-        <div :class="$style['confirm__button-inner']">
-          {{ cancelText }}
-        </div>
+        {{ cancelText }}
       </Button>
       <Button
-        primary
+        :destructive="destructive"
         @click="onConfirm"
       >
-        <div :class="$style['confirm__button-inner']">
-          {{ confirmText }}
-        </div>
+        {{ confirmText }}
       </Button>
     </div>
   </div>
@@ -57,6 +53,11 @@ const props = withDefaults(
     cancelText?: string;
 
     /**
+     * Style the confirm button as a negative action
+     */
+    destructive?: boolean;
+
+    /**
      * Function that is executed after pressing the Cancel button
      */
     onCancel: () => void;
@@ -69,6 +70,7 @@ const props = withDefaults(
   {
     confirmText: 'Confirm',
     cancelText: 'Cancel',
+    destructive: false,
   }
 );
 
@@ -114,21 +116,23 @@ onUnmounted(() => {
   flex-direction: column;
   gap: var(--v-padding);
   text-align: center;
-  width: min-content;
+  width: 340px;
 
   &__body {
     padding: 0 var(--spacing-ml) 0 var(--spacing-ml);
     word-wrap: break-word;
+    color: var(--base--text-secondary);
   }
 
   &__controls {
     display: flex;
     padding: var(--v-padding) 0 0 0;
     gap: var(--spacing-m);
-  }
 
-  &__button-inner {
-    width: 84px;
+    & > button {
+      flex: 1;
+      justify-content: center;
+    }
   }
 }
 

@@ -1,21 +1,27 @@
 <template>
-  <div :class="$style['message']">
-    {{ t('authorize.message') }}
-    <Button
-      @click="showGoogleAuthPopup"
-    >
-      {{ t('auth.login') }}
+  <MessageCard
+    :title="t('authorize.title')"
+    :text="t('authorize.message')"
+  >
+    <template #picture>
+      <Logo :class="$style.logo" />
+    </template>
+    <Button @click="showGoogleAuthPopup">
+      {{ t('auth.continueWithGoogle') }}
     </Button>
-  </div>
+  </MessageCard>
 </template>
 
 <script setup lang="ts">
 import { useAppState } from '@/application/services/useAppState';
 import useAuth from '@/application/services/useAuth';
+import usePageTitle from '@/application/services/usePageTitle';
 import { useI18n } from 'vue-i18n';
 import { watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { Button } from '@codexteam/ui/vue';
+import { Logo } from '@/presentation/components/pictures';
+import MessageCard from '@/presentation/components/message-card/MessageCard.vue';
 
 const { user } = useAppState();
 const { showGoogleAuthPopup } = useAuth();
@@ -24,30 +30,23 @@ const router = useRouter();
 
 const props = defineProps<{
   /**
-   * Link to auth guarded page
-   * If user would authorized he will be redirected via this link
+   * Page the user wanted to visit, opened after authorization
    */
-  redirect: string;
+  redirect?: string;
 }>();
 
-/**
- * Checks status of user authorization
- * If user had been authorized, then redirects to page that he wanted to visit
- */
-watch(user, () => {
-  if (user.value !== null && user.value !== undefined) {
-    router.push(props.redirect);
+usePageTitle(() => t('pages.authorization'));
+
+watch(user, (value) => {
+  if (value) {
+    void router.replace(props.redirect?.startsWith('/') ? props.redirect : '/');
   }
-});
+}, { immediate: true });
 </script>
 
 <style lang="postcss" module>
-.message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-  gap: var(--spacing-l)
+.logo {
+  width: 60px;
+  height: 24px;
 }
 </style>

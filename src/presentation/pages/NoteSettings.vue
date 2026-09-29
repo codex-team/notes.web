@@ -1,98 +1,127 @@
 <template>
   <PageBlock data-dimensions="large">
     <div
-      v-if="noteSettings"
+      v-if="noteSettings && note"
       class="note-settings"
     >
-      <div
-        class="note-settings__page-header"
+      <PageHeading>
+        {{ t('noteSettings.title') }}
+        <template #description>
+          <RouterLink :to="`/note/${id}`">
+            {{ noteTitle }}
+          </RouterLink>
+        </template>
+      </PageHeading>
+
+      <Section
+        :title="t('noteSettings.parentNote')"
+        :caption="t('noteSettings.parentNoteCaption')"
+        :with-background="parentNote !== undefined"
       >
-        <Heading
-          :level="1"
+        <Row
+          v-if="parentNote"
+          :title="getTitle(parentNote.content)"
+          :subtitle="parentNote.updatedAt ? t('home.updated') + ' ' + getTimeFromNow(parentNote.updatedAt) : undefined"
         >
-          {{ $t('noteSettings.title') }}
-        </Heading>
-        <Heading
-          :level="2"
-          class="note-settings__subheading"
-        >
-          {{ noteTitle }}
-        </Heading>
-      </div>
-      <div class="form">
-        <Section
-          :title="t('noteSettings.parentNote')"
-          :caption="t('noteSettings.parentNoteCaption')"
-          :with-background="false"
-        >
-          <div class="change-parent">
-            <Input
-              v-model="parentURL"
-              data-dimensions="large"
-              :disabled="parentNote !== undefined"
-              :placeholder="t('noteSettings.parentNotePlaceholder')"
-              @input="setParentDebounced"
-            />
-            <Card
-              v-if="parentNote"
-              :title="parentNoteTitle"
-              :subtitle="getTimeFromNow(parentNote.createdAt!)"
-              orientation="horizontal"
-            >
+          <template #right>
+            <div class="buttons">
               <Button
                 secondary
+                @click="router.push(`/note/${parentNote.id}`)"
+              >
+                {{ t('note.open') }}
+              </Button>
+              <Button
+                secondary
+                icon="Unlink"
+                :disabled="isParentUpdating"
                 @click="handleUnlinkParentClick"
               >
                 {{ t('note.unlink') }}
               </Button>
-            </Card>
-          </div>
-        </Section>
-
-        <Section
-          :title="t('noteSettings.availabilityTitle')"
-          :caption="t('noteSettings.availabilityCaption')"
+            </div>
+          </template>
+        </Row>
+        <form
+          v-else
+          class="parent-form"
+          @submit.prevent="handleSetParent"
         >
-          <Row :title="t('noteSettings.availabilityRowTitle')">
-            <template #right>
-              <Switch
-                v-model="isPublic"
-                @click="changeAccess"
-              />
-            </template>
-          </Row>
-        </Section>
-
-        <Fieldset
-          :title="t('noteSettings.teamFormFieldSetTitle')"
-        >
-          <div
-            class="fieldset"
-            data-dimensions="large"
+          <Input
+            v-model="parentURL"
+            icon="Link"
+            :placeholder="t('noteSettings.parentNotePlaceholder')"
+          />
+          <Button
+            secondary
+            :disabled="parentURL.trim() === '' || isParentUpdating"
           >
-            <Team
-              :note-id="id"
-              :team="noteSettings.team"
-              @team-member-removed="handleTeamMemberRemoved"
+            {{ t('noteSettings.setParent') }}
+          </Button>
+        </form>
+      </Section>
+      <div
+        v-if="parentError"
+        class="error text-ui-base"
+      >
+        {{ parentError }}
+      </div>
+
+      <Section
+        :title="t('noteSettings.availabilityTitle')"
+        :caption="t('noteSettings.availabilityCaption')"
+      >
+        <Row
+          :title="t('noteSettings.availabilityRowTitle')"
+          :subtitle="noteSettings.isPublic ? t('noteSettings.availabilityPublic') : t('noteSettings.availabilityPrivate')"
+        >
+          <template #right>
+            <Switch
+              v-model="isPublic"
+              @click="changeAccess"
             />
-            <InviteLink
-              :id="props.id"
-              :invintation-hash="noteSettings.invitationHash"
-            />
+          </template>
+        </Row>
+      </Section>
+
+      <Team
+        :note-id="id"
+        :team="noteSettings.team"
+        :creator-id="'creatorId' in note ? note.creatorId : undefined"
+        @team-member-removed="handleTeamMemberRemoved"
+      />
+
+      <InviteLink
+        :id="id"
+        :invitation-hash="noteSettings.invitationHash"
+      />
+
+      <Section
+        :title="t('noteSettings.dangerZone')"
+        :caption="t('noteSettings.deleteNoteCaption')"
+      >
+        <Row :title="t('noteSettings.deleteNoteTitle')">
+          <template #right>
             <Button
               destructive
-              class="delete-button"
+              icon="Trash"
               @click="deleteNote"
             >
               {{ t('noteSettings.deleteNote') }}
             </Button>
-          </div>
-        </Fieldset>
-        <br>
-      </div>
+          </template>
+        </Row>
+      </Section>
     </div>
-    <div v-else>
-      Loading...
+    <div
+      v-else
+      class="skeleton"
+      aria-busy="true"
+    >
+      <div class="skeleton__block skeleton__block--title" />
+      <div class="skeleton__block" />
+      <div class="skeleton__block" />
+      <div class="skeleton__block skeleton__block--tall" />
     </div>
   </PageBlock>
 </template>
@@ -101,18 +130,18 @@
 import type { NoteId } from '@/domain/entities/Note';
 import useNoteSettings from '@/application/services/useNoteSettings';
 import useNote from '@/application/services/useNote';
-import { useHead } from 'unhead';
+import usePageTitle from '@/application/services/usePageTitle';
 import { useI18n } from 'vue-i18n';
-import { computed, ref, onMounted, watch } from 'vue';
-import { useDebounceFn } from '@vueuse/core';
+import { computed, ref, onMounted } from 'vue';
 import Team from '@/presentation/components/team/Team.vue';
-import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card, PageBlock } from '@codexteam/ui/vue';
+import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
+import { Section, Row, Switch, Button, Input, PageBlock, useConfirm } from '@codexteam/ui/vue';
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
 import useNavbar from '@/application/services/useNavbar';
-import { useRoute } from 'vue-router';
-import { TeamMember } from '@/domain/entities/Team';
+import { useRouter } from 'vue-router';
+import type { TeamMember } from '@/domain/entities/Team';
 
 const { t } = useI18n();
 
@@ -123,112 +152,109 @@ const props = defineProps<{
   id: NoteId;
 }>();
 
-const { patchOpenedPageByUrl } = useNavbar();
-const route = useRoute();
-const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
-const { noteTitle, unlinkParent } = useNote({
+const { deleteOpenedPagesByPrefix } = useNavbar();
+const router = useRouter();
+const { confirm } = useConfirm();
+const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, setParent } = useNoteSettings();
+const { note, noteTitle, parentNote, unlinkParent } = useNote({
   id: props.id,
 });
 
 /**
- * URL of the parent note. Used to set and display the parent note
+ * URL of the note to be set as a parent
  */
 const parentURL = ref<string>('');
 
+const parentError = ref<string>('');
+
+const isParentUpdating = ref(false);
+
 /**
- * Deletes the note complitely
+ * Deletes the note completely
  */
 async function deleteNote() {
-  const isConfirmed = window.confirm(t('noteSettings.noteDeleteConfirmation'));
+  const isConfirmed = await confirm(t('noteSettings.deleteNoteTitle'), t('noteSettings.noteDeleteConfirmation'), {
+    confirmText: t('noteSettings.deleteNote'),
+    cancelText: t('cancel'),
+    destructive: true,
+  });
 
   if (isConfirmed) {
-    deleteNoteById(props.id);
+    await deleteNoteById(props.id);
+    deleteOpenedPagesByPrefix(`/note/${props.id}`);
+    void router.push('/');
   }
 }
 
 /**
- * Unlink parent note and clear the parentURL field
+ * Unlink parent note
  */
 async function handleUnlinkParentClick() {
-  parentURL.value = '';
-  parentNote.value = undefined;
-  unlinkParent();
+  if (isParentUpdating.value) {
+    return;
+  }
+
+  isParentUpdating.value = true;
+
+  try {
+    await unlinkParent();
+  } finally {
+    isParentUpdating.value = false;
+  }
 }
 
 /**
- * Set parent note with debounce
+ * Set parent note by the link from the input
  */
-const setParentDebounced = useDebounceFn(async () => {
-  if (parentURL.value !== '') {
-    await setParent(props.id, parentURL.value);
-  }
-}, 1000);
-
-const parentNoteTitle = computed(() => {
-  if (parentNote.value === undefined) {
-    return '';
+async function handleSetParent() {
+  if (isParentUpdating.value || parentURL.value.trim() === '') {
+    return;
   }
 
-  return getTitle(parentNote.value.content);
-});
+  parentError.value = '';
+  isParentUpdating.value = true;
+
+  try {
+    parentNote.value = await setParent(props.id, parentURL.value.trim());
+    parentURL.value = '';
+  } catch (error) {
+    parentError.value = error instanceof Error && error.message.startsWith('Invalid')
+      ? t('noteSettings.parentNoteInvalidLink')
+      : t('noteSettings.parentNoteError');
+  } finally {
+    isParentUpdating.value = false;
+  }
+}
 
 /**
- * Current value of isPublic field
+ * Switch emits its initial state on mount, so the value is changed only by the click handler
  */
-const isPublic = computed(() => {
-  return noteSettings.value?.isPublic;
+const isPublic = computed({
+  get: () => noteSettings.value?.isPublic ?? false,
+  set: () => {},
 });
 
 /**
  * Change isPublic property
  */
 async function changeAccess() {
-  updateIsPublic(props.id, !noteSettings.value!.isPublic);
-}
-
-/**
- * Construct the parent note URL. If the parent note is not set, return an empty string
- *
- * @param id - id of the  note
- * @returns {string} URL of the parent note
- */
-function getParentURL(id: NoteId | undefined): string {
-  if (parentNote.value !== undefined) {
-    const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
-
-    return `${websiteHostname}/note/${id}`;
+  if (noteSettings.value !== null) {
+    await updateIsPublic(props.id, !noteSettings.value.isPublic);
   }
-
-  return '';
 }
 
-/**
- * Changing the title in the browser
- */
-useHead({
-  title: t('noteSettings.title'),
-});
-
-watch(noteTitle, (newTitle) => {
-  const openPageInfo = {
-    title: `${t('noteSettings.settings')} (${newTitle})`,
-    url: route.path,
-  };
-
-  patchOpenedPageByUrl(route.path, openPageInfo);
-});
+usePageTitle(() => `${t('noteSettings.title')} · ${noteTitle.value}`);
 
 onMounted(async () => {
   await loadSettings(props.id);
-  parentURL.value = getParentURL(parentNote.value?.id);
 });
 
 /**
- * Handle team member removal by refreshing the note settings and removing the member from the team
+ * Remove the member from the displayed team
  *
- * @param userId - user id of the member to remove
+ * @param userId - user id of the removed member
  */
-async function handleTeamMemberRemoved(userId: TeamMember['user']['id']) {
+function handleTeamMemberRemoved(userId: TeamMember['user']['id']) {
   if (noteSettings.value !== null) {
     noteSettings.value = {
       ...noteSettings.value,
@@ -238,47 +264,58 @@ async function handleTeamMemberRemoved(userId: TeamMember['user']['id']) {
 }
 </script>
 
-<style setup lang="postcss" scoped>
-.note-settings{
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-l);
-  margin: var(--spacing-xxl) var(--spacing-ml);
-
-  &__page-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-s);
-    padding-left: var(--h-padding);
-    padding-right: var(--h-padding);
-  }
-
-  &__subheading {
-    color: var(--text-secondary);
-  }
-}
-
-.form{
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxl);
-  margin: var(--spacing-xxl) 0;
-}
-
-.change-parent{
-  display: flex;
-  flex-direction: column;
-  gap: var(--v-padding);
-}
-
-.fieldset{
+<style lang="postcss" scoped>
+.note-settings {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
 }
 
-.delete-button{
-  width: auto;
-  align-self: flex-start;
+.buttons {
+  display: flex;
+  gap: var(--spacing-s);
+}
+
+.parent-form {
+  display: flex;
+  gap: var(--spacing-s);
+
+  & > :first-child {
+    flex: 1;
+  }
+}
+
+.error {
+  margin-top: calc(-1 * var(--spacing-l));
+  padding: 0 var(--h-padding);
+  color: var(--red--solid);
+}
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+
+  &__block {
+    height: 64px;
+    border-radius: var(--radius-field);
+    background-color: color-mix(in srgb, var(--base--text-secondary) 10%, transparent);
+    animation: pulse 1.4s ease-in-out infinite;
+
+    &--title {
+      height: 44px;
+      width: 50%;
+    }
+
+    &--tall {
+      height: 200px;
+    }
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
 }
 </style>

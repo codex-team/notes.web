@@ -35,18 +35,25 @@ export default function useAuth(): UseOAuthComposableState {
     /**
      * Open popup at the center of the screen
      */
-    const popupWidth = 600;
-    const popupHeight = 400;
-    const left = (window.screen.width - popupWidth) / 2;
-    const top = (window.screen.height - popupHeight) / 2;
+    const popupWidth = 500;
+    const popupHeight = 600;
+    const left = window.screenX + (window.outerWidth - popupWidth) / 2;
+    const top = window.screenY + (window.outerHeight - popupHeight) / 2;
 
-    window.open(loginUrl, 'oauth', `popup=true, width=600, height=400, left=${left}, top=${top}`);
+    window.open(loginUrl, 'oauth', `popup=true, width=${popupWidth}, height=${popupHeight}, left=${left}, top=${top}`);
 
     if (callbackId !== null) {
       off(callbackId);
     }
 
     callbackId = on((event) => {
+      /**
+       * Accept tokens only from the OAuth callback page served by the API
+       */
+      if (event.origin !== new URL(loginUrl).origin || typeof event.data !== 'object' || event.data === null) {
+        return;
+      }
+
       if ('accessToken' in event.data && 'refreshToken' in event.data) {
         authService.acceptSession(event.data.accessToken, event.data.refreshToken);
 

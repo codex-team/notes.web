@@ -73,7 +73,7 @@ const editorConfig = computed<EditorConfig>(() => {
   };
 });
 
-const { isEmpty } = useEditor(editorConfig, {
+const { isEmpty, save } = useEditor(editorConfig, {
   onChange: data => emit('change', data),
 });
 
@@ -84,6 +84,11 @@ defineExpose({
   isEmpty(): boolean {
     return isEmpty.value;
   },
+
+  /**
+   * Returns the current content, including changes not yet reported by the change event
+   */
+  save,
 
   /**
    * Returns the editor holder

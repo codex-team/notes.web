@@ -1,75 +1,85 @@
 {
   "appTitle": "NoteX",
   "loadMore": "Load more",
-  "auth": {
-    "login": "Login",
-    "logout": "👋Logout"
+  "cancel": "Cancel",
+  "toast": {
+    "close": "Close",
+    "networkError": "No connection to the server. Check your internet and try again",
+    "failed": "Something went wrong. Try again",
+    "failedWithReason": "Something went wrong: {message}"
   },
-  "header": {
-    "buttons": {
-      "noteSettings": "Settings"
-    }
+  "auth": {
+    "login": "Log in",
+    "logout": "Log out",
+    "continueWithGoogle": "Continue with Google"
   },
   "userSettings": {
-    "title": "User Settings",
-    "editorTools": "Editor Tools",
+    "title": "Settings",
+    "shortTitle": "Settings",
+    "account": "Account",
+    "accountCaption": "Your name is shown to collaborators, the email is used to log in",
+    "editorTools": "Editor tools",
+    "editorToolsCaption": "Blocks available in the editor toolbox",
     "uninstallEditorTool": "Uninstall",
-    "toolUninstallConfirmation": "Do you really want to delete this tool?",
-    "nameCaption": "Will be displayed in collaborators list",
-    "emailCaption": "Used for login",
-    "name": "Name",
-    "email": "Email",
-    "general": "General",
+    "toolUninstallConfirmation": "{title} will disappear from the editor toolbox. Notes that already use it keep their content.",
     "visitMarketplace": {
       "title": "Add more tools",
-      "caption": "Discover new Blocks, Formattings and other tools to improve your pages",
-      "button": "View all tools"
+      "caption": "Discover new blocks and formatting tools",
+      "button": "Marketplace"
     },
     "appearance": {
-      "title": "Appearance",
       "colorSheme": {
-        "title": "Color sheme",
-        "caption": "Choose your side"
+        "title": "Color scheme",
+        "light": "Light",
+        "dark": "Dark"
       },
       "baseTheme": {
         "title": "Base theme",
         "caption": "Main colors of the application"
       },
-      "accentTheme" : {
+      "accentTheme": {
         "title": "Accent theme",
         "caption": "Primary buttons and highlights"
       }
     }
   },
   "noteSettings": {
-    "title": "Note Settings",
+    "title": "Note settings",
     "settings": "Settings",
-    "customHostname": "Custom Hostname",
-    "hostnamePlaceholder": "example: landing.codex.so",
     "availabilityTitle": "Availability",
-    "availabilityCaption": "Should the Note be available by its URL for people who knows it?",
-    "availabilityRowTitle": "Note is published",
+    "availabilityCaption": "Published notes can be read by anyone who has the link",
+    "availabilityRowTitle": "Published",
+    "availabilityPublic": "Anyone with the link can read",
+    "availabilityPrivate": "Only collaborators have access",
     "inviteCollaboratorTitle": "Invite a collaborator",
-    "inviteCollaboratorCaption": "Send this link to someone you want to add as an editor or reader.",
+    "inviteCollaboratorCaption": "Send this link to someone you want to add as an editor or reader",
     "revokeHashButton": "Revoke",
-    "revokeHashConfirmation": "Do you really want to revoke this link?",
+    "revokeHashTitle": "Revoke the invite link",
+    "revokeHashConfirmation": "The current link will stop working and a new one will be created.",
     "copyInviteLink": "Copy",
-    "teamFormFieldSetTitle": "Team",
+    "copied": "Copied",
+    "dangerZone": "Danger zone",
     "deleteNote": "Delete",
-    "noteDeleteConfirmation": "Do you really want to delete this note?",
+    "deleteNoteTitle": "Delete this note",
+    "deleteNoteCaption": "The note and its version history will be deleted for everyone. This can't be undone.",
+    "noteDeleteConfirmation": "The note and its version history will be deleted for everyone. This can't be undone.",
     "parentNote": "Parent note",
-    "parentNoteCaption": "Access settings will be inherited",
-    "setParent": "Set as parent",
-    "parentNotePlaceholder": "Paste a link here",
+    "parentNoteCaption": "Access settings will be inherited from the parent",
+    "parentNotePlaceholder": "Paste a link to the parent note",
+    "parentNoteInvalidLink": "This is not a link to a note",
+    "parentNoteError": "Could not set the parent. Check the link and your access to that note",
+    "setParent": "Set parent",
     "team": {
       "title": "Collaborators",
-      "caption": "Who can access the Note even if it’s not published",
+      "caption": "Who can access the note even if it's not published",
+      "you": "You",
+      "owner": "Owner",
       "roles": {
         "Read": "Reader",
         "Write": "Writer"
       },
-      "removeMemberConfirmationTitle": "Remove member",
-      "removeMemberConfirmationBody": "Are you sure you want to remove '{username}' from the team?",
+      "removeMemberConfirmationTitle": "Remove collaborator",
+      "removeMemberConfirmationBody": "{username} will lose access to the note unless it is published.",
       "contextMenu": {
         "title": "More actions",
         "remove": "Remove"
@@ -77,35 +87,47 @@
     }
   },
   "note": {
-    "new": "New Note",
-    "unlink": "Unlink parent",
+    "new": "New note",
+    "unlink": "Unlink",
     "untitled": "Untitled",
     "open": "Open",
-    "createChildNote": "Create child note",
+    "createChildNote": "Create a child note",
+    "breadcrumbs": "Parent notes",
+    "readOnly": "Read only",
     "editor": {
-      "placeholder": "Write something or press / to select a tool"
+      "placeholder": "Write something or press / to select a tool",
+      "titlePlaceholder": "Title"
     },
-    "lastEdit": "Last edit"
+    "status": {
+      "saving": "Saving…",
+      "saved": "Saved",
+      "edited": "Edited {time}",
+      "error": "Not saved. Retry"
+    }
   },
   "history": {
-    "title": "Versions history",
-    "view": "View",
-    "useVersion": "Use this version",
-    "confirmVersionRestore": "Do you really want to use this version?",
-    "editedTime": "edited on"
+    "title": "Version history",
+    "button": "History",
+    "version": "Version",
+    "latest": "Latest",
+    "empty": "No versions yet",
+    "editedBy": "{name}, {time}",
+    "useVersion": "Restore this version",
+    "restore": "Restore",
+    "restoreError": "Could not restore the version",
+    "confirmVersionRestore": "The note content will be replaced with this version. The current content stays in the history."
   },
   "noteList": {
-    "emptyNoteList": "No Notes yet. Make your first note",
-    "noteListItem": {
-      "untitled": "Untitled"
+    "empty": {
+      "recents": "No notes yet",
+      "myNotes": "You haven't created any notes yet",
+      "caption": "Notes you create or open will appear here"
     }
   },
   "home": {
-    "createNewNote": {
-      "title": "Create new note",
-      "caption": "Knowledge storage and presentation",
-      "button": "New"
-    },
+    "title": "Home",
+    "notes": "Notes",
+    "updated": "Updated",
     "sections": {
       "recents": {
         "title": "Recents"
@@ -114,77 +136,87 @@
         "title": "My notes"
       }
     },
-    "navigation": "Navigation",
-    "updated": "Updated",
-    "title": "Home",
-    "authText": "You are not logged in, log in to see your recent notes"
+    "hero": {
+      "title": "Notes that grow into a knowledge base",
+      "text": "Write with blocks, nest notes into trees and share them with your team"
+    }
   },
   "error": {
     "401": "Unauthorized",
+    "403": "No access",
     "404": "Not found",
-    "403": "Forbidden",
-    "500": "Internal server error"
+    "500": "Something went wrong"
   },
   "errors": {
-    "401": "You must be authenticated to access this resource",
-    "404": "Page not found",
-    "403": "Access Denied",
-    "500": "Unknown error happened",
-    "default": "Something went wrong"
+    "401": "Log in to see this page",
+    "403": "You don't have access to this page. Ask its owner for an invite link",
+    "404": "The page doesn't exist or has been deleted",
+    "500": "An unexpected error happened. Try again later",
+    "default": "Something went wrong",
+    "goHome": "Go to home page"
   },
-  "authorize" : {
-    "message" : "Authorization required"
+  "authorize": {
+    "title": "Log in to continue",
+    "message": "This page is available to logged in users only"
   },
   "join": {
-    "title": "Joining a note team...",
-    "messages": {
-      "linkExpired": "This join link has been expired",
-      "validationError": "Wrong invitation hash specified",
-      "unauthorized": "You must be authenticated to access this resource"
+    "joining": {
+      "title": "Joining the note…",
+      "text": "You will be redirected in a moment"
+    },
+    "expired": {
+      "title": "The invite link has expired",
+      "text": "Ask the note owner for a new link"
+    },
+    "invalid": {
+      "title": "The invite link is invalid",
+      "text": "Check that the link was copied completely"
+    },
+    "failed": {
+      "title": "Could not join the note",
+      "text": "Try again later or ask the note owner for a new link"
     }
   },
   "marketplace": {
     "title": "Marketplace",
     "listOfTools": "Tools",
-    "subtitle": "Achieve any goal on your page",
+    "subtitle": "Blocks and tools for the editor",
+    "default": "Built-in",
     "uninstallTool": "Uninstall",
     "installTool": "Install",
-    "addTool": "Add Tool",
-    "userPerspective": "User perspective",
+    "addTool": "Add a tool",
+    "addToolCaption": "Publish your Editor.js tool so others can install it",
+    "userPerspective": "What users see",
     "technicalDetails": "Technical details",
-    "selectFile": "Select file",
     "newTool": {
       "title": {
         "placeholder": "Payment Widget",
         "label": "Title",
-        "caption":"Will be visible in Editor Toolbox"
-      },
-      "name": {
-        "placeholder": "payment",
-        "label": "Name",
-        "caption":"Will be used as a block type in saved data"
-
-      },
-      "picture": {
-        "label": "Picture",
-        "description": "A cool descriptive screenshot of the Tool's UI"
-      },
-      "exportName": {
-        "placeholder": "PaymentTool",
-        "label": "Export Name",
-        "caption":"Global (window) variable that the tool exports in its UMD script"
-
-      },
-      "cdn": {
-        "placeholder": "https:\/\/cdn.jsdelivr.net\/npm\/{'@'}editorjs/payment{'@'}2.3.0\/dist\/payment.umd.min.js",
-        "label": "CDN",
-        "caption":"Direct link to the tool’s UMD bundle"
-
+        "caption": "Will be visible in the editor toolbox",
+        "error": "Enter a title"
       },
       "description": {
         "placeholder": "Add a payment button using Stripe",
         "label": "Description",
-        "caption": "Will be visible in tools list"
+        "caption": "Will be visible in the tools list"
+      },
+      "name": {
+        "placeholder": "payment",
+        "label": "Name",
+        "caption": "Will be used as a block type in saved data",
+        "error": "Use latin letters, digits, - and _, starting with a letter"
+      },
+      "exportName": {
+        "placeholder": "PaymentTool",
+        "label": "Export name",
+        "caption": "Global (window) variable that the tool exports in its UMD script",
+        "error": "Enter a valid JavaScript variable name"
+      },
+      "cdn": {
+        "placeholder": "https:\/\/cdn.jsdelivr.net\/npm\/{'@'}editorjs/payment{'@'}2.3.0\/dist\/payment.umd.min.js",
+        "label": "CDN",
+        "caption": "Direct HTTPS link to the tool's UMD bundle",
+        "error": "Enter an HTTPS link to the script"
       },
       "add": "Add tool"
     }
@@ -192,16 +224,17 @@
   "pages": {
     "note": "Note",
     "newNote": "New note",
-    "landing": "landing",
-    "userSettings": "User settings",
+    "landing": "Landing",
+    "userSettings": "Settings",
     "noteSettings": "Note settings",
     "marketplace": "Marketplace",
-    "addTool": "Add tool",
-    "error": "Oops! Something went wrong",
+    "addTool": "Add a tool",
+    "error": "Something went wrong",
     "notFound": "Not found",
     "joinTeam": "Join",
-    "authorization": "Authorize",
+    "authorization": "Log in",
     "history": "History",
-    "historyVersion": "Version"
+    "historyVersion": "Version",
+    "home": "Home"
   }
 }

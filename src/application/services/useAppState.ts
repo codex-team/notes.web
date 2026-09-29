@@ -1,8 +1,8 @@
-import { AppStateController } from '@/domain';
+import { AppStateController, editorToolsService } from '@/domain';
 import type EditorTool from '@/domain/entities/EditorTool';
 import type { User } from '@/domain/entities/User';
 import { createSharedComposable } from '@vueuse/core';
-import { type Ref, ref } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 
 /**
  * Composable for the application state
@@ -45,6 +45,15 @@ export const useAppState = createSharedComposable((): UseAppStateComposable => {
     }
     if (prop === 'editorTools') {
       userEditorTools.value = value as EditorTool[];
+    }
+  });
+
+  /**
+   * Download user tools in the background, so the first opened note does not wait for them
+   */
+  watch(userEditorTools, (tools) => {
+    if (tools !== undefined) {
+      void editorToolsService.getToolsLoaded(tools);
     }
   });
 

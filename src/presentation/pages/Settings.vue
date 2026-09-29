@@ -1,203 +1,178 @@
 <template>
   <PageBlock data-dimensions="large">
-    <div :class="$style['page-header']">
-      <Heading :level="1">
+    <div :class="$style['settings']">
+      <PageHeading>
         {{ t('userSettings.title') }}
-      </Heading>
-    </div>
-    <div
-      :class="$style['container']"
-    >
-      <Fieldset :title="t('userSettings.general')">
-        <div :class="$style['container__general-fields']">
-          <Section
-            :title="t('userSettings.name')"
-            :caption="t('userSettings.nameCaption')"
-          >
-            <Input
-              disabled
-              :placeholder="user?.name!"
+      </PageHeading>
+
+      <Section
+        :title="t('userSettings.account')"
+        :caption="t('userSettings.accountCaption')"
+      >
+        <Row
+          v-if="user"
+          :title="user.name"
+          :subtitle="user.email"
+        >
+          <template #left>
+            <Avatar
+              :src="user.photo"
+              :username="user.name"
             />
-          </Section>
-          <Section
-            :title="t('userSettings.email')"
-            :caption="t('userSettings.emailCaption')"
-          >
-            <Input
-              disabled
-              :placeholder="user?.email!"
-            />
-          </Section>
-          <div>
+          </template>
+          <template #right>
             <Button
-              destructive
+              secondary
               @click="userLogout"
             >
               {{ t('auth.logout') }}
             </Button>
-          </div>
+          </template>
+        </Row>
+      </Section>
+
+      <Section
+        :title="t('userSettings.appearance.colorSheme.title')"
+        :with-background="false"
+      >
+        <div :class="$style['options']">
+          <button
+            v-for="scheme in colorSchemes"
+            :key="scheme"
+            :class="[$style['option'], colorScheme === scheme && $style['option--active'], 'text-ui-base-medium']"
+            :aria-pressed="colorScheme === scheme"
+            @click="setColorScheme(scheme)"
+          >
+            <LightColorShemeIcon v-if="scheme === ColorScheme.Light" />
+            <DarkColorShemeIcon v-else />
+            {{ t(`userSettings.appearance.colorSheme.${scheme}`) }}
+          </button>
         </div>
-      </Fieldset>
+      </Section>
 
-      <Fieldset :title="t('userSettings.appearance.title')">
-        <div :class="$style['container__appearance']">
-          <Section
-            :title="t('userSettings.appearance.colorSheme.title')"
-            :caption="t('userSettings.appearance.colorSheme.caption')"
+      <Section
+        v-for="scope in themeScopes"
+        :key="scope.id"
+        :title="t(`userSettings.appearance.${scope.id}Theme.title`)"
+        :caption="t(`userSettings.appearance.${scope.id}Theme.caption`)"
+        :with-background="false"
+      >
+        <div :class="$style['options']">
+          <button
+            v-for="theme in themes"
+            :key="theme"
+            :class="[$style['option'], scope.current.value === theme && $style['option--active'], 'text-ui-base-medium']"
+            :aria-pressed="scope.current.value === theme"
+            @click="scope.set(theme)"
           >
-            <Row
-              v-for="scheme in colorSchemes"
-              :key="scheme"
-              :title="scheme"
-              :has-delimiter="scheme !== colorSchemes[colorSchemes.length - 1]"
-              :class="$style['container__appearance-theme-row']"
-              @click="setColorScheme(scheme.toLowerCase() as ColorScheme)"
-            >
-              <template #left>
-                <LightColorShemeIcon v-if="scheme === 'Light'" />
-                <DarkColorShemeIcon v-if="scheme === 'Dark'" />
-              </template>
-              <template
-                v-if="colorScheme === scheme.toLowerCase()"
-                #right
-              >
-                <Icon name="Check" />
-              </template>
-            </Row>
-          </Section>
-
-          <Section
-            :title="t('userSettings.appearance.baseTheme.title')"
-            :caption="t('userSettings.appearance.baseTheme.caption')"
-          >
-            <Row
-              v-for="theme in themes"
-              :key="theme"
-              :title="theme"
-              :has-delimiter="theme !== themes[themes.length - 1]"
-              :class="$style['container__appearance-theme-row']"
-              @click="setBaseTheme(theme.toLowerCase() as Theme)"
-            >
-              <template #left>
-                <ThemePreview :theme="theme" />
-              </template>
-              <template
-                v-if="themeBase === theme.toLowerCase()"
-                #right
-              >
-                <Icon name="Check" />
-              </template>
-            </Row>
-          </Section>
-
-          <Section
-            :title="t('userSettings.appearance.accentTheme.title')"
-            :caption="t('userSettings.appearance.accentTheme.caption')"
-          >
-            <Row
-              v-for="theme in themes"
-              :key="theme"
-              :title="theme"
-              :has-delimiter="theme !== themes[themes.length - 1]"
-              :class="$style['container__appearance-theme-row']"
-              @click="setAccentTheme(theme.toLowerCase() as Theme)"
-            >
-              <template #left>
-                <ThemePreview :theme="theme" />
-              </template>
-              <template
-                v-if="themeAccent === theme.toLowerCase()"
-                #right
-              >
-                <Icon name="Check" />
-              </template>
-            </Row>
-          </Section>
+            <ThemePreview :theme="theme" />
+            {{ capitalize(theme) }}
+          </button>
         </div>
-      </Fieldset>
+      </Section>
 
-      <Fieldset :title="t('userSettings.editorTools')">
-        <div :class="$style['container__editor-tools']">
-          <Card
-            v-for="tool in userEditorTools"
-            :key="tool.id"
-            :title="tool.name"
-            subtitle="Lorem ipsum, waiting for description setup..."
-            src="https://sun9-50.userapi.com/c844720/v844720274/194ada/1HCPufLxhzY.jpg"
-            orientation="horizontal"
-          >
+      <Section
+        :title="t('userSettings.editorTools')"
+        :caption="t('userSettings.editorToolsCaption')"
+      >
+        <Row
+          v-for="tool in userEditorTools"
+          :key="tool.id"
+          :title="tool.title || tool.name"
+          :subtitle="tool.description"
+          has-delimiter
+        >
+          <template #left>
+            <ToolIcon :title="tool.title || tool.name" />
+          </template>
+          <template #right>
+            <span
+              v-if="tool.isDefault"
+              :class="[$style['tag'], 'text-ui-small']"
+            >
+              {{ t('marketplace.default') }}
+            </span>
             <Button
-              v-if="!tool.isDefault"
-              @click="uninstallClicked(tool.id)"
+              v-else
+              secondary
+              @click="uninstallClicked(tool.id, tool.title || tool.name)"
             >
               {{ t('userSettings.uninstallEditorTool') }}
             </Button>
-          </Card>
-          <Container>
-            <div :class="$style['container__editor-tools-visit-marketplace']">
-              <Row
-                :title="t('userSettings.visitMarketplace.title')"
-                :subtitle="t('userSettings.visitMarketplace.caption')"
-              >
-                <template #left>
-                  <Hammer />
-                </template>
-                <template #right>
-                  <Button
-                    secondary
-                    trailing-icon="ChevronRight"
-                    @click="$router.push('/marketplace')"
-                  >
-                    {{ t('userSettings.visitMarketplace.button') }}
-                  </Button>
-                </template>
-              </Row>
-            </div>
-          </Container>
-        </div>
-      </Fieldset>
+          </template>
+        </Row>
+        <Row
+          :title="t('userSettings.visitMarketplace.title')"
+          :subtitle="t('userSettings.visitMarketplace.caption')"
+        >
+          <template #left>
+            <Hammer />
+          </template>
+          <template #right>
+            <Button
+              secondary
+              trailing-icon="ChevronRight"
+              @click="router.push('/marketplace')"
+            >
+              {{ t('userSettings.visitMarketplace.button') }}
+            </Button>
+          </template>
+        </Row>
+      </Section>
     </div>
   </PageBlock>
 </template>
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { Button, Fieldset, Section, Row, Heading, Card, useTheme, Theme, ColorScheme, ThemePreview, Icon, LightColorShemeIcon, DarkColorShemeIcon, Container, Input, PageBlock } from '@codexteam/ui/vue';
+import { Avatar, Button, Section, Row, useTheme, Theme, ColorScheme, ThemePreview, LightColorShemeIcon, DarkColorShemeIcon, PageBlock, useConfirm } from '@codexteam/ui/vue';
 import { Hammer } from '@/presentation/components/pictures';
+import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
+import ToolIcon from '@/presentation/components/marketplace/ToolIcon.vue';
 import { useRouter } from 'vue-router';
 import useAuth from '@/application/services/useAuth';
 import { useUserSettings } from '@/application/services/useUserSettings';
 import { useAppState } from '@/application/services/useAppState';
-import { useHead } from 'unhead';
-import { ref } from 'vue';
+import usePageTitle from '@/application/services/usePageTitle';
 import useNavbar from '@/application/services/useNavbar';
 
 const { user, userEditorTools } = useAppState();
 const { t } = useI18n();
 const router = useRouter();
 const { logout } = useAuth();
+const { confirm } = useConfirm();
 const { removeTool } = useUserSettings();
 const { deleteOpenedPages } = useNavbar();
 const { themeBase, themeAccent, colorScheme, setBaseTheme, setAccentTheme, setColorScheme } = useTheme();
 
-/**
- * To make themes iterable because Theme is enum
- */
-const themes = Object.keys(Theme);
+const themes = Object.values(Theme);
+
+const colorSchemes = Object.values(ColorScheme);
+
+const themeScopes = [
+  {
+    id: 'base',
+    current: themeBase,
+    set: setBaseTheme,
+  },
+  {
+    id: 'accent',
+    current: themeAccent,
+    set: setAccentTheme,
+  },
+];
 
 /**
- * To make colorShemes iterable because colorSheme is enum
+ * Makes the first letter uppercase
+ *
+ * @param text - text to capitalize
+ * @returns {string} capitalized text
  */
-const colorSchemes = Object.keys(ColorScheme);
+function capitalize(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
-const isLoading = ref<boolean>(false);
-
-/**
- * Changing the title in the browser
- */
-useHead({
-  title: t('userSettings.title'),
-});
+usePageTitle(() => t('userSettings.title'));
 
 /**
  * Logs out the user
@@ -205,80 +180,72 @@ useHead({
 async function userLogout() {
   await logout();
 
-  /**
-   * Delete user opened page
-   */
   deleteOpenedPages();
 
-  router.replace({ path: '/' });
+  void router.replace({ path: '/' });
 }
 
 /**
  * Deletes tool from the user
  *
  * @param toolId - id of the tool
+ * @param title - tool title
  */
-async function uninstallClicked(toolId: string) {
-  if (window.confirm(t('userSettings.toolUninstallConfirmation'))) {
-    isLoading.value = true;
+async function uninstallClicked(toolId: string, title: string) {
+  const isConfirmed = await confirm(t('userSettings.uninstallEditorTool'), t('userSettings.toolUninstallConfirmation', { title }), {
+    confirmText: t('userSettings.uninstallEditorTool'),
+    cancelText: t('cancel'),
+    destructive: true,
+  });
 
+  if (isConfirmed) {
     await removeTool(toolId);
-
-    isLoading.value = false;
   }
 }
 </script>
 
 <style lang="postcss" module>
-.container {
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.options {
   display: grid;
-  padding: var(--spacing-xxl) 0;
-  gap: var(--spacing-xxl);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--spacing-s);
+}
 
-  &__general-fields {
-    display: grid;
-    gap: var(--spacing-xxl);
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-m);
+  padding: var(--spacing-s);
+  border-radius: var(--radius-field);
+  background-color: var(--base--bg-secondary);
+  color: var(--base--text);
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px transparent;
+
+  svg {
+    border-radius: var(--radius-m);
   }
 
-  &__editor-tools {
-    display: grid;
-    gap: var(--v-padding);
-
-    &-visit-marketplace {
-      padding: var(--v-padding) 0;
-    }
+  &:hover {
+    background-color: var(--base--bg-secondary-hover);
   }
 
-  &__appearance {
-    display: grid;
-    gap: var(--spacing-xxl);
-
-    &-theme-row {
-      cursor: pointer;
-
-      :global(.codex-row__center) {
-        min-height: 20px;
-      }
-
-      &:first-of-type {
-        border-top-left-radius: var(--radius-field);
-        border-top-right-radius: var(--radius-field);
-      }
-
-      &:last-of-type {
-        border-bottom-left-radius: var(--radius-field);
-        border-bottom-right-radius: var(--radius-field);
-      }
-
-      &:hover {
-        background-color: var(--base--bg-secondary-hover);
-      }
-    }
+  &--active {
+    box-shadow: inset 0 0 0 2px var(--accent--solid);
   }
 }
 
-.page-header {
-  padding: 0 var(--h-padding);
-  gap: var(--spacing-s);
+.tag {
+  padding: var(--spacing-xxs) var(--spacing-s);
+  border-radius: var(--radius-s);
+  background-color: var(--base--bg-secondary-hover);
+  color: var(--base--text-secondary);
 }
 </style>

@@ -7,31 +7,42 @@
       v-for="(member, memberIndex) in sortedTeam"
       :key="member.id"
       :title="member.user.name || member.user.email"
+      :subtitle="member.user.name ? member.user.email : undefined"
       :has-delimiter="memberIndex !== sortedTeam.length - 1"
-      data-dimensions="medium"
     >
-      <template #right>
-        <RoleSelect
-          :note-id="noteId"
-          :team-member="member"
-        />
-        <MoreActions
-          :note-id="noteId"
-          :team-member="member"
-          @team-member-removed="handleMemberRemoved"
+      <template #left>
+        <Avatar
+          :src="member.user.photo"
+          :username="member.user.name || member.user.email"
         />
       </template>
 
-      <template #left>
-        <Avatar
-          v-if="member.user.photo !== ''"
-          :src="member.user.photo"
-          :username="member.user.name"
-        />
-        <div
-          v-else
-          class="mock"
-        />
+      <template #right>
+        <span
+          v-if="member.user.id === user?.id"
+          class="tag text-ui-small"
+        >
+          {{ t('noteSettings.team.you') }}
+        </span>
+        <span
+          v-if="member.user.id === creatorId"
+          class="tag text-ui-small"
+        >
+          {{ t('noteSettings.team.owner') }}
+        </span>
+        <template v-else>
+          <RoleSelect
+            :note-id="noteId"
+            :team-member="member"
+            :disabled="member.user.id === user?.id"
+          />
+          <MoreActions
+            v-if="member.user.id !== user?.id"
+            :note-id="noteId"
+            :team-member="member"
+            @team-member-removed="emit('teamMemberRemoved', $event)"
+          />
+        </template>
       </template>
     </Row>
   </Section>
@@ -39,23 +50,30 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Team, MemberRole, TeamMember } from '@/domain/entities/Team';
-import { Note, NoteId } from '@/domain/entities/Note';
+import { type Team, MemberRole, type TeamMember } from '@/domain/entities/Team';
+import type { NoteId } from '@/domain/entities/Note';
+import type { UserId } from '@/domain/entities/User';
 import { Section, Row, Avatar } from '@codexteam/ui/vue';
 import RoleSelect from './RoleSelect.vue';
-import { useI18n } from 'vue-i18n';
-import useNote from '@/application/services/useNote.ts';
 import MoreActions from './MoreActions.vue';
+import { useI18n } from 'vue-i18n';
+import { useAppState } from '@/application/services/useAppState';
 
 const props = defineProps<{
   /**
    * Team of the current note
    */
   team: Team;
+
   /**
    * Id of the current note
    */
   noteId: NoteId;
+
+  /**
+   * Id of the user who created the note
+   */
+  creatorId?: UserId;
 }>();
 
 const emit = defineEmits<{
@@ -63,44 +81,34 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
-const { note } = useNote({ id: props.noteId });
+const { user } = useAppState();
 
-const sortedTeam = computed(() => {
-  if (!note.value) {
-    return props.team;
+const roleOrder = {
+  [MemberRole.Write]: 0,
+  [MemberRole.Read]: 1,
+};
+
+/**
+ * Creator first, then writers, then readers
+ */
+const sortedTeam = computed(() => [...props.team].sort((a, b) => {
+  if (a.user.id === props.creatorId) {
+    return -1;
+  }
+  if (b.user.id === props.creatorId) {
+    return 1;
   }
 
-  return [...props.team].sort((a, b) => {
-    const isCreatorA = a.user.id === (note.value as Note).creatorId;
-    const isCreatorB = b.user.id === (note.value as Note).creatorId;
-
-    if (isCreatorA) {
-      return -1;
-    }
-    if (isCreatorB) {
-      return 1;
-    }
-
-    const roleOrder = {
-      [MemberRole.Write]: 0,
-      [MemberRole.Read]: 1,
-    };
-
-    return roleOrder[a.role] - roleOrder[b.role];
-  });
-});
-
-// Listen for teamMemberRemoved event from child component and bubble them up
-const handleMemberRemoved = (userId: TeamMember['user']['id']): void => {
-  emit('teamMemberRemoved', userId);
-};
+  return roleOrder[a.role] - roleOrder[b.role];
+}));
 </script>
 
 <style scoped>
-.mock {
-  width: var(--size-avatar);
-  height: var(--size-avatar);
-  border-radius: var(--radius-m);
-  background-color: var(--base--text-solid-foreground);
+.tag {
+  padding: var(--spacing-xxs) var(--spacing-s);
+  border-radius: var(--radius-s);
+  background-color: var(--base--bg-secondary-hover);
+  color: var(--base--text-secondary);
+  margin-left: var(--spacing-xs);
 }
 </style>

@@ -1,11 +1,15 @@
 import Home from '@/presentation/pages/Home.vue';
-import Note from '@/presentation/pages/Note.vue';
 import Landing from '@/presentation/pages/Landing.vue';
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteComponent, RouteRecordRaw } from 'vue-router';
 import MarketplaceTools from '@/presentation/pages/marketplace/MarketplaceTools.vue';
 
 // Default production hostname for homepage. If different, then custom hostname used
 const websiteHostname = import.meta.env.VITE_PRODUCTION_HOSTNAME;
+
+/**
+ * Note page with the editor is the heaviest one, it is loaded separately and prefetched once the app is idle
+ */
+export const Note = async (): Promise<{ default: RouteComponent }> => await import('@/presentation/pages/Note.vue');
 
 const routes: RouteRecordRaw[] = [
   {
@@ -29,7 +33,6 @@ const routes: RouteRecordRaw[] = [
     path: '/note/:id',
     component: Note,
     meta: {
-      layout: 'fullpage',
       pageTitleI18n: 'pages.note',
     },
     props: route => ({
@@ -41,7 +44,6 @@ const routes: RouteRecordRaw[] = [
     path: '/note/:noteId/history',
     component: () => import('@/presentation/pages/History.vue'),
     meta: {
-      layout: 'fullpage',
       pageTitleI18n: 'pages.history',
       authRequired: true,
     },
@@ -54,7 +56,6 @@ const routes: RouteRecordRaw[] = [
     path: '/note/:noteId/history/:historyId',
     component: () => import('@/presentation/pages/HistoryVersion.vue'),
     meta: {
-      layout: 'fullpage',
       pageTitleI18n: 'pages.historyVersion',
       authRequired: true,
     },
@@ -72,9 +73,7 @@ const routes: RouteRecordRaw[] = [
     },
     meta: {
       pageTitleI18n: 'pages.newNote',
-      discardTabOnLeave: true,
       authRequired: true,
-      layout: 'fullpage',
     },
   },
   {
@@ -86,7 +85,6 @@ const routes: RouteRecordRaw[] = [
     }),
     meta: {
       pageTitleI18n: 'pages.newNote',
-      discardTabOnLeave: true,
       authRequired: true,
     },
   },
@@ -154,7 +152,6 @@ const routes: RouteRecordRaw[] = [
     }),
     meta: {
       pageTitleI18n: 'pages.joinTeam',
-      discardTabOnLeave: true,
       authRequired: true,
     },
   },
@@ -163,11 +160,10 @@ const routes: RouteRecordRaw[] = [
     path: '/auth',
     component: () => import('@/presentation/pages/AuthorizationPage.vue'),
     props: route => ({
-      redirect: String(route.query.redirect),
+      redirect: typeof route.query.redirect === 'string' ? route.query.redirect : undefined,
     }),
     meta: {
       pageTitleI18n: 'pages.authorization',
-      discardTabOnLeave: true,
     },
   },
   /**
@@ -177,9 +173,7 @@ const routes: RouteRecordRaw[] = [
     path: '/:pathMatch(.*)*',
     component: () => import('@/presentation/pages/Error.vue'),
     meta: {
-      layout: 'fullpage',
       pageTitleI18n: 'pages.notFound',
-      discardTabOnLeave: true,
     },
     props: {
       code: 404,
@@ -192,9 +186,7 @@ const routes: RouteRecordRaw[] = [
     path: '/error/:code',
     component: () => import('@/presentation/pages/Error.vue'),
     meta: {
-      layout: 'fullpage',
       pageTitleI18n: 'pages.error',
-      discardTabOnLeave: true,
     },
     props: route => ({
       code: route.params.code,

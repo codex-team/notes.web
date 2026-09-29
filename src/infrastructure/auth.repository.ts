@@ -36,10 +36,12 @@ export default class AuthRepository implements AuthRepositoryInterface {
 
   /**
    * Get new session by refresh token
+   * The API replaces the refresh token on each use, so browser tabs refresh one by one
+   * and each of them sends the token saved by the previous one
    */
   public async restoreSession(): Promise<AuthSession> {
-    return this.transport.post<AuthSession>(
-      {
+    const refresh = async (): Promise<AuthSession> => {
+      const session = await this.transport.post<AuthSession>({
         endpoint: '/auth',
         data: {
           token: this.authStorage.getRefreshToken(),
@@ -47,8 +49,15 @@ export default class AuthRepository implements AuthRepositoryInterface {
         params: {
           skipAuthCheck: true,
         },
-      }
-    );
+      });
+
+      this.authStorage.setRefreshToken(session.refreshToken);
+
+      return session;
+    };
+
+    // eslint-disable-next-line n/no-unsupported-features/node-builtins
+    return 'locks' in navigator ? await navigator.locks.request('notex-refresh-token', refresh) : await refresh();
   }
 
   /**

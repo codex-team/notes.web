@@ -1,19 +1,13 @@
 import type { ComputedRef } from 'vue';
-import { computed, ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { computed, onScopeDispose, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { createSharedComposable } from '@vueuse/core';
 import { AppStateController } from '@/domain';
 import type { OpenedPage } from '@/domain/entities/OpenedPage';
 import { workspaceService } from '@/domain/index';
 import { useI18n } from 'vue-i18n';
-import { notEmpty } from '@/infrastructure/utils/empty';
 
 interface useNavbarComposableState {
-  /**
-   * Function for adding record to opened pages storage when user opens new page
-   * @param page - page that had beed opened by user
-   */
-  addOpenedPage: (page: OpenedPage) => void;
-
   /**
    * Function for deleting record about opened page, when user closes page
    * @param url - url of closed page
@@ -34,29 +28,37 @@ interface useNavbarComposableState {
   deleteOpenedPages: () => void;
 
   /**
+   * Delete opened pages whose url starts with the prefix, e.g. all pages of a deleted note
+   * @param prefix - url prefix
+   */
+  deleteOpenedPagesByPrefix: (prefix: string) => void;
+
+  /**
    * There would be stored all currently opened pages
    */
   currentOpenedPages: ComputedRef<OpenedPage[]>;
 };
 
 /**
+ * Only notes are opened in tabs
+ */
+const NOTE_PAGE = /^\/note\/[\w-]+$/;
+
+/**
+ * Older tabs are closed when there are more
+ */
+const MAX_TABS = 10;
+
+/**
  * Function for composing data for Navbar
+ * Shared, so the router hook and the store subscription are registered once for the whole app
  * @returns data used in Navbar and functions for composing data used in Navbar
  */
-export default function useNavbar(): useNavbarComposableState {
+export default createSharedComposable((): useNavbarComposableState => {
   const router = useRouter();
-  const route = useRoute();
   const { t } = useI18n();
 
-  const openedPages = ref<OpenedPage[] | null>(null);
-
-  /**
-   * Function for adding record to opened pages storage when user opens new page
-   * @param page - page that had beed opened by user
-   */
-  function addOpenedPage(page: OpenedPage): void {
-    workspaceService.addOpenedPage(page);
-  };
+  const openedPages = ref<OpenedPage[]>([]);
 
   /**
    * Function for deleting record about opened page, when user closes page
@@ -68,7 +70,6 @@ export default function useNavbar(): useNavbarComposableState {
 
   /**
    * Function for updating title of the opened page when user updated it
-   * e.g. user updated note's first text block, page title should be patched
    * @param url - url of the page, that should be updated
    * @param page - new data for opened page with certain url
    */
@@ -84,59 +85,52 @@ export default function useNavbar(): useNavbarComposableState {
   }
 
   /**
+   * Delete opened pages whose url starts with the prefix
+   * @param prefix - url prefix
+   */
+  function deleteOpenedPagesByPrefix(prefix: string): void {
+    openedPages.value
+      .filter(page => page.url === prefix || page.url.startsWith(`${prefix}/`))
+      .forEach(page => deleteOpenedPageByUrl(page.url));
+  }
+
+  /**
    * Hook for adding new page to storage when user changes route
    */
-  router.beforeResolve((currentRoute, prevRoute) => {
-    /**
-     * If we are created new note we should replace 'New Note' tab with tab with actual note title
-     */
-    if (prevRoute.meta.discardTabOnLeave === true) {
-      deleteOpenedPageByUrl(route.path);
+  const removeRouterHook = router.beforeResolve((currentRoute) => {
+    if (!NOTE_PAGE.test(currentRoute.path)) {
+      return;
     }
 
-    /**
-     * If the route is '/' do not add the page
-     */
-    if (currentRoute.path !== '/') {
-      addOpenedPage({ title: t(currentRoute.meta.pageTitleI18n),
-        url: currentRoute.path });
-    }
+    workspaceService.addOpenedPage({
+      title: t(currentRoute.meta.pageTitleI18n),
+      url: currentRoute.path,
+    });
+
+    const notePages = openedPages.value.filter(page => NOTE_PAGE.test(page.url));
+
+    [
+      ...openedPages.value.filter(page => !NOTE_PAGE.test(page.url)),
+      ...notePages.slice(0, Math.max(0, notePages.length - MAX_TABS)),
+    ].forEach(page => deleteOpenedPageByUrl(page.url));
   });
+
+  onScopeDispose(removeRouterHook);
 
   /**
    * Subscribe to page changes in the use Navbar
    */
   AppStateController.openedPages((prop: 'openedPages', value: OpenedPage[] | null) => {
     if (prop === 'openedPages') {
-      openedPages.value = value as OpenedPage[];
+      openedPages.value = value ?? [];
     }
-  });
-
-  /**
-   * Home page is always opened
-   */
-  const currentOpenedPages = computed<OpenedPage[]>(() => {
-    const activePages = [];
-
-    const pages = openedPages.value?.map((page) => {
-      return {
-        title: page.title,
-        url: page.url,
-      };
-    });
-
-    if (notEmpty(pages)) {
-      activePages.push(...pages);
-    }
-
-    return activePages;
   });
 
   return {
-    addOpenedPage,
     deleteOpenedPageByUrl,
     patchOpenedPageByUrl,
-    currentOpenedPages,
+    currentOpenedPages: computed(() => openedPages.value),
     deleteOpenedPages,
+    deleteOpenedPagesByPrefix,
   };
-}
+});

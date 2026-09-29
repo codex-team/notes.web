@@ -23,7 +23,7 @@
 
           <div
             v-if="subtitle"
-            class="text-ui-subtle"
+            :class="[$style['row__subtitle'], 'text-ui-subtle']"
           >
             {{ subtitle }}
           </div>
@@ -106,6 +106,10 @@ defineProps<{
     display: flex;
     flex-direction: column;
     gap: var(--spacing-very-x);
+  }
+
+  &__subtitle {
+    color: var(--base--text-secondary);
   }
 
   &__right {
