@@ -2,6 +2,7 @@ import Transport from '@/infrastructure/transport';
 import type { FetchTransportOptions } from './fetch.transport';
 import type JSONValue from './types/JSONValue';
 import type { POSTParamsAuthorizable } from './types/POSTParams';
+import UnauthorizedError from '@/domain/entities/errors/Unauthorized';
 
 /**
  * Additional options for authorizable transport
@@ -40,6 +41,16 @@ export default class AuthorizableTransport extends Transport {
   private waitingAuthRequests: Array<() => void> = [];
 
   /**
+   * Gets a new access token when the current one is rejected
+   */
+  private sessionRefresher?: () => Promise<string>;
+
+  /**
+   * Access token request in progress, shared by all requests rejected meanwhile
+   */
+  private refreshing: Promise<string> | null = null;
+
+  /**
    * Constructor for notes api transport
    * @param baseUrl - Base URL
    * @param options - Transport options
@@ -64,9 +75,18 @@ export default class AuthorizableTransport extends Transport {
    * Continue anonymous session. All request will be made without authorization header
    */
   public continueAnonymous(): void {
+    this.headers.delete('Authorization');
     this.authState = 'unauthorized';
 
     this.onAuthFinished();
+  }
+
+  /**
+   * Sets the function that gets a new access token when the current one is rejected
+   * @param refresher - returns a new access token
+   */
+  public setSessionRefresher(refresher: () => Promise<string>): void {
+    this.sessionRefresher = refresher;
   }
 
   /**
@@ -76,9 +96,7 @@ export default class AuthorizableTransport extends Transport {
    * @param params - Additional params to tune request
    */
   public async get(endpoint: string, data?: JSONValue, params?: AuthorizableRequestParams): Promise<JSONValue> {
-    await this.waitForAuth(params);
-
-    return super.get(endpoint, data);
+    return this.send(params, () => super.get(endpoint, data));
   }
 
   /**
@@ -88,9 +106,7 @@ export default class AuthorizableTransport extends Transport {
    * @param params - Additional params to tune request
    */
   public async getBlob(endpoint: string, data?: Record<string, string>, params?: AuthorizableRequestParams): Promise<Blob> {
-    await this.waitForAuth(params);
-
-    return super.getBlob(endpoint, data);
+    return this.send(params, () => super.getBlob(endpoint, data));
   }
 
   /**
@@ -103,13 +119,11 @@ export default class AuthorizableTransport extends Transport {
     params,
     files,
   }: POSTParamsAuthorizable): Promise<JSONValue> {
-    await this.waitForAuth(params);
-
-    return super.post({
+    return this.send(params, () => super.post({
       endpoint,
       payload,
       files,
-    });
+    }));
   }
 
   /**
@@ -119,9 +133,7 @@ export default class AuthorizableTransport extends Transport {
    * @param params - Additional params to tune request
    */
   public async delete(endpoint: string, payload?: JSONValue, params?: AuthorizableRequestParams): Promise<JSONValue> {
-    await this.waitForAuth(params);
-
-    return super.delete(endpoint, payload);
+    return this.send(params, () => super.delete(endpoint, payload));
   }
 
   /**
@@ -131,9 +143,39 @@ export default class AuthorizableTransport extends Transport {
    * @param params - Additional params to tune request
    */
   public async patch(endpoint: string, payload?: JSONValue, params?: AuthorizableRequestParams): Promise<JSONValue> {
+    return this.send(params, () => super.patch(endpoint, payload));
+  }
+
+  /**
+   * Sends the request after authorization is finished.
+   * If the access token has expired, gets a new one and repeats the request once
+   * @param params - Additional params passed to tune request
+   * @param request - function making the request
+   */
+  private async send<Response>(params: AuthorizableRequestParams | undefined, request: () => Promise<Response>): Promise<Response> {
     await this.waitForAuth(params);
 
-    return super.patch(endpoint, payload);
+    try {
+      return await request();
+    } catch (error) {
+      if (!(error instanceof UnauthorizedError) || this.authState !== 'authorized' || params?.skipAuthCheck === true || this.sessionRefresher === undefined) {
+        throw error;
+      }
+
+      const refresher = this.sessionRefresher;
+
+      this.refreshing ??= refresher().finally(() => {
+        this.refreshing = null;
+      });
+
+      try {
+        this.authorize(await this.refreshing);
+      } catch {
+        throw error;
+      }
+
+      return await request();
+    }
   }
 
   /**
@@ -149,10 +191,6 @@ export default class AuthorizableTransport extends Transport {
     }
 
     if (this.authState === 'unknown') {
-      console.groupCollapsed('✋ Request enqueued util auth finished');
-      console.trace();
-      console.groupEnd();
-
       await new Promise((resolve) => {
         this.waitingAuthRequests.push(() => {
           resolve(undefined);
@@ -167,19 +205,7 @@ export default class AuthorizableTransport extends Transport {
    * Sends enqueued requests
    */
   private onAuthFinished(): void {
-    if (this.waitingAuthRequests.length === 0) {
-      return;
-    }
-
-    console.groupCollapsed(`🤙 Auth finished, sending ${this.waitingAuthRequests.length} request(s) from queue...`);
-
-    this.waitingAuthRequests.forEach((request) => {
-      console.trace();
-      request();
-    });
-
-    console.groupEnd();
-
+    this.waitingAuthRequests.forEach(request => request());
     this.waitingAuthRequests = [];
   }
 }

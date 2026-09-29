@@ -14,6 +14,18 @@ export type OpenedPagesStoreData = {
 export class OpenedPagesStore extends PersistantStore<OpenedPagesStoreData> {
   constructor() {
     super(['openedPages']);
+
+    /**
+     * Keep tabs the same in all browser windows
+     */
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'openedPages') {
+        this.onDataChange([{
+          prop: 'openedPages',
+          newValue: this.data.openedPages,
+        }]);
+      }
+    });
   }
 
   /**

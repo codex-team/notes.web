@@ -1,4 +1,4 @@
-import { type Ref, computed, ref, toValue, watch } from 'vue';
+import { type MaybeRefOrGetter, type Ref, computed, ref, toValue, watch } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { type NoteContent } from '@/domain/entities/Note';
@@ -21,6 +21,11 @@ interface UseNoteEditorOptions {
    * Flag indicating that user can edit the note
    */
   canEdit: Ref<boolean>;
+
+  /**
+   * Put the caret into the editor on load, e.g. for a new note
+   */
+  autofocus?: MaybeRefOrGetter<boolean>;
 }
 
 interface UseNoteEditorComposableState {
@@ -147,9 +152,11 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
    */
   watch(noteAndUserTools, async (tools) => {
     /**
-     * If tools are not loaded yet, wait for the next change
+     * If tools are not loaded yet, e.g. another note is loading, hide the editor and wait for the next change
      */
     if (tools === undefined) {
+      isEditorReady.value = false;
+
       return;
     }
 
@@ -196,6 +203,8 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       readOnly: toValue(options.canEdit) === false,
       tools: toolsUserConfigLoaded.value ? toolsUserConfig : undefined,
       placeholder: t('note.editor.placeholder'),
+      firstBlockPlaceholder: t('note.editor.titlePlaceholder'),
+      autofocus: toValue(options.autofocus) === true,
       inlineToolbar: true,
     };
   });

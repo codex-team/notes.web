@@ -1,23 +1,19 @@
 import { type OutputData } from '@editorjs/editorjs';
 /**
- * Get the title of the note
+ * Get the title of the note: plain text of its first block
  * @param content - content of the note
  * @returns the title of the note
  */
 export function getTitle(content: OutputData | undefined): string {
-  const limitCharsForNoteTitle = 50;
-  const firstNoteBlock = content?.blocks[0];
+  const html: unknown = content?.blocks[0]?.data.text;
 
-  const text: string | undefined = firstNoteBlock?.data.text;
-
-  /**
-   *  If the heading is empty, return 'Untitled'
-   */
-  if (text === undefined || text.trim() === '') {
+  if (typeof html !== 'string') {
     return 'Untitled';
-  } else {
-    return text?.replace(/&nbsp;/g, ' ')?.slice?.(0, limitCharsForNoteTitle);
   }
+
+  const text = new DOMParser().parseFromString(html, 'text/html').body.textContent?.trim();
+
+  return text !== undefined && text !== '' ? text : 'Untitled';
 }
 
 /**

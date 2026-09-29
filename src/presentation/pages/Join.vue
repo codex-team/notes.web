@@ -1,22 +1,29 @@
 <template>
-  <div :class="$style['message']">
-    {{ message }}
-  </div>
+  <MessageCard
+    :title="title"
+    :text="text"
+  >
+    <Button
+      v-if="status !== 'joining'"
+      secondary
+      @click="router.push('/')"
+    >
+      {{ t('errors.goHome') }}
+    </Button>
+  </MessageCard>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { ref, watch } from 'vue';
-import useTeam from '@/application/services/useTeam';
-import { useAppState } from '@/application/services/useAppState';
-import useAuth from '@/application/services/useAuth';
-import type { TeamMember } from '@/domain/entities/Team';
-import { InvitationHash } from '@/domain/entities/NoteSettings';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@codexteam/ui/vue';
+import useTeam from '@/application/services/useTeam';
+import usePageTitle from '@/application/services/usePageTitle';
+import type { InvitationHash } from '@/domain/entities/NoteSettings';
+import MessageCard from '@/presentation/components/message-card/MessageCard.vue';
 
-const { user } = useAppState();
 const { t } = useI18n();
-const { showGoogleAuthPopup } = useAuth();
 const { joinNoteTeamByHash } = useTeam();
 const router = useRouter();
 
@@ -24,68 +31,38 @@ const props = defineProps<{
   invitationHash: InvitationHash;
 }>();
 
+const status = ref<'joining' | 'expired' | 'invalid' | 'failed'>('joining');
+
+const title = computed(() => t(`join.${status.value}.title`));
+
+const text = computed(() => t(`join.${status.value}.text`));
+
+usePageTitle(() => t('pages.joinTeam'));
+
 /**
- * Message to be displayed as a heading of join page
+ * The route requires authorization, so the user is logged in here
  */
-const message = ref(t('join.title'));
-
-const teamMember = ref<TeamMember | null>(null);
-
-async function handleJoin(): Promise<void> {
+onMounted(async () => {
   try {
-    teamMember.value = await joinNoteTeamByHash(props.invitationHash);
+    const teamMember = await joinNoteTeamByHash(props.invitationHash);
+
+    if (teamMember?.noteId) {
+      void router.replace(`/note/${teamMember.noteId}`);
+
+      return;
+    }
+
+    status.value = 'failed';
   } catch (error) {
-    if (error instanceof Error) {
-      /**
-       * Handle errors which are related to wrong invitation hash specified
-       */
-      if (error.message === 'FST_ERR_VALIDATION') {
-        message.value = t('join.messages.validationError');
-      }
+    const message = error instanceof Error ? error.message : '';
 
-      /**
-       * Handle error related to expired invitation link
-       */
-      if (error.message === 'Wrong invitation') {
-        message.value = t('join.messages.linkExpired');
-      }
-
-      /**
-       * Handle errors related to unauthorized state
-       */
-      if (error.message === 'You must be authenticated to access this resource') {
-        message.value = t('join.messages.unauthorized');
-        showGoogleAuthPopup();
-      }
+    if (message === 'Wrong invitation') {
+      status.value = 'expired';
+    } else if (message === 'FST_ERR_VALIDATION') {
+      status.value = 'invalid';
+    } else {
+      status.value = 'failed';
     }
   }
-
-  /**
-   * Check if we got id of the note to redirect
-   */
-  if (teamMember.value?.noteId) {
-    router.push(`/note/${teamMember.value?.noteId}`);
-
-    /**
-     * @todo implement success alert
-     */
-  }
-}
-
-/**
- * Watching authorization of the user
- */
-watch(user, async () => {
-  await handleJoin();
-}, { immediate: true });
-
+});
 </script>
-
-<style lang="postcss" module>
-.message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-</style>

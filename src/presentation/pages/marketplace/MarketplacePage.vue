@@ -1,5 +1,5 @@
 <template>
-  <PageBlock>
+  <PageBlock data-dimensions="large">
     <template #left>
       <VerticalMenu
         class="menu"
@@ -14,39 +14,32 @@
 
 <script lang="ts" setup>
 import { VerticalMenu, type VerticalMenuItem, PageBlock } from '@codexteam/ui/vue';
-import { computed, Ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
 const router = useRouter();
+const { t } = useI18n();
 
-/**
- * Items for displaing in vertical menu
- */
-const verticalMenuItems: Ref<VerticalMenuItem[]> = computed(() => [
-
+const verticalMenuItems = computed<VerticalMenuItem[]>(() => [
   {
-    title: 'Tools',
+    title: t('marketplace.listOfTools'),
     isActive: route.path === '/marketplace',
     onActivate: () => router.push('/marketplace'),
   },
   {
-    title: 'Add your own tool',
+    title: t('marketplace.addTool'),
     isActive: route.path === '/marketplace/add',
     onActivate: () => router.push('/marketplace/add'),
   },
 ]);
 </script>
 
-<style setup lang="postcss" scoped>
-.page {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-xxl);
-}
-
+<style scoped>
 .menu {
-  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--layout-navbar-height) + var(--spacing-xxl));
   height: fit-content;
   width: auto;
 }

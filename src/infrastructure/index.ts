@@ -135,6 +135,8 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const noteRepository = new NoteRepository(noteStore, notesApiTransport);
   const noteSettingsRepository = new NoteSettingsRepository(notesApiTransport);
   const authRepository = new AuthRepository(authStore, notesApiTransport);
+
+  notesApiTransport.setSessionRefresher(async () => (await authRepository.restoreSession()).accessToken);
   const userRepository = new UserRepository(userStore, notesApiTransport);
   const marketplaceRepository = new MarketplaceRepository(notesApiTransport);
   const editorToolsRepository = new EditorToolsRepository(editorToolsStore, editorToolsTransport);

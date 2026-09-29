@@ -29,39 +29,40 @@ export default class EditorToolsRepository
 
   /**
    * Get stored tools plugins, if tool not exists, download it
+   * Tools are downloaded in parallel, a tool that fails to load is skipped so the editor works with the rest
    * @param tools - request list of tools
    */
   public async getToolsLoaded(tools: EditorTool[]): Promise<EditorToolLoaded[]> {
-    const configTools: EditorToolLoaded[] = [];
-
-    for (const tool of tools) {
+    const loadedTools = await Promise.all(tools.map(async (tool) => {
       const storedTool = this.store.getToolByName(tool.name);
 
       if (storedTool) {
-        configTools.push(storedTool);
-      } else {
-        try {
-          const downloadedTool = await this.transport.downloadTool(tool);
-
-          if (downloadedTool === undefined) {
-            continue;
-          }
-
-          const toolClassAndInfo = {
-            class: downloadedTool,
-            tool,
-          };
-
-          this.store.addTool(toolClassAndInfo);
-
-          configTools.push(toolClassAndInfo);
-        } catch (error) {
-          throw new Error(`Failed to download ${tool.name}.`);
-        }
+        return storedTool;
       }
-    }
 
-    return configTools;
+      try {
+        const downloadedTool = await this.transport.downloadTool(tool);
+
+        if (downloadedTool === undefined) {
+          return undefined;
+        }
+
+        const toolClassAndInfo = {
+          class: downloadedTool,
+          tool,
+        };
+
+        this.store.addTool(toolClassAndInfo);
+
+        return toolClassAndInfo;
+      } catch {
+        console.warn(`Failed to download the ${tool.name} editor tool from ${tool.source.cdn}`);
+
+        return undefined;
+      }
+    }));
+
+    return loadedTools.filter((tool): tool is EditorToolLoaded => tool !== undefined);
   }
 
   /**

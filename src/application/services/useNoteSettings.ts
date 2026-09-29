@@ -4,7 +4,6 @@ import type { Note, NoteId } from '@/domain/entities/Note';
 import { noteSettingsService, noteService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
 import type { MemberRole } from '@/domain/entities/Team';
-import { useRouter } from 'vue-router';
 
 /**
  * Note settings hook state
@@ -14,11 +13,6 @@ interface UseNoteSettingsComposableState {
    * NoteSettings ref
    */
   noteSettings: Ref<NoteSettings | null>;
-
-  /**
-   * Parent note, undefined if it's a root note
-   */
-  parentNote: Ref<Note | undefined>;
 
   /**
    * Load note settings
@@ -64,8 +58,9 @@ interface UseNoteSettingsComposableState {
    * Set parent for the note
    * @param id - Child note id
    * @param newParentURL - New parent note URL
+   * @returns the new parent note
    */
-  setParent: (id: NoteId, newParentURL: string) => Promise<void>;
+  setParent: (id: NoteId, newParentURL: string) => Promise<Note>;
 
   /**
    * Delete team member by user id
@@ -86,26 +81,11 @@ export default function (): UseNoteSettingsComposableState {
   const noteSettings = ref<NoteSettings | null>(null);
 
   /**
-   * Parent note
-   *
-   * undefined by default
-   */
-  const parentNote = ref<Note | undefined>();
-
-  /**
-   * Router instance used to replace the current route with note id
-   */
-  const router = useRouter();
-
-  /**
    * Get note settings
    * @param id - Note id
    */
   const load = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
-    const response = await noteService.getNoteById(id);
-
-    parentNote.value = response.parentNote;
   };
 
   /**
@@ -114,13 +94,23 @@ export default function (): UseNoteSettingsComposableState {
    * @param newIsPublicValue - new isPublic
    */
   async function updateIsPublic(id: NoteId, newIsPublicValue: boolean): Promise<void> {
-    const { isPublic } = await noteSettingsService.patchNoteSettingsByNoteId(id, { isPublic: newIsPublicValue });
+    const settings = noteSettings.value;
 
     /**
-     * If note settings were not loaded till this moment for some reason, do nothing
+     * Switch right away, revert if the request fails
      */
-    if (noteSettings.value) {
-      noteSettings.value.isPublic = isPublic;
+    if (settings) {
+      settings.isPublic = newIsPublicValue;
+    }
+
+    try {
+      await noteSettingsService.patchNoteSettingsByNoteId(id, { isPublic: newIsPublicValue });
+    } catch (error) {
+      if (settings) {
+        settings.isPublic = !newIsPublicValue;
+      }
+
+      throw error;
     }
   }
 
@@ -159,10 +149,6 @@ export default function (): UseNoteSettingsComposableState {
    */
   const deleteNoteById = async (id: NoteId): Promise<void> => {
     await noteSettingsService.deleteNote(id);
-
-    void router.push({
-      name: 'home',
-    });
   };
 
   /**
@@ -170,14 +156,8 @@ export default function (): UseNoteSettingsComposableState {
    * @param id - Child note id
    * @param newParentURL - New parent note URL
    */
-  async function setParent(id: NoteId, newParentURL: string): Promise<void> {
-    try {
-      parentNote.value = await noteService.setParentByUrl(id, newParentURL);
-    } catch (error) {
-      if (error instanceof Error) {
-        window.alert(error.message);
-      }
-    }
+  async function setParent(id: NoteId, newParentURL: string): Promise<Note> {
+    return await noteService.setParentByUrl(id, newParentURL);
   };
 
   /**
@@ -209,7 +189,6 @@ export default function (): UseNoteSettingsComposableState {
   return {
     updateCover,
     setParent,
-    parentNote,
     noteSettings,
     load,
     updateIsPublic,

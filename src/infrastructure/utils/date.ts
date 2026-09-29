@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
+
 /**
  * Returns time, that has been passed from updated at timestamp
  * @param updatedAt - the date the note was last updated
  * @returns the last updated time
  */
 export function getTimeFromNow(updatedAt: string): string {
-  dayjs.extend(relativeTime);
-  const formattedUpdatedAt = dayjs(updatedAt).fromNow();
-
-  return formattedUpdatedAt;
+  return dayjs(updatedAt).fromNow();
 }
 
 /**

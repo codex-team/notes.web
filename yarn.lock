@@ -1763,35 +1763,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unhead/dom@npm:1.9.10":
-  version: 1.9.10
-  resolution: "@unhead/dom@npm:1.9.10"
-  dependencies:
-    "@unhead/schema": 1.9.10
-    "@unhead/shared": 1.9.10
-  checksum: c3bf9d954c77ba269904ae5ec7c46578d78c195f028cf387b014e801c35d0e7a1b6cc888f35f7ccea7c4a41617e4c114d3eecd981ac63f29b6d3f24337739c55
-  languageName: node
-  linkType: hard
-
-"@unhead/schema@npm:1.9.10":
-  version: 1.9.10
-  resolution: "@unhead/schema@npm:1.9.10"
-  dependencies:
-    hookable: ^5.5.3
-    zhead: ^2.2.4
-  checksum: c91508bd8e32182b9f26a33fd6dbdd8274c03b85048d5874998a15f7a5dfa904a6aee695805adf4dc204af1a3ffc03df17179138835e4c0a6f84135ae76d60d4
-  languageName: node
-  linkType: hard
-
-"@unhead/shared@npm:1.9.10":
-  version: 1.9.10
-  resolution: "@unhead/shared@npm:1.9.10"
-  dependencies:
-    "@unhead/schema": 1.9.10
-  checksum: 269560ffe86026b85fa9807d14c30c0ee61ddab0a16ef9e5c9c500ba3db0be351b2f2e0a2bf631df75756ec1baad5f1d10e98d604d4455ae07acf1eb3136ea90
-  languageName: node
-  linkType: hard
-
 "@vitejs/plugin-vue@npm:^4.1.0":
   version: 4.6.2
   resolution: "@vitejs/plugin-vue@npm:4.6.2"
@@ -4028,13 +3999,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hookable@npm:^5.5.3":
-  version: 5.5.3
-  resolution: "hookable@npm:5.5.3"
-  checksum: df659977888398649b6ef8c4470719e7e8384a1d939a6587e332e86fd55b3881806e2f8aaebaabdb4f218f74b83b98f2110e143df225e16d62a39dc271e7e288
-  languageName: node
-  linkType: hard
-
 "html2canvas@npm:^1.4.1":
   version: 1.4.1
   resolution: "html2canvas@npm:1.4.1"
@@ -4895,7 +4859,6 @@ __metadata:
     typescript: ^5.4.5
     typescript-cookie: ^1.0.6
     typescript-eslint: ^7.9.0
-    unhead: ^1.8.3
     vite: ^4.4.9
     vue: ^3.3.4
     vue-eslint-parser: 9.4.2
@@ -6512,18 +6475,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unhead@npm:^1.8.3":
-  version: 1.9.10
-  resolution: "unhead@npm:1.9.10"
-  dependencies:
-    "@unhead/dom": 1.9.10
-    "@unhead/schema": 1.9.10
-    "@unhead/shared": 1.9.10
-    hookable: ^5.5.3
-  checksum: 2bf0ef5238ad66f25af17a5e86d17e1374bf2e33e47b34d82544a560baaa1b69d48d2d9dc6365a94610be360d129189fdad2cdfc77998c3250314cb4d1808184
-  languageName: node
-  linkType: hard
-
 "unicorn-magic@npm:^0.1.0":
   version: 0.1.0
   resolution: "unicorn-magic@npm:0.1.0"
@@ -6942,12 +6893,5 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 2cac84540f65c64ccc1683c267edce396b26b1e931aa429660aefac8fbe0188167b7aee815a3c22fa59a28a58d898d1a2b1825048f834d8d629f4c2a5d443801
-  languageName: node
-  linkType: hard
-
-"zhead@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "zhead@npm:2.2.4"
-  checksum: 22836aa6947b27d35176cde40e3f5b19c24e0f46ee52d860e8df674a35aec07b34f6c78437323c797d1dc37ec0847e61e4f07ab605d519cc742245b5fa25b889
   languageName: node
   linkType: hard

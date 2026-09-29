@@ -1,179 +1,170 @@
 <template>
-  <div
-    class="container"
-    data-dimensions="large"
+  <form
+    class="add-tool"
+    novalidate
+    @submit.prevent="submit"
   >
     <PageHeading>
-      {{ $t("marketplace.addTool") }}
+      {{ t('marketplace.addTool') }}
       <template #description>
-        {{ $t('marketplace.subtitle') }}
+        {{ t('marketplace.addToolCaption') }}
       </template>
     </PageHeading>
-    <Fieldset
-      :title="$t('marketplace.userPerspective')"
-    >
-      <Section
-        :title="$t('marketplace.newTool.title.label')"
-        :caption="$t('marketplace.newTool.title.caption')"
-      >
-        <Input
-          v-model:model-value="toolTitle"
-          name="toolTitle"
-          :placeholder="$t('marketplace.newTool.title.placeholder')"
-        />
-      </Section>
-      <Section
-        :title="$t('marketplace.newTool.description.label')"
-        :caption="$t('marketplace.newTool.description.caption')"
-      >
-        <Input
-          v-model:model-value="description"
-          name="description"
-          :placeholder="$t('marketplace.newTool.description.placeholder')"
-        />
-      </Section>
-      <Section :title="$t('marketplace.newTool.picture.label')">
-        <Card
-          :subtitle="$t('marketplace.newTool.picture.description')"
-          orientation="horizontal"
-          :icon="isLoading ? 'Loader' : undefined"
-          :src="localCover"
-        >
-          <input
-            ref="selectFileInput"
-            type="file"
-            hidden
-            accept="image/*"
-            enctype="multipart/form-data"
-            @change="setCover($event)"
-          >
 
-          <Button
-            secondary
-            class="add-cover-button"
-            @click="selectFileInput?.click()"
-          >
-            {{ $t('marketplace.selectFile') }}
-          </Button>
-        </Card>
-      </Section>
-    </Fieldset>
-    <Fieldset
-      :title="$t('marketplace.technicalDetails')"
-    >
+    <Fieldset :title="t('marketplace.userPerspective')">
       <Section
-        :title="$t('marketplace.newTool.name.label')"
-        :caption="$t('marketplace.newTool.name.caption')"
+        v-for="field in userFields"
+        :key="field"
+        :title="t(`marketplace.newTool.${field}.label`)"
+        :caption="errors[field] ?? t(`marketplace.newTool.${field}.caption`)"
+        :class="{ 'has-error': errors[field] }"
       >
         <Input
-          v-model:model-value="toolName"
-          size="small"
-          :placeholder="$t('marketplace.newTool.name.placeholder')"
-        />
-      </Section>
-      <Section
-        :title="$t('marketplace.newTool.cdn.label')"
-        :caption="$t('marketplace.newTool.cdn.caption')"
-      >
-        <Input
-          v-model:model-value="toolCdn"
-          name="toolCdn"
-          :placeholder="$t('marketplace.newTool.cdn.placeholder')"
-        />
-      </Section>
-      <Section
-        :title="$t('marketplace.newTool.exportName.label')"
-        :caption="$t('marketplace.newTool.exportName.caption')"
-      >
-        <Input
-          v-model:model-value="toolExport"
-          name="toolExport"
-          :placeholder="$t('marketplace.newTool.exportName.placeholder')"
+          v-model="form[field]"
+          :placeholder="t(`marketplace.newTool.${field}.placeholder`)"
         />
       </Section>
     </Fieldset>
-    <Button
-      type="submit"
-      class="add-tool-button"
-      @click.passive="onClick"
-    >
-      {{ $t("marketplace.newTool.add") }}
-    </Button>
-  </div>
+
+    <Fieldset :title="t('marketplace.technicalDetails')">
+      <Section
+        v-for="field in technicalFields"
+        :key="field"
+        :title="t(`marketplace.newTool.${field}.label`)"
+        :caption="errors[field] ?? t(`marketplace.newTool.${field}.caption`)"
+        :class="{ 'has-error': errors[field] }"
+      >
+        <Input
+          v-model="form[field]"
+          :placeholder="t(`marketplace.newTool.${field}.placeholder`)"
+        />
+      </Section>
+    </Fieldset>
+
+    <div class="add-tool__footer">
+      <Button :icon="isSubmitting ? 'Loader' : undefined">
+        {{ t('marketplace.newTool.add') }}
+      </Button>
+      <span
+        v-if="submitError"
+        class="add-tool__error text-ui-base"
+      >
+        {{ submitError }}
+      </span>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
-import useMarketplace from '@/application/services/useMarketplace';
-import { Section, Input, Button, Card, Fieldset } from '@codexteam/ui/vue';
-import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
-import { ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { arrayBufferToBase64 } from '@/infrastructure/utils/buffer';
+import { useI18n } from 'vue-i18n';
+import { Section, Input, Button, Fieldset } from '@codexteam/ui/vue';
+import useMarketplace from '@/application/services/useMarketplace';
+import usePageTitle from '@/application/services/usePageTitle';
+import PageHeading from '@/presentation/components/pageHeading/PageHeading.vue';
 
+const { t } = useI18n();
 const { addTool } = useMarketplace();
 const router = useRouter();
 
-const toolName = ref('');
-const toolCdn = ref('');
-const toolTitle = ref('');
-const toolExport = ref('');
-const description = ref('');
-const cover = ref<File | undefined>(undefined);
-const localCover = ref<string | undefined>(undefined);
+const userFields = ['title', 'description'] as const;
+const technicalFields = ['name', 'cdn', 'exportName'] as const;
 
-const selectFileInput = ref<HTMLInputElement>();
+type Field = typeof userFields[number] | typeof technicalFields[number];
 
-const isLoading = ref(false);
+const form = reactive<Record<Field, string>>({
+  title: '',
+  description: '',
+  name: '',
+  cdn: '',
+  exportName: '',
+});
 
-/**
- * Button click handler
- */
-function onClick() {
-  addTool({
-    name: toolName.value,
-    title: toolTitle.value,
-    description: description.value,
-    exportName: toolExport.value,
-    cover: cover.value,
-    source: {
-      cdn: toolCdn.value,
-    },
-  }).then(() => {
-    router.push({ path: '/marketplace' });
-  });
-}
+const isSubmitting = ref(false);
+
+const isSubmitted = ref(false);
+
+const submitError = ref('');
 
 /**
- * Set local cover image
- *
- * @param event - on change file event
+ * Validation messages, shown after the first submit attempt
  */
-async function setCover(event: Event) {
-  cover.value = (event.target as HTMLInputElement).files?.[0];
+const errors = computed<Partial<Record<Field, string>>>(() => {
+  if (!isSubmitted.value) {
+    return {};
+  }
 
-  if (cover.value) {
-    const buffer = await cover.value?.arrayBuffer();
+  const result: Partial<Record<Field, string>> = {};
 
-    // Works fine with jpeg too
-    const src = `data:image/png;base64,${arrayBufferToBase64(buffer)}`;
+  if (form.title.trim() === '') {
+    result.title = t('marketplace.newTool.title.error');
+  }
+  if (!/^[a-zA-Z][\w-]*$/.test(form.name.trim())) {
+    result.name = t('marketplace.newTool.name.error');
+  }
+  if (!/^https:\/\/\S+$/.test(form.cdn.trim())) {
+    result.cdn = t('marketplace.newTool.cdn.error');
+  }
+  if (!/^[A-Za-z_$][\w$]*$/.test(form.exportName.trim())) {
+    result.exportName = t('marketplace.newTool.exportName.error');
+  }
 
-    localCover.value = src;
+  return result;
+});
+
+usePageTitle(() => t('marketplace.addTool'));
+
+/**
+ * Validates the form and adds the tool to the marketplace
+ */
+async function submit() {
+  isSubmitted.value = true;
+  submitError.value = '';
+
+  if (Object.keys(errors.value).length > 0 || isSubmitting.value) {
+    return;
+  }
+
+  isSubmitting.value = true;
+
+  try {
+    await addTool({
+      name: form.name.trim(),
+      title: form.title.trim(),
+      description: form.description.trim(),
+      exportName: form.exportName.trim(),
+      source: {
+        cdn: form.cdn.trim(),
+      },
+    });
+    void router.push('/marketplace');
+  } catch (error) {
+    submitError.value = error instanceof Error ? error.message : t('errors.default');
+  } finally {
+    isSubmitting.value = false;
   }
 }
 </script>
 
-<style setup lang="postcss" scoped>
-.container {
+<style scoped lang="postcss">
+.add-tool {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xxl);
+  gap: var(--spacing-xl);
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+  }
+
+  &__error {
+    color: var(--red--solid);
+  }
 }
 
-.add-tool-button {
-  width: max-content;
-}
-
-.add-cover-button {
-  width: max-content;
+.has-error :deep(.text-ui-subtle) {
+  color: var(--red--solid);
 }
 </style>
