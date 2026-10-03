@@ -28,7 +28,12 @@
         {{ subtitle }}
       </div>
     </div>
-    <slot />
+    <div
+      v-if="$slots.default"
+      :class="$style['card__actions']"
+    >
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -79,8 +84,6 @@ withDefaults(
 
 <style module lang="postcss">
 .card {
-  --card-width: 222px;
-
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -97,8 +100,8 @@ withDefaults(
     box-sizing: border-box;
 
     .card__cover {
-      width: 150px;
-      height: 100px;
+      width: var(--size-cover);
+      aspect-ratio: 3 / 2;
     }
   }
 
@@ -111,7 +114,7 @@ withDefaults(
   }
 
   &--vertical {
-    width: var(--card-width);
+    width: var(--card-width, 222px);
   }
 
   &__body {
@@ -141,6 +144,30 @@ withDefaults(
 
   &__title {
     color: var(--base--text);
+  }
+
+  &__actions {
+    display: flex;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  @media (--mobile) {
+    &--horizontal {
+      flex-wrap: wrap;
+      gap: var(--spacing-ml);
+
+      .card__body {
+        min-width: 0;
+      }
+
+      .card__actions {
+        flex-basis: 100%;
+        flex-direction: column;
+      }
+    }
   }
 }
 

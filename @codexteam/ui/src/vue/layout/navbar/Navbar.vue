@@ -26,5 +26,9 @@
   &__right {
       margin-left: auto;
   }
+
+  @media (--mobile) {
+    padding: var(--spacing-ms) var(--spacing-m);
+  }
 }
 </style>

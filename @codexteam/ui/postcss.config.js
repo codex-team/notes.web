@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'url';
+import postcssGlobalData from '@csstools/postcss-global-data';
 import postcssNested from 'postcss-nested';
 import postcssPresetEnv from 'postcss-preset-env';
 import postcssApply from 'postcss-apply';
@@ -10,6 +12,12 @@ import postcssHoverMediaFeature from 'postcss-hover-media-feature';
  */
 export default function () {
   return {
-    plugins: [postcssNested(), postcssPresetEnv(), postcssApply(), postcssHoverMediaFeature()],
+    plugins: [
+      postcssGlobalData({ files: [fileURLToPath(new URL('./src/styles/breakpoints.pcss', import.meta.url))] }),
+      postcssNested(),
+      postcssPresetEnv(),
+      postcssApply(),
+      postcssHoverMediaFeature(),
+    ],
   };
 }

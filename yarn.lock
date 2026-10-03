@@ -122,6 +122,7 @@ __metadata:
   resolution: "@codexteam/ui@workspace:@codexteam/ui"
   dependencies:
     "@codexteam/icons": ^0.3.3
+    "@csstools/postcss-global-data": ^2.1.1
     "@editorjs/editorjs": 2.30.2
     "@editorjs/header": ^2.8.6
     "@editorjs/nested-list": ^1.4.2
@@ -290,6 +291,15 @@ __metadata:
   peerDependencies:
     postcss: ^8.4
   checksum: 5b27d6ca51e6b84765fbcf2392713358049aa02f67ca0ab359e2195993bbb964f68ccc16588979bf1cb24b4721cdc75035630d3e9b720277bfff24b3be8b403b
+  languageName: node
+  linkType: hard
+
+"@csstools/postcss-global-data@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@csstools/postcss-global-data@npm:2.1.1"
+  peerDependencies:
+    postcss: ^8.4
+  checksum: 8330c831d3da5b83ba1b91bfc5bf66ac87aa7736891330a747d2cab4b7cb64a2fe9528c34500e62846edc3453cd94398a66b4542891cb99d37349c7acece12cf
   languageName: node
   linkType: hard
 
@@ -4867,6 +4877,7 @@ __metadata:
   dependencies:
     "@codexteam/icons": ^0.3.3
     "@codexteam/ui": "workspace:^"
+    "@csstools/postcss-global-data": ^2.1.1
     "@eslint/eslintrc": ^3.1.0
     "@eslint/js": ^9.3.0
     "@hawk.so/javascript": ^3.2.1
