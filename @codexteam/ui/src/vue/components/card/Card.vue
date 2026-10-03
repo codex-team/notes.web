@@ -159,10 +159,6 @@ withDefaults(
       flex-wrap: wrap;
       gap: var(--spacing-ml);
 
-      .card__cover {
-        width: var(--size-cover-small);
-      }
-
       .card__body {
         min-width: 0;
       }

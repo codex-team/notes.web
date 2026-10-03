@@ -120,7 +120,7 @@ defineProps<{
     }
 
     &__center {
-      flex-basis: var(--size-text-min);
+      flex-basis: var(--layout-text-width-min);
     }
 
     &__right {

@@ -129,10 +129,6 @@ withDefaults(
   @media (--mobile) {
     &--horizontal {
       gap: var(--spacing-ml);
-
-      .card-skeleton__cover {
-        width: var(--size-cover-small);
-      }
     }
   }
 }

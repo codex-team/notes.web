@@ -165,7 +165,7 @@ watch(() => props.isActive, scrollIntoViewIfActive, { flush: 'post' });
   }
 
   @media (--mobile) {
-    --tab-text-max-width: var(--size-text-min);
+    --tab-text-max-width: var(--layout-text-width-min);
 
     &__body-image + &__body-text {
       display: none;
