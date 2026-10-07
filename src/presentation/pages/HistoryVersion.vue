@@ -105,7 +105,9 @@ async function useThisVersion() {
     const editorElement = editor.value ? editor.value.element : null;
 
     if (historyContent.value !== undefined) {
-      await save(historyContent.value, undefined, props.noteId);
+      const noteIdAtCallTime = props.noteId;
+
+      await save(historyContent.value, undefined, noteIdAtCallTime);
       /**
        * In case if we do not have note id, we can change its cover, and we need successful data for cover
        * We need to do it after saving in case of note creation
@@ -121,11 +123,13 @@ async function useThisVersion() {
           paddingTop: '100px',
         });
       }
-      if (updatedNoteCover !== null && props.noteId !== null) {
-        updateCover(props.noteId, updatedNoteCover);
+      if (updatedNoteCover !== null && props.noteId === noteIdAtCallTime) {
+        await updateCover(noteIdAtCallTime, updatedNoteCover);
       }
 
-      router.push(`/note/${noteId.value}`);
+      if (props.noteId === noteIdAtCallTime) {
+        await router.push(`/note/${noteIdAtCallTime}`);
+      }
     }
   }
 }
