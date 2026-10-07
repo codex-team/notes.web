@@ -410,6 +410,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      * Clear existing note
      */
     if (newId === null) {
+      currentLoadId += 1;
       resetNote();
 
       return;
