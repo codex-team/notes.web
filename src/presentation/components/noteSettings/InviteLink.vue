@@ -47,7 +47,7 @@ const { revokeHash } = useNoteSettings();
 const { copy } = useClipboard();
 
 const invitationLink = computed(
-  () => `${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${invintationHash.value}`
+  () => `https://${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${invintationHash.value}`
 );
 
 const invintationHash = ref(props.invintationHash);
