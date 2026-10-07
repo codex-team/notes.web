@@ -103,7 +103,7 @@ import useNoteSettings from '@/application/services/useNoteSettings';
 import useNote from '@/application/services/useNote';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
-import { computed, ref, onMounted, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import Team from '@/presentation/components/team/Team.vue';
 import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card, PageBlock } from '@codexteam/ui/vue';
@@ -127,7 +127,7 @@ const { patchOpenedPageByUrl } = useNavbar();
 const route = useRoute();
 const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
-  id: props.id,
+  id: () => props.id,
 });
 
 /**
@@ -218,10 +218,12 @@ watch(noteTitle, (newTitle) => {
   patchOpenedPageByUrl(route.path, openPageInfo);
 });
 
-onMounted(async () => {
-  await loadSettings(props.id);
+watch(() => props.id, async (id) => {
+  parentURL.value = '';
+  await loadSettings(id);
+
   parentURL.value = getParentURL(parentNote.value?.id);
-});
+}, { immediate: true });
 
 /**
  * Handle team member removal by refreshing the note settings and removing the member from the team
