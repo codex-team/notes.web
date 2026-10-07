@@ -233,6 +233,10 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       noteParents.value = response.parents;
       void getNoteHierarchy(id);
     } catch (error) {
+      if (loadId !== currentLoadId) {
+        return;
+      }
+
       deleteOpenedPageByUrl(route.path);
       if (error instanceof DomainError) {
         void router.push(`/error/${error.statusCode}`);
