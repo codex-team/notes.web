@@ -68,7 +68,7 @@ import { computed, ref, toRef, watch } from 'vue';
 import { Button, Editor, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
-import { NoteContent, type NoteId } from '@/domain/entities/Note';
+import { NoteContent } from '@/domain/entities/Note';
 import { useHead } from 'unhead';
 import { useI18n } from 'vue-i18n';
 import { makeElementScreenshot } from '@/infrastructure/utils/screenshot';
@@ -162,6 +162,8 @@ async function noteChanged(data: NoteContent): Promise<void> {
     const noteIdAtCallTime = props.id;
 
     await save(data, props.parentId, noteIdAtCallTime);
+    const savedNoteId = noteIdAtCallTime ?? getLastCreatedNoteId();
+
     /**
      * In case if we do not have note id, we can change its cover, and we need successful data for cover
      * We need to do it after saving in case of note creation
@@ -177,8 +179,8 @@ async function noteChanged(data: NoteContent): Promise<void> {
         paddingTop: '100px',
       });
     }
-    if (updatedNoteCover !== null && noteIdAtCallTime !== null && noteIdAtCallTime === props.id) {
-      await updateCover(noteIdAtCallTime as NoteId, updatedNoteCover);
+    if (updatedNoteCover !== null && savedNoteId !== null && savedNoteId === props.id) {
+      await updateCover(savedNoteId, updatedNoteCover);
     }
   }
 }
