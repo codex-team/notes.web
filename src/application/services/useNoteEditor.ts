@@ -113,6 +113,7 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
         return;
       }
 
+currentLoadId += 1;
       isEditorReady.value = false;
     },
     { immediate: true }
