@@ -415,6 +415,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     if (newId === null) {
       currentLoadId += 1;
+      lastCreatedNoteId = null;
       resetNote();
 
       return;
@@ -428,6 +429,7 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
       return;
     }
 
+    lastCreatedNoteId = null;
     void load(newId);
   });
 
