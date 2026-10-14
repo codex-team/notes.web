@@ -7,9 +7,10 @@
     <div
       :class="['sidebar-setting', { 'sidebar-setting--disabled': disabled }]"
     >
-      <div
+      <button
         v-for="option in options"
         :key="option.value"
+        type="button"
         :class="['sidebar-setting__card', { 'sidebar-setting__card--selected': sidebarPosition === option.value }]"
         @click="select(option.value)"
       >
@@ -99,7 +100,7 @@
             <span class="sidebar-setting__subtitle">{{ t(option.subtitle) }}</span>
           </div>
         </div>
-      </div>
+      </button>
     </div>
     <p
       v-if="disabled"
@@ -197,6 +198,13 @@ function select(value: SidebarOptionValue): void {
     flex-direction: column;
     gap: 12px;
     box-shadow: inset 0 0 0 1px var(--base--border);
+    appearance: none;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    width: 100%;
+    font-family: inherit;
 
     &--selected {
       box-shadow: inset 0 0 0 2px rgba(221, 32, 88, 1);
@@ -204,6 +212,11 @@ function select(value: SidebarOptionValue): void {
 
     &:hover:not(&--selected) {
       background: var(--base--bg-secondary-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(221, 32, 88, 1);
+      outline-offset: 2px;
     }
   }
 
