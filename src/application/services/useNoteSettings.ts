@@ -101,6 +101,12 @@ export default function (): UseNoteSettingsComposableState {
   const parentNote = ref<Note | undefined>();
 
   /**
+   * Id of the latest settings write.
+   * Used to ignore responses from outdated requests
+   */
+  let settingsRequestId = 0;
+
+  /**
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
@@ -138,7 +144,15 @@ export default function (): UseNoteSettingsComposableState {
    * @param sidebarPosition - new sidebar position
    */
   async function updateSidebarPosition(id: NoteId, sidebarPosition: SidebarPosition): Promise<void> {
+    const requestId = ++settingsRequestId;
     const response = await noteSettingsService.patchNoteSettingsByNoteId(id, { sidebarPosition });
+
+    /**
+     * Ignore the response if a newer selection was made while this request was in flight
+     */
+    if (requestId !== settingsRequestId) {
+      return;
+    }
 
     noteSettings.value = response;
   }
