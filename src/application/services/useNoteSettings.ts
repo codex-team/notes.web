@@ -1,5 +1,6 @@
 import { ref, type Ref } from 'vue';
 import type NoteSettings from '@/domain/entities/NoteSettings';
+import type { SidebarPosition } from '@/domain/entities/NoteSettings';
 import type { Note, NoteId } from '@/domain/entities/Note';
 import { noteSettingsService, noteService } from '@/domain';
 import type { UserId } from '@/domain/entities/User';
@@ -32,6 +33,13 @@ interface UseNoteSettingsComposableState {
    * @param newIsPublicValue - new value for isPublic field
    */
   updateIsPublic: (id: NoteId, newIsPublicValue: boolean) => Promise<void>;
+
+  /**
+   * Update sidebar position in note settings
+   * @param id - note id
+   * @param sidebarPosition - new sidebar position
+   */
+  updateSidebarPosition: (id: NoteId, sidebarPosition: SidebarPosition) => Promise<void>;
 
   /**
    * Revoke invitation hash
@@ -93,6 +101,18 @@ export default function (): UseNoteSettingsComposableState {
   const parentNote = ref<Note | undefined>();
 
   /**
+   * Id of the latest settings write.
+   * Used to ignore responses from outdated requests
+   */
+  let settingsRequestId = 0;
+
+  /**
+   * Last requested sidebar position.
+   * Used to skip redundant writes caused by re-selecting the same option.
+   */
+  let lastRequestedSidebarPosition: SidebarPosition | null = null;
+
+  /**
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
@@ -103,6 +123,7 @@ export default function (): UseNoteSettingsComposableState {
    */
   const load = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
+    lastRequestedSidebarPosition = noteSettings.value.sidebarPosition;
     const response = await noteService.getNoteById(id);
 
     parentNote.value = response.parentNote;
@@ -122,6 +143,30 @@ export default function (): UseNoteSettingsComposableState {
     if (noteSettings.value) {
       noteSettings.value.isPublic = isPublic;
     }
+  }
+
+  /**
+   * Update sidebar position in note settings
+   * @param id - Note id
+   * @param sidebarPosition - new sidebar position
+   */
+  async function updateSidebarPosition(id: NoteId, sidebarPosition: SidebarPosition): Promise<void> {
+    if (lastRequestedSidebarPosition === sidebarPosition) {
+      return;
+    }
+
+    lastRequestedSidebarPosition = sidebarPosition;
+    const requestId = ++settingsRequestId;
+    const response = await noteSettingsService.patchNoteSettingsByNoteId(id, { sidebarPosition });
+
+    /**
+     * Ignore the response if a newer selection was made while this request was in flight
+     */
+    if (requestId !== settingsRequestId) {
+      return;
+    }
+
+    noteSettings.value = response;
   }
 
   /**
@@ -213,6 +258,7 @@ export default function (): UseNoteSettingsComposableState {
     noteSettings,
     load,
     updateIsPublic,
+    updateSidebarPosition,
     revokeHash,
     changeRole,
     deleteNoteById,

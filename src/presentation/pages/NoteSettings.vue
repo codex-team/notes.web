@@ -64,6 +64,15 @@
         </Section>
 
         <Fieldset
+          :title="t('noteSettings.appearance')"
+        >
+          <NoteSidebarSetting
+            v-model:sidebar-position="sidebarPosition"
+            :disabled="parentNote !== undefined"
+          />
+        </Fieldset>
+
+        <Fieldset
           :title="t('noteSettings.teamFormFieldSetTitle')"
         >
           <div
@@ -110,9 +119,11 @@ import { Section, Row, Switch, Button, Heading, Fieldset, Input, Card, PageBlock
 import { getTitle } from '@/infrastructure/utils/note';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 import InviteLink from '@/presentation/components/noteSettings/InviteLink.vue';
+import NoteSidebarSetting from '@/presentation/components/noteSettings/NoteSidebarSetting.vue';
 import useNavbar from '@/application/services/useNavbar';
 import { useRoute } from 'vue-router';
 import { TeamMember } from '@/domain/entities/Team';
+import type { SidebarPosition } from '@/domain/entities/NoteSettings';
 
 const { t } = useI18n();
 
@@ -125,7 +136,7 @@ const props = defineProps<{
 
 const { patchOpenedPageByUrl } = useNavbar();
 const route = useRoute();
-const { noteSettings, load: loadSettings, updateIsPublic, deleteNoteById, parentNote, setParent } = useNoteSettings();
+const { noteSettings, load: loadSettings, updateIsPublic, updateSidebarPosition, deleteNoteById, parentNote, setParent } = useNoteSettings();
 const { noteTitle, unlinkParent } = useNote({
   id: props.id,
 });
@@ -185,6 +196,16 @@ const isPublic = computed(() => {
 async function changeAccess() {
   updateIsPublic(props.id, !noteSettings.value!.isPublic);
 }
+
+/**
+ * Current sidebar position of the note
+ */
+const sidebarPosition = computed<SidebarPosition>({
+  get: () => noteSettings.value?.sidebarPosition ?? 'content',
+  set: (value) => {
+    void updateSidebarPosition(props.id, value);
+  },
+});
 
 /**
  * Construct the parent note URL. If the parent note is not set, return an empty string
