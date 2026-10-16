@@ -107,6 +107,12 @@ export default function (): UseNoteSettingsComposableState {
   let settingsRequestId = 0;
 
   /**
+   * Last requested sidebar position.
+   * Used to skip redundant writes caused by re-selecting the same option.
+   */
+  let lastRequestedSidebarPosition: SidebarPosition | null = null;
+
+  /**
    * Router instance used to replace the current route with note id
    */
   const router = useRouter();
@@ -117,6 +123,7 @@ export default function (): UseNoteSettingsComposableState {
    */
   const load = async (id: NoteId): Promise<void> => {
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
+    lastRequestedSidebarPosition = noteSettings.value.sidebarPosition;
     const response = await noteService.getNoteById(id);
 
     parentNote.value = response.parentNote;
@@ -144,6 +151,11 @@ export default function (): UseNoteSettingsComposableState {
    * @param sidebarPosition - new sidebar position
    */
   async function updateSidebarPosition(id: NoteId, sidebarPosition: SidebarPosition): Promise<void> {
+    if (lastRequestedSidebarPosition === sidebarPosition) {
+      return;
+    }
+
+    lastRequestedSidebarPosition = sidebarPosition;
     const requestId = ++settingsRequestId;
     const response = await noteSettingsService.patchNoteSettingsByNoteId(id, { sidebarPosition });
 

@@ -203,9 +203,7 @@ async function changeAccess() {
 const sidebarPosition = computed<SidebarPosition>({
   get: () => noteSettings.value?.sidebarPosition ?? 'content',
   set: (value) => {
-    if (noteSettings.value?.sidebarPosition !== value) {
-      updateSidebarPosition(props.id, value);
-    }
+    void updateSidebarPosition(props.id, value);
   },
 });
 
