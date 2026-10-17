@@ -56,8 +56,6 @@ withDefaults(
 
 <style module lang="postcss">
 .card-skeleton {
-  --card-width: 222px;
-
   --skeleton-line-bg: var(--base--text-secondary);
 
   display: flex;
@@ -76,8 +74,8 @@ withDefaults(
     box-sizing: border-box;
 
     .card-skeleton__cover {
-      width: 150px;
-      height: 100px;
+      width: var(--size-cover);
+      aspect-ratio: 3 / 2;
     }
   }
 
@@ -104,7 +102,7 @@ withDefaults(
   }
 
   &--vertical {
-    width: var(--card-width);
+    width: var(--card-width, 222px);
   }
 
   &__cover {
@@ -126,6 +124,12 @@ withDefaults(
   );
     background-size: 200% 100%;
     animation: skeleton-animation 3s infinite linear;
+  }
+
+  @media (--mobile) {
+    &--horizontal {
+      gap: var(--spacing-ml);
+    }
   }
 }
 
