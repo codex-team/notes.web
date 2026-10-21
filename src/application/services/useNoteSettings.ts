@@ -102,6 +102,9 @@ export default function (): UseNoteSettingsComposableState {
    * @param id - Note id
    */
   const load = async (id: NoteId): Promise<void> => {
+    noteSettings.value = null;
+    parentNote.value = undefined;
+
     noteSettings.value = await noteSettingsService.getNoteSettingsById(id);
     const response = await noteService.getNoteById(id);
 
