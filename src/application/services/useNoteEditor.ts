@@ -5,6 +5,52 @@ import { type NoteContent } from '@/domain/entities/Note';
 import { editorToolsService } from '@/domain';
 import type { EditorjsToolsConfig } from '@/domain/entities/EditorTool';
 import { useI18n } from 'vue-i18n';
+import Header from '@editorjs/header';
+import EditorjsList from '@editorjs/list';
+import Quote from '@editorjs/quote';
+import CodeTool from '@editorjs/code';
+import Delimiter from '@editorjs/delimiter';
+import Table from '@editorjs/table';
+import InlineCode from '@editorjs/inline-code';
+import Underline from '@editorjs/underline';
+
+/**
+ * Tools that are always available in the editor, without installing them from the marketplace
+ */
+const defaultTools: EditorjsToolsConfig = {
+  header: {
+    class: Header,
+    inlineToolbar: true,
+  },
+  list: {
+    class: EditorjsList,
+    inlineToolbar: true,
+  },
+  quote: {
+    class: Quote,
+    inlineToolbar: true,
+  },
+  code: {
+    class: CodeTool,
+    inlineToolbar: false,
+  },
+  delimiter: {
+    class: Delimiter,
+    inlineToolbar: false,
+  },
+  table: {
+    class: Table,
+    inlineToolbar: false,
+  },
+  inlineCode: {
+    class: InlineCode,
+    inlineToolbar: false,
+  },
+  underline: {
+    class: Underline,
+    inlineToolbar: false,
+  },
+};
 
 interface UseNoteEditorOptions {
   /**
@@ -194,7 +240,8 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
       holderId: 'editorjs',
       data: options.noteContentResolver(),
       readOnly: toValue(options.canEdit) === false,
-      tools: toolsUserConfigLoaded.value ? toolsUserConfig : undefined,
+      tools: { ...defaultTools,
+        ...(toolsUserConfigLoaded.value ? toolsUserConfig : {}) },
       placeholder: t('note.editor.placeholder'),
       inlineToolbar: true,
     };
