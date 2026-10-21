@@ -156,6 +156,8 @@
           </Container>
         </div>
       </Fieldset>
+
+      <McpTokens />
     </div>
   </PageBlock>
 </template>
@@ -171,6 +173,7 @@ import { useAppState } from '@/application/services/useAppState';
 import { useHead } from 'unhead';
 import { ref } from 'vue';
 import useNavbar from '@/application/services/useNavbar';
+import McpTokens from '@/presentation/components/mcp/McpTokens.vue';
 
 const { user, userEditorTools } = useAppState();
 const { t } = useI18n();
