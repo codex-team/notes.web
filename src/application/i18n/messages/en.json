@@ -70,6 +70,8 @@
         "lastUsed": "used {time}",
         "neverUsed": "never used",
         "requests": "no requests | {n} request | {n} requests",
+        "loadError": "Could not load tokens",
+        "retry": "Try again",
         "revoke": "Revoke",
         "revokeConfirmationTitle": "Revoke token?",
         "revokeConfirmation": "Assistants using \"{label}\" will lose access to your notes"

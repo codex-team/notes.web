@@ -10,6 +10,22 @@ interface UseMcpTokensComposableState {
   tokens: Ref<McpToken[]>;
 
   /**
+   * Whether tokens are being loaded. Tokens should not be created meanwhile:
+   * the loaded list would replace the created token
+   */
+  isLoading: Ref<boolean>;
+
+  /**
+   * Whether tokens failed to load
+   */
+  hasLoadError: Ref<boolean>;
+
+  /**
+   * Loads MCP tokens of the current user
+   */
+  loadTokens(): Promise<void>;
+
+  /**
    * Creates new MCP token and adds it to the list
    * @param label - label set by user
    * @param permission - what MCP client can do with notes
@@ -34,10 +50,29 @@ export default function useMcpTokens(): UseMcpTokensComposableState {
   const tokens = ref<McpToken[]>([]);
 
   /**
+   * Whether tokens are being loaded
+   */
+  const isLoading = ref(true);
+
+  /**
+   * Whether tokens failed to load
+   */
+  const hasLoadError = ref(false);
+
+  /**
    * Loads MCP tokens of the current user
    */
   async function loadTokens(): Promise<void> {
-    tokens.value = await mcpTokenService.getTokens();
+    isLoading.value = true;
+    hasLoadError.value = false;
+
+    try {
+      tokens.value = await mcpTokenService.getTokens();
+    } catch {
+      hasLoadError.value = true;
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   /**
@@ -69,6 +104,9 @@ export default function useMcpTokens(): UseMcpTokensComposableState {
 
   return {
     tokens,
+    isLoading,
+    hasLoadError,
+    loadTokens,
     createToken,
     revokeToken,
   };

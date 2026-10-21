@@ -23,7 +23,7 @@
         </Section>
         <div>
           <Button
-            :disabled="label.trim() === '' || isCreating"
+            :disabled="label.trim() === '' || isCreating || isLoading"
             @click="createClicked"
           >
             {{ t('userSettings.mcp.newToken.create') }}
@@ -72,7 +72,24 @@
       </Section>
 
       <Section
-        v-if="tokens.length > 0"
+        v-if="hasLoadError"
+        :title="t('userSettings.mcp.tokens.title')"
+      >
+        <Row :title="t('userSettings.mcp.tokens.loadError')">
+          <template #right>
+            <Button
+              secondary
+              :disabled="isLoading"
+              @click="loadTokens"
+            >
+              {{ t('userSettings.mcp.tokens.retry') }}
+            </Button>
+          </template>
+        </Row>
+      </Section>
+
+      <Section
+        v-else-if="tokens.length > 0"
         :title="t('userSettings.mcp.tokens.title')"
         :caption="t('userSettings.mcp.tokens.caption')"
       >
@@ -109,7 +126,7 @@ import { getTimeFromNow } from '@/infrastructure/utils/date';
 const { t } = useI18n();
 const { copy } = useClipboard();
 const { confirm } = useConfirm();
-const { tokens, createToken, revokeToken } = useMcpTokens();
+const { tokens, isLoading, hasLoadError, loadTokens, createToken, revokeToken } = useMcpTokens();
 
 /**
  * Label of the new token
