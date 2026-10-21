@@ -54,6 +54,7 @@
     "revokeHashButton": "Revoke",
     "revokeHashConfirmation": "Do you really want to revoke this link?",
     "copyInviteLink": "Copy",
+    "inviteLinkCopied": "Copied!",
     "teamFormFieldSetTitle": "Team",
     "deleteNote": "Delete",
     "noteDeleteConfirmation": "Do you really want to delete this note?",

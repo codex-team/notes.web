@@ -16,12 +16,21 @@
           >
             {{ t('noteSettings.revokeHashButton') }}
           </Button>
-          <Button
-            icon="Copy"
-            @click="copy(invitationLink)"
-          >
-            {{ t('noteSettings.copyInviteLink') }}
-          </Button>
+          <span class="copy-wrapper">
+            <Button
+              icon="Copy"
+              @click="copy(invitationLink)"
+            >
+              {{ t('noteSettings.copyInviteLink') }}
+            </Button>
+            <span
+              v-if="copied"
+              class="copy-tooltip"
+              role="status"
+            >
+              {{ t('noteSettings.inviteLinkCopied') }}
+            </span>
+          </span>
         </div>
       </template>
     </Row>
@@ -44,7 +53,7 @@ const props = defineProps<{
 }>();
 
 const { revokeHash } = useNoteSettings();
-const { copy } = useClipboard();
+const { copy, copied } = useClipboard();
 
 const invitationLink = computed(
   () => `https://${import.meta.env.VITE_PRODUCTION_HOSTNAME}/join/${invintationHash.value}`
@@ -70,5 +79,22 @@ async function regenerateHash() {
   display: flex;
   flex-direction: row;
   gap: var(--h-padding);
+}
+
+.copy-wrapper {
+  position: relative;
+}
+
+.copy-tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--spacing-xs));
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  background-color: var(--base--bg-secondary);
+  border: 1px solid var(--base--border);
+  border-radius: var(--radius-field);
 }
 </style>
