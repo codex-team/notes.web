@@ -18,7 +18,7 @@ import EditorToolsTransport from '@/infrastructure/transport/editorTools.transpo
 import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository';
 import TeamRepository from '@/infrastructure/team.repository';
 import NoteHistoryRepository from './noteHistory.repository';
-import McpTokenRepository from './mcpToken.repository';
+import UserSettingsRepository from './userSettings.repository';
 
 /**
  * Repositories
@@ -75,9 +75,9 @@ export interface Repositories {
   noteHistory: NoteHistoryRepository;
 
   /**
-   * Working with MCP tokens
+   * Working with user settings
    */
-  mcpToken: McpTokenRepository;
+  userSettings: UserSettingsRepository;
 }
 
 /**
@@ -148,7 +148,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const workspaceRepository = new WorkspaceRepository(openedPagesStore);
   const teamRepository = new TeamRepository(notesApiTransport);
   const noteHistoryRepository = new NoteHistoryRepository(notesApiTransport);
-  const mcpTokenRepository = new McpTokenRepository(notesApiTransport);
+  const userSettingsRepository = new UserSettingsRepository(notesApiTransport);
 
   return {
     note: noteRepository,
@@ -161,6 +161,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     workspace: workspaceRepository,
     team: teamRepository,
     noteHistory: noteHistoryRepository,
-    mcpToken: mcpTokenRepository,
+    userSettings: userSettingsRepository,
   };
 }

@@ -66,7 +66,7 @@
                 </Button>
               </template>
             </Row>
-            <pre :class="$style['mcp__snippet']">{{ instruction.snippet }}</pre>
+            <pre :class="[$style['mcp__snippet'], 'text-monospaced']">{{ instruction.snippet }}</pre>
           </div>
         </div>
       </Section>
@@ -119,14 +119,14 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useClipboard } from '@vueuse/core';
 import { Button, Fieldset, Input, Row, Section, Switch, useConfirm } from '@codexteam/ui/vue';
-import useMcpTokens from '@/application/services/useMcpTokens';
+import useUserMcpSettings from '@/application/services/useUserMcpSettings';
 import type { McpToken } from '@/domain/entities/McpToken';
 import { getTimeFromNow } from '@/infrastructure/utils/date';
 
 const { t } = useI18n();
 const { copy } = useClipboard();
 const { confirm } = useConfirm();
-const { tokens, isLoading, hasLoadError, loadTokens, createToken, revokeToken } = useMcpTokens();
+const { tokens, isLoading, hasLoadError, loadTokens, createToken, revokeToken } = useUserMcpSettings();
 
 /**
  * Label of the new token
@@ -261,10 +261,6 @@ async function revokeClicked(token: McpToken): Promise<void> {
     overflow-x: auto;
     border-radius: var(--radius-field);
     background-color: var(--base--bg-primary);
-    color: var(--base--text);
-    font-family: 'JetBrains Mono', Consolas, monospace;
-    font-size: 0.866rem;
-    line-height: 145%;
     white-space: pre;
   }
 }

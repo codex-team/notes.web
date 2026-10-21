@@ -1,9 +1,9 @@
 import type { Ref } from 'vue';
 import { onMounted, ref } from 'vue';
 import type { McpToken, McpTokenPermission } from '@/domain/entities/McpToken';
-import { mcpTokenService } from '@/domain';
+import { userSettingsService } from '@/domain';
 
-interface UseMcpTokensComposableState {
+interface UseUserMcpSettingsComposableState {
   /**
    * MCP tokens of the current user, newest first
    */
@@ -43,7 +43,7 @@ interface UseMcpTokensComposableState {
 /**
  * Methods for managing MCP tokens of the current user
  */
-export default function useMcpTokens(): UseMcpTokensComposableState {
+export default function useUserMcpSettings(): UseUserMcpSettingsComposableState {
   /**
    * MCP tokens of the current user
    */
@@ -67,7 +67,7 @@ export default function useMcpTokens(): UseMcpTokensComposableState {
     hasLoadError.value = false;
 
     try {
-      tokens.value = await mcpTokenService.getTokens();
+      tokens.value = await userSettingsService.getMcpTokens();
     } catch {
       hasLoadError.value = true;
     } finally {
@@ -81,7 +81,7 @@ export default function useMcpTokens(): UseMcpTokensComposableState {
    * @param permission - what MCP client can do with notes
    */
   async function createToken(label: string, permission: McpTokenPermission): Promise<string> {
-    const { token, item } = await mcpTokenService.createToken(label, permission);
+    const { token, item } = await userSettingsService.createMcpToken(label, permission);
 
     tokens.value = [item, ...tokens.value];
 
@@ -93,7 +93,7 @@ export default function useMcpTokens(): UseMcpTokensComposableState {
    * @param id - token id
    */
   async function revokeToken(id: McpToken['id']): Promise<void> {
-    await mcpTokenService.revokeToken(id);
+    await userSettingsService.revokeMcpToken(id);
 
     tokens.value = tokens.value.filter(token => token.id !== id);
   }
