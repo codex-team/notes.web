@@ -86,6 +86,7 @@ const { isEditorReady, editorConfig } = useNoteEditor({
   noteTools: historyTools,
   noteContentResolver: () => historyContent.value,
   canEdit,
+  noteId,
 });
 
 /**
