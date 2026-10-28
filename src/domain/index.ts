@@ -10,6 +10,7 @@ import EditorToolsService from '@/domain/editorTools.service';
 import WorkspaceService from './workspace.service';
 import TeamService from './team.service';
 import NoteHistoryService from './noteHistory.service';
+import UserSettingsService from './userSettings.service';
 /**
  * Get API url from environment
  */
@@ -38,6 +39,7 @@ const userService = new UserService(eventBus, repositories.user);
 const marketplaceService = new MarketplaceService(repositories.marketplace);
 const teamService = new TeamService(repositories.team);
 const noteHistoryService = new NoteHistoryService(repositories.noteHistory);
+const userSettingsService = new UserSettingsService(repositories.userSettings);
 
 /**
  * App State — is a read-only combination of app Stores.
@@ -63,5 +65,6 @@ export {
   marketplaceService,
   workspaceService,
   teamService,
-  noteHistoryService
+  noteHistoryService,
+  userSettingsService
 };

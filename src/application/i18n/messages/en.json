@@ -39,6 +39,43 @@
         "title": "Accent theme",
         "caption": "Primary buttons and highlights"
       }
+    },
+    "mcp": {
+      "title": "MCP",
+      "copy": "Copy",
+      "newToken": {
+        "title": "New token",
+        "caption": "Tokens let AI assistants like Claude or Cursor work with your notes via MCP",
+        "labelPlaceholder": "Token name, e.g. Claude Code on laptop",
+        "allowEditing": "Allow editing",
+        "allowEditingCaption": "Without it the assistant can only read notes",
+        "create": "Create token"
+      },
+      "createdToken": {
+        "title": "Your new token",
+        "caption": "Copy it now: you will not be able to see it again"
+      },
+      "instructions": {
+        "claudeCode": "Run in the terminal",
+        "cursor": "Add to ~/.cursor/mcp.json",
+        "claude": "Settings → Connectors → Add custom connector: paste the URL and add the request header"
+      },
+      "permission": {
+        "read": "Read only",
+        "write": "Read and edit"
+      },
+      "tokens": {
+        "title": "Tokens",
+        "caption": "Revoke a token to disconnect the assistant that uses it",
+        "lastUsed": "used {time}",
+        "neverUsed": "never used",
+        "requests": "no requests | {n} request | {n} requests",
+        "loadError": "Could not load tokens",
+        "retry": "Try again",
+        "revoke": "Revoke",
+        "revokeConfirmationTitle": "Revoke token?",
+        "revokeConfirmation": "Assistants using \"{label}\" will lose access to your notes"
+      }
     }
   },
   "noteSettings": {
