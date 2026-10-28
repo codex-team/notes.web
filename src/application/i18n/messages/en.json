@@ -58,7 +58,9 @@
       "instructions": {
         "claudeCode": "Run in the terminal",
         "cursor": "Add to ~/.cursor/mcp.json",
-        "claude": "Settings → Connectors → Add custom connector: paste the URL and add the request header"
+        "claude": "Customize → Connectors → Add custom connector. Enter a name, e.g. NoteX, and the server URL. In Authentication choose \"No sign-in\", then in Request headers add the \"authorization\" header with the value below",
+        "claudeUrl": "Server URL",
+        "claudeHeader": "Value of the authorization header"
       },
       "permission": {
         "read": "Read only",
