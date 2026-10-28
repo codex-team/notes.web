@@ -56,17 +56,39 @@
               :title="instruction.title"
               :subtitle="instruction.caption"
             >
-              <template #right>
+              <template
+                v-if="instruction.snippets.length === 1"
+                #right
+              >
                 <Button
                   icon="Copy"
                   secondary
-                  @click="copy(instruction.snippet)"
+                  @click="copy(instruction.snippets[0].value)"
                 >
                   {{ t('userSettings.mcp.copy') }}
                 </Button>
               </template>
             </Row>
-            <pre :class="[$style['mcp__snippet'], 'text-monospaced']">{{ instruction.snippet }}</pre>
+            <template
+              v-for="snippet in instruction.snippets"
+              :key="snippet.value"
+            >
+              <Row
+                v-if="instruction.snippets.length > 1"
+                :title="snippet.label ?? ''"
+              >
+                <template #right>
+                  <Button
+                    icon="Copy"
+                    secondary
+                    @click="copy(snippet.value)"
+                  >
+                    {{ t('userSettings.mcp.copy') }}
+                  </Button>
+                </template>
+              </Row>
+              <pre :class="[$style['mcp__snippet'], 'text-monospaced']">{{ snippet.value }}</pre>
+            </template>
           </div>
         </div>
       </Section>
@@ -154,36 +176,86 @@ const createdToken = ref<string | null>(null);
 const mcpUrl = `${import.meta.env.VITE_API_URL}/mcp`;
 
 /**
+ * Value to paste into MCP client settings
+ */
+interface SetupSnippet {
+  /**
+   * Field the value goes to, shown when the client needs several values
+   */
+  label?: string;
+
+  /**
+   * Value to copy
+   */
+  value: string;
+}
+
+/**
+ * Setup instruction for MCP client
+ */
+interface SetupInstruction {
+  /**
+   * MCP client name
+   */
+  title: string;
+
+  /**
+   * Where to paste the snippets
+   */
+  caption: string;
+
+  /**
+   * Values to paste
+   */
+  snippets: SetupSnippet[];
+}
+
+/**
  * Ready-made setup instructions for popular MCP clients
  */
-const setupInstructions = computed(() => {
+const setupInstructions = computed<SetupInstruction[]>(() => {
   const token = createdToken.value ?? '';
 
   return [
     {
       title: 'Claude Code',
       caption: t('userSettings.mcp.instructions.claudeCode'),
-      snippet: `claude mcp add --transport http notex ${mcpUrl} --header "Authorization: Bearer ${token}"`,
+      snippets: [
+        { value: `claude mcp add --transport http notex ${mcpUrl} --header "Authorization: Bearer ${token}"` },
+      ],
     },
     {
       title: 'Cursor',
       caption: t('userSettings.mcp.instructions.cursor'),
-      snippet: JSON.stringify({
-        mcpServers: {
-          notex: {
-            url: mcpUrl,
-            headers: {
-              // eslint-disable-next-line @typescript-eslint/naming-convention
-              Authorization: `Bearer ${token}`,
+      snippets: [
+        {
+          value: JSON.stringify({
+            mcpServers: {
+              notex: {
+                url: mcpUrl,
+                headers: {
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
+                  Authorization: `Bearer ${token}`,
+                },
+              },
             },
-          },
+          }, null, 2),
         },
-      }, null, 2),
+      ],
     },
     {
-      title: 'Claude',
+      title: 'Claude Desktop and claude.ai',
       caption: t('userSettings.mcp.instructions.claude'),
-      snippet: `${mcpUrl}\nAuthorization: Bearer ${token}`,
+      snippets: [
+        {
+          label: t('userSettings.mcp.instructions.claudeUrl'),
+          value: mcpUrl,
+        },
+        {
+          label: t('userSettings.mcp.instructions.claudeHeader'),
+          value: `Bearer ${token}`,
+        },
+      ],
     },
   ];
 });
