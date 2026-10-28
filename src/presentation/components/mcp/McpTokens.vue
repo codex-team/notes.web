@@ -73,20 +73,19 @@
               v-for="snippet in instruction.snippets"
               :key="snippet.value"
             >
-              <Row
+              <div
                 v-if="instruction.snippets.length > 1"
-                :title="snippet.label ?? ''"
+                :class="$style['mcp__snippet-label']"
               >
-                <template #right>
-                  <Button
-                    icon="Copy"
-                    secondary
-                    @click="copy(snippet.value)"
-                  >
-                    {{ t('userSettings.mcp.copy') }}
-                  </Button>
-                </template>
-              </Row>
+                <span class="text-ui-subtle">{{ snippet.label }}</span>
+                <Button
+                  icon="Copy"
+                  secondary
+                  @click="copy(snippet.value)"
+                >
+                  {{ t('userSettings.mcp.copy') }}
+                </Button>
+              </div>
               <pre :class="[$style['mcp__snippet'], 'text-monospaced']">{{ snippet.value }}</pre>
             </template>
           </div>
@@ -325,6 +324,14 @@ async function revokeClicked(token: McpToken): Promise<void> {
 
   &__instruction {
     display: grid;
+  }
+
+  &__snippet-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-m);
+    padding: 0 var(--h-padding) var(--v-padding);
   }
 
   &__snippet {
