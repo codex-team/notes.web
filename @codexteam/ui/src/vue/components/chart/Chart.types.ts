@@ -10,8 +10,48 @@ export enum ChartLineColor {
   /**
    * Accent color for secondary line
    */
-  LightGrey = 'light-grey'
+  LightGrey = 'light-grey',
+
+  /**
+   * Blue series
+   */
+  Blue = 'blue',
+
+  /**
+   * Green series
+   */
+  Green = 'green',
+
+  /**
+   * Orange series
+   */
+  Orange = 'orange',
+
+  /**
+   * Violet series
+   */
+  Violet = 'violet',
+
+  /**
+   * Yellow series
+   */
+  Yellow = 'yellow',
+
+  /**
+   * Cyan series
+   */
+  Cyan = 'cyan',
+
+  /**
+   * Pink series
+   */
+  Pink = 'pink'
 }
+
+/**
+ * Palette token or a hex color (`#RGB` / `#RRGGBB`).
+ */
+export type ChartLineColorToken = ChartLineColor | `#${string}`;
 
 /**
  * Chart element in common case
@@ -43,9 +83,10 @@ export interface ChartLine {
   data: ChartItem[];
 
   /**
-   * Name of the color for the line stroke and fill.
+   * Line color: a ChartLineColor token, or a hex string.
+   * Defaults to red when omitted.
    */
-  color?: ChartLineColor;
+  color?: ChartLineColorToken;
 }
 
 /**
@@ -53,9 +94,9 @@ export interface ChartLine {
  */
 export interface ChartLineColors {
   /**
-   * Name of the color
+   * Name of the color (palette token or hex)
    */
-  name: ChartLineColor;
+  name: string;
   /**
    * Starting color for stroke gradient (top)
    */

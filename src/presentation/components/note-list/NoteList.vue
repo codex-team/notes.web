@@ -86,12 +86,26 @@ function getSubtitle(note: Note): string | undefined {
 
 <style lang="postcss" module>
 .notes-container {
+  --card-width: 100%;
+
   padding: var(--spacing-xxl) 0;
   gap: var(--spacing-ml);
   display: grid;
   width: 100%;
   box-sizing: border-box;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(var(--layout-note-card-min-width), 1fr));
+
+  > a {
+    display: flex;
+  }
+
+  @media (--mobile) {
+    --v-padding: var(--spacing-s);
+    --h-padding: var(--spacing-s);
+
+    padding: var(--spacing-l) 0;
+    gap: var(--spacing-s);
+  }
 }
 
 .button {

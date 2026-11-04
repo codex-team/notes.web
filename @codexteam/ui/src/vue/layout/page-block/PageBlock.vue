@@ -79,4 +79,26 @@ defineProps({
     padding: var(--spacing-xxl) var(--spacing-ml);
   }
 }
+
+@media (--narrow) {
+  .page-block__sidebar:empty {
+    display: none;
+  }
+}
+
+@media (--mobile) {
+  .page-block {
+    flex-direction: column;
+  }
+
+  .page-block__content {
+    max-width: none;
+    padding: var(--spacing-l) var(--spacing-ml);
+  }
+
+  .page-block__sidebar {
+    width: auto;
+    padding: var(--spacing-l) var(--spacing-ml) 0;
+  }
+}
 </style>

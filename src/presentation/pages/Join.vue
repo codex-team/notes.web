@@ -86,6 +86,7 @@ watch(user, async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: var(--spacing-l) var(--spacing-ml);
+  text-align: center;
 }
 </style>

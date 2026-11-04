@@ -18,6 +18,7 @@
    */
   --size-icon: 20px;
   --size-avatar: 30px;
+  --size-cover: 150px;
 
   /**
    * Layout
@@ -25,6 +26,7 @@
   --layout-content-width: 700px;
   --layout-sidebar-width: 300px;
   --layout-navbar-height: 51px;
+  --layout-text-width-min: 120px;
 
   /**
    * Height of the line between list items
@@ -46,6 +48,12 @@
   --v-padding: var(--spacing-s);
   --h-padding: var(--spacing-m);
   --radius-field: var(--radius-m);
+}
+
+@media (--mobile) {
+  :root {
+    --size-cover: 96px;
+  }
 }
 
 [data-dimensions="small"] {

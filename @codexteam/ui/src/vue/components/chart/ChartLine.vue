@@ -11,7 +11,7 @@
         />
         <stop
           offset="100%"
-          :style="`stop-color:${colorSet.strokeEnd};`"
+          :style="{ 'stop-color': colorSet.strokeEnd }"
         />
       </linearGradient>
       <linearGradient
@@ -20,11 +20,11 @@
       >
         <stop
           offset="0%"
-          :style="`stop-color:${colorSet.fillStart};`"
+          :style="{ 'stop-color': colorSet.fillStart }"
         />
         <stop
           offset="100%"
-          :style="`stop-color:${colorSet.fillEnd};`"
+          :style="{ 'stop-color': colorSet.fillEnd }"
         />
       </linearGradient>
     </defs>
@@ -45,8 +45,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { ChartItem, ChartLineColor, ChartLineColors } from './Chart.types';
-import { chartColorsDark, chartColorsLight } from './Chart.colors';
+import { ChartItem, ChartLineColor, ChartLineColorToken, ChartLineColors } from './Chart.types';
+import { chartColorsDark, chartColorsLight, resolveChartLineColor } from './Chart.colors';
 import { ColorScheme, useTheme } from '../../composables/useTheme';
 
 interface Props {
@@ -61,9 +61,9 @@ interface Props {
   label?: string;
 
   /**
-   * Name of the color for the chart line
+   * Palette token or hex (`#RGB` / `#RRGGBB`)
    */
-  color?: ChartLineColor;
+  color?: ChartLineColorToken;
 
   /**
    * Chart SVG clientWidth
@@ -245,7 +245,7 @@ const smoothPathFill = computed((): string => {
  * Color for the chart line
  */
 const colorSet = computed((): ChartLineColors => {
-  return chartColorsPalette.value.find(c => c.name === props.color) as ChartLineColors;
+  return resolveChartLineColor(props.color, chartColorsPalette.value);
 });
 </script>
 

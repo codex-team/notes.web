@@ -45,7 +45,7 @@
     <div v-else>
       <PageBlock>
         <template
-          v-if="sidebarPosition !== 'none'"
+          v-if="sidebarPosition !== 'none' && !isMobile"
           #left
         >
           <div :class="['note-sidebar', { 'note-sidebar--edge': sidebarPosition === 'edge' }]">
@@ -62,6 +62,11 @@
             v-bind="editorConfig"
             @change="noteChanged"
           />
+          <VerticalMenu
+            v-if="isMobile && noteHierarchy?.childNotes?.length"
+            class="menu"
+            :items="[verticalMenuItems]"
+          />
         </template>
       </PageBlock>
     </div>
@@ -70,7 +75,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, toRef, watch } from 'vue';
-import { Button, Editor, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
+import { Button, Editor, PageBlock, VerticalMenu, useViewport, type VerticalMenuItem } from '@codexteam/ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
@@ -104,6 +109,8 @@ const props = defineProps<{
 }>();
 
 const noteId = toRef(props, 'id');
+
+const { isMobile } = useViewport();
 
 const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
   id: noteId,
@@ -265,5 +272,11 @@ watch(noteTitle, () => {
 .last_edit {
   color: var(--base--text-secondary);
   padding-right: var(--h-padding);
+}
+
+@media (--mobile) {
+  .last_edit {
+    display: none;
+  }
 }
 </style>
