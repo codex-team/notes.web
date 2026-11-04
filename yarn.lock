@@ -101,7 +101,7 @@ __metadata:
   dependencies:
     "@codexteam/icons": ^0.3.3
     "@codexteam/ui": "workspace:*"
-    "@editorjs/editorjs": 2.30.2
+    "@editorjs/editorjs": 2.31.7
     "@editorjs/header": ^2.8.6
     "@editorjs/nested-list": ^1.4.2
     "@vitejs/plugin-vue": ^5.0.3
@@ -122,7 +122,7 @@ __metadata:
   resolution: "@codexteam/ui@workspace:@codexteam/ui"
   dependencies:
     "@codexteam/icons": ^0.3.3
-    "@editorjs/editorjs": 2.30.2
+    "@editorjs/editorjs": 2.31.7
     "@editorjs/header": ^2.8.6
     "@editorjs/nested-list": ^1.4.2
     "@types/node": ^20.11.15
@@ -597,10 +597,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@editorjs/editorjs@npm:2.30.2":
-  version: 2.30.2
-  resolution: "@editorjs/editorjs@npm:2.30.2"
-  checksum: 658e10918390d18578e65d73e84f601b7eab8ba1a704142872a597ed0da6bb1ee407fc32b5b18a473a99c993729dc8959df408f10738a6150199acaf225474fc
+"@editorjs/caret@npm:^1.0.1":
+  version: 1.1.0
+  resolution: "@editorjs/caret@npm:1.1.0"
+  dependencies:
+    "@editorjs/dom": ^1.1.0
+  checksum: a3c0976e2aa743f3074bf1f6357fdfbdf67f6d41a6e1bd151e9fb3ce9b3f7e84b2d5e5993951163e78127d96a14eb3501d24486f649e09ba74e4783baba5becb
+  languageName: node
+  linkType: hard
+
+"@editorjs/dom@npm:^1.1.0":
+  version: 1.2.0
+  resolution: "@editorjs/dom@npm:1.2.0"
+  dependencies:
+    "@editorjs/helpers": ^1.2.2
+  checksum: 1b8b3fea380960cde9ce9b797addc4fcd0afbe54cdefaac0e7ad235c4fb82e06d72327b2c5b876698e184ad57c2465d959b7d0845d8253e6a205c68cd817b343
+  languageName: node
+  linkType: hard
+
+"@editorjs/editorjs@npm:2.31.7":
+  version: 2.31.7
+  resolution: "@editorjs/editorjs@npm:2.31.7"
+  dependencies:
+    "@editorjs/caret": ^1.0.1
+    codex-notifier: ^1.1.2
+    codex-tooltip: ^1.0.5
+  checksum: 96c27ad9a79d5159438f920bdea69cc71cbaaec0a35e78421987e855f9ddb81fb94f97362da852c1110ee18bcc0f9d1c5886e97b8541e775d3234cf91fee3e4d
   languageName: node
   linkType: hard
 
@@ -618,6 +640,15 @@ __metadata:
     "@codexteam/icons": ^0.0.5
     "@editorjs/editorjs": ^2.29.1
   checksum: 3d9ec6ec581986252d8fd6da3726b8018d83e37e84f994d0b5992c0c82d9a213147ee464061d08b8cf42780006da8b76aa2ffc0a1443d9d5993d5088480745da
+  languageName: node
+  linkType: hard
+
+"@editorjs/helpers@npm:^1.2.2":
+  version: 1.2.3
+  resolution: "@editorjs/helpers@npm:1.2.3"
+  dependencies:
+    codex-tooltip: ^1.1.0
+  checksum: 73cae6ce5a47a60d4485dec52387d91e8893f054ad962e0338de7af5c333b556e10ee8402032cfea9250826a7b531d1f7e8e64b25d5500fbf591281f13b67ebb
   languageName: node
   linkType: hard
 
@@ -2569,6 +2600,20 @@ __metadata:
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
   checksum: 2ac8cd2b2f5ec986a3c743935ec85b07bc174d5421a5efc8017e1f146a1cf5f781ae962618f416352103b32c9cd7e203276e8c28241bbe946160cab16149fb68
+  languageName: node
+  linkType: hard
+
+"codex-notifier@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "codex-notifier@npm:1.1.2"
+  checksum: 2130f5b1ff2a55417cb40132b8fa220139e761f95b9183a3616cf595c4d9cb1777a0e90675ac69a5c22253013f65ae76428f09946c69b08b11b846b1f849e461
+  languageName: node
+  linkType: hard
+
+"codex-tooltip@npm:^1.0.5, codex-tooltip@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "codex-tooltip@npm:1.1.0"
+  checksum: c5ce7a86548091139d0551fcbb473abf913446fdc872a64697a9a57f483c32d668697d00c87a02f7f2efd0df1f399263419cb108bf1b44ea3371948a1cdd378a
   languageName: node
   linkType: hard
 

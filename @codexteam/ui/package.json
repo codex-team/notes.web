@@ -76,7 +76,7 @@
   },
   "dependencies": {
     "@codexteam/icons": "^0.3.3",
-    "@editorjs/editorjs": "2.30.2",
+    "@editorjs/editorjs": "2.31.7",
     "@vueuse/core": "^10.3.0"
   },
   "peerDependencies": {
