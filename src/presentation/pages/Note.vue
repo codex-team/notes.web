@@ -45,13 +45,15 @@
     <div v-else>
       <PageBlock>
         <template
-          v-if="!isMobile"
+          v-if="sidebarPosition !== 'none' && !isMobile"
           #left
         >
-          <VerticalMenu
-            class="menu"
-            :items="[verticalMenuItems]"
-          />
+          <div :class="['note-sidebar', { 'note-sidebar--edge': sidebarPosition === 'edge' }]">
+            <VerticalMenu
+              class="menu"
+              :items="[verticalMenuItems]"
+            />
+          </div>
         </template>
         <template #default>
           <Editor
@@ -85,6 +87,7 @@ import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
 import { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
+import type { SidebarPosition } from '@/domain/entities/NoteSettings';
 import { getTimeFromNow } from '@/infrastructure/utils/date.ts';
 
 const { t } = useI18n();
@@ -140,6 +143,11 @@ const { isEditorReady, editorConfig } = useNoteEditor({
   noteContentResolver: () => note.value?.content,
   canEdit,
 });
+
+/**
+ * Position of the note sidebar on the page, resolved from the note hierarchy
+ */
+const sidebarPosition = computed<SidebarPosition>(() => noteHierarchy.value?.sidebarPosition ?? 'content');
 
 /**
  * Editor component reference
@@ -244,6 +252,21 @@ watch(noteTitle, () => {
   flex-shrink: 0;
   height: fit-content;
   width: auto;
+}
+
+/**
+ * 'edge' position: pin the sidebar to the window, it does not scroll with the content.
+ * Top padding places it just below the page header
+ */
+.note-sidebar--edge {
+  position: fixed;
+  left: 0;
+  top: var(--layout-navbar-height);
+  bottom: 0;
+  width: var(--layout-sidebar-width);
+  box-sizing: border-box;
+  padding: calc(var(--layout-navbar-height) + var(--spacing-s)) var(--spacing-ml) var(--spacing-xxl);
+  overflow-y: auto;
 }
 
 .last_edit {

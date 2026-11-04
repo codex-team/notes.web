@@ -6,6 +6,11 @@ import type { Team } from './Team';
 export type InvitationHash = string;
 
 /**
+ * Position of the sidebar relative to the note content
+ */
+export type SidebarPosition = 'content' | 'edge' | 'none';
+
+/**
  * NoteSettings entity
  */
 export default interface NoteSettings {
@@ -38,4 +43,9 @@ export default interface NoteSettings {
    * Note cover image id
    */
   cover: string;
+
+  /**
+   * Position of the sidebar, 'content' by default
+   */
+  sidebarPosition: SidebarPosition;
 }
