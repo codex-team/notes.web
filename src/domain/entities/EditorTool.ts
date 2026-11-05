@@ -81,7 +81,7 @@ export type EditorjsConfigTool = ToolSettings | ToolConstructable;
 /**
  * Editor.js tools config — map of tool name to its class and inline toolbar flag
  */
-export type EditorjsToolsConfig = Record<string, { class: EditorjsConfigTool; inlineToolbar: boolean }>;
+export type EditorjsToolsConfig = Record<string, { class: EditorjsConfigTool; inlineToolbar: boolean; config?: Record<string, unknown> }>;
 
 /**
  * Editor tool info alogn with its plugin's class ready to use

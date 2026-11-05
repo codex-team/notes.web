@@ -53,4 +53,14 @@ export default class NoteAttachmentUploaderRepository implements NoteAttachmentU
   public async load(noteId: Note['id'], key: string): Promise<Blob> {
     return await this.transport.getBlob(`/upload/${noteId}/${key}`);
   }
+
+  /**
+   * Build a URL to load the note attachment by key
+   * @param noteId - identifier for note to get attachment
+   * @param key - file key on server side
+   * @returns URL of the attachment
+   */
+  public getFileUrl(noteId: Note['id'], key: string): string {
+    return this.transport.getBaseUrl() + `/upload/${noteId}/${key}`;
+  }
 }

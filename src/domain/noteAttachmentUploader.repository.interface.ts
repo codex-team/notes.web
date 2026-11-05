@@ -19,4 +19,12 @@ export default interface NoteAttachmentUploaderRepositoryInterface {
    * @returns file binary data
    */
   load: (noteId: Note['id'], key: string) => Promise<Blob>;
+
+  /**
+   * Build a URL to load the note attachment by key
+   * @param noteId - identifier for note to get attachment
+   * @param key - file key on server side
+   * @returns URL of the attachment
+   */
+  getFileUrl: (noteId: Note['id'], key: string) => string;
 }
