@@ -14,6 +14,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/@codexteam/ui/node_modules ./@codexteam/ui/node_modules
 RUN yarn build
 
-FROM nginx:bullseye AS runner
+FROM nginx:alpine AS runner
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
