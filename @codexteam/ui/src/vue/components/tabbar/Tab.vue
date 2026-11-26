@@ -43,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref, watch } from 'vue';
 import Icon from '../icon/Icon.vue';
 import { TabParams } from './Tab.types';
 
@@ -53,7 +54,7 @@ defineEmits([
   'close',
 ]);
 
-withDefaults(
+const props = withDefaults(
   defineProps<TabParams>(),
   {
     isActive: false,
@@ -62,6 +63,20 @@ withDefaults(
     closable: false,
   }
 );
+
+const tabElement = ref<HTMLElement | null>(null);
+
+function scrollIntoViewIfActive(): void {
+  if (props.isActive) {
+    tabElement.value?.scrollIntoView({
+      block: 'nearest',
+      inline: 'nearest',
+    });
+  }
+}
+
+onMounted(scrollIntoViewIfActive);
+watch(() => props.isActive, scrollIntoViewIfActive, { flush: 'post' });
 </script>
 
 <style module>
@@ -146,6 +161,14 @@ withDefaults(
       height: var(--spacing-very-x);
       background-color: var(--accent--solid);
       border-radius: var(--radius-s) var(--radius-s) 0 0;
+    }
+  }
+
+  @media (--mobile) {
+    --tab-text-max-width: var(--layout-text-width-min);
+
+    &__body-image + &__body-text {
+      display: none;
     }
   }
 }

@@ -18,6 +18,7 @@ import EditorToolsTransport from '@/infrastructure/transport/editorTools.transpo
 import NoteAttachmentUploaderRepository from './noteAttachmentUploader.repository';
 import TeamRepository from '@/infrastructure/team.repository';
 import NoteHistoryRepository from './noteHistory.repository';
+import UserSettingsRepository from './userSettings.repository';
 
 /**
  * Repositories
@@ -72,6 +73,11 @@ export interface Repositories {
    * Working with note history
    */
   noteHistory: NoteHistoryRepository;
+
+  /**
+   * Working with user settings
+   */
+  userSettings: UserSettingsRepository;
 }
 
 /**
@@ -142,6 +148,7 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
   const workspaceRepository = new WorkspaceRepository(openedPagesStore);
   const teamRepository = new TeamRepository(notesApiTransport);
   const noteHistoryRepository = new NoteHistoryRepository(notesApiTransport);
+  const userSettingsRepository = new UserSettingsRepository(notesApiTransport);
 
   return {
     note: noteRepository,
@@ -154,5 +161,6 @@ export function init(noteApiUrl: string, eventBus: EventBus): Repositories {
     workspace: workspaceRepository,
     team: teamRepository,
     noteHistory: noteHistoryRepository,
+    userSettings: userSettingsRepository,
   };
 }

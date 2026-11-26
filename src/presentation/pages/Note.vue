@@ -44,11 +44,16 @@
     </div>
     <div v-else>
       <PageBlock>
-        <template #left>
-          <VerticalMenu
-            class="menu"
-            :items="[verticalMenuItems]"
-          />
+        <template
+          v-if="sidebarPosition !== 'none' && !isMobile"
+          #left
+        >
+          <div :class="['note-sidebar', { 'note-sidebar--edge': sidebarPosition === 'edge' }]">
+            <VerticalMenu
+              class="menu"
+              :items="[verticalMenuItems]"
+            />
+          </div>
         </template>
         <template #default>
           <Editor
@@ -56,6 +61,11 @@
             ref="editor"
             v-bind="editorConfig"
             @change="noteChanged"
+          />
+          <VerticalMenu
+            v-if="isMobile && noteHierarchy?.childNotes?.length"
+            class="menu"
+            :items="[verticalMenuItems]"
           />
         </template>
       </PageBlock>
@@ -65,7 +75,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, toRef, watch } from 'vue';
-import { Button, Editor, PageBlock, VerticalMenu, type VerticalMenuItem } from '@codexteam/ui/vue';
+import { Button, Editor, PageBlock, VerticalMenu, useViewport, type VerticalMenuItem } from '@codexteam/ui/vue';
 import useNote from '@/application/services/useNote';
 import { useRoute, useRouter } from 'vue-router';
 import { NoteContent } from '@/domain/entities/Note';
@@ -77,6 +87,7 @@ import { useNoteEditor } from '@/application/services/useNoteEditor';
 import NoteHeader from '@/presentation/components/note-header/NoteHeader.vue';
 import BreadCrumbs from '@/presentation/components/breadcrumbs/BreadCrumbs.vue';
 import { NoteHierarchy } from '@/domain/entities/NoteHierarchy';
+import type { SidebarPosition } from '@/domain/entities/NoteSettings';
 import { getTimeFromNow } from '@/infrastructure/utils/date.ts';
 
 const { t } = useI18n();
@@ -98,6 +109,8 @@ const props = defineProps<{
 }>();
 
 const noteId = toRef(props, 'id');
+
+const { isMobile } = useViewport();
 
 const { note, noteTools, save, noteTitle, canEdit, noteParents, noteHierarchy } = useNote({
   id: noteId,
@@ -130,6 +143,11 @@ const { isEditorReady, editorConfig } = useNoteEditor({
   noteContentResolver: () => note.value?.content,
   canEdit,
 });
+
+/**
+ * Position of the note sidebar on the page, resolved from the note hierarchy
+ */
+const sidebarPosition = computed<SidebarPosition>(() => noteHierarchy.value?.sidebarPosition ?? 'content');
 
 /**
  * Editor component reference
@@ -236,8 +254,29 @@ watch(noteTitle, () => {
   width: auto;
 }
 
+/**
+ * 'edge' position: pin the sidebar to the window, it does not scroll with the content.
+ * Top padding places it just below the page header
+ */
+.note-sidebar--edge {
+  position: fixed;
+  left: 0;
+  top: var(--layout-navbar-height);
+  bottom: 0;
+  width: var(--layout-sidebar-width);
+  box-sizing: border-box;
+  padding: calc(var(--layout-navbar-height) + var(--spacing-s)) var(--spacing-ml) var(--spacing-xxl);
+  overflow-y: auto;
+}
+
 .last_edit {
   color: var(--base--text-secondary);
   padding-right: var(--h-padding);
+}
+
+@media (--mobile) {
+  .last_edit {
+    display: none;
+  }
 }
 </style>
