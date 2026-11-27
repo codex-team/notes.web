@@ -122,8 +122,8 @@ __metadata:
   resolution: "@codexteam/ui@workspace:@codexteam/ui"
   dependencies:
     "@codexteam/icons": ^0.3.3
-    "@editorjs/editorjs": 2.31.7
     "@csstools/postcss-global-data": ^2.1.1
+    "@editorjs/editorjs": 2.31.7
     "@editorjs/header": ^2.8.6
     "@editorjs/nested-list": ^1.4.2
     "@types/node": ^20.11.15
