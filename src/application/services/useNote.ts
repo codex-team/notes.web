@@ -211,12 +211,27 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         }),
       ]);
 
+      /**
+       * If route already points to another note,
+       * ignore this outdated response
+       */
+      if (currentId.value !== id) {
+        return;
+      }
+
       note.value = response.note;
       canEdit.value = response.accessRights.canEdit;
       noteTools.value = response.tools;
       parentNote.value = response.parentNote;
       noteParents.value = response.parents;
     } catch (error) {
+      /**
+       * If user already switched to another note,
+       * do not handle errors from the previous request
+       */
+      if (currentId.value !== id) {
+        return;
+      }
       deleteOpenedPageByUrl(route.path);
       if (error instanceof DomainError) {
         void router.push(`/error/${error.statusCode}`);
@@ -264,9 +279,14 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
      */
     const specifiedNoteTools = resolveToolsByContent(content);
 
+    /**
+     * Remember current note id to detect route changes during save
+     */
+    const savedNoteId = currentId.value;
+
     isNoteSaving.value = true;
 
-    if (currentId.value === null) {
+    if (savedNoteId === null) {
       /**
        * @todo try-catch domain errors
        */
@@ -282,25 +302,26 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
         },
       });
 
-      patchOpenedPageByUrl(
-        route.path,
-        {
-          title: noteTitle.value,
-          url: route.path,
-        });
+      patchOpenedPageByUrl(route.path, {
+        title: noteTitle.value,
+        url: route.path,
+      });
 
       /**
        * Get note Hierarchy when new Note is created
        */
       void getNoteHierarchy(noteCreated.id);
     } else {
-      await noteService.updateNoteContentAndTools(currentId.value, content, specifiedNoteTools);
+      await noteService.updateNoteContentAndTools(savedNoteId, content, specifiedNoteTools);
     }
 
     /**
      * Store just saved content in memory
+     * If id changed, do not store content
      */
-    lastUpdateContent.value = content;
+    if (currentId.value === savedNoteId) {
+      lastUpdateContent.value = content;
+    }
 
     isNoteSaving.value = false;
   }
@@ -401,13 +422,16 @@ export default function (options: UseNoteComposableOptions): UseNoteComposableSt
   });
 
   watch(noteTitle, (currentNoteTitle) => {
-    if (route.name == 'note') {
-      patchOpenedPageByUrl(
-        route.path,
-        {
-          title: currentNoteTitle,
-          url: route.path,
-        });
+    if (route.name == 'note' && currentId.value !== null) {
+      /**
+       * Build tab URL from current note id to avoid using outdated route.path
+       */
+      const noteUrl = `/note/${currentId.value}`;
+
+      patchOpenedPageByUrl(noteUrl, {
+        title: currentNoteTitle,
+        url: noteUrl,
+      });
     }
     updateNoteHierarchyContent(noteHierarchy.value, currentNoteTitle);
   });
