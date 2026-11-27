@@ -142,6 +142,7 @@ const { isEditorReady, editorConfig } = useNoteEditor({
   noteTools,
   noteContentResolver: () => note.value?.content,
   canEdit,
+  noteId,
 });
 
 /**

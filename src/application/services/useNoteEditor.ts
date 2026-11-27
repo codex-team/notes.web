@@ -2,8 +2,8 @@ import { type Ref, computed, ref, toValue, watch } from 'vue';
 import { useAppState } from './useAppState';
 import type EditorTool from '@/domain/entities/EditorTool';
 import { type NoteContent } from '@/domain/entities/Note';
-import { editorToolsService } from '@/domain';
-import type { EditorjsToolsConfig } from '@/domain/entities/EditorTool';
+import { editorToolsService, noteSettingsService } from '@/domain';
+import type { EditorjsConfigTool, EditorjsToolsConfig } from '@/domain/entities/EditorTool';
 import { useI18n } from 'vue-i18n';
 
 interface UseNoteEditorOptions {
@@ -21,6 +21,12 @@ interface UseNoteEditorOptions {
    * Flag indicating that user can edit the note
    */
   canEdit: Ref<boolean>;
+
+  /**
+   * Note id to build image upload endpoint
+   * Null for new notes
+   */
+  noteId: Ref<string | null>;
 }
 
 interface UseNoteEditorComposableState {
@@ -131,13 +137,67 @@ export const useNoteEditor = function useNoteEditor(options: UseNoteEditorOption
 
     return Object.fromEntries(
       loadedToolsWithoutParagraph
-        .map(toolClassAndInfo => [
-          toolClassAndInfo.tool.name,
-          {
+        .map((toolClassAndInfo) => {
+          const toolConfig: { class: EditorjsConfigTool; inlineToolbar: boolean; config?: Record<string, unknown> } = {
             class: toolClassAndInfo.class,
             inlineToolbar: true,
-          },
-        ])
+          };
+
+          /**
+           * Add image tool config with a custom uploader
+           * that uses the authorized note attachment upload method
+           */
+          if (toolClassAndInfo.tool.name === 'image') {
+            const noteId = toValue(options.noteId);
+
+            if (noteId !== null) {
+              toolConfig.config = {
+                /**
+                 * The image tool internally accesses `this.config.endpoints.byFile`
+                 * when a file is selected, even when a custom uploader is provided
+                 * Provide an empty endpoints object to prevent a TypeError
+                 */
+                endpoints: {
+                  byFile: '',
+                },
+                features: {
+                  caption: 'optional',
+                },
+                uploader: {
+                  /**
+                   * Uploads file using the existing authorized repository method
+                   * @param file - file selected in the editor
+                   */
+                  uploadByFile: async (file: File): Promise<{ success: 1; file: { url: string } }> => {
+                    const url = await noteSettingsService.uploadImage(noteId, file);
+
+                    return {
+                      success: 1,
+                      file: {
+                        url,
+                      },
+                    };
+                  },
+                  /**
+                   * When a user pastes an image URL, use it as-is
+                   * without uploading the image to the server
+                   * @param url - image URL pasted by the user
+                   */
+                  uploadByUrl: (url: string): Promise<{ success: 1; file: { url: string } }> => {
+                    return Promise.resolve({
+                      success: 1,
+                      file: {
+                        url,
+                      },
+                    });
+                  },
+                },
+              };
+            }
+          }
+
+          return [toolClassAndInfo.tool.name, toolConfig];
+        })
     );
   }
 

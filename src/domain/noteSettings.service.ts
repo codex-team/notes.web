@@ -81,6 +81,19 @@ export default class NoteSettingsService {
   }
 
   /**
+   * Upload an image to be used in the note editor
+   * Uses the authorized transport via noteAttachmentRepository
+   * @param id - note id
+   * @param data - image binary data
+   * @returns URL of the uploaded image that can be rendered in the editor
+   */
+  public async uploadImage(id: NoteId, data: Blob): Promise<string> {
+    const key = await this.noteAttachmentRepository.upload(id, data);
+
+    return this.noteAttachmentRepository.getFileUrl(id, key);
+  }
+
+  /**
    * Revoke invitation hash
    * @param id - Note id
    * @returns updated note settings
